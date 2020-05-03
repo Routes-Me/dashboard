@@ -1,0 +1,21 @@
+@function stripUnits($number)
+  @return $number / ($number * 0 + 1)
+
+$marker-width: 60px !default
+$marker-height: 60px !default
+$marker-border-width: 5px !default
+$marker-font-size: 14px !default
+
+
+.marker
+  position: absolute
+  cursor: pointer
+  width: $marker-width
+  height: $marker-height
+  left: -$marker-width / 2
+  top: -$marker-height / 2
+
+
+.text
+  :export
+    markerSize: stripUnits($marker-width)

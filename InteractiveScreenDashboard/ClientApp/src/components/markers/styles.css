@@ -1,0 +1,84 @@
+.marker {
+    background-image: url('../image/icon-3.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+}
+
+.markercus {
+    background-image: url('../image/big-icon-2.png');
+    position: absolute;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/*.hide {
+    display: none;
+}*/
+
+/*.show {
+    display: block;
+}*/
+
+
+.marker.active {
+    background-image: url('../image/group-5.png');
+    width: 100px;
+    height: 115px;
+    background-size: 100%;
+    font-family: Roboto;
+    font-size: 34px;
+    font-weight: 900;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    padding-bottom: 14px;
+    background-repeat: no-repeat;
+    position: relative;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: none !important;
+    left: -50px;
+    top: -105px;
+}
+
+.marker.active:before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    border-radius: 50%;
+    width: 6px;
+    height: 6px;
+    border: solid 1px #b5b5b5;
+    background-color: #ffffff;
+    transform: translatex(-50%);
+}
+
+.show-text {
+    display: none;
+}
+
+.marker.active .show-text {
+    display: block;
+}
+
+.text {
+    font-size: 24px;
+    font-weight: bold;
+    font-family: Roboto;
+}
+
+.marker.active .text {
+    display: none;
+}

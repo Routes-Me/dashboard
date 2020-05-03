@@ -1,0 +1,486 @@
+ .signin {
+     font-family: 'Roboto', sans-serif;
+     font-size: 24px;
+     font-weight: normal;
+     font-stretch: normal;
+     font-style: normal;
+     line-height: normal;
+     letter-spacing: normal;
+     text-align: center;
+     color: #000000;
+     margin-bottom: 15px;
+ }
+
+ .account {
+     font-family: 'Roboto', sans-serif;
+     font-size: 18px;
+     font-weight: normal;
+     font-stretch: normal;
+     font-style: normal;
+     line-height: normal;
+     letter-spacing: normal;
+     text-align: center;
+     color: #000000;
+     margin-bottom: 25px;
+ }
+
+ .account a {
+     color: #18428f;
+     margin-left: 5px;
+ }
+
+ .center {
+     text-align: center;
+ }
+
+ .email {
+     width: 360px;
+     height: 60px !important;
+     border-radius: 4px;
+     border: solid 2px #d8d8d8;
+ }
+
+ .password {
+     width: 360px;
+     height: 60px !important;
+     border-radius: 4px;
+     border: solid 2px #d8d8d8;
+ }
+
+ .forgotpwd {
+     text-align: right;
+     margin-top: 30px;
+     margin-bottom: 30px;
+     color: #18428f;
+ }
+
+ .forgotpwd a {
+     color: #18428f;
+ }
+
+ .login {
+     width: 360px;
+     height: 48px;
+     border-radius: 4px;
+     background-color: #18428f;
+ }
+
+ .col-md-8 {
+     border-left: 1px solid #c1c0c0;
+     height: 656px;
+ }
+
+ .imgsize {
+     width: 253px;
+     height: 223px;
+     position: absolute;
+ }
+
+ .left-arrow {
+     position: absolute;
+     width: 20px;
+     height: 30px;
+     top: 45%;
+     right: -2px;
+     left: auto;
+ }
+
+ .right-arrow {
+     position: absolute;
+     width: 20px;
+     height: 30px;
+     top: 45%;
+     right: auto;
+     left: -3px;
+ }
+
+ .up-arrow {
+     position: absolute;
+     width: 30px;
+     height: 30px;
+     right: 0;
+     left: 45%;
+     bottom: -8px;
+     top: auto;
+ }
+
+ .text1 {
+     top: 0;
+     bottom: 0;
+     height: 128px;
+     text-align: left;
+     font-size: 14px;
+     margin-left: 20px;
+ }
+
+ .text2 {
+     top: 0;
+     bottom: 0;
+     height: 178px;
+     text-align: left;
+     font-size: 14px;
+     margin-left: 20px;
+ }
+
+ .text3 {
+     top: 0;
+     bottom: 0;
+     height: 178px;
+     text-align: left;
+     font-size: 14px;
+     margin-left: 20px;
+ }
+
+ .allh5 {
+     margin-left: 20px;
+     font-size: 18px;
+     margin-top: 50px;
+     color: #18428f;
+ }
+
+ .allh52 {
+     margin-left: 20px;
+     font-size: 18px;
+     margin-top: 20px;
+     color: #18428f;
+ }
+
+ .allh53 {
+     margin-left: 20px;
+     font-size: 18px;
+     margin-top: 20px;
+     color: #18428f;
+ }
+
+ .sign {
+     margin-top: 103px;
+     max-width: 360px;
+     margin-left: auto;
+     margin-right: auto !important;
+ }
+
+ .container-custom .row {
+     margin: 0;
+ }
+
+
+ .box {
+     margin-top: 81px;
+     border: 1px solid #c1c0c0;
+     max-width: 885px;
+     border-radius: 5px;
+     /*height: 474px;*/
+     margin-left: auto;
+     margin-right: auto;
+
+ }
+
+ .box-row {
+     width: 100%;
+     display: flex;
+     flex-wrap: wrap;
+ }
+
+ .box .images-text-part p {
+     height: auto !important;
+     margin-left: auto;
+ }
+
+ .box .images-text-part h5 {
+     margin-left: 0;
+     margin-right: 0;
+     margin-top: 0;
+     text-align: left;
+     width: 100%;
+ }
+
+ .box .images-text-part {
+     flex: 0 0 33.333333%;
+     position: relative;
+     max-width: 295px;
+     width: 33.333333%;
+     padding: 0;
+     min-height: 264px;
+ }
+
+ .box .images-text-part.text-part {
+     display: flex;
+     flex-direction: column;
+     justify-content: center;
+     padding: 20px;
+ }
+
+ .box .imgsize {
+     width: 100% !important;
+     height: 100% !important;
+     object-fit: cover;
+     margin: 0;
+ }
+
+ .main {
+     margin-bottom: 80px;
+     padding-top: 100px;
+ }
+
+ .bitmap {
+     margin-bottom: 20px;
+ }
+
+ .test {}
+
+ .c1 {
+     margin-right: 30px;
+ }
+
+ .c2 {
+     padding-right: 0px;
+     padding-bottom: 0px;
+ }
+
+ .c3 {
+     width: 267.3px;
+     height: 236.5px;
+ }
+
+ .c4 {
+     width: 267.3px;
+     height: 236.5px;
+     padding: 0px;
+ }
+
+ .c5 {
+     padding: 0px;
+ }
+
+ .c6 {
+     width: 267.3px;
+     height: 236.5px;
+     margin-left: -15px;
+ }
+
+ .c7 {
+     width: 263.3px;
+     height: 236.5px;
+     padding-top: 0px;
+     padding-right: 0px;
+ }
+
+ .c8 {
+     padding: 0px;
+     width: 267.3px;
+ }
+
+ .c9 {
+     width: 283.3px;
+     height: 236.5px;
+     margin-top: -31px;
+     margin-left: -16px;
+ }
+
+ .c10 {
+     width: 267.3px;
+     height: 236.5px;
+     padding: 0px;
+ }
+
+ .call {
+     text-align: right;
+     width: 100%;
+     font-family: 'Roboto', sans-serif;
+     height: auto;
+     font-size: 16px;
+     font-weight: 500;
+     font-stretch: normal;
+     font-style: normal;
+     line-height: normal;
+     letter-spacing: normal;
+     color: #18428f;
+     padding-top: 115px;
+     padding-right: 40px;
+ }
+
+ /*forgot password*/
+
+ .forgot {
+     max-width: 400px;
+ }
+
+ .forgot h2 {
+
+     font-family: 'Roboto', sans-serif;
+     font-size: 28px;
+     font-weight: bold;
+     font-stretch: normal;
+     font-style: normal;
+     line-height: normal;
+     letter-spacing: normal;
+     color: #000000;
+     margin-top: 49px;
+ }
+
+ .forgot p {
+
+     font-family: Roboto;
+     font-size: 16px;
+     font-weight: normal;
+     font-stretch: normal;
+     font-style: normal;
+     line-height: normal;
+     letter-spacing: normal;
+     color: #000000;
+     margin-top: 39px;
+     margin-bottom: 0;
+ }
+
+ .forgotemail {
+     max-width: 360px;
+     width: 100%;
+     height: 55px;
+     border-radius: 4px;
+     border: solid 2px #d8d8d8;
+     margin-top: 30px;
+     padding-left: 20px;
+ }
+
+ .send {
+     width: 192px;
+     height: 44px;
+     opacity: 0.2;
+     border-radius: 4px;
+     background-color: #18428f;
+     margin-top: 40px;
+ }
+
+ .group {
+     margin-bottom: 0 !important;
+ }
+
+
+ .forgotpassword {
+     max-width: 360px;
+     height: 55px;
+     width: 100%;
+     border-radius: 4px;
+     border: solid 2px #d8d8d8;
+     margin-top: 15px;
+     padding-left: 20px;
+ }
+
+ @media screen and (max-width:1199px) {
+     .box .images-text-part {
+         min-height: 225px;
+     }
+ }
+
+ @media screen and (max-width:991px) {
+     .container-custom .row {
+         flex-direction: column;
+         align-items: center;
+     }
+
+     .container-custom .row .col-md-4 {
+         max-width: 100%;
+     }
+
+     .container-custom .row .col-md-8 {
+         max-width: 100%;
+     }
+
+     .col-md-8 {
+         border: 0;
+     }
+
+     .box .images-text-part {
+         max-width: 100%;
+     }
+ }
+
+ @media screen and (max-width:769px) {
+     .box .images-text-part {
+         min-height: 195px;
+     }
+ }
+
+
+
+ @media only screen and (max-width: 600px) {
+     .col-md-8 {
+         display: none;
+         border: none;
+     }
+
+     .form-control {
+         height: 51px !important;
+     }
+
+     .form-control.login {
+         height: 41px !important;
+     }
+
+     .box {
+         display: none;
+     }
+
+     .main {
+         padding-top: 50px;
+         margin-bottom: 0px;
+     }
+
+     .account a {
+         display: inherit;
+         padding-top: 3px;
+     }
+
+     .call {
+         width: auto !important;
+         padding-right: 20px;
+     }
+
+     .container-custom .row {
+         padding: 0 5px;
+     }
+
+     .sign {
+         margin-top: 0;
+     }
+
+     .forgot {
+         padding: 0 5px;
+     }
+
+     .forgot h2 {
+         padding-right: 10px;
+     }
+ }
+
+ @media only screen and (min-width: 768px) {
+     .call {}
+ }
+
+ @media only screen and (min-width: 320px) {}
+
+ .form-error {
+     display: none;
+     font-size: 0.75rem;
+     font-weight: bold;
+     color: #ec5840;
+ }
+
+ .form-error.is-visible {
+     display: block;
+ }
+
+ .is-visible {
+     display: block !important;
+ }
+
+ .is-invalid-input:not(:focus) {
+     background-color: rgba(236, 88, 64, 0.1);
+     border-color: #ec5840;
+ }
+
+ @media (min-width: 1200px) {
+     .container {
+         max-width: 1152px !important;
+     }
+ }

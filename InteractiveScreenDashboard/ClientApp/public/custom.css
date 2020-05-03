@@ -1,0 +1,698 @@
+/* Provide sufficient contrast against white background */
+a {
+    color: #0366d6;
+}
+
+code {
+    color: #E01A76;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+/*home*/
+.tracking-page {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+}
+
+header {
+    position: fixed;
+    width: 100%;
+    z-index: 99;
+    top: 0;
+}
+
+.mt-57 {
+    margin-top: 57px;
+}
+
+header nav {
+    background-color: #fff;
+}
+
+.navbar-expand-sm .navbar-collapse.collapse {
+    display: flex !important;
+}
+
+.navbar-expand-sm .navbar-collapse.collapse .nav-item {
+    font-size: 18px;
+}
+
+.profile p {
+    font-family: Roboto;
+    font-size: 24px;
+    font-weight: 300;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #0b0b0b;
+    width: calc(100% - 80px);
+    display: inline-block;
+    margin-bottom: 0px;
+    margin-left: 10px;
+}
+
+.left-panel {
+    max-width: 330px;
+    width: 100%;
+    position: fixed !important;
+    background-color: #fff;
+    z-index: 9999;
+    top: 56px;
+    overflow: auto;
+    box-shadow: 0 5px 5px 0 rgba(105, 105, 105, 0.5);
+    padding-right: 0px !important;
+}
+
+.left-panel .sb-content::-webkit-scrollbar {
+    width: 0px;
+}
+
+.left-panel .sb-scrollbar-container {
+    width: 0px;
+}
+
+.left-panel .sb-scrollbar-container .sb-scrollbar {
+    width: 0px;
+}
+
+.left-panel .sb-content {
+    padding-right: 0px !important;
+    width: 100%;
+}
+
+.right-part {
+    width: calc(100% - 330px);
+    display: inline-block;
+    float: right;
+}
+
+.right-part .mpas-tracking>div {
+    height: calc(100vh - 5px) !important;
+}
+
+.profile {
+    width: 100%;
+}
+
+.profile .bitmap {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    margin-bottom: 0px !important;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.profile {
+    width: 100%;
+    padding: 30px 0px 38px 15px;
+}
+
+.menu-part {
+    padding-bottom: 22px;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.menu-part ul {
+    padding: 0 0;
+    margin: 0;
+}
+
+.menu-part li {
+    list-style: none;
+    padding: 12px 37px;
+}
+
+.menu-part li.active,
+.menu-part li:hover {
+    width: calc(100% - 11px);
+    border-radius: 0 20px 20px 0px;
+    background-color: rgba(55, 90, 155, 0.2);
+}
+
+.menu-part li a .menu-icon {
+    margin-right: 9px;
+    font-size: 20px;
+}
+
+.menu-part li a {
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #0b0b0b;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.icon-28 {
+    width: 28px;
+    margin-right: 9px;
+    text-align: center;
+}
+
+.icon-28 .menu-icon {
+    max-width: 28px;
+}
+
+.tab-button {
+    padding: 20px 15px;
+}
+
+.tab-button .custom-butt {
+    border-radius: 10px;
+    padding: 8px 10px;
+    max-width: 50%;
+    width: 100%;
+    border: 0;
+    background-color: transparent;
+    outline: none !important;
+}
+
+.tab-button .button-back {
+    border-radius: 10px;
+    background-color: #edeeef;
+    padding: 2px;
+    position: relative;
+}
+
+.notification-duty-off {
+    width: 30px;
+    height: 30px;
+    box-shadow: 0 0 4px 0 rgba(105, 105, 105, 0.5);
+    border: solid 1px #18428f;
+    background-color: #feffff;
+    border-radius: 50%;
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: normal;
+    font-style: inherit;
+    color: #18428f;
+    text-align: center;
+    line-height: 30px;
+    position: absolute;
+    right: -5px;
+    bottom: -6px;
+    cursor: pointer;
+}
+
+.tab-button .custom-butt.active {
+    box-shadow: 0 0 1px 0 rgba(99, 96, 96, 0.5);
+    background-color: #feffff;
+}
+
+.scroll-hide {
+    height: 100%;
+}
+
+.overfollow-scroll {
+    height: 100%;
+}
+
+.search-main {
+    background-color: #f1f2f6;
+    height: 35vh;
+    width: 100%;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-right: 0px !important;
+}
+
+.search-main::-webkit-scrollbar {
+    width: 0px;
+}
+
+
+.result-not-found p {
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #696969;
+    margin-bottom: 0;
+}
+
+.result-not-found {
+    width: 100%;
+    text-align: center;
+    display: none;
+}
+
+.relative {
+    position: relative;
+    height: 100%;
+}
+
+.search-part {
+    position: fixed;
+    left: 0;
+    padding: 16px 5px;
+    width: 100%;
+    background-color: #fff;
+    border-top: 1px solid #f5f5f5;
+    bottom: 0;
+    max-width: 330px;
+}
+
+.search-relative {
+    position: relative;
+    width: 100%;
+}
+
+.search-part .search {
+    border-radius: 10px;
+    background-color: #edeeef;
+    border: 0;
+    padding: 10px 40px;
+    width: 100%;
+    font-family: Roboto;
+    font-size: 20px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #0b0b0b;
+    outline: none !important;
+}
+
+.search-part .fa-search {
+    position: absolute;
+    font-size: 20px;
+    left: 13px;
+    top: 11px;
+    color: #696969;
+}
+
+.search-part .cross-icon {
+    background: url(../src/components/images/cross-image.png);
+    position: absolute;
+    right: 9px;
+    top: 10px;
+    width: 25px;
+    height: 25px;
+}
+
+.search-part .cross-icon img {
+    max-width: 100%;
+}
+
+.search-part .fa-times-circle {
+    position: absolute;
+    font-size: 28px;
+    right: 9px;
+    top: 9px;
+    color: rgba(0, 0, 0, 0.44);
+}
+
+.search-result {
+    height: 100%;
+    margin: 25px 0 0 0;
+    width: 100%;
+}
+
+.search-result p {
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #666869;
+    margin-bottom: 6px;
+    padding: 0 15px;
+}
+
+.search-result .manual-menu {
+    width: 100%;
+    padding: 0 0;
+    margin-bottom: 0px;
+    height: auto;
+}
+
+.search-result .manual-menu.first-sec {
+    margin-bottom: 25px;
+}
+
+.search-result .manual-menu li {
+    list-style: none;
+    background-color: #feffff;
+    border-bottom: 1px solid #f5f5f5;
+}
+
+.search-result .manual-menu li a {
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #0b0b0b;
+    padding: 15px 15px;
+    display: inline-block;
+    width: 100%;
+    text-decoration: none;
+}
+
+.slide-effect .location-button {
+    background-color: rgba(55, 90, 155, 0.2);
+    padding: 15px 15px;
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #0b0b0b;
+    margin-bottom: 0px;
+    cursor: pointer;
+}
+
+.slide-effect .location-detail {
+    background-color: #fff;
+    padding: 15px;
+    display: none;
+}
+
+.slide-effect .location-detail li {
+    list-style: none;
+}
+
+.slide-effect .location-detail li a {
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #0b0b0b;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0 0px 6px 0px;
+    text-decoration: none;
+}
+
+.slide-effect .location-detail li a i {
+    margin-right: 8px;
+    width: 16px;
+    text-align: center;
+}
+
+.icon-30 {
+    width: 30px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+.icon-30 .icon {
+    max-width: 30px;
+}
+
+/*home*/
+
+
+/*vehicles*/
+.padding-lr-80 {
+    padding: 0 80px;
+}
+
+.top-part-vehicles-search .hehading-add-butt {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.hehading-add-butt h3 {
+    font-family: Roboto;
+    font-size: 35px;
+    font-weight: bold;
+    line-height: normal;
+    letter-spacing: normal;
+    color: black;
+    margin-bottom: 0;
+}
+
+.hehading-add-butt .vehicle-add-butt {
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #18428f;
+    text-transform: uppercase;
+    text-decoration: none;
+}
+
+.top-part-vehicles-search {
+    padding-bottom: 30px;
+    position: sticky;
+    top: 68px;
+    background-color: #fff;
+    border-bottom: 1px solid #dee2e6;
+    z-index: 1;
+}
+
+.top-part-vehicles-search .search-part {
+    position: relative;
+    max-width: 100%;
+    border: 0px;
+    padding: 0 0;
+}
+
+.table {
+    margin-bottom: 0px !important;
+}
+
+.table-list-vehicles {
+    margin-top: 10px;
+}
+
+.vehicles-page {
+    position: relative;
+}
+
+.table-list-vehicles table {
+    width: 100%;
+}
+
+.table-list-vehicles table thead {
+    position: relative;
+}
+
+.table-list-vehicles .table table thead tr th {
+    position: sticky;
+    top: 219px;
+    background-color: #fff;
+}
+
+.table-list-vehicles .table-list-vehicles table th,
+td {
+    text-align: center;
+    padding: 0px 0 !important;
+    height: 51px;
+    line-height: 51px !important;
+}
+
+.table-list-vehicles table td {
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: normal;
+    letter-spacing: normal;
+}
+
+.table-list-vehicles table th {
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #3a5ea0;
+    text-transform: uppercase;
+    text-align: center;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.table-list-vehicles table tbody tr:nth-child(odd) {
+    background-color: rgba(143, 101, 24, 0.15);
+}
+
+.table-list-vehicles table tr:hover {
+    background-color: rgba(24, 66, 143, 0.15);
+}
+
+.table-list-vehicles table tr:hover .edit-delet-butt {
+    opacity: 1;
+}
+
+.edit-delet-butt {
+    width: 44px;
+    height: 51px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.edit-delet-butt.active {
+    background-color: rgba(24, 66, 143, 0.2);
+    opacity: 1;
+}
+
+.edit-popup {
+    position: relative;
+    width: 44px;
+}
+
+.edit-delet-butt span {
+    width: 5px;
+    height: 5px;
+    background-color: #423429;
+    display: block;
+    border-radius: 50%;
+    margin-bottom: 3px;
+}
+
+.edit-delet-butt.active span {
+    background-color: #18428f;
+}
+
+.edit-delet-link {
+    width: 236px;
+    box-shadow: 0 0 4px 0 rgba(24, 66, 143, 0.3);
+    background-color: #ffffff;
+    padding: 0;
+    margin: 0;
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    z-index: 9;
+}
+
+
+.edit-delet-link li {
+    list-style: none;
+    display: inline-block;
+    width: 100%;
+    border-bottom: 1px solid rgba(24, 66, 143, 0.3);
+}
+
+
+.edit-delet-link li:hover a {
+    background-color: #f3f3f3;
+}
+
+.edit-delet-link li a {
+    font-size: 16px;
+    font-weight: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    font-family: Roboto;
+    color: black;
+    display: inline-block;
+    width: 100%;
+    padding: 17px 20px;
+    text-align: left;
+    text-decoration: none;
+}
+
+
+/*vehicles*/
+.page-nav {
+    position: sticky;
+    bottom: 0px;
+    background-color: #fff;
+    border-top: 1px solid #dee2e6;
+}
+
+.page-count {
+    font-size: 16px;
+    font-weight: 600;
+    display: inline-block;
+    text-align: left;
+    width: 690px;
+    margin: 10px auto 0
+}
+
+.page-nav .pagination {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.pagination>li {
+    font-family: 'Roboto';
+    font-weight: 400;
+    font-size: 16px;
+    line-height: normal;
+}
+
+.pagination>li>a {
+    color: #18428f !important;
+    padding: 9px 17px !important;
+}
+
+.pagination>li>a:hover {
+    background-color: rgba(24, 66, 143, 0.2);
+    border: 1px solid #ddd;
+}
+
+.pagination>li.active>a {
+    background-color: rgba(24, 66, 143, 0.2) !important;
+    border: 1px solid #ddd !important;
+}
+
+.pagination>li.active>a:hover {
+    background-color: rgba(24, 66, 143, 0.2);
+    border: 1px solid #ddd;
+}
+
+
+@media (min-width: 1399px) {
+    .search-main {
+        height: 35vh;
+    }
+}
+
+@media (min-width: 1440px) {
+    .search-main {
+        height: 41vh;
+    }
+}
+
+@media (min-width: 1650px) {
+    .search-main {
+        height: 49vh;
+    }
+}
+
+@media (min-width: 1720px) {
+    .search-main {
+        height: 51vh;
+    }
+}
+
+@media (min-width: 1920px) {
+    .search-main {
+        height: 56vh;
+    }
+}
