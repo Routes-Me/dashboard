@@ -1,3 +1,4 @@
+using InteractiveScreenDashboard.Data.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,6 +29,8 @@ namespace InteractiveScreenDashboard
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            services.AddTransient<IAccountService, AccountService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

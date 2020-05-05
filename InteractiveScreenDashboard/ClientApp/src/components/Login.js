@@ -15,7 +15,7 @@ import { isEmail } from 'validator';
 export class Login extends Component {
 
 
-    handleSubmit = (event) => {
+	handleSubmit= (event) => {
         event.preventDefault();
         console.log("in function")
         this.form.validateAll();
@@ -23,7 +23,12 @@ export class Login extends Component {
         // setTimeout(() => {
         //     this.form.showError(this.userInput, <span>API error</span>);
         // }, 1000);
-    };
+	};
+
+	LoginCall() {
+
+	}
+
 
 
     render() {
