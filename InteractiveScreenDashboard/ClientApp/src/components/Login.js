@@ -14,19 +14,36 @@ import { isEmail } from 'validator';
 
 export class Login extends Component {
 
+	//constructor() {
+	//	this.state = {
+	//		super();
+	//		username: '',
+	//		password: '',
+	//		submitted: false
+	//	}
+	//}
+
 
 	handleSubmit= (event) => {
         event.preventDefault();
         console.log("in function")
-        this.form.validateAll();
+		this.form.validateAll();
+		this.LoginCall(this.form.c.username, this.form.c.password)
         // // Emulate async API call
         // setTimeout(() => {
         //     this.form.showError(this.userInput, <span>API error</span>);
         // }, 1000);
 	};
 
-	LoginCall() {
+	LoginCall(_username,_password) {
 
+		fetch('api/Accounts/Login/' + _username + "/" + _password)
+			.then(response => response.json())
+			.then(data => {
+				this.setState({ title: "Edit", loading: false, empData: data });
+			});  
+
+		
 	}
 
 
@@ -59,11 +76,11 @@ export class Login extends Component {
 	                            <p className="account">with your Routes Account<a href="http://routesme.com/" rel="noopener noreferrer" target="_blank">Learn more</a> </p>
 	                        </center>
 	                        <Form ref={c => { this.form = c }} onSubmit={this.handleSubmit}>
-	                            <div className="form-group">
-	                                <Input placeholder="Email" className="form-control email" type="email" name="email" validations={[required, email]}/>
+									<div className="form-group">
+										<Input placeholder="Email" className="form-control email" type="email" name="email" validations={[required, email]}  />
 	                            </div>
-	                            <div className="form-group">
-	                                <Input type="password" className="form-control password" placeholder="Password" name="password" validations={[required]}/>
+									<div className="form-group">
+										<Input type="password" className="form-control password" placeholder="Password" name="password" validations={[required]} />
 	                            </div>
 	                            <div className="forgotpwd">
 	                                <p><a href="/forgotpassword">Forgot Password?</a></p>

@@ -39,5 +39,14 @@ namespace InteractiveScreenDashboard.Data.Services
                 OldAccount.companyId = Acc.companyId;
             }
         }
+
+        public String UserAccountExist(String Username, String Password)
+        {
+            var status = "invalid";
+            var acc = Data.Accounts.FirstOrDefault(x => (x.userName == Username && x.password == Password));
+            if (acc != null)
+                status = "valid";
+                return status;
+        }
     }
 }

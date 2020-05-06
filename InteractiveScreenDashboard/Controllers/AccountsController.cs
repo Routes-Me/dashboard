@@ -29,8 +29,8 @@ namespace InteractiveScreenDashboard.Controllers
         [HttpGet("UserAccount/{id}")]
         public IActionResult GetUserAccountById(int id)
         {
-            var trip = _account.GetUserAccountById(id);
-            return Ok(trip);
+            var acc = _account.GetUserAccountById(id);
+            return Ok(acc);
         }
 
         [HttpPost("AddUserAccount")]
@@ -55,6 +55,12 @@ namespace InteractiveScreenDashboard.Controllers
         {
             _account.DeleteUserAccount(id);
             return Ok();
+        }
+
+        [HttpPost("Login/{Username}/{Password}")]
+        public IActionResult LoginUser([FromBody]string username, string password)
+        {
+            return Ok(_account.UserAccountExist(username, password));
         }
 
     }
