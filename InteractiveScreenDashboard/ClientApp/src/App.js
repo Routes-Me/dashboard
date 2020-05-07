@@ -13,7 +13,7 @@ export default class App extends Component {
 
     render() {
         return (
-            <Layout>
+      <Layout>
         <Route exact path='/' component={Login} />
         <Route path='/home' component={Home} />
         <Route path='/forgotpassword' component={Counter} />

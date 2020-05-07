@@ -10,39 +10,38 @@ import validator from 'validator';
 import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import { isEmail } from 'validator';
+import { Redirect } from 'react-router-dom';
 
 
 export class Login extends Component {
 
-	//constructor() {
-	//	this.state = {
-	//		super();
-	//		username: '',
-	//		password: '',
-	//		submitted: false
-	//	}
-	//}
+	constructor(props) {
+		super(props);
+		this.state = {
+			
+			username: '',
+			password: '',
+			userStatus: "NOT LOGGED IN"
+			
+		}
+		//this.setStatus = this.setStatus.bind(this);
+	}
 
 
 	handleSubmit= (event) => {
         event.preventDefault();
         console.log("in function")
 		this.form.validateAll();
-		this.LoginCall(this.form.c.username, this.form.c.password)
+		//this.LoginCall()
         // // Emulate async API call
         // setTimeout(() => {
         //     this.form.showError(this.userInput, <span>API error</span>);
         // }, 1000);
 	};
 
-	LoginCall(_username,_password) {
+	LoginCall() {
 
-		fetch('api/Accounts/Login/' + _username + "/" + _password)
-			.then(response => response.json())
-			.then(data => {
-				this.setState({ title: "Edit", loading: false, empData: data });
-			});  
-
+	
 		
 	}
 
@@ -85,8 +84,8 @@ export class Login extends Component {
 	                            <div className="forgotpwd">
 	                                <p><a href="/forgotpassword">Forgot Password?</a></p>
 	                            </div>
-	                            <div className="form-group">
-	                                <Input type="submit" value="Login" className="btn btn-primary form-control login"/>
+									<div className="form-group">
+										<Input type="submit" value="Login" className="btn btn-primary form-control login" />
 	                            </div>
 	                        </Form>
 	                    </div>

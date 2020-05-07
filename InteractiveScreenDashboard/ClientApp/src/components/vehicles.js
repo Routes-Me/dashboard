@@ -37,7 +37,8 @@ export class vehicles extends Component {
     }
 
     render() {
-        return (
+
+         return (
             <div className="tracking-page mt-57 fff">
                <div className="left-panel">
                   <div className="relative">
@@ -52,7 +53,7 @@ export class vehicles extends Component {
                             <ul>
                                <li className="active"><a href="/home"><div className="icon-28"><img alt="" src={tracking} className="menu-icon"/></div> Tracking</a></li>
                                <li><a href="/vehicles"><div className="icon-28"><img alt="" src={car} className="menu-icon"/></div> Vehicles</a></li>
-                               <li><a href="Drivers"><div className="icon-28"><img alt="" src={drivers} className="menu-icon"/></div>Drivers</a></li>
+                               <li><a href="/Drivers"><div className="icon-28"><img alt="" src={drivers} className="menu-icon"/></div>Drivers</a></li>
                             </ul>  
                         </div>
                         
