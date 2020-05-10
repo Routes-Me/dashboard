@@ -55,7 +55,7 @@ export class vehicles extends Component {
                                <li><a href="/vehicles"><div className="icon-28"><img alt="" src={car} className="menu-icon"/></div> Vehicles</a></li>
                                <li><a href="/Drivers"><div className="icon-28"><img alt="" src={drivers} className="menu-icon"/></div>Drivers</a></li>
                             </ul>  
-                        </div>
+                        </div> 
                         
                         <div className="tab-button">
                            <div className="button-back">

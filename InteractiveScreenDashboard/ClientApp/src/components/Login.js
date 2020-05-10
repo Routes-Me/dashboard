@@ -11,6 +11,7 @@ import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import { isEmail } from 'validator';
 import { Redirect } from 'react-router-dom';
+import { Banner } from './Banner';
 
 
 export class Login extends Component {
@@ -92,43 +93,13 @@ export class Login extends Component {
 	                </div>
 	                <div className="test">
 	                    <hr/>
-	                </div>
-	                <div className="col-md-8">
-	                    <div className="box">
-	                        <div className="box-row">
-	                            <div className="images-text-part img-part">
-	                                <img alt="" src={img1} className="imgsize responsive c3"/>
-	                                <img className="left-arrow" alt="" src={leftarrow}/>
-	                            </div>
-	                            <div className="images-text-part text-part">
-	                                <h5 className="allh5">ALL AROUND KUWAIT</h5>
-	                                <p className="text1">A nationwide image for all types of advertisement campaigns all over Kuwait metropolises.</p>
-	                            </div>
-	                            <div className="images-text-part img-part">
-	                                <img alt="" src={img3} className="imgsize responsive c6"/>
-	                                <img className="up-arrow" src={uparrow} alt=""/>
-	                            </div>
-	                            <div className="images-text-part text-part">
-	                                <h5 className="allh52">OUR TECHNOLOGY</h5>
-	                                <p className="text3">Utilizing fully customizable 11.6” interactive touch screens with payment solutions, featuring<br/>smart applications to run your advertisement and enable the audience to interact with it.</p>
-	                            </div>
-	                            <div className="images-text-part img-part">
-	                                <img src={img4} alt="" className="imgsize responsive c9"/>
-	                                <img className="right-arrow" alt="" src={right}/>
-	                            </div>
-	                            <div className="images-text-part text-part">
-	                                <h5 className="allh53">REVOLUTIONIZE PUBLIC TRANSPORTATION</h5>
-	                                <p className="text2">We believe that public transportation advertising is one of the most efficient media in Marketing and Media.</p>
-	                            </div>
-	                        </div>
-	                    </div>
-	                </div>
+						</div>
+				    <div className="col-md-8"><Banner/></div>
+						
 	            </div>
         </div> 
         
-        <div className="call">
-        	Call support  +965 22020406
-        </div>
+        
         </div>
         );
     }
