@@ -12,20 +12,41 @@ import Input from 'react-validation/build/input';
 import { isEmail } from 'validator';
 import { Redirect } from 'react-router-dom';
 import { Banner } from './Banner';
+import Axios from 'axios';
+import { Home } from './Home';
+
+
+import { connect } from 'react-redux';
+import { authenticate } from '../Action/LoginAction'
 
 
 export class Login extends Component {
 
 	constructor(props) {
 		super(props);
+
+		this.onChangeUserName = this.onChangeUserName.bind(this);
+		this.onChangePassword = this.onChangePassword.bind(this);
+
 		this.state = {
 			
 			username: '',
 			password: '',
-			userStatus: "NOT LOGGED IN"
-			
+			userStatus: "LOGGED OUT",
+			userId : ""
 		}
-		//this.setStatus = this.setStatus.bind(this);
+	}
+
+	onChangeUserName(e) {
+		this.setState({
+			username: e.target.value
+		});
+	}
+
+	onChangePassword(e) {
+		this.setState({
+			password: e.target.value
+		});
 	}
 
 
@@ -33,12 +54,39 @@ export class Login extends Component {
         event.preventDefault();
         console.log("in function")
 		this.form.validateAll();
+
+		let UserObject = {
+			userName: this.state.username,
+			password: this.state.password
+		};
+
+		console.log("b4 API", UserObject);
+
+		Axios.post('https://localhost:5001/api/Accounts/Login', UserObject
+		).then(result => {
+
+			console.log("Login Success", result);
+			const response = result.data;
+			this.setState = ({ userStatus: "Logged IN", userId: response });
+			if (response != "") {
+				this.props.history.push("/Home");
+			}
+			else {
+				alert("Invalid Credentials");
+			}
+				
+		}).catch(Error => {
+
+			this.setState({ userStatus: "Logged Out", userId: "" })
+
+		})
+		
 		//this.LoginCall()
         // // Emulate async API call
         // setTimeout(() => {
         //     this.form.showError(this.userInput, <span>API error</span>);
         // }, 1000);
-	};
+	}
 
 	LoginCall() {
 
@@ -77,10 +125,10 @@ export class Login extends Component {
 	                        </center>
 	                        <Form ref={c => { this.form = c }} onSubmit={this.handleSubmit}>
 									<div className="form-group">
-										<Input placeholder="Email" className="form-control email" type="email" name="email" validations={[required, email]}  />
+										<Input placeholder="Email" className="form-control email" type="email" value={this.state.username} onChange={this.onChangeUserName} name="email" validations={[required, email]} />
 	                            </div>
 									<div className="form-group">
-										<Input type="password" className="form-control password" placeholder="Password" name="password" validations={[required]} />
+										<Input type="password" className="form-control password" placeholder="Password" value={this.state.password} onChange={this.onChangePassword} name="password" validations={[required]} />
 	                            </div>
 	                            <div className="forgotpwd">
 	                                <p><a href="/forgotpassword">Forgot Password?</a></p>
@@ -102,5 +150,7 @@ export class Login extends Component {
         
         </div>
         );
-    }
+	}
+
+	
 }

@@ -23,8 +23,6 @@
 
   <ItemGroup>
     <Folder Include="ClientApp\src\components\Nav\" />
-    <Folder Include="ClientApp\src\reducers\" />
-    <Folder Include="ClientApp\src\store\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

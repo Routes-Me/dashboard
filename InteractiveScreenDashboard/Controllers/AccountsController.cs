@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using InteractiveScreenDashboard.Data.Models;
+﻿using InteractiveScreenDashboard.Data.Models;
 using InteractiveScreenDashboard.Data.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +15,7 @@ namespace InteractiveScreenDashboard.Controllers
             this._account = account;
         }
 
-        [HttpGet("[action]")]
+        [HttpGet("UserAccount")]
         public IActionResult GetAllUserAccounts()
         {
             var allUserAccounts = _account.GetAllAccounts();
@@ -33,7 +29,7 @@ namespace InteractiveScreenDashboard.Controllers
             return Ok(acc);
         }
 
-        [HttpPost("AddUserAccount")]
+        [HttpPost("UserAccount")]
         public IActionResult AddUserAccount([FromBody]UserAccount account)
         {
             if (account != null)
@@ -43,24 +39,24 @@ namespace InteractiveScreenDashboard.Controllers
             return Ok();
         }
 
-        [HttpPut("UpdateUserAccount/{id}")]
+        [HttpPut("UserAccount/{id}")]
         public IActionResult UpdateUserAccount(int id, [FromBody]UserAccount account)
         {
             _account.UpdateUserAccount(id, account);
             return Ok(account);
         }
 
-        [HttpDelete("DeleteUserAccount/{id}")]
+        [HttpDelete("UserAccount/{id}")]
         public IActionResult DeleteUserAccount(int id)
         {
             _account.DeleteUserAccount(id);
             return Ok();
         }
 
-        [HttpPost("Login/{Username}/{Password}")]
-        public IActionResult LoginUser([FromBody]string username, string password)
+        [HttpPost("Login")]
+        public IActionResult LoginUser([FromBody]UserAccount account)
         {
-            return Ok(_account.UserAccountExist(username, password));
+            return Ok(_account.UserAccountExist(account.userName, account.password));
         }
 
     }

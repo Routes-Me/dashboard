@@ -8,8 +8,8 @@ namespace InteractiveScreenDashboard.Data
 {
     public class Data
     {
-        public static List<UserAccount> Accounts => UserAccounts;
-        static List<UserAccount> UserAccounts = new List<UserAccount>()
+    public static List<UserAccount> Accounts => UserAccounts;
+    static List<UserAccount> UserAccounts = new List<UserAccount>()
     {
         new UserAccount()
         {

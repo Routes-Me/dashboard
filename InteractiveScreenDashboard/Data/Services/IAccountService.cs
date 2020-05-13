@@ -16,7 +16,7 @@ namespace InteractiveScreenDashboard.Data.Services
         void DeleteUserAccount(int tripId);
         void AddUserAccount(UserAccount Acc);
 
-        String UserAccountExist(String Username, String Password);
+        UserAccount UserAccountExist(String Username, String Password);
 
     }
 }

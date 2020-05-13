@@ -1,26 +1,26 @@
 ﻿import axios from 'axios'
 export const Login_REQUEST = 'LOGIN_REQUEST';
 export const Login_SUCCESS = 'LOGIN_SUCCESS';
-export const Login_ERROR = 'LOGIN_ERROR';
-export const Login_Failed = 'LOGIN_FAILED';
+export const Login_LOGOUT = 'LOGIN_LOGOUT';
+export const Login_Failure = 'LOGIN_FAILURE';
 
 const getLoginSuccess = payload => ({
     type: Login_SUCCESS,
     payload
 });
 
-const getTripsError = payload => ({
-    type: Login_ERROR,
+const getLoginFailure = payload => ({
+    type: Login_Failure,
     payload
 });
 
-export const getAllTrips = () => dispatch => {
+export const authenticate = () => dispatch => {
     dispatch({ type: Login_REQUEST });
     return axios.get('api/Trips/GetTrips').then(res => {
         const response = res.data;
         dispatch(getLoginSuccess(response));
     }).catch(error => {
-        dispatch(getTripsError("Something went wrong!"));
+        dispatch(getLoginFailure("Something went wrong!"));
         return Promise.reject({});
     })
 }

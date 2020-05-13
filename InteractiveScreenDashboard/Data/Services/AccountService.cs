@@ -40,13 +40,15 @@ namespace InteractiveScreenDashboard.Data.Services
             }
         }
 
-        public String UserAccountExist(String Username, String Password)
+        public UserAccount UserAccountExist(String Username, String Password)
         {
-            var status = "invalid";
-            var acc = Data.Accounts.FirstOrDefault(x => (x.userName == Username && x.password == Password));
+            var status = "invalid User";
+            UserAccount acc = Data.Accounts.FirstOrDefault(x => (x.userName == Username && x.password == Password));
             if (acc != null)
-                status = "valid";
-                return status;
+            {
+                return acc;
+            }
+            return null;
         }
     }
 }

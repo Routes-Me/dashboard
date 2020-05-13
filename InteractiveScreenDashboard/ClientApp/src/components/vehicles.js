@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-// import GoogleMapReact from 'google-map-react';
-// import ic1 from './image/icon-1.png';
+import axios from 'axios';
+
 import tracking from './image/tracking.png';
 import car from './image/car.png';
 import drivers from './image/drivers.png';
@@ -16,7 +16,23 @@ import GMap from './GMap';
 
 
 export class vehicles extends Component {
-    static displayName = vehicles.name;
+    //static displayName = vehicles.name;
+    constructor(props) {
+        super(props);
+
+        this.state = {
+
+            Vehicles : [],
+            loading: true,
+            failed: false,
+            error: '',
+            activePage: 15
+
+        }
+        
+    }
+
+    
     static defaultProps = {
         center: {
             lat: 23.2500,
@@ -24,21 +40,81 @@ export class vehicles extends Component {
         },
         zoom: 11
     };
-    constructor(props) {
-        super(props);
-        this.state = {
-            activePage: 15
-        };
+
+    componentDidMount() {
+        this.populateVehicleData();
     }
+
+    populateVehicleData() {
+        axios.get("https://localhost:5001/api/Vehicles").then(result => {
+            const response = result.data;
+            this.setState({ Vehicles: response, loading: false, failed: false, error: "" })
+        }).catch(error => { this.setState({ vehicles: [], loading: false, failed: true, error: "Vehicles could not be loaded" }) })
+    }
+ 
 
     handlePageChange(pageNumber) {
         console.log(`active page is ${pageNumber}`);
         this.setState({ activePage: pageNumber });
     }
 
+    renderAllVehicleTable(Vehicles) {
+        return (
+            <div className="table-list-vehicles">
+                <div className="table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Plate</th>
+                                <th>Make</th>
+                                <th>Model</th>
+                                <th>Year</th>
+                                <th>Office</th>
+                                <th className="width44"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                Vehicles.map(Vehicle => (
+                                    <tr key={Vehicle.id}>
+                                        <td>{Vehicle.plate}</td>
+                                        <td>{Vehicle.Make}</td>
+                                        <td>{Vehicle.model}</td>
+                                        <td>{Vehicle.year}</td>
+                                        <td className="width44" >
+                                        <div className="edit-popup">
+                                        <div className="edit-delet-butt">
+                                            <span></span>
+                                            <span></span>
+                                            <span></span>
+                                        </div>
+                                        <ul className="edit-delet-link">
+                                            <li><a href="#">Edit</a></li>
+                                            <li><a href="#">Delet</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            ))
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            );
+    }
+
     render() {
 
-         return (
+        let content = this.state.loading ?
+            (<div><p><em> Loading</em> </p></div>) :
+            (this.state.failed ?
+                (<div className="text-danger">
+                    <em>{this.state.error}</em>
+                </div>) :
+                (this.renderAllVehicleTable(this.state.Vehicles)))
+
+        return (
             <div className="tracking-page mt-57 fff">
                <div className="left-panel">
                   <div className="relative">
@@ -129,257 +205,8 @@ export class vehicles extends Component {
                          </div>
                      </div> 
 
-                     <div className="table-list-vehicles">
-                        <div className="table">
-                           <table>
-                           <thead>
-                              <tr>
-                               <th>Plate</th>
-                               <th>Make</th>
-                               <th>Model</th>
-                               <th>Year</th>
-                               <th>Office</th>
-                               <th className="width44"></th>
-                              </tr>
-                           </thead>
-                            <tbody>
-
-                              <tr>
-                                 <td>962245</td>
-                                 <td>Toyota</td>
-                                 <td>Camry</td>
-                                 <td>2019</td>
-                                 <td>Afnan</td>
-                                 <td className="width44" >
-                                   <div className="edit-popup">
-                                      <div className="edit-delet-butt">
-                                         <span></span>
-                                         <span></span>
-                                         <span></span>
-                                      </div>  
-
-                                      <ul className="edit-delet-link">
-                                         <li><a href="#">Edit</a></li>
-                                         <li><a href="#">Delet</a></li>
-                                      </ul>
-                                   </div>
-                                 </td>
-                              </tr>
-                              <tr>
-                                 <td>962245</td>
-                                 <td>Toyota</td>
-                                 <td>Camry</td>
-                                 <td>2019</td>
-                                 <td>Afnan </td>
-                                 <td className="width44" >
-                                   <div className="edit-popup">
-                                      <div className="edit-delet-butt">
-                                         <span></span>
-                                         <span></span>
-                                         <span></span>
-                                      </div>  
-
-                                      <ul className="edit-delet-link">
-                                         <li><a href="#">Edit</a></li>
-                                         <li><a href="#">Delet</a></li>
-                                      </ul>
-                                   </div>
-                                 </td>
-                              </tr>
-                              <tr>
-                                 <td>962245</td>
-                                 <td>Toyota</td>
-                                 <td>Camry</td>
-                                 <td>2019</td>
-                                 <td>Afnan</td>
-                                 <td className="width44" >
-                                   <div className="edit-popup">
-                                      <div className="edit-delet-butt">
-                                         <span></span>
-                                         <span></span>
-                                         <span></span>
-                                      </div>  
-
-                                      <ul className="edit-delet-link">
-                                         <li><a href="#">Edit</a></li>
-                                         <li><a href="#">Delet</a></li>
-                                      </ul>
-                                   </div>
-                                 </td>
-                              </tr>
-
-                              <tr>
-                                 <td>962245</td>
-                                 <td>Toyota</td>
-                                 <td>Camry</td>
-                                 <td>2019</td>
-                                 <td>Afnan</td>
-                                 <td className="width44" >
-                                   <div className="edit-popup">
-                                      <div className="edit-delet-butt">
-                                         <span></span>
-                                         <span></span>
-                                         <span></span>
-                                      </div>  
-
-                                      <ul className="edit-delet-link">
-                                         <li><a href="#">Edit</a></li>
-                                         <li><a href="#">Delet</a></li>
-                                      </ul>
-                                   </div>
-                                 </td>
-                              </tr>
-
-                              <tr>
-                                 <td>962245</td>
-                                 <td>Toyota</td>
-                                 <td>Camry</td>
-                                 <td>2019</td>
-                                 <td>Afnan</td>
-                                 <td className="width44" >
-                                   <div className="edit-popup">
-                                      <div className="edit-delet-butt">
-                                         <span></span>
-                                         <span></span>
-                                         <span></span>
-                                      </div>  
-
-                                      <ul className="edit-delet-link">
-                                         <li><a href="#">Edit</a></li>
-                                         <li><a href="#">Delet</a></li>
-                                      </ul>
-                                   </div>
-                                 </td>
-                              </tr>
-
-                              <tr>
-                                 <td>962245</td>
-                                 <td>Toyota</td>
-                                 <td>Camry</td>
-                                 <td>2019</td>
-                                 <td>Afnan</td>
-                                 <td className="width44" >
-                                   <div className="edit-popup">
-                                      <div className="edit-delet-butt">
-                                         <span></span>
-                                         <span></span>
-                                         <span></span>
-                                      </div>  
-
-                                      <ul className="edit-delet-link">
-                                         <li><a href="#">Edit</a></li>
-                                         <li><a href="#">Delet</a></li>
-                                      </ul>
-                                   </div>
-                                 </td>
-                              </tr>
-
-                              <tr>
-                                 <td>962245</td>
-                                 <td>Toyota</td>
-                                 <td>Camry</td>
-                                 <td>2019</td>
-                                 <td>Afnan</td>
-                                 <td className="width44" >
-                                   <div className="edit-popup">
-                                      <div className="edit-delet-butt">
-                                         <span></span>
-                                         <span></span>
-                                         <span></span>
-                                      </div>  
-
-                                      <ul className="edit-delet-link">
-                                         <li><a href="#">Edit</a></li>
-                                         <li><a href="#">Delet</a></li>
-                                      </ul>
-                                   </div>
-                                 </td>
-                              </tr>
-
-                              <tr>
-                                 <td>962245</td>
-                                 <td>Toyota</td>
-                                 <td>Camry</td>
-                                 <td>2019</td>
-                                 <td>Afnan</td>
-                                 <td className="width44" >
-                                   <div className="edit-popup">
-                                      <div className="edit-delet-butt">
-                                         <span></span>
-                                         <span></span>
-                                         <span></span>
-                                      </div>  
-
-                                      <ul className="edit-delet-link">
-                                         <li><a href="#">Edit</a></li>
-                                         <li><a href="#">Delet</a></li>
-                                      </ul>
-                                   </div>
-                                 </td>
-                              </tr>
-
-                              <tr>
-                                 <td>962245</td>
-                                 <td>Toyota</td>
-                                 <td>Camry</td>
-                                 <td>2019</td>
-                                 <td>Afnan</td>
-                                 <td className="width44" >
-                                   <div className="edit-popup">
-                                      <div className="edit-delet-butt">
-                                         <span></span>
-                                         <span></span>
-                                         <span></span>
-                                      </div>  
-
-                                      <ul className="edit-delet-link">
-                                         <li><a href="#">Edit</a></li>
-                                         <li><a href="#">Delet</a></li>
-                                      </ul>
-                                   </div>
-                                 </td>
-                              </tr>
-
-                              <tr>
-                                 <td>962245</td>
-                                 <td>Toyota</td>
-                                 <td>Camry</td>
-                                 <td>2019</td>
-                                 <td>Afnan</td>
-                                 <td className="width44" >
-                                   <div className="edit-popup">
-                                      <div className="edit-delet-butt">
-                                         <span></span>
-                                         <span></span>
-                                         <span></span>
-                                      </div>  
-
-                                      <ul className="edit-delet-link">
-                                         <li><a href="#">Edit</a></li>
-                                         <li><a href="#">Delet</a></li>
-                                      </ul>
-                                   </div>
-                                 </td>
-                              </tr>
-                            </tbody>
-                           </table>    
-                        </div>
-              <div className="left page-nav padding-lr-80">
-                <span className="page-count">Page 15 of 20</span>
-                <Pagination
-                  hideDisabled
-                  firstPageText={'<<<<'}
-                  lastPageText={'>>>>'}
-                  prevPageText={'<<'}
-                  nextPageText={'>>'}
-                  activePage={this.state.activePage}
-                  itemsCountPerPage={10}
-                  totalItemsCount={450}
-                  pageRangeDisplayed={10}
-                  onChange={this.handlePageChange.bind(this)}
-                />
-              </div>
-                     </div>
+                     {content}
+                     
                   </div>
                </div>
             </div>
