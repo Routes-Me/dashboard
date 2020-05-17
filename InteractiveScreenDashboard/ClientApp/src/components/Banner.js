@@ -1,5 +1,4 @@
 ﻿import React, { Component } from 'react';
-import logo from './image/bitmap.png'; // Tell webpack this JS file uses this image
 import img1 from './image/5.jpg'; // Tell webpack this JS file uses this image
 import leftarrow from './image/left-arrow.png'; // Tell webpack this JS file uses this image
 import img3 from './image/3.jpg';
