@@ -1,21 +1,20 @@
-﻿/// <reference path="../redux/action/loginaction.js" />
-import React, { Component } from 'react';
+﻿import React, { Component } from 'react';
 import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import { isEmail } from 'validator';
 import logo from './image/bitmap.png'; // Tell webpack this JS file uses this image
 import { connect } from 'react-redux';
-import { LoginAction } from '../Redux/Action';
+import * as LoginAction from '../Redux/Action';
 
 
- class LoginForm extends Component{
+  class LoginForm extends Component{
 
 	constructor(props) {
 
 		super(props);
 
 		this.onChange = this.onChange.bind(this);
-		this.onSubmit = this.onSubmit.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
 
 		this.state = {
 
@@ -35,10 +34,7 @@ import { LoginAction } from '../Redux/Action';
 	handleSubmit = (event) => {
 
 		event.preventDefault();
-
 		console.log("States:",this.state);
-
-		
 
 		let UserObject = {
 			userName: this.state.username,
@@ -48,9 +44,9 @@ import { LoginAction } from '../Redux/Action';
 		console.log("the user object b4 API:", UserObject);
 
 
-		if (this.form.validateAll()) {
+		//if (this.form.validateAll()) {
 			this.props.login(this.state.username, this.state.password);
-		}
+		//}
 		
 
 		//Axios.post('https://localhost:5001/api/Accounts/Login', UserObject
@@ -124,7 +120,7 @@ import { LoginAction } from '../Redux/Action';
 //}
 
 function mapState(state) {
-	const { loggingIn } = state.Lo;
+	const { loggingIn } = state;
 	return { loggingIn };
 }
 

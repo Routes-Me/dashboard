@@ -5,6 +5,7 @@
     Login_FAILURE
 } from '../Action/LoginAction';
 
+
 const INITIAL_STATE = {
     loading: false,
     hasError: false,
@@ -14,6 +15,7 @@ const INITIAL_STATE = {
 
 
 export default (state = INITIAL_STATE, action) => {
+    console.log("Login Reducer");
     switch (action.Type) {
         case Login_REQUEST:
             return {

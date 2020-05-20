@@ -15,7 +15,7 @@ namespace InteractiveScreenDashboard.Controllers
             this._vehicle = vehicle;
         }
 
-        [HttpGet("Vehicle")]
+        [HttpGet("Vehicles")]
         public IActionResult GetAllVehicles()
         {
             var allVehicles = _vehicle.GetAllVehicles();

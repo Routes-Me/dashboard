@@ -31,6 +31,8 @@ namespace InteractiveScreenDashboard
             });
 
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IVehicleService, VehicleService>();
+            services.AddTransient<IDriverService, DriverService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

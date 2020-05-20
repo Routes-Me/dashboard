@@ -14,16 +14,19 @@ import './custom.css';
 export default class App extends Component {
     static displayName = App.name;
 
+    
+
     render() {
-        return(
-      <Layout>
-        <Route exact path='/' component={Login} />
-        <Route path='/home' component={Home} />
-        <Route path='/forgotpassword' component={Counter} />
-        <Route path='/newpassword' component={savePassword} />
-        <Route path='/vehicles' component={vehicles} />
-        <Route path='/Banner' component={Banner} />
-      </Layout>
+        return (
+            <Layout>
+            <Route exact path='/' component={Login} />
+            <Route path='/home' component={Home} />
+            <Route path='/forgotpassword' component={Counter} />
+            <Route path='/newpassword' component={savePassword} />
+            <Route path='/vehicles' component={vehicles} />
+            <Route path='/Banner' component={Banner} />
+            </Layout>
         );
     }
 }
+

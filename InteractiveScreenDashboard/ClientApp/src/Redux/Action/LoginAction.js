@@ -4,20 +4,21 @@ export const Login_SUCCESS = 'LOGIN_SUCCESS';
 export const Login_LOGOUT = 'LOGIN_LOGOUT';
 export const Login_FAILURE = 'LOGIN_FAILURE';
 
-export const userActions = {
-    userSignInRequest,
-    logout,
-    getLoginSuccess,
-    getLoginFailure,
-    getUser
-};
 
-const getLoginSuccess = payload => ({
+//export const LoginAction = {
+//    userSignInRequest,
+//    logout,
+//    getLoginSuccess,
+//    getLoginFailure,
+//    getUser
+//};
+
+export const getLoginSuccess = payload => ({
     type: Login_SUCCESS,
     payload
 });
 
-const getLoginFailure = payload => ({
+export const getLoginFailure = payload => ({
     type: Login_FAILURE,
     payload
 });
@@ -27,10 +28,8 @@ export const getUser = user => ({
     type: 'GET_USER',
     payload: user
 });
+export function userSignInRequest(username, password) {
 
-
-
-function userSignInRequest(username, password){
     return dispatch => {
         dispatch(request({ username }));
 
@@ -43,10 +42,11 @@ function userSignInRequest(username, password){
             .then(
                 user => {
                     dispatch(success(user));
-                    this.props.history.push("/Home");
+                    alert("Success" + user + "is authenticated");
                 },
                 error => {
                     dispatch(failure(error.toString()));
+                    alert("Access denied");
                     //dispatch(alertActions.error(error.toString()));
                 }
             );
@@ -55,11 +55,12 @@ function userSignInRequest(username, password){
     function request(user) { return { type: Login_REQUEST, user }; }
     function success(user) { return { type: Login_SUCCESS, user }; }
     function failure(error) { return { type: Login_FAILURE, error }; }
+
 }
 
-function logout() {
+export function logout() {
     //userService.logout();
     return { type: Login_LOGOUT };
 }
 
-export default LoginAction;
+
