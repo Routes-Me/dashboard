@@ -8,19 +8,21 @@ namespace InteractiveScreenDashboard.Data.Services
 {
     public class DriverService : IDriverService
     {
-        public void AddDriverAccount(Driver Acc)
+        public Driver AddDriverAccount(Driver Acc)
         {
             Data.Drivers.Add(Acc);
+            return Acc;
         }
 
 
-        public void DeleteDriverAccount(int Driverid)
+        public Driver DeleteDriverAccount(int Driverid)
         {
             var acc = Data.Drivers.FirstOrDefault(x => x.id == Driverid);
             if (acc != null)
             {
                 Data.Drivers.Remove(acc);
             }
+            return acc;
         }
 
         public List<Driver> GetAllDrivers() => Data.Drivers.ToList();
@@ -28,7 +30,7 @@ namespace InteractiveScreenDashboard.Data.Services
 
         public Driver GetUserDriverById(int Id) => Data.Drivers.FirstOrDefault(x => x.id == Id);
 
-        public void UpdateDriverAccount(int id, Driver Acc)
+        public Driver UpdateDriverAccount(int id, Driver Acc)
         {
             var OldAccount = Data.Drivers.FirstOrDefault(x => x.id == id);
 
@@ -38,6 +40,7 @@ namespace InteractiveScreenDashboard.Data.Services
                 OldAccount.Liecense = Acc.Liecense;
                 OldAccount.Vehicleid = Acc.Vehicleid;
             }
+            return Acc;
         }
     }
 }

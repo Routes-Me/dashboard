@@ -12,11 +12,12 @@ namespace InteractiveScreenDashboard.Data.Services
 
         UserAccount GetUserAccountById(int id);
 
-        void UpdateUserAccount(int id, UserAccount Acc);
-        void DeleteUserAccount(int tripId);
-        void AddUserAccount(UserAccount Acc);
+        UserAccount UpdateUserAccount(int id, UserAccount Acc);
+        UserAccount DeleteUserAccount(int id);
+        UserAccount AddUserAccount(UserAccount Acc);
 
-        UserAccount UserAccountExist(String Username, String Password);
+        UserAccount UserAccountAccess(String Username, String Password);
 
+        bool UserAccountExist(int id);
     }
 }

@@ -8,18 +8,16 @@ namespace InteractiveScreenDashboard.Data.Services
 {
     public class AccountService : IAccountService
     {
-        public void AddUserAccount(UserAccount Acc)
-        {
-            Data.Accounts.Add(Acc);
-        }
+       
 
-        public void DeleteUserAccount(int id)
+        public UserAccount DeleteUserAccount(int id)
         {
             var acc = Data.Accounts.FirstOrDefault(x => x.Id == id);
             if(acc != null)
             {
                 Data.Accounts.Remove(acc);
             }
+            return acc;
         }
 
         public List<UserAccount> GetAllAccounts() => Data.Accounts.ToList();
@@ -28,7 +26,7 @@ namespace InteractiveScreenDashboard.Data.Services
         public UserAccount GetUserAccountById(int id) => Data.Accounts.FirstOrDefault(x => x.Id == id);
        
 
-        public void UpdateUserAccount(int id, UserAccount Acc)
+        public UserAccount UpdateUserAccount(int id, UserAccount Acc)
         {
             var OldAccount = Data.Accounts.FirstOrDefault(x => x.Id == id);
             
@@ -38,11 +36,11 @@ namespace InteractiveScreenDashboard.Data.Services
                 OldAccount.password = Acc.password;
                 OldAccount.companyId = Acc.companyId;
             }
+            return Acc;
         }
 
-        public UserAccount UserAccountExist(String Username, String Password)
+        public UserAccount UserAccountAccess(String Username, String Password)
         {
-            var status = "invalid User";
             UserAccount acc = Data.Accounts.FirstOrDefault(x => (x.userName == Username && x.password == Password));
             if (acc != null)
             {
@@ -50,5 +48,21 @@ namespace InteractiveScreenDashboard.Data.Services
             }
             return null;
         }
+
+
+
+        public UserAccount AddUserAccount(UserAccount Acc)
+        {
+            Data.Accounts.Add(Acc);
+            return Acc;
+        }
+
+
+        public bool UserAccountExist(int id)
+        {
+            return (Data.Accounts.Any(x => x.Id == id));
+        }
+
+       
     }
 }

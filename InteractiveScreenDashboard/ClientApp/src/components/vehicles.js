@@ -48,8 +48,10 @@ export class vehicles extends Component {
     populateVehicleData() {
         axios.get("https://localhost:5001/api/Vehicles").then(result => {
             const response = result.data;
-            this.setState({ Vehicles: response, loading: false, failed: false, error: "" })
-        }).catch(error => { this.setState({ vehicles: [], loading: false, failed: true, error: "Vehicles could not be loaded" }) })
+            this.setState({ Vehicles: response, loading: false, failed: false, error: "" });
+        }).catch(error => {
+            this.setState({ vehicles: [], loading: false, failed: true, error: "Vehicles could not be loaded" });
+        });
     }
  
 
@@ -68,8 +70,8 @@ export class vehicles extends Component {
                                 <th>Plate</th>
                                 <th>Make</th>
                                 <th>Model</th>
-                                <th>Year</th>
                                 <th>Office</th>
+                                <th>Year</th>
                                 <th className="width44"></th>
                             </tr>
                         </thead>
@@ -78,8 +80,9 @@ export class vehicles extends Component {
                                 Vehicles.map(Vehicle => (
                                     <tr key={Vehicle.id}>
                                         <td>{Vehicle.plate}</td>
-                                        <td>{Vehicle.Make}</td>
+                                        <td>{Vehicle.make}</td>
                                         <td>{Vehicle.model}</td>
+                                        <td>{Vehicle.office}</td>
                                         <td>{Vehicle.year}</td>
                                         <td className="width44" >
                                         <div className="edit-popup">
@@ -107,12 +110,12 @@ export class vehicles extends Component {
     render() {
 
         let content = this.state.loading ?
-            (<div><p><em> Loading</em> </p></div>) :
+            (<div><p><em> Loading...</em> </p></div>) :
             (this.state.failed ?
                 (<div className="text-danger">
                     <em>{this.state.error}</em>
                 </div>) :
-                (this.renderAllVehicleTable(this.state.Vehicles)))
+                (this.renderAllVehicleTable(this.state.Vehicles)));
 
         return (
             <div className="tracking-page mt-57 fff">

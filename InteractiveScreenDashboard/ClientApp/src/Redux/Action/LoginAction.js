@@ -1,8 +1,12 @@
 ﻿import axios from 'axios';
+import { history } from '../../helper/history';
+
 export const Login_REQUEST = 'LOGIN_REQUEST';
 export const Login_SUCCESS = 'LOGIN_SUCCESS';
 export const Login_LOGOUT = 'LOGIN_LOGOUT';
 export const Login_FAILURE = 'LOGIN_FAILURE';
+
+
 
 
 //export const LoginAction = {
@@ -38,10 +42,11 @@ export function userSignInRequest(username, password) {
             password: password
         };
 
-        axios.post('https://localhost:5001/api/Accounts/Login', UserObject)
+        axios.post('https://localhost:5001/api/UserAccounts/Login', UserObject)
             .then(
                 user => {
                     dispatch(success(user));
+                    history.push('/Home');
                     alert("Success" + user + "is authenticated");
                 },
                 error => {

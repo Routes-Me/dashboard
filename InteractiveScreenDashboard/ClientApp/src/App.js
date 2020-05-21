@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router';
+
+//import { Route } from 'react-router';
+import { Router, Route, Switch, Redirect } from 'react-router-dom';
+import { history } from '../src/helper/history';
+
 import { Layout } from './components/Layout';
 import { Home } from './components/Home';
 import { Counter } from './components/Counter';
@@ -19,12 +23,17 @@ export default class App extends Component {
     render() {
         return (
             <Layout>
-            <Route exact path='/' component={Login} />
-            <Route path='/home' component={Home} />
-            <Route path='/forgotpassword' component={Counter} />
-            <Route path='/newpassword' component={savePassword} />
-            <Route path='/vehicles' component={vehicles} />
-            <Route path='/Banner' component={Banner} />
+                <Router  history={history}>
+                    <Switch>
+                        <Route exact path='/' component={Login} />
+                        <Route path='/home' component={Home} />
+                        <Route path='/forgotpassword' component={Counter} />
+                        <Route path='/newpassword' component={savePassword} />
+                        <Route path='/vehicles' component={vehicles} />
+                        <Route path='/Banner' component={Banner} />
+                        <Redirect from="*" to="/" />
+                    </Switch>
+                </Router >
             </Layout>
         );
     }

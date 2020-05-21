@@ -12,8 +12,10 @@ namespace InteractiveScreenDashboard.Data.Services
 
         Vehicle GetVehicleById(int id);
 
-        void UpdateVehicleDetails(int id, Vehicle Acc);
-        void DeleteVehicle(int tripId);
-        void AddVehicle(Vehicle Acc);
+        Vehicle UpdateVehicleDetails(int id, Vehicle Acc);
+        Vehicle DeleteVehicle(int tripId);
+        Vehicle AddVehicle(Vehicle Acc);
+
+        bool VehicleExist(int id);
     }
 }

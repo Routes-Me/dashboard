@@ -28,9 +28,8 @@ namespace InteractiveScreenDashboard.Data
 
     };
 
-        
 
-        public static List<Vehicle> Vehicles => Vehicles;
+        public static List<Vehicle> Vehicles => VehicleList;
         static List<Vehicle> VehicleList = new List<Vehicle>()
         {
             new Vehicle()
@@ -40,7 +39,7 @@ namespace InteractiveScreenDashboard.Data
                 Make ="BMW",
                 model ="X6",
                 year = 2020,
-                office = "Afnan"
+                Office = "Afnan"
             },
             new Vehicle()
             {
@@ -49,12 +48,13 @@ namespace InteractiveScreenDashboard.Data
                 Make ="Jeep",
                 model ="X2",
                 year = 2020,
-                office = "Afnan"
+                Office = "Afnan"
             }
         };
 
 
-        public static List<Driver> Drivers => Drivers;
+
+        public static List<Driver> Drivers => DriversList;
         static List<Driver> DriversList = new List<Driver>()
         {
             new Driver()

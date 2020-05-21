@@ -1,10 +1,15 @@
 ﻿using InteractiveScreenDashboard.Data.Models;
 using InteractiveScreenDashboard.Data.Services;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
+using System.Net;
 
 namespace InteractiveScreenDashboard.Controllers
 {
-    [Route("api/[Controller]")]
+    
+    [Produces("application/json")]
+    [Route("api/Vehicles")]
     public class VehiclesController : Controller
     {
 
@@ -15,42 +20,96 @@ namespace InteractiveScreenDashboard.Controllers
             this._vehicle = vehicle;
         }
 
-        [HttpGet("Vehicles")]
+        [HttpGet]
         public IActionResult GetAllVehicles()
         {
+            //var allVehicles = new ObjectResult(_vehicle.GetAllVehicles())
+            //{
+            //    StatusCode = (int)HttpStatusCode.OK
+            //};
             var allVehicles = _vehicle.GetAllVehicles();
+
+            Request.HttpContext.Response.Headers.Add("X-Total-Count", _vehicle.GetAllVehicles().Count().ToString());
             return Ok(allVehicles);
         }
 
-        [HttpGet("Vehicle/{id}")]
-        public IActionResult GetVehiclesById(int id)
+        [HttpGet("{id}")]
+        public IActionResult GetVehiclesById([FromRoute]int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var vehicle = _vehicle.GetVehicleById(id);
+            if (vehicle == null)
+            {
+                return NotFound();
+            }
+
             return Ok(vehicle);
         }
 
-        [HttpPost("Vehicle")]
+        [HttpPost]
         public IActionResult AddVehicle([FromBody]Vehicle veh)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             if (veh != null)
             {
                 _vehicle.AddVehicle(veh);
             }
-            return Ok();
+            return CreatedAtAction("GetVehiclesById", new { id = veh.id }, veh);
         }
 
-        [HttpPut("Vehicle/{id}")]
-        public IActionResult UpdateVehicle(int id, [FromBody]Vehicle veh)
+        [HttpPut("{id}")]
+        public IActionResult UpdateVehicle([FromRoute]int id, [FromBody]Vehicle veh)
         {
-            _vehicle.UpdateVehicleDetails(id, veh);
-            return Ok(veh);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != veh.id)
+            {
+                return BadRequest();
+            }
+            
+
+            try
+            {
+                _vehicle.UpdateVehicleDetails(id, veh);
+                return Ok(veh);
+            }
+            catch (Exception e)
+            {
+                if (!_vehicle.VehicleExist(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw (e);
+                }
+            }
+
         }
 
-        [HttpDelete("Vehicle/{id}")]
-        public IActionResult DeleteVehicle(int id)
+        [HttpDelete("{id}")]
+        public IActionResult DeleteVehicle([FromRoute]int id)
         {
-            _vehicle.DeleteVehicle(id);
-            return Ok();
+            var veh = _vehicle.GetVehicleById(id);
+            if(veh != null)
+            {
+                _vehicle.DeleteVehicle(id);
+                return Ok(veh);
+            }
+            else
+            {
+                return NotFound();
+            }
+            
         }
     }
 }

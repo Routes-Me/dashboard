@@ -12,9 +12,9 @@ namespace InteractiveScreenDashboard.Data.Services
 
         Driver GetUserDriverById(int id);
 
-        void UpdateDriverAccount(int id, Driver Acc);
-        void DeleteDriverAccount(int tripId);
-        void AddDriverAccount(Driver Acc);
+        Driver UpdateDriverAccount(int id, Driver Acc);
+        Driver DeleteDriverAccount(int tripId);
+        Driver AddDriverAccount(Driver Acc);
 
     }
 }
