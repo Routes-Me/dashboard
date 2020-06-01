@@ -20,8 +20,8 @@ import * as LoginAction from '../Redux/Action';
 
 			username: '',
 			password: '',
-			userStatus: "LOGGED OUT",
-			userId: ""
+			name : '',
+			userId: ''
 		};
 	}
 

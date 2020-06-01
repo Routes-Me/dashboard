@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-// import GoogleMapReact from 'google-map-react';
-// import ic1 from './image/icon-1.png';
 
-import GMap from './GMap';
 import { Master } from './Master';
 import { Child } from './Child';
 
@@ -20,10 +17,11 @@ export class Home extends Component {
     render() {
         return (
             <div className="tracking-page fff">
-                <Master />
+                <Master/>
                 <Child/>
             </div>
 
         );
     }
 }
+

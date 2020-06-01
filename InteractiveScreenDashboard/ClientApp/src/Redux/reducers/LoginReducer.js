@@ -1,50 +1,57 @@
-﻿import {
-    Login_REQUEST,
-    Login_SUCCESS,
-    Login_LOGOUT,
-    Login_FAILURE
-} from '../Action/LoginAction';
+﻿import { userConstants } from '../../constants/userConstants';
 
+//const user = JSON.parse(localStorage.getItem('user'));
 
 const INITIAL_STATE = {
-    loading: false,
+    loading: true,
     hasError: false,
     error: null,
-    data: []
+    user: {}
 };
 
 
-export default (state = INITIAL_STATE, action) => {
-    console.log("Login Reducer");
-    switch (action.Type) {
-        case Login_REQUEST:
+
+
+const LoginReducer = (state = {}, action) => { 
+    //console.log("/Login Reducer => state  : ", state);
+    //console.log("/Login Reducer => action : ", action);
+    switch (action.type) {
+        case userConstants.Login_REQUEST:
             return {
                 ...state,
-                loading: true
+                loading: true,
+                loggedIn: false
             };
-        case Login_SUCCESS:
+        case userConstants.Login_SUCCESS:
+
             return {
                 ...state,
                 loading: false,
                 hasError: false,
-                data: action.payload
+                loggedIn: true,
+                user: action.payload.data
+
             };
-        case Login_LOGOUT:
+        case userConstants.Login_LOGOUT:
             return {
                 ...state,
                 loading: false,
                 hasError: true,
-                data: action.payload
+                loggedIn: false,
+                user: action.payload
             };
-        case Login_FAILURE:
+        case userConstants.Login_FAILURE:
             return {
                 ...state,
                 loading: false,
                 hasError: false,
-                data: action.payload
+                loggedIn: false,
+                user: action.payload
             };
         default:
             return state;
     }
 };
+
+export default LoginReducer;
 

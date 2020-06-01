@@ -1,13 +1,10 @@
 ﻿import axios from 'axios';
 import { history } from '../../helper/history';
-
-export const Login_REQUEST = 'LOGIN_REQUEST';
-export const Login_SUCCESS = 'LOGIN_SUCCESS';
-export const Login_LOGOUT = 'LOGIN_LOGOUT';
-export const Login_FAILURE = 'LOGIN_FAILURE';
+import { userConstants } from '../../constants/userConstants';
 
 
 
+const userObjt = {};
 
 //export const LoginAction = {
 //    userSignInRequest,
@@ -17,25 +14,33 @@ export const Login_FAILURE = 'LOGIN_FAILURE';
 //    getUser
 //};
 
-export const getLoginSuccess = payload => ({
-    type: Login_SUCCESS,
+ export const getLoginSuccess = payload => ({
+    type: userConstants.Login_SUCCESS,
     payload
 });
 
 export const getLoginFailure = payload => ({
-    type: Login_FAILURE,
+    type: userConstants.Login_FAILURE,
     payload
 });
 
 
-export const getUser = user => ({
+export const getUsers = user => ({
     type: 'GET_USER',
     payload: user
 });
+
+export function getUser() {
+    userObjt = localStorage.getItem('user');
+    console.log("User Logged In is : ", userObjt);
+    return userObjt;
+}
+
+
 export function userSignInRequest(username, password) {
 
     return dispatch => {
-        dispatch(request({ username }));
+        dispatch(request({ username, password }));
 
         let UserObject = {
             userName: username,
@@ -45,27 +50,29 @@ export function userSignInRequest(username, password) {
         axios.post('https://localhost:5001/api/UserAccounts/Login', UserObject)
             .then(
                 user => {
-                    dispatch(success(user));
+                    dispatch(getLoginSuccess(user));
+                    //console.log("User Details : ", JSON.stringify(user));
                     history.push('/Home');
-                    alert("Success" + user + "is authenticated");
-                },
+                    localStorage.setItem('user', JSON.stringify(user));
+                    alert("Success : " + user.data.name + "is authenticated");
+                    },
                 error => {
                     dispatch(failure(error.toString()));
                     alert("Access denied");
                     //dispatch(alertActions.error(error.toString()));
-                }
+                    }
             );
     };
 
-    function request(user) { return { type: Login_REQUEST, user }; }
-    function success(user) { return { type: Login_SUCCESS, user }; }
-    function failure(error) { return { type: Login_FAILURE, error }; }
+    function request(user) { return { type: userConstants.Login_REQUEST, user }; }
+    function success(user) { return { type: userConstants.Login_SUCCESS, user }; }
+    function failure(error) { return { type: userConstants.Login_FAILURE, error }; }
 
 }
 
 export function logout() {
     //userService.logout();
-    return { type: Login_LOGOUT };
+    return { type: userConstants.Login_LOGOUT };
 }
 
 

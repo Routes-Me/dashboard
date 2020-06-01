@@ -15,14 +15,18 @@ namespace InteractiveScreenDashboard.Data
         {
             Id=1,
             userName="vtharaka@routesme.com",
-            password="Tester@123"
+            password="Tester@123",
+            name = "Vivian",
+            accountTypeId =1
 
         },
          new UserAccount()
         {
             Id=2,
-            userName="vtharaka@routesme.com",
-            password="Tester@123"
+            userName="yshaar@routesme.com",
+            password="Tester@123",
+            name = "Yahya",
+            accountTypeId =2
 
         }
 

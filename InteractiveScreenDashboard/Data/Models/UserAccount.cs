@@ -12,7 +12,9 @@ namespace InteractiveScreenDashboard.Data.Models
         [EmailAddress]
         public String userName { get; set; }
         public String password { get; set; }
+        public String name { get; set; }
         public int companyId { get; set; }
+        public int accountTypeId { get; set; }
 
     }
 }

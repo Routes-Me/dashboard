@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
-import { Primary } from './Primary'
-import { Secondary } from './Secondary'
+import { Primary } from './Primary';
+import { Secondary } from './Secondary';
 
 
 
