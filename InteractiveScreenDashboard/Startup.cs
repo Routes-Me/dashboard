@@ -1,3 +1,4 @@
+using InteractiveScreenDashboard.Data;
 using InteractiveScreenDashboard.Data.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -29,6 +30,8 @@ namespace InteractiveScreenDashboard
             {
                 configuration.RootPath = "ClientApp/build";
             });
+
+            services.AddSingleton(Configuration.GetSection("AES").Get<Iencrypt>());
 
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IVehicleService, VehicleService>();

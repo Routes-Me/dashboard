@@ -1,6 +1,7 @@
 ﻿import axios from 'axios';
 import { history } from '../../helper/history';
 import { userConstants } from '../../constants/userConstants';
+import { encryptAES } from '../encrypt';
 
 
 
@@ -41,10 +42,10 @@ export function userSignInRequest(username, password) {
 
     return dispatch => {
         dispatch(request({ username, password }));
-
+        var encryptedpassword = encryptAES(password);
         let UserObject = {
             userName: username,
-            password: password
+            password: encryptedpassword.toString()
         };
 
         axios.post('https://localhost:5001/api/UserAccounts/Login', UserObject)
