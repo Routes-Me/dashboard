@@ -6,42 +6,55 @@ using System.Threading.Tasks;
 
 namespace InteractiveScreenDashboard.Data.Services
 {
+    
+
     public class AccountService : IAccountService
     {
-       
+        private readonly AppDBContext context;
 
-        public UserAccount DeleteUserAccount(int id)
+        public AccountService(AppDBContext context)
         {
-            var acc = Data.Accounts.FirstOrDefault(x => x.Id == id);
+            this.context = context;
+        }
+
+
+        public Users DeleteUserAccount(int id)
+        {
+            var acc = context.Users.FirstOrDefault(x => x.User_id == id);
             if(acc != null)
             {
-                Data.Accounts.Remove(acc);
+                context.Users.Remove(acc);
+                context.SaveChanges();
             }
             return acc;
         }
 
-        public List<UserAccount> GetAllAccounts() => Data.Accounts.ToList();
+        public List<Users> GetAllAccounts() => context.Users.ToList();
 
 
-        public UserAccount GetUserAccountById(int id) => Data.Accounts.FirstOrDefault(x => x.Id == id);
+        public Users GetUserAccountById(int id) => context.Users.FirstOrDefault(x => x.User_id == id);
        
 
-        public UserAccount UpdateUserAccount(int id, UserAccount Acc)
+        public Users UpdateUserAccount(int id, Users Acc)
         {
-            var OldAccount = Data.Accounts.FirstOrDefault(x => x.Id == id);
-            
-            if(OldAccount != null)
-            {
-                OldAccount.userName = Acc.userName;
-                OldAccount.password = Acc.password;
-                OldAccount.companyId = Acc.companyId;
-            }
+            var OldAcc = context.Users.Attach(Acc);
+            OldAcc.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            context.SaveChanges();
             return Acc;
+            //var OldAccount = context.UserAccounts.FirstOrDefault(x => x.Id == id);
+            
+            //if(OldAccount != null)
+            //{
+            //    OldAccount.userName = Acc.userName;
+            //    OldAccount.password = Acc.password;
+            //    OldAccount.companyId = Acc.companyId;
+            //}
+            //return Acc;
         }
 
-        public UserAccount UserAccountAccess(String Username, String Password)
+        public Users UserAccountAccess(string Username, string Password)
         {
-            UserAccount acc = Data.Accounts.FirstOrDefault(x => (x.userName == Username && x.password == Password));
+            Users acc = context.Users.FirstOrDefault(x => (x.Email.Equals(Username) && x.Password.Equals(Password))) ;
             if (acc != null)
             {
                 return acc;
@@ -51,16 +64,17 @@ namespace InteractiveScreenDashboard.Data.Services
 
 
 
-        public UserAccount AddUserAccount(UserAccount Acc)
+        public Users AddUserAccount(Users Acc)
         {
-            Data.Accounts.Add(Acc);
+            context.Users.Add(Acc);
+            context.SaveChanges();
             return Acc;
         }
 
 
         public bool UserAccountExist(int id)
         {
-            return (Data.Accounts.Any(x => x.Id == id));
+            return context.Users.Any(x => x.User_id == id);
         }
 
        

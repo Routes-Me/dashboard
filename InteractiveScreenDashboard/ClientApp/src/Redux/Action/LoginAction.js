@@ -44,7 +44,7 @@ export function userSignInRequest(username, password) {
         dispatch(request({ username, password }));
         var encryptedpassword = encryptAES(password);
         let UserObject = {
-            userName: username,
+            email: username,
             password: encryptedpassword.toString()
         };
 
@@ -55,7 +55,7 @@ export function userSignInRequest(username, password) {
                     //console.log("User Details : ", JSON.stringify(user));
                     history.push('/Home');
                     localStorage.setItem('user', JSON.stringify(user));
-                    alert("Success : " + user.data.name + "is authenticated");
+                    alert("Success : " + user.data.first_name + "is authenticated");
                     },
                 error => {
                     dispatch(failure(error.toString()));

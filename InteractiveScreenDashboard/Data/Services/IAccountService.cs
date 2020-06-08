@@ -8,15 +8,15 @@ namespace InteractiveScreenDashboard.Data.Services
 {
     public interface IAccountService
     {
-        List<UserAccount> GetAllAccounts();
+        List<Users> GetAllAccounts();
 
-        UserAccount GetUserAccountById(int id);
+        Users GetUserAccountById(int id);
 
-        UserAccount UpdateUserAccount(int id, UserAccount Acc);
-        UserAccount DeleteUserAccount(int id);
-        UserAccount AddUserAccount(UserAccount Acc);
+        Users UpdateUserAccount(int id, Users Acc);
+        Users DeleteUserAccount(int id);
+        Users AddUserAccount(Users Acc);
 
-        UserAccount UserAccountAccess(String Username, String Password);
+        Users UserAccountAccess(String Username, String Password);
 
         bool UserAccountExist(int id);
     }

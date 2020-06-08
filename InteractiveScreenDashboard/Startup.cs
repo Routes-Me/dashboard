@@ -1,4 +1,5 @@
 using InteractiveScreenDashboard.Data;
+using InteractiveScreenDashboard.Data.Models;
 using InteractiveScreenDashboard.Data.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
 
 namespace InteractiveScreenDashboard
 {
@@ -33,9 +35,10 @@ namespace InteractiveScreenDashboard
 
             services.AddSingleton(Configuration.GetSection("AES").Get<Iencrypt>());
 
-            services.AddTransient<IAccountService, AccountService>();
-            services.AddTransient<IVehicleService, VehicleService>();
-            services.AddTransient<IDriverService, DriverService>();
+            services.AddDbContextPool<AppDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("RoutesMeDBConnection")));
+            services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IVehicleService, VehicleService>();
+            services.AddScoped<IDriverService, DriverService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

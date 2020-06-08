@@ -39,7 +39,7 @@ namespace InteractiveScreenDashboard.Controllers
         }
 
         [HttpGet("{id}")]
-        [Produces (typeof(UserAccount))]
+        [Produces (typeof(Users))]
         public IActionResult GetUserAccountById([FromRoute]int id)
         {
             if (!ModelState.IsValid)
@@ -56,8 +56,8 @@ namespace InteractiveScreenDashboard.Controllers
         }
 
         [HttpPost]
-        [Produces(typeof(UserAccount))]
-        public IActionResult AddUserAccount([FromBody]UserAccount account)
+        [Produces(typeof(Users))]
+        public IActionResult AddUserAccount([FromBody]Users account)
         {
             if (!ModelState.IsValid)
             {
@@ -67,19 +67,19 @@ namespace InteractiveScreenDashboard.Controllers
             {
                 _account.AddUserAccount(account);
             }
-            return CreatedAtAction("GetUserAccountById",new { id=account.Id }, account);
+            return CreatedAtAction("GetUserAccountById",new { id=account.User_id }, account);
         }
 
         [HttpPut("{id}")]
-        [Produces(typeof(UserAccount))]
-        public IActionResult UpdateUserAccount([FromRoute]int id, [FromBody]UserAccount account)
+        [Produces(typeof(Users))]
+        public IActionResult UpdateUserAccount([FromRoute]int id, [FromBody]Users account)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != account.Id)
+            if (id != account.User_id)
             {
                 return BadRequest();
             }
@@ -103,7 +103,7 @@ namespace InteractiveScreenDashboard.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Produces(typeof(UserAccount))]
+        [Produces(typeof(Users))]
         public IActionResult DeleteUserAccountAsync([FromRoute]int id)
         {
             var acc = _account.GetUserAccountById(id);
@@ -197,16 +197,23 @@ namespace InteractiveScreenDashboard.Controllers
 
 
         [HttpPost("Login")]
-        [Produces(typeof(UserAccount))]
-        public IActionResult LoginUser([FromBody]UserAccount account)
+        [Produces(typeof(Users))]
+        public IActionResult LoginUser([FromBody]Users account)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
             string key = _Iencrypt.Key.ToString();
             string IVKey = _Iencrypt.IV.ToString();
-            string text = account.userName;
-            string password = Encrypt.DecryptAESString(account.password,key,IVKey);
-            var acc = _account.UserAccountAccess(text, password);
+            string text = account.Email;
+            string password = Encrypt.DecryptAESString(account.Password, key, IVKey);
 
-            if(acc!= null)
+            var acc = _account.UserAccountAccess(text, password);
+            
+
+            if (acc!= null)
             {
                 return Ok(acc);
             }
