@@ -1,35 +1,46 @@
 ﻿using InteractiveScreenDashboard.Data;
 using InteractiveScreenDashboard.Data.Models;
 using InteractiveScreenDashboard.Data.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
+using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace InteractiveScreenDashboard.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
-    [Route("api/UserAccounts")]
+    [Route("api/Users")]
     public class AccountsController : Controller
     {
 
         private readonly Iencrypt _Iencrypt;
+        private readonly JWTSettings _jwtSettings;
 
         private IAccountService _account;
 
-        public AccountsController(IAccountService account, Iencrypt iencrypt)
+        public AccountsController(IAccountService account, Iencrypt iencrypt, IOptions<JWTSettings> jwtsettings)
         {
             this._account = account;
             this._Iencrypt = iencrypt;
+            _jwtSettings = jwtsettings.Value;
         }
 
-        
-        public IActionResult GetAllUserAccounts()
+        [HttpGet]
+        public ActionResult GetAllUserAccounts()
         {
+
             var result =new ObjectResult(_account.GetAllAccounts())
             {
                 StatusCode = (int)HttpStatusCode.OK
@@ -37,6 +48,8 @@ namespace InteractiveScreenDashboard.Controllers
             Request.HttpContext.Response.Headers.Add("X-Total-Count", _account.GetAllAccounts().Count().ToString());
             return Ok(result);
         }
+
+
 
         [HttpGet("{id}")]
         [Produces (typeof(Users))]
@@ -120,104 +133,130 @@ namespace InteractiveScreenDashboard.Controllers
         }
 
 
-        //public static string DecryptStringAES(string cipherText)
-        //{
-        //    var keybytes = Encoding.UTF8.GetBytes("8080808080808080");
-        //    var iv = Encoding.UTF8.GetBytes("8080808080808080");
-
-        //    var encrypted = Convert.FromBase64String(cipherText);
-        //    var decriptedFromJavascript = DecryptStringFromBytes(encrypted, keybytes, iv);
-        //    return string.Format(decriptedFromJavascript);
-        //}
 
 
-        //private static string DecryptStringFromBytes(byte[] cipherText, byte[] key, byte[] iv)
-        //{
-        //    // Check arguments.  
-        //    if (cipherText == null || cipherText.Length <= 0)
-        //    {
-        //        throw new ArgumentNullException("cipherText");
-        //    }
-        //    if (key == null || key.Length <= 0)
-        //    {
-        //        throw new ArgumentNullException("key");
-        //    }
-        //    if (iv == null || iv.Length <= 0)
-        //    {
-        //        throw new ArgumentNullException("key");
-        //    }
-
-        //    // Declare the string used to hold  
-        //    // the decrypted text.  
-        //    string plaintext = null;
-
-        //    // Create an RijndaelManaged object  
-        //    // with the specified key and IV.  
-        //    using (var rijAlg = new RijndaelManaged())
-        //    {
-        //        //Settings  
-        //        rijAlg.Mode = CipherMode.CBC;
-        //        rijAlg.Padding = PaddingMode.PKCS7;
-        //        rijAlg.FeedbackSize = 128;
-
-        //        rijAlg.Key = key;
-        //        rijAlg.IV = iv;
-
-        //        // Create a decrytor to perform the stream transform.  
-        //        var decryptor = rijAlg.CreateDecryptor(rijAlg.Key, rijAlg.IV);
-
-        //        try
-        //        {
-        //            // Create the streams used for decryption.  
-        //            using (var msDecrypt = new MemoryStream(cipherText))
-        //            {
-        //                using (var csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read))
-        //                {
-
-        //                    using (var srDecrypt = new StreamReader(csDecrypt))
-        //                    {
-        //                        // Read the decrypted bytes from the decrypting stream  
-        //                        // and place them in a string.  
-        //                        plaintext = srDecrypt.ReadToEnd();
-
-        //                    }
-
-        //                }
-        //            }
-        //        }
-        //        catch
-        //        {
-        //            plaintext = "keyError";
-        //        }
-        //    }
-
-        //    return plaintext;
-        //}
-
-
-
+        [AllowAnonymous]
         [HttpPost("Login")]
         [Produces(typeof(Users))]
-        public IActionResult LoginUser([FromBody]Users account)
+        public IActionResult LoginUser([FromBody]Authenticate account)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            
-            string key = _Iencrypt.Key.ToString();
-            string IVKey = _Iencrypt.IV.ToString();
-            string text = account.Email;
-            string password = Encrypt.DecryptAESString(account.Password, key, IVKey);
 
-            var acc = _account.UserAccountAccess(text, password);
+            string email = account.email;
+            string password = decryptPassword(account.Password);
+            var acc = _account.UserAccountAccess(email, password);
             
 
             if (acc!= null)
             {
+                Request.HttpContext.Response.Headers.Add("AccessToken", GenerateAccessToken(acc.User_id));
+
                 return Ok(acc);
             }
             return Unauthorized();
+        }
+
+
+        private string decryptPassword(string cipher)
+        {
+            string key = _Iencrypt.Key.ToString();
+            string IVKey = _Iencrypt.IV.ToString();
+            string password = Encrypt.DecryptAESString(cipher, key, IVKey);
+            return password;
+        }
+
+        [AllowAnonymous]
+        [HttpPost("forgot_password")]
+        [Produces(typeof(Users))]
+        public IActionResult EmailExist([FromBody]Users usr)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = _account.UserEmailExistAsync(usr.Email);
+            sendMailForForgotPassword(user);
+            Request.HttpContext.Response.Headers.Add("RecoveryToken", GenerateAccessToken(user.User_id));
+            return Ok(user);
+        }
+
+
+        [AllowAnonymous]
+        [HttpPost("rest_password")]
+        [Produces(typeof(ResetPassword))]
+        public IActionResult ResetPassword([FromBody]ResetPassword pswrd)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Users user = _account.UserEmailExistAsync(pswrd.Email);
+            if(user==null)
+            {
+                return NotFound();
+            }
+            user.Password = decryptPassword(pswrd.Password);
+            Users updatedUser = _account.UpdateUserAccount(user.User_id, user);
+            return Ok(updatedUser);
+        }
+
+        private string GenerateAccessToken(int userId)
+        {
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.ASCII.GetBytes(_jwtSettings.SecretKey);
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                    new Claim(ClaimTypes.Name, Convert.ToString(userId))
+                }),
+                Expires = DateTime.UtcNow.AddDays(1),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
+                SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
+
+
+        private async Task<Users> GetUserFromAccessToken(string accessToken)
+        {
+            try
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(_jwtSettings.SecretKey);
+
+                var tokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+
+                SecurityToken securityToken;
+                var principle = tokenHandler.ValidateToken(accessToken, tokenValidationParameters, out securityToken);
+
+                JwtSecurityToken jwtSecurityToken = securityToken as JwtSecurityToken;
+
+                if (jwtSecurityToken != null && jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+                {
+                    var userId = principle.FindFirst(ClaimTypes.Name)?.Value;
+
+                    return _account.GetUserAccountById(int.Parse(userId));
+                }
+            }
+            catch (Exception)
+            {
+                return new Users();
+            }
+
+            return new Users();
         }
 
         private bool AccountExists(int id)
@@ -225,5 +264,42 @@ namespace InteractiveScreenDashboard.Controllers
             return _account.UserAccountExist(id);
         }
 
+       
+
+        public void sendMailForForgotPassword(Users Obj)
+        {
+            String Email = "vtharaka@routesme.com", Password = "Jy@th!r@y", Hostname = "smtp.gmail.com";
+            int Port = 587;
+
+            MailMessage msgObj = new MailMessage(Email, Obj.Email);
+            msgObj.Subject = "Welcome to Fuwu!!";
+            msgObj.Body = CreateBodyForRegisterEmail(Obj);
+            msgObj.IsBodyHtml = true;
+
+            SmtpClient mailObj = new SmtpClient(Hostname, Port);
+            mailObj.EnableSsl = true;
+
+
+            NetworkCredential nc = new NetworkCredential(Email, Password);
+
+            mailObj.UseDefaultCredentials = true;
+            mailObj.Credentials = nc;
+            mailObj.Send(msgObj);
+        }
+
+        private string CreateBodyForRegisterEmail(Users model)
+        {
+            var filePath = "C:/Users/vivian/source/repos/dashboard/InteractiveScreenDashboard/Mail/resetPasswordTemp.html";
+            string body = string.Empty;
+            using (StreamReader reader = System.IO.File.OpenText(filePath))
+            {
+                body = reader.ReadToEnd();
+            }
+            string hyperlink = "";
+            body = body.Replace("{Name}", model.First_name);
+            //body = body.Replace("{PasswordResetLink}",)
+
+            return body;
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using InteractiveScreenDashboard.Data.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,13 +25,17 @@ namespace InteractiveScreenDashboard.Data.Services
             if(acc != null)
             {
                 context.Users.Remove(acc);
-                context.SaveChanges();
+                context.SaveChangesAsync();
             }
             return acc;
         }
 
-        public List<Users> GetAllAccounts() => context.Users.ToList();
 
+
+        public List<Users> GetAllAccounts()
+        {
+            return context.Users.Include(u=>u.User_Roles).ToList();
+        }
 
         public Users GetUserAccountById(int id) => context.Users.FirstOrDefault(x => x.User_id == id);
        
@@ -39,7 +44,7 @@ namespace InteractiveScreenDashboard.Data.Services
         {
             var OldAcc = context.Users.Attach(Acc);
             OldAcc.State = Microsoft.EntityFrameworkCore.EntityState.Modified;
-            context.SaveChanges();
+            context.SaveChangesAsync();
             return Acc;
             //var OldAccount = context.UserAccounts.FirstOrDefault(x => x.Id == id);
             
@@ -54,7 +59,7 @@ namespace InteractiveScreenDashboard.Data.Services
 
         public Users UserAccountAccess(string Username, string Password)
         {
-            Users acc = context.Users.FirstOrDefault(x => (x.Email.Equals(Username) && x.Password.Equals(Password))) ;
+            Users acc = context.Users.Include(u=>u.User_Roles).FirstOrDefault(x => (x.Email.Equals(Username) && x.Password.Equals(Password))) ;
             if (acc != null)
             {
                 return acc;
@@ -77,6 +82,10 @@ namespace InteractiveScreenDashboard.Data.Services
             return context.Users.Any(x => x.User_id == id);
         }
 
-       
+        public Users UserEmailExistAsync(string email)
+        {
+            Users user = context.Users.FirstOrDefault(i => i.Email.Equals(email));
+            return user;
+        }
     }
 }

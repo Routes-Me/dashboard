@@ -55,7 +55,7 @@ export function userSignInRequest(username, password) {
                     //console.log("User Details : ", JSON.stringify(user));
                     history.push('/Home');
                     localStorage.setItem('user', JSON.stringify(user));
-                    alert("Success : " + user.data.first_name + "is authenticated");
+                    alert("Hi " + user.data.first_name);
                     },
                 error => {
                     dispatch(failure(error.toString()));

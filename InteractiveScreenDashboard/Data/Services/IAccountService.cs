@@ -19,5 +19,7 @@ namespace InteractiveScreenDashboard.Data.Services
         Users UserAccountAccess(String Username, String Password);
 
         bool UserAccountExist(int id);
+
+        Users UserEmailExistAsync(string email);
     }
 }

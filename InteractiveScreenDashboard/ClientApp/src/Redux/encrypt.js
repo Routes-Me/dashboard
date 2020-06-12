@@ -14,8 +14,8 @@ const apiKey = '123xxxyyyzzz'; // change to your api key
 
 
 export function encryptAES(text) {
-    var key = CryptoJS.enc.Utf8.parse('8080808080808080');
-    var iv = CryptoJS.enc.Utf8.parse('8080808080808080');  
+    var key = CryptoJS.enc.Utf8.parse('2020ROUTESME2020');
+    var iv = CryptoJS.enc.Utf8.parse('2020ROUTESME2020');  
     var encryptedpassword = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(text), key,
         {
             keySize: 128 / 8,

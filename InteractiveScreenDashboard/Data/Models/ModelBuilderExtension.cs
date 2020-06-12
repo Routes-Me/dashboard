@@ -44,7 +44,7 @@ namespace InteractiveScreenDashboard.Data.Models
                     Last_name = "A",
                     Email = "yshaar@routesme.com",
                     Password = "Tester@123",
-                    User_role_id1 = 1
+                    User_role_id = 1
                 },
                 new
                 {
@@ -53,7 +53,7 @@ namespace InteractiveScreenDashboard.Data.Models
                     Last_name = "George",
                     Email = "vtharaka@routesme.com",
                     Password = "Tester@123",
-                    User_role_id1 = 1
+                    User_role_id = 1
                 }
                 );
 
