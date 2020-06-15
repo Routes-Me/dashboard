@@ -48,6 +48,28 @@ const LoginReducer = (state = {}, action) => {
                 loggedIn: false,
                 user: action.payload
             };
+        case userConstants.ForgotPassword_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                loggedIn: false
+            };
+        case userConstants.ForgotPassword_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                hasError: false,
+                loggedIn: true,
+                user: action.payload
+            };
+        case userConstants.ForgotPassword_FAILURE:
+            return {
+                ...state,
+                loading: false,
+                hasError: false,
+                loggedIn: false,
+                user: action.payload
+            };
         default:
             return state;
     }

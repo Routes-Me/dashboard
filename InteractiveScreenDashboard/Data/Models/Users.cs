@@ -13,6 +13,7 @@ namespace InteractiveScreenDashboard.Data.Models
         public int User_id { get; set; }
         public string First_name { get; set; }
         public string Last_name { get; set; }
+        [Required]
         [EmailAddress]
         public string Email { get; set; }
         public string Password { get; set; }

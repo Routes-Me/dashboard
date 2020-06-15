@@ -28,6 +28,7 @@ import * as LoginAction from '../Redux/Action';
 
 	onChange(e) {
 		this.setState({ [e.target.name]: e.target.value });
+
 	}
 
 
@@ -71,7 +72,7 @@ import * as LoginAction from '../Redux/Action';
 	render() {
 
 		const required = (value, props) => {
-			if (!value || (props.isCheckable && !props.checked)) {
+			if ((!value) || (props.isCheckable && !props.checked)) {
 				return <span className="form-error is-visible">Required</span>;
 			}
 		};
@@ -103,9 +104,10 @@ import * as LoginAction from '../Redux/Action';
 									<div className="forgotpwd">
 										<p><a href="/forgotpassword">Forgot Password?</a></p>
 									</div>
-									<div className="form-group">
-										<Input type="submit" value="Login" className="btn btn-primary form-control login" />
-									</div>
+								<div className="form-group">
+								<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"/>
+								<Input type="submit" value="Login" className="btn btn-primary form-control login" />
+								</div>
 								</Form>
 							</div>
 						</div>

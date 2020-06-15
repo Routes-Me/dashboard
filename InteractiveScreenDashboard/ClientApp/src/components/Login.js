@@ -20,7 +20,7 @@ export class Login extends Component {
 
     render() {
 
-		const { userSignInRequest } = this.props;
+		//const { userSignInRequest } = this.props;
 
 		return (
 

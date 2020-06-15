@@ -272,7 +272,7 @@ namespace InteractiveScreenDashboard.Controllers
             int Port = 587;
 
             MailMessage msgObj = new MailMessage(Email, Obj.Email);
-            msgObj.Subject = "Welcome to Fuwu!!";
+            msgObj.Subject = "Change password request";
             msgObj.Body = CreateBodyForRegisterEmail(Obj);
             msgObj.IsBodyHtml = true;
 
@@ -295,9 +295,9 @@ namespace InteractiveScreenDashboard.Controllers
             {
                 body = reader.ReadToEnd();
             }
-            string hyperlink = "";
+            string hyperlink = "https://localhost:5001/resetpassword/" + model.Email;
             body = body.Replace("{Name}", model.First_name);
-            //body = body.Replace("{PasswordResetLink}",)
+            body = body.Replace("{PasswordResetLink}", hyperlink);
 
             return body;
         }
