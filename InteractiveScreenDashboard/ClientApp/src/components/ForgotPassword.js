@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Input from 'react-validation/build/input';
+import { isEmail } from 'validator';
 import { connect } from 'react-redux';
 import * as LoginAction from '../Redux/Action';
 
@@ -34,7 +35,19 @@ import * as LoginAction from '../Redux/Action';
         //}
     }
 
-    render() {
+     render() {
+
+         const required = (value, props) => {
+             if (!value || props.isCheckable && !props.checked) {
+                 return <span className="form-error is-visible">Required</span>;
+             }
+         };
+
+         const email = (value) => {
+             if (!isEmail(value)) {
+                 return <span className="form-error is-visible">${value} is not a valid email.</span>;
+             }
+         };
 
         return (
 
@@ -49,12 +62,13 @@ import * as LoginAction from '../Redux/Action';
 
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group group">
-                            <input type="email" className="forgotemail" id="email" placeholder="Email" value={this.state.email} onChange={this.onChange} name="email" />
+                            <input type="email" className="forgotemail" id="email" placeholder="Email" value={this.state.email} onChange={this.onChange} name="email" validations={[required, email]}/>
                         </div>
                     </form>
 
-                    <button className="btn btn-primary send" onClick={this.handleSubmit}>Send</button>
-
+                    <div className="form-group">
+                        <button className="send" disabled={email} onClick={this.handleSubmit}>Send</button>
+                    </div>
                 </div>
 
             </div>

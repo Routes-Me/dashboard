@@ -23,7 +23,6 @@ const LoginReducer = (state = {}, action) => {
                 loggedIn: false
             };
         case userConstants.Login_SUCCESS:
-
             return {
                 ...state,
                 loading: false,

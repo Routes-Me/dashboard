@@ -9,8 +9,20 @@ code {
 
 .btn-primary {
     color: #fff;
-    background-color: #1b6ec2;
+    background-color: #18428f;
+    /*background-color: #1b6ec2;*/
     border-color: #1861ac;
+}
+
+.buttonStyle {
+    color: #fff;
+    font-family: Roboto-Medium;
+    font-size: 16px;
+    background-color: #18428f;
+    border-color: #1861ac;
+    height: 48px;
+    width: 360px;
+    border-radius: 4px;
 }
 
 /*home*/

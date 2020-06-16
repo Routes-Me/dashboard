@@ -12,9 +12,11 @@ class ResetPassword extends Component {
 
         this.onChange = this.onChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.validateResetForm = this.validateResetForm.bind(this);
 
         this.state = {
-            email: "vtharaka@routesme.com",
+            loading: false,
+            email: "",
             password: "",
             confirmPassword: ""
         };
@@ -26,15 +28,23 @@ class ResetPassword extends Component {
 
     onChange(e) {
         this.setState({ [e.target.name]: e.target.value });
+        this.validateResetForm();
     }
+
+    validateResetForm() {
+        const { password, confirmPassword } = this.state;
+        return password === confirmPassword;
+    }
+
 
     handleSubmit = (event) => {
 
+        this.setState({ loading: true });
         event.preventDefault();
         console.log("States:", this.state);
 
         let ResetPasswordObject = {
-            Email: "vtharaka@routesme.com",
+            Email: this.email,
             Password: this.state.password,
             ConfirmPassword: this.state.confirmPassword
         };
@@ -46,6 +56,9 @@ class ResetPassword extends Component {
 
 
     render() {
+
+        const { loading } = this.state;
+
         return (
             <div className="container">
                 <br />
@@ -64,7 +77,11 @@ class ResetPassword extends Component {
                             <input type="password" className="forgotpassword" id="Confirmpwd" placeholder="Confirm Password" value={this.state.confirmPassword} onChange={this.onChange} name="confirmPassword" />
                         </div>
                     </form>
-                    <button className="btn btn-primary send" onClick={this.handleSubmit}>Send</button>
+                    <button className="btn btn-primary form-control login" onClick={this.handleSubmit} disabled={!this.validateResetForm()}>
+                        {loading && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />}
+                        {loading && <span>  Sending...</span>}
+                        {!loading && <span>Send</span>}
+                    </button>
                     
                 </div>
 

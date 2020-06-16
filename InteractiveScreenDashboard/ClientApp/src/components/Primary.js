@@ -3,7 +3,6 @@ import tracking from './image/tracking.png';
 import car from './image/car.png';
 import drivers from './image/drivers.png';
 import { connect, useDispatch, useSelector } from 'react-redux';
-import * as LoginAction from '../Redux/Action';
 import { Link } from 'react-router-dom';
 
 //const menus = {

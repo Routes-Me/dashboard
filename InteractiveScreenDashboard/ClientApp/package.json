@@ -16,6 +16,7 @@
     "points-cluster": "^0.1.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-hook-form": "^5.7.2",
     "react-js-pagination": "^3.0.3",
     "react-motion": "^0.5.2",
     "react-redux": "^7.2.0",

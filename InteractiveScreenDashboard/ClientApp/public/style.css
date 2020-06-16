@@ -58,12 +58,13 @@
      color: #18428f;
  }
 
- .login {
-     width: 360px;
-     height: 48px;
-     border-radius: 4px;
-     background-color: #18428f;
- }
+.login {
+    width: 360px;
+    height: 48px;
+    border-radius: 4px;
+    background-color: #18428f;
+    /*background-color: #18428f;*/
+}
 
  .col-md-8 {
      border-left: 1px solid #c1c0c0;

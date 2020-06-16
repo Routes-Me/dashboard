@@ -2,7 +2,7 @@
 import { history } from '../../helper/history';
 import { userConstants } from '../../constants/userConstants';
 import { encryptAES } from '../encrypt';
-
+//import { useAlert } from "react-alert";
 
 
 const userObjt = {};
@@ -57,11 +57,12 @@ export function userSignInRequest(username, password) {
                     //console.log("User Details : ", JSON.stringify(user));
                     history.push('/Home');
                     localStorage.setItem('user', JSON.stringify(user));
-                    alert("Hi " + user.data.first_name);
+                    //alert("Hi " + user.data.first_name);
+                    //alert.show("Hi " + user.data.first_name);
                 },
                 error => {
                     dispatch(getLoginFailure(error.toString()));
-                    alert("Access denied");
+                    alert(error.toString());
                     //dispatch(alertActions.error(error.toString()));
                 }
             );
@@ -134,7 +135,7 @@ export function ResetPassword(UserObject) {
                 },
                 error => {
                     dispatch(ResetPasswordfailure(error.toString()));
-                    alert("Access denied");
+                    alert(error.toString());
                     //dispatch(alertActions.error(error.toString()));
                 }
             );
