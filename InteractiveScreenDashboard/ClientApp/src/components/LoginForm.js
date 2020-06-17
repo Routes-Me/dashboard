@@ -17,37 +17,65 @@ import * as LoginAction from '../Redux/Action';
 
 		this.onChange = this.onChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
+		this.validateAll = this.validateAll.bind(this);
+
 
 		this.state = {
 			loading: false,
 			username: '',
 			password: '',
 			name : '',
-			userId: ''
+			userId: '',
+			usernameError: '',
+			passwordError: '',
+			isValid: false
 		};
 	}
 
 
+	validateAll = () => {
+	let usernameError = '';
+	let passwordError = '';
+
+		if (!this.state.username) {
+			usernameError = "Please enter your username!!";
+		}
+		//else if (!isEmail(this.state.username)) {
+		//	usernameError = "Invalid email!!";
+		//}
+
+		if (!this.state.password) {
+			passwordError = "Please enter your password!!";
+		}
+
+		if (usernameError || passwordError) {
+			this.setState({ usernameError, passwordError });
+			return false;
+		}
+
+		return true;
+	};
+
 	onChange(e) {
 		this.setState({ [e.target.name]: e.target.value });
-
+		this.validateAll();
 	}
+
 
 
 	handleSubmit = (event) => {
 
-		this.setState({ loading: true });
 		event.preventDefault();
-		console.log("States:",this.state);
 
-
-		if (this.form.state) {
+		const isValid = this.validateAll();
+		if (isValid) {
+			this.setState({ loading: true });
 			this.props.login(this.state.username, this.state.password);
 		}
 		
 	}
 
-
+	
 
 	render() {
 
@@ -64,36 +92,45 @@ import * as LoginAction from '../Redux/Action';
 		};
 
 		const { loading } = this.state;
-
+		
+		//const { handleSubmit, register } = useForm();
+		//const onSubmit = values => console.log(values);
 		return (
 
 			<div className="col-md-12">
 				<div className="sign c1">
-								<center><a href="/home"><img className="bitmap" alt="" src={logo} /></a></center>
-								<center>
-									<h3 className="signin"> Sign in</h3>
-								</center>
-								<center>
-									<p className="account">with your Routes Account<a href="http://routesme.com/" rel="noopener noreferrer" target="_blank">Learn more</a> </p>
-								</center>
+
+					<center>
+						<a href="/home"><img className="bitmap" alt="" src={logo} /></a>
+					</center>
+					<center>
+						<h3 className="signin"> Sign in</h3>
+					</center>
+					<center>
+						<p className="account">with your Routes Account<a href="http://routesme.com/" rel="noopener noreferrer" target="_blank">Learn more</a> </p>
+					</center>
+
 					<Form onSubmit={this.handleSubmit}>
 						<div className="form-group">
 							<Input placeholder="Email" className="form-control email" type="email" value={this.state.username} onChange={this.onChange} name="username" validations={[required, email]} />
+							<span className="form-error is-visible">{this.state.usernameError}</span>
 						</div>
 						<div className="form-group">
 							<Input placeholder="Password" className="form-control password" type="password" value={this.state.password} onChange={this.onChange} name="password" validations={[required]} />
+							<span className="form-error is-visible">{this.state.passwordError}</span>
 						</div>
 						<div className="forgotpwd">
 							<p><a href="/forgotpassword">Forgot Password?</a></p>
 						</div>
 						<div className="form-group">
-									<button type="submit" className="buttonStyle" disabled={loading}>
-											{loading && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />}
-											{loading && <span>  Logging In...</span>}
-											{!loading && <span>Login</span>}
-									</button>
+							<button type="submit" className="buttonStyle">
+								{loading && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />}
+								{loading && <span>  Logging In...</span>}
+								{!loading && <span>Login</span>}
+							</button>		
 						</div>			
 					</Form>
+
 				</div>
 			</div>
 

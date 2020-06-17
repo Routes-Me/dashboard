@@ -33,6 +33,9 @@ class ResetPassword extends Component {
 
     validateResetForm() {
         const { password, confirmPassword } = this.state;
+        if (!password || !confirmPassword) {
+            return false;
+        }
         return password === confirmPassword;
     }
 
@@ -77,7 +80,7 @@ class ResetPassword extends Component {
                             <input type="password" className="forgotpassword" id="Confirmpwd" placeholder="Confirm Password" value={this.state.confirmPassword} onChange={this.onChange} name="confirmPassword" />
                         </div>
                     </form>
-                    <button className="btn btn-primary form-control login" onClick={this.handleSubmit} disabled={!this.validateResetForm()}>
+                    <button className="send" onClick={this.handleSubmit} disabled={!this.validateResetForm()}>
                         {loading && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />}
                         {loading && <span>  Sending...</span>}
                         {!loading && <span>Send</span>}

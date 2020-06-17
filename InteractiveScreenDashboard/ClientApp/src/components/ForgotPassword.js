@@ -13,8 +13,10 @@ import * as LoginAction from '../Redux/Action';
 
         this.onChange = this.onChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.validateResetForm = this.validateResetForm.bind(this);
 
         this.state = {
+            loading: false,
             email: ''
         };
 
@@ -22,11 +24,21 @@ import * as LoginAction from '../Redux/Action';
 
     onChange(e) {
         this.setState({ [e.target.name]: e.target.value });
-    }
+         this.validateResetForm();
+     }
+
+     validateResetForm() {
+
+         if (!isEmail(this.state.email)) {
+             return false;
+         }
+         return true;
+     }
 
 
     handleSubmit = (event) => {
 
+        this.setState({ loading: true });
         event.preventDefault();
         console.log("States:", this.state);
 
@@ -49,7 +61,10 @@ import * as LoginAction from '../Redux/Action';
              }
          };
 
-        return (
+         const { loading } = this.state;
+
+         return (
+
 
             <div className="container">
                 <br />
@@ -66,8 +81,12 @@ import * as LoginAction from '../Redux/Action';
                         </div>
                     </form>
 
-                    <div className="form-group">
-                        <button className="send" disabled={email} onClick={this.handleSubmit}>Send</button>
+                     <div className="form-group">
+                         <button className="send" onClick={this.handleSubmit} disabled={!this.validateResetForm()}>
+                            {loading && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />}
+                            {loading && <span>  Sending...</span>}
+                            {!loading && <span>Send</span>}
+                        </button>
                     </div>
                 </div>
 

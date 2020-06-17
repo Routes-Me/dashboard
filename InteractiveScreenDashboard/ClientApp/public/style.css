@@ -1,28 +1,30 @@
- .signin {
-     font-family: 'Roboto', sans-serif;
-     font-size: 24px;
-     font-weight: normal;
-     font-stretch: normal;
-     font-style: normal;
-     line-height: normal;
-     letter-spacing: normal;
-     text-align: center;
-     color: #000000;
-     margin-bottom: 15px;
- }
+.signin {
+    /*font-family: 'Roboto', sans-serif;*/
+    font-family: 'Roboto-Regular';
+    font-size: 24px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #000000;
+    margin-bottom: 15px;
+}
 
- .account {
-     font-family: 'Roboto', sans-serif;
-     font-size: 18px;
-     font-weight: normal;
-     font-stretch: normal;
-     font-style: normal;
-     line-height: normal;
-     letter-spacing: normal;
-     text-align: center;
-     color: #000000;
-     margin-bottom: 25px;
- }
+.account {
+    /*font-family: 'Roboto', sans-serif;*/
+    font-family: 'Roboto-Regular';
+    font-size: 18px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
+    color: #000000;
+    margin-bottom: 25px;
+}
 
  .account a {
      color: #18428f;
@@ -54,9 +56,11 @@
      color: #18428f;
  }
 
- .forgotpwd a {
-     color: #18428f;
- }
+    .forgotpwd a {
+        color: #18428f;
+        font-family: 'Roboto-Regular';
+        font-size: 16px;
+    }
 
 .login {
     width: 360px;
@@ -306,32 +310,31 @@
      max-width: 400px;
  }
 
- .forgot h2 {
+    .forgot h2 {
+        /*font-family: 'Roboto', sans-serif;*/
+        font-family: Roboto-Medium;
+        font-size: 28px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #000000;
+        margin-top: 49px;
+    }
 
-     font-family: 'Roboto', sans-serif;
-     font-size: 28px;
-     font-weight: bold;
-     font-stretch: normal;
-     font-style: normal;
-     line-height: normal;
-     letter-spacing: normal;
-     color: #000000;
-     margin-top: 49px;
- }
-
- .forgot p {
-
-     font-family: Roboto;
-     font-size: 16px;
-     font-weight: normal;
-     font-stretch: normal;
-     font-style: normal;
-     line-height: normal;
-     letter-spacing: normal;
-     color: #000000;
-     margin-top: 39px;
-     margin-bottom: 0;
- }
+    .forgot p {
+        font-family: Roboto-Regular;
+        font-size: 16px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #000000;
+        margin-top: 39px;
+        margin-bottom: 0;
+    }
 
  .forgotemail {
      max-width: 360px;
@@ -343,14 +346,25 @@
      padding-left: 20px;
  }
 
- .send {
-     width: 192px;
-     height: 44px;
-     opacity: 0.2;
-     border-radius: 4px;
-     background-color: #18428f;
-     margin-top: 40px;
- }
+.send:disabled {
+    width: 192px;
+    height: 44px;
+    opacity: 0.2;
+    border-radius: 4px;
+    background-color: #18428f;
+    margin-top: 40px;
+    color: white;
+}
+
+.send:enabled {
+    width: 192px;
+    height: 44px;
+    opacity: 1;
+    border-radius: 4px;
+    background-color: #18428f;
+    margin-top: 40px;
+    color: white;
+}
 
  .group {
      margin-bottom: 0 !important;
