@@ -8,6 +8,8 @@ namespace InteractiveScreenDashboard.Data.Models
     public class Vehicle
     {
         public int id { get; set; }
+        public int VehicleId { get; set; }
+        public int InstitutionId { get; set; }
         public int plate { get; set; }
         public string Make { get; set; }
         public string model { get; set; }
