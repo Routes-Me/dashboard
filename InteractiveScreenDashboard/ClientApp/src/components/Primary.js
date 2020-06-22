@@ -53,11 +53,14 @@ class Primary extends Component
                 <div className="menu-part">
                     <ul>
 
-                        <li className={mainMenu1 ? "active" : ""} onClick={event => this.toggleMenu(event, "mainMenu1")}><Link to="/home"><a><div className="icon-28"><img alt="" src={tracking} className="menu-icon" /></div> Tracking</a></Link></li>
+                        <li className={mainMenu1 ? "active" : ""} onClick={event => this.toggleMenu(event, "mainMenu1")}><Link to="/home"><a><div className="icon-28"><img alt="" src={tracking} className="menu-icon" /></div> Tracking</a></Link>
+                        </li>
 
-                        <li className={mainMenu2 ? "active" : ""} onClick={event => this.toggleMenu(event, "mainMenu2")}><Link to="/vehicles"><a><div className="icon-28"><img alt="" src={car} className="menu-icon" /></div> Vehicles</a></Link></li>
+                        <li className={mainMenu2 ? "active" : ""} onClick={event => this.toggleMenu(event, "mainMenu2")}><Link to="/vehicles"><a><div className="icon-28"><img alt="" src={car} className="menu-icon" /></div> Vehicles</a></Link>
+                        </li>
 
-                        <li className={mainMenu3 ? "active" : ""} onClick={event => this.toggleMenu(event, "mainMenu3")}><a><div className="icon-28"><img alt="" src={drivers} className="menu-icon" /></div>Drivers</a></li>
+                        <li className={mainMenu3 ? "active" : ""} onClick={event => this.toggleMenu(event, "mainMenu3")}><a><div className="icon-28"><img alt="" src={drivers} className="menu-icon" /></div>Drivers</a>
+                        </li>
                         
                      </ul>
                 </div>

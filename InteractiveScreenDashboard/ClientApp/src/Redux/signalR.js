@@ -1,31 +1,23 @@
-﻿var connection = "";
+﻿
+import { HubConnection } from '@aspnet/signalr-client';
 
-export function establishSignalRConnection()
-{
-    connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+const connection = new HubConnection('https://localhost:5001/');
+
+export function startConnection() {
+    
+    connection.start()
+        .then((onConnected) => console.log('SignalR is Started'))
+        .catch((err) => console.log('Connection Error' + err));
+ 
 }
 
+connection.on('ReceiveMessage', renderMessage);
 
-
-connection.on("ReceiveMessage", function (user, message) {
-    var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    var encodedMsg = user + " says " + msg;
-    var li = document.createElement("li");
-    li.textContent = encodedMsg;
-    document.getElementById("messagesList").appendChild(li);
+connection.onclose(function () {
+    onDisconnected();
+    console.log('Reconnecting in 5 seconds...');
+    setTimeout(startConnection, 5000);
 });
 
-connection.start().then(function () {
-    document.getElementById("sendButton").disabled = false;
-}).catch(function (err) {
-    return console.error(err.toString());
-});
 
-document.getElementById("sendButton").addEventListener("click", function (event) {
-    var user = document.getElementById("userInput").value;
-    var message = document.getElementById("messageInput").value;
-    connection.invoke("SendMessage", user, message).catch(function (err) {
-        return console.error(err.toString());
-    });
-    event.preventDefault();
-});
+
