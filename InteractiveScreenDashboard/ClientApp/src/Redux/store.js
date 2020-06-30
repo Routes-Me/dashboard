@@ -1,6 +1,6 @@
 ﻿import { createStore, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import rootReducer from '../Redux/reducers';
+import rootReducer from '../Redux/reducers/Index';
 import loggerMiddleware from './middleware/logger';
 import { saveState, loadState } from './localStorage';
 

@@ -19,20 +19,24 @@ export const gMap = ({
     onChildMouseEnter,
     onChildMouseLeave,
     clusters
-}) => (<GoogleMapReact style={style} options={options} hoverDistance={hoverDistance} center={center}
-    zoom={zoom}
-    yesIWantToUseGoogleMapApiInternals
-    onChange={onChange}
-    bootstrapURLKeys={{ key: 'AIzaSyAQQUPe-GBmzqn0f8sb_8xZNcseul1N0yU' }}
-    onChildMouseEnter={onChildMouseEnter}
-    onChildMouseLeave={onChildMouseLeave}>
-    {
-        clusters
+}) => (<GoogleMapReact
+        style={style}
+        options={options}
+        hoverDistance={hoverDistance}
+        center={center}
+        zoom={zoom}
+        yesIWantToUseGoogleMapApiInternals
+        onChange={onChange}
+        bootstrapURLKeys={{ key: 'AIzaSyAQQUPe-GBmzqn0f8sb_8xZNcseul1N0yU' }}
+        onChildMouseEnter={onChildMouseEnter}
+        onChildMouseLeave={onChildMouseLeave}>
+        {
+            clusters
             .map(({ id, numPoints, ...markerProps }) =>
                 numPoints === 1 ? <SimpleMarker key={id} {...markerProps} /> : <ClusterMarker key={id} {...markerProps} />
             )
-    }
-</GoogleMapReact>);
+        }
+    </GoogleMapReact>);
 
 export const gMapHOC = compose(
     defaultProps({

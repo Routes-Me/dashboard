@@ -289,7 +289,7 @@ namespace InteractiveScreenDashboard.Controllers
 
         private string CreateBodyForRegisterEmail(Users model)
         {
-            var filePath = "C:/Users/vivian/source/repos/dashboard/InteractiveScreenDashboard/Mail/resetPasswordTemp.html";
+            var filePath = "C:/Users/LENOVO/Source/Repos/dashboard/InteractiveScreenDashboard/Mail/resetPasswordTemp.html";
             string body = string.Empty;
             using (StreamReader reader = System.IO.File.OpenText(filePath))
             {

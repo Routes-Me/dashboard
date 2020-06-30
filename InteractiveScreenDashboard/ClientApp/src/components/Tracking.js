@@ -1,123 +1,264 @@
-﻿import React, { Component } from 'react';
+﻿import React, { Component, useState, useRef } from 'react';
 //import { HubConnection } from '@aspnet/signalr';
-import * as signalR from '@aspnet/signalr';
-import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr';
+//import * as signalR from '@aspnet/signalr';
+import { connect } from 'react-redux';
+import * as TrackingAction from '../Redux/Action';
+import GoogleMapReact from 'google-map-react';
+import ClusterMarker from './markers/ClusterMarker';
+import SimpleMarker from './markers/SimpleMarker';
+import supercluster from 'points-cluster';
+import { susolvkaCoords, markersData } from './data/fakeData';
 
-export class Tracking extends Component {
+const MAP = {
+    defaultZoom: 8,
+    defaultCenter: susolvkaCoords,
+    options: {
+        minZoom: 2,
+        maxZoom: 15,
+        style: {
+            position: 'relative',
+            margin: 0,
+            padding: 0,
+            flex: 1,
+            height: '100vh',
+            width: '100%'
+        }
+    }
+}
+
+class Tracking extends Component {
+
     constructor(props) {
         super(props);
+
 
         this.state = {
             loading: false,
             latitude: '',
             longitude: '',
-            message: '',
-            user: '',
-            hubConnection: null
+            result: '',
+            center: "",
+            zoom: this.props.zoom,
+            hover: false,
+            currentPosition: false,
+            mapOptions: {
+                center: MAP.defaultCenter,
+                zoom: MAP.defaultZoom,
+            },
+            clusters: [],
+            stores: [{ lat: 59.955513, lng: 30.337844 }, { lat: 58.955413, lng: 30.337844 }]
         };
 
+ 
+
     }
 
 
+    getClusters = () => {
+        const clusters = supercluster(markersData, {
+            minZoom: 0,
+            maxZoom: 16,
+            radius: 60,
+        });
+        return clusters(this.state.mapOptions);
+    };
 
-    //componentDidMount=() => {
 
-    //    const connection = new HubConnection('/chatHub');
+   createClusters = props => {
+    this.setState({
+      clusters: this.state.mapOptions.bounds
+        ? this.getClusters(props).map(({ wx, wy, numPoints, points }) => ({
+            lat: wy,
+            lng: wx,
+            text: numPoints,
+            numPoints,
+            id: `${numPoints}_${points[0].id}`,
+            points,
+          }))
+        : [],
+    });
+  };
 
-    //    this.setState({ connection }, () => {
-    //        this.state.connection.start()
-    //            .then(() => console.log('connection started!!'))
-    //            .catch((err) => console.log('Connection error :' + err));
-    //    });
+    handleMapChange = ({ center, zoom, bounds }) => {
+        this.setState(
+            {
+                mapOptions: {
+                    center,
+                    zoom,
+                    bounds,
+                },
+            },
+            () => {
+                this.createClusters(this.props);
+            }
+        );
+    };
 
-    //    this.state.connection.on('booking', (Latitude, Longitude) => {
-    //        const latitude = Latitude;
-    //        const longitude = Longitude;
-    //        this.setState({ latitude, longitude });
-    //    });
-
-    //}
-
+    componentWillMount() {
+        navigator.geolocation.getCurrentPosition(this.currentCoords)
+    }
 
     componentDidMount() {
-
-        //let hubConnection = new HubConnectionBuilder()
-        //    .withUrl("https://localhost:44319/chathub")
-        //    .build();
-
-        //const hubConnection = new HubConnection("https://localhost:44319/chathub");
-
-        const hubConnection = new signalR.HubConnectionBuilder()
-            .withUrl("https://localhost:44319/chathub")
-            .configureLogging(signalR.LogLevel.Information)
-            .build();
-
-        this.setState({ hubConnection }, () => {
-            this.state.hubConnection
-                .start()
-                .then(() => console.log('Connection started!'))
-                .catch(err => console.log('Error while establishing connection :('));
-
-            this.state.hubConnection.on('ReceiveMessage', (user, message) => {
-                this.setState({ user, message });
-            });
-        });
-
-        //this.setState({ hubConnection }, () => {
-        //    this.state.hubConnection.start()
-        //        .then(() => console.log('Signalr: started '))
-        //        .catch(() => console.log('Error while establishing connection :'));
-
-        //    this.state.hubConnection.on('ReceiveMessage', (user, message) => {
-        //        const Message = message;
-        //        this.setState({ user, Message });
-        //    });
-
-        //});
-
-
-
+        this.props.SubscribeToHub();
     }
 
-        //startReceiveMessages();
+    //componentWillUpdate() {
+    //    this.setState({ latitude: this.props.results.coordinates.latitude });
+    //    this.setState({ longitude: this.props.results.coordinates.longitude });
+    //}
+
+    componentWillUnmount() {
+        this.props.UnSubscribeToHub();
+    }
 
     
 
-//   startReceiveMessages(bookingHubConnection) {
 
-//    this.setState({ bookingHubConnection }, () => {
-//        this.state.bookingHubConnection.start()
-//            .then(() => console.log('Signalr: started '))
-//            .catch((err) => console.log('Signalr : Error in connecting signalr - ' + err));
+    currentCoords = (position) => {
+        const latitude = position.coords.latitude
+        const longitude = position.coords.longitude
+        this.setState({
+            center: { lat: latitude, lng: longitude },
+            currentPosition: true
+        })
+    }
 
+    onChildMouseEnter = (num, childProps) => {
+        if (childProps.facility === undefined) {
+            return null
+        } else {
+            this.setState({
+                Name: childProps.facility.name,
+                lat: childProps.lat,
+                lng: childProps.lng,
+                hover: true
+            })
+        }
+    }
 
-//        this.state.bookingHubConnection.on('ReceiveMessage', (user, message) => {
-//            const Message = message;
-//            this.setState({ user });
-//            this.setState({ Message });
-//        });
+    onChildMouseLeave = (num, childProps) => {
+        console.log("leaving")
+        if (childProps.facility === undefined) {
+            return null
+        } else {
 
-//    });
-//}
+            this.setState({
+                lat: "",
+                lng: "",
+                hover: false
+            })
+        }
+    }
 
-   
+ 
 
+    static defaultProps = {
+        center: { lat: 59.955413, lng: 30.337844 },
+        zoom: 14
+    };
 
+    displayMarkers = () => {
+        return this.state.stores.map((store, index) => {
+            console.log("lat & Long ", store.lat)
+            return <SimpleMarker key={index} id={index} position={{ lat: store.lat, lng: store.lng }}
+            onClick={() => console.log("You clicke =>", index)}/>
+        })
+    }
 
     render() {
-        return (
-            <div className="col-md-12">
-                <br /><br />
-                <h2>The Possition Updates</h2>
-                <br />
-                <h4>
-                    Latitude : {this.state.user} <br />
-                    Longitude : {this.state.Message}
-                </h4>
-            </div>
-            );
-    }
 
+        const { results } = this.props;
+        console.log("Render Body", this.props)
+        console.log("Count on result", results.length)
+        const resultList = results.vehicle_id ? (
+            //<div className="col-md-12">
+            //            <h4>
+            //            Latitude :  {results.coordinates.latitude}<br />
+            //            Longitude :  {results.coordinates.longitude}
+            //            </h4>
+            <div style={{ height: "100vh", width: "100%" }}>
+
+                {/*<GMap center={{ lat: parseFloat(results.coordinates.latitude), lng: parseFloat(results.coordinates.longitude) }} zoom={4}/>
+                 <GoogleMapReact
+                        bootstrapURLKeys={{ key: 'AIzaSyAQQUPe-GBmzqn0f8sb_8xZNcseul1N0yU' }}
+                        //defaultCenter={{ lat: parseFloat(results.coordinates.latitude), lng: parseFloat(results.coordinates.longitude) }}
+                        defaultCenter={this.props.currentCoords}
+                        defaultZoom={this.props.zoom}
+                        onChildMouseEnter={this.onChildMouseEnter}
+                        onChildMouseLeave={this.onChildMouseLeave}
+                    onChange={({ zoom, bounds }) => {
+                        setZoom(zoom);
+                        setBounds([
+                            bounds.nw.lng,
+                            bounds.se.lat,
+                            bounds.se.lng,
+                            bounds.nw.lat
+                        ]);
+                    }}>
+                         <SimpleMarker
+                            lat={results.coordinates.latitude}
+                            lng={results.coordinates.latitude}
+                        text="My Marker" />
+
+                    {this.displayMarkers()}
+                    </GoogleMapReact> 
+                </div>*/}
+
+           </div>
+        ) : (<div className="col-md-12">Waiting for updates</div>) ;
+
+        return (
+            <div style={{ height: "100vh", width: "100%" }}>
+                {/*{resultList}*/}
+                <GoogleMapReact
+                    bootstrapURLKeys={{ key: 'AIzaSyAQQUPe-GBmzqn0f8sb_8xZNcseul1N0yU' }}
+                    defaultZoom={MAP.defaultZoom}
+                    defaultCenter={MAP.defaultCenter}
+                    options={MAP.options}
+                    onChange={this.handleMapChange}
+                    yesIWantToUseGoogleMapApiInternals>
+                    {this.state.clusters.map(cluster => {
+                        if (cluster.numPoints === 1)
+                            return (
+                                <SimpleMarker
+                                    key={cluster.id}
+                                    lat={cluster.points[0].lat}
+                                    lng={cluster.points[0].lng}/>
+                            );
+                        else
+                        return (
+                            <ClusterMarker
+                                key={cluster.id}
+                                lat={cluster.lat}
+                                lng={cluster.lng}
+                                text={cluster.numPoints}
+                                points={cluster.points}/>
+                        );
+                    })}
+                </GoogleMapReact>
+            </div>
+            )
+       
+    }
+}
+
+
+
+
+const mapStateToProps = (state) => {
+
+    console.log("Update obj : ", state.Tracking.Updates)
+    //const results= state.Tracking.Updates
+    return {
+        results: state.Tracking.Updates
+    }
     
 }
- 
+
+const actionCreators = {
+    SubscribeToHub: TrackingAction.SubscribeToHub,
+    UnSubscribeToHub: TrackingAction.UnsubscribeFromHub
+};
+
+const connectedTracking = connect(mapStateToProps, actionCreators)(Tracking);
+export { connectedTracking as Tracking };

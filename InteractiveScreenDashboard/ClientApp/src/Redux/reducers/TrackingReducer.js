@@ -5,21 +5,15 @@ const INITIAL_STATE = {
     Loading: true,
     hasError: false,
     error: null,
-    Coordinates: {}
+    Updates: []
 };
 
 const TrackingReducer = ( state = {}, action ) => {
     switch (action.type) {
-        case trackingConstants.Tracking_OnConnectiRequest:
+        case trackingConstants.Tracking_OnSubscribeRequest:
             return {
                 ...state,
                 ConnectionEstablished: false,
-                Loading: true,
-                hasError: false
-            };
-        case trackingConstants.Tracking_Connecting:
-            return {
-                ...state,
                 Loading: true,
                 hasError: false
             };
@@ -27,22 +21,31 @@ const TrackingReducer = ( state = {}, action ) => {
             return {
                 ...state,
                 Loading: false,
-                hasError: false
+                hasError: false,
+                ConnectionEstablished: true
             };
-        case trackingConstants.Tracking_OnChangeInLocation:
+        case trackingConstants.Tracking_OnUpdatesReceived:
             return {
                 ...state,
                 Loading: false,
                 hasError: false,
-                Coordinates: action.payload
+                ConnectionEstablished: true,
+                Updates: action.payload
             };
-        case trackingConstants.Tracking_OnConnectionClose:
+        case trackingConstants.Tracking_Disconnected:
+            return {
+                ...state,
+                Loading: false,
+                hasError: false,
+                ConnectionEstablished: false
+            };
+        case trackingConstants.Tracking_OnUnSubscribeRequest:
             return {
                 ...state,
                 Loading: true,
-                hasError: false
-            };
-        case trackingConstants.Tracking_Disconnected:
+                hasError: false,
+                ConnectionEstablished: true
+            }
 
         default:
             return INITIAL_STATE;

@@ -7,7 +7,7 @@ export class Layout extends Component {
     render() {
         var hrfe = window.location.href;
 
-        if (hrfe === "https://localhost:5001/") {
+        if (hrfe === "http://localhost:55205/") {
             return <span className="homeheader">{this.props.children}</span>;
         } else {
             return <div><NavMenu />{this.props.children}</div>;

@@ -29,7 +29,7 @@ export class vehicles extends Component {
     }
 
     populateVehicleData() {
-        axios.get("https://localhost:5001/api/Vehicles").then(result => {
+        axios.get("http://localhost:55205/api/Vehicles").then(result => {
             const response = result.data;
             this.setState({ Vehicles: response, loading: false, failed: false, error: "" });
         }).catch(error => {
@@ -93,9 +93,9 @@ export class vehicles extends Component {
     render() {
 
         let content = this.state.loading ?
-            <div><p><em> Loading...</em> </p></div> :
+            <div><br /><br /><p><em> Loading...</em> </p></div> :
             this.state.failed ?
-                <div className="text-danger">
+                <div className="text-danger"><br /><br />
                     <em>{this.state.error}</em>
                 </div> :
                 this.renderAllVehicleTable(this.state.Vehicles);

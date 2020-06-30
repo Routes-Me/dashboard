@@ -29,6 +29,14 @@ namespace InteractiveScreenDashboard
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
+            {
+                builder
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .WithOrigins("http://localhost:55205/");
+
+            }));
 
             services.AddControllersWithViews();
 
@@ -101,6 +109,8 @@ namespace InteractiveScreenDashboard
             app.UseSpaStaticFiles();
 
             app.UseRouting();
+
+            app.UseCors("CorsPolicy");
 
             app.UseAuthentication();
             app.UseAuthorization();

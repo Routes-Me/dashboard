@@ -50,7 +50,7 @@ export function userSignInRequest(username, password) {
             password: encryptedpassword.toString()
         };
 
-        axios.post('https://localhost:5001/api/Users/Login', UserObject)
+        axios.post('http://localhost:55205/api/Users/Login', UserObject)
             .then(
                 user => {
                     dispatch(getLoginSuccess(user));

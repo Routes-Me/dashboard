@@ -53,6 +53,15 @@ namespace InteractiveScreenDashboard.Data
                 model ="X2",
                 year = 2020,
                 Office = "Afnan"
+            },
+            new Vehicle()
+            {
+                id =3,
+                plate =1233,
+                Make ="KIA  ",
+                model ="X2",
+                year = 2020,
+                Office = "Afnan"
             }
         };
 
