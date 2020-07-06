@@ -6,12 +6,12 @@ import { clusterMarkerHOC } from './ClusterMarker.js';
 import style from './styles.css';
 import $ from "jquery";
 
-const onMarkerClick = () => {
-    $(".marker").toggleClass("active")
-    console.log("click Event of SImiple Ma");
+const onMarkerClick = (style) => {
+    $({ style }).toggleClass("active")
+    console.log('The Passed style is ====>', style);
 };
 export const simpleMarker = ({
-    styles,
+    style,
     text,
     key,
     defaultMotionStyle,
@@ -19,11 +19,10 @@ export const simpleMarker = ({
 }) => (
     <Motion
     defaultStyle={defaultMotionStyle}
-    style={motionStyle}
-  >
-  {
-    ({ scale }) => (
-        <div className="marker" onClick={onMarkerClick} style={{transform: `translate3D(0,0,0) scale(${scale}, ${scale})`,}}>
+    style={motionStyle}>
+    {
+      ({ scale }) => (
+          <div className={style} key={key} onClick={onMarkerClick(".marker")} style={{ transform: `translate3D(0,0,0) scale(${scale}, ${scale})`, }}>
       
       <div id="icondiv" className="show-text">{text}</div>
       </div>

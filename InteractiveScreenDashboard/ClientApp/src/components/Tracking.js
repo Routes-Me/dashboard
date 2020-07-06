@@ -245,37 +245,23 @@ class Tracking extends Component {
                     defaultCenter={MAP.defaultCenter}
                     options={MAP.options}
                     onChange={this.handleMapChange}
-                    onChildMouseEnter={this.onChildMouseEnter}
-                    onChildMouseLeave={this.onChildMouseLeave}
                     yesIWantToUseGoogleMapApiInternals>
-                    {this.state.clusters.map(cluster => {
-                        if (cluster.numPoints === 1)
-                            return (
-                                (cluster.points[0].status === "idle") ?
-                                    <OfflineMarker
-                                        key={cluster.id}
-                                        text={cluster.id}
-                                        lat={cluster.points[0].lat}
-                                        lng={cluster.points[0].lng}>
-                                    </OfflineMarker>
-                                    :
-                                <SimpleMarker
-                                key={cluster.id}
-                                text={cluster.id}
+                    {this.state.clusters.map(cluster =>
+                        (cluster.numPoints === 1)?
+                            <SimpleMarker
+                                style={cluster.points[0].status === "idle" ? "offmarker" : "marker"}
+                                key={cluster.points[0].id}
+                                text={cluster.points[0].id}
                                 lat={cluster.points[0].lat}
                                 lng={cluster.points[0].lng} />
-                                   
-                            );
-                        else
-                            return (
-                                    <ClusterMarker
-                                    key={cluster.id}
-                                    lat={cluster.lat}
-                                    lng={cluster.lng}
-                                    text={cluster.numPoints}
-                                    points={cluster.points}/>
-                            );
-                    })}
+                        :
+                            <ClusterMarker
+                                key={cluster.id}
+                                lat={cluster.lat}
+                                lng={cluster.lng}
+                                text={cluster.numPoints}
+                                points={cluster.points} />
+                    )}
                 </GoogleMapReact>
 
 
@@ -287,11 +273,11 @@ class Tracking extends Component {
 }
 
 const sampleData = [
-    { vehicle_id: 1, institution_id: 1, status: "idle", coordinates: { latitude: 29.3, longitude: 47.6511, timestamp: "7/1/2020 5:55:51 AM" } },
-    { vehicle_id: 2, institution_id: 1, status: "Running", coordinates: { latitude: 29.7, longitude: 47.0511, timestamp: "7/1/2020 5:55:51 AM" } },
-    { vehicle_id: 3, institution_id: 1, status: "idle", coordinates: { latitude: 31.7, longitude: 45.0511, timestamp: "7/1/2020 5:55:51 AM" } },
-    { vehicle_id: 4, institution_id: 1, status: "idle", coordinates: { latitude: 30.7, longitude: 46.0511, timestamp: "7/1/2020 5:55:51 AM" } },
-    { vehicle_id: 5, institution_id: 1, status: "Running", coordinates: { latitude: 30.7, longitude: 47.5511, timestamp: "7/1/2020 5:55:51 AM" } }];
+    { vehicle_id: 1, institution_id: 1, status: "Running", coordinates: { latitude: 29.6, longitude: 47.5511, timestamp: "7/1/2020 5:55:51 AM" } },
+    { vehicle_id: 2, institution_id: 1, status: "Running", coordinates: { latitude: 29.7, longitude: 47.1511, timestamp: "7/1/2020 5:55:51 AM" } },
+    { vehicle_id: 3, institution_id: 1, status: "Running", coordinates: { latitude: 29.8, longitude: 47.2511, timestamp: "7/1/2020 5:55:51 AM" } },
+    { vehicle_id: 4, institution_id: 1, status: "Running", coordinates: { latitude: 29.85, longitude: 47.3511, timestamp: "7/1/2020 5:55:51 AM" } },
+    { vehicle_id: 5, institution_id: 1, status: "Running", coordinates: { latitude: 29.75, longitude: 47.4511, timestamp: "7/1/2020 5:55:51 AM" } }];
 
 
 
