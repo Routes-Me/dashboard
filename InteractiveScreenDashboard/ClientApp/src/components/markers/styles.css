@@ -5,6 +5,13 @@
     background-size: 100%;
 }
 
+.offmarker {
+    background-image: url('../image/icon-2.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+}
+
 .markercus {
     background-image: url('../image/big-icon-2.png');
     position: absolute;

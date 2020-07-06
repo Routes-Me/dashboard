@@ -12,6 +12,8 @@ const onMarkerClick = () => {
 };
 export const simpleMarker = ({
     styles,
+    text,
+    key,
     defaultMotionStyle,
     motionStyle,
 }) => (
@@ -21,9 +23,9 @@ export const simpleMarker = ({
   >
   {
     ({ scale }) => (
-      <div className="marker" onClick={onMarkerClick} style={{transform: `translate3D(0,0,0) scale(${scale}, ${scale})`,}}>
+        <div className="marker" onClick={onMarkerClick} style={{transform: `translate3D(0,0,0) scale(${scale}, ${scale})`,}}>
       
-      <div id="icondiv" className="show-text">FF</div>
+      <div id="icondiv" className="show-text">{text}</div>
       </div>
     )
   }

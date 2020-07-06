@@ -5,7 +5,8 @@ const INITIAL_STATE = {
     Loading: true,
     hasError: false,
     error: null,
-    Updates: []
+    Updates: [],
+    OflineUpdates:[]
 };
 
 const TrackingReducer = ( state = {}, action ) => {
@@ -30,7 +31,7 @@ const TrackingReducer = ( state = {}, action ) => {
                 Loading: false,
                 hasError: false,
                 ConnectionEstablished: true,
-                Updates: action.payload
+                Updates: [action.payload]
             };
         case trackingConstants.Tracking_Disconnected:
             return {
@@ -45,7 +46,26 @@ const TrackingReducer = ( state = {}, action ) => {
                 Loading: true,
                 hasError: false,
                 ConnectionEstablished: true
-            }
+            };
+        case trackingConstants.Tracking_OfflineDataRequest:
+            return {
+                ...state,
+                Loading: true,
+                hasError: false
+            };
+        case trackingConstants.Tracking_OfflineDataSynced:
+            return {
+                ...state,
+                Loading: false,
+                hasError: true,
+                OflineUpdates: action.payload
+            };
+        case trackingConstants.Tracking_OfflineDataError:
+            return {
+                ...state,
+                Loading: false,
+                hasError: true
+            };
 
         default:
             return INITIAL_STATE;

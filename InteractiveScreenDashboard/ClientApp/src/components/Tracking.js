@@ -5,12 +5,14 @@ import { connect } from 'react-redux';
 import * as TrackingAction from '../Redux/Action';
 import GoogleMapReact from 'google-map-react';
 import ClusterMarker from './markers/ClusterMarker';
-import SimpleMarker from './markers/SimpleMarker';
+import SimpleMarker, { simpleMarker } from './markers/SimpleMarker';
+import OfflineMarker, { offlineMarker } from './markers/OfflineMarker';
 import supercluster from 'points-cluster';
 import { susolvkaCoords, markersData } from './data/fakeData';
+import IdleTimer from 'react-idle-timer';
 
 const MAP = {
-    defaultZoom: 8,
+    defaultZoom: 7,
     defaultCenter: susolvkaCoords,
     options: {
         minZoom: 2,
@@ -26,13 +28,22 @@ const MAP = {
     }
 }
 
+const Marker = ({ children }) => children;
+
 class Tracking extends Component {
 
     constructor(props) {
+
         super(props);
+
+        this.idleTimer = null
+        this.onAction = this._onAction.bind(this)
+        this.onActive = this._onActive.bind(this)
+        this.onIdle = this._onIdle.bind(this)
 
 
         this.state = {
+
             loading: false,
             latitude: '',
             longitude: '',
@@ -42,44 +53,52 @@ class Tracking extends Component {
             hover: false,
             currentPosition: false,
             mapOptions: {
-                center: MAP.defaultCenter,
-                zoom: MAP.defaultZoom,
+                //center: MAP.defaultCenter,
+                zoom: MAP.defaultZoom
             },
             clusters: [],
-            stores: [{ lat: 59.955513, lng: 30.337844 }, { lat: 58.955413, lng: 30.337844 }]
-        };
+            timeout: 1000 * 20 * 1,
+            showModal: false,
+            userLoggedIn: false,
+            isTimedOut: false,
+            timeOffUnmount:''
 
- 
+        };
 
     }
 
-
     getClusters = () => {
-        const clusters = supercluster(markersData, {
+
+        const clusters = supercluster(this.props.results, {
             minZoom: 0,
             maxZoom: 16,
             radius: 60,
         });
         return clusters(this.state.mapOptions);
+
     };
 
+    createClusters = props => {
 
-   createClusters = props => {
-    this.setState({
-      clusters: this.state.mapOptions.bounds
-        ? this.getClusters(props).map(({ wx, wy, numPoints, points }) => ({
-            lat: wy,
-            lng: wx,
-            text: numPoints,
-            numPoints,
-            id: `${numPoints}_${points[0].id}`,
-            points,
-          }))
-        : [],
-    });
-  };
+        this.setState({
+          clusters: this.state.mapOptions.bounds
+            ? this.getClusters(props).map(({ wx, wy, numPoints, points }) => ({
+                lat: wy,
+                lng: wx,
+                text: numPoints,
+                numPoints,
+                id: `${numPoints}_${points[0].id}`,
+                points,
+              }))
+            : [],
+        });
+        console.log('HamdleClusterCreated')
+
+    };
 
     handleMapChange = ({ center, zoom, bounds }) => {
+
+        console.log("HandleMapChange Called ==>", this.state.clusters)
         this.setState(
             {
                 mapOptions: {
@@ -92,53 +111,101 @@ class Tracking extends Component {
                 this.createClusters(this.props);
             }
         );
+
     };
 
     componentWillMount() {
-        navigator.geolocation.getCurrentPosition(this.currentCoords)
+
+        console.log('This is the time of unmount',this.state.timeOffUnmount)
+        this.props.SubscribeToHub();
+        this.props.GetOfflineVehicles()
+        navigator.geolocation.getCurrentPosition(this.currentCoords);
+        //console.log("Will Mount Center => :", this.state.center);
+
     }
 
     componentDidMount() {
-        this.props.SubscribeToHub();
+        
+        //console.log("Did mount Center ====> :", this.state.center);
     }
-
-    //componentWillUpdate() {
-    //    this.setState({ latitude: this.props.results.coordinates.latitude });
-    //    this.setState({ longitude: this.props.results.coordinates.longitude });
-    //}
 
     componentWillUnmount() {
+
+        this.setState({ timeOffUnmount: new Date().toLocaleTimeString() });
+        console.log('The unmounted time ==>', this.state.timeOffUnmount);
         this.props.UnSubscribeToHub();
+
     }
 
-    
+    //Time out Functionality
+    _onAction(e) {
 
+        //console.log('user did something', e)
+        if (this.state.isTimedOut) {
+            this.props.SubscribeToHub();
+        }
+        this.setState({ isTimedOut: false })
+
+    }
+
+    //Time out Functionality
+    _onActive(e) {
+
+        //console.log('user is active', e)
+        if (this.state.isTimedOut) {
+            this.props.SubscribeToHub();
+        }
+        this.setState({ isTimedOut: false })
+    }
+
+    //Time out Functionality
+    _onIdle(e) {
+
+        //console.log('user is idle', e)
+        const isTimedOut = this.state.isTimedOut
+        if (isTimedOut) {
+            console.log("Timed Out!!!")
+            this.props.UnSubscribeToHub();
+        } else {
+            this.setState({ showModal: true })
+            this.idleTimer.reset();
+            this.setState({ isTimedOut: true })
+        }
+
+    }
 
     currentCoords = (position) => {
+
         const latitude = position.coords.latitude
         const longitude = position.coords.longitude
         this.setState({
             center: { lat: latitude, lng: longitude },
             currentPosition: true
         })
+        this.forceUpdate();
+        //console.log("Center function called ====> :", this.state.center);
+
     }
 
     onChildMouseEnter = (num, childProps) => {
-        if (childProps.facility === undefined) {
+
+        if (childProps.id === undefined) {
             return null
         } else {
             this.setState({
-                Name: childProps.facility.name,
-                lat: childProps.lat,
-                lng: childProps.lng,
+                Name: childProps.vehicle_id,
+                lat: childProps.coordinates.latitude,
+                lng: childProps.coordinates.longitude,
                 hover: true
             })
         }
+
     }
 
     onChildMouseLeave = (num, childProps) => {
+
         console.log("leaving")
-        if (childProps.facility === undefined) {
+        if (childProps.id === undefined) {
             return null
         } else {
 
@@ -148,114 +215,100 @@ class Tracking extends Component {
                 hover: false
             })
         }
+
     }
 
- 
-
-    static defaultProps = {
-        center: { lat: 59.955413, lng: 30.337844 },
-        zoom: 14
-    };
-
-    displayMarkers = () => {
-        return this.state.stores.map((store, index) => {
-            console.log("lat & Long ", store.lat)
-            return <SimpleMarker key={index} id={index} position={{ lat: store.lat, lng: store.lng }}
-            onClick={() => console.log("You clicke =>", index)}/>
-        })
-    }
 
     render() {
 
         const { results } = this.props;
-        console.log("Render Body", this.props)
-        console.log("Count on result", results.length)
-        const resultList = results.vehicle_id ? (
-            //<div className="col-md-12">
-            //            <h4>
-            //            Latitude :  {results.coordinates.latitude}<br />
-            //            Longitude :  {results.coordinates.longitude}
-            //            </h4>
-            <div style={{ height: "100vh", width: "100%" }}>
-
-                {/*<GMap center={{ lat: parseFloat(results.coordinates.latitude), lng: parseFloat(results.coordinates.longitude) }} zoom={4}/>
-                 <GoogleMapReact
-                        bootstrapURLKeys={{ key: 'AIzaSyAQQUPe-GBmzqn0f8sb_8xZNcseul1N0yU' }}
-                        //defaultCenter={{ lat: parseFloat(results.coordinates.latitude), lng: parseFloat(results.coordinates.longitude) }}
-                        defaultCenter={this.props.currentCoords}
-                        defaultZoom={this.props.zoom}
-                        onChildMouseEnter={this.onChildMouseEnter}
-                        onChildMouseLeave={this.onChildMouseLeave}
-                    onChange={({ zoom, bounds }) => {
-                        setZoom(zoom);
-                        setBounds([
-                            bounds.nw.lng,
-                            bounds.se.lat,
-                            bounds.se.lng,
-                            bounds.nw.lat
-                        ]);
-                    }}>
-                         <SimpleMarker
-                            lat={results.coordinates.latitude}
-                            lng={results.coordinates.latitude}
-                        text="My Marker" />
-
-                    {this.displayMarkers()}
-                    </GoogleMapReact> 
-                </div>*/}
-
-           </div>
-        ) : (<div className="col-md-12">Waiting for updates</div>) ;
+        const { center } = this.state.center;
+        //console.log("Render Body", parseFloat(this.state.center))
+        //console.log("Rendered Count on result", results.length);
 
         return (
+
             <div style={{ height: "100vh", width: "100%" }}>
-                {/*{resultList}*/}
+
+                < IdleTimer
+                    ref={ref => { this.idleTimer = ref }}
+                    element={document}
+                    onActive={this.onActive}
+                    onIdle={this.onIdle}
+                    onAction={this.onAction}
+                    debounce={250}
+                    timeout={this.state.timeout} />
+
                 <GoogleMapReact
                     bootstrapURLKeys={{ key: 'AIzaSyAQQUPe-GBmzqn0f8sb_8xZNcseul1N0yU' }}
                     defaultZoom={MAP.defaultZoom}
                     defaultCenter={MAP.defaultCenter}
                     options={MAP.options}
                     onChange={this.handleMapChange}
+                    onChildMouseEnter={this.onChildMouseEnter}
+                    onChildMouseLeave={this.onChildMouseLeave}
                     yesIWantToUseGoogleMapApiInternals>
                     {this.state.clusters.map(cluster => {
                         if (cluster.numPoints === 1)
                             return (
+                                (cluster.points[0].status === "idle") ?
+                                    <OfflineMarker
+                                        key={cluster.id}
+                                        text={cluster.id}
+                                        lat={cluster.points[0].lat}
+                                        lng={cluster.points[0].lng}>
+                                    </OfflineMarker>
+                                    :
                                 <SimpleMarker
-                                    key={cluster.id}
-                                    lat={cluster.points[0].lat}
-                                    lng={cluster.points[0].lng}/>
+                                key={cluster.id}
+                                text={cluster.id}
+                                lat={cluster.points[0].lat}
+                                lng={cluster.points[0].lng} />
+                                   
                             );
                         else
-                        return (
-                            <ClusterMarker
-                                key={cluster.id}
-                                lat={cluster.lat}
-                                lng={cluster.lng}
-                                text={cluster.numPoints}
-                                points={cluster.points}/>
-                        );
+                            return (
+                                    <ClusterMarker
+                                    key={cluster.id}
+                                    lat={cluster.lat}
+                                    lng={cluster.lng}
+                                    text={cluster.numPoints}
+                                    points={cluster.points}/>
+                            );
                     })}
                 </GoogleMapReact>
+
+
             </div>
+
             )
        
     }
 }
 
+const sampleData = [
+    { vehicle_id: 1, institution_id: 1, status: "idle", coordinates: { latitude: 29.3, longitude: 47.6511, timestamp: "7/1/2020 5:55:51 AM" } },
+    { vehicle_id: 2, institution_id: 1, status: "Running", coordinates: { latitude: 29.7, longitude: 47.0511, timestamp: "7/1/2020 5:55:51 AM" } },
+    { vehicle_id: 3, institution_id: 1, status: "idle", coordinates: { latitude: 31.7, longitude: 45.0511, timestamp: "7/1/2020 5:55:51 AM" } },
+    { vehicle_id: 4, institution_id: 1, status: "idle", coordinates: { latitude: 30.7, longitude: 46.0511, timestamp: "7/1/2020 5:55:51 AM" } },
+    { vehicle_id: 5, institution_id: 1, status: "Running", coordinates: { latitude: 30.7, longitude: 47.5511, timestamp: "7/1/2020 5:55:51 AM" } }];
 
 
 
 const mapStateToProps = (state) => {
 
-    console.log("Update obj : ", state.Tracking.Updates)
-    //const results= state.Tracking.Updates
+    //console.log("Update obj : ", state.Tracking.Updates)
+    const sampleArray = [...sampleData, ...state.Tracking.Updates, ...state.Tracking.OflineUpdates]
+    const points = sampleArray.map(result => ({ id: parseInt(result.vehicle_id), status: result.status, lat: parseFloat(result.coordinates.latitude), lng: parseFloat(result.coordinates.longitude) }))
+    //console.log('Mapped State Array returned :', points);
     return {
-        results: state.Tracking.Updates
+        results: points
     }
     
 }
 
 const actionCreators = {
+    GetOfflineVehicles: TrackingAction.getOfflineData,
     SubscribeToHub: TrackingAction.SubscribeToHub,
     UnSubscribeToHub: TrackingAction.UnsubscribeFromHub
 };

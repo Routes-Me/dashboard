@@ -8,6 +8,12 @@ const hubConnection = new signalR.HubConnectionBuilder()
     .build();
 
 
+const sampleOfflineData = [
+    { vehicle_id: 8, institution_id: 1, status:"idle", coordinates: { latitude: 29.3, longitude: 47.2511, timestamp: "7/1/2020 5:55:51 AM" } },
+    { vehicle_id: 9, institution_id: 1, status:"idle", coordinates: { latitude: 29.7, longitude: 47.3511, timestamp: "7/1/2020 5:55:51 AM" } },
+    { vehicle_id: 10, institution_id: 1, status:"idle", coordinates: { latitude: 29.7, longitude: 46.8511, timestamp: "7/1/2020 5:55:51 AM" } },
+    { vehicle_id: 11, institution_id: 1, status: "idle", coordinates: { latitude: 29.6, longitude: 46.9511, timestamp: "7/1/2020 5:55:51 AM" } },
+    { vehicle_id: 12, institution_id: 1, status: "idle", coordinates: { latitude: 29.612, longitude: 46.5611, timestamp: "7/1/2020 5:55:51 AM" } }];
 
 export const Subscribing = payload => ({ type: trackingConstants.Tracking_OnSubscribeRequest });
 
@@ -27,7 +33,8 @@ export function SubscribeToHub() {
 
 
         hubConnection.on("ReceiveAll", (result) => {
-            console.log("Response on SignalR " , result);
+            //console.log("Response on SignalR ", sampleData);
+            //sampleData.push(result)
             const res = JSON.parse(result);
             console.log("const values : " + res.vehicle_id);
             const vehicleId = res.vehicle_id;
@@ -41,6 +48,7 @@ export const Unsubscribe = payload => ({ type: trackingConstants.Tracking_OnUnSu
 export const Disconnected = payload => ({ type: trackingConstants.Tracking_Disconnected });
 
 export function UnsubscribeFromHub() {
+
     return dispatch => {
         dispatch(Unsubscribe());
         hubConnection.stop()
@@ -53,12 +61,36 @@ export function UnsubscribeFromHub() {
             });
     };
 
-
-
     //function Unsubscribe() { return { type: trackingConstants.Tracking_OnUnSubscribeRequest }; }
     //function Disconnected() { return { type: trackingConstants.Tracking_Disconnected }; }
 }
 
+export const OfflineDataRequest = payload => ({ type: trackingConstants.Tracking_OfflineDataRequest });
+export const OfflineDataError = payload => ({ type: trackingConstants.Tracking_OfflineDataError });
+
+export function getOfflineData() {
+
+    return dispatch => {
+        dispatch(OfflineDataRequest());
+        dispatch(OfflineUpdateReceived(sampleOfflineData));
+    };
+
+}
+
+
+function OnUpdateReceived(result) {
+
+    console.log("Result :" + result);
+    return { type: trackingConstants.Tracking_OnUpdatesReceived, payload: result };
+
+};
+
+function OfflineUpdateReceived(result) {
+
+    console.log("Offline Data :" + result);
+    return { type: trackingConstants.Tracking_OfflineDataSynced, payload: result };
+
+};
 
 //async function start() {
 //    try {
@@ -91,9 +123,6 @@ export function UnsubscribeFromHub() {
 //export const OnUpdateReceived = payload => ({ type: trackingConstants.Tracking_OnUpdatesReceived, payload });
 
 
-function OnUpdateReceived(result) {
-    console.log("Result :" + result);
-    return { type: trackingConstants.Tracking_OnUpdatesReceived, payload: result };
-};
+
 
 
