@@ -9,7 +9,7 @@ import $ from "jquery";
 
 const onMarkerClick = () => {
     $(".offmarker").toggleClass("active")
-    console.log("click Event of SImiple Ma");
+    console.log("click Event of offmarker");
 };
 export const offlineMarker = ({
     style,
@@ -21,7 +21,7 @@ export const offlineMarker = ({
             style={motionStyle}>
             {
                 ({ scale }) => (
-                    <div className="offmarker" onClick={onMarkerClick} style={{ transform: `translate3D(0,0,0) scale(${scale}, ${scale})`, }}>
+                    <div className="OfflinMarkerStyles" onClick={onMarkerClick} style={{ transform: `translate3D(0,0,0) scale(${scale}, ${scale})`, }}>
                         <div id="icondiv" className="show-text">{text}</div>
                     </div>)
             }
@@ -29,7 +29,7 @@ export const offlineMarker = ({
 
 export const offMarkerHOC = compose(
     defaultProps({
-        styles: OfflinMarkerStyles,
+        styles: style,
         initialScale: 0.3,
         defaultScale: 0.6,
         hoveredScale: 0.7,

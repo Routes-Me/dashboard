@@ -6,29 +6,30 @@ import { clusterMarkerHOC } from './ClusterMarker.js';
 import style from './styles.css';
 import $ from "jquery";
 
-const onMarkerClick = (style) => {
-    $({ style }).toggleClass("active")
+const onMarkerClick = (key) => {
+    $('.marker').toggleClass("active")
+    console.log('the key for click ====>', key)
     console.log('The Passed style is ====>', style);
 };
+
 export const simpleMarker = ({
     style,
     text,
     key,
     defaultMotionStyle,
-    motionStyle,
+    motionStyle
 }) => (
-    <Motion
+    <Motion key={key}
     defaultStyle={defaultMotionStyle}
     style={motionStyle}>
     {
       ({ scale }) => (
-          <div className={style} key={key} onClick={onMarkerClick(".marker")} style={{ transform: `translate3D(0,0,0) scale(${scale}, ${scale})`, }}>
-      
+      <div className={style} key={key} id={key} onClick={onMarkerClick(key)} style={{ transform: `translate3D(0,0,0) scale(${scale}, ${scale})`, }}>
       <div id="icondiv" className="show-text">{text}</div>
       </div>
     )
-  }
-  </Motion>
+    }
+    </Motion>
 );
 
 export const simpleMarkerHOC = compose(

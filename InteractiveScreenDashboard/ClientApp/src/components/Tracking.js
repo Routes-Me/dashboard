@@ -1,12 +1,10 @@
 ﻿import React, { Component, useState, useRef } from 'react';
-//import { HubConnection } from '@aspnet/signalr';
-//import * as signalR from '@aspnet/signalr';
 import { connect } from 'react-redux';
 import * as TrackingAction from '../Redux/Action';
 import GoogleMapReact from 'google-map-react';
 import ClusterMarker from './markers/ClusterMarker';
-import SimpleMarker, { simpleMarker } from './markers/SimpleMarker';
-import OfflineMarker, { offlineMarker } from './markers/OfflineMarker';
+import SimpleMarker from './markers/SimpleMarker';
+import OfflineMarker from './markers/OfflineMarker';
 import supercluster from 'points-cluster';
 import { susolvkaCoords, markersData } from './data/fakeData';
 import IdleTimer from 'react-idle-timer';
@@ -28,7 +26,6 @@ const MAP = {
     }
 }
 
-const Marker = ({ children }) => children;
 
 class Tracking extends Component {
 
@@ -40,7 +37,8 @@ class Tracking extends Component {
         this.onAction = this._onAction.bind(this)
         this.onActive = this._onActive.bind(this)
         this.onIdle = this._onIdle.bind(this)
-
+        this.onChildClick = this.onChildClick.bind(this)
+        this.handleMapChange = this.handleMapChange.bind(this)
 
         this.state = {
 
@@ -218,11 +216,28 @@ class Tracking extends Component {
 
     }
 
+    onChildClick = (num, childProps) => {
+        console.log('Child Props ==>', childProps)
+        console.log('Vehicle Id ==>', num)
+        if (childProps.id === undefined) {
+            return null
+        } else {
+            this.setState({
+                Name: childProps.vehicle_id,
+                lat: childProps.coordinates.latitude,
+                lng: childProps.coordinates.longitude,
+                hover: true,
+                show: !this.state.show
+            })
+        }
+    }
+
 
     render() {
 
         const { results } = this.props;
         const { center } = this.state.center;
+        const { clusters } = this.state;
         //console.log("Render Body", parseFloat(this.state.center))
         //console.log("Rendered Count on result", results.length);
 
@@ -245,15 +260,16 @@ class Tracking extends Component {
                     defaultCenter={MAP.defaultCenter}
                     options={MAP.options}
                     onChange={this.handleMapChange}
+                    onChildClick={this.onChildClick}
                     yesIWantToUseGoogleMapApiInternals>
-                    {this.state.clusters.map(cluster =>
+                    {clusters.map(cluster =>
                         (cluster.numPoints === 1)?
                             <SimpleMarker
                                 style={cluster.points[0].status === "idle" ? "offmarker" : "marker"}
                                 key={cluster.points[0].id}
                                 text={cluster.points[0].id}
                                 lat={cluster.points[0].lat}
-                                lng={cluster.points[0].lng} />
+                                lng={cluster.points[0].lng}/>
                         :
                             <ClusterMarker
                                 key={cluster.id}
@@ -263,7 +279,6 @@ class Tracking extends Component {
                                 points={cluster.points} />
                     )}
                 </GoogleMapReact>
-
 
             </div>
 
