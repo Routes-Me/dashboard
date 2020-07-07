@@ -24,7 +24,7 @@ export const simpleMarker = ({
     style={motionStyle}>
     {
       ({ scale }) => (
-      <div className={style} key={key} id={key} onClick={onMarkerClick(key)} style={{ transform: `translate3D(0,0,0) scale(${scale}, ${scale})`, }}>
+      <div className={style} key={key} id={key}  style={{ transform: `translate3D(0,0,0) scale(${scale}, ${scale})`, }}>
       <div id="icondiv" className="show-text">{text}</div>
       </div>
     )

@@ -49,13 +49,14 @@ class Tracking extends Component {
             center: "",
             zoom: this.props.zoom,
             hover: false,
+            selectedId:'',
             currentPosition: false,
             mapOptions: {
                 //center: MAP.defaultCenter,
                 zoom: MAP.defaultZoom
             },
             clusters: [],
-            timeout: 1000 * 20 * 1,
+            timeout: 10000 * 20 * 1,
             showModal: false,
             userLoggedIn: false,
             isTimedOut: false,
@@ -187,7 +188,7 @@ class Tracking extends Component {
 
     onChildMouseEnter = (num, childProps) => {
 
-        if (childProps.id === undefined) {
+        if (childProps.vehicle_id === undefined) {
             return null
         } else {
             this.setState({
@@ -203,7 +204,7 @@ class Tracking extends Component {
     onChildMouseLeave = (num, childProps) => {
 
         console.log("leaving")
-        if (childProps.id === undefined) {
+        if (childProps.vehicle_id === undefined) {
             return null
         } else {
 
@@ -219,25 +220,30 @@ class Tracking extends Component {
     onChildClick = (num, childProps) => {
         console.log('Child Props ==>', childProps)
         console.log('Vehicle Id ==>', num)
-        if (childProps.id === undefined) {
+        if (num === undefined) {
             return null
         } else {
             this.setState({
-                Name: childProps.vehicle_id,
-                lat: childProps.coordinates.latitude,
-                lng: childProps.coordinates.longitude,
+                latitude: childProps.lat,
+                longitude: childProps.lng,
                 hover: true,
-                show: !this.state.show
+                selectedId: num
             })
+            console.log('selected id :', this.state.selectedId)
         }
     }
+
+
+    //setSelectedMarker = (marker) => {
+    //    this.setState({ selected: marker})
+    //}
 
 
     render() {
 
         const { results } = this.props;
         const { center } = this.state.center;
-        const { clusters } = this.state;
+        const { clusters, selectedId } = this.state;
         //console.log("Render Body", parseFloat(this.state.center))
         //console.log("Rendered Count on result", results.length);
 
@@ -263,7 +269,15 @@ class Tracking extends Component {
                     onChildClick={this.onChildClick}
                     yesIWantToUseGoogleMapApiInternals>
                     {clusters.map(cluster =>
-                        (cluster.numPoints === 1)?
+                        (cluster.numPoints === 1) ?
+                            (cluster.points[0].id === parseInt(selectedId)) ?
+                            <SimpleMarker
+                            style={cluster.points[0].status === "idle" ? "offmarker active" : "marker active"}
+                            key = { cluster.points[0].id }
+                            text = { cluster.points[0].id }
+                            lat = { cluster.points[0].lat }
+                            lng = { cluster.points[0].lng } />
+                        :
                             <SimpleMarker
                                 style={cluster.points[0].status === "idle" ? "offmarker" : "marker"}
                                 key={cluster.points[0].id}
@@ -278,7 +292,9 @@ class Tracking extends Component {
                                 text={cluster.numPoints}
                                 points={cluster.points} />
                     )}
+                    
                 </GoogleMapReact>
+                
 
             </div>
 

@@ -11,7 +11,7 @@ import $ from "jquery";
 
 const onMarkerClick = () => {
     $(".markercus").toggleClass("active")
-    console.log("click Event of SImiple Ma");
+    console.log("click Event on Clustered Marker");
 };
 
 export const clusterMarker = ({
