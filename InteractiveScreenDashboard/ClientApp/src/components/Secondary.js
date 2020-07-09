@@ -1,12 +1,10 @@
 ﻿import React, { Component } from 'react';
 import axios from 'axios';
-import alarem from './image/alarem.png';
-import bank from './image/bank.png';
-import carnew from './image/carnew.png';
-import phone from './image/phone.png';
 import SecondaryList from './SecondaryList';
+import { connect } from 'react-redux';
+import * as TrackingAction from '../Redux/Action';
 
-export class Secondary extends Component {
+class Secondary extends Component {
 
     constructor(props) {
         super(props);
@@ -17,15 +15,18 @@ export class Secondary extends Component {
             loading: true,
             failed: false,
             error: '',
-            selectedIndex:2
+            selectedIndex:0
         };
 
     }
 
-    componentDidMount() {
+    componentWillMount() {
+        //this.props.GetOfflineVehicles()
         this.populateVehicleData();
     }
 
+
+    //Populate vehicles with API
     populateVehicleData() {
         axios.get("http://localhost:55205/api/Vehicles").then(result => {
             const response = result.data;
@@ -35,20 +36,22 @@ export class Secondary extends Component {
         });
     }
 
+    //Toggle Acordian
     toggleItem(index) {
         this.setState({ selectedIndex: index });
     }
 
-    renderAllVehicles(Vehicles) {
+    //Render the Acordian
+    renderAllVehicles() {
         console.log('Selected Index :', this.state.selectedIndex)
         return (
             <div>
-            {
-              Vehicles.map(Vehicle => (
+                {
+                    this.props.vehicles.map(Vehicle => (
                         <div onClick={(e) => this.toggleItem(Vehicle.id)}>
                         <SecondaryList vehicle={Vehicle} index={Vehicle.id} selectedIndex={this.state.selectedIndex} />
                         </div>
-              ))
+                    ))
             }
             </div>
         )
@@ -56,18 +59,13 @@ export class Secondary extends Component {
 
     render() {
 
-        let content = this.state.loading ?
-            <div><br /><br /><p><em> Loading...</em> </p></div> :
-            this.state.failed ?
-                <div className="text-danger"><br /><br />
-                    <em>{this.state.error}</em>
-                </div> :
-                this.renderAllVehicles(this.state.Vehicles);
+        
+        let content = this.renderAllVehicles();
 
         return (
 
-           
             <div className="search-main">
+
                 <div className="result-not-found">
                     <p>No results found</p>
                     <p><b>DUTY OFF</b>has 1 reult</p>
@@ -80,7 +78,6 @@ export class Secondary extends Component {
 
                     <p>occupied</p>
                     <ul className="manual-menu">
-
                         <li><a href="#">Fulan Abu Flan</a></li>
                         <li><a href="#">Mohammad All</a></li>
                         <li><a href="#">Saad Mue</a></li>
@@ -95,8 +92,31 @@ export class Secondary extends Component {
                         <span className="cross-icon"><img src="../cross-image.png" /></span>
                     </div>
                 </div>
+
             </div>
             
             );
     }
 }
+
+
+
+const mapStateToProps = (state) => {
+
+    console.log("Secondary panel Update off obj : ", state.Tracking.OflineUpdates)
+    const sampleArray = [...state.Tracking.Updates, ...state.Tracking.OflineUpdates]
+    const points = sampleArray.map(result => ({ id: parseInt(result.vehicle_id), status: result.status, lat: parseFloat(result.coordinates.latitude), lng: parseFloat(result.coordinates.longitude) }))
+    console.log('Mapped State Array returned :', points);
+    return {
+        vehicles: points
+    }
+
+}
+
+const actionCreators = {
+    GetOfflineVehicles: TrackingAction.getOfflineData,
+    UpdateTheSelectedMarker: TrackingAction.updateSelectedMarker
+};
+
+const connectTracking = connect(mapStateToProps, actionCreators)(Secondary);
+export { connectTracking as Secondary };

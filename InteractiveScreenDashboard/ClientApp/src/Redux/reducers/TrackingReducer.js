@@ -6,7 +6,8 @@ const INITIAL_STATE = {
     hasError: false,
     error: null,
     Updates: [],
-    OflineUpdates:[]
+    OflineUpdates: [],
+    SelectedVehicleId:0
 };
 
 const TrackingReducer = ( state = {}, action ) => {
@@ -31,7 +32,7 @@ const TrackingReducer = ( state = {}, action ) => {
                 Loading: false,
                 hasError: false,
                 ConnectionEstablished: true,
-                Updates: [action.payload]
+                Updates: action.payload
             };
         case trackingConstants.Tracking_Disconnected:
             return {
@@ -65,6 +66,11 @@ const TrackingReducer = ( state = {}, action ) => {
                 ...state,
                 Loading: false,
                 hasError: true
+            };
+        case trackingConstants.Tracking_MarkerHighLighted:
+            return {
+                ...state,
+                SelectedVehicleId: action.payload
             };
 
         default:

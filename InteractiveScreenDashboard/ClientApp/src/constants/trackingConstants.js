@@ -8,5 +8,6 @@
 
     Tracking_OfflineDataRequest: 'TRACKING_OFFLINEDATAREQUEST',
     Tracking_OfflineDataSynced: 'TRACKING_OFFLINEDATASYNCED',
-    Tracking_OfflineDataError: 'TRACKING_OFFLINEDATAERROR'
+    Tracking_OfflineDataError: 'TRACKING_OFFLINEDATAERROR',
+    Tracking_MarkerHighLighted: 'TRACKING_MAKERHIGHLIGHYED'
 };
