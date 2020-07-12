@@ -28,7 +28,7 @@
 }
 
 
-.markercus {
+.offmarkercus {
     background-image: url('../image/big-icon-1.png');
     position: absolute;
     cursor: pointer;

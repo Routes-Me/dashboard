@@ -87,11 +87,10 @@ class Tracking extends Component {
                 text: numPoints,
                 numPoints,
                 id: `${numPoints}_${points[0].id}`,
-                points,
+                points
               }))
-            : [],
+                : []
         });
-        console.log('HamdleClusterCreated')
 
     };
 
@@ -288,6 +287,9 @@ class Tracking extends Component {
                                 lng={cluster.points[0].lng}/>
                         :
                             <ClusterMarker
+                                styles
+
+                                ={cluster.points.filter(point => point.status === "idle").length >= cluster.points.filter(point => point.status === "Running").length ? "offmarkercus" : "markercus"}
                                 key={cluster.id}
                                 lat={cluster.lat}
                                 lng={cluster.lng}
