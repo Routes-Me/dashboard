@@ -27,6 +27,22 @@
     justify-content: center;
 }
 
+
+.markercus {
+    background-image: url('../image/big-icon-1.png');
+    position: absolute;
+    cursor: pointer;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 /*.hide {
     display: none;
 }*/

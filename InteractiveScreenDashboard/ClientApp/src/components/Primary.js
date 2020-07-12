@@ -18,7 +18,7 @@ class Primary extends Component
     constructor(props) {
         super(props);
         this.state = {
-            mainMenu1: false,
+            mainMenu1: true,
             mainMenu2: false,
             mainMenu3: false
         };
@@ -30,10 +30,18 @@ class Primary extends Component
     toggleMenu = (event, type) => {
         event.stopPropagation();
 
-        this.setState({
-            ...this.state,
-            [type]: true
-        });
+        //this.setState({
+        //    ...this.state,
+        //    [type]: true
+        //});
+        if (type === "mainMenu1")
+            this.setState({ mainMenu1: "active", mainMenu2: "", mainMenu3: "" })
+
+        if (type === "mainMenu2")
+            this.setState({ mainMenu1: "", mainMenu2: "active", mainMenu3: "" })
+
+        if (type === "mainMenu3")
+            this.setState({ mainMenu1: "", mainMenu2: "", mainMenu3: "active" })
     };
 
 
@@ -52,7 +60,6 @@ class Primary extends Component
 
                 <div className="menu-part">
                     <ul>
-
                         <li className={mainMenu1 ? "active" : ""} onClick={event => this.toggleMenu(event, "mainMenu1")}><Link to="/home"><a><div className="icon-28"><img alt="" src={tracking} className="menu-icon" /></div> Tracking</a></Link>
                         </li>
 
@@ -61,17 +68,10 @@ class Primary extends Component
 
                         <li className={mainMenu3 ? "active" : ""} onClick={event => this.toggleMenu(event, "mainMenu3")}><a><div className="icon-28"><img alt="" src={drivers} className="menu-icon" /></div>Drivers</a>
                         </li>
-                        
                      </ul>
                 </div>
 
-                <div className="tab-button">
-                    <div className="button-back">
-                        <button className="custom-butt active">Active</button>
-                        <button className="custom-butt">Duty Off</button>
-                        <div className="notification-duty-off"><span>1</span></div>
-                    </div>
-                </div>
+               
 
             </div>
         );
@@ -85,8 +85,6 @@ const mapStateToProps = (state) => {
     return { user: state.Login.user };
 };
 
-
-
- const connectedPrimaryPage = connect(mapStateToProps)(Primary);
+const connectedPrimaryPage = connect(mapStateToProps)(Primary);
 export { connectedPrimaryPage as Primary };
 

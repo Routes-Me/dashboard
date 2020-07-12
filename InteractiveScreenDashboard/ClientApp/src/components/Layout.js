@@ -7,10 +7,10 @@ export class Layout extends Component {
     render() {
         var hrfe = window.location.href;
 
-        if (hrfe === "http://localhost:55205/") {
-            return <span className="homeheader">{this.props.children}</span>;
-        } else {
+        if (hrfe === "http://localhost:55205/forgotpassword") {
             return <div><NavMenu />{this.props.children}</div>;
+        } else {
+            return <span className="homeheader">{this.props.children}</span>;
         }
     }
 }

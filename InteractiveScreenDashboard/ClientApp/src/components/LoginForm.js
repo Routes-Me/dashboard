@@ -49,7 +49,7 @@ import * as LoginAction from '../Redux/Action';
 		}
 
 		if (usernameError || passwordError) {
-			this.setState({ usernameError, passwordError });
+			this.setState({ usernameError: usernameError, passwordError:passwordError });
 			return false;
 		}
 
@@ -117,7 +117,7 @@ import * as LoginAction from '../Redux/Action';
 						</div>
 						<div className="form-group">
 							<Input placeholder="Password" className="form-control password" type="password" value={this.state.password} onChange={this.onChange} name="password" validations={[required]} />
-							<span className="form-error is-visible">{this.state.passwordError}</span>
+							{/*<span className="form-error is-visible">{this.state.passwordError}</span>*/}
 						</div>
 						<div className="forgotpwd">
 							<p><a href="/forgotpassword">Forgot Password?</a></p>

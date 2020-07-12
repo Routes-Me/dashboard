@@ -56,7 +56,7 @@ class Tracking extends Component {
                 zoom: MAP.defaultZoom
             },
             clusters: [],
-            timeout: 10000 * 20 * 1,
+            timeout: 100000 * 20 * 1,  //10000 * 20 * 1,
             showModal: false,
             userLoggedIn: false,
             isTimedOut: false,
@@ -197,6 +197,7 @@ class Tracking extends Component {
                 lng: childProps.coordinates.longitude,
                 hover: true
             })
+            this.props.UpdateTheSelectedMarker(num);
         }
 
     }
@@ -229,6 +230,7 @@ class Tracking extends Component {
                 hover: true,
                 selectedId: num
             })
+            this.props.UpdateTheSelectedMarker(num);
             console.log('selected id :', this.state.selectedId)
         }
     }
@@ -270,7 +272,7 @@ class Tracking extends Component {
                     yesIWantToUseGoogleMapApiInternals>
                     {clusters.map(cluster =>
                         (cluster.numPoints === 1) ?
-                            (cluster.points[0].id === parseInt(selectedId)) ?
+                            (cluster.points[0].id === parseInt(this.props.selectedVehicle)) ?
                             <SimpleMarker
                             style={cluster.points[0].status === "idle" ? "offmarker active" : "marker active"}
                             key = { cluster.points[0].id }
@@ -314,7 +316,8 @@ const mapStateToProps = (state) => {
     const points = sampleArray.map(result => ({ id: parseInt(result.vehicle_id), status: result.status, lat: parseFloat(result.coordinates.latitude), lng: parseFloat(result.coordinates.longitude) }))
     //console.log('Mapped State Array returned :', points);
     return {
-        results: points
+        results: points,
+        selectedVehicle: state.Tracking.SelectedVehicleId
     }
     
 }
