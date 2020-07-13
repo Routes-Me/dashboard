@@ -66,6 +66,7 @@ class Tracking extends Component {
 
     }
 
+    //Clustering handled by 3rd Party Supercluster
     getClusters = () => {
 
         const clusters = supercluster(this.props.results, {
@@ -77,23 +78,26 @@ class Tracking extends Component {
 
     };
 
+    //Bounds are considered group markers : Radius & ZoomLevel
     createClusters = props => {
 
+        console.log("Map Bounds ==>", this.state.mapOptions.bounds)
         this.setState({
-          clusters: this.state.mapOptions.bounds
-            ? this.getClusters(props).map(({ wx, wy, numPoints, points }) => ({
-                lat: wy,
-                lng: wx,
-                text: numPoints,
-                numPoints,
-                id: `${numPoints}_${points[0].id}`,
-                points
+            clusters: this.state.mapOptions.bounds
+                ? this.getClusters(props).map(({ wx, wy, numPoints, points }) => ({
+                    lat: wy,
+                    lng: wx,
+                    text: numPoints,
+                    numPoints: numPoints,
+                    id: `${numPoints}_${points[0].id}`,
+                    points
               }))
                 : []
         });
 
     };
 
+    //Function called whenever there's an activity on the map
     handleMapChange = ({ center, zoom, bounds }) => {
 
         console.log("HandleMapChange Called ==>", this.state.clusters)
@@ -172,6 +176,7 @@ class Tracking extends Component {
 
     }
 
+    //current location check
     currentCoords = (position) => {
 
         const latitude = position.coords.latitude
@@ -185,6 +190,7 @@ class Tracking extends Component {
 
     }
 
+    //marker Hovering 
     onChildMouseEnter = (num, childProps) => {
 
         if (childProps.vehicle_id === undefined) {
@@ -201,6 +207,7 @@ class Tracking extends Component {
 
     }
 
+    //marker Hovering 
     onChildMouseLeave = (num, childProps) => {
 
         console.log("leaving")
@@ -217,6 +224,7 @@ class Tracking extends Component {
 
     }
 
+    //marker click
     onChildClick = (num, childProps) => {
         console.log('Child Props ==>', childProps)
         console.log('Vehicle Id ==>', num)
@@ -234,6 +242,20 @@ class Tracking extends Component {
         }
     }
 
+    //style rendering
+    markerStyleName( status, isGrouped, isSelected ) {
+        
+        if (status === "idle") {
+            return isGrouped ? "offmarkercus" : (isSelected? "offmarker active": "offmarker")
+        }
+        else {
+            return isGrouped ? "markercus" : (isSelected ?"marker active": "marker")
+        }
+    }
+
+    componentDidUpdate() {
+        //this.getClusters(this);
+    }
 
     //setSelectedMarker = (marker) => {
     //    this.setState({ selected: marker})
@@ -269,33 +291,34 @@ class Tracking extends Component {
                     onChange={this.handleMapChange}
                     onChildClick={this.onChildClick}
                     yesIWantToUseGoogleMapApiInternals>
-                    {clusters.map(cluster =>
-                        (cluster.numPoints === 1) ?
-                            (cluster.points[0].id === parseInt(this.props.selectedVehicle)) ?
-                            <SimpleMarker
-                            style={cluster.points[0].status === "idle" ? "offmarker active" : "marker active"}
-                            key = { cluster.points[0].id }
-                            text = { cluster.points[0].id }
-                            lat = { cluster.points[0].lat }
-                            lng = { cluster.points[0].lng } />
-                        :
-                            <SimpleMarker
-                                style={cluster.points[0].status === "idle" ? "offmarker" : "marker"}
-                                key={cluster.points[0].id}
-                                text={cluster.points[0].id}
-                                lat={cluster.points[0].lat}
-                                lng={cluster.points[0].lng}/>
-                        :
-                            <ClusterMarker
-                                styles
 
-                                ={cluster.points.filter(point => point.status === "idle").length >= cluster.points.filter(point => point.status === "Running").length ? "offmarkercus" : "markercus"}
-                                key={cluster.id}
-                                lat={cluster.lat}
-                                lng={cluster.lng}
-                                text={cluster.numPoints}
-                                points={cluster.points} />
-                    )}
+                    {
+                        clusters.map((cluster, index) => {
+                           
+                            if (cluster.numPoints === 1)
+                            {
+                                const isSelected = cluster.points[0].id === parseInt(this.props.idForSelectedVehicle)
+                                return <SimpleMarker
+                                    style={this.markerStyleName(cluster.points[0].status, false, isSelected )}
+                                    key={cluster.points[0].id}
+                                    text={cluster.points[0].id}
+                                    lat={cluster.points[0].lat}
+                                    lng={cluster.points[0].lng} />
+                            }
+                            else
+                            {
+                                const isIdle = cluster.points.filter(point => point.status === "idle").length >= cluster.points.filter(point => point.status === "active").length
+                                const status = isIdle ? "idle" : "active"
+                                return <ClusterMarker
+                                    styles={this.markerStyleName(status, true, false)}
+                                    key={cluster.id}
+                                    lat={cluster.lat}
+                                    lng={cluster.lng}
+                                    text={cluster.numPoints}
+                                    points={cluster.points} />
+                            }
+                        })
+                    }
                     
                 </GoogleMapReact>
                 
@@ -314,12 +337,12 @@ class Tracking extends Component {
 const mapStateToProps = (state) => {
 
     //console.log("Update obj : ", state.Tracking.OflineUpdates)
-    const sampleArray = [...state.Tracking.Updates, ...state.Tracking.OflineUpdates]
-    const points = sampleArray.map(result => ({ id: parseInt(result.vehicle_id), status: result.status, lat: parseFloat(result.coordinates.latitude), lng: parseFloat(result.coordinates.longitude) }))
-    //console.log('Mapped State Array returned :', points);
+    const vehicles = [...state.Tracking.ActiveVehicles, ...state.Tracking.IdleVehicles]
+    const points = vehicles.map(result => ({ id: parseInt(result.vehicle_id), status: result.status, lat: parseFloat(result.coordinates.latitude), lng: parseFloat(result.coordinates.longitude) }))
+    console.log('Mapped State Array returned :', points);
     return {
         results: points,
-        selectedVehicle: state.Tracking.SelectedVehicleId
+        idForSelectedVehicle: state.Tracking.idForSelectedVehicle
     }
     
 }

@@ -6,7 +6,7 @@ import phone from './image/phone.png';
 
 export const SecondaryList = ({ vehicle, index, selectedIndex }) => {
 
-    console.log('SecondaryList(): Row values ==>', index + "===" + selectedIndex)
+    //console.log('SecondaryList(): Row values ==>', index + "===" + selectedIndex)
     return (
            <div className="slide-effect" key={parseInt(index)}>
             <p className="location-button">{vehicle.driver}</p>

@@ -15,17 +15,19 @@ class Secondary extends Component {
             loading: true,
             failed: false,
             error: '',
-            filter: 'active',
-            selectedIndex: 0,
-            OfflineCount: 0,
-            OnlineCount:0
+            filter: 'idle',
+            idleVehiclesCount: 0,
+            activeVehiclesCount:0
         };
+
+        this.toggleFilter = this.toggleFilter.bind(this)
 
     }
 
     componentWillMount() {
         //this.props.GetOfflineVehicles()
         this.populateVehicleData();
+        this.toggleFilter(this.state.filter);
     }
 
 
@@ -47,70 +49,80 @@ class Secondary extends Component {
 
     toggleFilter(filterType) {
         this.setState({ filter: filterType });
-        filterType ==="idle"?
-        this.setState({ OfflineCount: this.props.vehicles.filter(Vehicle => Vehicle.status === this.state.filter).length })
-            : this.setState({ OnlineCount: this.props.vehicles.filter(Vehicle => Vehicle.status === this.state.filter).length })
+        filterType === "idle" ?
+            this.setState({ idleVehiclesCount: this.props.vehicles.filter(Vehicle => Vehicle.status === filterType).length })
+            : this.setState({ activeVehiclesCount: this.props.vehicles.filter(Vehicle => Vehicle.status === filterType).length });
     }
 
     //Render the Acordian
     renderAllVehicles() {
         //console.log('renderAllVehicles(): Selected Index :', this.state.selectedIndex)
-        console.log('renderAllVehicles(): Selected Filter :', this.state.filter)
-        console.log('renderAllVehicles(): Selected Filter count :', this.state.OfflineCount)
+        
         return (
             <div>{
-                
                     this.props.vehicles.filter(Vehicle => Vehicle.status === this.state.filter)
                     .map(Vehicle => (
                         <div onClick={(e) => this.toggleItem(Vehicle.vehicle_id)}>
-                            <SecondaryList vehicle={Vehicle} index={Vehicle.vehicle_id} selectedIndex={this.props.selectedVehicle} />
+                            <SecondaryList vehicle={Vehicle} index={Vehicle.vehicle_id} selectedIndex={this.props.idForidForSelectedVehicle} />
                         </div>
                     )) 
-                    
             }</div>
         )
+    }
+
+    //Return count of Idle & Active
+    returnCountForFilterType() {
+        if (this.state.filter === "idle") {
+            return this.state.idleVehiclesCount;
+        }
+        else {
+            return this.state.activeVehiclesCount;
+        }
+    }
+
+    returnCountForOtherFilterType() {
+        if (this.state.filter === "idle") {
+            return <p><b> Active </b>has {this.state.activeVehiclesCount} result</p>;
+        }
+        else {
+            return <p><b> Idle </b>has {this.state.idleVehiclesCount} result</p>;
+        }
     }
 
     render() {
 
         
         let content = this.renderAllVehicles();
-
+        console.log('toggleFilter(): Selected Filter :', this.state.filter)
+        console.log('toggleFilter(): Selected Filter Idle vehicle count :', this.state.idleVehiclesCount)
+        console.log('toggleFilter(): Selected Filter Active vehicle count :', this.state.activeVehiclesCount)
         return (
 
             <div>
                 <div className="tab-button">
                     <div className="button-back">
                         {/*<div className="notification-duty-on"><span>1</span></div>*/}
-                        <button className="custom-butt active" onClick={(e) => this.toggleFilter("Running")}>Active</button>
-                        <button className="custom-butt" onClick={(e) => this.toggleFilter("idle")}>Idle</button>
-                        <div className="notification-duty-off"><span>{this.state.filter === "idle" ? this.state.OfflineCount : this.state.OnlineCount}</span></div>
+                        <button className="custom-butt" onClick={() => this.toggleFilter("active")}>({this.state.activeVehiclesCount}) ACTIVE</button>
+                        <button className="custom-butt active" onClick={() => this.toggleFilter("idle")}>IDLE ({this.state.idleVehiclesCount})</button>
+                        {/*<div className="notification-duty-off"><span>{this.state.filter === "idle" ? this.state.idleVehiclesCount : this.state.activeVehiclesCount}</span></div>*/}
 
                     </div>
                 </div>
                 
                 <div className="search-main">
 
-                    { this.state.filter==="idle"?
-                        parseInt(this.state.OfflineCount) === 0 ?
+                    {
+                        this.returnCountForFilterType() === 0 ?
                             <p>No results found
-                            <br /><b> Idle </b>has {this.state.OnlineCount} reult</p>
-                            :
-                            <div className="search-result">
-                                <p>Free</p>
-                                {content}
-                            </div>
+                            <br /> {this.returnCountForOtherFilterType()}</p>
                         :
-                        parseInt(this.state.OnlineCount) === 0 ?
-                            <p>No results found
-                            <br /><b> Idle </b>has {this.state.OfflineCount} reult</p>
-                            :
-                            <div className="search-result">
+                        <div className="search-result">
                             <p>Free</p>
                             {content}
-                            </div>
-                    
+                        </div>
                     }
+                    
+                    
 
                         {/*<p>occupied</p>
                     <ul className="manual-menu">
@@ -140,13 +152,13 @@ class Secondary extends Component {
 
 const mapStateToProps = (state) => {
 
-    console.log("Secondary panel Update off obj : ", state.Tracking.OflineUpdates)
-    const points = [...state.Tracking.Updates, ...state.Tracking.OflineUpdates]
+    console.log("Secondary panel Update off obj : ", state.Tracking.IdleVehicles)
+    const points = [...state.Tracking.ActiveVehicles, ...state.Tracking.IdleVehicles]
     //const points = sampleArray.map(result => ({ vehicle_id: parseInt(result.vehicle_id), status: result.status, lat: parseFloat(result.coordinates.latitude), lng: parseFloat(result.coordinates.longitude) }))
     console.log('Mapped State Array returned :', points);
     return {
         vehicles: points,
-        selectedVehicle: state.Tracking.SelectedVehicleId
+        idForidForSelectedVehicle: state.Tracking.idForSelectedVehicle
     }
 
 }
