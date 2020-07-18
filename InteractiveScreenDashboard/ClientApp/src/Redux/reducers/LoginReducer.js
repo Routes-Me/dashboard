@@ -6,6 +6,7 @@ const INITIAL_STATE = {
     loading: true,
     hasError: false,
     error: null,
+    SelectedNavOption:"",
     user: {}
 };
 
@@ -68,6 +69,14 @@ const LoginReducer = (state = {}, action) => {
                 hasError: false,
                 loggedIn: false,
                 user: action.payload
+            };
+        case userConstants.NavItemSelected:
+            return {
+                ...state,
+                loading: false,
+                hasError: false,
+                loggedIn: true,
+                SelectedNavOption: action.payload
             };
         default:
             return state;

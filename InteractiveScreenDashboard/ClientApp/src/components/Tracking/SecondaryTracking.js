@@ -1,33 +1,23 @@
-﻿import React, { Component } from 'react';
-import SecondaryList from './SecondaryList';
-import { connect } from 'react-redux';
-import * as TrackingAction from '../Redux/Action';
-import { trackingConstants } from '../constants/trackingConstants';
-import { SecondaryTracking } from '../components/Tracking/SecondaryTracking';
-import { SecondaryVehicles } from '../components/Vehicles/SecondaryVehicles';
-import { userConstants } from '../constants/userConstants';
+﻿
 
-class Secondary extends Component {
+import React, { Component } from 'react';
+import SecondaryList from '../SecondaryList';
+import { connect } from 'react-redux';
+import * as TrackingAction from '../../Redux/Action';
+import { trackingConstants } from '../../constants/trackingConstants';
+
+class SecondaryTracking extends Component {
 
     constructor(props) {
         super(props);
-
-        this.state = {
-
+        this.state={
             Vehicles: [],
-            loading: true,
-            failed: false,
-            error: '',
             filter: 'idle',
             idleVehiclesCount: 0,
-            activeVehiclesCount:0
-        };
-
-        this.toggleFilter = this.toggleFilter.bind(this)
-        this.renderAllVehicles = this.renderAllVehicles.bind(this)
-        this.returnCountForFilterType = this.returnCountForFilterType.bind(this)
-
+            activeVehiclesCount: 0
+        }
     }
+
 
     componentWillMount() {
         this.props.GetOfflineVehicles();
@@ -50,25 +40,23 @@ class Secondary extends Component {
     toggleFilter(filterType) {
 
         this.setState({ filter: filterType });
-        
+
     }
 
-    
 
-    
+
+
 
     //Render the Acordian
     renderAllVehicles(VehicleListToBeRendered) {
-        //console.log('renderAllVehicles(): Selected Index :', this.state.selectedIndex)
-        
         return (
             <div>{
-                    VehicleListToBeRendered.filter(Vehicle => Vehicle.status === this.state.filter)
+                VehicleListToBeRendered.filter(Vehicle => Vehicle.status === this.state.filter)
                     .map(Vehicle => (
                         <div onClick={(e) => this.showVehicle(Vehicle.vehicle_id)}>
                             <SecondaryList vehicle={Vehicle} index={Vehicle.vehicle_id} selectedIndex={this.props.idForidForSelectedVehicle} />
                         </div>
-                    )) 
+                    ))
             }</div>
         )
     }
@@ -97,7 +85,7 @@ class Secondary extends Component {
     //Applying toggle button style
     returnFilterStyle(BtnType) {
         console.log("returnFilterStyle() => ", this.state.filter);
-        return this.state.filter === BtnType ? "custom-butt active" : "custom-butt" ;
+        return this.state.filter === BtnType ? "custom-butt active" : "custom-butt";
     }
 
     render() {
@@ -108,14 +96,47 @@ class Secondary extends Component {
                      Idle vehicle count :   ${this.state.idleVehiclesCount}
                      Active vehicle count : ${this.state.activeVehiclesCount}`)
         return (
-            < div >
-                {this.props.selectedNavItem === userConstants.NavItem_Tracking ? <SecondaryTracking /> : <SecondaryVehicles />}
-            </div >
-            );
+
+            <div>
+                <div className="tab-button">
+                    <div className="button-back">
+                        {/*<div className="notification-duty-on"><span>1</span></div>*/}
+                        <button className={this.returnFilterStyle(trackingConstants.ActiveState)} onClick={() => this.toggleFilter(trackingConstants.ActiveState)}>({this.props.activeVehiclesCount}) ACTIVE</button>
+                        <button className={this.returnFilterStyle(trackingConstants.IdleState)} onClick={() => this.toggleFilter(trackingConstants.IdleState)}>IDLE ({this.props.idleVehiclesCount})</button>
+                        {/*<div className="notification-duty-off"><span>{this.state.filter === trackingConstants.IdleState ? this.state.idleVehiclesCount : this.state.activeVehiclesCount}</span></div>*/}
+
+                    </div>
+                </div>
+
+                <div className="search-main">
+
+                    {
+                        this.props.vehicles.filter(vehicle => vehicle.status === this.state.filter).length === 0 ?
+                            <p>No results found
+                            <br /> {this.returnCountForOtherFilterType()}</p>
+                            :
+                            <div className="search-result">
+                                <p>Free</p>
+                                {content}
+                            </div>
+                    }
+
+
+                    <div className="search-part">
+                        <div className="search-relative">
+                            <input type="text" autoComplete="off" name="search" placeholder="Search" className="search"></input>
+                            <i className="fa fa-search" aria-hidden="true"></i>
+                            <span className="cross-icon"><img src="../cross-image.png" /></span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        );
     }
+
 }
-
-
 
 const mapStateToProps = (state) => {
 
@@ -140,5 +161,5 @@ const actionCreators = {
     UpdateTheSelectedMarker: TrackingAction.updateSelectedMarker
 };
 
-const connectTracking = connect(mapStateToProps, actionCreators)(Secondary);
-export { connectTracking as Secondary };
+const connectTracking = connect(mapStateToProps, actionCreators)(SecondaryTracking);
+export { connectTracking as SecondaryTracking };

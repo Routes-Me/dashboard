@@ -4,6 +4,9 @@ import car from './image/car.png';
 import drivers from './image/drivers.png';
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import * as LoginAction from '../Redux/Action';
+import { trackingConstants } from '../constants/trackingConstants';
+import { userConstants } from '../constants/userConstants';
 
 //const menus = {
 //    mainMenu1: false,
@@ -18,37 +21,41 @@ class Primary extends Component
     constructor(props) {
         super(props);
         this.state = {
-            mainMenu1: true,
-            mainMenu2: false,
-            mainMenu3: false
+            selectedNavItem: userConstants.NavItem_Tracking
+
         };
         this.toggleMenu = this.toggleMenu.bind(this);
+        this.returnSelectMenu = this.returnSelectMenu.bind(this);
     }
-   
+
+    componentWillMount() {
+        this.props.updateNavItem(this.state.selectedNavItem);
+    }
     
 
     toggleMenu = (event, type) => {
         event.stopPropagation();
-
+       
         //this.setState({
         //    ...this.state,
         //    [type]: true
         //});
-        if (type === "mainMenu1")
-            this.setState({ mainMenu1: "active", mainMenu2: "", mainMenu3: "" })
-
-        if (type === "mainMenu2")
-            this.setState({ mainMenu1: "", mainMenu2: "active", mainMenu3: "" })
-
-        if (type === "mainMenu3")
-            this.setState({ mainMenu1: "", mainMenu2: "", mainMenu3: "active" })
+        //this.setState({ selectedNavItem: type });
+        this.props.updateNavItem(type);
     };
+
+
+    returnSelectMenu(NavItem) {
+
+        return this.props.selectedNavItem === NavItem ? "active" : "";
+
+    }
 
 
     render() {
 
-        const { mainMenu1, mainMenu2, mainMenu3 } = this.state;
-
+        // const { mainMenu1, mainMenu2, mainMenu3 } = this.state;
+        console.log(`Selected Menu to render ==> ${this.state.selectedNavItem}`)
         return (
             
             <div className="overfollow-scroll" >
@@ -60,18 +67,14 @@ class Primary extends Component
 
                 <div className="menu-part">
                     <ul>
-                        <li className={mainMenu1 ? "active" : ""} onClick={event => this.toggleMenu(event, "mainMenu1")}><Link to="/home"><a><div className="icon-28"><img alt="" src={tracking} className="menu-icon" /></div> Tracking</a></Link>
+                        <li className={this.returnSelectMenu(userConstants.NavItem_Tracking)} onClick={(event) => this.toggleMenu(event, userConstants.NavItem_Tracking )}><a><div className="icon-28"><img alt="" src={tracking} className="menu-icon" /></div> {userConstants.NavItem_Tracking}</a>
                         </li>
-
-                        <li className={mainMenu2 ? "active" : ""} onClick={event => this.toggleMenu(event, "mainMenu2")}><Link to="/vehicles"><a><div className="icon-28"><img alt="" src={car} className="menu-icon" /></div> Vehicles</a></Link>
+                        <li className={this.returnSelectMenu(userConstants.NavItem_Vehicles)} onClick={(event) => this.toggleMenu(event, userConstants.NavItem_Vehicles)}><a><div className="icon-28"><img alt="" src={car} className="menu-icon" /></div> {userConstants.NavItem_Vehicles}</a>
                         </li>
-
-                        <li className={mainMenu3 ? "active" : ""} onClick={event => this.toggleMenu(event, "mainMenu3")}><a><div className="icon-28"><img alt="" src={drivers} className="menu-icon" /></div>Drivers</a>
+                        <li className={this.returnSelectMenu(userConstants.NavItem_Drivers)} onClick={(event) => this.toggleMenu(event, userConstants.NavItem_Drivers)}><a><div className="icon-28"><img alt="" src={drivers} className="menu-icon" /></div> {userConstants.NavItem_Drivers}</a>
                         </li>
                      </ul>
                 </div>
-
-               
 
             </div>
         );
@@ -80,11 +83,22 @@ class Primary extends Component
 
 }
 
+
 const mapStateToProps = (state) => {
 
-    return { user: state.Login.user };
+    console.log("Selected Nav Item : ", state.Login.SelectedNavOption)
+    return {
+        selectedNavItem: state.Login.SelectedNavOption,
+        user: state.Login.user
+    }
 };
 
-const connectedPrimaryPage = connect(mapStateToProps)(Primary);
-export { connectedPrimaryPage as Primary };
+const actionCreators = {
+    updateNavItem: LoginAction.UpdateNavSelection
+};
+
+const connectLogin = connect(mapStateToProps, actionCreators)(Primary);
+export { connectLogin as Primary };
+
+
 

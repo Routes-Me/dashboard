@@ -10,7 +10,7 @@ import $ from "jquery";
 
 
 const onMarkerClick = () => {
-    $(".offmarkercus").toggleClass("active")
+    $(".idle-cluster").toggleClass("selected")
     console.log("click Event on Clustered Marker");
 };
 
@@ -22,11 +22,10 @@ export const clusterMarker = ({
 }) => (
     <Motion
     defaultStyle={defaultMotionStyle}
-    style={motionStyle}
-  >
-  {
-                ({ scale }) => (
-                    <div className={styles} onClick={onMarkerClick} style={{ transform: `translate3D(0,0,0) scale(${scale}, ${scale})`, }}>
+    style={motionStyle}>
+    {
+        ({ scale }) => (
+        <div className={styles} onClick={onMarkerClick} style={{ transform: `translate3D(0,0,0) scale(${scale}, ${scale})`, }}>
         <div className="text">
           {text}
         </div>

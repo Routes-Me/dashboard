@@ -1,18 +1,18 @@
-.marker {
+.active-marker {
     background-image: url('../image/icon-3.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: 100%;
 }
 
-.offmarker {
+.idle-marker {
     background-image: url('../image/icon-2.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: 100%;
 }
 
-.markercus {
+.active-cluster {
     background-image: url('../image/big-icon-2.png');
     position: absolute;
     cursor: pointer;
@@ -28,7 +28,7 @@
 }
 
 
-.offmarkercus {
+.idle-cluster {
     background-image: url('../image/big-icon-1.png');
     position: absolute;
     cursor: pointer;
@@ -52,7 +52,7 @@
 }*/
 
 
-.marker.active {
+.active-marker.selected {
     background-image: url('../image/group-5.png');
     width: 100px;
     height: 115px;
@@ -76,7 +76,7 @@
 }
 
 
-.offmarker.active {
+.idle-marker.selected {
     background-image: url('../image/group-5.png');
     width: 100px;
     height: 115px;
@@ -99,7 +99,7 @@
     top: -105px;
 }
 
-.marker.active:before {
+.active-marker.selected:before {
     content: "";
     position: absolute;
     left: 50%;
@@ -113,7 +113,7 @@
 }
 
 
-.offmarker.active:before {
+.idle-marker.selected:before {
     content: "";
     position: absolute;
     left: 50%;
@@ -130,11 +130,11 @@
     display: none;
 }
 
-.marker.active .show-text {
+.active-marker.selected .show-text {
     display: block;
 }
 
-.offmarker.active .show-text {
+.idle-marker.selected .show-text {
     display: block;
 }
 
@@ -144,6 +144,6 @@
     font-family: Roboto;
 }
 
-.marker.active .text {
+.active-marker.selected .text {
     display: none;
 }

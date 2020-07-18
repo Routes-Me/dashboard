@@ -8,6 +8,7 @@ import OfflineMarker from './markers/OfflineMarker';
 import supercluster from 'points-cluster';
 import { susolvkaCoords, markersData } from './data/fakeData';
 import IdleTimer from 'react-idle-timer';
+import { trackingConstants } from '../constants/trackingConstants';
 
 const MAP = {
     defaultZoom: 7,
@@ -38,8 +39,8 @@ class Tracking extends Component {
         this.onActive = this._onActive.bind(this)
         this.onIdle = this._onIdle.bind(this)
         this.onChildClick = this.onChildClick.bind(this)
-        this.handleMapChange = this.handleMapChange.bind(this)
-
+        //this.handleMapChange = this.handleMapChange.bind(this)
+        this.onChildMouseEnter = this.onChildMouseEnter.bind(this)
         this.state = {
 
             loading: false,
@@ -69,7 +70,7 @@ class Tracking extends Component {
     //Clustering handled by 3rd Party Supercluster
     getClusters = () => {
 
-        const clusters = supercluster(this.props.results, {
+        const clusters = supercluster(this.props.result, {
             minZoom: 0,
             maxZoom: 16,
             radius: 60,
@@ -110,7 +111,7 @@ class Tracking extends Component {
                 },
             },
             () => {
-                this.createClusters(this.props);
+                this.createClusters();
             }
         );
 
@@ -126,10 +127,6 @@ class Tracking extends Component {
 
     }
 
-    componentDidMount() {
-        
-        //console.log("Did mount Center ====> :", this.state.center);
-    }
 
     componentWillUnmount() {
 
@@ -203,6 +200,7 @@ class Tracking extends Component {
                 hover: true
             })
             this.props.UpdateTheSelectedMarker(num);
+            console.log('Hovered id :', this.state.selectedId)
         }
 
     }
@@ -245,16 +243,16 @@ class Tracking extends Component {
     //style rendering
     markerStyleName( status, isGrouped, isSelected ) {
         
-        if (status === "idle") {
-            return isGrouped ? "offmarkercus" : (isSelected? "offmarker active": "offmarker")
+        if (status === trackingConstants.IdleState) {
+            return isGrouped ? "idle-cluster" : (isSelected ? "idle-marker selected" : "idle-marker")
         }
         else {
-            return isGrouped ? "markercus" : (isSelected ?"marker active": "marker")
+            return isGrouped ? "active-cluster" : (isSelected ? "active-marker selected" : "active-marker")
         }
     }
 
-    componentDidUpdate() {
-        //this.getClusters(this);
+    componentWillReceiveProps() {
+        //this.getClusters();
     }
 
     //setSelectedMarker = (marker) => {
@@ -264,14 +262,14 @@ class Tracking extends Component {
 
     render() {
 
-        const { results } = this.props;
+        //const { results } = this.props;
         const { center } = this.state.center;
         const { clusters, selectedId } = this.state;
-        //console.log("Render Body", parseFloat(this.state.center))
+        console.log("Render Body", clusters)
         //console.log("Rendered Count on result", results.length);
 
         return (
-
+            <div className="mpas-tracking">
             <div style={{ height: "100vh", width: "100%" }}>
 
                 < IdleTimer
@@ -290,8 +288,8 @@ class Tracking extends Component {
                     options={MAP.options}
                     onChange={this.handleMapChange}
                     onChildClick={this.onChildClick}
+                    onChildMouseEnter={this.onChildMouseEnter}
                     yesIWantToUseGoogleMapApiInternals>
-
                     {
                         clusters.map((cluster, index) => {
                            
@@ -307,8 +305,8 @@ class Tracking extends Component {
                             }
                             else
                             {
-                                const isIdle = cluster.points.filter(point => point.status === "idle").length >= cluster.points.filter(point => point.status === "active").length
-                                const status = isIdle ? "idle" : "active"
+                                const isIdle = cluster.points.filter(point => point.status === trackingConstants.IdleState).length >= cluster.points.filter(point => point.status === trackingConstants.ActiveState).length
+                                const status = isIdle ? trackingConstants.IdleState : trackingConstants.ActiveState
                                 return <ClusterMarker
                                     styles={this.markerStyleName(status, true, false)}
                                     key={cluster.id}
@@ -324,7 +322,7 @@ class Tracking extends Component {
                 
 
             </div>
-
+            </div>
             )
        
     }
@@ -341,7 +339,7 @@ const mapStateToProps = (state) => {
     const points = vehicles.map(result => ({ id: parseInt(result.vehicle_id), status: result.status, lat: parseFloat(result.coordinates.latitude), lng: parseFloat(result.coordinates.longitude) }))
     console.log('Mapped State Array returned :', points);
     return {
-        results: points,
+        result: points,
         idForSelectedVehicle: state.Tracking.idForSelectedVehicle
     }
     

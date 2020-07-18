@@ -1,32 +1,25 @@
-import React, { Component } from 'react';
+﻿import React, { Component } from 'react';
 import axios from 'axios';
 
-import "bootstrap/less/bootstrap.less";
+export class Vehicles extends Component {
 
-
-export class vehicles extends Component {
-    //static displayName = vehicles.name;
     constructor(props) {
-        super(props);
+        super(props)
 
         this.state = {
-
             Vehicles: [],
             loading: true,
             failed: false,
             error: '',
             activePage: 15
-
         };
-        
     }
-
-   
 
     componentDidMount() {
         this.populateVehicleData();
     }
 
+    //Load Vehicles from API
     populateVehicleData() {
         axios.get("http://localhost:55205/api/Vehicles").then(result => {
             const response = result.data;
@@ -35,13 +28,15 @@ export class vehicles extends Component {
             this.setState({ vehicles: [], loading: false, failed: true, error: "Vehicles could not be loaded" });
         });
     }
- 
 
+    //Page Selection
     handlePageChange(pageNumber) {
         console.log(`active page is ${pageNumber}`);
         this.setState({ activePage: pageNumber });
     }
 
+
+    //Load Vehicles in a table
     renderAllVehicleTable(Vehicles) {
         return (
             <div className="table-list-vehicles">
@@ -54,7 +49,7 @@ export class vehicles extends Component {
                                 <th>Model</th>
                                 <th>Office</th>
                                 <th>Year</th>
-                                <th className="width44"/>
+                                <th className="width44" />
                             </tr>
                         </thead>
                         <tbody>
@@ -67,27 +62,29 @@ export class vehicles extends Component {
                                         <td>{Vehicle.office}</td>
                                         <td>{Vehicle.year}</td>
                                         <td className="width44" >
-                                        <div className="edit-popup">
-                                        <div className="edit-delet-butt">
-                                            <span/>
-                                            <span/>
-                                            <span/>
-                                        </div>
-                                        <ul className="edit-delet-link">
-                                            <li><a href="#">Edit</a></li>
-                                            <li><a href="#">Delet</a></li>
-                                        </ul>
-                                        </div>
+                                            <div className="edit-popup">
+                                                <div className="edit-delet-butt">
+                                                    <span />
+                                                    <span />
+                                                    <span />
+                                                </div>
+                                                <ul className="edit-delet-link">
+                                                    <li><a href="#">Edit</a></li>
+                                                    <li><a href="#">Delet</a></li>
+                                                </ul>
+                                            </div>
                                         </td>
                                     </tr>
-                            ))
+                                ))
                             }
                         </tbody>
                     </table>
                 </div>
             </div>
-            );
+        );
     }
+
+
 
     render() {
 
@@ -100,33 +97,25 @@ export class vehicles extends Component {
                 this.renderAllVehicleTable(this.state.Vehicles);
 
         return (
-            //<div className="tracking-page mt-57 fff">
+            <div className="vehicles-page">
+                <div className="top-part-vehicles-search padding-lr-80">
+                    <div className="hehading-add-butt">
+                        <h3>Vehicles</h3>
+                        <a href="#" className="vehicle-add-butt"><i className="fa fa-plus-circle" aria-hidden="true" /> Add Vehicle</a>
+                    </div>
 
-                //<div className="right-part">
-
-                  //<div className="vehicles-page">
-                <div style={{ height: "100vh", width: "100%" }}>
-                     <div className="top-part-vehicles-search padding-lr-80">
-                         <div className="hehading-add-butt">
-                            <h3>Vehicles</h3>
-                            <a href="#" className="vehicle-add-butt"><i className="fa fa-plus-circle" aria-hidden="true"/> Add Vehicle</a>
-                         </div> 
-
-                         <div className="search-part">
-                            <div className="search-relative">
-                                   <input type="text" name="search" placeholder="Search" className="search"/>
-                                   <i className="fa fa-search" aria-hidden="true"/>
-                                    <span className="cross-icon"><img src="../cross-image.png"/></span>
-                            </div>
-                         </div>
-                     </div> 
-
-                     {content}
+                    <div className="search-part">
+                        <div className="search-relative">
+                            <input type="text" name="search" placeholder="Search" className="search" />
+                            <i className="fa fa-search" aria-hidden="true" />
+                            <span className="cross-icon"><img src="../cross-image.png" /></span>
+                        </div>
+                    </div>
                 </div>
-                  //</div>
-               //</div>
-            //</div>
 
+                {content}
+            </div>
         );
     }
+
 }

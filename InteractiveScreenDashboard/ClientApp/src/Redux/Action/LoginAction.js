@@ -37,9 +37,6 @@ export function getUser() {
     return userObjt;
 }
 
-
-
-
 export function userSignInRequest(username, password) {
 
     return dispatch => {
@@ -145,6 +142,16 @@ export function ResetPassword(UserObject) {
     function ForgotPasswordsuccess(user) { return { type: userConstants.ForgotPassword_SUCCESS, user }; }
     function ResetPasswordfailure(error) { return { type: userConstants.ForgotPassword_FAILURE, error }; }
 
+}
+
+export function UpdateNavSelection(navItem) {
+    return dispatch => {
+        dispatch(updateSelectedNavItem(navItem));
+    }
+}
+
+function updateSelectedNavItem(navItem) {
+    return { type: userConstants.NavItemSelected, payload: navItem };
 }
 
 export function logout() {

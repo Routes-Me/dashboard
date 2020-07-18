@@ -9,5 +9,10 @@
     ForgotPassword_FAILURE: 'FORGOTPASSWORD_FAILURE',
     ChangePassword_REQUEST: 'CHANGEPASSWORD_REQUEST',
     ChangePassword_SUCCESS: 'CHANGEPASSWORD_SUCCESS',
-    ChangePassword_FAILURE: 'CHANGEPASSWORD_FAILURE'
+    ChangePassword_FAILURE: 'CHANGEPASSWORD_FAILURE',
+
+    NavItemSelected: 'NAVITEM_SELECTED',
+    NavItem_Tracking: 'Tracking',
+    NavItem_Vehicles: 'Vehicles',
+    NavItem_Drivers: 'Drivers'
 };

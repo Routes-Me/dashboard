@@ -3,11 +3,12 @@ import compose from 'recompose/compose';
 import defaultProps from 'recompose/defaultProps';
 import { Motion } from 'react-motion';
 import { clusterMarkerHOC } from './ClusterMarker.js';
+import OnlineMarkerStyles from './SimpleMarker.sass';
 import style from './styles.css';
 import $ from "jquery";
 
 const onMarkerClick = (key) => {
-    $('.marker').toggleClass("active")
+    $('.active-marker').toggleClass("selected")
     console.log('the key for click ====>', key)
     console.log('The Passed style is ====>', style);
 };
