@@ -117,8 +117,10 @@ class SecondaryTracking extends Component {
 
                     {
                         this.props.vehicles.filter(vehicle => vehicle.status === this.state.filter).length === 0 ?
+                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                             <p>No results found
                             <br /> {this.returnCountForOtherFilterType()}</p>
+                            </div>
                             :
                             <div className="search-result">
                                 <p>Free</p>

@@ -74,7 +74,7 @@ const TrackingReducer = ( state = {}, action ) => {
             };
 
         default:
-            return INITIAL_STATE;
+            return state;
     }
 };
 
