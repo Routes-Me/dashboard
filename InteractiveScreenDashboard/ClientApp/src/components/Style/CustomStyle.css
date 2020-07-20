@@ -1,0 +1,134 @@
+﻿.slide-effect .location-button {
+    background-color: rgba(55, 90, 155, 0.2);
+    padding: 15px 15px;
+    font-family: Roboto;
+    font-size: 18px;
+    font-weight: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #0b0b0b;
+    margin-bottom: 0px;
+    cursor: pointer;
+}
+
+.slide-effect .location-detail {
+    background-color: #fff;
+    padding: 15px;
+    display: none;
+}
+
+    .slide-effect .location-detail li {
+        list-style-type: none;
+    }          
+
+        .slide-effect .location-detail li a {
+            font-family: Roboto;
+            font-size: 16px;
+            font-weight: normal;
+            line-height: normal;
+            letter-spacing: normal;
+            color: #0b0b0b;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 0 0px 6px 0px;
+            text-decoration: none;
+        }
+
+        .slide-effect .location-detail li a i {
+                margin-right: 8px;
+                width: 16px;
+                text-align: center;
+        }
+
+.icon-30 {
+    width: 30px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+    .icon-30 .icon {
+        max-width: 30px;
+    }
+
+/*home*/
+
+/*Custom*/
+.slide-effect .expand li a {
+    max-height: 500px;
+    transition: max-height 2s ease-out;
+    display: flex;
+}
+
+
+.slide-effect .collapse li a {
+    max-height: 0;
+    transition: max-height 0.5s ease-in;
+}
+
+
+
+.slide-effect .collapse ul {
+    border-bottom: 5px solid red;
+}
+/*Custom*/
+.menu {
+    background-color: rgba(55, 90, 155, 0.2);
+    font-family: Roboto-Regular;
+    font-weight: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #0b0b0b;
+    cursor: pointer;
+}
+
+    .menu .location-button {
+        padding: 15px 15px;
+        font-family: Roboto-Regular;
+        font-size: 18px;
+        font-weight: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #0b0b0b;
+        margin-bottom: 0px;
+        cursor: pointer;
+    }
+
+    .menu > li {
+        display: inline-block;
+        float: left;
+        padding: 10px 10px 10px 0px;
+        width: 130px;
+    }
+
+        .menu > li > .icon-30 {
+            display: block;
+            float: left;
+            margin-right: 10px;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+        }
+
+    .menu .list {
+        background-color: #fff;
+        max-height: 0;
+        transition: max-height 0.5s ease-in;
+        overflow: hidden;
+        list-style-type: none;
+        padding-left: 15px;
+        margin-bottom: 0px;
+    }
+
+    .menu .list_x {
+        background-color: #fff;
+        width: 100%;
+        font-size: 16px;
+        padding: 0px;
+        max-height: 500px;
+        transition: max-height 0.8s ease-out;
+        overflow: hidden;
+        list-style-type: none;
+        padding: 15px;
+        margin-bottom: 10px;
+    }

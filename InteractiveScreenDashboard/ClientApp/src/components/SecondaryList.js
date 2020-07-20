@@ -3,7 +3,7 @@ import alarem from './image/alarem.png';
 import bank from './image/bank.png';
 import carnew from './image/carnew.png';
 import phone from './image/phone.png';
-import '../custom.css';
+import './Style/CustomStyle.css';
 
 
 export const SecondaryList = ({ vehicle, index, selectedIndex }) => {
@@ -11,27 +11,37 @@ export const SecondaryList = ({ vehicle, index, selectedIndex }) => {
     //console.log('SecondaryList(): Row values ==>', index + "===" + selectedIndex)
 
     return (
-           <div className="slide-effect" key={parseInt(index)}>
+       <div className="menu" key={parseInt(index)}>
             <p className="location-button">{vehicle.driver}</p>
-            <ul style={{ liststyletype: "none" }} className={parseInt(selectedIndex) === parseInt(index) ? "expand" : "collapse"}>
+            <ul className={parseInt(selectedIndex) === parseInt(index) ? "list_x" : "list"}>
+                <li><a><img className="icon-30" alt="" src={alarem}/> {vehicle.vehicle_id}</a></li>
+                <li><a><img className="icon-30" alt="" src={carnew} /> {vehicle.model}</a></li>
+                <li><a><img className="icon-30" alt="" src={phone} /> {vehicle.contact}</a></li>
+                <li><a><img className="icon-30" alt="" src={bank} /> {vehicle.company}</a></li>
+            </ul>
+        </div>
+
+         /*<div className="slide-effect">
+            <p className="location-button">Fulan Abu Flan</p>
+            <ul className="location-detail">
+                <li><a href="#"><div className="icon-30"><img alt="" src={alarem} className="icon" /></div> Running last 4hrs</a></li>
+                <li><a href="#"><div className="icon-30"><img alt="" src={carnew} className="icon" /></div> Toyota Camry.2019</a></li>
+                <li><a href="#"><div className="icon-30"><img alt="" src={phone} className="icon" /></div> +965 656552514</a></li>
+                <li><a href="#"><div className="icon-30"><img alt="" src={bank} className="icon" /></div> Afnan</a></li>
+            </ul>
+        </div>
+        
+
+        <div className="slide-effect" key={parseInt(index)}>
+            <p className="location-button">{vehicle.driver}</p>
+            {parseInt(selectedIndex) === parseInt(index) && <ul className="location-detail">
                 <li><a><div className="icon-30"><img alt="" src={alarem} className="icon" /></div> {vehicle.vehicle_id}</a></li>
                 <li><a><div className="icon-30"><img alt="" src={carnew} className="icon" /></div> {vehicle.model}</a></li>
                 <li><a><div className="icon-30"><img alt="" src={phone} className="icon" /></div>  {vehicle.contact}</a></li>
                 <li><a><div className="icon-30"><img alt="" src={bank} className="icon" /></div>{vehicle.company}</a></li>
-            </ul>
-            </div>
-
-            /*parseInt(selectedIndex) === parseInt(index) ?
-            <div className="slide-effect" key={parseInt(index)}>
-                <p className="location-button">{vehicle.driver}</p>
-                <ul className="location-detail">
-                    <li><a href="#"><div className="icon-30"><img alt="" src={alarem} className="icon" /></div> {vehicle.vehicle_id}</a></li>
-                    <li><a href="#"><div className="icon-30"><img alt="" src={carnew} className="icon" /></div> {vehicle.model}</a></li>
-                    <li><a href="#"><div className="icon-30"><img alt="" src={phone} className="icon" /></div>  {vehicle.contact}</a></li>
-                    <li><a href="#"><div className="icon-30"><img alt="" src={bank} className="icon" /></div>{vehicle.company}</a></li>
-                </ul>
-            </div> : <div className="slide-effect" key={parseInt(index)}><p className="location-button">{vehicle.driver}</p></div>
-       <div className="slide-effect" key={parseInt(index)}>
+            </ul>}
+        </div>*/
+       /*<div className="slide-effect" key={parseInt(index)}>
             <ul>
                 <li>
                     <input type="checkbox" id={ vehicle.vehicle_id } />

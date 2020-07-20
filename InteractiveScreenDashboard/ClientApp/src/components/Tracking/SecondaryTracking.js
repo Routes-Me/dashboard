@@ -6,6 +6,11 @@ import { connect } from 'react-redux';
 import * as TrackingAction from '../../Redux/Action';
 import { trackingConstants } from '../../constants/trackingConstants';
 
+
+const divStyle = {
+    overflow:'hidden'
+}
+
 class SecondaryTracking extends Component {
 
     constructor(props) {
