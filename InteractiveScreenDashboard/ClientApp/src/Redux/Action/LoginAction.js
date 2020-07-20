@@ -47,7 +47,7 @@ export function userSignInRequest(username, password) {
             password: encryptedpassword.toString()
         };
 
-        axios.post('http://localhost:55205/api/Users/Login', UserObject)
+        axios.post(userConstants.Domain+'api/Users/Login', UserObject)
             .then(
                 user => {
                     dispatch(getLoginSuccess(user));
@@ -82,7 +82,7 @@ export function forgotPassword(email) {
         dispatch(requestForgotPassword(PasswordObject));
         
 
-        axios.post('https://localhost:5001/api/Users/forgot_password', PasswordObject)
+        axios.post(userConstants.Domain +'api/Users/forgot_password', PasswordObject)
             .then(
                 user => {
                     dispatch(ForgotPasswordsuccess(user));
@@ -121,7 +121,7 @@ export function ResetPassword(UserObject) {
         dispatch(requestResetPassword(ResetPasswordObject));
 
 
-        axios.post('https://localhost:5001/api/Users/rest_password', ResetPasswordObject)
+        axios.post(userConstants.Domain +'api/Users/rest_password', ResetPasswordObject)
             .then(
                 user => {
                     dispatch(ForgotPasswordsuccess(user));

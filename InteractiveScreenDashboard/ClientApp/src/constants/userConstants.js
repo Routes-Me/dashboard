@@ -14,5 +14,7 @@
     NavItemSelected: 'NAVITEM_SELECTED',
     NavItem_Tracking: 'Tracking',
     NavItem_Vehicles: 'Vehicles',
-    NavItem_Drivers: 'Drivers'
+    NavItem_Drivers: 'Drivers',
+
+    Domain:'http://localhost:55205/' 
 };
