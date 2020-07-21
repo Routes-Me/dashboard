@@ -44,7 +44,7 @@
 .icon-30 {
     width: 30px;
     text-align: center;
-    margin-right: 10px;
+    margin-right: 12px;
 }
 
     .icon-30 .icon {
@@ -73,16 +73,19 @@
 }
 /*Custom*/
 .menu {
-    background-color: rgba(55, 90, 155, 0.2);
+    background-color: white;
     font-family: Roboto-Regular;
     font-weight: normal;
     line-height: normal;
     letter-spacing: normal;
     color: #0b0b0b;
     cursor: pointer;
+    border-bottom: 1px solid;
+    border-bottom-color: #f1f2f6;
 }
 
     .menu .location-button {
+        background-color: white;
         padding: 15px 15px;
         font-family: Roboto-Regular;
         font-size: 18px;
@@ -94,21 +97,21 @@
         cursor: pointer;
     }
 
-    .menu > li {
-        display: inline-block;
-        float: left;
-        padding: 15px 10px 15px 0px;
-        width: 130px;
+    .menu .location-button-clicked {
+        background-color: rgba(55, 90, 155, 0.2);
+        padding: 15px 15px;
+        font-family: Roboto-Regular;
+        font-size: 18px;
+        font-weight: normal;
+        line-height: normal;
+        letter-spacing: normal;
+        color: #0b0b0b;
+        margin-bottom: 0px;
+        cursor: pointer;
     }
 
-        .menu > li > .icon-30 {
-            display: block;
-            float: left;
-            margin-right: 10px;
-            width: 30px;
-            height: 30px;
-            text-align: center;
-        }
+
+
 
     .menu .list {
         background-color: #fff;
@@ -124,11 +127,34 @@
         background-color: #fff;
         width: 100%;
         font-size: 16px;
-        padding: 0px;
         max-height: 500px;
         transition: max-height 0.8s ease-out;
         overflow: hidden;
         list-style-type: none;
-        padding: 15px;
-        margin-bottom: 18px;
+        padding: 16px 15px 50px 15px;
+        border-bottom: 18px solid;
+        border-bottom-color: #f1f2f6;
+        margin-bottom: 0px;
     }
+
+
+    .menu > li {
+        display: inline-block;
+        float: left;
+        height: 30px;
+        width: 130px;
+        
+    }
+li {
+    vertical-align: middle;
+    margin: 0 0 10px 0;
+}
+
+        .menu > li > .icon-30 {
+            display: block;
+            float: left;
+            margin-right: 12px;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+        }

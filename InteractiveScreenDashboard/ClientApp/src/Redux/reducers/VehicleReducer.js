@@ -2,7 +2,7 @@
 
 const INITIAL_STATE = {
     Vehicles =[],
-    Institutions =[],
+    Institution ='',
     Loading: true,
     hasError: false,
     error:null
@@ -34,7 +34,7 @@ const VehicleReducer = (state = {}, action) => {
                 ...state,
                 Loading: false,
                 hasError: false,
-                Institutions: action.payload
+                Institution: action.payload
             }
 
     }
