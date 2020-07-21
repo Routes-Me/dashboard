@@ -86,7 +86,7 @@
 
     .menu .location-button {
         background-color: white;
-        padding: 15px 15px;
+        padding: 15px 16px;
         font-family: Roboto-Regular;
         font-size: 18px;
         font-weight: normal;
@@ -99,7 +99,7 @@
 
     .menu .location-button-clicked {
         background-color: rgba(55, 90, 155, 0.2);
-        padding: 15px 15px;
+        padding: 15px 15px 13px 16px;
         font-family: Roboto-Regular;
         font-size: 18px;
         font-weight: normal;

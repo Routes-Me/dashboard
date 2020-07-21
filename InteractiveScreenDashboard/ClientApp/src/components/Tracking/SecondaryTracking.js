@@ -131,7 +131,7 @@ class SecondaryTracking extends Component {
 
                     <div className="search-part">
                         <div className="search-relative">
-                            <input type="text" autoComplete="off" name="search" placeholder="Search" className="search"></input>
+                            <input type="text" autoComplete="off" name="search" placeholder="Filter" className="search"></input>
                             <i className="fa fa-search" aria-hidden="true"></i>
                             <span className="cross-icon"><img src="../cross-image.png" /></span>
                         </div>
