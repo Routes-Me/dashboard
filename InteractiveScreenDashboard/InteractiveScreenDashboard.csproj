@@ -24,8 +24,12 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\src\components\Nav\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src\components\Nav\**" />
+    <EmbeddedResource Remove="ClientApp\src\components\Nav\**" />
     <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\src\components\Nav\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
   </ItemGroup>
 
@@ -36,10 +40,6 @@
     <Compile Remove="Migrations\20200608052757_PrimaryKeyUpdateUsers.Designer.cs" />
     <Compile Remove="Migrations\20200608183559_fixAddUserAndUserRoles.cs" />
     <Compile Remove="Migrations\20200608183559_fixAddUserAndUserRoles.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ClientApp\src\components\Nav\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

@@ -1,38 +1,66 @@
 ﻿import React, { Component } from 'react';
+import Modal from '../Dialog/Modal';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import * as VehicleAction from '../../Redux/Action';
 
-export class Vehicles extends Component {
+class Vehicles extends Component {
 
     constructor(props) {
         super(props)
 
         this.state = {
-            Vehicles: [],
+            VehicleList: [],
+            ModelList:[],
             loading: true,
             failed: false,
             error: '',
-            activePage: 15
+            activePage: 15,
+            isOpen: false,
+            vehicle: '',
+            optionsIndex: 0
         };
+        this.toggleModal = this.toggleModal.bind(this);
     }
 
     componentDidMount() {
-        this.populateVehicleData();
+        //this.populateVehicleData();
+        this.props.getVehiclesForInstitution();
+        this.props.getVehicleModels();
     }
 
-    //Load Vehicles from API
+
+    //Load Vehicles from API (Currently noy used)
     populateVehicleData() {
         axios.get("http://localhost:55205/api/Vehicles").then(result => {
             const response = result.data;
-            this.setState({ Vehicles: response, loading: false, failed: false, error: "" });
+            this.setState({ VehicleList: response, loading: false, failed: false, error: "" });
         }).catch(error => {
-            this.setState({ vehicles: [], loading: false, failed: true, error: "Vehicles could not be loaded" });
+            this.setState({ VehicleList: [], loading: false, failed: true, error: "Vehicles could not be loaded" });
         });
+
     }
 
     //Page Selection
     handlePageChange(pageNumber) {
         console.log(`active page is ${pageNumber}`);
         this.setState({ activePage: pageNumber });
+    }
+
+    //Handle submenu for the table row
+    openSubMenuForVehicleId = (e, vehicleId) => {
+        e.preventDefault();
+        this.setState({ optionsIndex: this.state.optionsIndex === vehicleId? 0:vehicleId });
+    }
+
+    //show model dialog 
+    toggleModal = (e, Vehicle) => {
+        e.preventDefault();
+        this.setState({
+            isOpen: !this.state.isOpen,
+            vehicle: Vehicle,
+            optionsIndex:0
+        });
     }
 
 
@@ -55,22 +83,23 @@ export class Vehicles extends Component {
                         <tbody>
                             {
                                 Vehicles.map(Vehicle => (
-                                    <tr key={Vehicle.id}>
-                                        <td>{Vehicle.plate}</td>
-                                        <td>{Vehicle.make}</td>
-                                        <td>{Vehicle.model}</td>
-                                        <td>{Vehicle.office}</td>
-                                        <td>{Vehicle.year}</td>
+                                    <tr  key={Vehicle.id}>
+                                        <td>{Vehicle.plateNumber}</td>
+                                        <td>{Vehicle.deviceId}</td>
+                                        <td>{Vehicle.model.name}</td>
+                                        <td>{Vehicle.institution.name}</td>
+                                        <td>{Vehicle.modelYear}</td>
                                         <td className="width44" >
                                             <div className="edit-popup">
-                                                <div className="edit-delet-butt">
+                                                <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Vehicle.id)}>
                                                     <span />
                                                     <span />
                                                     <span />
                                                 </div>
-                                                <ul className="edit-delet-link">
-                                                    <li><a href="#">Edit</a></li>
-                                                    <li><a href="#">Delet</a></li>
+                                                <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === Vehicle.id ? 'inline-block' : 'none' }}>
+                                                    <li><a onClick={e => this.toggleModal(e, Vehicle)}>Edit</a></li>
+                                                    <li><a
+                                                    >Delete</a></li>
                                                 </ul>
                                             </div>
                                         </td>
@@ -88,20 +117,28 @@ export class Vehicles extends Component {
 
     render() {
 
-        let content = this.state.loading ?
-            <div><br /><br /><p><em> Loading...</em> </p></div> :
-            this.state.failed ?
-                <div className="text-danger"><br /><br />
-                    <em>{this.state.error}</em>
-                </div> :
-                this.renderAllVehicleTable(this.state.Vehicles);
+
+
+        //let content = this.state.loading ?
+        //    <div><br /><br /><p><em> Loading...</em> </p></div> :
+        //    this.state.failed ?
+        //        <div className="text-danger"><br /><br />
+        //            <em>{this.state.error}</em>
+        //        </div> : this.renderAllVehicleTable(this.state.VehicleList);
+
+        let content = this.renderAllVehicleTable(this.props.VehicleList);
 
         return (
             <div className="vehicles-page">
+                <Modal
+                    show={this.state.isOpen}
+                    Object={this.state.vehicle}
+                    onClose={this.toggleModal}/>
+
                 <div className="top-part-vehicles-search padding-lr-80">
                     <div className="hehading-add-butt">
                         <h3>Vehicles</h3>
-                        <a href="#" className="vehicle-add-butt"><i className="fa fa-plus-circle" aria-hidden="true" /> Add Vehicle</a>
+                        <a className="vehicle-add-butt" onClick={e => this.toggleModal(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Add Vehicle</a>
                     </div>
 
                     <div className="search-part">
@@ -112,10 +149,28 @@ export class Vehicles extends Component {
                         </div>
                     </div>
                 </div>
-
-                {content}
+                    {content}
             </div>
         );
     }
 
 }
+
+const mapStateToProps = (state) => {
+
+    const vehicles = state.VehicleStore.Vehicles
+    console.log('Mapped State Vehicle Array returned :', vehicles);
+    return {
+        VehicleList: vehicles,
+        ModelList: state.VehicleStore.Models
+    }
+
+}
+
+const actionCreators = {
+    getVehiclesForInstitution: VehicleAction.getVehiclesForInstitutionID,
+    getVehicleModels: VehicleAction.getModels
+};
+
+const connectedVehicles = connect(mapStateToProps, actionCreators)(Vehicles);
+export { connectedVehicles as Vehicles };

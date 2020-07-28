@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-
 import "bootstrap/less/bootstrap.less";
 
 
@@ -15,9 +14,11 @@ export class vehicles extends Component {
             loading: true,
             failed: false,
             error: '',
-            activePage: 15
+            activePage: 15,
+            show: false
 
         };
+        this.showModal = this.showModal.bind(this);
         
     }
 
@@ -35,6 +36,15 @@ export class vehicles extends Component {
             this.setState({ vehicles: [], loading: false, failed: true, error: "Vehicles could not be loaded" });
         });
     }
+
+    showModal(e) {
+        e.stopPropagation();
+        e.nativeEvent.stopImmediatePropagation();
+        this.setState({
+            show: !this.state.show
+        });
+    }
+        
  
 
     handlePageChange(pageNumber) {
@@ -105,11 +115,13 @@ export class vehicles extends Component {
                 //<div className="right-part">
 
                   //<div className="vehicles-page">
-                <div style={{ height: "100vh", width: "100%" }}>
+            <div style={{ height: "100vh", width: "100%" }}>
+
+
                      <div className="top-part-vehicles-search padding-lr-80">
                          <div className="hehading-add-butt">
                             <h3>Vehicles</h3>
-                            <a href="#" className="vehicle-add-butt"><i className="fa fa-plus-circle" aria-hidden="true"/> Add Vehicle</a>
+                        <a className="vehicle-add-butt" onClick={e => this.showModal(e)}><i className="fa fa-plus-circle" aria-hidden="true"/> Add Vehicle</a>
                          </div> 
 
                          <div className="search-part">

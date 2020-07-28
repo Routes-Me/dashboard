@@ -15,6 +15,7 @@ import * as LoginAction from '../Redux/Action';
 
 		super(props);
 
+
 		this.onChange = this.onChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.validateAll = this.validateAll.bind(this);

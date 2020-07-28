@@ -1,6 +1,6 @@
 ﻿export const MockServerData = {
 
-    VehicleMockServerData = {
+    VehicleMockServerData : {
         "vehiclesDetail": {
             "pagination": {
                 "currentPage": 1,
@@ -41,7 +41,7 @@
         "responseCode": 200
     },
 
-    InstitutionMockServerData ={
+    InstitutionMockServerData :{
         "institutionDetails": {
             "pagination": {
                 "currentPage": 1,
@@ -70,6 +70,34 @@
         },
         "status": true,
         "message": "Institutions data retrived successfully.",
+        "responseCode": 200
+    },
+
+    ModelMockServerData : {
+        "manuFacturersDetails": {
+            "pagination": {
+                "currentPage": 1,
+                "totalCount": 1,
+                "pageSize": 10,
+                "totalPages": 1,
+                "indexOne": 1,
+                "indexTwo": 1,
+                "showPrevious": false,
+                "showFirst": false,
+                "showLast": false
+            },
+            "data": {
+                "carManuFacturers": null,
+                "carModels": [
+                    {
+                        "modelId": 2,
+                        "name": "A3"
+                    }
+                ]
+            }
+        },
+        "status": true,
+        "message": "Models data retrived successfully.",
         "responseCode": 200
     }
 }

@@ -90,7 +90,7 @@ header nav {
     width: 100%;
     position: fixed !important;
     background-color: #fff;
-    z-index: 9999;
+    z-index: 2;
     top: 56px;
     overflow: auto;
     box-shadow: 0 5px 5px 0 rgba(105, 105, 105, 0.5);
@@ -519,7 +519,7 @@ header nav {
     top: 68px;
     background-color: #fff;
     border-bottom: 1px solid #dee2e6;
-    z-index: 1;
+    z-index: 0;
 }
 
     .top-part-vehicles-search .search-part {
@@ -534,7 +534,7 @@ header nav {
 }
 
 .table-list-vehicles {
-    margin-top: 10px;
+    margin-top: 80px;
 }
 
 .vehicles-page {
@@ -617,14 +617,16 @@ td {
     width: 44px;
 }
 
-.edit-delet-butt span {
-    width: 5px;
-    height: 5px;
-    background-color: #423429;
-    display: block;
-    border-radius: 50%;
-    margin-bottom: 3px;
-}
+  
+
+    .edit-delet-butt span {
+        width: 5px;
+        height: 5px;
+        background-color: #423429;
+        display: block;
+        border-radius: 50%;
+        margin-bottom: 3px;
+    }
 
 .edit-delet-butt.active span {
     background-color: #18428f;
@@ -656,6 +658,7 @@ td {
             background-color: #f3f3f3;
         }
 
+
         .edit-delet-link li a {
             font-size: 16px;
             font-weight: normal;
@@ -669,6 +672,10 @@ td {
             text-align: left;
             text-decoration: none;
         }
+
+.edit-popup:hover .edit-delet-link {
+    display: inline-block;
+}
 
 
 /*vehicles*/
