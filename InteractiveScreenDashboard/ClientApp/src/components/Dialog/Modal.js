@@ -18,7 +18,9 @@ class Modal extends React.Component {
             plateNumber: "",
             InstitutionId: "",
             ModelList: [],
-            loading: false,
+            selectedModel: "",
+            validationError: "",
+            loading: false
         }
 
     }
@@ -33,7 +35,9 @@ class Modal extends React.Component {
 
         //const isValid = this.validateAll();
         //if (isValid) {
-            this.setState({ loading: true });
+        this.setState({
+            loading: true,
+        });
         //}
 
     }
@@ -63,64 +67,64 @@ class Modal extends React.Component {
         const modalStyle = {
             backgroundColor: '#fefefe',
             borderRadius: 5,
-            maxWidth: 500,
+            maxWidth: 300,
             minHeight: 300,
             margin: '0 auto',
-            padding: 30
+            padding: 20
         };
         
-        const VehicleObj = this.props.Object;
+        const VehicleObj = this.props.objectToDisplay;
         const create = VehicleObj ? "Update" : "Save";
         return (
             <div className="modalNew">
                 <div class="modal-content" style={{ modalStyle }}>
                     <span class="close" onClick={this.props.onClose}>&times;</span>
-                    <div className="hehading-add-butt">
-                        {VehicleObj === undefined ? <h3>Add New Device </h3> : <h3>Vehicle Id {this.props.Object.id}</h3>}
+                    <div className="hehading-add-butt" style={{ textAlign: "center" }}>
+                        {VehicleObj === undefined ? <h3>Add New Device </h3> : <h3>Vehicle Id {VehicleObj.id}</h3>}
                     </div>
-                    <hr />
                     <div class="row">
 
                         {/*<Form onSubmit={this.handleSubmit}>*/}
-                            <div class="col-md-10 mx-auto">
-                            <div class="form-group row">
+                        <div class="col-md-10 mx-auto">
+                            <div class="form-group row" >
 
                                 <div className="col-md-6">
-                                    <Label>Model</Label><br />
-                                    <input type="text" name="modelId" placeholder={VehicleObj === undefined ? "" : this.props.Object.model.name}
-                                        value={this.state.modelId}
-                                        onChange={this.onChange}
-                                        className="textFieldStyle" />
-
-                                    <select value="Radish">
-                                        <option value="Orange">Orange</option>
-                                        <option value="Radish">Radish</option>
-                                        <option value="Cherry">Cherry</option>
+                                     <Label>Model</Label><br/>
+                                    {/*<input type="text" name="modelId"
+                                            placeholder={VehicleObj === undefined ? "" : VehicleObj.model.name}
+                                            value={this.state.modelId}
+                                            onChange={this.onChange}
+                                            className="textFieldStyle" />*/}
+                                    <select value={VehicleObj === undefined ? "Select a model" : VehicleObj.model.id} className="textFieldStyle" name="modelId" onChange={this.onChange}>
+                                        {this.props.modelList.map(model => (<option value={model.id}>{model.name}</option>))}
                                     </select>
                                 </div>
 
                                 <div className="col-md-6">
-                                        <Label>Year</Label><br />
-                                    <input type="text" name="modelYear" placeholder={VehicleObj === undefined ? "" : this.props.Object.modelYear}
-                                        value={this.state.modelYear}
-                                        onChange={this.onChange}
-                                        className="textFieldStyle" />
+                                    <Label>Year</Label><br/>
+                                        <input type="text" name="modelYear"
+                                            placeholder={VehicleObj === undefined ? "" : VehicleObj.modelYear}
+                                            value={this.state.modelYear}
+                                            onChange={this.onChange}
+                                            className="textFieldStyle" />
                                 </div>
 
                             </div>
                             <div class="form-group row">
 
                                 <div className="col-md-6">
-                                        <Label>Device Id</Label><br />
-                                    <input type="text" name="DeviceId" placeholder={VehicleObj === undefined ? "" : this.props.Object.deviceId}
-                                        value={this.state.deviceId}
-                                        onChange={this.onChange}
-                                        className="textFieldStyle" />
+                                    <label>Device Id</label><br/>
+                                        <input type="text" name="DeviceId"
+                                            placeholder={VehicleObj === undefined ? "" : VehicleObj.deviceId}
+                                            value={this.state.deviceId}
+                                            onChange={this.onChange}
+                                            className="textFieldStyle" />
                                 </div>
 
                                 <div className="col-md-6">
-                                        <Label>Plate Number</Label><br />
-                                    <input type="text" name="PlateNumber" placeholder={VehicleObj === undefined ? "" : this.props.Object.plateNumber}
+                                    <Label>Plate Number</Label><br/>
+                                    <input type="text" name="PlateNumber"
+                                        placeholder={VehicleObj === undefined ? "" : VehicleObj.plateNumber}
                                         value={this.state.plateNumber}
                                         onChange={this.onChange}
                                         className="textFieldStyle" />
@@ -128,18 +132,18 @@ class Modal extends React.Component {
 
                             </div><br /><br />
 
-                            <h4>{VehicleObj === undefined ? `Institution Details` : `Institution Id: ${this.props.Object.institution.institutionId}`}</h4><br />
+                            {/*<h4>{VehicleObj === undefined ? `Institution Details` : `Institution Id: ${VehicleObj.institution.institutionId}`}</h4><br />
 
                             <div class="form-group row">
 
                                  <div className="col-md-6">
                                         <Label>Institution Name</Label><br />
-                                    <input type="text" name="InstitutionId" value={VehicleObj === undefined ? "" :this.props.Object.institution.name} className="textFieldStyle" />
+                                    <input type="text" name="InstitutionId" value={VehicleObj === undefined ? "" : VehicleObj.institution.name} className="textFieldStyle" />
                                 </div>
 
                                  <div className="col-md-6">
                                         <Label>Ceated At</Label><br />
-                                    <input type="text" name="search" value={VehicleObj === undefined ? "" :this.props.Object.institution.createdAt} className="textFieldStyle" />
+                                    <input type="text" name="search" value={VehicleObj === undefined ? "" : VehicleObj.institution.createdAt} className="textFieldStyle" />
                                 </div>
 
                             </div>
@@ -148,21 +152,21 @@ class Modal extends React.Component {
 
                                 <div className="col-md-6">
                                         <Label>Phone Number</Label><br />
-                                    <input type="text" name="search" value={VehicleObj === undefined ? "" :this.props.Object.institution.phoneNumber} className="textFieldStyle" />
+                                    <input type="text" name="search" value={VehicleObj === undefined ? "" : VehicleObj.institution.phoneNumber} className="textFieldStyle" />
                                 </div>
 
                                 <div className="col-md-6">
                                         <Label>Country ISO</Label><br />
-                                    <input type="text" name="search" value={VehicleObj === undefined ? "" :this.props.Object.institution.countryIso} className="textFieldStyle" />
+                                    <input type="text" name="search" value={VehicleObj === undefined ? "" : VehicleObj.institution.countryIso} className="textFieldStyle" />
                                 </div>
 
-                            </div>
-                            <div className="col-md-12"><button type="submit" className="btn btn-primary"> {create} </button></div>
-                            </div>
+                            </div>*/}
+                            <div className="col-md-12" style={{ textAlign: "center" }}><button type="submit" className="buttonStyle"> {create} </button></div>
+                        </div>
                         {/*</Form>*/}
-                        
+
                     </div>
-                    
+
                 </div>
             </div>
         );

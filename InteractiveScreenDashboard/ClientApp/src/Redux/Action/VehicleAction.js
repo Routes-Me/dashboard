@@ -27,12 +27,12 @@ export function getVehiclesForInstitutionID() {
 export function getModels() {
     return dispatch => {
         dispatch(ModelDataRequest)
-        dispatch(storeModelData(returnModelsByMockAPICallforModels))
+        dispatch(storeModelData(returnModelsByMockAPICallforModels().manuFacturersDetails.data.carModels))
     }
 }
 
 
-//Action to Add vehcile
+//Action to Add or Update vehcile
 export function saveVehicle(vehicle) {
 
     return dispatch => {
@@ -55,7 +55,7 @@ function ModelDataRequest() {
 }
 
 function storeModelData(models) {
-    return { type: vehicleConstants.getInstitutions_SUCCESS, payload:models }
+    return { type: vehicleConstants.getModels_SUCCESS, payload:models }
 }
 
 

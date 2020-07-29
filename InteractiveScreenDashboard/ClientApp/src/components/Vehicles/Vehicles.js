@@ -59,7 +59,8 @@ class Vehicles extends Component {
         this.setState({
             isOpen: !this.state.isOpen,
             vehicle: Vehicle,
-            optionsIndex:0
+            optionsIndex: 0,
+            ModelList: this.props.ModelList
         });
     }
 
@@ -132,8 +133,9 @@ class Vehicles extends Component {
             <div className="vehicles-page">
                 <Modal
                     show={this.state.isOpen}
-                    Object={this.state.vehicle}
-                    onClose={this.toggleModal}/>
+                    objectToDisplay={this.state.vehicle}
+                    onClose={this.toggleModal}
+                    modelList={this.state.ModelList} />
 
                 <div className="top-part-vehicles-search padding-lr-80">
                     <div className="hehading-add-butt">
@@ -158,11 +160,13 @@ class Vehicles extends Component {
 
 const mapStateToProps = (state) => {
 
-    const vehicles = state.VehicleStore.Vehicles
-    console.log('Mapped State Vehicle Array returned :', vehicles);
+    const vehicles = state.VehicleStore.Vehicles;
+    const modelList = state.VehicleStore.Models;
+    console.log('Mapped State Vehicle Array returned :', modelList);
+
     return {
         VehicleList: vehicles,
-        ModelList: state.VehicleStore.Models
+        ModelList: modelList
     }
 
 }
