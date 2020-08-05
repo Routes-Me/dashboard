@@ -37,7 +37,11 @@ export function saveVehicle(vehicle) {
 
     return dispatch => {
         dispatch(saveVehicleRequest(vehicle))
-        dispatch(saveVehicleSucces(vehicle))
+        if (vehicle.id !== "") {
+            dispatch(saveVehicleSuccess(vehicle))
+        } else {
+            dispatch(updateVehicleSuccess(vehicle))
+        }
     }
 
 }
@@ -71,8 +75,12 @@ function saveVehicleRequest(vehicle) {
     return { type: vehicleConstants.addVehicle_REQUEST, payload: vehicle }
 }
 
-function saveVehicleSucces(vehicle) {
+function saveVehicleSuccess(vehicle) {
     return { type: vehicleConstants.addVehicle_SUCCESS, payload: vehicle }
+}
+
+function updateVehicleSuccess(vehicle) {
+    console.log('Update method called for existing vehicle');
 }
 
 

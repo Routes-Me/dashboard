@@ -2,6 +2,7 @@
 import Modal from '../Dialog/Modal';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { userConstants } from '../../constants/userConstants';
 import * as VehicleAction from '../../Redux/Action';
 
 class Vehicles extends Component {
@@ -133,6 +134,7 @@ class Vehicles extends Component {
             <div className="vehicles-page">
                 <Modal
                     show={this.state.isOpen}
+                    objectType={userConstants.NavItem_Vehicles}
                     objectToDisplay={this.state.vehicle}
                     onClose={this.toggleModal}
                     modelList={this.state.ModelList} />

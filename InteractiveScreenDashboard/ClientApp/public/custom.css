@@ -534,7 +534,7 @@ header nav {
 }
 
 .table-list-vehicles {
-    margin-top: 80px;
+    margin-top: 68px;
 }
 
 .vehicles-page {
@@ -650,6 +650,7 @@ td {
         list-style: none;
         display: inline-block;
         width: 100%;
+        margin-bottom:0px;
         border-bottom: 1px solid rgba(24, 66, 143, 0.3);
     }
 
@@ -668,7 +669,7 @@ td {
             color: black;
             display: inline-block;
             width: 100%;
-            padding: 17px 20px;
+            padding: 20px 20px;
             text-align: left;
             text-decoration: none;
         }
