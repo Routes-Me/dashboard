@@ -55,7 +55,7 @@ class Primary extends Component
     render() {
 
         // const { mainMenu1, mainMenu2, mainMenu3 } = this.state;
-        console.log(`Selected Menu to render ==> ${this.state.selectedNavItem}`)
+        //console.log(`Selected Menu to render ==> ${this.state.selectedNavItem}`)
         return (
             
             <div className="overfollow-scroll" >

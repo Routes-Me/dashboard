@@ -105,49 +105,53 @@ class DialogVehicles extends React.Component {
             <div className="col-md-12">
                 <div class="row">
                     <Form onSubmit={e => this.handleSubmit(e)}>
-                <div class="col-md-10 mx-auto">
-                    <div class="form-group row" >
-                                {/*VehicleObj.model.id*/}
-                        <div className="col-md-6">
-                                    <Label>Model</Label><br />
-                                    <select defaultValue={ VehicleObj ? VehicleObj.model.id: "Select a model" } className="textFieldStyle" name="modelId" onChange={this.onChange}>
-                                {this.props.ModelList.map(model => (<option value={model.id}>{model.name}</option>))}
-                            </select>
-                        </div>
+                        <div class="col-md-10 mx-auto">
 
-                        <div className="col-md-6">
-                            <Label>Year</Label><br />
-                            <input type="text" name="modelYear"
-                                placeholder={VehicleObj === undefined ? "" : VehicleObj.modelYear}
-                                defaultValue={VehicleObj.modelYear}
-                                onChange={this.onChange}
-                                className="textFieldStyle" />
-                        </div>
+                            <div class="form-group row" >
+                                        {/*VehicleObj.model.id*/}
+                                <div className="col-md-6">
+                                            <Label>Model</Label><br />
+                                            <select defaultValue={ VehicleObj ? VehicleObj.model.id: "Select a model" } className="textFieldStyle" name="modelId" onChange={this.onChange}>
+                                        {this.props.ModelList.map(model => (<option value={model.id}>{model.name}</option>))}
+                                    </select>
+                                </div>
 
-                    </div>
-                    <div class="form-group row">
+                                <div className="col-md-6">
+                                    <Label>Year</Label><br />
+                                    <input type="text" name="modelYear"
+                                        placeholder={VehicleObj === undefined ? "" : VehicleObj.modelYear}
+                                        defaultValue={VehicleObj.modelYear}
+                                        onChange={this.onChange}
+                                        className="textFieldStyle" />
+                                </div>
 
-                        <div className="col-md-6">
-                            <label>Device Id</label><br />
-                               <input type="text" name="deviceId"
-                                placeholder={VehicleObj === undefined ? "" : VehicleObj.deviceId}
-                                value={VehicleObj.deviceId}
-                                onChange={this.onChange}
-                                className="textFieldStyle" />
-                        </div>
+                            </div>
 
-                        <div className="col-md-6">
-                            <Label>Plate Number</Label><br />
-                               <input type="text" name="plateNumber"
-                                placeholder={VehicleObj === undefined ? "" : VehicleObj.plateNumber}
-                                value={VehicleObj.plateNumber}
-                                onChange={this.onChange}
-                                className="textFieldStyle" />
-                        </div>
+                            <div class="form-group row">
+
+                                <div className="col-md-6">
+                                    <label>Device Id</label><br />
+                                       <input type="text" name="deviceId"
+                                        placeholder={VehicleObj === undefined ? "" : VehicleObj.deviceId}
+                                        value={VehicleObj.deviceId}
+                                        onChange={this.onChange}
+                                        className="textFieldStyle" />
+                                </div>
+
+                                <div className="col-md-6">
+                                    <Label>Plate Number</Label><br />
+                                       <input type="text" name="plateNumber"
+                                        placeholder={VehicleObj === undefined ? "" : VehicleObj.plateNumber}
+                                        value={VehicleObj.plateNumber}
+                                        onChange={this.onChange}
+                                        className="textFieldStyle" />
+                                </div>
 
                             </div><br /><br />
+
                             <div className="col-md-12" style={{ textAlign: "center" }}><button type="submit" className="buttonStyle"> {buttonText} </button></div>
-                </div>
+
+                        </div>
                     </Form>
                 </div>
             </div>

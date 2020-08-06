@@ -89,7 +89,7 @@ class SecondaryTracking extends Component {
 
     //Applying toggle button style
     returnFilterStyle(BtnType) {
-        console.log("returnFilterStyle() => ", this.state.filter);
+        //console.log("returnFilterStyle() => ", this.state.filter);
         return this.state.filter === BtnType ? "custom-butt active" : "custom-butt";
     }
 
