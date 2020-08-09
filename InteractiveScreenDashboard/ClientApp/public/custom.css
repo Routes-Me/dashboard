@@ -485,6 +485,10 @@ header nav {
     padding: 0 80px;
 }
 
+.padding-80 {
+    padding:80px;
+}
+
 .top-part-vehicles-search .hehading-add-butt {
     display: flex;
     align-items: center;

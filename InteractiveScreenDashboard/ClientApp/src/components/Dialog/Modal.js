@@ -62,7 +62,6 @@ class Modal extends React.Component {
             <div className="modalNew">
                 <div class="modal-content" style={{ modalStyle }}>
                     {/*<span class="close" onClick={this.props.onClose}>&times;</span>
-                    
                     <div className="hehading-add-butt" style={{ textAlign: "center" }}>
                         {VehicleObj === undefined ? <h3>Add New Vehicle </h3> : <h3>Vehicle Id {VehicleObj.id}</h3>}
                     </div><br /><br />*/}

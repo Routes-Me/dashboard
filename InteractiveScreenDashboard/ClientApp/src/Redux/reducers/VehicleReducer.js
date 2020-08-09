@@ -65,7 +65,7 @@ const VehicleReducer = (state = {}, action) => {
                 Institution: action.payload
             };
         default:
-            return INITIAL_STATE;
+            return state;
 
     }
 }

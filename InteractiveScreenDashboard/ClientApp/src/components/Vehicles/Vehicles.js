@@ -31,16 +31,7 @@ class Vehicles extends Component {
     }
 
 
-    //Load Vehicles from API (Currently noy used)
-    populateVehicleData() {
-        axios.get("http://localhost:55205/api/Vehicles").then(result => {
-            const response = result.data;
-            this.setState({ VehicleList: response, loading: false, failed: false, error: "" });
-        }).catch(error => {
-            this.setState({ VehicleList: [], loading: false, failed: true, error: "Vehicles could not be loaded" });
-        });
-
-    }
+ 
 
     //Page Selection
     handlePageChange(pageNumber) {
@@ -64,6 +55,9 @@ class Vehicles extends Component {
             ModelList: this.props.ModelList
         });
     }
+
+
+    //Delete Vehicle function
 
 
     //Load Vehicles in a table
@@ -100,8 +94,7 @@ class Vehicles extends Component {
                                                 </div>
                                                 <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === Vehicle.id ? 'inline-block' : 'none' }}>
                                                     <li><a onClick={e => this.toggleModal(e, Vehicle)}>Edit</a></li>
-                                                    <li><a
-                                                    >Delete</a></li>
+                                                    <li><a onClick={e => this.}>Delete</a></li>
                                                 </ul>
                                             </div>
                                         </td>
@@ -175,7 +168,8 @@ const mapStateToProps = (state) => {
 
 const actionCreators = {
     getVehiclesForInstitution: VehicleAction.getVehiclesForInstitutionID,
-    getVehicleModels: VehicleAction.getModels
+    getVehicleModels: VehicleAction.getModels,
+    deleteVehicle: VehicleAction.deleteVehicle
 };
 
 const connectedVehicles = connect(mapStateToProps, actionCreators)(Vehicles);
