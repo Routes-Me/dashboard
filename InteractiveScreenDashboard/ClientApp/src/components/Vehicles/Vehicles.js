@@ -128,7 +128,7 @@ class Vehicles extends Component {
                 <Detail
                     show={this.state.isOpen}
                     objectType={userConstants.NavItem_Vehicles}
-                    objectToDisplay={this.state.vehicle}
+                    object={this.state.vehicle}
                     modelList={this.state.ModelList} />
 
                 <div className="top-part-vehicles-search padding-lr-80">
