@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import Modal from '../Dialog/Modal';
+import Detail from '../Detail/Detail';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { userConstants } from '../../constants/userConstants';
@@ -45,8 +45,8 @@ class Vehicles extends Component {
         this.setState({ optionsIndex: this.state.optionsIndex === vehicleId? 0:vehicleId });
     }
 
-    //show model dialog 
-    toggleModal = (e, Vehicle) => {
+    //show detail screen 
+    showDetailScreen = (e, Vehicle) => {
         e.preventDefault();
         this.setState({
             isOpen: !this.state.isOpen,
@@ -93,8 +93,8 @@ class Vehicles extends Component {
                                                     <span />
                                                 </div>
                                                 <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === Vehicle.id ? 'inline-block' : 'none' }}>
-                                                    <li><a onClick={e => this.toggleModal(e, Vehicle)}>Edit</a></li>
-                                                    <li><a onClick={e => this.}>Delete</a></li>
+                                                    <li><a onClick={e => this.showEditScreen(e, Vehicle)}>Edit</a></li>
+                                                    <li><a>Delete</a></li>
                                                 </ul>
                                             </div>
                                         </td>
@@ -125,11 +125,10 @@ class Vehicles extends Component {
 
         return (
             <div className="vehicles-page">
-                <Modal
+                <Detail
                     show={this.state.isOpen}
                     objectType={userConstants.NavItem_Vehicles}
                     objectToDisplay={this.state.vehicle}
-                    onClose={this.toggleModal}
                     modelList={this.state.ModelList} />
 
                 <div className="top-part-vehicles-search padding-lr-80">

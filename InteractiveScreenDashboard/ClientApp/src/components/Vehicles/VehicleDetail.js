@@ -27,8 +27,10 @@ class VehicleDetail extends React.Component {
 
     static getDerivedStateFromProps(props, state) {
         if (props.vehicleToDisplay !== undefined) {
-            return {
-                vehicleToDisplay: props.vehicleToDisplay
+            if (props.vehicleToDisplay !== state.vehicleToDisplay) {
+                return {
+                    vehicleToDisplay: props.vehicleToDisplay
+                }
             }
         }
     }
@@ -126,5 +128,5 @@ const actionCreators = {
     saveVehicle: VehicleAction.saveVehicle
 };
 
-const connectDialogVehicles = connect(mapStateToProps, actionCreators)(DialogVehicles);
-export { connectDialogVehicles as DialogVehicles };
+const connectVehicleDetail = connect(mapStateToProps, actionCreators)(VehicleDetail);
+export { connectVehicleDetail as VehicleDetail };

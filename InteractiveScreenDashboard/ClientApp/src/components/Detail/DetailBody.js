@@ -1,7 +1,8 @@
 ﻿import React, { Component } from 'react';
 import { userConstants } from '../../constants/userConstants';
+import { VehicleDetail } from '../Vehicles/VehicleDetail';
 
-class DetailBody extends Component {
+export default class DetailBody extends Component {
 
     constructor(props) {
         super(props)
@@ -12,8 +13,10 @@ class DetailBody extends Component {
     }
 
     render() {
+        return(
         <div className="col-md-12">
             {this.props.objectType === userConstants.NavItem_Vehicles && <VehicleDetail vehicleToDisplay={this.props.object} />}
-        </div>
+            </div>
+        )
     }
 }
