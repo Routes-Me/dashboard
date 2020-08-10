@@ -1,0 +1,35 @@
+﻿.backBtn {
+    background-color:transparent;
+    background-image:url("../image/group-3.svg");
+    width:44px;
+    height:44px;
+    border-color:transparent;
+    background-repeat:no-repeat;
+    background-size:contain;
+}
+
+.detail-Title {
+    font-size: 35px;
+    font-weight: bold;
+    padding-left:14px;
+}
+
+.detail-Subtitle {
+    font-size: 16px;
+    font-weight: 400;
+    padding-left: 50px;
+}
+
+.margin-80 {
+    margin: 80px;
+}
+
+.btn-width-height {
+    height:44px;
+    width:183px;
+}
+
+.detail-form{
+    margin-top:63px;
+    margin-left:50px;
+}

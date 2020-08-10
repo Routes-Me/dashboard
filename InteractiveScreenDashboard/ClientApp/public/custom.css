@@ -7,17 +7,24 @@ code {
     color: #E01A76;
 }
 
-.btn-primary {
-    color: #fff;
-    background-color: #18428f;
-    /*background-color: #1b6ec2;*/
-    border-color: #1861ac;
+* {
+    font-family: Roboto;
 }
 
+    .btn-primary {
+        color: #fff;
+        background-color: #18428f;
+        /*background-color: #1b6ec2;*/
+        border-color: #1861ac;
+    }
+/*TODO:
+
+    Should should use one style only and override yhe specific components
+*/
 .buttonStyle:enabled {
     color: #fff;
-    font-family: Roboto-Medium;
     font-size: 16px;
+    font-weight: 500;
     background-color: #18428f;
     border-color: #1861ac;
     height: 48px;
@@ -28,7 +35,7 @@ code {
 
 .buttonStyle:disabled {
     color: #fff;
-    font-family: Roboto-Medium;
+    /*font-family: Roboto-Medium;*/
     font-size: 16px;
     background-color: #18428f;
     border-color: #1861ac;
@@ -71,7 +78,7 @@ header nav {
     }
 
 .profile p {
-    font-family: Roboto;
+    
     font-size: 24px;
     font-weight: 300;
     font-stretch: normal;
@@ -170,7 +177,7 @@ header nav {
         }
 
         .menu-part li a {
-            font-family: Roboto;
+            
             font-size: 16px;
             font-weight: bold;
             font-stretch: normal;
@@ -221,7 +228,7 @@ header nav {
     border: solid 1px #18428f;
     background-color: #feffff;
     border-radius: 50%;
-    font-family: Roboto;
+    
     font-size: 16px;
     font-weight: normal;
     font-style: inherit;
@@ -249,7 +256,7 @@ header nav {
 
 .search-main {
     background-color: #f1f2f6;
-    font-family: Roboto-Regular;
+    /*font-family: Roboto-Regular;*/
     font-size: 16px;
     height: 100%;
     width: 100%;
@@ -267,7 +274,7 @@ header nav {
 
 
 .result-not-found p {
-    font-family: Roboto;
+    
     font-size: 16px;
     font-weight: normal;
     font-stretch: normal;
@@ -311,7 +318,7 @@ header nav {
     border: 0;
     padding: 10px 40px;
     width: 100%;
-    font-family: Roboto;
+    
     font-size: 20px;
     font-weight: normal;
     font-stretch: normal;
@@ -358,7 +365,7 @@ header nav {
 }
 
     .search-result p {
-        font-family: Roboto;
+        
         font-size: 16px;
         font-weight: normal;
         font-stretch: normal;
@@ -372,7 +379,7 @@ header nav {
 
     .search-result .manual-menu {
         width: 100%;
-        padding: 0 0;
+        padding: 0;
         margin-bottom: 0px;
         height: auto;
     }
@@ -388,13 +395,13 @@ header nav {
         }
 
             .search-result .manual-menu li a {
-                font-family: Roboto;
+                
                 font-size: 18px;
                 font-weight: normal;
                 line-height: normal;
                 letter-spacing: normal;
                 color: #0b0b0b;
-                padding: 15px 15px;
+                padding: 15px;
                 display: inline-block;
                 width: 100%;
                 text-decoration: none;
@@ -403,7 +410,7 @@ header nav {
 .slide-effect .location-button {
     background-color: rgba(55, 90, 155, 0.2);
     padding: 15px 15px;
-    font-family: Roboto;
+    
     font-size: 18px;
     font-weight: normal;
     line-height: normal;
@@ -424,7 +431,7 @@ header nav {
     }
 
         .slide-effect .location-detail li a {
-            font-family: Roboto;
+            
             font-size: 16px;
             font-weight: normal;
             line-height: normal;
@@ -457,7 +464,7 @@ header nav {
 
 /*Custom*/
 .slide-effect .expand li a {
-    font-family: Roboto-Regular;
+   /* font-family: Roboto-Regular;*/
     height: 100%;
     transform-origin: top;
     transition: transform 2s ease-out;
@@ -485,9 +492,9 @@ header nav {
     padding: 0 80px;
 }
 
-.padding-80 {
-    padding:80px;
-}
+
+
+
 
 .top-part-vehicles-search .hehading-add-butt {
     display: flex;
@@ -497,7 +504,6 @@ header nav {
 }
 
 .hehading-add-butt h3 {
-    font-family: Roboto-Regular;
     font-size: 35px;
     font-weight: bold;
     line-height: normal;
@@ -507,7 +513,7 @@ header nav {
 }
 
 .hehading-add-butt .vehicle-add-butt {
-    font-family: Roboto;
+    
     font-size: 16px;
     font-weight: bold;
     line-height: normal;
@@ -530,7 +536,7 @@ header nav {
         position: relative;
         max-width: 100%;
         border: 0px;
-        padding: 0 0;
+        padding: 0;
     }
 
 .table {
@@ -568,7 +574,7 @@ td {
 }
 
 .table-list-vehicles table td {
-    font-family: Roboto;
+    
     font-size: 18px;
     font-weight: normal;
     line-height: normal;
@@ -576,7 +582,7 @@ td {
 }
 
 .table-list-vehicles table th {
-    font-family: Roboto;
+    
     font-size: 18px;
     font-weight: 500;
     line-height: normal;
@@ -669,7 +675,7 @@ td {
             font-weight: normal;
             line-height: normal;
             letter-spacing: normal;
-            font-family: Roboto;
+            
             color: black;
             display: inline-block;
             width: 100%;
@@ -706,8 +712,7 @@ td {
 }
 
 .pagination > li {
-    font-family: 'Roboto';
-    font-weight: 400;
+   font-weight: 400;
     font-size: 16px;
     line-height: normal;
 }

@@ -131,7 +131,7 @@ class Tracking extends Component {
     componentWillUnmount() {
 
         this.setState({ timeOffUnmount: new Date().toLocaleTimeString() });
-        console.log('The unmounted time ==>', this.state.timeOffUnmount);
+        //console.log('The unmounted time ==>', this.state.timeOffUnmount);
         this.props.UnSubscribeToHub();
 
     }
@@ -265,12 +265,11 @@ class Tracking extends Component {
         //const { results } = this.props;
         const { center } = this.state.center;
         const { clusters, selectedId } = this.state;
-        console.log("Render Body", clusters)
+        //console.log("Render Body", clusters)
         //console.log("Rendered Count on result", results.length);
 
         return (
-            <div className="mpas-tracking">
-            <div style={{ height: "100vh", width: "100%" }}>
+            <div className="mpas-tracking" style={{ height: "100vh", width: "100%" }}>
 
                 < IdleTimer
                     ref={ref => { this.idleTimer = ref }}
@@ -320,8 +319,6 @@ class Tracking extends Component {
                     
                 </GoogleMapReact>
                 
-
-            </div>
             </div>
             )
        

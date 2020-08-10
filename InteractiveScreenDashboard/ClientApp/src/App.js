@@ -13,7 +13,7 @@ import { Login }  from './components/Login';
 import { savePassword } from './components/savePassword';
 import { ResetPassword } from './components/ResetPassword';
 import { Banner } from './components/Banner';
-import './custom.css';
+//import './custom.css';
 
 
 export default class App extends Component {

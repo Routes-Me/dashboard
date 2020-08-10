@@ -17,11 +17,10 @@ class Vehicles extends Component {
             failed: false,
             error: '',
             activePage: 15,
-            isOpen: false,
+            showDetails: false,
             vehicle: '',
             optionsIndex: 0
         };
-        this.toggleModal = this.toggleModal.bind(this);
     }
 
     componentDidMount() {
@@ -49,7 +48,7 @@ class Vehicles extends Component {
     showDetailScreen = (e, Vehicle) => {
         e.preventDefault();
         this.setState({
-            isOpen: !this.state.isOpen,
+            showDetails: !this.state.showDetails,
             vehicle: Vehicle,
             optionsIndex: 0,
             ModelList: this.props.ModelList
@@ -93,7 +92,7 @@ class Vehicles extends Component {
                                                     <span />
                                                 </div>
                                                 <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === Vehicle.id ? 'inline-block' : 'none' }}>
-                                                    <li><a onClick={e => this.showEditScreen(e, Vehicle)}>Edit</a></li>
+                                                    <li><a onClick={e => this.showDetailScreen(e, Vehicle)}>Edit</a></li>
                                                     <li><a>Delete</a></li>
                                                 </ul>
                                             </div>
@@ -124,28 +123,30 @@ class Vehicles extends Component {
         let content = this.renderAllVehicleTable(this.props.VehicleList);
 
         return (
-            <div className="vehicles-page">
-                <Detail
-                    show={this.state.isOpen}
-                    objectType={userConstants.NavItem_Vehicles}
-                    object={this.state.vehicle}
-                    modelList={this.state.ModelList} />
+            <div className="vehicles-page" style={{ height: "100vh", width: "100%" }}>
+                {this.state.showDetails ?
+                    <Detail
+                        show={this.state.showDetails}
+                        objectType={userConstants.NavItem_Vehicles}
+                        object={this.state.vehicle}
+                        modelList={this.state.ModelList} /> :
+                    <div>
+                        <div className="top-part-vehicles-search padding-lr-80">
+                            <div className="hehading-add-butt">
+                                <h3>Vehicles</h3>
+                                <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Add Vehicle</a>
+                            </div>
 
-                <div className="top-part-vehicles-search padding-lr-80">
-                    <div className="hehading-add-butt">
-                        <h3>Vehicles</h3>
-                        <a className="vehicle-add-butt" onClick={e => this.toggleModal(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Add Vehicle</a>
-                    </div>
-
-                    <div className="search-part">
-                        <div className="search-relative">
-                            <input type="text" name="search" placeholder="Search" className="search" />
-                            <i className="fa fa-search" aria-hidden="true" />
-                            <span className="cross-icon"><img src="../cross-image.png" /></span>
+                            <div className="search-part">
+                                <div className="search-relative">
+                                    <input type="text" name="search" placeholder="Search" className="search" />
+                                    <i className="fa fa-search" aria-hidden="true" />
+                                    <span className="cross-icon"><img src="../cross-image.png" /></span>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                    {content}
+                        {content}
+                    </div>}
             </div>
         );
     }
@@ -156,7 +157,7 @@ const mapStateToProps = (state) => {
 
     const vehicles = state.VehicleStore.Vehicles;
     const modelList = state.VehicleStore.Models;
-    console.log('Mapped State Vehicle Array returned :', modelList);
+    console.log('Mapped State Vehicle Array returned :', vehicles);
 
     return {
         VehicleList: vehicles,

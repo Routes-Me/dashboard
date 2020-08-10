@@ -14,9 +14,9 @@ export default class DetailBody extends Component {
 
     render() {
         return(
-        <div className="col-md-12">
+            <div className="container-fluid">
                 {this.props.objectType === userConstants.NavItem_Vehicles && <VehicleDetail vehicleToDisplay={this.props.object} />}
-            </div>
+        </div>
         )
     }
 }

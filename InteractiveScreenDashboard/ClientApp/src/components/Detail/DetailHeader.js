@@ -6,13 +6,16 @@ class DetailHeader extends Component {
 
         const action = this.props.object ? "Add" : "Save";
         const objectType = this.props.objectType;
-        const title = action + objectType;
+        const title = action +" "+ objectType;
 
         return (
             <div className="col-md-12">
-                <h3>{title}</h3>
+                <div className="row">
+                    <button className="backBtn" onClick />
+                    <p className="detail-Title"><b>{title}</b></p>
+                </div>
                 {/*<h5>{this.props.navChildHistory.map(childObj => { childObj })}</h5>*/}
-                <h5>Add Vehicle / </h5> <ol className="breadcrumb"><li class="breadcrumb-item"><a href="#">Add Vehicle</a></li></ol>
+                <p className="detail-Subtitle">{this.props.objectType} / {title} </p> 
             </div>
             )
     }

@@ -103,10 +103,10 @@ class Secondary extends Component {
     render() {
 
         let content = this.renderAllVehicles(this.props.vehicles);
-        console.log(`              ---Rendered Details()--- 
-                     Selected Filter :      ${this.state.filter}
-                     Idle vehicle count :   ${this.state.idleVehiclesCount}
-                     Active vehicle count : ${this.state.activeVehiclesCount}`)
+        //console.log(`              ---Rendered Details()--- 
+        //             Selected Filter :      ${this.state.filter}
+        //             Idle vehicle count :   ${this.state.idleVehiclesCount}
+        //             Active vehicle count : ${this.state.activeVehiclesCount}`)
         return (
             < div >
                 {this.props.selectedNavItem === userConstants.NavItem_Tracking ? <SecondaryTracking /> : <SecondaryVehicles />}
