@@ -4,6 +4,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { userConstants } from '../../constants/userConstants';
 import * as VehicleAction from '../../Redux/Action';
+import '../Detail/Detail.css';
 
 class Vehicles extends Component {
 
@@ -125,7 +126,7 @@ class Vehicles extends Component {
         return (
             <div className="vehicles-page" style={{ height: "100vh", width: "100%" }}>
                 {this.state.showDetails ?
-                    <Detail
+                    <Detail className={this.props.show ? 'slide-in' : 'slide-out'}
                         show={this.showDetailScreen}
                         objectType={userConstants.NavItem_Vehicles}
                         object={this.state.vehicle}

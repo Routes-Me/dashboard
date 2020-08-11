@@ -31,5 +31,20 @@
 
 .detail-form{
     margin-top:63px;
-    margin-left:50px;
+    margin-left:20px;
+}
+
+/*"http://jsfiddle.net/vywsfa21/"*/
+.slide-out {
+    position: absolute;
+    right: -100%;
+    width: 100%;
+    height: 100%;
+    background: blue;
+    transition: 1s;
+}
+
+.slide-in {
+    transition: 0.4s;
+    right: 0;
 }
