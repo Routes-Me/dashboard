@@ -126,7 +126,7 @@ class Vehicles extends Component {
             <div className="vehicles-page" style={{ height: "100vh", width: "100%" }}>
                 {this.state.showDetails ?
                     <Detail
-                        show={this.state.showDetails}
+                        show={this.showDetailScreen}
                         objectType={userConstants.NavItem_Vehicles}
                         object={this.state.vehicle}
                         modelList={this.state.ModelList} /> :

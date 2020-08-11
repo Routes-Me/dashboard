@@ -2,6 +2,15 @@
 
 class DetailHeader extends Component {
 
+    constructor(props) {
+        super(props)
+
+    }
+
+    //returnBackToPreviousComponent = () => {
+    //    this.props.
+    //}
+
     render() {
 
         const action = this.props.object ? "Add" : "Save";
@@ -11,7 +20,7 @@ class DetailHeader extends Component {
         return (
             <div className="col-md-12">
                 <div className="row">
-                    <button className="backBtn" onClick />
+                    <button className="backBtn" onClick={this.props.show} />
                     <p className="detail-Title"><b>{title}</b></p>
                 </div>
                 {/*<h5>{this.props.navChildHistory.map(childObj => { childObj })}</h5>*/}

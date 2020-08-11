@@ -66,8 +66,7 @@ class VehicleDetail extends React.Component {
         const buttonText = vehicleObj ? "Update" : "Save";
 
         return (
-            <div className="col-md-12 detail-form">
-                <div class="row">
+            <div className="row col-md-12 detail-form">
                     <Form onSubmit={e => this.handleSubmit(e)}>
                         <div class="col-md-10">
 
@@ -121,7 +120,6 @@ class VehicleDetail extends React.Component {
 
                         </div>
                     </Form>
-                </div>
             </div>
         )
     }
