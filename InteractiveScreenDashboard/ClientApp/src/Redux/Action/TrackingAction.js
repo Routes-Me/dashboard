@@ -62,7 +62,7 @@ export function UnsubscribeFromHub() {
         dispatch(Unsubscribe());
         hubConnection.stop()
             .then(() => {
-                console.log('Hub Disconnected!!');
+                //console.log('Hub Disconnected!!');
                 dispatch(Disconnected());
             })
             .catch(err => {

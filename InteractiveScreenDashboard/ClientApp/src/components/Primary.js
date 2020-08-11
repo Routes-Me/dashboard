@@ -86,7 +86,7 @@ class Primary extends Component
 
 const mapStateToProps = (state) => {
 
-    console.log("Selected Nav Item : ", state.Login.SelectedNavOption)
+    //console.log("Selected Nav Item : ", state.Login.SelectedNavOption)
     return {
         selectedNavItem: state.Login.SelectedNavOption,
         user: state.Login.user

@@ -16,5 +16,11 @@
     NavItem_Vehicles: 'Vehicles',
     NavItem_Drivers: 'Drivers',
 
+    getUsers_REQUEST: "GETUSERS_REQUEST",
+    getUsers_SUCCESS: "GETUSERS_SUCCESS",
+
+    saveUsers_REQUEST: "SAVEUSERS_REQUEST",
+    saveUsers_SUCCESS: "SAVEUSERS_SUCCES",
+
     Domain:'http://localhost:55205/' 
 };

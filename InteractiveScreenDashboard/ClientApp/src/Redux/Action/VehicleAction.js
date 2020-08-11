@@ -1,6 +1,5 @@
 ﻿import { vehicleConstants } from "../../constants/vehicleConstants";
 import { MockServerData } from '../../constants/MockServerData';
-import { vehicles } from "../../components/vehicles";
 
 
 //const SampleInsitutionsIdArgument = { "institutionIds": [{ "Id": 3 }] };
@@ -10,15 +9,8 @@ export function getVehiclesForInstitutionID() {
     return dispatch => {
         dispatch(VehicleDataRequest());
         //const MockInstitutions = MockApiCallForInstitutions(3);
-        const MockVehicles = MockAPICallForVehicles(3)
-        const FormatedVehicle = MockVehicles.map(x => ({
-            id: x.vehicleId,
-            institution: FilterInstitutionsForId(x.institutionId),
-            plateNumber: x.plateNumber,
-            model: FilterModelsforId(x.modelId),
-            deviceId: x.deviceId,
-            modelYear: x.modelYear
-        }))
+        const FormatedVehicle = MockAPICallForVehicles(3)
+        console.log('data formated ');
         dispatch(storeVehicleData(FormatedVehicle))
     }
 }
@@ -116,8 +108,27 @@ function FilterModelsforId(modelId) {
 
 function MockAPICallForVehicles(InstId) {
     const res = MockServerData.VehicleMockServerData;
-    const VehicleList = res.vehiclesDetail.data.vehicles;
-    return VehicleList.filter(vehicle => vehicle.institutionId);
+    const VehicleList = res.vehiclesDetail.data.vehicles.filter(vehicle => vehicle.institutionId === InstId)
+    console.log('Vehicle Action Array returned :', VehicleList);
+    const InstitutionList = res.vehiclesDetail.data.include.institutions;
+    const ModelList = res.vehiclesDetail.data.include.models;
+
+    
+    const FormatedVehicle = VehicleList.map(x => ({
+        id: x.vehicleId,
+        institution: InstitutionList.filter(y => y.institutionId === x.institutionId)[0],
+        plateNumber: x.plateNumber,
+        model: ModelList.filter(y => y.modelId === x.modelId)[0],
+        deviceId: x.deviceId,
+        modelYear: x.modelYear
+    }))
+
+    return FormatedVehicle;
+}
+
+
+function filterModelIdFromModelArray() {
+
 }
 
 

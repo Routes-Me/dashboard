@@ -147,10 +147,10 @@ class SecondaryTracking extends Component {
 
 const mapStateToProps = (state) => {
 
-    console.log("Secondary panel Update off obj : ", state.Tracking.IdleVehicles)
+    //console.log("Secondary panel Update off obj : ", state.Tracking.IdleVehicles)
     const points = [...state.Tracking.ActiveVehicles, ...state.Tracking.IdleVehicles]
     //const points = sampleArray.map(result => ({ vehicle_id: parseInt(result.vehicle_id), status: result.status, lat: parseFloat(result.coordinates.latitude), lng: parseFloat(result.coordinates.longitude) }))
-    console.log('Mapped State Array returned :', points);
+    //console.log('Mapped State Array returned :', points);
 
 
     return {
