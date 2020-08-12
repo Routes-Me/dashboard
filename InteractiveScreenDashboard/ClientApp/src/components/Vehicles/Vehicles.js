@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { userConstants } from '../../constants/userConstants';
 import * as VehicleAction from '../../Redux/Action';
 import '../Detail/Detail.css';
+import Pagination from "react-js-pagination";
 
 class Vehicles extends Component {
 
@@ -147,6 +148,20 @@ class Vehicles extends Component {
                             </div>
                         </div>
                         {content}
+                        <div className="left page-nav padding-lr-80">
+                            <span className="page-count">Page 15 of 20</span>
+                            <Pagination
+                                hideDisabled
+                                firstPageText={'<<<<'}
+                                lastPageText={'>>>>'}
+                                prevPageText={'<<'}
+                                nextPageText={'>>'}
+                                activePage={this.state.activePage}
+                                itemsCountPerPage={10}
+                                totalItemsCount={450}
+                                pageRangeDisplayed={10}
+                                onChange={this.handlePageChange.bind(this)} />
+                        </div>
                     </div>}
             </div>
         );
