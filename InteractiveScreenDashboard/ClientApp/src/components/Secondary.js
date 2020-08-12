@@ -5,6 +5,8 @@ import * as TrackingAction from '../Redux/Action';
 import { trackingConstants } from '../constants/trackingConstants';
 import { SecondaryTracking } from '../components/Tracking/SecondaryTracking';
 import { SecondaryVehicles } from '../components/Vehicles/SecondaryVehicles';
+import { InstitutionsSecondary } from '../components/Institutions/InstitutionsSecondary';
+
 import { userConstants } from '../constants/userConstants';
 
 class Secondary extends Component {
@@ -109,7 +111,13 @@ class Secondary extends Component {
         //             Active vehicle count : ${this.state.activeVehiclesCount}`)
         return (
             < div >
-                {this.props.selectedNavItem === userConstants.NavItem_Tracking ? <SecondaryTracking /> : <SecondaryVehicles />}
+                {/*{this.props.selectedNavItem === userConstants.NavItem_Tracking ? <SecondaryTracking /> : <SecondaryVehicles />}*/}
+
+                {this.props.selectedNavItem === userConstants.NavItem_Vehicles && <SecondaryVehicles />}
+                {this.props.selectedNavItem === userConstants.NavItem_Tracking && <SecondaryTracking />}
+                {this.props.selectedNavItem === userConstants.NavItem_Institutions && <InstitutionsSecondary />}
+                {this.props.selectedNavItem === userConstants.NavItem_Users && <InstitutionsSecondary />}
+
             </div >
             );
     }

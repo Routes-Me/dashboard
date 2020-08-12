@@ -26,10 +26,10 @@ export const getLoginFailure = payload => ({
 });
 
 
-export const getUsers = user => ({
-    type: 'GET_USER',
-    payload: user
-});
+//export const getUsers = user => ({
+//    type: 'GET_USER',
+//    payload: user
+//});
 
 export function getUser() {
     userObjt = localStorage.getItem('user');

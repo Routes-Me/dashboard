@@ -3,15 +3,11 @@
     VehicleMockServerData : {
         "vehiclesDetail": {
             "pagination": {
-                "currentPage": 1,
-                "totalCount": 2,
-                "pageSize": 4,
-                "totalPages": 1,
-                "indexOne": 1,
-                "indexTwo": 2,
-                "showPrevious": false,
-                "showFirst": false,
-                "showLast": false
+
+                "offset": 20,
+                "limit": 10,
+                "total": 3465,
+
             },
             "data": {
                 "vehicles": [
@@ -127,10 +123,51 @@
         "status": true,
         "message": "Models data retrived successfully.",
         "responseCode": 200
+    },
+
+
+    UsersMockServerData: {
+
+        "pagination": {
+
+            "offset": 20,
+            "limit": 10,
+            "total": 3465
+
+        },
+        "data": {
+            "users": [
+                {
+                    "userId": 3,
+                    "email": "vijayparmar3267@gmail.com",
+                    "phone": "9624931991",
+                    "password": null,
+                    "createdDate": "2020-07-18T07:37:03",
+                    "isVerified": false,
+                    "lastLoginDate": null,
+                    "application": "dashboard",
+                    "name": "manager",
+                    "description": "manager"
+                },
+                {
+                    "userId": 4,
+                    "email": "parmarvijay267@gmail.com",
+                    "phone": "9624931991",
+                    "password": null,
+                    "createdDate": "2020-07-21T10:24:39",
+                    "isVerified": false,
+                    "lastLoginDate": null,
+                    "application": "dashboard",
+                    "name": "manager",
+                    "description": "manager"
+                }
+            ]
+        },
+        "status": true,
+        "message": "Users data retrived successfully.",
+        "responseCode": 200
+
     }
-
-
-
 
 
 }
