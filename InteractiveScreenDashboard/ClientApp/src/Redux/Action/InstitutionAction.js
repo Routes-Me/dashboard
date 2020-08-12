@@ -16,7 +16,7 @@ export function getInstitutions(id) {
 
 function MockAPICallForInstitutions() {
     const res = MockServerData.InstitutionMockServerData;
-    const InstitutionList = res.institutionDetails.data
+    const InstitutionList = res.institutionDetails.data.institution;
     return InstitutionList;
 }
 

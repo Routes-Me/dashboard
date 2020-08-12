@@ -35,7 +35,7 @@ const InstitutionReducer = (state = {}, action) => {
                 hasError: false
             }
             default:
-            return INITIAL_STATE;
+            return state;
     }
 }
 

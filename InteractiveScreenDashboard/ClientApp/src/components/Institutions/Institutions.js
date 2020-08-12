@@ -73,16 +73,17 @@ class Institutions extends Component {
                             {
                                 institutionsList.map(institution => (
                                     <tr key={institution.institutionId}>
+                                        <td>{institution.institutionId}</td>
                                         <td>{institution.name}</td>
                                         <td>{institution.phoneNumber}</td>
                                         <td className="width44" >
                                             <div className="edit-popup">
-                                                <div className="edit-delet-butt" onClick={e => this.openSubMenuForInstitutionId(e, institution.id)}>
+                                                <div className="edit-delet-butt" onClick={e => this.openSubMenuForInstitutionId(e, institution.institutionId)}>
                                                     <span />
                                                     <span />
                                                     <span />
                                                 </div>
-                                                <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === institution.id ? 'inline-block' : 'none' }}>
+                                                <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === institution.institutionId ? 'inline-block' : 'none' }}>
                                                     <li><a onClick={e => this.showDetailScreen(e, institution)}>Edit</a></li>
                                                     <li><a>Delete</a></li>
                                                 </ul>
