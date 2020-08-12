@@ -4,6 +4,7 @@ import { userConstants } from '../constants/userConstants';
 import { connect } from 'react-redux';
 import { Tracking } from './Tracking';
 import { Vehicles } from './Vehicles/Vehicles';
+import { Institutions } from './Institutions/Institutions';
 
 class Child extends Component {
     render() {
@@ -11,9 +12,9 @@ class Child extends Component {
 
             <div className="right-part">
                     {/*<GMap /><Tracking />*/}
-                    {this.props.selectedNavItem === userConstants.NavItem_Vehicles && <Vehicles />}
-                    {this.props.selectedNavItem === userConstants.NavItem_Tracking && <Tracking />}
-                    
+                {this.props.selectedNavItem === userConstants.NavItem_Vehicles && <Vehicles />}
+                {this.props.selectedNavItem === userConstants.NavItem_Tracking && <Tracking />}
+                {this.props.selectedNavItem === userConstants.NavItem_Institutions && <Institutions/>}
             </div>
 
             );

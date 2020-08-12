@@ -35,7 +35,7 @@ class Vehicles extends Component {
 
     //Page Selection
     handlePageChange(pageNumber) {
-        console.log(`active page is ${pageNumber}`);
+        //console.log(`active page is ${pageNumber}`);
         this.setState({ activePage: pageNumber });
     }
 

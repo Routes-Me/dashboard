@@ -15,6 +15,8 @@
     NavItem_Tracking: 'Tracking',
     NavItem_Vehicles: 'Vehicles',
     NavItem_Drivers: 'Drivers',
+    NavItem_Institutions: 'Institutions',
+    NavItem_Users: 'Users',
 
     getUsers_REQUEST: "GETUSERS_REQUEST",
     getUsers_SUCCESS: "GETUSERS_SUCCESS",

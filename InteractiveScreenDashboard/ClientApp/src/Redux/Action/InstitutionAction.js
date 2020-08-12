@@ -1,4 +1,5 @@
 ﻿import { MockServerData } from '../../constants/MockServerData';
+import { institutionConstants } from '../../constants/institutionConstants';
 
 export function getInstitutions(id) {
 
@@ -14,14 +15,16 @@ export function getInstitutions(id) {
 
 
 function MockAPICallForInstitutions() {
-    return MockServerData.InstitutionMockServerData;
+    const res = MockServerData.InstitutionMockServerData;
+    const InstitutionList = res.institutionDetails.data
+    return InstitutionList;
 }
 
 
 function IstitutionDataRequest() {
-    return { type: vehicleConstants.getInstitutions_REQUEST }
+    return { type: institutionConstants.getInstitutions_REQUEST }
 };
 
-function InstitutionDataReceived(institution) {
-    return { type: vehicleConstants.getInstitutions_SUCCESS, payload: institution }
+function InstitutionDataReceived(institutions) {
+    return { type: institutionConstants.getInstitutions_SUCCESS, payload: institutions }
 };

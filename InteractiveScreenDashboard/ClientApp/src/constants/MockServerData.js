@@ -34,6 +34,7 @@
                 ],
                 "devices": null,
                 "drivers": null,
+            },
                 "include": {
                     "institutions":
                         [
@@ -53,7 +54,6 @@
                             }
                         ]
                 }
-            }
             
         }
         ,

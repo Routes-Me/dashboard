@@ -20,7 +20,7 @@ const InstitutionReducer = (state = {}, action) => {
                 ...state,
                 Loading: true,
                 hasError: false,
-                Institution: action.payload
+                Institutions: action.payload
             };
         case institutionConstants.saveInstitutions_REQUEST:
             return {
@@ -35,6 +35,8 @@ const InstitutionReducer = (state = {}, action) => {
                 hasError: false
             }
             default:
-            return state;
+            return INITIAL_STATE;
     }
 }
+
+export default InstitutionReducer;

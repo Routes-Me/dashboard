@@ -73,6 +73,10 @@ class Primary extends Component
                         </li>
                         <li className={this.returnSelectMenu(userConstants.NavItem_Drivers)} onClick={(event) => this.toggleMenu(event, userConstants.NavItem_Drivers)}><a><div className="icon-28"><img alt="" src={drivers} className="menu-icon" /></div> {userConstants.NavItem_Drivers}</a>
                         </li>
+                        <li className={this.returnSelectMenu(userConstants.NavItem_Institutions)} onClick={(event) => this.toggleMenu(event, userConstants.NavItem_Institutions)}><a><div className="icon-28"><img alt="" src={drivers} className="menu-icon" /></div> {userConstants.NavItem_Institutions}</a>
+                        </li>
+                        <li className={this.returnSelectMenu(userConstants.NavItem_Users)} onClick={(event) => this.toggleMenu(event, userConstants.NavItem_Users)}><a><div className="icon-28"><img alt="" src={drivers} className="menu-icon" /></div> {userConstants.NavItem_Users}</a>
+                        </li>
                      </ul>
                 </div>
 
