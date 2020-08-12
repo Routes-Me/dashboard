@@ -136,18 +136,3 @@ function returnMockVehiclesForInstitutionIds() {
     return MockServerData.VehicleMockServerData
 }
 
-
-export function getInstitutionForId(id) {
-    return dispatch => {
-        dispatch(IstitutionDataRequest());
-        dispatch(InstitutionDataReceived(MockServerData.InstitutionMockServerData));
-    }
-}
-
-function IstitutionDataRequest() {
-    return { type: vehicleConstants.getInstitutions_REQUEST }
-};
-
-function InstitutionDataReceived(institution) {
-    return { type: vehicleConstants.getInstitutions_SUCCESS, payload: institution }
-};
