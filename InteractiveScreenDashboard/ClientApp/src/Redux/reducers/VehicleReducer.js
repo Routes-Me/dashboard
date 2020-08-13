@@ -9,7 +9,7 @@ const INITIAL_STATE = {
     error:null
 }
 
-const VehicleReducer = (state = {}, action) => {
+const VehicleReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case vehicleConstants.getVehicles_REQUEST:
             return {
@@ -65,7 +65,7 @@ const VehicleReducer = (state = {}, action) => {
                 Institution: action.payload
             };
         default:
-            return INITIAL_STATE;
+            return state;
 
     }
 }

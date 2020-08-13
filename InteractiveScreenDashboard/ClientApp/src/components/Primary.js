@@ -2,6 +2,7 @@
 import tracking from './image/tracking.png';
 import car from './image/car.png';
 import drivers from './image/drivers.png';
+import institution from './image/institution.svg'
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import * as LoginAction from '../Redux/Action';
@@ -69,14 +70,15 @@ class Primary extends Component
                     <ul>
                         <li className={this.returnSelectMenu(userConstants.NavItem_Tracking)} onClick={(event) => this.toggleMenu(event, userConstants.NavItem_Tracking )}><a><div className="icon-28"><img alt="" src={tracking} className="menu-icon" /></div> {userConstants.NavItem_Tracking}</a>
                         </li>
+                        <li className={this.returnSelectMenu(userConstants.NavItem_Users)} onClick={(event) => this.toggleMenu(event, userConstants.NavItem_Users)}><a><div className="icon-28"><img alt="" src={drivers} className="menu-icon" /></div> {userConstants.NavItem_Users}</a>
+                        </li>
                         <li className={this.returnSelectMenu(userConstants.NavItem_Vehicles)} onClick={(event) => this.toggleMenu(event, userConstants.NavItem_Vehicles)}><a><div className="icon-28"><img alt="" src={car} className="menu-icon" /></div> {userConstants.NavItem_Vehicles}</a>
                         </li>
                         {/*<li className={this.returnSelectMenu(userConstants.NavItem_Drivers)} onClick={(event) => this.toggleMenu(event, userConstants.NavItem_Drivers)}><a><div className="icon-28"><img alt="" src={drivers} className="menu-icon" /></div> {userConstants.NavItem_Drivers}</a>
                         </li>*/}
-                        <li className={this.returnSelectMenu(userConstants.NavItem_Institutions)} onClick={(event) => this.toggleMenu(event, userConstants.NavItem_Institutions)}><a><div className="icon-28"><img alt="" src={drivers} className="menu-icon" /></div> {userConstants.NavItem_Institutions}</a>
+                        <li className={this.returnSelectMenu(userConstants.NavItem_Institutions)} onClick={(event) => this.toggleMenu(event, userConstants.NavItem_Institutions)}><a><div className="icon-28"><img alt="" src={institution} className="menu-icon" /></div> {userConstants.NavItem_Institutions}</a>
                         </li>
-                        <li className={this.returnSelectMenu(userConstants.NavItem_Users)} onClick={(event) => this.toggleMenu(event, userConstants.NavItem_Users)}><a><div className="icon-28"><img alt="" src={drivers} className="menu-icon" /></div> {userConstants.NavItem_Users}</a>
-                        </li>
+                        
                      </ul>
                 </div>
 

@@ -7,7 +7,7 @@ const INITIAL_STATE = {
     error: null
 }
 
-const UserReducer = (state = {}, action) => {
+const UserReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case userConstants.getUsers_REQUEST:
             return {
@@ -35,7 +35,7 @@ const UserReducer = (state = {}, action) => {
                 hasError: false
             };
         default:
-            return INITIAL_STATE;
+            return state;
     }
 }
 

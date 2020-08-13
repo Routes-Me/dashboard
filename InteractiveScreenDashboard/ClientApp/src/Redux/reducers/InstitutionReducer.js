@@ -7,7 +7,7 @@ const INITIAL_STATE = {
     error: null
 }
 
-const InstitutionReducer = (state = {}, action) => {
+const InstitutionReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case institutionConstants.getInstitutions_REQUEST:
             return {
@@ -34,8 +34,8 @@ const InstitutionReducer = (state = {}, action) => {
                 Loading: false,
                 hasError: false
             };
-            default:
-            return INITIAL_STATE;
+        default:
+            return state;
     }
 }
 

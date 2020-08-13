@@ -192,6 +192,8 @@ header nav {
 
 .icon-28 {
     width: 28px;
+    height: 28px;
+    display: inline-block;
     margin-right: 9px;
     text-align: center;
 }
