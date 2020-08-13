@@ -63,7 +63,7 @@ class VehicleDetail extends React.Component {
 
     render() {
         const vehicleObj = this.state.vehicleToDisplay;
-        const buttonText = vehicleObj ? "Update" : "Save";
+        const buttonText = vehicleObj ? "Update" : "Add";
 
         return (
             <div className="row col-md-12 detail-form">

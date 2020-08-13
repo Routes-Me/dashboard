@@ -13,7 +13,7 @@ class DetailHeader extends Component {
 
     render() {
 
-        const action = this.props.object ? "Add" : "Save";
+        const action = this.props.object ? "Update" : "Add";
         const objectType = this.props.objectType;
         const title = action +" "+ objectType;
 

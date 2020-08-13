@@ -33,9 +33,9 @@ const UserReducer = (state = {}, action) => {
                 ...state,
                 Loading: false,
                 hasError: false
-            }
+            };
         default:
-            return state;
+            return INITIAL_STATE;
     }
 }
 

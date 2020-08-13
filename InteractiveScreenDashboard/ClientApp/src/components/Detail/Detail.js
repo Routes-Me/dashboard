@@ -12,7 +12,7 @@ export default class Detail extends Component {
             return null;
         }
 
-        const action = this.props.object ? "Add" : "Save";
+        const action = this.props.object ? "Update" : "Add";
         const objectType = this.props.objectType;
         const title = action + " " + objectType;
 
@@ -23,7 +23,6 @@ export default class Detail extends Component {
                         <button className="backBtn" onClick={this.props.show} />
                         <p className="detail-Title"><b>{title}</b></p>
                     </div>
-                    {/*<h5>{this.props.navChildHistory.map(childObj => { childObj })}</h5>*/}
                     <p className="detail-Subtitle">{this.props.objectType} / {title} </p>
                 </div>
                 {/*< DetailHeader objectType={this.props.objectType} object={this.props.object} show={this.props.show} />*/}

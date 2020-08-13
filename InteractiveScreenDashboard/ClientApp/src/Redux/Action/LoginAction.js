@@ -5,7 +5,7 @@ import { encryptAES } from '../encrypt';
 //import { useAlert } from "react-alert";
 
 
-const userObjt = {};
+const institutionObjt = {};
 
 //export const LoginAction = {
 //    userSignInRequest,
@@ -32,9 +32,9 @@ export const getLoginFailure = payload => ({
 //});
 
 export function getUser() {
-    userObjt = localStorage.getItem('user');
-    console.log("User Logged In is : ", userObjt);
-    return userObjt;
+    institutionObjt = localStorage.getItem('user');
+    console.log("User Logged In is : ", institutionObjt);
+    return institutionObjt;
 }
 
 export function userSignInRequest(username, password) {
@@ -42,12 +42,12 @@ export function userSignInRequest(username, password) {
     return dispatch => {
         dispatch(request({ username, password }));
         var encryptedpassword = encryptAES(password);
-        let UserObject = {
+        let institutionObject = {
             email: username,
             password: encryptedpassword.toString()
         };
 
-        axios.post(userConstants.Domain+'api/Users/Login', UserObject)
+        axios.post(userConstants.Domain+'api/Users/Login', institutionObject)
             .then(
                 user => {
                     dispatch(getLoginSuccess(user));
@@ -104,13 +104,13 @@ export function forgotPassword(email) {
 }
 
 
-export function ResetPassword(UserObject) {
+export function ResetPassword(institutionObject) {
 
     return dispatch => {
 
-        var email = UserObject.Email;
-        var encryptedpassword = encryptAES(UserObject.Password);
-        var encryptedconfirmpassword = encryptAES(UserObject.ConfirmPassword);
+        var email = institutionObject.Email;
+        var encryptedpassword = encryptAES(institutionObject.Password);
+        var encryptedconfirmpassword = encryptAES(institutionObject.ConfirmPassword);
 
         let ResetPasswordObject = {
             Email: email.toString(),
