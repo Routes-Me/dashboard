@@ -1,7 +1,7 @@
 ﻿import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Label } from 'reactstrap';
-import * as UserAction from '../../Redux/Action';
+import * as InstitutionAction from '../../Redux/Action';
 import Form from 'react-validation/build/form';
 
 class InstitutionsDetail extends React.Component {
@@ -36,19 +36,19 @@ class InstitutionsDetail extends React.Component {
         }
     }
 
-
+    //Submit button action
     handleSubmit = (event) => {
 
         event.preventDefault();
 
-        const vehicle = {
-            CountryIso: "IN",
+        const institution = {
+            CountryIso: "KW",
             PhoneNumber: this.state.phone,
             createdAT: "2020-06-29T10:54:53",
             Name: this.state.name
         }
 
-        this.props.saveUser(vehicle);
+        this.props.saveInstitution(institution);
     }
 
     render() {
@@ -83,14 +83,15 @@ class InstitutionsDetail extends React.Component {
                         </div>
 
                         <div className="row form-group">
-                            {/*VehicleObj.model.id
                             <div className="col-md-4">
-                                <Label>application</Label><br />
-                                <select defaultValue={institutionObj ? institutionObj.model.id : "Select a model"} className="form-control" name="modelId" onChange={this.onChange}>
-                                    {this.props.ModelList.map(model => (<option className="dropdown-item" value={model.id}>{model.name}</option>))}
+                                <Label>Services</Label><br />
+                                <select class="custom-select" size="3">
+                                    <option value="1">Advertiser</option>
+                                    <option value="2">Taxi Operator</option>
                                 </select>
-                            </div>*/}
+                            </div>
                         </div>
+
 
 
 
@@ -105,6 +106,8 @@ class InstitutionsDetail extends React.Component {
     }
 }
 
+
+//connect redux
 const mapStateToProps = (state) => {
 
     const modelList = state.VehicleStore.Models;
@@ -117,7 +120,7 @@ const mapStateToProps = (state) => {
 }
 
 const actionCreators = {
-    saveUser: UserAction.saveUser
+    saveInstitution: InstitutionAction.saveInstitution
 };
 
 const connectInstitutionDetail = connect(mapStateToProps, actionCreators)(InstitutionsDetail);

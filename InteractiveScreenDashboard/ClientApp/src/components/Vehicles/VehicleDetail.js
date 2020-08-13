@@ -74,12 +74,13 @@ class VehicleDetail extends React.Component {
                                 <div className="col-md-4">
                                     <Label>Plate Number</Label><br />
                                     <input type="text" name="plateNumber"
-                                        placeholder={vehicleObj === undefined ? "" : vehicleObj.plateNumber}
-                                        value={vehicleObj.plateNumber}
-                                        onChange={this.onChange}
-                                        className="form-control" />
+                                    placeholder={vehicleObj === undefined ? "" : vehicleObj.plateNumber}
+                                    value={vehicleObj.plateNumber}
+                                    onChange={this.onChange}
+                                    className="form-control"
+                                    readOnly />
                                 </div>
-                            </div>
+                        </div><br /><br />
 
                             <div className="row form-group">
                                 <div className="col-md-4">
@@ -90,17 +91,36 @@ class VehicleDetail extends React.Component {
                                         onChange={this.onChange}
                                         className="form-control" />
                                 </div>
-                            </div>
+                        </div>
 
-                            <div className="row form-group">
+                        <div className="row form-group">
+                            <div className="col-md-4">
+                                <Label>Make</Label><br />
+                                <select defaultValue={vehicleObj ? vehicleObj.model.id : "Select a model"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
+                                    {this.props.ModelList.map(model => (<option className="dropdown-item" value={model.id}>{model.name}</option>))}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="row form-group">
                                 {/*VehicleObj.model.id*/}
                                 <div className="col-md-4">
                                     <Label>Model</Label><br />
-                                    <select defaultValue={vehicleObj ? vehicleObj.model.id : "Select a model"} className="form-control" name="modelId" onChange={this.onChange}>
+                                <select defaultValue={vehicleObj ? vehicleObj.model.id : "Select a model"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
                                         {this.props.ModelList.map(model => (<option className="dropdown-item" value={model.id}>{model.name}</option>))}
                                     </select>
                                 </div>
+                        </div>
+
+                        <div className="row form-group">
+                            {/*VehicleObj.model.id*/}
+                            <div className="col-md-4">
+                                <Label>Institution</Label><br />
+                                <select defaultValue={vehicleObj ? vehicleObj.model.id : "Select a model"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
+                                    {this.props.ModelList.map(model => (<option className="dropdown-item" value={model.id}>{model.name}</option>))}
+                                </select>
                             </div>
+                        </div>
 
                             {/*<div className="row">
                                 <div className="col-md-6">

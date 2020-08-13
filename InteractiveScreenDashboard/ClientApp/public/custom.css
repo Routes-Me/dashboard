@@ -160,6 +160,7 @@ header nav {
     }
 
     .menu-part li {
+        margin-bottom:0px;
         list-style: none;
         padding: 12px 37px;
     }

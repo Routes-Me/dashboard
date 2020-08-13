@@ -43,7 +43,7 @@ class UsersDetail extends React.Component {
         }
     }
 
-
+    //Submit button action 
     handleSubmit = (event) => {
 
         event.preventDefault();
@@ -112,6 +112,8 @@ class UsersDetail extends React.Component {
     }
 }
 
+
+//connect redux
 const mapStateToProps = (state) => {
 
     const modelList = state.VehicleStore.Models;

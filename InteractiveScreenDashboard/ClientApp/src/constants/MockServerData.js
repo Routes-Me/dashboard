@@ -167,6 +167,32 @@
         "message": "Users data retrived successfully.",
         "responseCode": 200
 
+    },
+
+    ServicesMockServerData: {
+
+        "pagination": {
+
+            "offset": 20,
+            "limit": 10,
+            "total": 3465
+
+        },
+        "data": {
+            "services":[
+                {
+                    "id": 1,
+                    "name":"Advertiser"
+                },
+                {
+                    "id": 2,
+                    "name": "Taxi Operator"
+                }
+            ]
+        },
+        "status": true,
+        "message": "Users data retrived successfully.",
+        "responseCode": 200
     }
 
 

@@ -15,7 +15,7 @@ export function getUsers(id) {
 
 }
 
-
+//Update on API
 function MockAPICallForUsers() {
     const res = MockServerData.UsersMockServerData;
     const UsersList = res.data.users;
@@ -32,18 +32,33 @@ function UsersDataReceived(Users) {
 };
 
 
-//Save User
+//Save User Detail
 export function saveUser(user) {
     return dispatch => {
-        dispatch(saveUserDataRequest());
-        const User = MockAPICallForSaveUser();
-        dispatch(saveUserDataSuccess());
+        dispatch(saveUserDataRequest);
+        if (user.UserId !== "") {
+            //Update on API
+            MockAPICallForPutUser(user);
+        }
+        else {
+            //Update on API
+            MockAPICallForPostUser(user);
+        }
+        dispatch(saveUserDataSuccess);
     }
 }
 
-function MockAPICallForSaveUser() {
 
+//Update on API
+function MockAPICallForPutUser(user) {
+    console.log("Dictionary for the create PUT/user API", user);
 }
+
+//Update on API
+function MockAPICallForPostUser(user) {
+    console.log("Dictionary for the create POST/user API", user);
+}
+
 
 function saveUserDataRequest() {
     return { type: userConstants.saveUsers_REQUEST };
