@@ -2,6 +2,7 @@
 
 const INITIAL_STATE = {
     Institutions: [],
+    Services:[],
     Loading: true,
     hasError: false,
     error: null
@@ -13,7 +14,7 @@ const InstitutionReducer = (state = INITIAL_STATE, action) => {
             return {
                         ...state,
                         Loading: true,
-                        hasError: false
+                        hasError: false,
             };
         case institutionConstants.getInstitutions_SUCCESS:
             return {
@@ -22,6 +23,10 @@ const InstitutionReducer = (state = INITIAL_STATE, action) => {
                 hasError: false,
                 Institutions: action.payload
             };
+        case institutionConstants.serviceList_UPDATED:
+            return {
+                Services: action.payload
+            }
         case institutionConstants.saveInstitutions_REQUEST:
             return {
                 ...state,

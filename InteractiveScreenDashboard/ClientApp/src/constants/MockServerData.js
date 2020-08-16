@@ -58,39 +58,47 @@
         "responseCode": 200
     },
 
-    InstitutionMockServerData :{
-        "institutionDetails": {
-            "pagination": {
-                "currentPage": 1,
-                "totalCount": 1,
-                "pageSize": 10,
-                "totalPages": 1,
-                "indexOne": 1,
-                "indexTwo": 1,
-                "showPrevious": false,
-                "showFirst": false,
-                "showLast": false
-            },
-            "data": {
-                "institution": [
+    institutionDetails :{
+        "pagination": {
+
+            "offset": 0,
+            "limit": 2,
+            "total": 2
+
+        },
+        "data": {
+           "institutions": [
                     {
                         "institutionId": 3,
                         "name": "Nirmal Patel",
                         "createdAt": "2020-06-29T10:54:53",
                         "phoneNumber": 1234567890,
-                        "countryIso": "IN"
+                        "countryIso": "IN",
+                        "services":[1,]
                     },
                     {
                         "institutionId": 4,
                         "name": "vijay",
                         "createdAt": "2020-06-29T10:54:53",
                         "phoneNumber": 123123123,
-                        "countryIso": "IN"
+                        "countryIso": "IN",
+                        "services": [1, 2]
                     }
-                ],
+           ],
                 "vehicles": null,
                 "drivers": null
-            }
+        },
+        "include": {
+            "services": [
+                {
+                    "id": 1,
+                    "name": "Advertiser"
+                },
+                {
+                    "id": 2,
+                    "name": "Taxi Operator"
+                }
+            ]
         },
         "status": true,
         "message": "Institutions data retrived successfully.",

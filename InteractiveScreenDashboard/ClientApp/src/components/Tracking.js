@@ -82,7 +82,7 @@ class Tracking extends Component {
     //Bounds are considered group markers : Radius & ZoomLevel
     createClusters = props => {
 
-        console.log("Map Bounds ==>", this.state.mapOptions.bounds)
+        //console.log("Map Bounds ==>", this.state.mapOptions.bounds)
         this.setState({
             clusters: this.state.mapOptions.bounds
                 ? this.getClusters(props).map(({ wx, wy, numPoints, points }) => ({
@@ -334,7 +334,7 @@ const mapStateToProps = (state) => {
     //console.log("Update obj : ", state.Tracking.OflineUpdates)
     const vehicles = [...state.Tracking.ActiveVehicles, ...state.Tracking.IdleVehicles]
     const points = vehicles.map(result => ({ id: parseInt(result.vehicle_id), status: result.status, lat: parseFloat(result.coordinates.latitude), lng: parseFloat(result.coordinates.longitude) }))
-    console.log('Mapped State Array returned :', points);
+    //console.log('Mapped State Array returned :', points);
     return {
         result: points,
         idForSelectedVehicle: state.Tracking.idForSelectedVehicle

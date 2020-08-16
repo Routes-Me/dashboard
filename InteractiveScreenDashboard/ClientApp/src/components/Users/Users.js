@@ -66,6 +66,7 @@ class Users extends Component {
                                 <th>ID</th>
                                 <th>NAME</th>
                                 <th>EMAIL</th>
+                                <th>PHONE</th>
                                 <th>ROLE</th>
                                 <th className="width44" />
                             </tr>
@@ -77,6 +78,7 @@ class Users extends Component {
                                         <td>{user.userId}</td>
                                         <td>{user.name}</td>
                                         <td>{user.email}</td>
+                                        <td>{user.phone}</td>
                                         <td>{user.description}</td>
                                         <td className="width44" >
                                             <div className="edit-popup">

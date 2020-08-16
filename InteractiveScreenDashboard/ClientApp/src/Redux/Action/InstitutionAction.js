@@ -9,7 +9,9 @@ export function getInstitutions(id) {
 
         dispatch(IstitutionDataRequest());
         const Institutions = MockAPICallForInstitutions();
-        dispatch(InstitutionDataReceived(Institutions));
+        const servicesData = Institutions.include.services;
+        dispatch(UpdatetheServiceList(servicesData));
+        dispatch(InstitutionDataReceived(Institutions.data.institutions));
 
     }
 
@@ -17,15 +19,18 @@ export function getInstitutions(id) {
 
 //Update on API
 function MockAPICallForInstitutions() {
-    const res = MockServerData.InstitutionMockServerData;
-    const InstitutionList = res.institutionDetails.data.institution;
-    return InstitutionList;
+    const institutionData = MockServerData.institutionDetails;
+    return institutionData;
 }
 
 
 function IstitutionDataRequest() {
     return { type: institutionConstants.getInstitutions_REQUEST }
 };
+
+function UpdatetheServiceList(services) {
+    return { type: institutionConstants.serviceList_UPDATED, payload: services }
+}
 
 function InstitutionDataReceived(institutions) {
     return { type: institutionConstants.getInstitutions_SUCCESS, payload: institutions }

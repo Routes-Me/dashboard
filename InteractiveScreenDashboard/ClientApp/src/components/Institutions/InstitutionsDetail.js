@@ -23,7 +23,7 @@ class InstitutionsDetail extends React.Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        console.log('Users : getDerivedStateFromProps called with NewProps', props.vehicleToDisplay);
+        //console.log('Users : getDerivedStateFromProps called with NewProps', props.vehicleToDisplay);
         if (props.institutionToDisplay !== undefined) {
             if (props.institutionToDisplay !== state.institutionToDisplay) {
                 return {
@@ -86,8 +86,7 @@ class InstitutionsDetail extends React.Component {
                             <div className="col-md-4">
                                 <Label>Services</Label><br />
                                 <select class="custom-select" size="3">
-                                    <option value="1">Advertiser</option>
-                                    <option value="2">Taxi Operator</option>
+                                    {this.props.servicesList.map(service => (<option value={service.id}>{service.name}</option>))}
                                 </select>
                             </div>
                         </div>
@@ -110,11 +109,11 @@ class InstitutionsDetail extends React.Component {
 //connect redux
 const mapStateToProps = (state) => {
 
-    const modelList = state.VehicleStore.Models;
-    console.log('DialogVehicles: Mapped State Vehicle Array returned :', modelList);
+    const servicesList = state.InstitutionStore.Services;
+    console.log('DialogVehicles: Mapped State services Array returned :', servicesList);
 
     return {
-        ModelList: modelList
+        servicesList: state.InstitutionStore.Services
     }
 
 }

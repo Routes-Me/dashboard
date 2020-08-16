@@ -140,10 +140,9 @@ class Institutions extends Component {
 const mapStateToProps = (state) => {
 
     const Institutions = state.InstitutionStore.Institutions;
-    console.log('Mapped State Institutions Array returned :', Institutions);
-
-    return {
-        InstitutionsList: Institutions
+        console.log('Mapped State Institutions Array returned :', Institutions);
+        return {
+            InstitutionsList: Institutions
     }
 
 }
