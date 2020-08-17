@@ -2,6 +2,8 @@
 
 const INITIAL_STATE = {
     Users: [],
+    UserRoles: [],
+    Applications: [],
     Loading: true,
     hasError: false,
     error: null
@@ -21,6 +23,20 @@ const UserReducer = (state = INITIAL_STATE, action) => {
                 Loading: true,
                 hasError: false,
                 Users: action.payload
+            };
+        case userConstants.update_USERROLES:
+            return {
+                ...state,
+                Loading: true,
+                hasError: false,
+                UserRoles: action.payload
+            };
+        case userConstants.update_APPLICATIONS:
+            return {
+                ...state,
+                Loading: true,
+                hasError: false,
+                Applications: action.payload
             };
         case userConstants.saveUsers_REQUEST:
             return {

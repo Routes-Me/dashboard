@@ -1,7 +1,6 @@
 ﻿export const MockServerData = {
 
-    VehicleMockServerData : {
-        "vehiclesDetail": {
+    VehicleDetails : {
             "pagination": {
 
                 "offset": 20,
@@ -50,8 +49,6 @@
                             }
                         ]
                 }
-            
-        }
         ,
         "status": true,
         "message": "Institutions data retrived successfully.",
@@ -168,6 +165,36 @@
                     "application": "dashboard",
                     "name": "manager",
                     "description": "manager"
+                }
+            ]
+        },
+        "include": {
+            "userRoles": [
+                {
+                    "userRoleId": 1,
+                    "application": "driver",
+                    "name": "driver1",
+                    "description": "this is driver1"
+                },
+                {
+                    "userRoleId": 2,
+                    "application": "dashboard",
+                    "name": "manager",
+                    "description": "manager"
+                }
+            ],
+            "applications": [
+                {
+                    "id": 1,
+                    "name": "Dashboard"
+                },
+                {
+                    "id": 2,
+                    "name":"Taxi"
+                },
+                {
+                    "id": 3,
+                    "name": "Driver application"
                 }
             ]
         },

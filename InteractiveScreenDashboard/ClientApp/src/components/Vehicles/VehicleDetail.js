@@ -117,7 +117,7 @@ class VehicleDetail extends React.Component {
                             <div className="col-md-4">
                                 <Label>Institution</Label><br />
                                 <select defaultValue={vehicleObj ? vehicleObj.model.id : "Select a model"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
-                                    {this.props.ModelList.map(model => (<option className="dropdown-item" value={model.id}>{model.name}</option>))}
+                                    {this.props.InstitutionList.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
                                 </select>
                             </div>
                         </div>
@@ -148,10 +148,10 @@ class VehicleDetail extends React.Component {
 const mapStateToProps = (state) => {
 
     const modelList = state.VehicleStore.Models;
-    console.log('DialogVehicles: Mapped State Vehicle Array returned :', modelList);
 
     return {
-        ModelList: modelList
+        ModelList: modelList,
+        InstitutionList: state.InstitutionStore.Institutions
     }
 
 }

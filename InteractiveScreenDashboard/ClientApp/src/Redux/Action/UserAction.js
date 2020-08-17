@@ -9,7 +9,9 @@ export function getUsers(id) {
 
         dispatch(UsersDataRequest());
         const Users = MockAPICallForUsers();
-        dispatch(UsersDataReceived(Users));
+        dispatch(storeUserRoles(Users.include.userRoles));
+        dispatch(storeApplications(Users.include.applications));
+        dispatch(UsersDataReceived(Users.data.users));
 
     }
 
@@ -17,11 +19,18 @@ export function getUsers(id) {
 
 //Update on API
 function MockAPICallForUsers() {
-    const res = MockServerData.UsersMockServerData;
-    const UsersList = res.data.users;
-    return UsersList;
+    const response = MockServerData.UsersMockServerData;
+    //const UsersList = res.data.users;
+    return response;
 }
 
+function storeUserRoles(roles) {
+    return { type: userConstants.update_USERROLES, payload: roles }
+} 
+
+function storeApplications(applist) {
+    return { type: userConstants.update_APPLICATIONS, payload: applist }
+}
 
 function UsersDataRequest() {
     return { type: userConstants.getUsers_REQUEST }

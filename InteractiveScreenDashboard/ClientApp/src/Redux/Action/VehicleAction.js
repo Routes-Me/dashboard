@@ -107,11 +107,11 @@ function FilterModelsforId(modelId) {
 
 
 function MockAPICallForVehicles(InstId) {
-    const res = MockServerData.VehicleMockServerData;
-    const VehicleList = res.vehiclesDetail.data.vehicles.filter(vehicle => vehicle.institutionId === InstId)
+    const res = MockServerData.VehicleDetails;
+    const VehicleList = res.data.vehicles.filter(vehicle => vehicle.institutionId === InstId)
     console.log('Vehicle Action Array returned :', VehicleList);
-    const InstitutionList = res.vehiclesDetail.include.institutions;
-    const ModelList = res.vehiclesDetail.include.models;
+    const InstitutionList = res.include.institutions;
+    const ModelList = res.include.models;
 
     
     const FormatedVehicle = VehicleList.map(x => ({

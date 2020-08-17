@@ -67,6 +67,29 @@ class UsersDetail extends React.Component {
                 <Form onSubmit={e => this.handleSubmit(e)}>
                     <div class="col-md-10">
 
+
+                        <div className="row form-group">
+                            <div className="col-md-4">
+                                <Label>Name</Label><br />
+                                <input type="text" name="email"
+                                    placeholder={userObj === undefined ? "" : userObj.email}
+                                    value={userObj.email}
+                                    onChange={this.onChange}
+                                    className="form-control" />
+                            </div>
+                        </div>
+                        
+
+                        <div className="row form-group">
+                            {/*VehicleObj.model.id*/}
+                            <div className="col-md-4">
+                                <Label>Role</Label><br />
+                                <select defaultValue={userObj ? userObj.role.id : "Select a role"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
+                                    {this.props.UserRoles.map(role => (<option className="dropdown-item" value={role.userRoleId}>{role.name}</option>))}
+                                </select>
+                            </div>
+                        </div>
+
                         <div className="row form-group">
                             <div className="col-md-4">
                                 <Label>Email</Label><br />
@@ -90,13 +113,22 @@ class UsersDetail extends React.Component {
                         </div>
 
                         <div className="row form-group">
-                            {/*VehicleObj.model.id
                             <div className="col-md-4">
-                                <Label>application</Label><br />
-                                <select defaultValue={userObj ? userObj.model.id : "Select a model"} className="form-control" name="modelId" onChange={this.onChange}>
-                                    {this.props.ModelList.map(model => (<option className="dropdown-item" value={model.id}>{model.name}</option>))}
+                                <Label>Applications</Label><br />
+                                <select class="custom-select" size="3">
+                                    {this.props.applicationsList.map(application => (<option value={application.id}>{application.name}</option>))}
                                 </select>
-                            </div>*/}
+                            </div>
+                        </div>
+
+                        <div className="row form-group">
+                            {/*VehicleObj.model.id*/}
+                            <div className="col-md-4">
+                                <Label>Institution</Label><br />
+                                <select defaultValue={vehicleObj ? vehicleObj.model.id : "Select a model"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
+                                    {this.props.InstitutionList.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
+                                </select>
+                            </div>
                         </div>
 
 
@@ -116,11 +148,11 @@ class UsersDetail extends React.Component {
 //connect redux
 const mapStateToProps = (state) => {
 
-    const modelList = state.VehicleStore.Models;
-    console.log('DialogVehicles: Mapped State Vehicle Array returned :', modelList);
 
     return {
-        ModelList: modelList
+        UserRoles: state.UserStore.UserRoles,
+        applicationsList: state.UserStore.Applications,
+        InstitutionList: state.InstitutionStore.Institutions
     }
 
 }
