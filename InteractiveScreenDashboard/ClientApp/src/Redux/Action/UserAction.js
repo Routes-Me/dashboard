@@ -41,6 +41,24 @@ function UsersDataReceived(Users) {
 };
 
 
+// get User Roles
+export function getUserRoles() {
+    return dispatch => {
+        dispatch(userRolesRequest());
+        const userRoles = MockServerData.userRoles();
+        dispatch(userRolesReceived(userRoles));
+    }
+}
+
+function userRolesRequest() {
+    return { type: userConstants.userRolesRequest };
+}
+
+function userRolesReceived(roles) {
+    return { type: userConstants.update_USERROLES, payload: roles };
+}
+
+
 //Save User Detail
 export function saveUser(user) {
     return dispatch => {

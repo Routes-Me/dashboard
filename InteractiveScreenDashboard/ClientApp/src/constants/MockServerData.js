@@ -71,7 +71,7 @@
                         "createdAt": "2020-06-29T10:54:53",
                         "phoneNumber": 1234567890,
                         "countryIso": "IN",
-                        "services":[1,]
+                        "services":[1]
                     },
                     {
                         "institutionId": 4,
@@ -150,7 +150,9 @@
                     "createdDate": "2020-07-18T07:37:03",
                     "isVerified": false,
                     "lastLoginDate": null,
-                    "application": "dashboard",
+                    "institutionId": 3,
+                    "userRoleId":1,
+                    "application": [1,3],
                     "name": "manager",
                     "description": "manager"
                 },
@@ -162,7 +164,9 @@
                     "createdDate": "2020-07-21T10:24:39",
                     "isVerified": false,
                     "lastLoginDate": null,
-                    "application": "dashboard",
+                    "institutionId": 3,
+                    "userRoleId": 2,
+                    "application": [3],
                     "name": "manager",
                     "description": "manager"
                 }
@@ -196,7 +200,17 @@
                     "id": 3,
                     "name": "Driver application"
                 }
-            ]
+            ],
+            "institutions":
+                [
+                    {
+                        "institutionId": 3,
+                        "name": "Nirmal Patel",
+                        "createdAt": "2020-06-29T10:54:53",
+                        "phoneNumber": 1234567890,
+                        "countryIso": "IN"
+                    }
+                ]
         },
         "status": true,
         "message": "Users data retrived successfully.",
