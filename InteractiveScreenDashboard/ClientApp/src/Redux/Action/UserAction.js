@@ -34,28 +34,59 @@ function storeApplications(applist) {
 
 function UsersDataRequest() {
     return { type: userConstants.getUsers_REQUEST }
-};
+}
 
 function UsersDataReceived(Users) {
     return { type: userConstants.getUsers_SUCCESS, payload: Users }
-};
+}
 
 
 // get User Roles
 export function getUserRoles() {
+
     return dispatch => {
+
         dispatch(userRolesRequest());
-        const userRoles = MockServerData.userRoles();
+        const userRoles = mockAPICallForUserRoles();
         dispatch(userRolesReceived(userRoles));
+
     }
+
+}
+
+//Update with API
+function mockAPICallForUserRoles() {
+    return MockServerData.UserRolesDetails.data.userRoles;
 }
 
 function userRolesRequest() {
-    return { type: userConstants.userRolesRequest };
+    return { type: userConstants.getUserRoles_REQUEST };
 }
 
 function userRolesReceived(roles) {
     return { type: userConstants.update_USERROLES, payload: roles };
+}
+
+//get aoolications list 
+export function getApplications() {
+    return dispatch => {
+        dispatch(applicationsRequest())
+        const applicationsList = mockAPICallforApplications()
+        dispatch(applicationsReceived(applicationsList))
+    }
+}
+
+//Update with API
+function mockAPICallforApplications() {
+    return MockServerData.ApplicationsDetail.data.applications;
+}
+
+function applicationsRequest() {
+    return { type: userConstants.getApplications_REQUEST };
+}
+
+function applicationsReceived(apps) {
+    return { type: userConstants.update_APPLICATIONS, payload: apps };
 }
 
 

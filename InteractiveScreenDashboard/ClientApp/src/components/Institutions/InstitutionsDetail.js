@@ -17,6 +17,9 @@ class InstitutionsDetail extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this.props.getServiceList();
+    }
 
     onChange = (event) => {
         this.setState({ [event.target.name]: event.target.value })
@@ -121,6 +124,7 @@ const mapStateToProps = (state) => {
 }
 
 const actionCreators = {
+    getServiceList: InstitutionAction.getServicesList,
     saveInstitution: InstitutionAction.saveInstitution
 };
 

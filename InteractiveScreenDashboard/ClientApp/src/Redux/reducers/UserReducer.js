@@ -24,12 +24,24 @@ const UserReducer = (state = INITIAL_STATE, action) => {
                 hasError: false,
                 Users: action.payload
             };
+        case userConstants.getUserRoles_REQUEST:
+            return {
+                ...state,
+                Laoding: true,
+                hasError: false
+            };
         case userConstants.update_USERROLES:
             return {
                 ...state,
                 Loading: true,
                 hasError: false,
                 UserRoles: action.payload
+            };
+        case userConstants.getApplications_REQUEST:
+            return {
+                ...state,
+                Laoding: true,
+                hasError: false
             };
         case userConstants.update_APPLICATIONS:
             return {

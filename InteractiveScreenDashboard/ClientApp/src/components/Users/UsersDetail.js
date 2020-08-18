@@ -2,6 +2,7 @@
 import { connect } from 'react-redux';
 import { Label } from 'reactstrap';
 import * as UserAction from '../../Redux/Action';
+import * as InstitutionAction from '../../Redux/Action';
 import Form from 'react-validation/build/form';
 
 class UsersDetail extends React.Component {
@@ -23,8 +24,9 @@ class UsersDetail extends React.Component {
     }
 
     componentDidMount() {
-        // get Institutions
-        this.props.getUsersList();
+        this.props.getUserRoles();
+        this.props.getApplications();
+        this.props.getInstitutions();
     }
 
     onChange = (event) => {
@@ -152,8 +154,10 @@ class UsersDetail extends React.Component {
 //connect redux
 const mapStateToProps = (state) => {
 
+    const roles = state.UserStore.UserRoles;
+
     return {
-        UserRoles: state.UserStore.UserRoles,
+        UserRoles: roles,
         applicationsList: state.UserStore.Applications,
         InstitutionList: state.InstitutionStore.Institutions
     }
@@ -161,8 +165,13 @@ const mapStateToProps = (state) => {
 }
 
 const actionCreators = {
+
+    getUserRoles: UserAction.getUserRoles,
+    getApplications: UserAction.getApplications,
+    getInstitutions: InstitutionAction.getInstitutions,
     saveUser: UserAction.saveUser
-};
+    
+}
 
 const connectUserDetail = connect(mapStateToProps, actionCreators)(UsersDetail);
 export { connectUserDetail as UsersDetail };

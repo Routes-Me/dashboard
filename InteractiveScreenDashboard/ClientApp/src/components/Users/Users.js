@@ -108,11 +108,12 @@ class Users extends Component {
     render() {
 
         let content = this.showUsersList(this.props.UsersList);
-
         return (
+
+            
             <div className="vehicles-page" style={{ height: "100vh", width: "100%" }}>
                 {this.state.showDetails ?
-                    <Detail className={this.props.show ? 'slide-in' : 'slide-out'}
+                    <Detail className={this.props.showDetails ? "child-in" : "child"}
                         show={this.showDetailScreen}
                         objectType={userConstants.NavItem_Users}
                         object={this.state.user} /> :
@@ -147,7 +148,7 @@ class Users extends Component {
 const mapStateToProps = (state) => {
 
     const Users = state.UserStore.Users;
-    console.log('Mapped State User Array returned :', Users);
+    //console.log('Mapped State User Array returned :', Users);
 
     return {
         UsersList: Users

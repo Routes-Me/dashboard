@@ -131,6 +131,65 @@
     },
 
 
+    ApplicationsDetail: {
+        "pagination": {
+
+            "offset": 20,
+            "limit": 10,
+            "total": 3465
+
+        },
+        "data": {
+            "applications": [
+                {
+                    "id": 1,
+                    "name": "Dashboard"
+                },
+                {
+                    "id": 2,
+                    "name": "Taxi"
+                },
+                {
+                    "id": 3,
+                    "name": "Driver application"
+                }
+            ]
+        },
+        "status": true,
+        "message": "Models data retrived successfully.",
+        "responseCode": 200
+    },
+
+    UserRolesDetails: {
+        "pagination": {
+
+            "offset": 1,
+            "limit": 10,
+            "total": 2
+
+        },
+        "data": {
+            "userRoles": [
+                {
+                    "userRoleId": 1,
+                    "application": "driver",
+                    "name": "driver1",
+                    "description": "this is driver1"
+                },
+                {
+                    "userRoleId": 2,
+                    "application": "dashboard",
+                    "name": "manager",
+                    "description": "manager"
+                }
+            ]
+        },
+        "status": true,
+        "message": "Models data retrived successfully.",
+        "responseCode": 200
+    },
+
+
     UsersMockServerData: {
 
         "pagination": {
