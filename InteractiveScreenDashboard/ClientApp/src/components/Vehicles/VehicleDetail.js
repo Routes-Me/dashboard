@@ -2,8 +2,10 @@
 import { connect } from 'react-redux';
 import { Label } from 'reactstrap';
 import * as VehicleAction from '../../Redux/Action';
+import * as InstitutionAction from '../../Redux/Action';
 import Form from 'react-validation/build/form';
 import Modal from '../Dialog/Modal';
+import { vehicleConstants } from "../../constants/vehicleConstants";
 
 class VehicleDetail extends React.Component {
 
@@ -13,19 +15,22 @@ class VehicleDetail extends React.Component {
         this.state = {
             deviceId: "",
             vehicleId: "",
-            InstitutionId:"",
+            InstitutionId: "",
+            makeId:"",
             modelId: "",
             modelYear: "",
             plateNumber: "",
             modelList: [],
             selectedModel: "",
             vehicleToDisplay: "",
-            searchModel: false
+            searchModel: false,
+            searchObject: "",
+            searchList:[]
         }
     }
 
     componentDidMount() {
-        //this.props.getInstitutions();
+        this.props.getInstitutions();
     }
 
 
@@ -34,7 +39,9 @@ class VehicleDetail extends React.Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        console.log('getDerivedStateFromProps called with NewProps', props.vehicleToDisplay);
+        //console.log('getDerivedStateFromProps called with NewProps', props.vehicleToDisplay);
+
+        //const list = state.searchObject === vehicleConstants.searchDialogFor_Makers ? props.MakersList : props.ModelsList;
         if (props.vehicleToDisplay !== undefined) {
             if (props.vehicleToDisplay !== state.vehicleToDisplay) {
                 return {
@@ -64,16 +71,24 @@ class VehicleDetail extends React.Component {
             modelId: this.state.modelId
         }
 
-        this.setState({ searchModel: true });
         this.props.saveVehicle(vehicle);
     }
 
+    returnListToSearch = () => {
+        if (this.state.searchObject === vehicleConstants.searchDialogFor_Makers)
+            return this.props.MakersList
+        else
+            return this.props.ModelsList
+    };
+
     //show model dialog 
-    toggleModal = (e, ) => {
+    toggleModal = (e, objectType) => {
         e.preventDefault();
+        { objectType === vehicleConstants.searchDialogFor_Makers && this.props.getMakes() }
+        { objectType === vehicleConstants.searchDialogFor_Models && this.props.getModels() }
         this.setState({
             searchModel: !this.state.searchModel,
-            ModelList: this.props.ModelList
+            searchObject: objectType
         });
     }
 
@@ -86,7 +101,9 @@ class VehicleDetail extends React.Component {
 
                 <Modal
                     show={this.state.searchModel}
-                    onClose={this.toggleModal}/>
+                    onClose={this.toggleModal}
+                    objectType={this.state.searchObject}
+                    objectList={this.props.MakersList} />
 
                     <Form onSubmit={e => this.handleSubmit(e)}>
                         <div class="col-md-10">
@@ -117,36 +134,40 @@ class VehicleDetail extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-4">
                                 <Label>Make</Label><br />
-                                <select defaultValue={vehicleObj ? vehicleObj.model.id : "Select a model"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
+                                <div class="btn-grp dropright">
+                                    <button type="button" class="btn btn-block btn-light dropdown-toggle" aria-haspopup="true" aria-expanded="false" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Makers)}>
+                                        {vehicleObj ? vehicleObj.model.name : "Select a model"}
+                                    </button>
+                                </div>
+                                {/*<select defaultValue={vehicleObj ? vehicleObj.model.id : "Select a model"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
                                     {this.props.ModelList.map(model => (<option className="dropdown-item" value={model.id}>{model.name}</option>))}
-                                </select>
+                                </select>*/}
                             </div>
                         </div>
 
                         <div className="row form-group">
                                 {/*VehicleObj.model.id*/}
-                                <div className="col-md-4">
-                                    <Label>Model</Label><br />
-                                <select defaultValue={vehicleObj ? vehicleObj.model.id : "Select a model"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
+                            <div className="col-md-4">
+                                <Label>Model</Label><br />
+                                <div class="btn-grp dropright">
+                                    <button type="button" class="btn btn-block btn-light dropdown-toggle" aria-haspopup="true" aria-expanded="false" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Models)}>
+                                        {vehicleObj ? vehicleObj.model.name : "Select a model"}
+                                    </button>
+                                </div>
+                                {/*<select defaultValue={vehicleObj ? vehicleObj.model.id : "Select a model"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
                                         {this.props.ModelList.map(model => (<option className="dropdown-item" value={model.id}>{model.name}</option>))}
-                                    </select>
+                                    </select>*/}
                             </div>
-
-                            <div class="btn-group dropright">
-                                <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {vehicleObj.model.name}
-                                </button>
-                            </div>
-
                         </div>
 
                         <div className="row form-group">
                             {/*VehicleObj.model.id*/}
                             <div className="col-md-4">
                                 <Label>Institution</Label><br />
-                                <select defaultValue={vehicleObj ? vehicleObj.model.id : "Select a model"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
+                                <select defaultValue={vehicleObj ? vehicleObj.institution.institutionId : "Select a model"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
                                     {this.props.InstitutionList.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
                                 </select>
+                                
                             </div>
                         </div>
 
@@ -175,18 +196,20 @@ class VehicleDetail extends React.Component {
 
 const mapStateToProps = (state) => {
 
-    const modelList = state.VehicleStore.Models;
+    const modelList = state.InstitutionStore.Institutions;
 
     return {
-        ModelList: modelList,
-        InstitutionList: state.InstitutionStore.Institutions
+        ModelsList: state.VehicleStore.Models,
+        InstitutionList: state.InstitutionStore.Institutions,
+        MakersList: state.VehicleStore.Makes
     }
 
 }
 
 const actionCreators = {
+    getInstitutions: InstitutionAction.getInstitutions,
     getMakes: VehicleAction.getMakes,
-    getVehicleModels: VehicleAction.getModels,
+    getModels: VehicleAction.getNewModels,
     saveVehicle: VehicleAction.saveVehicle
 };
 

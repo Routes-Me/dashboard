@@ -2,6 +2,7 @@
 
 const INITIAL_STATE = {
     Vehicles: [],
+    Makes:[],
     Models: [],
     Institution :'',
     Loading: true,
@@ -49,6 +50,19 @@ const VehicleReducer = (state = INITIAL_STATE, action) => {
                 Loading: true,
                 hasError: false,
                 Models: action.payload
+            };
+        case vehicleConstants.getMakes_REQUEST:
+            return {
+                ...state,
+                Loading: false,
+                hasError: false
+            };
+        case vehicleConstants.getMakes_SUCCESS:
+            return {
+                ...state,
+                Loading: true,
+                hasError: false,
+                Makes: action.payload
             };
         case vehicleConstants.addVehicle_REQUEST:
             return {

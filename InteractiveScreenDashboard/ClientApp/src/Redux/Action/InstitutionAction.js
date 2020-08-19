@@ -8,10 +8,10 @@ export function getInstitutions(id) {
     return dispatch => {
 
         dispatch(IstitutionDataRequest());
-        const Institutions = MockAPICallForInstitutions();
-        const servicesData = Institutions.include.services;
+        const Institutions = MockAPICallForInstitutions().data.institutions;
+        const servicesData = MockAPICallForInstitutions().include.services;
         dispatch(UpdatetheServiceList(servicesData));
-        dispatch(InstitutionDataReceived(Institutions.data.institutions));
+        dispatch(InstitutionDataReceived(Institutions));
 
     }
 

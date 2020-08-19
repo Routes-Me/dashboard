@@ -13,8 +13,9 @@
     getMakes_SUCCESS: "GETMAKES_SUCCESS",
 
     addVehicle_REQUEST: "ADDVEHICLE_REQUEST",
-    addVehicle_SUCCESS: "ADDVEHICLE_SUCCES"
+    addVehicle_SUCCESS: "ADDVEHICLE_SUCCES",
 
-
+    searchDialogFor_Makers: "Manufacturers",
+    searchDialogFor_Models: "Models"
 
 }

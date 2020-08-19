@@ -158,13 +158,15 @@ function MockAPICallForMakes() {
     return MockServerData.MakeDetails.data.makes;
 }
 
-
-function Mo
-
-
-function filterModelIdFromModelArray() {
-
+function MockAPICallFormodels() {
+    return MockServerData.ModelDetails.data.models
 }
+
+
+
+//function filterModelIdFromModelArray() {
+
+//}
 
 
 function returnMockVehiclesForInstitutionIds() {
