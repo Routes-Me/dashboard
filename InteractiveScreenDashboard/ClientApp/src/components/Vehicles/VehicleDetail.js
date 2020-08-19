@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Label } from 'reactstrap';
 import * as VehicleAction from '../../Redux/Action';
 import Form from 'react-validation/build/form';
+import Modal from '../Dialog/Modal';
 
 class VehicleDetail extends React.Component {
 
@@ -18,8 +19,13 @@ class VehicleDetail extends React.Component {
             plateNumber: "",
             modelList: [],
             selectedModel: "",
-            vehicleToDisplay:""
+            vehicleToDisplay: "",
+            searchModel: false
         }
+    }
+
+    componentDidMount() {
+        //this.props.getInstitutions();
     }
 
 
@@ -58,7 +64,17 @@ class VehicleDetail extends React.Component {
             modelId: this.state.modelId
         }
 
+        this.setState({ searchModel: true });
         this.props.saveVehicle(vehicle);
+    }
+
+    //show model dialog 
+    toggleModal = (e, ) => {
+        e.preventDefault();
+        this.setState({
+            searchModel: !this.state.searchModel,
+            ModelList: this.props.ModelList
+        });
     }
 
     render() {
@@ -67,9 +83,14 @@ class VehicleDetail extends React.Component {
 
         return (
             <div className="row col-md-12 detail-form">
+
+                <Modal
+                    show={this.state.searchModel}
+                    onClose={this.toggleModal}/>
+
                     <Form onSubmit={e => this.handleSubmit(e)}>
                         <div class="col-md-10">
-
+                                                                                                   
                             <div className="row form-group">
                                 <div className="col-md-4">
                                     <Label>Plate Number</Label><br />
@@ -109,7 +130,14 @@ class VehicleDetail extends React.Component {
                                 <select defaultValue={vehicleObj ? vehicleObj.model.id : "Select a model"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
                                         {this.props.ModelList.map(model => (<option className="dropdown-item" value={model.id}>{model.name}</option>))}
                                     </select>
-                                </div>
+                            </div>
+
+                            <div class="btn-group dropright">
+                                <button type="button" class="btn btn-light dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    {vehicleObj.model.name}
+                                </button>
+                            </div>
+
                         </div>
 
                         <div className="row form-group">
@@ -157,6 +185,7 @@ const mapStateToProps = (state) => {
 }
 
 const actionCreators = {
+    getMakes: VehicleAction.getMakes,
     getVehicleModels: VehicleAction.getModels,
     saveVehicle: VehicleAction.saveVehicle
 };

@@ -190,6 +190,69 @@
     },
 
 
+    MakeDetails: {
+        "pagination": {
+
+            "offset": 1,
+            "limit": 10,
+            "total": 2
+
+        },
+        "data": {
+            "makes": [
+                {
+                    "id": 1,
+                    "name": "Audi"
+                },
+                {
+                    "id": 2,
+                    "name": "KIA"
+                },
+                {
+                    "id": 3,
+                    "name": "BMW"
+                }
+            ]
+        },
+        "status": true,
+        "message": "Models data retrived successfully.",
+        "responseCode": 200
+    },
+
+
+    ModelDetails: {
+        "pagination": {
+
+            "offset": 1,
+            "limit": 10,
+            "total": 2
+
+        },
+        "data": {
+            "models": [
+                {
+                    "id": 1,
+                    "name": "A3",
+                    "makeId":1
+                },
+                {
+                    "id": 2,
+                    "name": "Q7",
+                    "makeId":1
+                },
+                {
+                    "id": 3,
+                    "name": "X6",
+                    "makeId":3
+                }
+            ]
+        },
+        "status": true,
+        "message": "Models data retrived successfully.",
+        "responseCode": 200
+    },
+
+
     UsersMockServerData: {
 
         "pagination": {

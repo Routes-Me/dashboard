@@ -23,6 +23,25 @@ export function getModels() {
     }
 }
 
+//get new models
+export function getNewModels(makeId) {
+    return dispatch => {
+        dispatch(ModelDataRequest);
+        const models = MockAPICallFormodels(makeId);
+        dispatch(storeModelData(models));
+    }
+}
+
+
+//get Makes
+export function getMakes() {
+    return dispatch => {
+        dispatch(MakesDataRequest);
+        const makes = MockAPICallForMakes();
+        dispatch(StoreMakesData(makes));
+    }
+}
+
 
 //Action to Add or Update vehcile
 export function saveVehicle(vehicle) {
@@ -46,6 +65,14 @@ export function deleteVehicle(vehcileId) {
 }
 
 //Dispatch Action to update application state
+function MakesDataRequest() {
+    return { type: vehicleConstants.getMakes_REQUEST }
+}
+
+function StoreMakesData(makes) {
+    return { type: vehicleConstants.getMakes_SUCCESS, payload:makes }
+}
+
 function ModelDataRequest() {
     return { type: vehicleConstants.getModels_REQUEST }
 }
@@ -109,7 +136,7 @@ function FilterModelsforId(modelId) {
 function MockAPICallForVehicles(InstId) {
     const res = MockServerData.VehicleDetails;
     const VehicleList = res.data.vehicles.filter(vehicle => vehicle.institutionId === InstId)
-    console.log('Vehicle Action Array returned :', VehicleList);
+    //console.log('Vehicle Action Array returned :', VehicleList);
     const InstitutionList = res.include.institutions;
     const ModelList = res.include.models;
 
@@ -126,6 +153,14 @@ function MockAPICallForVehicles(InstId) {
     return FormatedVehicle;
 }
 
+//Update with API
+function MockAPICallForMakes() {
+    return MockServerData.MakeDetails.data.makes;
+}
+
+
+function Mo
+
 
 function filterModelIdFromModelArray() {
 
@@ -135,4 +170,5 @@ function filterModelIdFromModelArray() {
 function returnMockVehiclesForInstitutionIds() {
     return MockServerData.VehicleMockServerData
 }
+
 
