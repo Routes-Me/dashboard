@@ -16,7 +16,8 @@
                         "plateNumber": "4444",
                         "institutionId": 3,
                         "modelYear": 2020,
-                        "modelId": 2
+                        "modelId": 2,
+                        "makeId": 1
                     },
                     {
                         "vehicleId": 7,
@@ -24,7 +25,8 @@
                         "plateNumber": "00078",
                         "institutionId": 3,
                         "modelYear": 2020,
-                        "modelId": 2
+                        "modelId": 2,
+                        "makeId": 2
                     }
                 ],
                 "devices": null,
@@ -45,7 +47,18 @@
                         [
                             {
                                 "modelId": 2,
-                                "name": "A3"
+                                "name": "Q7"
+                            }
+                        ],
+                    "makes":
+                        [
+                            {
+                                "id": 1,
+                                "name": "Audi"
+                            },
+                            {
+                                "id": 2,
+                                "name": "KIA"
                             }
                         ]
                 }
@@ -82,8 +95,8 @@
                         "services": [1, 2]
                     }
            ],
-                "vehicles": null,
-                "drivers": null
+           "vehicles": null,
+           "drivers": null
         },
         "include": {
             "services": [

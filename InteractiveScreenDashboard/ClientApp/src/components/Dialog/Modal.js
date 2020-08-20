@@ -25,15 +25,15 @@ class Modal extends React.Component {
     }
 
     showSearchList =(searchList)=>{
-        if (searchList !== undefined) {
+        if (searchList !== "") {
             return (
                 <div className="table-responsive">
                     <table className="table">
                             <tbody>
                             {
                                 searchList.map(obj => (
-                                    <tr style={{ marginLeft: 39 }} key={obj.id}>
-                                            <td>{obj.name}</td>
+                                    <tr key={obj.id} onClick>
+                                        <td style={{ textAlign: "left", paddingLeft: 39 }}>{obj.name}</td>
                                     </tr>
                                     ))
                                 }

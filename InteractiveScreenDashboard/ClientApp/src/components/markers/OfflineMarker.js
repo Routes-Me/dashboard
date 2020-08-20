@@ -8,7 +8,7 @@ import OfflinMarkerStyles from './OfflineMarker.sass';
 import $ from "jquery";
 
 const onMarkerClick = () => {
-    $(".idle-marker").toggleClass("selected")
+    $(".idle marker").toggleClass("selected")
     console.log("click Event of offmarker");
 };
 export const offlineMarker = ({

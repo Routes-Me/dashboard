@@ -25,7 +25,9 @@ const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const persistedState = loadState();
 
-const store = createStore(rootReducer, persistedState, composeEnhancer(applyMiddleware(loggerMiddleware, thunk)));
+//loggerMiddleware,
+
+const store = createStore(rootReducer, persistedState, composeEnhancer(applyMiddleware(thunk)));
 
 //store.subscribe(() => saveToLocalStorage(store.getState()));
 

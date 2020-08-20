@@ -4,7 +4,6 @@ const INITIAL_STATE = {
     Vehicles: [],
     Makes:[],
     Models: [],
-    Institution :'',
     Loading: true,
     hasError: false,
     error:null
@@ -24,19 +23,6 @@ const VehicleReducer = (state = INITIAL_STATE, action) => {
                 Loading: false,
                 hasError: false,
                 Vehicles: action.payload
-            };
-        case vehicleConstants.getInstitutions_REQUEST:
-            return {
-                ...state,
-                Loading: true,
-                hasError: false
-            };
-        case vehicleConstants.getInstitutions_SUCCESS:
-            return {
-                ...state,
-                Loading: false,
-                hasError: false,
-                Institution: action.payload
             };
         case vehicleConstants.getModels_REQUEST:
             return {
@@ -68,15 +54,13 @@ const VehicleReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 Loading: true,
-                hasError: false,
-                Institution: action.payload
+                hasError: false
             };
         case vehicleConstants.addVehicle_SUCCESS:
             return {
                 ...state,
                 Loading: false,
-                hasError: false,
-                Institution: action.payload
+                hasError: false
             };
         default:
             return state;

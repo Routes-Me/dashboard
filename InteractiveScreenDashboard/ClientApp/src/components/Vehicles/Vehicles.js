@@ -27,8 +27,8 @@ class Vehicles extends Component {
 
     componentDidMount() {
         //this.populateVehicleData();
+        //this.props.getVehicleModels();
         this.props.getVehiclesForInstitution();
-        this.props.getVehicleModels();
     }
 
 
@@ -52,8 +52,7 @@ class Vehicles extends Component {
         this.setState({
             showDetails: !this.state.showDetails,
             vehicle: Vehicle,
-            optionsIndex: 0,
-            ModelList: this.props.ModelList
+            optionsIndex: 0
         });
     }
 
@@ -82,7 +81,7 @@ class Vehicles extends Component {
                                 Vehicles.map(Vehicle => (
                                     <tr  key={Vehicle.id}>
                                         <td>{Vehicle.plateNumber}</td>
-                                        <td>{Vehicle.deviceId}</td>
+                                        <td>{Vehicle.make.name}</td>
                                         <td>{Vehicle.model.name}</td>
                                         <td>{Vehicle.institution.name}</td>
                                         <td>{Vehicle.modelYear}</td>
@@ -130,8 +129,7 @@ class Vehicles extends Component {
                     <Detail className={this.props.show ? 'slide-in' : 'slide-out'}
                         show={this.showDetailScreen}
                         objectType={userConstants.NavItem_Vehicles}
-                        object={this.state.vehicle}
-                        modelList={this.state.ModelList} /> :
+                        object={this.state.vehicle} /> :
                     <div>
                         <div className="top-part-vehicles-search padding-lr-80">
                             <div className="hehading-add-butt">
@@ -172,19 +170,15 @@ class Vehicles extends Component {
 const mapStateToProps = (state) => {
 
     const vehicles = state.VehicleStore.Vehicles;
-    const modelList = state.VehicleStore.Models;
-    console.log('Mapped State Vehicle Array returned :', vehicles);
 
     return {
-        VehicleList: vehicles,
-        ModelList: modelList
+        VehicleList: vehicles
     }
 
 }
 
 const actionCreators = {
     getVehiclesForInstitution: VehicleAction.getVehiclesForInstitutionID,
-    getVehicleModels: VehicleAction.getModels,
     deleteVehicle: VehicleAction.deleteVehicle
 };
 

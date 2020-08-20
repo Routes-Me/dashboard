@@ -122,7 +122,7 @@ class Tracking extends Component {
         console.log('This is the time of unmount',this.state.timeOffUnmount)
         this.props.SubscribeToHub();
         this.props.GetOfflineVehicles()
-        navigator.geolocation.getCurrentPosition(this.currentCoords);
+        //navigator.geolocation.getCurrentPosition(this.currentCoords);
         //console.log("Will Mount Center => :", this.state.center);
 
     }

@@ -66,9 +66,9 @@ class Secondary extends Component {
         
         return (
             <div>{
-                    VehicleListToBeRendered.filter(Vehicle => Vehicle.status === this.state.filter)
+                VehicleListToBeRendered.filter(Vehicle => Vehicle.status === this.state.filter)
                     .map(Vehicle => (
-                        <div onClick={(e) => this.showVehicle(Vehicle.vehicle_id)}>
+                        <div key={Vehicle.vehicle_id} onClick={(e) => this.showVehicle(Vehicle.vehicle_id)}>
                             <SecondaryList vehicle={Vehicle} index={Vehicle.vehicle_id} selectedIndex={this.props.idForidForSelectedVehicle} />
                         </div>
                     )) 
@@ -105,7 +105,7 @@ class Secondary extends Component {
 
     render() {
 
-        let content = this.renderAllVehicles(this.props.vehicles);
+        //let content = this.renderAllVehicles(this.props.vehicles);
         //console.log(`              ---Rendered Details()--- 
         //             Selected Filter :      ${this.state.filter}
         //             Idle vehicle count :   ${this.state.idleVehiclesCount}

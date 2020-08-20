@@ -3,14 +3,14 @@ import { institutionConstants } from '../../constants/institutionConstants';
 
 
 //Get Institution list
-export function getInstitutions(id) {
+export function getInstitutions() {
 
     return dispatch => {
 
         dispatch(IstitutionDataRequest());
-        const Institutions = MockAPICallForInstitutions().data.institutions;
-        const servicesData = MockAPICallForInstitutions().include.services;
-        dispatch(UpdatetheServiceList(servicesData));
+        const Institutions = MockAPICallForInstitutions();
+        //const servicesData = MockAPICallForInstitutions().include.services;
+        //dispatch(UpdatetheServiceList(servicesData));
         dispatch(InstitutionDataReceived(Institutions));
 
     }
@@ -19,7 +19,7 @@ export function getInstitutions(id) {
 
 //Update on API
 function MockAPICallForInstitutions() {
-    const institutionData = MockServerData.institutionDetails;
+    const institutionData = MockServerData.institutionDetails.data.institutions;
     return institutionData;
 }
 

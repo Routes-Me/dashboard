@@ -43,9 +43,9 @@ export function SubscribeToHub() {
             
             //sampleData.push(result)
             const res = JSON.parse(result);
-            console.log("Response on SignalR ", res);
+            //console.log("Response on SignalR ", res);
             const FormatedRes = { vehicle_id: res.vehicle_id, institution_id: res.institution_id, status: "active", driver: "Mohammad (SR)", contact: "+965-55988028", model: "BMW X6 . 2017", company: "Afnan", coordinates: { latitude: res.coordinates.latitude, longitude: res.coordinates.longitude, timestamp: res.coordinates.timestamp } }
-            console.log("const values : " + res.vehicle_id);
+            //console.log("const values : " + res.vehicle_id);
             const vehicleId = res.vehicle_id;
             dispatch(OnUpdateReceived([FormatedRes, ...sampleData]));
         });
@@ -99,7 +99,7 @@ function UpdatedMarkerId(vehicleID) {
 
 function OnUpdateReceived(result) {
 
-    console.log("Result :" + result);
+    //console.log("Result :" + result);
     return {
         type: trackingConstants.Tracking_OnUpdatesReceived,
         payload: result
@@ -109,7 +109,7 @@ function OnUpdateReceived(result) {
 
 function OfflineUpdateReceived(result) {
 
-    console.log("Offline Data :" + result);
+    //console.log("Offline Data :" + result);
     return { type: trackingConstants.Tracking_OfflineDataSynced, payload: result };
 
 };

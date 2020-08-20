@@ -10,7 +10,7 @@ export function getVehiclesForInstitutionID() {
         dispatch(VehicleDataRequest());
         //const MockInstitutions = MockApiCallForInstitutions(3);
         const FormatedVehicle = MockAPICallForVehicles(3)
-        console.log('data formated ');
+        console.log('data formated ', FormatedVehicle);
         dispatch(storeVehicleData(FormatedVehicle))
     }
 }
@@ -104,26 +104,13 @@ function updateVehicleSuccess(vehicle) {
 
 
 
-//Would replaced by the actual API
-function returnInstitutionsByMockAPICallforInstitutions() {
-    return MockServerData.InstitutionMockServerData;
-}
+
 
 function returnModelsByMockAPICallforModels() {
     return MockServerData.ModelMockServerData;
 }
 
-//function returnMockModels() {
-//    return MockServerData.ModelMockServerData;
-//}
 
-
-//Filter fetched Data
-function FilterInstitutionsForId(Institutionid) {
-    const ListofInsts = returnInstitutionsByMockAPICallforInstitutions().institutionDetails.data.institution;
-    const ListofFilteredInst = ListofInsts.filter(x => x.institutionId === Institutionid);
-    return ListofFilteredInst[0];
-}
 
 function FilterModelsforId(modelId) {
     const ListofModel = returnModelsByMockAPICallforModels().manuFacturersDetails.data.carModels;
@@ -139,6 +126,7 @@ function MockAPICallForVehicles(InstId) {
     //console.log('Vehicle Action Array returned :', VehicleList);
     const InstitutionList = res.include.institutions;
     const ModelList = res.include.models;
+    const MakerList = res.include.makes;
 
     
     const FormatedVehicle = VehicleList.map(x => ({
@@ -146,6 +134,7 @@ function MockAPICallForVehicles(InstId) {
         institution: InstitutionList.filter(y => y.institutionId === x.institutionId)[0],
         plateNumber: x.plateNumber,
         model: ModelList.filter(y => y.modelId === x.modelId)[0],
+        make: MakerList.filter(y => y.makeId === x.makeId)[0],
         deviceId: x.deviceId,
         modelYear: x.modelYear
     }))

@@ -16,20 +16,21 @@ class VehicleDetail extends React.Component {
             deviceId: "",
             vehicleId: "",
             InstitutionId: "",
-            makeId:"",
-            modelId: "",
+            make:"",
+            model: "",
             modelYear: "",
             plateNumber: "",
-            modelList: [],
             selectedModel: "",
             vehicleToDisplay: "",
             searchModel: false,
             searchObject: "",
-            searchList:[]
+            modelList: [],
+            makersList:[]
         }
     }
 
     componentDidMount() {
+        console.log("component did mount!")
         this.props.getInstitutions();
     }
 
@@ -39,9 +40,7 @@ class VehicleDetail extends React.Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        //console.log('getDerivedStateFromProps called with NewProps', props.vehicleToDisplay);
 
-        //const list = state.searchObject === vehicleConstants.searchDialogFor_Makers ? props.MakersList : props.ModelsList;
         if (props.vehicleToDisplay !== undefined) {
             if (props.vehicleToDisplay !== state.vehicleToDisplay) {
                 return {
@@ -49,9 +48,12 @@ class VehicleDetail extends React.Component {
                     vehicleId: props.vehicleToDisplay.id,
                     InstitutionId: props.vehicleToDisplay.institution.institutionId,
                     modelYear: props.vehicleToDisplay.modelYear,
-                    modelId: props.vehicleToDisplay.model.modelId,
+                    model: props.vehicleToDisplay.model,
+                    make: props.vehicleToDisplay.make,
                     deviceId: props.vehicleToDisplay.deviceId,
-                    plateNumber: props.vehicleToDisplay.plateNumber
+                    plateNumber: props.vehicleToDisplay.plateNumber,
+                    modelList: props.ModelsList,
+                    makersList: props.MakersList
                 }
             }
         }
@@ -68,17 +70,21 @@ class VehicleDetail extends React.Component {
             PlateNumber: this.state.plateNumber,
             InstitutionId: this.state.InstitutionId,
             modelYear: this.state.modelYear,
-            modelId: this.state.modelId
+            modelId: this.state.model.modelId
         }
 
         this.props.saveVehicle(vehicle);
     }
 
     returnListToSearch = () => {
-        if (this.state.searchObject === vehicleConstants.searchDialogFor_Makers)
-            return this.props.MakersList
-        else
-            return this.props.ModelsList
+        if (this.state.searchObject !== "" && this.state.searchObject !== undefined) {
+            if (this.state.searchObject === vehicleConstants.searchDialogFor_Makers) {
+                return this.props.MakersList;
+            }
+            else {
+                return this.props.ModelsList
+            } 
+        }
     };
 
     //show model dialog 
@@ -92,10 +98,15 @@ class VehicleDetail extends React.Component {
         });
     }
 
+    updateTheSelectedObject = (obj) => {
+        { this.state.searchObject === vehicleConstants.searchDialogFor_Makers && this.setState({ make: obj }) }
+        { this.state.searchObject === vehicleConstants.searchDialogFor_Models && this.setState({ model: obj }) }
+    }
+
     render() {
         const vehicleObj = this.state.vehicleToDisplay;
         const buttonText = vehicleObj ? "Update" : "Add";
-
+        const searchList = this.returnListToSearch();
         return (
             <div className="row col-md-12 detail-form">
 
@@ -103,7 +114,7 @@ class VehicleDetail extends React.Component {
                     show={this.state.searchModel}
                     onClose={this.toggleModal}
                     objectType={this.state.searchObject}
-                    objectList={this.props.MakersList} />
+                    objectList={searchList} />
 
                     <Form onSubmit={e => this.handleSubmit(e)}>
                         <div class="col-md-10">
@@ -136,7 +147,7 @@ class VehicleDetail extends React.Component {
                                 <Label>Make</Label><br />
                                 <div class="btn-grp dropright">
                                     <button type="button" class="btn btn-block btn-light dropdown-toggle" aria-haspopup="true" aria-expanded="false" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Makers)}>
-                                        {vehicleObj ? vehicleObj.model.name : "Select a model"}
+                                        {vehicleObj ? this.state.make.name : "Select a model"}
                                     </button>
                                 </div>
                                 {/*<select defaultValue={vehicleObj ? vehicleObj.model.id : "Select a model"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
@@ -151,7 +162,7 @@ class VehicleDetail extends React.Component {
                                 <Label>Model</Label><br />
                                 <div class="btn-grp dropright">
                                     <button type="button" class="btn btn-block btn-light dropdown-toggle" aria-haspopup="true" aria-expanded="false" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Models)}>
-                                        {vehicleObj ? vehicleObj.model.name : "Select a model"}
+                                        {vehicleObj ? this.state.model.name : "Select a model"}
                                     </button>
                                 </div>
                                 {/*<select defaultValue={vehicleObj ? vehicleObj.model.id : "Select a model"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
@@ -196,12 +207,10 @@ class VehicleDetail extends React.Component {
 
 const mapStateToProps = (state) => {
 
-    const modelList = state.InstitutionStore.Institutions;
-
     return {
-        ModelsList: state.VehicleStore.Models,
         InstitutionList: state.InstitutionStore.Institutions,
-        MakersList: state.VehicleStore.Makes
+        MakersList: state.VehicleStore.Makes,
+        ModelsList: state.VehicleStore.Models
     }
 
 }

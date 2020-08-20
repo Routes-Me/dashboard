@@ -19,14 +19,27 @@ const InstitutionReducer = (state = INITIAL_STATE, action) => {
         case institutionConstants.getInstitutions_SUCCESS:
             return {
                 ...state,
-                Loading: true,
+                Loading: false,
                 hasError: false,
                 Institutions: action.payload
             };
         case institutionConstants.serviceList_UPDATED:
             return {
                 Services: action.payload
-            }
+            };
+        case institutionConstants.getServices_REQUEST:
+            return {
+                ...state,
+                Loading: true,
+                hasError: false
+            };
+        case institutionConstants.getServices_SUCCESS:
+            return {
+                ...state,
+                Loading: false,
+                hasError: false,
+                Services: action.payload
+            };
         case institutionConstants.saveInstitutions_REQUEST:
             return {
                 ...state,

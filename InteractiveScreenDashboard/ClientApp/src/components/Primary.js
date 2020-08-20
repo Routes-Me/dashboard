@@ -1,7 +1,7 @@
 ﻿import React, { Component } from 'react';
-import tracking from './image/tracking.png';
-import car from './image/car.png';
-import drivers from './image/drivers.png';
+import tracking from './image/tracking.svg';
+import car from './image/car.svg';
+import drivers from './image/drivers.svg';
 import institution from './image/institution.svg'
 import { connect, useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';

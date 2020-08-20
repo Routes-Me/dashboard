@@ -165,7 +165,7 @@ class DialogVehicles extends React.Component {
 const mapStateToProps = (state) => {
 
     const modelList = state.VehicleStore.Models;
-    console.log('DialogVehicles: Mapped State Vehicle Array returned :', modelList);
+    //console.log('DialogVehicles: Mapped State Vehicle Array returned :', modelList);
 
     return {
         ModelList: modelList

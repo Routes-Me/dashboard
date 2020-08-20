@@ -58,7 +58,7 @@ class SecondaryTracking extends Component {
             <div>{
                 VehicleListToBeRendered.filter(Vehicle => Vehicle.status === this.state.filter)
                     .map(Vehicle => (
-                        <div onClick={(e) => this.showVehicle(Vehicle.vehicle_id)}>
+                        <div key={Vehicle.vehicle_id} onClick={(e) => this.showVehicle(Vehicle.vehicle_id)}>
                             <SecondaryList vehicle={Vehicle} index={Vehicle.vehicle_id} selectedIndex={this.props.idForidForSelectedVehicle} />
                         </div>
                     ))
