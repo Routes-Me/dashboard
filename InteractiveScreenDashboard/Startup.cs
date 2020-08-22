@@ -50,7 +50,7 @@ namespace InteractiveScreenDashboard
             services.AddSingleton(Configuration.GetSection("AES").Get<Iencrypt>());
 
             //Table Configuration
-            services.AddDbContextPool<AppDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("RoutesMeDBConnection")));
+            services.AddDbContextPool<AppDBContext>(options => options.UseInMemoryDatabase("RoutesMeDB"));
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IVehicleService, VehicleService>();
             services.AddScoped<IDriverService, DriverService>();

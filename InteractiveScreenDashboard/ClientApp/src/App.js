@@ -23,7 +23,6 @@ export default class App extends Component {
                 <Router  history={history}>
                     <Switch>
                         <Route exact path='/' component={Login} />
-
                         <Route path='/home' component={Home} />
                         <Route path='/forgotpassword' component={ForgotPassword} />
                         <Route path='/newpassword' component={savePassword} />
