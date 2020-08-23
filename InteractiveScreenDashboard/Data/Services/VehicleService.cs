@@ -9,19 +9,31 @@ namespace InteractiveScreenDashboard.Data.Services
     public class VehicleService : IVehicleService
     {
 
-        public List<Vehicle> GetVehicles(int? id)
+        public List<Vehicle> GetVehicles(int? id, QueryParameters? para)
         {
             List<Vehicle> VehicleList = new List<Vehicle>();
             if (id == null)
             {
-
+                //get all Vehicles
             }
             else
             {
-
+                //get Vehicle for id
             }
             return VehicleList;
         }
+
+        List<Model> IVehicleService.GetModels(QueryParameters parameter)
+        {
+            throw new NotImplementedException();
+        }
+
+        List<Make> IVehicleService.GetMakes(QueryParameters parameter)
+        {
+            throw new NotImplementedException();
+        }
+
+
         public Vehicle AddVehicle(Vehicle Veh)
         {
             //Data.Vehicles.Add(Veh);
@@ -62,5 +74,7 @@ namespace InteractiveScreenDashboard.Data.Services
         {
             return (Data.Vehicles.Any(x => x.id == id));
         }
+
+        
     }
 }

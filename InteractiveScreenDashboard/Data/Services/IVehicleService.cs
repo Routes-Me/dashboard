@@ -8,14 +8,13 @@ namespace InteractiveScreenDashboard.Data.Services
 {
     public interface IVehicleService
     {
-        List<Vehicle> GetVehicles(int? id);
-
-        Vehicle GetVehicleById(int id);
-
+        List<Vehicle> GetVehicles(int? id, QueryParameters? parameters);
+        List<Model> GetModels(QueryParameters? parameter);
+        List<Make> GetMakes(QueryParameters? parameter);
         Vehicle UpdateVehicleDetails(int id, Vehicle Acc);
-        Vehicle DeleteVehicle(int tripId);
         Vehicle AddVehicle(Vehicle Acc);
-
+        Vehicle GetVehicleById(int id);
+        Vehicle DeleteVehicle(int tripId);
         bool VehicleExist(int id);
     }
 }

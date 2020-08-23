@@ -1,6 +1,5 @@
 ﻿import React, { Component } from 'react';
 import Detail from '../Detail/Detail';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { userConstants } from '../../constants/userConstants';
 import * as VehicleAction from '../../Redux/Action';
@@ -81,7 +80,7 @@ class Vehicles extends Component {
                                 Vehicles.map(Vehicle => (
                                     <tr  key={Vehicle.id}>
                                         <td>{Vehicle.plateNumber}</td>
-                                        <td>{Vehicle.make.name}</td>
+                                        <td>{Vehicle.model.name}</td>
                                         <td>{Vehicle.model.name}</td>
                                         <td>{Vehicle.institution.name}</td>
                                         <td>{Vehicle.modelYear}</td>
@@ -157,7 +156,7 @@ class Vehicles extends Component {
                                 activePage={this.state.activePage}
                                 itemsCountPerPage={10}
                                 totalItemsCount={450}
-                                pageRangeDisplayed={10}
+                                pageRangeDisplayed={5}
                                 onChange={this.handlePageChange.bind(this)} />
                         </div>
                     </div>}

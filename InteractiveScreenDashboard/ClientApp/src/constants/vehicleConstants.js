@@ -16,6 +16,8 @@
     addVehicle_SUCCESS: "ADDVEHICLE_SUCCES",
 
     searchDialogFor_Makers: "Manufacturers",
-    searchDialogFor_Models: "Models"
+    searchDialogFor_Models: "Models",
+
+    updatePage: "UPDATE_PAGE"
 
 }

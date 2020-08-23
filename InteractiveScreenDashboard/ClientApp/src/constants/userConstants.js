@@ -33,5 +33,7 @@
     saveUsers_REQUEST: "SAVEUSERS_REQUEST",
     saveUsers_SUCCESS: "SAVEUSERS_SUCCES",
 
+    limit: 10,
+
     Domain:'http://localhost:55205/' 
 };

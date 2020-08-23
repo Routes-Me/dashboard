@@ -42,12 +42,12 @@ export function userSignInRequest(username, password) {
     return dispatch => {
         dispatch(request({ username, password }));
         var encryptedpassword = encryptAES(password);
-        let institutionObject = {
+        let userObject = {
             email: username,
             password: encryptedpassword.toString()
         };
-
-        axios.post(userConstants.Domain+'api/Users/Login', institutionObject)
+        history.push('/Home');
+        axios.post(userConstants.Domain + 'api/Users/Login', userObject)
             .then(
                 user => {
                     dispatch(getLoginSuccess(user));

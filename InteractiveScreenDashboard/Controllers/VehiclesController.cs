@@ -9,7 +9,7 @@ namespace InteractiveScreenDashboard.Controllers
 {
     
     [Produces("application/json")]
-    [Route("api/Vehicles")]
+    [Route("api/vehicles")]
     public class VehiclesController : Controller
     {
 
@@ -21,17 +21,32 @@ namespace InteractiveScreenDashboard.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetVehicles([FromRoute] int? id)
+        public IActionResult GetVehicles([FromRoute] int? institutionId, [FromQuery]QueryParameters parameters)
         {
             //var allVehicles = new ObjectResult(_vehicle.GetAllVehicles())
             //{
             //    StatusCode = (int)HttpStatusCode.OK
             //};
-            var vehicles = _vehicle.GetVehicles(id);
+            var vehicles = _vehicle.GetVehicles(institutionId, parameters);
 
             //Request.HttpContext.Response.Headers.Add("X-Total-Count", _vehicle.GetAllVehicles().Count().ToString());
             return Ok(vehicles);
         }
+
+        [Route("manufacturers")]
+        public IActionResult GetMakes(QueryParameters? parameters)
+        {
+            var makes = _vehicle.GetMakes(parameters);
+            return Ok(makes);
+        }
+        [Route("models")]
+        public IActionResult GetModels(QueryParameters? parameters)
+        {
+            var models = _vehicle.GetModels(parameters);
+            return Ok(models);
+        }
+
+
 
         [HttpGet("{id}")]
         public IActionResult GetVehiclesById([FromRoute]int id)
@@ -50,28 +65,28 @@ namespace InteractiveScreenDashboard.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddVehicle([FromBody]Vehicle veh)
+        public IActionResult AddVehicle([FromBody]Vehicle vehicle)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            if (veh != null)
+            if (vehicle != null)
             {
-                _vehicle.AddVehicle(veh);
+                _vehicle.AddVehicle(vehicle);
             }
-            return CreatedAtAction("GetVehiclesById", new { id = veh.id }, veh);
+            return CreatedAtAction("GetVehiclesById", new { id = vehicle.id }, vehicle);
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateVehicle([FromRoute]int id, [FromBody]Vehicle veh)
+        public IActionResult UpdateVehicle([FromRoute]int id, [FromBody]Vehicle vehicle)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != veh.id)
+            if (id != vehicle.id)
             {
                 return BadRequest();
             }
@@ -79,8 +94,8 @@ namespace InteractiveScreenDashboard.Controllers
 
             try
             {
-                _vehicle.UpdateVehicleDetails(id, veh);
-                return Ok(veh);
+                _vehicle.UpdateVehicleDetails(id, vehicle);
+                return Ok(vehicle);
             }
             catch (Exception e)
             {
