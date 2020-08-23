@@ -8,7 +8,7 @@ namespace InteractiveScreenDashboard.Data.Services
 {
     public interface IVehicleService
     {
-        List<Vehicle> GetAllVehicles();
+        List<Vehicle> GetVehicles(int? id);
 
         Vehicle GetVehicleById(int id);
 

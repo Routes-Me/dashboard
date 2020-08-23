@@ -26,7 +26,7 @@ namespace InteractiveScreenDashboard.Data.Services
             }
 
             return InstitutionList;
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public Institution UpdateInstitution(Institution inst)

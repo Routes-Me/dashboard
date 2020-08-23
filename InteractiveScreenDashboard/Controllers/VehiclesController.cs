@@ -20,17 +20,17 @@ namespace InteractiveScreenDashboard.Controllers
             this._vehicle = vehicle;
         }
 
-        [HttpGet]
-        public IActionResult GetAllVehicles()
+        [HttpGet("{id}")]
+        public IActionResult GetVehicles([FromRoute] int? id)
         {
             //var allVehicles = new ObjectResult(_vehicle.GetAllVehicles())
             //{
             //    StatusCode = (int)HttpStatusCode.OK
             //};
-            var allVehicles = _vehicle.GetAllVehicles();
+            var vehicles = _vehicle.GetVehicles(id);
 
-            Request.HttpContext.Response.Headers.Add("X-Total-Count", _vehicle.GetAllVehicles().Count().ToString());
-            return Ok(allVehicles);
+            //Request.HttpContext.Response.Headers.Add("X-Total-Count", _vehicle.GetAllVehicles().Count().ToString());
+            return Ok(vehicles);
         }
 
         [HttpGet("{id}")]

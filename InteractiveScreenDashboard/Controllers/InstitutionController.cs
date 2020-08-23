@@ -18,15 +18,15 @@ namespace InteractiveScreenDashboard.Controllers
             this._institutions = institution;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public IActionResult GetInstitutions([FromRoute] int? id)
         {
-            _institutions.GetInstitutions(id);
-            return Ok();
+            var institutions = _institutions.GetInstitutions(id);
+            return Ok(institutions);
         }
 
         [HttpPost]
-        public IActionResult AddInstitution(Institution inst)
+        public IActionResult AddInstitution([FromBody] Institution inst)
         {
             _institutions.AddInstitution(inst);
             return Ok();
@@ -35,7 +35,7 @@ namespace InteractiveScreenDashboard.Controllers
         [HttpPut]
         public IActionResult AddInstitution(int id,Institution inst)
         {
-            if(id == inst.id)
+            if(id != inst.id)
             {
                 return BadRequest();
             }

@@ -8,9 +8,23 @@ namespace InteractiveScreenDashboard.Data.Services
 {
     public class VehicleService : IVehicleService
     {
+
+        public List<Vehicle> GetVehicles(int? id)
+        {
+            List<Vehicle> VehicleList = new List<Vehicle>();
+            if (id == null)
+            {
+
+            }
+            else
+            {
+
+            }
+            return VehicleList;
+        }
         public Vehicle AddVehicle(Vehicle Veh)
         {
-            Data.Vehicles.Add(Veh);
+            //Data.Vehicles.Add(Veh);
             return Veh;
         }
 
@@ -24,7 +38,7 @@ namespace InteractiveScreenDashboard.Data.Services
             return Veh;
         }
 
-        public List<Vehicle> GetAllVehicles() => Data.Vehicles.ToList();
+        //public List<Vehicle> GetAllVehicles() => Data.Vehicles.ToList();
 
         public Vehicle GetVehicleById(int Id) => Data.Vehicles.FirstOrDefault(x => x.id == Id);
 
