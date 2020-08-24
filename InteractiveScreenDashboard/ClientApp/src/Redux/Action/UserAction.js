@@ -3,17 +3,73 @@ import { userConstants } from '../../constants/userConstants';
 
 
 //Get UsersList
-export function getUsers(id) {
+export function getUsers(institutionId) {
 
     return dispatch => {
 
         dispatch(UsersDataRequest());
-        const Users = MockAPICallForUsers();
-        dispatch(storeUserRoles(Users.include.userRoles));
-        dispatch(storeApplications(Users.include.applications));
-        dispatch(UsersDataReceived(Users.data.users));
+        axios.get(userConstants.Domain + 'api/users?' + institutionId, {
+            params: { queryParameter: returnQueryParamters(pageIndex, true) }
+        }).then(
+                users => {
+                    dispatch(storeUsersData(returnFormatedUsers(users)));
+                    dispatch(updatePage(vehicles.pagination));
+                },
+                error => {
+                    alert(error.toString());
+                });
+        //dispatch(UsersDataRequest());
+        //const Users = MockAPICallForUsers();
+        //dispatch(storeUserRoles(Users.include.userRoles));
+        //dispatch(storeApplications(Users.include.applications));
+        //dispatch(UsersDataReceived(Users.data.users));
 
     }
+
+}
+
+function UsersDataRequest() { return { type: userConstants.getUsers_REQUEST } }
+function storeUsersData(Users) { return { type: userConstants.getUsers_SUCCESS, payload: Users } }
+function updatePage(pages) { return { type: userConstants.UpdatePage, payload: pages } }
+
+
+function returnFormatedUsers(response) {
+    const usersList = response.data.users.filter(user => user.institutionId === 3)
+    //console.log('Vehicle Action Array returned :', VehicleList);
+    const userRolesList = response.include.userRoles;
+
+    const FormatedUsers = usersList.map(x => ({
+        id: x.userId,
+        email: x.email,
+        phone: x.phone,
+        createdDate: x.createdDate,
+        isVerified: x.isVerified,
+        lastLoginDate: x.lastLoginDate,
+        userRoles: userRolesList.filter(y => y.include(userRoles)),
+        name: x.name,
+        description: x.description
+    }))
+
+    return FormatedUsers;
+}
+
+function returnQueryParamters(offset, include) {
+
+    let queryParame;
+    if (include) {
+        queryParameter = {
+            "offset": offset,
+            "limit": userConstants.limit,
+            "include": ["roles"]
+        }
+    }
+    else {
+        queryParameter = {
+            "offset": offset,
+            "limit": userConstants.limit
+        }
+    }
+    return queryParameter;
 
 }
 
@@ -32,13 +88,7 @@ function storeApplications(applist) {
     return { type: userConstants.update_APPLICATIONS, payload: applist }
 }
 
-function UsersDataRequest() {
-    return { type: userConstants.getUsers_REQUEST }
-}
 
-function UsersDataReceived(Users) {
-    return { type: userConstants.getUsers_SUCCESS, payload: Users }
-}
 
 
 // get User Roles
@@ -47,25 +97,33 @@ export function getUserRoles() {
     return dispatch => {
 
         dispatch(userRolesRequest());
-        const userRoles = mockAPICallForUserRoles();
-        dispatch(userRolesReceived(userRoles));
+        axios.get(userConstants.Domain + 'api/users/roles', {
+            params: { queryParameter: returnQueryParamters(pageIndex, true) }
+        }).then(
+            role => {
+                dispatch(storeUserRoles(role.data.userRoles));
+                //dispatch(updatePage(vehicles.pagination));
+            },
+            error => {
+                alert(error.toString());
+            });
+
+        //const userRoles = mockAPICallForUserRoles();
+        //dispatch(storeUserRoles(userRoles));
 
     }
 
 }
+function userRolesRequest() { return { type: userConstants.getUserRoles_REQUEST } }
+function storeUserRoles(roles) { return { type: userConstants.update_USERROLES, payload: roles } }
+
 
 //Update with API
 function mockAPICallForUserRoles() {
     return MockServerData.UserRolesDetails.data.userRoles;
 }
 
-function userRolesRequest() {
-    return { type: userConstants.getUserRoles_REQUEST };
-}
 
-function userRolesReceived(roles) {
-    return { type: userConstants.update_USERROLES, payload: roles };
-}
 
 //get aoolications list 
 export function getApplications() {
@@ -96,16 +154,29 @@ export function saveUser(user) {
         dispatch(saveUserDataRequest);
         if (user.UserId !== "") {
             //Update on API
-            MockAPICallForPutUser(user);
+            axios.post(userConstants.Domain + 'api/users?' + user).then(
+                users => {
+                    dispatch(saveUserDataSuccess);
+                },
+                error => {
+                    alert(error.toString());
+                });
         }
         else {
             //Update on API
-            MockAPICallForPostUser(user);
+            axios.put(userConstants.Domain + 'api/users?' + user).then(
+                users => {
+                    dispatch(saveUserDataSuccess);
+                },
+                error => {
+                    alert(error.toString());
+                });
         }
-        dispatch(saveUserDataSuccess);
+        
     }
 }
-
+function saveUserDataRequest() { return { type: userConstants.saveUsers_REQUEST } }
+function saveUserDataSuccess() { return { type: userConstants.saveUsers_SUCCESS } }
 
 //Update on API
 function MockAPICallForPutUser(user) {
@@ -118,10 +189,4 @@ function MockAPICallForPostUser(user) {
 }
 
 
-function saveUserDataRequest() {
-    return { type: userConstants.saveUsers_REQUEST };
-}
 
-function saveUserDataSuccess() {
-    return { type: userConstants.saveUsers_SUCCESS };
-}

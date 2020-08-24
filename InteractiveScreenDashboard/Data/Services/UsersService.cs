@@ -14,7 +14,7 @@ namespace InteractiveScreenDashboard.Data.Services
             return user;
         }
 
-        List<Users> IUsersService.GetUsers(int? id)
+        List<Users> IUsersService.GetUsers(int? id, [FromQuery] QueryParameters parameters)
         {
             List<Users> UsersList = new List<Users>();
             if (id == null)
@@ -26,6 +26,11 @@ namespace InteractiveScreenDashboard.Data.Services
 
             }
             return UsersList;
+        }
+
+        List<user_roles> IUsersService.GetUser_Roles(QueryParameters parameters)
+        {
+            throw new NotImplementedException();
         }
 
         Users IUsersService.UpdateUsers(Users user)

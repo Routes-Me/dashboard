@@ -4,6 +4,7 @@ const INITIAL_STATE = {
     Users: [],
     UserRoles: [],
     Applications: [],
+    Page: "",
     Loading: true,
     hasError: false,
     error: null
@@ -62,6 +63,13 @@ const UserReducer = (state = INITIAL_STATE, action) => {
                 Loading: false,
                 hasError: false
             };
+        case userConstants.UpdatePage:
+            return {
+                ...state,
+                Loading: false,
+                hasError: false,
+                Page: action.payload
+            }
         default:
             return state;
     }

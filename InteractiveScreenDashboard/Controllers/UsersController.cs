@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InteractiveScreenDashboard.Controllers
 {
-    [Route("api/Users")]
+    [Route("api/users")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -20,10 +20,17 @@ namespace InteractiveScreenDashboard.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetUsers([FromRoute] int? id)
+        public IActionResult GetUsers([FromRoute] int? userId, [FromQuery] QueryParameters parameters)
         {
-            var users = _Users.GetUsers(id);
+            var users = _Users.GetUsers(userId, parameters);
             return Ok(users);
+        }
+        [HttpGet]
+        [Route("roles")]
+        public IActionResult GetUserRoles([FromQuery] QueryParameters parameters)
+        {
+            var roles = _Users.GetUser_Roles(parameters);
+            return Ok(roles);
         }
 
         [HttpPost]

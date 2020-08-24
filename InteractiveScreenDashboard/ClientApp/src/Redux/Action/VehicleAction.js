@@ -129,7 +129,15 @@ export function saveVehicle(vehicle) {
                         alert(error.toString());
                     });
         } else {
-            dispatch(updateVehicleSuccess(vehicle))
+            axios.put(userConstants.Domain + 'api/vehicles?' + vehicle)
+                .then(
+                    vehicle => {
+                        dispatch(updateVehicleSuccess(vehicle));
+                    },
+                    error => {
+                        alert(error.toString());
+                    });
+            
         }
     }
 

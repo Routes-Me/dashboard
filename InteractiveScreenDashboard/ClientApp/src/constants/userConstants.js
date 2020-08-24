@@ -33,6 +33,8 @@
     saveUsers_REQUEST: "SAVEUSERS_REQUEST",
     saveUsers_SUCCESS: "SAVEUSERS_SUCCES",
 
+    UpdatePage: "UPDATE_PAGE",
+
     limit: 10,
 
     Domain:'http://localhost:55205/' 
