@@ -2,7 +2,8 @@
 
 const INITIAL_STATE = {
     Institutions: [],
-    Services:[],
+    Services: [],
+    Page: "",
     Loading: true,
     hasError: false,
     error: null
@@ -52,6 +53,13 @@ const InstitutionReducer = (state = INITIAL_STATE, action) => {
                 Loading: false,
                 hasError: false
             };
+        case institutionConstants.updatePage:
+            return {
+                ...state,
+                Loading: false,
+                hasError: false,
+                Page: action.payload
+            }
         default:
             return state;
     }

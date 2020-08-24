@@ -19,10 +19,16 @@ namespace InteractiveScreenDashboard.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetInstitutions([FromRoute] int? id)
+        public IActionResult GetInstitutions([FromRoute] int? id, [FromQuery] QueryParameters? parameters)
         {
-            var institutions = _institutions.GetInstitutions(id);
+            var institutions = _institutions.GetInstitutions(id, parameters);
             return Ok(institutions);
+        }
+
+        public IActionResult GetServices([FromRoute] int? id, [FromQuery] QueryParameters? parameters)
+        {
+            var services = _institutions.GetServices(id, parameters);
+            return Ok(services);
         }
 
         [HttpPost]

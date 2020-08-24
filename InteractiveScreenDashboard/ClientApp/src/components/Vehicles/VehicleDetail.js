@@ -124,7 +124,7 @@ class VehicleDetail extends React.Component {
                                     <Label>Plate Number</Label><br />
                                     <input type="text" name="plateNumber"
                                     placeholder={vehicleObj === undefined ? "" : vehicleObj.plateNumber}
-                                    value={vehicleObj.plateNumber}
+                                    value={this.state.plateNumber}
                                     onChange={this.onChange}
                                     className="form-control"
                                     readOnly />
@@ -136,7 +136,7 @@ class VehicleDetail extends React.Component {
                                     <Label>Year</Label><br />
                                     <input type="text" name="modelYear"
                                         placeholder={vehicleObj === undefined ? "" : vehicleObj.modelYear}
-                                        defaultValue={vehicleObj.modelYear}
+                                        value={this.state.modelYear}
                                         onChange={this.onChange}
                                         className="form-control" />
                                 </div>
@@ -147,7 +147,7 @@ class VehicleDetail extends React.Component {
                                 <Label>Make</Label><br />
                                 <div class="btn-grp dropright">
                                     <button type="button" class="btn btn-block btn-light dropdown-toggle" aria-haspopup="true" aria-expanded="false" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Makers)}>
-                                        {vehicleObj ? this.state.make.name : "Select a model"}
+                                        {vehicleObj ? this.state.model.name : "Select a model"}
                                     </button>
                                 </div>
                                 {/*<select defaultValue={vehicleObj ? vehicleObj.model.id : "Select a model"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>

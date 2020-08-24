@@ -13,7 +13,7 @@ namespace InteractiveScreenDashboard.Data.Services
             throw new NotImplementedException();
         }
 
-        public List<Institution> GetInstitutions(int? id)
+        public List<Institution> GetInstitutions(int? id, QueryParameters? parameters)
         {
             List<Institution> InstitutionList = new List<Institution>();
             if (id == null)
@@ -29,7 +29,14 @@ namespace InteractiveScreenDashboard.Data.Services
             //throw new NotImplementedException();
         }
 
+        
+
         public Institution UpdateInstitution(Institution inst)
+        {
+            throw new NotImplementedException();
+        }
+
+        List<Service> IInstitutionService.GetServices(int? id, QueryParameters? parameters)
         {
             throw new NotImplementedException();
         }

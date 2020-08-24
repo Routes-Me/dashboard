@@ -9,5 +9,7 @@
     saveInstitutions_SUCCESS: "SAVEINSTITUTIONS_SUCCES",
 
     getServices_REQUEST: "GETSERVICES_REQUEST",
-    getServices_SUCCESS: "GETSERVICES_SUCCESS"
+    getServices_SUCCESS: "GETSERVICES_SUCCESS",
+
+    updatePage: "UPDATE_PAGE"
 }

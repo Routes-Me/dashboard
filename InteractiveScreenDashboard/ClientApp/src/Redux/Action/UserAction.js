@@ -1,9 +1,9 @@
 ﻿import { MockServerData } from '../../constants/MockServerData';
 import { userConstants } from '../../constants/userConstants';
-
+import axios from 'axios';
 
 //Get UsersList
-export function getUsers(institutionId) {
+export function getUsers(institutionId, pageIndex) {
 
     return dispatch => {
 
@@ -13,7 +13,7 @@ export function getUsers(institutionId) {
         }).then(
                 users => {
                     dispatch(storeUsersData(returnFormatedUsers(users)));
-                    dispatch(updatePage(vehicles.pagination));
+                dispatch(updatePage(users.pagination));
                 },
                 error => {
                     alert(error.toString());
@@ -32,7 +32,7 @@ function UsersDataRequest() { return { type: userConstants.getUsers_REQUEST } }
 function storeUsersData(Users) { return { type: userConstants.getUsers_SUCCESS, payload: Users } }
 function updatePage(pages) { return { type: userConstants.UpdatePage, payload: pages } }
 
-
+//id in the response would be replaced by object in this function
 function returnFormatedUsers(response) {
     const usersList = response.data.users.filter(user => user.institutionId === 3)
     //console.log('Vehicle Action Array returned :', VehicleList);
@@ -45,7 +45,7 @@ function returnFormatedUsers(response) {
         createdDate: x.createdDate,
         isVerified: x.isVerified,
         lastLoginDate: x.lastLoginDate,
-        userRoles: userRolesList.filter(y => y.include(userRoles)),
+        userRoles: userRolesList.filter(y => y.include(x.userRoles)),
         name: x.name,
         description: x.description
     }))
@@ -55,7 +55,7 @@ function returnFormatedUsers(response) {
 
 function returnQueryParamters(offset, include) {
 
-    let queryParame;
+    let queryParameter;
     if (include) {
         queryParameter = {
             "offset": offset,
@@ -80,9 +80,7 @@ function MockAPICallForUsers() {
     return response;
 }
 
-function storeUserRoles(roles) {
-    return { type: userConstants.update_USERROLES, payload: roles }
-} 
+
 
 function storeApplications(applist) {
     return { type: userConstants.update_APPLICATIONS, payload: applist }
@@ -92,7 +90,7 @@ function storeApplications(applist) {
 
 
 // get User Roles
-export function getUserRoles() {
+export function getUserRoles(pageIndex) {
 
     return dispatch => {
 

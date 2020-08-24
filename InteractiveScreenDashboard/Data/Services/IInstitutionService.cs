@@ -8,7 +8,8 @@ namespace InteractiveScreenDashboard.Data.Services
 {
     public interface IInstitutionService
     {
-        List<Institution> GetInstitutions(int? id);
+        List<Institution> GetInstitutions(int? id, QueryParameters? parameters);
+        List<Service> GetServices(int? id, QueryParameters? parameters);
         Institution AddInstitution(Institution inst);
         Institution UpdateInstitution(Institution inst);
 

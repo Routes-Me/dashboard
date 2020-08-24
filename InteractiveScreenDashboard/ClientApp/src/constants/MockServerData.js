@@ -94,9 +94,7 @@
                         "countryIso": "IN",
                         "services": [1, 2]
                     }
-           ],
-           "vehicles": null,
-           "drivers": null
+           ]
         },
         "include": {
             "services": [

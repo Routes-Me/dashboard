@@ -1,5 +1,7 @@
 ﻿import { trackingConstants } from '../../constants/trackingConstants';
 import * as signalR from '@aspnet/signalr';
+import axios from 'axios';
+import { userConstants } from '../../constants/userConstants';
 
 
 const hubConnection = new signalR.HubConnectionBuilder()
@@ -74,17 +76,26 @@ export function UnsubscribeFromHub() {
     //function Disconnected() { return { type: trackingConstants.Tracking_Disconnected }; }
 }
 
-export const OfflineDataRequest = payload => ({ type: trackingConstants.Tracking_OfflineDataRequest });
-export const OfflineDataError = payload => ({ type: trackingConstants.Tracking_OfflineDataError });
 
 export function getOfflineData() {
 
     return dispatch => {
         dispatch(OfflineDataRequest());
-        dispatch(OfflineUpdateReceived(sampleOfflineData));
+        axios.get(userConstants.Domain + 'api/tracking').then(
+            idleVehicles => {
+                dispatch(OfflineUpdateReceived(idleVehicles));
+            },
+            error => {
+                alert(error.toString());
+            });
+        //dispatch(OfflineUpdateReceived(sampleOfflineData));
     };
 
 }
+function OfflineUpdateReceived(result) { return { type: trackingConstants.Tracking_OfflineDataSynced, payload: result } };
+export const OfflineDataRequest = () => ({ type: trackingConstants.Tracking_OfflineDataRequest });
+export const OfflineDataError = payload => ({ type: trackingConstants.Tracking_OfflineDataError });
+
 
 export function updateSelectedMarker(vehicleID) {
     return dispatch => {
@@ -107,12 +118,6 @@ function OnUpdateReceived(result) {
 
 };
 
-function OfflineUpdateReceived(result) {
-
-    //console.log("Offline Data :" + result);
-    return { type: trackingConstants.Tracking_OfflineDataSynced, payload: result };
-
-};
 
 //async function start() {
 //    try {

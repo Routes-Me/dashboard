@@ -54,34 +54,53 @@ namespace InteractiveScreenDashboard
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IVehicleService, VehicleService>();
             services.AddScoped<IDriverService, DriverService>();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).
+                AddJwtBearer(options => { 
+                    options.RequireHttpsMetadata = false;
+                    options.SaveToken = true;
+                    options.TokenValidationParameters =
+                    new TokenValidationParameters { 
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = Configuration["Jwt: Issuer"],
+                        ValidAudience = Configuration["Jwt: Audience"],
+                        IssuerSigningKey =
+                        new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(
+                                Configuration["Jwt: SecretKey"]
+                                )), ClockSkew = TimeSpan.Zero }; 
+                });
 
-            //JWT 
-            var jwtSettings = Configuration.GetSection("JWTSettings");
-            services.Configure<JWTSettings>(jwtSettings);
+
+            ////JWT 
+            //var jwtSettings = Configuration.GetSection("JWTSettings");
+            //services.Configure<JWTSettings>(jwtSettings);
 
 
-            //to validate the token which has been sent by clients
-            var appSettings = jwtSettings.Get<JWTSettings>();
-            var key = Encoding.ASCII.GetBytes(appSettings.SecretKey);
+            ////to validate the token which has been sent by clients
+            //var appSettings = jwtSettings.Get<JWTSettings>();
+            //var key = Encoding.ASCII.GetBytes(appSettings.SecretKey);
 
-            services.AddAuthentication(x =>
-            {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(x =>
-            {
-                x.RequireHttpsMetadata = true;
-                x.SaveToken = true;
-                x.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ClockSkew = TimeSpan.Zero
-                };
-            });
+            //services.AddAuthentication(x =>
+            //{
+            //    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            //    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            //})
+            //.AddJwtBearer(x =>
+            //{
+            //    x.RequireHttpsMetadata = true;
+            //    x.SaveToken = true;
+            //    x.TokenValidationParameters = new TokenValidationParameters
+            //    {
+            //        ValidateIssuerSigningKey = true,
+            //        IssuerSigningKey = new SymmetricSecurityKey(key),
+            //        ValidateIssuer = false,
+            //        ValidateAudience = false,
+            //        ClockSkew = TimeSpan.Zero
+            //    };
+            //});
 
             //Email Configuration
             var emailConfig = Configuration
