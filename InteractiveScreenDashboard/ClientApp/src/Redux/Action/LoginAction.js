@@ -32,9 +32,9 @@ export const getLoginFailure = payload => ({
 //});
 
 export function getUser() {
-    institutionObjt = localStorage.getItem('user');
-    console.log("User Logged In is : ", institutionObjt);
-    return institutionObjt;
+    userObj = localStorage.getItem('user');
+    console.log("User Logged In is : ", userObj);
+    return userObj;
 }
 
 export function userSignInRequest(username, password) {
@@ -49,11 +49,13 @@ export function userSignInRequest(username, password) {
         history.push('/Home');
         axios.post(userConstants.Domain + 'api/Users/Login', userObject)
             .then(
-                user => {
+                response => {
                     dispatch(getLoginSuccess(user));
                     //console.log("User Details : ", JSON.stringify(user));
                     history.push('/Home');
                     localStorage.setItem('user', JSON.stringify(user));
+                    const token = response.token;
+                    localStorage.setItem('jwtToken', token)
                     //alert("Hi " + user.data.first_name);
                     //alert.show("Hi " + user.data.first_name);
                 },
