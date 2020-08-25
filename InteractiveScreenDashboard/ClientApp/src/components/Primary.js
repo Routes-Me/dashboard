@@ -3,10 +3,8 @@ import tracking from './image/tracking.svg';
 import car from './image/car.svg';
 import drivers from './image/drivers.svg';
 import institution from './image/institution.svg'
-import { connect, useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import * as LoginAction from '../Redux/Action';
-import { trackingConstants } from '../constants/trackingConstants';
 import { userConstants } from '../constants/userConstants';
 
 //const menus = {

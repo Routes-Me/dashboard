@@ -146,17 +146,17 @@ namespace InteractiveScreenDashboard.Controllers
             }
 
             string email = account.email;
-            string password = decryptPassword(account.Password);
+            string password = encryptPassword(account.Password);
             var acc = _account.UserAccountAccess(email, password);
-            
 
-            if (acc!= null)
-            {
-                Request.HttpContext.Response.Headers.Add("AccessToken", GenerateAccessToken(acc.User_id));
+            return Ok(acc);
+            //if (acc!= null)
+            //{
+            //    Request.HttpContext.Response.Headers.Add("AccessToken", GenerateAccessToken(acc.User_id));
 
-                return Ok(acc);
-            }
-            return Unauthorized();
+            //    return Ok(acc);
+            //}
+            //return Unauthorized();
         }
 
 
@@ -166,6 +166,16 @@ namespace InteractiveScreenDashboard.Controllers
             string IVKey = _Iencrypt.IV.ToString();
             string password = Encrypt.DecryptAESString(cipher, key, IVKey);
             return password;
+        }
+
+
+        private string encryptPassword(string text)
+        {
+            string key = _Iencrypt.Key.ToString();
+            string IVkey = _Iencrypt.IV.ToString();
+            string Salt = _Iencrypt.Salt.ToString();
+            string cipher = Encrypt.EncryptAndEncode(text, IVkey, key, Salt);
+            return cipher;
         }
 
         [AllowAnonymous]

@@ -14,6 +14,6 @@ namespace InteractiveScreenDashboard.Data.Models
         public string phone { get; set; }
         public string model { get; set; }
         public string institution { get; set; }
-        public List<coordinate> coordinates { get; set; }
+        public List<Coordinates> coordinates { get; set; }
     }
 }

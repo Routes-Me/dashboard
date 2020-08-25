@@ -1,19 +1,14 @@
 ﻿import axios from 'axios';
 import { history } from '../../helper/history';
 import { userConstants } from '../../constants/userConstants';
+import jwt from 'jsonwebtoken';
 import { encryptAES } from '../encrypt';
-//import { useAlert } from "react-alert";
+import setAuthorizationToken from '../../util/setAuthorizationToken'
 
 
-const institutionObjt = {};
 
-//export const LoginAction = {
-//    userSignInRequest,
-//    logout,
-//    getLoginSuccess,
-//    getLoginFailure,
-//    getUser
-//};
+const userObj = {};
+
 
  export const getLoginSuccess = payload => ({
     type: userConstants.Login_SUCCESS,
@@ -26,10 +21,6 @@ export const getLoginFailure = payload => ({
 });
 
 
-//export const getUsers = user => ({
-//    type: 'GET_USER',
-//    payload: user
-//});
 
 export function getUser() {
     userObj = localStorage.getItem('user');
@@ -44,20 +35,20 @@ export function userSignInRequest(username, password) {
         var encryptedpassword = encryptAES(password);
         let userObject = {
             email: username,
-            password: encryptedpassword.toString()
+            password: password
         };
         history.push('/Home');
         axios.post(userConstants.Domain + 'api/Users/Login', userObject)
             .then(
                 response => {
-                    dispatch(getLoginSuccess(user));
+                    
                     //console.log("User Details : ", JSON.stringify(user));
-                    history.push('/Home');
-                    localStorage.setItem('user', JSON.stringify(user));
                     const token = response.token;
-                    localStorage.setItem('jwtToken', token)
-                    //alert("Hi " + user.data.first_name);
-                    //alert.show("Hi " + user.data.first_name);
+                    const user = jwt.decode(token);
+                    localStorage.setItem('user', user);
+                    dispatch(getLoginSuccess(user));
+                    localStorage.setItem('jwtToken', token);
+                    setAuthorizationToken(token);
                 },
                 error => {
                     dispatch(getLoginFailure(error.toString()));
@@ -158,7 +149,19 @@ function updateSelectedNavItem(navItem) {
 
 export function logout() {
     //userService.logout();
-    return { type: userConstants.Login_LOGOUT };
+    return dispatch => {
+        dispatch(logOutRequest());
+        localStorage.clear();
+        setAuthorizationToken(false);
+        dispatch(loggedOut());
+    }
 }
 
+function logOutRequest() {
+    return { type: userConstants.LogOut_REQUEST }
+}
+
+function loggedOut() {
+    return { type: userConstants.LogOut_SUCCESS }
+}
 

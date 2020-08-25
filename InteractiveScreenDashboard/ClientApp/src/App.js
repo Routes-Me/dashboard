@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { history } from '../src/helper/history';
 import { Layout } from './components/Layout';
+import { PrivateRoute } from './components/PrivateRoute';
 import { Home } from './components/Home';
 import { ForgotPassword } from './components/ForgotPassword';
 import { Login }  from './components/Login';
@@ -23,7 +24,7 @@ export default class App extends Component {
                 <Router  history={history}>
                     <Switch>
                         <Route exact path='/' component={Login} />
-                        <Route path='/home' component={Home} />
+                        <PrivateRoute exact path='/home' component={Home} />
                         <Route path='/forgotpassword' component={ForgotPassword} />
                         <Route path='/newpassword' component={savePassword} />
                         <Route path='/resetpassword/:email' component={ResetPassword}/>

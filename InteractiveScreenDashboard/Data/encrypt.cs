@@ -137,5 +137,47 @@ namespace InteractiveScreenDashboard.Data
             return encrypted;
         }
 
+
+
+            public static string EncryptAndEncode(string raw, string IV, string PASSWORD, string SALT)
+            {
+                using (var csp = new AesCryptoServiceProvider())
+                {
+                    ICryptoTransform e = GetCryptoTransform(csp, true, IV, PASSWORD, SALT);
+                    byte[] inputBuffer = Encoding.UTF8.GetBytes(raw);
+                    byte[] output = e.TransformFinalBlock(inputBuffer, 0, inputBuffer.Length);
+                    string encrypted = Convert.ToBase64String(output);
+                    return encrypted;
+                }
+            }
+
+            public static string DecodeAndDecrypt(string encrypted, string IV, string PASSWORD, string SALT)
+            {
+                using (var csp = new AesCryptoServiceProvider())
+                {
+                    var d = GetCryptoTransform(csp, false, IV,PASSWORD,SALT);
+                    byte[] output = Convert.FromBase64String(encrypted);
+                    byte[] decryptedOutput = d.TransformFinalBlock(output, 0, output.Length);
+                    string decypted = Encoding.UTF8.GetString(decryptedOutput);
+                    return decypted;
+                }
+            }
+
+            private static ICryptoTransform GetCryptoTransform(AesCryptoServiceProvider csp, bool encrypting, string IV, string PASSWORD, string SALT)
+            {
+                csp.Mode = CipherMode.CBC;
+                csp.Padding = PaddingMode.PKCS7;
+                var spec = new Rfc2898DeriveBytes(Encoding.UTF8.GetBytes(PASSWORD), Encoding.UTF8.GetBytes(SALT), 65536);
+                byte[] key = spec.GetBytes(16);
+
+
+                csp.IV = Encoding.UTF8.GetBytes(IV);
+                csp.Key = key;
+                if (encrypting)
+                {
+                    return csp.CreateEncryptor();
+                }
+                return csp.CreateDecryptor();
+            }
     }
 }

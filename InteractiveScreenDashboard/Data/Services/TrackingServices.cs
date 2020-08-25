@@ -10,7 +10,9 @@ namespace InteractiveScreenDashboard.Data.Services
     {
         List<IdleVehicle> ITrackingServices.GetIdleVehicles()
         {
-            throw new NotImplementedException();
+            List<IdleVehicle> IdleVehicleList = new List<IdleVehicle>();
+
+            return IdleVehicleList;
         }
     }
 }
