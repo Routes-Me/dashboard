@@ -4,10 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using InteractiveScreenDashboard.Data.Models;
 using InteractiveScreenDashboard.Data.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InteractiveScreenDashboard.Controllers
 {
+    [Authorize]
     [Route("api/Institutions")]
     public class InstitutionController : Controller
     {

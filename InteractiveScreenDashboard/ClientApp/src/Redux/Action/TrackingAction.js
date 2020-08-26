@@ -83,7 +83,7 @@ export function getOfflineData() {
         dispatch(OfflineDataRequest());
         axios.get(userConstants.Domain + 'api/tracking').then(
             idleVehicles => {
-                dispatch(OfflineUpdateReceived(idleVehicles));
+                dispatch(OfflineUpdateReceived(idleVehicles.data));
             },
             error => {
                 alert(error.toString());

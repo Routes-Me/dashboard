@@ -50,31 +50,14 @@ namespace InteractiveScreenDashboard
             services.AddSingleton(Configuration.GetSection("AES").Get<Iencrypt>());
 
             //Table Configuration
-            services.AddDbContextPool<AppDBContext>(options => options.UseInMemoryDatabase("RoutesMeDB"));
+            services.AddDbContextPool<AppDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("RoutesMeDBConnection")));
+            //services.AddDbContextPool<AppDBContext>(options => options.UseInMemoryDatabase("RoutesMeDB"));
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IVehicleService, VehicleService>();
             services.AddScoped<IUsersService, UsersService>();
             services.AddScoped<IInstitutionService, InstitutionService>();
             services.AddScoped<ITrackingServices, TrackingServices>();
             services.AddScoped<IDriverService, DriverService>();
-            //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).
-            //    AddJwtBearer(options => { 
-            //        options.RequireHttpsMetadata = false;
-            //        options.SaveToken = true;
-            //        options.TokenValidationParameters =
-            //        new TokenValidationParameters { 
-            //            ValidateIssuer = true,
-            //            ValidateAudience = true,
-            //            ValidateLifetime = true,
-            //            ValidateIssuerSigningKey = true,
-            //            ValidIssuer = Configuration["Jwt: Issuer"],
-            //            ValidAudience = Configuration["Jwt: Audience"],
-            //            IssuerSigningKey =
-            //            new SymmetricSecurityKey(
-            //                Encoding.UTF8.GetBytes(
-            //                    Configuration["Jwt: SecretKey"]
-            //                    )), ClockSkew = TimeSpan.Zero }; 
-            //    });
 
 
             ////JWT 

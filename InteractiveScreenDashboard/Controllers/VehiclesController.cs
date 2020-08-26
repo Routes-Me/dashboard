@@ -1,5 +1,6 @@
 ﻿using InteractiveScreenDashboard.Data.Models;
 using InteractiveScreenDashboard.Data.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Net;
 
 namespace InteractiveScreenDashboard.Controllers
 {
-    
+    [Authorize]
     [Produces("application/json")]
     [Route("api/vehicles")]
     public class VehiclesController : Controller

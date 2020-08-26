@@ -147,7 +147,7 @@ namespace InteractiveScreenDashboard.Controllers
 
             string email = account.email;
             string password = encryptPassword(account.Password);
-            var acc = _account.UserAccountAccess(email, password);
+            var acc = _account.UserAccountAccess(email, account.Password);
 
             return Ok(acc);
             //if (acc!= null)

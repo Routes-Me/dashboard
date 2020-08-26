@@ -41,14 +41,15 @@ export function userSignInRequest(username, password) {
         axios.post(userConstants.Domain + 'api/Users/Login', userObject)
             .then(
                 response => {
-                    
+
                     //console.log("User Details : ", JSON.stringify(user));
-                    const token = response.token;
-                    const user = jwt.decode(token);
+                    //const token = response.token;
+                    const token = jwt.decode(response.token);
+                    const user = response.data;
                     localStorage.setItem('user', user);
                     dispatch(getLoginSuccess(user));
-                    localStorage.setItem('jwtToken', token);
-                    setAuthorizationToken(token);
+                    //localStorage.setItem('jwtToken', token);
+                    //setAuthorizationToken(token);
                 },
                 error => {
                     dispatch(getLoginFailure(error.toString()));
