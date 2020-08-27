@@ -173,8 +173,8 @@ namespace InteractiveScreenDashboard.Controllers
         {
             string key = _Iencrypt.Key.ToString();
             string IVkey = _Iencrypt.IV.ToString();
-            string Salt = _Iencrypt.Salt.ToString();
-            string cipher = Encrypt.EncryptAndEncode(text, IVkey, key, Salt);
+            //string Salt = _Iencrypt.Salt.ToString();
+            string cipher = Encrypt.EncryptAndEncode(text, IVkey, key);
             return cipher;
         }
 
