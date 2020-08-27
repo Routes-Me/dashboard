@@ -138,10 +138,26 @@ namespace InteractiveScreenDashboard.Data
             return encrypted;
         }
 
-        public static string formatCipher(string cipher, string SALT)
+        public static string FormatCipher(string prefix, string cipher, string salt, int saltIndexPosition) 
         {
-            StringBuilder formatedCipher = new StringBuilder();
-            return cipher.Substring(0, 2) + SALT.Substring(0, 9) + cipher.Substring(2) + SALT.Substring(9);
+            string saltPart1 = salt.Substring(0, 9);
+            string saltPart2 = salt.Substring(9);
+
+
+            StringBuilder cipherStringBuilder = new StringBuilder();
+            cipherStringBuilder.Append(prefix);
+            
+           
+            StringBuilder cipherBodyStringBuilder = new StringBuilder();
+            cipherBodyStringBuilder.Append(cipher);
+            cipherBodyStringBuilder.Insert(saltIndexPosition, saltPart1);
+            cipherBodyStringBuilder.Insert(saltPart1.Length + 1 + saltIndexPosition, saltPart2);
+
+            cipherStringBuilder.Append(cipherBodyStringBuilder);
+
+            string cipherString = cipherStringBuilder.ToString();
+
+            return cipherString;
         }
 
         public static string generateRandomSALT()
@@ -154,7 +170,7 @@ namespace InteractiveScreenDashboard.Data
         }
 
 
-        public static string generateExcludeCharectors()
+        public static string generateExcludeCharacters()
         {
             StringBuilder builder = new StringBuilder();
             builder.Append(RandomString(1, false));
@@ -169,6 +185,12 @@ namespace InteractiveScreenDashboard.Data
         {
             Regex rgx = new Regex(excludedText);
             string refinedSALT = rgx.Replace(SALT, "");
+            char[] chrArray = excludedText.ToCharArray();
+            foreach(var element in chrArray)
+            {
+                SALT = SALT.Replace(element.ToString(), "");
+            }
+
             return refinedSALT;
         }
 
@@ -224,27 +246,29 @@ namespace InteractiveScreenDashboard.Data
             string positionString = generatePossitionString();
 
             //calculate the position
-            int calculatedPosition = calculateInsertPossition(positionString);
+            int positionToInsert = calculateInsertPossition(positionString);
 
             //generate Full SALT of 16Char
             string salt = generateRandomSALT();
 
             //generate the exclude char
-            string excludeText = generateExcludeCharectors();
+            string excludeText = generateExcludeCharacters();
 
             //filter the SALT with the above
             string refinedSALT = refineTheSALT(salt, excludeText);
 
 
-
+            string encrypted = "";
             using (var csp = new AesCryptoServiceProvider())
             {
                 ICryptoTransform e = GetCryptoTransform(csp, true, IV, PASSWORD, refinedSALT);
                 byte[] inputBuffer = Encoding.UTF8.GetBytes(raw);
                 byte[] output = e.TransformFinalBlock(inputBuffer, 0, inputBuffer.Length);
-                string encrypted = Convert.ToBase64String(output);
-                return encrypted;
+                encrypted = Convert.ToBase64String(output);
+                
             }
+
+            return FormatCipher(positionString+excludeText, encrypted, salt, positionToInsert);
         }
 
 
