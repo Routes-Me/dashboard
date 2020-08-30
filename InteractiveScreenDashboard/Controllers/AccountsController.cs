@@ -147,6 +147,10 @@ namespace InteractiveScreenDashboard.Controllers
 
             string email = account.email;
             string password = encryptPassword(account.Password);
+            string testPassword = "aypkE2WKlaKhsRUPsXzpFPXZyBZ2NhDHHq8wd6JwJwA==";
+            string decodedCipher = decodePassword(testPassword);
+
+
             var acc = _account.UserAccountAccess(email, account.Password);
 
             return Ok(acc);
@@ -165,6 +169,14 @@ namespace InteractiveScreenDashboard.Controllers
             string key = _Iencrypt.Key.ToString();
             string IVKey = _Iencrypt.IV.ToString();
             string password = Encrypt.DecryptAESString(cipher, key, IVKey);
+            return password;
+        }
+
+        private string decodePassword(string cipher)
+        {
+            string key = _Iencrypt.Key.ToString();
+            string IV  = _Iencrypt.IV.ToString();
+            string password = Encrypt.DecodeAndDecrypt(cipher, IV, key);
             return password;
         }
 

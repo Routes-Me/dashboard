@@ -140,8 +140,8 @@ namespace InteractiveScreenDashboard.Data
 
         public static string FormatCipher(string prefix, string cipher, string salt, int saltIndexPosition) 
         {
-            string saltPart1 = salt.Substring(0, 9);
-            string saltPart2 = salt.Substring(9);
+            string saltPart1 = salt.Substring(0, 10);
+            string saltPart2 = salt.Substring(10);
 
 
             StringBuilder cipherStringBuilder = new StringBuilder();
@@ -183,15 +183,18 @@ namespace InteractiveScreenDashboard.Data
 
         public static string refineTheSALT(string SALT, string excludedText)
         {
-            Regex rgx = new Regex(excludedText);
-            string refinedSALT = rgx.Replace(SALT, "");
-            char[] chrArray = excludedText.ToCharArray();
-            foreach(var element in chrArray)
+            //Regex rgx = new Regex(excludedText);
+            //string refinedSALT = rgx.Replace(SALT, "");
+            StringBuilder saltToBeRefined = new StringBuilder();
+            saltToBeRefined.Append(SALT);
+            StringBuilder excludedTextArray = new StringBuilder(excludedText);
+
+            for(int i=0;  i<excludedTextArray.Length; i++)
             {
-                SALT = SALT.Replace(element.ToString(), "");
+                saltToBeRefined.Replace(excludedTextArray[i].ToString(), "");
             }
 
-            return refinedSALT;
+            return saltToBeRefined.ToString();
         }
 
         public static string generatePossitionString()
@@ -244,6 +247,7 @@ namespace InteractiveScreenDashboard.Data
             
             //generate the position string 
             string positionString = generatePossitionString();
+            
 
             //calculate the position
             int positionToInsert = calculateInsertPossition(positionString);
@@ -257,9 +261,10 @@ namespace InteractiveScreenDashboard.Data
             //filter the SALT with the above
             string refinedSALT = refineTheSALT(salt, excludeText);
 
+            
 
             string encrypted = "";
-            using (var csp = new AesCryptoServiceProvider())
+            using ( var csp = new AesCryptoServiceProvider())
             {
                 ICryptoTransform e = GetCryptoTransform(csp, true, IV, PASSWORD, refinedSALT);
                 byte[] inputBuffer = Encoding.UTF8.GetBytes(raw);
@@ -272,16 +277,41 @@ namespace InteractiveScreenDashboard.Data
         }
 
 
-        public static string DecodeAndDecrypt(string encrypted, string IV, string PASSWORD, string SALT)
+        //public static string DecodeAndDecrypt(string encrypted, string IV, string PASSWORD, string SALT)
+        public static string DecodeAndDecrypt(string encrypted, string IV, string PASSWORD)
         {
-            using (var csp = new AesCryptoServiceProvider())
+            try
             {
-                var d = GetCryptoTransform(csp, false, IV, PASSWORD, SALT);
-                byte[] output = Convert.FromBase64String(encrypted);
-                byte[] decryptedOutput = d.TransformFinalBlock(output, 0, output.Length);
-                string decypted = Encoding.UTF8.GetString(decryptedOutput);
-                return decypted;
+                //Cipher PART 1 for Position string & Removel text for the SALT
+                var positionString = encrypted.Substring(0, 2);
+                var positionToInsert = calculateInsertPossition(positionString);
+                var removalString = encrypted.Substring(2, 3);
+
+                var cipherPart2 = encrypted.Substring(5, encrypted.Length - 5);
+                var saltPart1 = cipherPart2.Substring(positionToInsert, 10);
+                var saltPart2 = cipherPart2.Substring(positionToInsert + saltPart1.Length + 1, 6);
+                var salt = saltPart1 + saltPart2;
+
+                StringBuilder refinedCipher = new StringBuilder(cipherPart2);
+                refinedCipher.Replace(saltPart1, "");
+                refinedCipher.Replace(saltPart2, "");
+                var refinedSalt = refineTheSALT(salt, removalString);
+                string refinedCipherStr = refinedCipher.ToString();
+
+                using (var csp = new AesCryptoServiceProvider())
+                {
+                    var d = GetCryptoTransform(csp, false, IV, PASSWORD, refinedSalt);
+                    byte[] output = Convert.FromBase64String(refinedCipher.ToString());
+                    byte[] decryptedOutput = d.TransformFinalBlock(output, 0, output.Length);
+                    string decypted = Encoding.UTF8.GetString(decryptedOutput);
+                    return decypted;
+                }
             }
+            catch(Exception)
+            {
+                return "Unauthorized Access";
+            }
+            
         }
 
 
