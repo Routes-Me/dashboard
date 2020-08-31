@@ -29,7 +29,7 @@ const LoginReducer = (state = {}, action) => {
                 loading: false,
                 hasError: false,
                 loggedIn: true,
-                user: action.payload.data
+                user: action.payload
             };
         case userConstants.Login_LOGOUT:
             return {

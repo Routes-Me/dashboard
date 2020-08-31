@@ -4,7 +4,7 @@ import { Master } from './Master';
 import { Child } from './Child';
 
 
-export class Home extends Component {
+export default class Home extends Component {
     static displayName = Home.name;
     //static defaultProps = {
     //    center: {

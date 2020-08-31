@@ -18,11 +18,14 @@ namespace InteractiveScreenDashboard.Controllers
         {
             this._tracking = Tracking;
         }
+
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult GetIdleVehicles()
         {
             var idleVehicles = _tracking.GetIdleVehicles();
             return Ok(idleVehicles);
         }
+
     }
 }

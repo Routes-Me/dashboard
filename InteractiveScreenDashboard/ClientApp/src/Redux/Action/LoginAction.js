@@ -37,17 +37,18 @@ export function userSignInRequest(username, password) {
             email: username,
             password: password
         };
-        history.push('/Home');
-        axios.post(userConstants.Domain + 'api/Users/Login', userObject)
+        
+        axios.post(userConstants.Domain + '/users/login', userObject)
             .then(
                 response => {
 
                     //console.log("User Details : ", JSON.stringify(user));
                     //const token = response.token;
-                    const token = jwt.decode(response.token);
+                    //const token = jwt.decode(response.token);
                     const user = response.data;
                     localStorage.setItem('user', user);
                     dispatch(getLoginSuccess(user));
+                    history.push('/home');
                     //localStorage.setItem('jwtToken', token);
                     //setAuthorizationToken(token);
                 },

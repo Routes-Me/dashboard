@@ -114,8 +114,8 @@ class Secondary extends Component {
             < div >
                 {/*{this.props.selectedNavItem === userConstants.NavItem_Tracking ? <SecondaryTracking /> : <SecondaryVehicles />}*/}
 
-                {this.props.selectedNavItem === userConstants.NavItem_Vehicles && <SecondaryVehicles />}
                 {this.props.selectedNavItem === userConstants.NavItem_Tracking && <SecondaryTracking />}
+                {this.props.selectedNavItem === userConstants.NavItem_Vehicles && <SecondaryVehicles />}
                 {this.props.selectedNavItem === userConstants.NavItem_Institutions && <InstitutionsSecondary />}
                 {this.props.selectedNavItem === userConstants.NavItem_Users && <UsersSecondary />}
 

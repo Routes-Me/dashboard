@@ -21,7 +21,7 @@ namespace InteractiveScreenDashboard.Controllers
 {
     [Authorize]
     [Produces("application/json")]
-    [Route("api/Users")]
+    [Route("api/users")]
     public class AccountsController : Controller
     {
 
@@ -35,6 +35,35 @@ namespace InteractiveScreenDashboard.Controllers
             this._account = account;
             this._Iencrypt = iencrypt;
             _jwtSettings = jwtsettings.Value;
+        }
+
+
+        [AllowAnonymous]
+        [Produces(typeof(Users))]
+        [HttpPost("login")]
+        public IActionResult LoginUser([FromBody] Authenticate account)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            string email = account.email;
+            string password = encryptPassword(account.Password);
+            //string testPassword = "aypkE2WKlaKhsRUPsXzpFPXZyBZ2NhDHHq8wd6JwJwA==";
+            //string decodedCipher = decodePassword(testPassword);
+
+
+            var acc = _account.UserAccountAccess(email, account.Password);
+
+            return Ok(acc);
+            //if (acc!= null)
+            //{
+            //    Request.HttpContext.Response.Headers.Add("AccessToken", GenerateAccessToken(acc.User_id));
+
+            //    return Ok(acc);
+            //}
+            //return Unauthorized();
         }
 
         [HttpGet]
@@ -135,33 +164,7 @@ namespace InteractiveScreenDashboard.Controllers
 
 
 
-        [AllowAnonymous]
-        [HttpPost("Login")]
-        [Produces(typeof(Users))]
-        public IActionResult LoginUser([FromBody]Authenticate account)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            string email = account.email;
-            string password = encryptPassword(account.Password);
-            string testPassword = "aypkE2WKlaKhsRUPsXzpFPXZyBZ2NhDHHq8wd6JwJwA==";
-            string decodedCipher = decodePassword(testPassword);
-
-
-            var acc = _account.UserAccountAccess(email, account.Password);
-
-            return Ok(acc);
-            //if (acc!= null)
-            //{
-            //    Request.HttpContext.Response.Headers.Add("AccessToken", GenerateAccessToken(acc.User_id));
-
-            //    return Ok(acc);
-            //}
-            //return Unauthorized();
-        }
+        
 
 
         private string decryptPassword(string cipher)
