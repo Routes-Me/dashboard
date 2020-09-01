@@ -2,7 +2,7 @@
 import Detail from '../Detail/Detail';
 import { connect } from 'react-redux';
 import { userConstants } from '../../constants/userConstants';
-import * as VehicleAction from '../../Redux/Action';
+import * as AdvertisementAction from '../../Redux/Action';
 import '../Detail/Detail.css';
 import Pagination from "react-js-pagination";
 
@@ -12,8 +12,7 @@ class Vehicles extends Component {
         super(props)
 
         this.state = {
-            VehicleList: [],
-            ModelList: [],
+            AdvertiseList: [],
             loading: true,
             failed: false,
             error: '',
@@ -25,9 +24,7 @@ class Vehicles extends Component {
     }
 
     componentDidMount() {
-        //this.populateVehicleData();
-        //this.props.getVehicleModels();
-        this.props.getVehiclesForInstitution();
+        this.props.getAdvertisements();
     }
 
 
@@ -60,30 +57,26 @@ class Vehicles extends Component {
 
 
     //Load Vehicles in a table
-    renderAllVehicleTable(Vehicles) {
+    renderAllAdvertisementTable(Advertisements) {
         return (
             <div className="table-list-vehicles">
                 <div className="table">
                     <table>
                         <thead>
                             <tr>
-                                <th>Plate</th>
-                                <th>Make</th>
-                                <th>Model</th>
-                                <th>Office</th>
-                                <th>Year</th>
+                                <th>Name</th>
+                                <th>Day Interval</th>
+                                <th>Campaign</th>
                                 <th className="width44" />
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                Vehicles.map(Vehicle => (
-                                    <tr key={Vehicle.id}>
-                                        <td>{Vehicle.plateNumber}</td>
-                                        <td>{Vehicle.model.name}</td>
-                                        <td>{Vehicle.model.name}</td>
-                                        <td>{Vehicle.institution.name}</td>
-                                        <td>{Vehicle.modelYear}</td>
+                                Advertisements.map(Advertisement => (
+                                    <tr key={Advertisement.id}>
+                                        <td>{Advertisement.plateNumber}</td>
+                                        <td>{Advertisement.model.name}</td>
+                                        <td>{Advertisement.model.name}</td>
                                         <td className="width44" >
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Vehicle.id)}>
@@ -168,17 +161,17 @@ class Vehicles extends Component {
 
 const mapStateToProps = (state) => {
 
-    const vehicles = state.VehicleStore.Vehicles;
+    const advertisements = state.AdvertisementStore.Advertisements;
 
     return {
-        VehicleList: vehicles
+        AdvertisementList: advertisements
     }
 
 }
 
 const actionCreators = {
-    getVehiclesForInstitution: VehicleAction.getVehiclesForInstitutionID,
-    deleteVehicle: VehicleAction.deleteVehicle
+    getAdvertisements: AdvertisementAction.getAdvertisements,
+    deleteAdvertisements: AdvertisementAction.deleteAdvertisement
 };
 
 const connectedVehicles = connect(mapStateToProps, actionCreators)(Vehicles);

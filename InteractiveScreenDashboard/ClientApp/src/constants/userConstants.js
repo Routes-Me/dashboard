@@ -41,5 +41,5 @@
 
     limit: 10,
 
-    Domain:'http://localhost:55205/api' 
+    Domain:'http://localhost:55205/api/' 
 };

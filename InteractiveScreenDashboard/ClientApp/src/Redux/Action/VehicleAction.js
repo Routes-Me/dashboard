@@ -11,7 +11,7 @@ export function getVehiclesForInstitutionID(institutionId, pageIndex) {
     
     return dispatch => {
         dispatch(vehicleDataRequest());
-        axios.get(userConstants.Domain + 'api/vehicles?' + institutionId, {
+        axios.get(userConstants.Domain + 'vehicles?institutionId' + institutionId, {
             params: { queryParameter: returnQueryParamters(pageIndex) }
         })
         .then(
@@ -51,7 +51,7 @@ export function getModels(makeId) {
     return dispatch => {
 
         dispatch(ModelDataRequest());
-        axios.get(userConstants.Domain + 'api/vehicles/models?' + makeId, {
+        axios.get(userConstants.Domain + 'vehicles/models?' + makeId, {
                 params: { queryParameter: returnQueryParamters(pageIndex) }
         })
         .then(
@@ -75,7 +75,7 @@ export function getManufacturers() {
     let pageIndex;
     return dispatch => {
         dispatch(MakesDataRequest());
-        axios.get(userConstants.Domain + 'api/vehicles/manufacturers', {
+        axios.get(userConstants.Domain + 'vehicles/manufacturers', {
             params: { queryParameter: returnQueryParamters(pageIndex) }
         })
         .then(
@@ -120,7 +120,7 @@ export function saveVehicle(vehicle) {
         dispatch(saveVehicleRequest(vehicle))
         if (vehicle.id !== "") {
             dispatch(vehicleDataRequest());
-            axios.post(userConstants.Domain + 'api/vehicles?' + vehicle)
+            axios.post(userConstants.Domain + 'vehicles?' + vehicle)
                 .then(
                     vehicle => {
                         dispatch(saveVehicleSuccess(vehicle));
@@ -129,7 +129,7 @@ export function saveVehicle(vehicle) {
                         alert(error.toString());
                     });
         } else {
-            axios.put(userConstants.Domain + 'api/vehicles?' + vehicle)
+            axios.put(userConstants.Domain + 'vehicles?' + vehicle)
                 .then(
                     vehicle => {
                         dispatch(updateVehicleSuccess(vehicle));

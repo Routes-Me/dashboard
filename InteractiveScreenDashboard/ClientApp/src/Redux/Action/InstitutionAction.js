@@ -9,7 +9,7 @@ export function getInstitutions(institutionId, pageIndex) {
     return dispatch => {
 
         dispatch(IstitutionDataRequest());
-        axios.get(userConstants.Domain + 'api/institutions?' + institutionId, {
+        axios.get(userConstants.Domain + 'institutions?' + institutionId, {
             params: { queryParameter: returnQueryParamters(pageIndex, true) }
         }).then(
             institutions => {
