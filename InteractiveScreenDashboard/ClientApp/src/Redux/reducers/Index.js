@@ -4,11 +4,13 @@ import TrackingReducer from './TrackingReducer';
 import VehicleReducer from './VehicleReducer';
 import InstitutionReducer from './InstitutionReducer';
 import UserReducer from './UserReducer';
+import AdvertisementReducer from './AdvertisementReducer';
 
 export default combineReducers({
     Login: LoginReducer,
     Tracking: TrackingReducer,
     VehicleStore: VehicleReducer,
     InstitutionStore: InstitutionReducer,
-    UserStore: UserReducer
+    UserStore: UserReducer,
+    AdvertisementStore: AdvertisementReducer
 });
