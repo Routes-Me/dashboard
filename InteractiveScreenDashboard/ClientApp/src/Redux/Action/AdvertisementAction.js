@@ -104,11 +104,11 @@ export function getDayIntervals() {
         dispatch(getDayIntervalRequest())
         axios.get(userConstants.Domain + 'advertisements/dayintervales')
             .then(
-                response => { dispatch(getDayIntervalSuccess()) },
-                error => { dispatch(getDayIntervalsFailure()) }
+                response => { dispatch(getDayIntervalSuccess(response)) },
+                error => { dispatch(getDayIntervalsFailure(error)) }
             )
     }
     function getDayIntervalRequest() { return { type: advertisementsConstants.getDayIntervals_REQUEST }; }
     function getDayIntervalSuccess(response) { return { type: advertisementsConstants.getDayIntervalSuccess, payload: response }; }
-    function getDayIntervalsFailure(error) { return { type: advertisementsConstants.getDayIntervalSuccess, payload: error }; }
+    function getDayIntervalsFailure(error) { return { type: advertisementsConstants.getDayIntervals_ERROR, payload: error }; }
 }

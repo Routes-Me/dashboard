@@ -2,7 +2,7 @@
 
 const INITIAL_STATE = {
     Advertisements: [],
-    Campsigns: [],
+    Campaigns: [],
     DayIntervals:[],
     Page: "",
     loading: true,
@@ -26,6 +26,46 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 Advertisements: action.payload
             };
         case advertisementsConstants.getAdvertisements_ERROR:
+            return {
+                ...state,
+                loading: false,
+                hasError: true,
+                error: action.payload
+            };
+        case advertisementsConstants.getCampaigns_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                hasError: false
+            };
+        case advertisementsConstants.getCampaigns_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                hasError: false,
+                Campaigns: action.payload
+            };
+        case advertisementsConstants.getDayIntervals_ERROR:
+            return {
+                ...state,
+                loading: false,
+                hasError: true,
+                error: action.payload
+            };
+        case advertisementsConstants.getDayIntervals_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                hasError: false
+            };
+        case advertisementsConstants.getDayIntervals_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                hasError: false,
+                DayIntervals: action.payload
+            };
+        case advertisementsConstants.getDayIntervals_SUCCESS:
             return {
                 ...state,
                 loading: false,

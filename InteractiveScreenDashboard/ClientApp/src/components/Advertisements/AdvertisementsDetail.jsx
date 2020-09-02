@@ -4,6 +4,7 @@ import { Label } from 'reactstrap';
 import * as AdvertisementAction from '../../Redux/Action';
 import * as InstitutionAction from '../../Redux/Action';
 import Form from 'react-validation/build/form';
+import '../Advertisements/Advertisement.css'
 
 class AdvertisementsDetail extends React.Component {
 
@@ -24,7 +25,7 @@ class AdvertisementsDetail extends React.Component {
     componentDidMount() {
         this.props.getCampaigns();
         this.props.getDayIntervals();
-        this.props.getInstitutions();
+        //this.props.getInstitutions();
     }
 
     onChange = (event) => {
@@ -64,8 +65,8 @@ class AdvertisementsDetail extends React.Component {
     }
 
     render() {
-        const userObj = this.state.user;
-        const buttonText = userObj ? "Update" : "Add";
+        const advertisementObj = this.state.advertisement;
+        const buttonText = advertisementObj ? "Update" : "Add";
 
         return (
             <div className="row col-md-12 detail-form">
@@ -77,8 +78,8 @@ class AdvertisementsDetail extends React.Component {
                             <div className="col-md-4">
                                 <Label>Name</Label><br />
                                 <input type="text" name="email"
-                                    placeholder={userObj === undefined ? "" : userObj.email}
-                                    value={userObj.email}
+                                    placeholder={advertisementObj === undefined ? "" : advertisementObj.name}
+                                    value={advertisementObj.name}
                                     onChange={this.onChange}
                                     className="form-control" />
                             </div>
@@ -89,8 +90,8 @@ class AdvertisementsDetail extends React.Component {
                             {/*VehicleObj.model.id*/}
                             <div className="col-md-4">
                                 <Label>Day Interval</Label><br />
-                                <select defaultValue={userObj ? userObj.userRoleId : "Select a role"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
-                                    {this.props.UserRoles.map(role => (<option className="dropdown-item" value={role.userRoleId}>{role.name}</option>))}
+                                <select defaultValue={advertisementObj ? this.state.dayInterval : "Select an interval"} className="custom-select my-1 mr-sm-2" name="dayInterval" onChange={this.onChange}>
+                                    {this.props.DayInterval.map(interval => (<option className="dropdown-item" value={interval.Id}>{interval.name}</option>))}
                                 </select>
                             </div>
                         </div>
@@ -99,33 +100,31 @@ class AdvertisementsDetail extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-4">
                                 <Label>Media</Label><br />
-                                <input type="text" name="phone"
-                                    placeholder={userObj === undefined ? "" : userObj.phone}
-                                    defaultValue={userObj.phone}
-                                    onChange={this.onChange}
-                                    className="form-control" />
+                                <div class="form-group files">
+                                    <input type="file" class="form-control" multiple="" />
+                                </div>
                             </div>
                         </div>
 
                         <div className="row form-group">
                             <div className="col-md-4">
-                                <Label>Campaigns</Label><br />
-                                <select multiple="multiple" class="custom-select" size="3" defaultValue={userObj.application}>
-                                    {this.props.applicationsList.map(application => (<option value={application.id}>{application.name}</option>))}
+                                <Label>Media</Label><br />
+                                <select multiple="multiple" class="custom-select" size="3" defaultValue={advertisementObj.campaigns}>
+                                {this.props.Campaigns.map(campaign => (<option value={campaign.id}>{campaign.name}</option>))}
                                 </select>
                             </div>
                         </div>
 
-                        <div className="row form-group">
-                            {/*VehicleObj.model.id*/}
+
+                        {/*<div className="row form-group">
+                            VehicleObj.model.id
                             <div className="col-md-4">
                                 <Label>Institution</Label><br />
-                                <select defaultValue={userObj ? userObj.institutionId : "Select a model"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
+                                <select defaultValue={advertisementObj ? advertisementObj.institution.institutionId : "Select a model"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
                                     {this.props.InstitutionList.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
                                 </select>
                             </div>
-                        </div>
-
+                        </div>*/}
 
 
                         <br /><br />
@@ -147,7 +146,7 @@ const mapStateToProps = (state) => {
 
     return {
         DayInterval: state.AdvertisementStore.DayIntervals,
-        Campsigns: state.AdvertisementStore.Campsigns
+        Campaigns: state.AdvertisementStore.Campaigns
     }
 
 }
