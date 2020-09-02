@@ -1,14 +1,14 @@
 ﻿import React, { Component, useState, useRef } from 'react';
 import { connect } from 'react-redux';
-import * as TrackingAction from '../Redux/Action';
+import * as TrackingAction from '../../Redux/Action';
 import GoogleMapReact from 'google-map-react';
-import ClusterMarker from './markers/ClusterMarker';
-import SimpleMarker from './markers/SimpleMarker';
-import OfflineMarker from './markers/OfflineMarker';
+import ClusterMarker from '../markers/ClusterMarker';
+import SimpleMarker from '../markers/SimpleMarker';
+import OfflineMarker from '../markers/OfflineMarker';
 import supercluster from 'points-cluster';
-import { susolvkaCoords, markersData } from './data/fakeData';
+import { susolvkaCoords, markersData } from '../data/fakeData';
 import IdleTimer from 'react-idle-timer';
-import { trackingConstants } from '../constants/trackingConstants';
+import { trackingConstants } from '../../constants/trackingConstants';
 
 const MAP = {
     defaultZoom: 7,

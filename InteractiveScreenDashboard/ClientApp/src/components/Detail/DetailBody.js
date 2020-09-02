@@ -3,6 +3,7 @@ import { userConstants } from '../../constants/userConstants';
 import { VehicleDetail } from '../Vehicles/VehicleDetail';
 import { UsersDetail } from '../Users/UsersDetail';
 import { InstitutionsDetail } from '../Institutions/InstitutionsDetail';
+import { AdvertisementsDetail } from '../Advertisements/AdvertisementsDetail';
 
 
 export default class DetailBody extends Component {
@@ -21,6 +22,7 @@ export default class DetailBody extends Component {
                 {this.props.objectType === userConstants.NavItem_Vehicles && <VehicleDetail vehicleToDisplay={this.props.object} />}
                 {this.props.objectType === userConstants.NavItem_Users && <UsersDetail userToDisplay={this.props.object} />}
                 {this.props.objectType === userConstants.NavItem_Institutions && <InstitutionsDetail institutionToDisplay={this.props.object} />}
+                {this.props.objectType === userConstants.NavItem_Advertisements && <AdvertisementsDetail advertisementToDisplay={this.props.object} />}
             </div>
         )
     }

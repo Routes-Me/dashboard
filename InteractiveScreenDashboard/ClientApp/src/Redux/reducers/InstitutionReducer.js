@@ -59,7 +59,7 @@ const InstitutionReducer = (state = INITIAL_STATE, action) => {
                 Loading: false,
                 hasError: false,
                 Page: action.payload
-            }
+            };
         default:
             return state;
     }

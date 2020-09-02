@@ -38,7 +38,7 @@ export function userSignInRequest(username, password) {
             password: password
         };
         
-        axios.post(userConstants.Domain + '/users/login', userObject)
+        axios.post(userConstants.Domain + 'users/login', userObject)
             .then(
                 response => {
 

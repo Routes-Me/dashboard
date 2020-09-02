@@ -64,9 +64,9 @@ export function addAdvertisement(advertisement) {
                 error => { dispatch(saveAdvertisementFailure(error)) }
             )
     }
-    addAdvertisementRequest = () => { type: advertisement.addAdvertisementRequest }
-    savedAdvertisement = (response) => { type: advertisement.saveAdvertisement }
-    saveAdvertisementFailure = (error) => { type: advertisement.saveAdvertisementFailure }
+    function addAdvertisementRequest() { return { type: advertisementsConstants.saveAdvertisements_REQUEST }; }
+    function savedAdvertisement(response) { return { type: advertisementsConstants.saveAdvertisements_SUCCESS, payload:response }; }
+    function saveAdvertisementFailure(error) { return { type: advertisementsConstants.saveAdvertisements_ERROR, payload:error }; }
 }
 
 export function deleteAdvertisement(id) {
@@ -78,4 +78,37 @@ export function deleteAdvertisement(id) {
                 error => { dispatch(deleteAdvertisementFailure(error)) }
             )
     }
+    function deleteAdvertisementRequest() { return { type: advertisementsConstants.deleteAdvertisements_REQUEST }; }
+    function deletedAdvertisement(response) { return { type: advertisementsConstants.deleteAdvertisements_SUCCESS, payload: response }; }
+    function deleteAdvertisementFailure(error) { return { type: advertisementsConstants.deleteAdvertisements_ERROR, payload: error }; }
+}
+
+
+export function getCampaigns() {
+    return dispatch => {
+        dispatch(getCampaignRequest())
+        axios.get(userConstants.Domain + 'advertisements/campaigns')
+            .then(
+                response => { dispatch(getCampaignsSuccess(response)) },
+                error => { dispatch(getCampaignsFailure(error)) }
+            )
+    }
+    function getCampaignRequest() { return { type: advertisementsConstants.getCampaigns_REQUEST }; }
+    function getCampaignsSuccess(response) { return { type: advertisementsConstants.getCampaigns_SUCCESS, payload: response }; }
+    function getCampaignsFailure(error) { return { type: advertisementsConstants.getCampaigns_ERROR, payload: error }; }
+
+}
+
+export function getDayIntervals() {
+    return dispatch => {
+        dispatch(getDayIntervalRequest())
+        axios.get(userConstants.Domain + 'advertisements/dayintervales')
+            .then(
+                response => { dispatch(getDayIntervalSuccess()) },
+                error => { dispatch(getDayIntervalsFailure()) }
+            )
+    }
+    function getDayIntervalRequest() { return { type: advertisementsConstants.getDayIntervals_REQUEST }; }
+    function getDayIntervalSuccess(response) { return { type: advertisementsConstants.getDayIntervalSuccess, payload: response }; }
+    function getDayIntervalsFailure(error) { return { type: advertisementsConstants.getDayIntervalSuccess, payload: error }; }
 }

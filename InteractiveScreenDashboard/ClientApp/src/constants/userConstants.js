@@ -21,6 +21,7 @@
     NavItem_Drivers: 'Drivers',
     NavItem_Institutions: 'Institutions',
     NavItem_Users: 'Users',
+    NavItem_Advertisements:'Advertisements',
 
     getUsers_REQUEST: "GETUSERS_REQUEST",
     getUsers_SUCCESS: "GETUSERS_SUCCESS",

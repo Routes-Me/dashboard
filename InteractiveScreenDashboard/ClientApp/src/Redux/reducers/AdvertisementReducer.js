@@ -1,8 +1,9 @@
-﻿import { advertisementConstant, advertisementsConstants } from '../../constants/advertisementConstants';
+﻿import { advertisementsConstants } from '../../constants/advertisementConstants';
 
 const INITIAL_STATE = {
-    Advertisement: [],
+    Advertisements: [],
     Campsigns: [],
+    DayIntervals:[],
     Page: "",
     loading: true,
     hasError: false,
@@ -22,7 +23,7 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 loading: false,
                 hasError: false,
-                Advertisement: action.payload
+                Advertisements: action.payload
             };
         case advertisementsConstants.getAdvertisements_ERROR:
             return {
@@ -50,6 +51,8 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 hasError: true,
                 error: action.payload
             };
+        default:
+            return state;
     }
 
 }

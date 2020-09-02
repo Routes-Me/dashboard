@@ -7,6 +7,7 @@ import { SecondaryTracking } from '../components/Tracking/SecondaryTracking';
 import { SecondaryVehicles } from '../components/Vehicles/SecondaryVehicles';
 import { InstitutionsSecondary } from '../components/Institutions/InstitutionsSecondary';
 import { UsersSecondary } from '../components/Users/UsersSecondary';
+import { AdvertisementsSecondary } from '../components/Advertisements/AdvertisementsSecondary';
 
 import { userConstants } from '../constants/userConstants';
 
@@ -117,6 +118,7 @@ class Secondary extends Component {
                 {this.props.selectedNavItem === userConstants.NavItem_Tracking && <SecondaryTracking />}
                 {this.props.selectedNavItem === userConstants.NavItem_Vehicles && <SecondaryVehicles />}
                 {this.props.selectedNavItem === userConstants.NavItem_Institutions && <InstitutionsSecondary />}
+                {this.props.selectedNavItem === userConstants.NavItem_Advertisements && <AdvertisementsSecondary/>}
                 {this.props.selectedNavItem === userConstants.NavItem_Users && <UsersSecondary />}
 
             </div >

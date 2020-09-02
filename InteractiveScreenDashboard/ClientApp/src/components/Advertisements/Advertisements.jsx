@@ -6,19 +6,19 @@ import * as AdvertisementAction from '../../Redux/Action';
 import '../Detail/Detail.css';
 import Pagination from "react-js-pagination";
 
-class Vehicles extends Component {
+class Advertisements extends Component {
 
     constructor(props) {
         super(props)
 
         this.state = {
-            AdvertiseList: [],
+            advertisementList: [],
             loading: true,
             failed: false,
             error: '',
-            activePage: 15,
+            activePage: 1,
             showDetails: false,
-            vehicle: '',
+            advertisement: '',
             optionsIndex: 0
         };
     }
@@ -43,11 +43,11 @@ class Vehicles extends Component {
     }
 
     //show detail screen 
-    showDetailScreen = (e, Vehicle) => {
+    showDetailScreen = (e, Advertisement) => {
         e.preventDefault();
         this.setState({
             showDetails: !this.state.showDetails,
-            vehicle: Vehicle,
+            advertisement: Advertisement,
             optionsIndex: 0
         });
     }
@@ -56,7 +56,7 @@ class Vehicles extends Component {
     //Delete Vehicle function
 
 
-    //Load Vehicles in a table
+    //Load Advertisements in a table
     renderAllAdvertisementTable(Advertisements) {
         return (
             <div className="table-list-vehicles">
@@ -66,7 +66,7 @@ class Vehicles extends Component {
                             <tr>
                                 <th>Name</th>
                                 <th>Day Interval</th>
-                                <th>Campaign</th>
+                                <th>Created At</th>
                                 <th className="width44" />
                             </tr>
                         </thead>
@@ -74,18 +74,18 @@ class Vehicles extends Component {
                             {
                                 Advertisements.map(Advertisement => (
                                     <tr key={Advertisement.id}>
-                                        <td>{Advertisement.plateNumber}</td>
-                                        <td>{Advertisement.model.name}</td>
-                                        <td>{Advertisement.model.name}</td>
+                                        <td>{Advertisement.id}</td>
+                                        <td>{Advertisement.createdAt}</td>
+                                        <td>{Advertisement.createdAt}</td>
                                         <td className="width44" >
                                             <div className="edit-popup">
-                                                <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Vehicle.id)}>
+                                                <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Advertisement.id)}>
                                                     <span />
                                                     <span />
                                                     <span />
                                                 </div>
-                                                <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === Vehicle.id ? 'inline-block' : 'none' }}>
-                                                    <li><a onClick={e => this.showDetailScreen(e, Vehicle)}>Edit</a></li>
+                                                <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === Advertisement.id ? 'inline-block' : 'none' }}>
+                                                    <li><a onClick={e => this.showDetailScreen(e, Advertisement)}>Edit</a></li>
                                                     <li><a>Delete</a></li>
                                                 </ul>
                                             </div>
@@ -113,20 +113,20 @@ class Vehicles extends Component {
         //            <em>{this.state.error}</em>
         //        </div> : this.renderAllVehicleTable(this.state.VehicleList);
 
-        let content = this.renderAllVehicleTable(this.props.VehicleList);
+        let content = this.renderAllAdvertisementTable(this.props.AdvertisementList);
 
         return (
             <div className="vehicles-page" style={{ height: "100vh", width: "100%" }}>
                 {this.state.showDetails ?
                     <Detail className={this.props.show ? 'slide-in' : 'slide-out'}
                         show={this.showDetailScreen}
-                        objectType={userConstants.NavItem_Vehicles}
-                        object={this.state.vehicle} /> :
+                        objectType={userConstants.NavItem_Advertisements}
+                        object={this.state.advertisement} /> :
                     <div>
                         <div className="top-part-vehicles-search padding-lr-80">
                             <div className="hehading-add-butt">
-                                <h3>Vehicles</h3>
-                                <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Add Vehicle</a>
+                                <h3>Advertisements</h3>
+                                <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Add Advertisement</a>
                             </div>
 
                             <div className="search-part">
@@ -174,5 +174,5 @@ const actionCreators = {
     deleteAdvertisements: AdvertisementAction.deleteAdvertisement
 };
 
-const connectedVehicles = connect(mapStateToProps, actionCreators)(Vehicles);
-export { connectedVehicles as Vehicles };
+const connectedAdvertisements = connect(mapStateToProps, actionCreators)(Advertisements);
+export { connectedAdvertisements as Advertisements };

@@ -2,10 +2,11 @@
 import GMap from './GMap';
 import { userConstants } from '../constants/userConstants';
 import { connect } from 'react-redux';
-import { Tracking } from './Tracking';
+import { Tracking } from './Tracking/Tracking';
 import { Vehicles } from './Vehicles/Vehicles';
 import { Institutions } from './Institutions/Institutions';
 import { Users } from './Users/Users';
+import { Advertisements } from './Advertisements/Advertisements';
 
 class Child extends Component {
     render() {
@@ -17,6 +18,7 @@ class Child extends Component {
                 {this.props.selectedNavItem === userConstants.NavItem_Tracking && <Tracking />}
                 {this.props.selectedNavItem === userConstants.NavItem_Institutions && <Institutions />}
                 {this.props.selectedNavItem === userConstants.NavItem_Users && <Users />}
+                {this.props.selectedNavItem === userConstants.NavItem_Advertisements && <Advertisements/>}
             </div>
 
             );
