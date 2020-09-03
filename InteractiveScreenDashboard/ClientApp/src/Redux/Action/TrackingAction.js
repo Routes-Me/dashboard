@@ -86,7 +86,7 @@ export function getOfflineData() {
                 dispatch(OfflineUpdateReceived(idleVehicles.data));
             },
             error => {
-                alert(error.toString());
+                //alert(error.toString());
             });
         //dispatch(OfflineUpdateReceived(sampleOfflineData));
     };

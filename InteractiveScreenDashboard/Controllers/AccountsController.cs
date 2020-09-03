@@ -6,19 +6,20 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
-using System.Collections;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Encryption;
 
 namespace InteractiveScreenDashboard.Controllers
 {
+
+
     [Authorize]
     [Produces("application/json")]
     [Route("api/users")]
@@ -27,8 +28,8 @@ namespace InteractiveScreenDashboard.Controllers
 
         private readonly Iencrypt _Iencrypt;
         private readonly JWTSettings _jwtSettings;
-
         private IAccountService _account;
+
 
         public AccountsController(IAccountService account, Iencrypt iencrypt, IOptions<JWTSettings> jwtsettings)
         {
@@ -190,6 +191,8 @@ namespace InteractiveScreenDashboard.Controllers
             string IVkey = _Iencrypt.IV.ToString();
             //string Salt = _Iencrypt.Salt.ToString();
             string cipher = Encrypt.EncryptAndEncode(text, IVkey, key);
+            EncryptionClass encry = new EncryptionClass();
+            string cipherFromLib = encry.EncryptAndEncode(text,IVkey,key);
             return cipher;
         }
 

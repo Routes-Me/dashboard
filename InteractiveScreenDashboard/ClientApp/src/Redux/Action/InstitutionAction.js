@@ -17,7 +17,7 @@ export function getInstitutions(institutionId, pageIndex) {
                 dispatch(updatePage(institutions.pagination));
             },
             error => {
-                alert(error.toString());
+                //alert(error.toString());
             });
         //const Institutions = MockAPICallForInstitutions();
         //const servicesData = MockAPICallForInstitutions().include.services;
@@ -94,7 +94,7 @@ export function saveInstitution(institution) {
                     dispatch(saveInstitutionSuccess);
                 },
                 error => {
-                    alert(error.toString());
+                    //alert(error.toString());
                 });
         }
         else
@@ -105,7 +105,7 @@ export function saveInstitution(institution) {
                     dispatch(saveInstitutionSuccess);
                 },
                 error => {
-                    alert(error.toString());
+                    //alert(error.toString());
                 });
         }
     }
@@ -133,7 +133,7 @@ export function getServicesList(pageIndex) {
                 dispatch(storeServicesData(services.data.services));
             },
             error => {
-                alert(error.toString());
+                //alert(error.toString());
             });
 
         //const Services = MockAPICallforServices();

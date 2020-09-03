@@ -48,6 +48,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="Encryption">
+      <HintPath>..\..\..\..\Desktop\encrypt\Encryption\Encryption\bin\Release\netstandard2.0\Encryption.dll</HintPath>
+    </Reference>
+    <Reference Include="VideoConvertor">
+      <HintPath>..\..\VideoConvertor\VideoConvertor\bin\Release\netstandard2.0\VideoConvertor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>

@@ -16,7 +16,7 @@ export function getUsers(institutionId, pageIndex) {
                 dispatch(updatePage(users.pagination));
                 },
                 error => {
-                    alert(error.toString());
+                   // alert(error.toString());
                 });
         //dispatch(UsersDataRequest());
         //const Users = MockAPICallForUsers();
@@ -103,7 +103,7 @@ export function getUserRoles(pageIndex) {
                 //dispatch(updatePage(vehicles.pagination));
             },
             error => {
-                alert(error.toString());
+                //alert(error.toString());
             });
 
         //const userRoles = mockAPICallForUserRoles();
@@ -157,7 +157,7 @@ export function saveUser(user) {
                     dispatch(saveUserDataSuccess);
                 },
                 error => {
-                    alert(error.toString());
+                    //alert(error.toString());
                 });
         }
         else {
@@ -167,7 +167,7 @@ export function saveUser(user) {
                     dispatch(saveUserDataSuccess);
                 },
                 error => {
-                    alert(error.toString());
+                    //alert(error.toString());
                 });
         }
         

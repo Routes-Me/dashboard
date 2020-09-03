@@ -20,7 +20,7 @@ export function getVehiclesForInstitutionID(institutionId, pageIndex) {
                 dispatch(UpdatePage(vehicles.pagination));
         },
         error => {
-            alert(error.toString());
+            //alert(error.toString());
         });
 
         //const FormatedVehicle = MockAPICallForVehicles(institutionId, pageIndex)
@@ -59,7 +59,7 @@ export function getModels(makeId) {
                         dispatch(storeModelData(model.data.models));
                     },
                error => {
-                        alert(error.toString());
+                        //alert(error.toString());
             });
 
             dispatch(storeModelData(returnModelsByMockAPICallforModels().manuFacturersDetails.data.carModels))
@@ -83,7 +83,7 @@ export function getManufacturers() {
                 dispatch(StoreMakesData(manufacturer.data.manufacturers));
                 },
                 error => {
-                    alert(error.toString());
+                    //alert(error.toString());
                 });
 
     }
@@ -126,7 +126,7 @@ export function saveVehicle(vehicle) {
                         dispatch(saveVehicleSuccess(vehicle));
                     },
                     error => {
-                        alert(error.toString());
+                        //alert(error.toString());
                     });
         } else {
             axios.put(userConstants.Domain + 'vehicles?' + vehicle)
@@ -135,7 +135,7 @@ export function saveVehicle(vehicle) {
                         dispatch(updateVehicleSuccess(vehicle));
                     },
                     error => {
-                        alert(error.toString());
+                        //alert(error.toString());
                     });
             
         }

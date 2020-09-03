@@ -54,7 +54,7 @@ export function userSignInRequest(username, password) {
                 },
                 error => {
                     dispatch(getLoginFailure(error.toString()));
-                    alert(error.toString());
+                    //alert(error.toString());
                     //dispatch(alertActions.error(error.toString()));
                 }
             );
@@ -86,7 +86,7 @@ export function forgotPassword(email) {
                 },
                 error => {
                     dispatch(ForgotPasswordfailure(error.toString()));
-                    alert(error.toString());
+                    //alert(error.toString());
                     //dispatch(alertActions.error(error.toString()));
                 }
             );
@@ -127,7 +127,7 @@ export function ResetPassword(institutionObject) {
                 },
                 error => {
                     dispatch(ResetPasswordfailure(error.toString()));
-                    alert(error.toString());
+                    //alert(error.toString());
                     //dispatch(alertActions.error(error.toString()));
                 }
             );

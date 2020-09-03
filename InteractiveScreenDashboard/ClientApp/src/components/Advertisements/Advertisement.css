@@ -1,5 +1,6 @@
 ﻿.files input {
     outline: 1px dashed #000000;
+    background-color: rgba(24, 66, 143, 0.15);
     outline-offset: -17px;
     -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
     transition: outline-offset .15s ease-in-out, background-color .15s linear;
@@ -11,7 +12,8 @@
 
     .files input:focus {
         outline: 1px dashed #000000;
-        outline-offset: -17px;
+        background-color: rgba(24, 66, 143, 0.2); 
+        outline-offset: -10px;
         -webkit-transition: outline-offset .15s ease-in-out, background-color .15s linear;
         transition: outline-offset .15s ease-in-out, background-color .15s linear;
         border: 1px solid #000000;
@@ -56,4 +58,13 @@
     font-weight: 600;
     text-transform: capitalize;
     text-align: center;
+}
+
+
+.form-group{
+    margin-top:30px;
+}
+
+.simulator {
+    float:right;
 }
