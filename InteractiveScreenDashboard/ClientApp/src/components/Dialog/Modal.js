@@ -33,7 +33,7 @@ class Modal extends React.Component {
                             {
                                 searchList.map(obj => (
                                     <tr key={obj.id} onClick>
-                                        <td style={{ textAlign: "left", paddingLeft: 39 }}>{obj.name}</td>
+                                        <td style={{ textAlign: "center", paddingLeft: 39 }}>{obj.name}</td>
                                     </tr>
                                     ))
                                 }

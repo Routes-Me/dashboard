@@ -16,7 +16,7 @@ namespace InteractiveScreenDashboard.Data.Services
         Users DeleteUserAccount(int id);
         Users AddUserAccount(Users Acc);
 
-        Users UserAccountAccess(String Username, String Password);
+        Task<Users> UserAccountAccessAsync(string Username, string Password);
 
         bool UserAccountExist(int id);
 

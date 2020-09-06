@@ -74,7 +74,6 @@ class AdvertisementsDetail extends React.Component {
                 <Form onSubmit={e => this.handleSubmit(e)}>
                     <div className="row">
                     <div class="col-md-6">
-
                         <div className="row form-group">
                             <div className="col-md-10">
                                 <Label>Name</Label><br />
@@ -133,8 +132,19 @@ class AdvertisementsDetail extends React.Component {
                         {/*<div className="align-self-end ml-auto" style={{ textAlign: "end" }}><button type="submit" className="btn btn-primary"> {buttonText} </button></div>*/}
 
                         </div>
-                        <div className="col-md-6 justify-content-center">
-                            <img className="simulator" src={simulator} draggable="false" />
+                        <div className="col-md-6">
+                            <div className="col-md-12 simulator">
+                                <div className="container row topPanel">
+                                    <div className="banner1">1280 X 720</div>
+                                    <div className="banner2">160 X 600</div>
+                                </div>
+                                <div className="container row bottomPanel">
+                                    <div className="banner3"></div>
+                                    <div className="banner4"></div>
+                                </div>
+                            </div>
+
+
                         </div>
                     </div>
                 </Form>

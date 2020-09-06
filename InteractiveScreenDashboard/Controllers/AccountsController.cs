@@ -55,7 +55,7 @@ namespace InteractiveScreenDashboard.Controllers
             //string decodedCipher = decodePassword(testPassword);
 
 
-            var acc = _account.UserAccountAccess(email, account.Password);
+            var acc = _account.UserAccountAccessAsync(email, account.Password);
 
             return Ok(acc);
             //if (acc!= null)

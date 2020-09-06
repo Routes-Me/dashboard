@@ -1,13 +1,16 @@
 ﻿using InteractiveScreenDashboard.Data.Models;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace InteractiveScreenDashboard.Data.Services
 {
     
+
 
     public class AccountService : IAccountService
     {
@@ -57,13 +60,24 @@ namespace InteractiveScreenDashboard.Data.Services
             //return Acc;
         }
 
-        public Users UserAccountAccess(string Username, string Password)
+        public async Task<Users> UserAccountAccessAsync(
+            string Username, string Password)
         {
             Users acc = context.Users.Include(u=>u.User_Roles).FirstOrDefault(x => (x.Email.Equals(Username) && x.Password.Equals(Password))) ;
             if (acc != null)
             {
                 return acc;
             }
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:8888/api/v1/signin"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    //reservationList = JsonConvert.DeserializeObject<LoggedInUser>(apiResponse);
+                }
+            }
+
             return null;
         }
 
@@ -87,5 +101,6 @@ namespace InteractiveScreenDashboard.Data.Services
             Users user = context.Users.FirstOrDefault(i => i.Email.Equals(email));
             return user;
         }
+
     }
 }

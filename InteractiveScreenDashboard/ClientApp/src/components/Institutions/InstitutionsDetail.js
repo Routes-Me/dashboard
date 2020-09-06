@@ -101,8 +101,8 @@ class InstitutionsDetail extends React.Component {
 
                         <br /><br />
 
-                        <div className="align-self-end ml-auto" style={{ textAlign: "end" }}><button type="submit" className="btn btn-primary"> {buttonText} </button></div>
-
+                        {/*<div className="align-self-end ml-auto" style={{ textAlign: "end" }}><button type="submit" className="btn btn-primary"> {buttonText} </button></div>
+                        */}
                     </div>
                 </Form>
             </div>

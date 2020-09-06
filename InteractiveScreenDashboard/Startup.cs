@@ -58,7 +58,11 @@ namespace InteractiveScreenDashboard
             services.AddScoped<IInstitutionService, InstitutionService>();
             services.AddScoped<ITrackingServices, TrackingServices>();
             services.AddScoped<IDriverService, DriverService>();
-
+            services.AddHttpClient();
+            services.AddHttpClient("meta", c =>
+            {
+                c.BaseAddress = new Uri(Configuration.GetValue<string>("MetaAPI"));
+            });
 
             ////JWT 
             //var jwtSettings = Configuration.GetSection("JWTSettings");

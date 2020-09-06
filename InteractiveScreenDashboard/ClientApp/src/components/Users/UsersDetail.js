@@ -19,7 +19,8 @@ class UsersDetail extends React.Component {
             phone:"",
             userRoles: [],
             user: "",
-            application:[]
+            application: [],
+            errorText:""
         }
     }
 
@@ -82,6 +83,7 @@ class UsersDetail extends React.Component {
                                     value={userObj.email}
                                     onChange={this.onChange}
                                     className="form-control" />
+                                <span className="form-error is-visible">{this.state.errorText}</span>
                             </div>
                         </div>
                         
@@ -104,6 +106,7 @@ class UsersDetail extends React.Component {
                                     value={userObj.email}
                                     onChange={this.onChange}
                                     className="form-control" />
+                                <span className="form-error is-visible">{this.state.errorText}</span>
                             </div>
                         </div>
 
@@ -115,6 +118,7 @@ class UsersDetail extends React.Component {
                                     defaultValue={userObj.phone}
                                     onChange={this.onChange}
                                     className="form-control" />
+                                <span className="form-error is-visible">{this.state.errorText}</span>
                             </div>
                         </div>
 
@@ -140,9 +144,9 @@ class UsersDetail extends React.Component {
 
 
                         <br /><br />
-
+                        {/*
                         <div className="align-self-end ml-auto" style={{ textAlign: "end" }}><button type="submit" className="btn btn-primary"> {buttonText} </button></div>
-
+                        */}
                     </div>
                 </Form>
             </div>

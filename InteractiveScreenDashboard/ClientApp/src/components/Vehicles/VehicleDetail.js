@@ -147,7 +147,7 @@ class VehicleDetail extends React.Component {
                                 <Label>Make</Label><br />
                                 <div class="btn-grp dropright">
                                     <button type="button" class="btn btn-block btn-light dropdown-toggle" aria-haspopup="true" aria-expanded="false" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Makers)}>
-                                        {vehicleObj ? this.state.model.name : "Select a model"}
+                                        {vehicleObj ? this.state.model.name : "Select a Manufacturer"}
                                     </button>
                                 </div>
                                 {/*<select defaultValue={vehicleObj ? vehicleObj.model.id : "Select a model"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
@@ -162,7 +162,7 @@ class VehicleDetail extends React.Component {
                                 <Label>Model</Label><br />
                                 <div class="btn-grp dropright">
                                     <button type="button" class="btn btn-block btn-light dropdown-toggle" aria-haspopup="true" aria-expanded="false" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Models)}>
-                                        {vehicleObj ? this.state.model.name : "Select a model"}
+                                        {vehicleObj ? this.state.model.name : "Select a Model"}
                                     </button>
                                 </div>
                                 {/*<select defaultValue={vehicleObj ? vehicleObj.model.id : "Select a model"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
@@ -191,13 +191,13 @@ class VehicleDetail extends React.Component {
                                         onChange={this.onChange}
                                         className="textFieldStyle" />
                                 </div>
-                            </div>*/}
+                            </div>
 
                             
                             <br /><br />
 
                             <div className="align-self-end ml-auto" style={{ textAlign: "end" }}><button type="submit" className="btn btn-primary"> {buttonText} </button></div>
-
+                        */}
                         </div>
                     </Form>
             </div>

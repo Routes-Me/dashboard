@@ -38,7 +38,7 @@ export default class App extends Component {
                         <Route path='/forgotpassword' component={ForgotPassword} />
                         <Route path='/newpassword' component={savePassword} />
                         <Route path='/resetpassword/:email' component={ResetPassword}/>
-                            <Redirect from="*" to="/" />
+                        <Redirect from="*" to="/" />
                         </Suspense>
                     </Switch>
                 </Router >

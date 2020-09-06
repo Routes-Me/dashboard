@@ -28,7 +28,7 @@ export default class Detail extends Component {
                     </div>
                     <div className="col-md-6">
                         {/*< DetailHeader objectType={this.props.objectType} object={this.props.object} show={this.props.show} />*/}
-                        <button type="submit" className="btn btn-primary"> {action} </button>
+                        <button type="submit" className="btn btn-primary btn-save"> {action} </button>
                     </div>
                  </div>
                 {/*< DetailHeader objectType={this.props.objectType} object={this.props.object} show={this.props.show} />*/}
