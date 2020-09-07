@@ -15,6 +15,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Encryption;
+using System.Net.Http;
 
 namespace InteractiveScreenDashboard.Controllers
 {
@@ -50,12 +51,12 @@ namespace InteractiveScreenDashboard.Controllers
             }
 
             string email = account.email;
-            string password = encryptPassword(account.Password);
+            string password = encryptPassword(account.password);
             //string testPassword = "aypkE2WKlaKhsRUPsXzpFPXZyBZ2NhDHHq8wd6JwJwA==";
             //string decodedCipher = decodePassword(testPassword);
 
 
-            var acc = _account.UserAccountAccessAsync(email, account.Password);
+            var acc = _account.UserAccountAccessAsync(email, account.password);
 
             return Ok(acc);
             //if (acc!= null)
@@ -329,5 +330,8 @@ namespace InteractiveScreenDashboard.Controllers
 
             return body;
         }
+
+
+
     }
 }

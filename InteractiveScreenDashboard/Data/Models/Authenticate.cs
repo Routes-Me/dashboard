@@ -12,6 +12,6 @@ namespace InteractiveScreenDashboard.Data.Models
         public string email { get; set; }
 
         [Required]
-        public string Password { get; set; }
+        public string password { get; set; }
     }
 }

@@ -58,11 +58,23 @@ namespace InteractiveScreenDashboard
             services.AddScoped<IInstitutionService, InstitutionService>();
             services.AddScoped<ITrackingServices, TrackingServices>();
             services.AddScoped<IDriverService, DriverService>();
+
+            //httpclient configuraion
             services.AddHttpClient();
-            services.AddHttpClient("meta", c =>
+            string baseURL = Configuration.GetValue<string>("MetaAPI");
+            services.AddHttpClient("Staging", client =>
             {
-                c.BaseAddress = new Uri(Configuration.GetValue<string>("MetaAPI"));
+                client.BaseAddress = new Uri(baseURL);
+                //client.DefaultRequestHeaders("Testing header", "");
             });
+
+            //Email Configuration
+            var emailConfig = Configuration
+            .GetSection("EmailConfiguration")
+            .Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
+
+
 
             ////JWT 
             //var jwtSettings = Configuration.GetSection("JWTSettings");
@@ -92,11 +104,7 @@ namespace InteractiveScreenDashboard
             //    };
             //});
 
-            //Email Configuration
-            var emailConfig = Configuration
-            .GetSection("EmailConfiguration")
-            .Get<EmailConfiguration>();
-            services.AddSingleton(emailConfig);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

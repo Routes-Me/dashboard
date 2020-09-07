@@ -1,24 +1,24 @@
 ﻿using InteractiveScreenDashboard.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace InteractiveScreenDashboard.Data.Services
 {
-    
-
 
     public class AccountService : IAccountService
     {
         private readonly AppDBContext context;
+        private readonly IHttpClientFactory _clientFactory;
 
-        public AccountService(AppDBContext context)
+        public AccountService(AppDBContext context, IHttpClientFactory clientFactory )
         {
             this.context = context;
+            this._clientFactory = clientFactory;
         }
 
 
@@ -60,8 +60,7 @@ namespace InteractiveScreenDashboard.Data.Services
             //return Acc;
         }
 
-        public async Task<Users> UserAccountAccessAsync(
-            string Username, string Password)
+        public async Task<Users> UserAccountAccessAsync(string Username, string Password)
         {
             Users acc = context.Users.Include(u=>u.User_Roles).FirstOrDefault(x => (x.Email.Equals(Username) && x.Password.Equals(Password))) ;
             if (acc != null)
@@ -69,14 +68,26 @@ namespace InteractiveScreenDashboard.Data.Services
                 return acc;
             }
 
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync("https://localhost:8888/api/v1/signin"))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    //reservationList = JsonConvert.DeserializeObject<LoggedInUser>(apiResponse);
-                }
-            }
+            Authenticate user = new Authenticate();
+            user.email = Username;
+            user.password = Password;
+
+            //var userObj = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions),Encoding.UTF8,"application/json");
+            //var userObj="";
+            //var client = _clientFactory.CreateClient("Staging");
+            //var response = await client.PostAsync("/api/v1/signin", userObj);
+
+            //using (var httpClient = new HttpClient())
+            //{
+            //    LoggedInUser user = new LoggedInUser();
+                
+            //    using (var response = await httpClient.GetAsync("https://localhost:8888/api/v1/signin"))
+            //    {
+            //        string apiResponse = await response.Content.ReadAsStringAsync();
+            //        user = JsonConvert.DeserializeObject<LoggedInUser>(apiResponse);
+            //    }
+            //}
+
 
             return null;
         }
