@@ -5,7 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
+using System.Net.Http.Json;
+using Microsoft.AspNetCore.Mvc;
+using InteractiveScreenDashboard.Client;
 
 namespace InteractiveScreenDashboard.Data.Services
 {
@@ -13,12 +17,13 @@ namespace InteractiveScreenDashboard.Data.Services
     public class AccountService : IAccountService
     {
         private readonly AppDBContext context;
-        private readonly IHttpClientFactory _clientFactory;
+        //private readonly IHttpClientFactory _clientFactory;
+        private readonly JsonSerializerOptions _jsonSerializerOptions;
+        private readonly HttpClient client;
 
-        public AccountService(AppDBContext context, IHttpClientFactory clientFactory )
+        public AccountService(AppDBContext context )
         {
             this.context = context;
-            this._clientFactory = clientFactory;
         }
 
 
@@ -68,19 +73,25 @@ namespace InteractiveScreenDashboard.Data.Services
                 return acc;
             }
 
+            
+
             Authenticate user = new Authenticate();
             user.email = Username;
             user.password = Password;
 
-            //var userObj = new StringContent(JsonSerializer.Serialize(user, _jsonSerializerOptions),Encoding.UTF8,"application/json");
+            var userObj = new StringContent(System.Text.Json.JsonSerializer.Serialize(user, _jsonSerializerOptions),Encoding.UTF8,"application/json");
             //var userObj="";
             //var client = _clientFactory.CreateClient("Staging");
-            //var response = await client.PostAsync("/api/v1/signin", userObj);
+            //var response = await client.PostAsJsonAsync("/api/v1/signin", user);
+
+
+            
+           
 
             //using (var httpClient = new HttpClient())
             //{
             //    LoggedInUser user = new LoggedInUser();
-                
+
             //    using (var response = await httpClient.GetAsync("https://localhost:8888/api/v1/signin"))
             //    {
             //        string apiResponse = await response.Content.ReadAsStringAsync();
@@ -113,5 +124,10 @@ namespace InteractiveScreenDashboard.Data.Services
             return user;
         }
 
+
+        //public Task<HttpResponseMessage> Typed([FromServices] CustomHttpClient client, Authenticate user)
+        //{
+        //    return client.Login(user);
+        //}
     }
 }

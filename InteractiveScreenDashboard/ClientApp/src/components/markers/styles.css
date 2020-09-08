@@ -2,6 +2,10 @@
     background-repeat: no-repeat;
     background-position: center;
     background-size: 100%;
+    width: 40px;
+    height: 40px;
+    top: -20px;
+    bottom: -20px;
 }
 
 .active marker {
@@ -10,25 +14,26 @@
 
 .idle marker {
     background-image: url('../image/icon-2.png');
+    
 }
 
 .active-cluster {
     background-image: url('../image/big-icon-2.png');
-    position: absolute;
-    cursor: pointer;
     width: 60px;
     height: 60px;
     text-align: center;
     color: #ffffff;
     font-size: 14px;
     font-weight: bold;
-    display: flex;
     align-items: center;
     justify-content: center;
+    position: absolute;
+    cursor: pointer;
+    display: flex;
 }
 
 
-.idle-cluster {
+.idle-cluster   {
     background-image: url('../image/big-icon-1.png');
     position: absolute;
     cursor: pointer;

@@ -3,7 +3,6 @@ import compose from 'recompose/compose';
 import defaultProps from 'recompose/defaultProps';
 import { Motion } from 'react-motion';
 import { clusterMarkerHOC } from './ClusterMarker.js';
-import OnlineMarkerStyles from './SimpleMarker.sass';
 import style from './styles.css';
 import $ from "jquery";
 

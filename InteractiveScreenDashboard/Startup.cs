@@ -14,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using System.Text;
 using System;
+using InteractiveScreenDashboard.Client;
 
 namespace InteractiveScreenDashboard
 {
@@ -49,6 +50,22 @@ namespace InteractiveScreenDashboard
             //Encryption
             services.AddSingleton(Configuration.GetSection("AES").Get<Iencrypt>());
 
+            ////httpclient configuraion
+            //services.AddHttpClient();
+            //string baseURL = Configuration.GetValue<string>("MetaAPI");
+            //services.AddHttpClient("Staging", client =>
+            //{
+            //    client.BaseAddress = new Uri(baseURL);
+            //    //client.DefaultRequestHeaders("Testing header", "");
+            //});
+
+            ////Base Configuration with 
+            //services.AddTransient<HttpContextMiddleware>();
+            //services.AddHttpClient<CustomHttpClient>("Typed", client => {
+            //    client.BaseAddress = new Uri(baseURL);
+            //}).AddHttpMessageHandler<HttpContextMiddleware>();
+
+
             //Table Configuration
             services.AddDbContextPool<AppDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("RoutesMeDBConnection")));
             //services.AddDbContextPool<AppDBContext>(options => options.UseInMemoryDatabase("RoutesMeDB"));
@@ -59,14 +76,7 @@ namespace InteractiveScreenDashboard
             services.AddScoped<ITrackingServices, TrackingServices>();
             services.AddScoped<IDriverService, DriverService>();
 
-            //httpclient configuraion
-            services.AddHttpClient();
-            string baseURL = Configuration.GetValue<string>("MetaAPI");
-            services.AddHttpClient("Staging", client =>
-            {
-                client.BaseAddress = new Uri(baseURL);
-                //client.DefaultRequestHeaders("Testing header", "");
-            });
+            
 
             //Email Configuration
             var emailConfig = Configuration
