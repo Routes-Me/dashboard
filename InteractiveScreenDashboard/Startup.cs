@@ -60,11 +60,10 @@ namespace InteractiveScreenDashboard
             //});
 
             //Base Configuration with
-            //services.AddTransient<HttpContextMiddleware>();
-            //services.AddHttpClient<CustomHttpClient>("Typed", client =>
-            //{
-            //    client.BaseAddress = new Uri(baseURL);
-            //}).AddHttpMessageHandler<HttpContextMiddleware>();
+            services.AddHttpClient<CustomHttpClient>("Typed", client =>
+            {
+                client.BaseAddress = new Uri(baseURL);
+            });
 
 
             //Table Configuration
