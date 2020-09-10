@@ -1,10 +1,10 @@
-﻿import React, { Component, useState, useRef } from 'react';
+﻿import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as TrackingAction from '../../Redux/Action';
 import GoogleMapReact from 'google-map-react';
+//import GoogleMap from 'google-map-react';
 import ClusterMarker from '../markers/ClusterMarker';
 import SimpleMarker from '../markers/SimpleMarker';
-import OfflineMarker from '../markers/OfflineMarker';
 import supercluster from 'points-cluster';
 import { susolvkaCoords, markersData } from '../data/fakeData';
 import IdleTimer from 'react-idle-timer';
@@ -14,7 +14,7 @@ const MAP = {
     defaultZoom: 7,
     defaultCenter: susolvkaCoords,
     options: {
-        minZoom: 2,
+        minZoom: 7,
         maxZoom: 15,
         style: {
             position: 'relative',
@@ -29,7 +29,7 @@ const MAP = {
 
 
 class Tracking extends Component {
-
+    
     constructor(props) {
 
         super(props);
@@ -38,9 +38,9 @@ class Tracking extends Component {
         this.onAction = this._onAction.bind(this)
         this.onActive = this._onActive.bind(this)
         this.onIdle = this._onIdle.bind(this)
-        this.onChildClick = this.onChildClick.bind(this)
+        //this.onChildClick = this.onChildClick.bind(this)
         //this.handleMapChange = this.handleMapChange.bind(this)
-        this.onChildMouseEnter = this.onChildMouseEnter.bind(this)
+        //this.onChildMouseEnter = this.onChildMouseEnter.bind(this)
         this.state = {
 
             loading: false,
@@ -66,6 +66,8 @@ class Tracking extends Component {
         };
 
     }
+
+    
 
     //Clustering handled by 3rd Party Supercluster
     getClusters = () => {
@@ -234,25 +236,47 @@ class Tracking extends Component {
                 longitude: childProps.lng,
                 hover: true,
                 selectedId: num
-            })
-            this.props.UpdateTheSelectedMarker(num);
-            console.log('selected id :', this.state.selectedId)
+            });
+
+            this.props.UpdateTheSelectedMarker(this.props.idForSelectedVehicle === num ? 0 : num);
+            //this.props.onCenterChange([childProps.lat, childProps.lng]);
+            //console.log('selected id :', this.state.selectedId);
+
         }
     }
+
+    _handleZoomChanged() {
+        const zoomLevel = this.refs.map.getZoom();
+        if (zoomLevel !== this.state.zoomLevel) {
+            this.setState({ zoomLevel });
+        }
+    }
+
+    _handleCenterChanged() {
+        const center = this.refs.map.getCenter();
+        if (!center.equals(this.state.center)) {
+            this.setState({ center });
+        }
+    }
+    
+
 
     //style rendering
     markerStyleName( status, isGrouped, isSelected ) {
         
         if (status === trackingConstants.IdleState) {
-            return isGrouped ? "idle-cluster" : (isSelected ? "idle-marker selected" : "idle-marker")
+            return isGrouped ? "idle-cluster" : (isSelected ? "selected-marker" : "idle-marker")
         }
         else {
-            return isGrouped ? "active-cluster" : (isSelected ? "active-marker selected" : "active-marker")
+            return isGrouped ? "active-cluster" : (isSelected ? "selected-marker" : "active-marker")
         }
+
     }
 
     componentWillReceiveProps() {
+
         //this.getClusters();
+
     }
 
     //setSelectedMarker = (marker) => {
@@ -287,7 +311,8 @@ class Tracking extends Component {
                     options={MAP.options}
                     onChange={this.handleMapChange}
                     onChildClick={this.onChildClick}
-                    onChildMouseEnter={this.onChildMouseEnter}
+                    onCenterChanged={this._handleCenterChanged.bind(this)}
+                    onZoomChanged={this._handleZoomChanged.bind(this)}
                     yesIWantToUseGoogleMapApiInternals>
                     {
                         clusters.map((cluster, index) => {
@@ -316,7 +341,6 @@ class Tracking extends Component {
                             }
                         })
                     }
-                    
                 </GoogleMapReact>
                 
             </div>

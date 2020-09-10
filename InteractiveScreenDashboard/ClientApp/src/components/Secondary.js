@@ -48,7 +48,7 @@ class Secondary extends Component {
     //Toggle Acordian
     showVehicle(index) {
         //this.setState({ selectedIndex: index });
-        this.props.UpdateTheSelectedMarker(index);
+            this.props.UpdateTheSelectedMarker(this.props.idForidForSelectedVehicle === index ? 0 : index);
     }
 
     toggleFilter(filterType) {

@@ -52,16 +52,17 @@ namespace InteractiveScreenDashboard
 
             ////httpclient configuraion
             //services.AddHttpClient();
-            //string baseURL = Configuration.GetValue<string>("MetaAPI");
+            string baseURL = Configuration.GetValue<string>("MetaAPI");
             //services.AddHttpClient("Staging", client =>
             //{
             //    client.BaseAddress = new Uri(baseURL);
             //    //client.DefaultRequestHeaders("Testing header", "");
             //});
 
-            ////Base Configuration with 
+            //Base Configuration with
             //services.AddTransient<HttpContextMiddleware>();
-            //services.AddHttpClient<CustomHttpClient>("Typed", client => {
+            //services.AddHttpClient<CustomHttpClient>("Typed", client =>
+            //{
             //    client.BaseAddress = new Uri(baseURL);
             //}).AddHttpMessageHandler<HttpContextMiddleware>();
 

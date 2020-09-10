@@ -4,8 +4,7 @@ import defaultProps from 'recompose/defaultProps';
 import withPropsOnChange from 'recompose/withPropsOnChange';
 import pure from 'recompose/pure';
 import { Motion, spring } from 'react-motion';
-import clusterMarkerStyles from './ClusterMarker.sass';
-import style from './styles.css';
+import markerStyle from './SimpleMarker.scss';
 import $ from "jquery";
 
 
@@ -25,7 +24,7 @@ export const clusterMarker = ({
     style={motionStyle}>
     {
         ({ scale }) => (
-        <div className={styles} onClick={onMarkerClick} style={{ transform: `translate3D(0,0,0) scale(${scale}, ${scale})`, }}>
+            <div className={styles} onClick={onMarkerClick} style={{ transform: `translate3D(0,0,0) scale(${scale}, ${scale})`, }}>
         <div className="text">
           {text}
         </div>
@@ -38,8 +37,8 @@ export const clusterMarker = ({
 
 export const clusterMarkerHOC = compose(
     defaultProps({
+        styles: markerStyle,
         text: '0',
-        styles: style,
         initialScale: 0.6,
         defaultScale: 1,
         hoveredScale: 1.15,
