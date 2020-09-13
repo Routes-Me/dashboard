@@ -1,6 +1,7 @@
 ﻿import { MockServerData } from '../../constants/MockServerData';
 import { userConstants } from '../../constants/userConstants';
 import axios from 'axios';
+import { stripBasename } from 'history/PathUtils';
 
 //Get UsersList
 export function getUsers(institutionId, pageIndex) {
@@ -114,6 +115,23 @@ export function getUserRoles(pageIndex) {
 }
 function userRolesRequest() { return { type: userConstants.getUserRoles_REQUEST } }
 function storeUserRoles(roles) { return { type: userConstants.update_USERROLES, payload: roles } }
+
+//Autherize the logged in user with the userRole
+export function getAutherization(roleId) {
+
+    return dispatch => {
+        dispatch(navItemRequest);
+        var url = userConstants.Domain + 'users/autherization/'
+        axios.get(url + roleId).then(
+            navObj => { dispatch(storeNavItems(navObj.data.navItems)) },
+            error => { alert(error.toString()) }
+        );
+    }
+}
+function navItemRequest() { return { type: userConstants.getNavItems_REQUEST } };
+function storeNavItems(navItems) {
+    return { type: userConstants.getNavItems_SUCCESS, payload: navItems }
+} 
 
 
 //Update with API

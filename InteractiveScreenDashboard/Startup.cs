@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authentication.OAuth;
 using System.Text;
 using System;
 using InteractiveScreenDashboard.Client;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace InteractiveScreenDashboard
 {
@@ -40,6 +41,12 @@ namespace InteractiveScreenDashboard
             }));
 
             services.AddControllersWithViews();
+            //Forward Header
+            //services.Configure<ForwardedHeadersOptions>(options =>
+            //{
+            //    options.ForwardedHeaders =
+            //        ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            //});
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -86,34 +93,6 @@ namespace InteractiveScreenDashboard
 
 
 
-            ////JWT 
-            //var jwtSettings = Configuration.GetSection("JWTSettings");
-            //services.Configure<JWTSettings>(jwtSettings);
-
-
-            ////to validate the token which has been sent by clients
-            //var appSettings = jwtSettings.Get<JWTSettings>();
-            //var key = Encoding.ASCII.GetBytes(appSettings.SecretKey);
-
-            //services.AddAuthentication(x =>
-            //{
-            //    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //})
-            //.AddJwtBearer(x =>
-            //{
-            //    x.RequireHttpsMetadata = true;
-            //    x.SaveToken = true;
-            //    x.TokenValidationParameters = new TokenValidationParameters
-            //    {
-            //        ValidateIssuerSigningKey = true,
-            //        IssuerSigningKey = new SymmetricSecurityKey(key),
-            //        ValidateIssuer = false,
-            //        ValidateAudience = false,
-            //        ClockSkew = TimeSpan.Zero
-            //    };
-            //});
-
 
         }
 
@@ -123,6 +102,7 @@ namespace InteractiveScreenDashboard
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                //app.UseForwardedHeaders();
             }
             else
             {

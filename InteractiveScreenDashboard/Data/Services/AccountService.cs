@@ -104,6 +104,13 @@ namespace InteractiveScreenDashboard.Data.Services
         }
 
 
+        public NavMenu getAutherizationForId(int Id)
+        {
+            NavMenu AutherizeObj = Data.NavList.FirstOrDefault(x => x.UserRoleId == Id);
+            return  AutherizeObj;
+        }
+
+
 
         public Users AddUserAccount(Users Acc)
         {

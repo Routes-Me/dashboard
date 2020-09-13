@@ -18,6 +18,8 @@ namespace InteractiveScreenDashboard.Data.Services
 
         Task<Users> UserAccountAccessAsync(string Username, string Password);
 
+        NavMenu getAutherizationForId(int userId);
+
         bool UserAccountExist(int id);
 
         Users UserEmailExistAsync(string email);

@@ -164,11 +164,6 @@ namespace InteractiveScreenDashboard.Controllers
         }
 
 
-
-
-        
-
-
         private string decryptPassword(string cipher)
         {
             string key = _Iencrypt.Key.ToString();
@@ -234,7 +229,15 @@ namespace InteractiveScreenDashboard.Controllers
             return Ok(updatedUser);
         }
 
-        private string GenerateAccessToken(int userId)
+        [AllowAnonymous]
+        [HttpGet("autherization/{Id}")]
+        public IActionResult getAutherization([FromRoute]int Id)
+        {
+            NavMenu autherizationObj = _account.getAutherizationForId(Id);
+            return Ok(autherizationObj);
+        }
+
+       private string GenerateAccessToken(int userId)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.SecretKey);
@@ -330,6 +333,9 @@ namespace InteractiveScreenDashboard.Controllers
 
             return body;
         }
+
+
+       
 
 
 

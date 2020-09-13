@@ -8,30 +8,43 @@ namespace InteractiveScreenDashboard.Data
 {
     public class Data
     {
-    //public static List<UserAccount> Accounts => UserAccounts;
-    //static List<UserAccount> UserAccounts = new List<UserAccount>()
-    //{
-    //    new UserAccount()
-    //    {
-    //        Id=1,
-    //        UserName="vtharaka@routesme.com",
-    //        Password="Tester@123",
-    //        Name = "Vivian",
-    //        AccountTypeId =1
+        //public static List<UserAccount> Accounts => UserAccounts;
+        //static List<UserAccount> UserAccounts = new List<UserAccount>()
+        //{
+        //    new UserAccount()
+        //    {
+        //        Id=1,
+        //        UserName="vtharaka@routesme.com",
+        //        Password="Tester@123",
+        //        Name = "Vivian",
+        //        AccountTypeId =1
 
-    //    },
-    //     new UserAccount()
-    //    {
-    //        Id=2,
-    //        UserName="yshaar@routesme.com",
-    //        Password="Tester@123",
-    //        Name = "Yahya",
-    //        AccountTypeId =2
+        //    },
+        //     new UserAccount()
+        //    {
+        //        Id=2,
+        //        UserName="yshaar@routesme.com",
+        //        Password="Tester@123",
+        //        Name = "Yahya",
+        //        AccountTypeId =2
 
-    //    }
+        //    }
 
-    //};
+        //};
 
+        public static List<NavMenu> NavList { get; } = new List<NavMenu>()
+        {
+            new NavMenu()
+            {
+            UserRoleId = 1,
+            NavItems = new string[]{"Tracking", "Users", "Vehicles", "Advertisements", "Institutions" } 
+            },
+            new NavMenu()
+            {
+                UserRoleId = 2,
+                NavItems =new string[]{"Users", "Vehicles", "Advertisements", "Institutions" }
+            }
+        };
 
         public static List<Vehicle> Vehicles => VehicleList;
         static List<Vehicle> VehicleList = new List<Vehicle>()

@@ -4,6 +4,7 @@ const INITIAL_STATE = {
     Users: [],
     UserRoles: [],
     Applications: [],
+    navItems : [],
     Page: "",
     Loading: true,
     hasError: false,
@@ -37,6 +38,19 @@ const UserReducer = (state = INITIAL_STATE, action) => {
                 Loading: true,
                 hasError: false,
                 UserRoles: action.payload
+            };
+        case userConstants.getNavItems_REQUEST:
+            return {
+                ...state,
+                Laoding: true,
+                hasError: false
+            };
+        case userConstants.getNavItems_SUCCESS:
+            return {
+                ...state,
+                Loading: false,
+                hasError: false,
+                navItems: action.payload
             };
         case userConstants.getApplications_REQUEST:
             return {

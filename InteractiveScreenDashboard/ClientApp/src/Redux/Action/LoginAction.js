@@ -45,7 +45,7 @@ export function userSignInRequest(username, password) {
                     //console.log("User Details : ", JSON.stringify(user));
                     //const token = response.token;
                     //const token = jwt.decode(response.token);
-                    const user = response.data;
+                    const user = response.data.result;
                     localStorage.setItem('user', user);
                     dispatch(getLoginSuccess(user));
                     history.push('/home');
