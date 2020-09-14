@@ -33,6 +33,10 @@ class AdvertisementsDetail extends React.Component {
         this.setState({ [event.target.name]: event.target.value })
     }
 
+    fileChangedHandler = (event) => {
+        const file = event.target.files[0]
+    }
+
     static getDerivedStateFromProps(props, state) {
         console.log('Users : getDerivedStateFromProps called with NewProps', props.advertisementToDisplay);
         if (props.advertisementToDisplay !== undefined) {
@@ -100,8 +104,8 @@ class AdvertisementsDetail extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-10">
                                 <Label>Media</Label><br />
-                                <div class="form-group files">
-                                    <input type="file" class="form-control" multiple=""/>
+                                    <div class="form-group files">
+                                        <input type="file" class="form-control" onChange={this.fileChangedHandler}/>
                                 </div>
                             </div>
                         </div>
@@ -114,6 +118,7 @@ class AdvertisementsDetail extends React.Component {
                                 </select>
                             </div>
                         </div>
+                           
 
 
                         {/*<div className="row form-group">
@@ -135,7 +140,7 @@ class AdvertisementsDetail extends React.Component {
                         <div className="col-md-6">
                             <div className="col-md-12 simulator">
                                 <div className="container row topPanel">
-                                    <div className="banner1">1280 X 720</div>
+                                    <div className="banner1"><video autoPlay loop><source url={`https://youtu.be/Rq5SEhs9lws`} type="video/mp4"/></video></div>
                                     <div className="banner2">160 X 600</div>
                                 </div>
                                 <div className="container row bottomPanel">

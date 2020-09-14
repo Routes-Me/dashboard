@@ -42,7 +42,7 @@ namespace InteractiveScreenDashboard.Data
             new NavMenu()
             {
                 UserRoleId = 2,
-                NavItems =new string[]{"Users", "Vehicles", "Advertisements", "Institutions" }
+                NavItems =new string[]{ "Users", "Vehicles", "Advertisements"}
             }
         };
 

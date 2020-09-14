@@ -43,7 +43,7 @@ namespace InteractiveScreenDashboard.Controllers
         [AllowAnonymous]
         [Produces(typeof(Users))]
         [HttpPost("login")]
-        public IActionResult LoginUser([FromBody] Authenticate account)
+        public async Task<IActionResult> LoginUser([FromBody] Authenticate account)
         {
             if (!ModelState.IsValid)
             {
@@ -51,7 +51,7 @@ namespace InteractiveScreenDashboard.Controllers
             }
 
             string email = account.email;
-            string password = encryptPassword(account.password);
+            string password = await encryptPassword(account.password);
             //string testPassword = "aypkE2WKlaKhsRUPsXzpFPXZyBZ2NhDHHq8wd6JwJwA==";
             //string decodedCipher = decodePassword(testPassword);
 
@@ -181,15 +181,15 @@ namespace InteractiveScreenDashboard.Controllers
         }
 
 
-        private string encryptPassword(string text)
+        private async Task<string> encryptPassword(string text)
         {
             string key = _Iencrypt.Key.ToString();
             string IVkey = _Iencrypt.IV.ToString();
             //string Salt = _Iencrypt.Salt.ToString();
-            string cipher = Encrypt.EncryptAndEncode(text, IVkey, key);
+            //string cipher = Encrypt.EncryptAndEncode(text, IVkey, key);
             EncryptionClass encry = new EncryptionClass();
-            string cipherFromLib = encry.EncryptAndEncode(text,IVkey,key);
-            return cipher;
+            string cipherFromLib = await encry.EncryptAndEncode(text,IVkey,key);
+            return cipherFromLib;
         }
 
         [AllowAnonymous]
@@ -231,13 +231,13 @@ namespace InteractiveScreenDashboard.Controllers
 
         [AllowAnonymous]
         [HttpGet("autherization/{Id}")]
-        public IActionResult getAutherization([FromRoute]int Id)
+        public IActionResult GetAutherization([FromRoute] int Id)
         {
             NavMenu autherizationObj = _account.getAutherizationForId(Id);
             return Ok(autherizationObj);
         }
 
-       private string GenerateAccessToken(int userId)
+        private string GenerateAccessToken(int userId)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_jwtSettings.SecretKey);

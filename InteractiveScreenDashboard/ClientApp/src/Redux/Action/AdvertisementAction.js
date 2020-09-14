@@ -18,6 +18,13 @@ export function getAdvertisements(institutionId, pageIndex) {
     function failure(error) { return { type: advertisementsConstants.getAdvertisements_ERROR, payload:error };}
 }
 
+export function uploadMedia() {
+    return dispatch => {
+        dispatch(requestUpload);
+        axios.post(userConstants.Domain +'advertisements')
+    }
+}
+
 
 function returnQueryParamters(offset, include) {
 
