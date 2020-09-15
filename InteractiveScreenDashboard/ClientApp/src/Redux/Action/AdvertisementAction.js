@@ -18,12 +18,43 @@ export function getAdvertisements(institutionId, pageIndex) {
     function failure(error) { return { type: advertisementsConstants.getAdvertisements_ERROR, payload:error };}
 }
 
-export function uploadMedia() {
+export function uploadMedia(mediaFile) {
+
+    const formData = new FormData();
+    formData.append("File", mediaFile[0])
+
     return dispatch => {
         dispatch(requestUpload);
-        axios.post(userConstants.Domain +'advertisements')
+        const options = {
+            onUploadProgress: (progressEvent) => {
+            const { loaded, total } = progressEvent;
+            let percent = Math.floor((loaded * 100) / total)
+            console.log(`${loaded}kb / ${total}kb | ${percent}`);
+            }
+        }
+        var url = userConstants.Domain + 'advertisements/convert';
+        try {
+            axios.post(url, formData).then(
+                response => {
+                    dispatch(uploadSuccessful(response));
+                    console.log(response);
+                },
+                error => {
+                    dispatch(uploadError(error));
+                }
+            )
+        }
+        catch (ex) {
+            console.log(ex);
+        }
+        
     }
+
+    function requestUpload() { return { type: advertisementsConstants.uploadMedia_REQUEST }; }
+    function uploadSuccessful(response) { return { type: advertisementsConstants.uploadMedia_SUCCESS, payload: response }; }
+    function uploadError(error) { return { type: advertisementsConstants.uploadMedia_ERROR, payload: error }; }
 }
+
 
 
 function returnQueryParamters(offset, include) {

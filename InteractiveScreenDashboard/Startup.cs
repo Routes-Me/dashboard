@@ -82,6 +82,7 @@ namespace InteractiveScreenDashboard
             services.AddScoped<IInstitutionService, InstitutionService>();
             services.AddScoped<ITrackingServices, TrackingServices>();
             services.AddScoped<IDriverService, DriverService>();
+            services.AddScoped<IAdvertisementService, Advertisementservices>();
 
             
 
@@ -117,10 +118,11 @@ namespace InteractiveScreenDashboard
 
             app.UseRouting();
 
-            app.UseCors("CorsPolicy");
+            
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseCors("CorsPolicy");
 
             app.UseEndpoints(endpoints =>
             {

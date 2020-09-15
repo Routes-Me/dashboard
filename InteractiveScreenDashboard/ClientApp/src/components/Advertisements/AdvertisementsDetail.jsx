@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { Label } from 'reactstrap';
 import * as AdvertisementAction from '../../Redux/Action';
 import * as InstitutionAction from '../../Redux/Action';
-import simulator from '../image/simulator.svg';
 import Form from 'react-validation/build/form';
-import '../Advertisements/Advertisement.css'
+import ReactPlayer from 'react-player';
+import '../Advertisements/Advertisement.css';
 
 class AdvertisementsDetail extends React.Component {
 
@@ -34,7 +34,8 @@ class AdvertisementsDetail extends React.Component {
     }
 
     fileChangedHandler = (event) => {
-        const file = event.target.files[0]
+        const file = event.target.files[0];
+        this.props.uploadMedia(file);
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -140,7 +141,13 @@ class AdvertisementsDetail extends React.Component {
                         <div className="col-md-6">
                             <div className="col-md-12 simulator">
                                 <div className="container row topPanel">
-                                    <div className="banner1"><video autoPlay loop><source url={`https://youtu.be/Rq5SEhs9lws`} type="video/mp4"/></video></div>
+                                    <div className="banner1">
+                                            <ReactPlayer
+                                                width='99%'
+                                                height='99%'
+                                                controls
+                                                url="https://media.w3.org/2010/05/sintel/trailer_hd.mp4" />
+                                    </div>
                                     <div className="banner2">160 X 600</div>
                                 </div>
                                 <div className="container row bottomPanel">
@@ -176,6 +183,7 @@ const actionCreators = {
     getCampaigns: AdvertisementAction.getCampaigns,
     getDayIntervals: AdvertisementAction.getDayIntervals,
     getInstitutions: InstitutionAction.getInstitutions,
+    uploadMedia: AdvertisementAction.uploadMedia,
     saveAdvertisement: AdvertisementAction.addAdvertisement
 
 }

@@ -39,7 +39,6 @@ namespace InteractiveScreenDashboard.Controllers
             _jwtSettings = jwtsettings.Value;
         }
 
-        [Authorize]
         [AllowAnonymous]
         [Produces(typeof(Users))]
         [HttpPost("login")]

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using InteractiveScreenDashboard.Data.Models;
+using InteractiveScreenDashboard.Data.Models.Front;
 using InteractiveScreenDashboard.Data.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
@@ -15,21 +16,20 @@ using VideoConvertor;
 namespace InteractiveScreenDashboard.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
-    [ApiController]
+    [Produces("application/json")]
+    [Route("api/advertisements")]
     public class AdvertisementController : ControllerBase
     {
         private readonly IAdvertisementService _Advertisement;
         private IWebHostEnvironment _hostingEnvironment;
 
-        public AdvertisementController(IAdvertisementService advertisementService, IWebHostEnvironment environment)
+        public AdvertisementController(F advertisementService, IWebHostEnvironment environment)
         {
             this._Advertisement = advertisementService;
             this._hostingEnvironment = environment;
         }
 
         [Produces(typeof(Advertisement))]
-        [HttpPost("advertisement")]
         public IActionResult addAdvertisement([FromBody]Advertisement add)
         {
             if(!ModelState.IsValid)
@@ -75,23 +75,44 @@ namespace InteractiveScreenDashboard.Controllers
             };
             return Ok(result);
         }
-        
 
+        [AllowAnonymous]
         [HttpPost]
         [Route("convert")]
-        public async Task<IActionResult> UploadToConvert(string filepath, bool mute)
+        public IActionResult UploadToConvert([FromForm] Media fileToConvert)
         {
             try
             {
-                string pathToConvertor = Path.Combine(_hostingEnvironment.WebRootPath, "/Data/Player/"); ;
-                Convertor conversion = new Convertor();
-                string path = conversion.ConvertVideo(filepath, mute, pathToConvertor);
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", fileToConvert.Name);
+                using (Stream stream = new FileStream(path, FileMode.Create))
+                {
+                    fileToConvert.File.CopyTo(stream);
+                }
+                return StatusCode(StatusCodes.Status201Created);
+                    
             }
             catch (Exception ex)
             {
                 var msg = ex.Message;
             }
             return Ok();
+        }
+
+
+        public string convertMedia(string filePath, bool mute)
+        {
+            try
+            {
+                string pathToConvertor = Path.Combine(_hostingEnvironment.WebRootPath, "/Data/Player/"); ;
+                Convertor conversion = new Convertor();
+                string path = conversion.ConvertVideo(filePath, (bool)mute, pathToConvertor);
+                return path;
+            }
+            catch (Exception ex)
+            {
+                var msg = ex.Message;
+                return msg;
+            }
         }
 
 
