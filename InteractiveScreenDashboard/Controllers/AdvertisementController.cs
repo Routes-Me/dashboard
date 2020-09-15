@@ -23,7 +23,7 @@ namespace InteractiveScreenDashboard.Controllers
         private readonly IAdvertisementService _Advertisement;
         private IWebHostEnvironment _hostingEnvironment;
 
-        public AdvertisementController(F advertisementService, IWebHostEnvironment environment)
+        public AdvertisementController(IAdvertisementService advertisementService, IWebHostEnvironment environment)
         {
             this._Advertisement = advertisementService;
             this._hostingEnvironment = environment;
