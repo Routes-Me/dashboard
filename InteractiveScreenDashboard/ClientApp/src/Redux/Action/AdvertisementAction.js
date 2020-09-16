@@ -18,23 +18,36 @@ export function getAdvertisements(institutionId, pageIndex) {
     function failure(error) { return { type: advertisementsConstants.getAdvertisements_ERROR, payload:error };}
 }
 
+
+
+
+
 export function uploadMedia(mediaFile) {
 
     const formData = new FormData();
-    formData.append("File", mediaFile[0])
+    formData.append("File", mediaFile)
+    console.log(`Body ==> ${formData}`)
+    // Display the key/value pairs
+    for (var pair of formData.entries()) {
+        console.log(`Body ===> ${pair[0]}  , ${ pair[1]}`);
+    }
 
     return dispatch => {
         dispatch(requestUpload);
         const options = {
             onUploadProgress: (progressEvent) => {
-            const { loaded, total } = progressEvent;
-            let percent = Math.floor((loaded * 100) / total)
-            console.log(`${loaded}kb / ${total}kb | ${percent}`);
+                const { loaded, total } = progressEvent;
+                let percent = Math.floor((loaded * 100) / total)
+                console.log(`${loaded}kb / ${total}kb | ${percent}`);
             }
-        }
+        };
+        const headers = {
+            'Content-Type': 'multipart/form-data',
+        };
+
         var url = userConstants.Domain + 'advertisements/convert';
         try {
-            axios.post(url, formData).then(
+            axios.post(url, formData, options).then(
                 response => {
                     dispatch(uploadSuccessful(response));
                     console.log(response);
@@ -43,6 +56,7 @@ export function uploadMedia(mediaFile) {
                     dispatch(uploadError(error));
                 }
             )
+
         }
         catch (ex) {
             console.log(ex);

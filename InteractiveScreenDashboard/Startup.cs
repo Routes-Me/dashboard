@@ -33,10 +33,9 @@ namespace InteractiveScreenDashboard
         {
             services.AddCors(o => o.AddPolicy("CorsPolicy", builder =>
             {
-                builder
+                builder.WithOrigins("http://localhost:55205/")
                     .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .WithOrigins("http://localhost:55205/");
+                    .AllowAnyHeader();
 
             }));
 
@@ -111,7 +110,7 @@ namespace InteractiveScreenDashboard
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseCors("CorsPolicy");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
@@ -122,7 +121,7 @@ namespace InteractiveScreenDashboard
 
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseCors("CorsPolicy");
+            
 
             app.UseEndpoints(endpoints =>
             {

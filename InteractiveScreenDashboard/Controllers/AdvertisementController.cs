@@ -79,24 +79,54 @@ namespace InteractiveScreenDashboard.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("convert")]
-        public IActionResult UploadToConvert([FromForm] Media fileToConvert)
+        public async Task<IActionResult> UploadToConvert([FromForm] Media fileToConvert)
         {
             try
             {
-                string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", fileToConvert.Name);
-                using (Stream stream = new FileStream(path, FileMode.Create))
-                {
-                    fileToConvert.File.CopyTo(stream);
-                }
+
+                string Stoaragewrite = await WriteToStorage(fileToConvert.File);
+                //String FilePath = 
                 return StatusCode(StatusCodes.Status201Created);
-                    
+
+                
+
+                //using (var httpClient = new HttpClient())
+                //{
+                //    LoggedInUser user = new LoggedInUser();
+
+                //    using (var response = await httpClient.GetAsync("https://localhost:8888/api/v1/adverti"))
+                //    {
+                //        string apiResponse = await response.Content.ReadAsStringAsync();
+                //        user = JsonConvert.DeserializeObject<LoggedInUser>(apiResponse);
+                //    }
+                //}
+
             }
             catch (Exception ex)
             {
-                var msg = ex.Message;
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
-            return Ok();
         }
+
+
+        private Task<string> WriteToStorage(IFormFile File)
+        {
+            try
+            {
+                string path = Path.Combine(Directory.GetCurrentDirectory(), "Converted", File.FileName);
+                using (Stream stream = new FileStream(path, FileMode.Create))
+                {
+                    File.CopyTo(stream);
+                }
+                return Task.FromResult("Inserted");
+            }
+            catch(Exception ex)
+            {
+                return Task.FromResult("Error => " + ex);
+            }
+            
+            
+        } 
 
 
         public string convertMedia(string filePath, bool mute)
