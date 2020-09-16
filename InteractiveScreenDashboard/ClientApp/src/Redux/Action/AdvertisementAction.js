@@ -2,6 +2,7 @@
 import { userConstants } from '../../constants/userConstants';
 import { advertisementsConstants } from '../../constants/advertisementConstants';
 
+
 export function getAdvertisements(institutionId, pageIndex) {
     return dispatch => {
         dispatch(request())
@@ -27,10 +28,6 @@ export function uploadMedia(mediaFile) {
     const formData = new FormData();
     formData.append("File", mediaFile)
     console.log(`Body ==> ${formData}`)
-    // Display the key/value pairs
-    for (var pair of formData.entries()) {
-        console.log(`Body ===> ${pair[0]}  , ${ pair[1]}`);
-    }
 
     return dispatch => {
         dispatch(requestUpload);
