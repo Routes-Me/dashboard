@@ -138,10 +138,19 @@ div.banner2 {
     background-color: #b5c2db;
     font-size:14px;
 }
+
+div.banner2 img{
+   width:100%;
+   height:100%;
+}
+
+
 div.banner3 {
     width: 245px;
     background-color: #eee8dd;
 }
+
+
 div.banner4 {
     margin-left: 107px;
     width: 50px;

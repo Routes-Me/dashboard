@@ -143,12 +143,14 @@ class AdvertisementsDetail extends React.Component {
                                 <div className="container row topPanel">
                                     <div className="banner1">
                                             <ReactPlayer
-                                                width='99%'
-                                                height='99%'
+                                                width='100%'
+                                                height='100%'
                                                 controls
-                                                url="https://media.w3.org/2010/05/sintel/trailer_hd.mp4" />
+                                            url="https://firebasestorage.googleapis.com/v0/b/wdeniapp.appspot.com/o/000000%2FKuwait%20National%20Day.mp4?alt=media&token=fd4c77c5-1d5c-4aed-bb77-a6de9acb00b3" />
                                     </div>
-                                    <div className="banner2">160 X 600</div>
+                                    <div className="banner2">
+                                        <img className="img-fluid" alt="" src="https://firebasestorage.googleapis.com/v0/b/usingfirebasefirestore.appspot.com/o/000000000%2Funnamed.jpg?alt=media&token=ff4adc90-1e6a-487b-8774-1eb3152c60d5" />
+                                    </div>
                                 </div>
                                 <div className="container row bottomPanel">
                                     <div className="banner3"></div>

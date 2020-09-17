@@ -1,6 +1,8 @@
 ﻿import axios from 'axios';
 import { userConstants } from '../../constants/userConstants';
 import { advertisementsConstants } from '../../constants/advertisementConstants';
+//import { resizeFile } from '../../util/Compress';
+import Resizer from 'react-image-file-resizer';
 
 
 
@@ -20,15 +22,26 @@ export function getAdvertisements(institutionId, pageIndex) {
     function failure(error) { return { type: advertisementsConstants.getAdvertisements_ERROR, payload:error };}
 }
 
+const resizeFile = (file) => new Promise(resolve => {
+    Resizer.imageFileResizer(file, 160, 600, 'JPEG', 100, 0,
+        uri => {
+            resolve(uri);
+        },
+        'base64'
+    );
+});
 
 
 
 
-export function uploadMedia(mediaFile) {
+export async function uploadMedia(mediaFile) {
 
+    const compressedImage = await resizeFile(mediaFile);
     const formData = new FormData();
-    formData.append("File", mediaFile)
-    console.log(`Body ==> ${formData}`)
+    formData.append("File", compressedImage);
+
+
+
 
     return dispatch => {
         dispatch(requestUpload);
