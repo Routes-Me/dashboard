@@ -47,6 +47,8 @@
 
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
+    <None Include="Data\Client\CustomHttpClient.cs" />
+    <None Include="Data\Client\HttpContextMiddleware.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -74,6 +76,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ClientApp\src\util\Player\CompressedFiles\" />
     <Folder Include="Converted\" />
   </ItemGroup>
 

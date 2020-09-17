@@ -3,6 +3,7 @@ import { userConstants } from '../../constants/userConstants';
 import { advertisementsConstants } from '../../constants/advertisementConstants';
 
 
+
 export function getAdvertisements(institutionId, pageIndex) {
     return dispatch => {
         dispatch(request())
@@ -38,9 +39,6 @@ export function uploadMedia(mediaFile) {
                 console.log(`${loaded}kb / ${total}kb | ${percent}`);
             }
         };
-        const headers = {
-            'Content-Type': 'multipart/form-data',
-        };
 
         var url = userConstants.Domain + 'advertisements/convert';
         try {
@@ -65,6 +63,12 @@ export function uploadMedia(mediaFile) {
     function uploadSuccessful(response) { return { type: advertisementsConstants.uploadMedia_SUCCESS, payload: response }; }
     function uploadError(error) { return { type: advertisementsConstants.uploadMedia_ERROR, payload: error }; }
 }
+
+export function compressMedia(mediaFile) {
+
+    
+}
+
 
 
 
