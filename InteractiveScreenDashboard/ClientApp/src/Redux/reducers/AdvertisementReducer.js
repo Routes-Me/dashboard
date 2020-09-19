@@ -7,7 +7,9 @@ const INITIAL_STATE = {
     Page: "",
     loading: true,
     hasError: false,
-    error: null
+    error: null,
+    compressedImage: "",
+    compressedVideo:""
 }
 
 const AdvertisementReducer = (state = INITIAL_STATE, action) => {

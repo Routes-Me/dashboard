@@ -135,8 +135,8 @@ div.banner1 {
 div.banner2 {
     margin-left: 3px;
     width: 51px;
-    background-color: #b5c2db;
-    font-size:14px;
+    background-color: #eee8dd;
+    font-size: 14px;
 }
 
 div.banner2 img{
@@ -147,7 +147,7 @@ div.banner2 img{
 
 div.banner3 {
     width: 245px;
-    background-color: #eee8dd;
+    background-color: #d1d9e9;
 }
 
 

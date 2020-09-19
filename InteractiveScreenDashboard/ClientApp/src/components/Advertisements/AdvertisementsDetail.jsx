@@ -5,7 +5,9 @@ import * as AdvertisementAction from '../../Redux/Action';
 import * as InstitutionAction from '../../Redux/Action';
 import Form from 'react-validation/build/form';
 import ReactPlayer from 'react-player';
+import { onImageCompress } from '../../util/Compress';
 import '../Advertisements/Advertisement.css';
+var ffmpeg = require('ffmpeg');
 
 class AdvertisementsDetail extends React.Component {
 
@@ -16,7 +18,8 @@ class AdvertisementsDetail extends React.Component {
             id: "",
             name: "",
             institution: "",
-            media: "",
+            image: "",
+            video:"",
             campaigns: [],
             dayInterval: "",
             advertisement:""
@@ -35,7 +38,33 @@ class AdvertisementsDetail extends React.Component {
 
     fileChangedHandler = (event) => {
         const file = event.target.files[0];
-        this.props.uploadMedia(file);
+        this.compressImage(file);
+        
+    }
+
+    onVideo
+
+  
+
+
+    calculateImageSize(base64String) {
+        let padding, inBytes, base64StringLength;
+        if (base64String.endsWith("==")) padding = 2;
+        else if (base64String.endsWith("=")) padding = 1;
+        else padding = 0;
+
+        base64StringLength = base64String.length;
+        inBytes = (base64StringLength / 4) * 3 - padding;
+        console.log(inBytes);
+        this.kbytes = inBytes / 1000;
+        return this.kbytes;
+    }
+
+    compressImage = async (image) => {
+        const compressedImage = await onImageCompress(image);
+        console.log(`The compressed image size ==> ${this.calculateImageSize(compressedImage)}`);
+        this.setState({ image: compressedImage });
+        //this.props.uploadMedia(compressedImage);
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -72,8 +101,8 @@ class AdvertisementsDetail extends React.Component {
 
     render() {
         const advertisementObj = this.state.advertisement;
-        const buttonText = advertisementObj ? "Update" : "Add";
-
+        const imageText = this.state.image === "" ? "160 X 600" : this.state.image;
+        const videoText = this.state.video === "" ? "1280 X 720" : this.state.video;
         return (
             <div className="row col-md-12 detail-form">
                 <Form onSubmit={e => this.handleSubmit(e)}>
@@ -142,14 +171,17 @@ class AdvertisementsDetail extends React.Component {
                             <div className="col-md-12 simulator">
                                 <div className="container row topPanel">
                                     <div className="banner1">
-                                            <ReactPlayer
-                                                width='100%'
-                                                height='100%'
-                                                controls
+                                    {
+                                        this.state.video === "" ? videoText :
+                                        <ReactPlayer
+                                            width='100%'
+                                            height='100%'
+                                            controls
                                             url="https://firebasestorage.googleapis.com/v0/b/wdeniapp.appspot.com/o/000000%2FKuwait%20National%20Day.mp4?alt=media&token=fd4c77c5-1d5c-4aed-bb77-a6de9acb00b3" />
+                                    }
                                     </div>
                                     <div className="banner2">
-                                        <img className="img-fluid" alt="" src="https://firebasestorage.googleapis.com/v0/b/usingfirebasefirestore.appspot.com/o/000000000%2Funnamed.jpg?alt=media&token=ff4adc90-1e6a-487b-8774-1eb3152c60d5" />
+                                        {this.state.image === "" ? imageText : <img className="img-fluid" alt="" src={imageText} /> }
                                     </div>
                                 </div>
                                 <div className="container row bottomPanel">
