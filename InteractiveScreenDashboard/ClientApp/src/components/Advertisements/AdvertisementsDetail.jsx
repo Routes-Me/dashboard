@@ -7,7 +7,7 @@ import Form from 'react-validation/build/form';
 import ReactPlayer from 'react-player';
 import { onImageCompress } from '../../util/Compress';
 import '../Advertisements/Advertisement.css';
-var ffmpeg = require('ffmpeg');
+
 
 class AdvertisementsDetail extends React.Component {
 
@@ -38,11 +38,63 @@ class AdvertisementsDetail extends React.Component {
 
     fileChangedHandler = (event) => {
         const file = event.target.files[0];
-        this.compressImage(file);
+        //const filepath = file.mozFullPath;
+        var filePath = 'C:/Users/Hp/Downloads/Simulater Sample/sample.avi';
+        this.onVideoCompress(filePath);
+        //this.compressImage(file);
         
     }
 
-    onVideo
+    onVideoCompress = async(filepath) => {
+        var ffmpeg = require('ffmpeg');
+        try {
+            new ffmpeg(filepath, function (err, video) {
+                if (!err) {
+                    console.log('The video is ready to be processed');
+                    video
+                        .setVideoBitRate(800)
+                        .setVideoDuration(30)
+                        .setVideoCodec('mpeg4')
+                        .setVideoAspectRatio('16:9')
+                        .save('C:/Users/Hp/Downloads/Simulater Sample/compressed.mp4', function (error, file) {
+                            if (error)
+                                console.log('compression failure :' + error);
+                            if (!error)
+                                console.log('Video file: ' + file);
+                        });
+                } else {
+                    console.log('Error: ' + err);
+                }
+            });
+        } catch (e) {
+            console.log(e.code);
+            console.log(e.msg);
+        }
+
+        //try {
+        //    var ffmpeg = require('ffmpeg');
+        //    var process = new ffmpeg(filepath);
+        //    await process.then(function (video) {
+        //        video
+        //            .setVideoBitRate(800)
+        //            .setVideoDuration(30)
+        //            .setVideoCodec('mpeg4')
+        //            .setVideoAspectRatio('16:9')
+        //            .save('C:/Users/Hp/Downloads/Simulater Sample/compressed.mp4', function (error, file) {
+        //                if (!error)
+        //                    console.log('Video file: ' + file);
+        //            });
+
+        //    }, function (err) {
+        //        console.log('Error: ' + err);
+        //    });
+        //} catch (e) {
+        //    console.log(e.code);
+        //    console.log(e.msg);
+        //}
+
+
+    }
 
   
 
@@ -107,7 +159,7 @@ class AdvertisementsDetail extends React.Component {
             <div className="row col-md-12 detail-form">
                 <Form onSubmit={e => this.handleSubmit(e)}>
                     <div className="row">
-                    <div class="col-md-6">
+                        <div className="col-md-6">
                         <div className="row form-group">
                             <div className="col-md-10">
                                 <Label>Name</Label><br />
@@ -134,8 +186,8 @@ class AdvertisementsDetail extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-10">
                                 <Label>Media</Label><br />
-                                    <div class="form-group files">
-                                        <input type="file" class="form-control" onChange={this.fileChangedHandler}/>
+                                    <div className="form-group files">
+                                        <input type="file" className="form-control" onChange={this.fileChangedHandler}/>
                                 </div>
                             </div>
                         </div>
@@ -143,7 +195,7 @@ class AdvertisementsDetail extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-10">
                                 <Label>Media</Label><br />
-                                <select multiple="multiple" class="custom-select" size="3" defaultValue={advertisementObj.campaigns}>
+                                    <select multiple="multiple" className="custom-select" size="3" defaultValue={advertisementObj.campaigns}>
                                 {this.props.Campaigns.map(campaign => (<option value={campaign.id}>{campaign.name}</option>))}
                                 </select>
                             </div>
@@ -181,7 +233,7 @@ class AdvertisementsDetail extends React.Component {
                                     }
                                     </div>
                                     <div className="banner2">
-                                        {this.state.image === "" ? imageText : <img className="img-fluid" alt="" src={imageText} /> }
+                                        {this.state.image === "" ? imageText : <img className="img-fluid" alt="" src={imageText} />}
                                     </div>
                                 </div>
                                 <div className="container row bottomPanel">

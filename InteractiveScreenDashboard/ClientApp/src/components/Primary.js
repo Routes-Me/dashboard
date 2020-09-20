@@ -71,7 +71,7 @@ class Primary extends Component
                 <div className="menu-part">
                     <ul>
                         {this.props.navItems.map(navItem =>
-                            <li className={this.returnSelectMenu(navItem)} onClick={(event) => this.toggleMenu(event, navItem)}><a><div className="icon-28"><img alt="" src={require(`./image/${navItem}.svg`)} className="menu-icon" /></div> {navItem}</a>
+                            <li key={navItem} className={this.returnSelectMenu(navItem)} onClick={(event) => this.toggleMenu(event, navItem)}><a><div className="icon-28"><img alt="" src={require(`./image/${navItem}.svg`)} className="menu-icon" /></div> {navItem}</a>
                             </li>
                         )}
                         {/*<li className={this.returnSelectMenu(userConstants.NavItem_Users)} onClick={(event) => this.toggleMenu(event, userConstants.NavItem_Users)}><a><div className="icon-28"><img alt="" src={Users} className="menu-icon" /></div> {userConstants.NavItem_Users}</a>
