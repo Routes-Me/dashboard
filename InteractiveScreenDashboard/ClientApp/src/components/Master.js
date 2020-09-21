@@ -11,9 +11,9 @@ export class Master extends Component {
                 <div className="left-panel" style={{ top: 0, }}>
                     <div className="relative">
                     <div className="scroll-hide">
-                        <Primary/>
-                    
-                        <Secondary/>
+                        <Primary />
+                        
+                        <Secondary />
                     </div>
                     </div>
                 </div>

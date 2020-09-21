@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { Label } from 'reactstrap';
 import * as AdvertisementAction from '../../Redux/Action';
 import * as InstitutionAction from '../../Redux/Action';
-import Form from 'react-validation/build/form';
+import { onImageCompress, onVideoCompress } from '../../util/Compress';
+import { Basic } from './Detail/Basic';
+import { Extras } from './Detail/Extras';
 import ReactPlayer from 'react-player';
-import { onImageCompress } from '../../util/Compress';
 import '../Advertisements/Advertisement.css';
 
 
@@ -22,7 +23,8 @@ class AdvertisementsDetail extends React.Component {
             video:"",
             campaigns: [],
             dayInterval: "",
-            advertisement:""
+            advertisement: "",
+            tabIndex:0
         }
     }
 
@@ -45,76 +47,16 @@ class AdvertisementsDetail extends React.Component {
         
     }
 
-    onVideoCompress = async(filepath) => {
-        var ffmpeg = require('ffmpeg');
-        try {
-            new ffmpeg(filepath, function (err, video) {
-                if (!err) {
-                    console.log('The video is ready to be processed');
-                    video
-                        .setVideoBitRate(800)
-                        .setVideoDuration(30)
-                        .setVideoCodec('mpeg4')
-                        .setVideoAspectRatio('16:9')
-                        .save('C:/Users/Hp/Downloads/Simulater Sample/compressed.mp4', function (error, file) {
-                            if (error)
-                                console.log('compression failure :' + error);
-                            if (!error)
-                                console.log('Video file: ' + file);
-                        });
-                } else {
-                    console.log('Error: ' + err);
-                }
-            });
-        } catch (e) {
-            console.log(e.code);
-            console.log(e.msg);
-        }
-
-        //try {
-        //    var ffmpeg = require('ffmpeg');
-        //    var process = new ffmpeg(filepath);
-        //    await process.then(function (video) {
-        //        video
-        //            .setVideoBitRate(800)
-        //            .setVideoDuration(30)
-        //            .setVideoCodec('mpeg4')
-        //            .setVideoAspectRatio('16:9')
-        //            .save('C:/Users/Hp/Downloads/Simulater Sample/compressed.mp4', function (error, file) {
-        //                if (!error)
-        //                    console.log('Video file: ' + file);
-        //            });
-
-        //    }, function (err) {
-        //        console.log('Error: ' + err);
-        //    });
-        //} catch (e) {
-        //    console.log(e.code);
-        //    console.log(e.msg);
-        //}
-
-
+    compressVideo = async (filePath) => {
+        const compressedVideo = await onVideoCompress(filePath);
+        this.setState({ video: compressedVideo });
     }
 
-  
-
-
-    calculateImageSize(base64String) {
-        let padding, inBytes, base64StringLength;
-        if (base64String.endsWith("==")) padding = 2;
-        else if (base64String.endsWith("=")) padding = 1;
-        else padding = 0;
-
-        base64StringLength = base64String.length;
-        inBytes = (base64StringLength / 4) * 3 - padding;
-        console.log(inBytes);
-        this.kbytes = inBytes / 1000;
-        return this.kbytes;
-    }
+ 
 
     compressImage = async (image) => {
         const compressedImage = await onImageCompress(image);
-        console.log(`The compressed image size ==> ${this.calculateImageSize(compressedImage)}`);
+        //console.log(`The compressed image size ==> ${this.calculateImageSize(compressedImage)}`);
         this.setState({ image: compressedImage });
         //this.props.uploadMedia(compressedImage);
     }
@@ -151,101 +93,63 @@ class AdvertisementsDetail extends React.Component {
         this.props.saveUser(vehicle);
     }
 
+    onTabClick = (index) => {
+        this.setState({ tabIndex: index });
+    }
+
     render() {
         const advertisementObj = this.state.advertisement;
         const imageText = this.state.image === "" ? "160 X 600" : this.state.image;
         const videoText = this.state.video === "" ? "1280 X 720" : this.state.video;
         return (
-            <div className="row col-md-12 detail-form">
-                <Form onSubmit={e => this.handleSubmit(e)}>
-                    <div className="row">
+            <div className="container-fluid">
+                <div className="row col-md-12 detail-form">
+                    <div className="headerTabStyle">
+                        <nav>
+                            <div className="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                <a className="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" onClick={(e) => this.onTabClick(0)} role="tab" aria-controls="nav-home" aria-selected="true"> Basic</a>
+                                <a className="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" onClick={(e) => this.onTabClick(1)} role="tab" aria-controls="nav-profile" aria-selected="false"> QR Code Promotion</a>
+                            </div>
+                        </nav>
+                        {/*<button className="btn default" onClick={(e) => this.onTabClick(0)}> Basic </button>
+                        <button className="btn default" onClick={(e) => this.onTabClick(1)}> QR Code Promotion</button>*/}
+                    </div>
+                    <div className="row col-md-12 detail-form">
                         <div className="col-md-6">
-                        <div className="row form-group">
-                            <div className="col-md-10">
-                                <Label>Name</Label><br />
-                                <input type="text" name="email"
-                                    placeholder={advertisementObj === undefined ? "" : advertisementObj.name}
-                                    value={advertisementObj.name}
-                                    onChange={this.onChange}
-                                    className="form-control" />
-                            </div>
-                        </div>
-
-
-                        <div className="row form-group">
-                            {/*VehicleObj.model.id*/}
-                            <div className="col-md-10">
-                                <Label>Day Interval</Label><br />
-                                <select defaultValue={advertisementObj ? this.state.dayInterval : "Select an interval"} className="custom-select my-1 mr-sm-2" name="dayInterval" onChange={this.onChange}>
-                                    {this.props.DayInterval.map(interval => (<option className="dropdown-item" value={interval.Id}>{interval.name}</option>))}
-                                </select>
-                            </div>
-                        </div>
-
-
-                        <div className="row form-group">
-                            <div className="col-md-10">
-                                <Label>Media</Label><br />
-                                    <div className="form-group files">
-                                        <input type="file" className="form-control" onChange={this.fileChangedHandler}/>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="row form-group">
-                            <div className="col-md-10">
-                                <Label>Media</Label><br />
-                                    <select multiple="multiple" className="custom-select" size="3" defaultValue={advertisementObj.campaigns}>
-                                {this.props.Campaigns.map(campaign => (<option value={campaign.id}>{campaign.name}</option>))}
-                                </select>
-                            </div>
-                        </div>
-                           
-
-
-                        {/*<div className="row form-group">
-                            VehicleObj.model.id
-                            <div className="col-md-4">
-                                <Label>Institution</Label><br />
-                                <select defaultValue={advertisementObj ? advertisementObj.institution.institutionId : "Select a model"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
-                                    {this.props.InstitutionList.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
-                                </select>
-                            </div>
-                        </div>*/}
-
-
-                        <br /><br />
-
-                        {/*<div className="align-self-end ml-auto" style={{ textAlign: "end" }}><button type="submit" className="btn btn-primary"> {buttonText} </button></div>*/}
-
+                            {this.state.tabIndex === 0 ? < Basic /> : <Extras />}
                         </div>
                         <div className="col-md-6">
                             <div className="col-md-12 simulator">
-                                <div className="container row topPanel">
-                                    <div className="banner1">
+                            <div className="container row topPanel">
+                                <div className="banner1">
                                     {
                                         this.state.video === "" ? videoText :
-                                        <ReactPlayer
-                                            width='100%'
-                                            height='100%'
-                                            controls
-                                            url="https://firebasestorage.googleapis.com/v0/b/wdeniapp.appspot.com/o/000000%2FKuwait%20National%20Day.mp4?alt=media&token=fd4c77c5-1d5c-4aed-bb77-a6de9acb00b3" />
+                                            <ReactPlayer
+                                                width='100%'
+                                                height='100%'
+                                                controls
+                                                url="https://firebasestorage.googleapis.com/v0/b/wdeniapp.appspot.com/o/000000%2FKuwait%20National%20Day.mp4?alt=media&token=fd4c77c5-1d5c-4aed-bb77-a6de9acb00b3" />
                                     }
-                                    </div>
-                                    <div className="banner2">
-                                        {this.state.image === "" ? imageText : <img className="img-fluid" alt="" src={imageText} />}
-                                    </div>
                                 </div>
-                                <div className="container row bottomPanel">
-                                    <div className="banner3"></div>
-                                    <div className="banner4"></div>
+                                <div className="banner2">
+                                    {this.state.image === "" ? imageText : <img className="img-fluid" alt="" src={imageText} />}
                                 </div>
                             </div>
-
-
+                            <div className="container row bottomPanel">
+                                <div className="banner3"></div>
+                                <div className="banner4"></div>
+                            </div>
+                        </div>
                         </div>
                     </div>
-                </Form>
+                </div>
+                <div className="container-fluid">
+                <div className="footerStyle">
+                    <button type="submit" style={{ float: 'left' }}> Create </button>
+                        <button className="btn btn-light"> <span class="glyphicon glyphicon-menu-left" aria-hidden="true" /> Previous</button>
+                        <button className="next" style={{ marginLeft: '7px'}}>Next: Extras <span class="glyphicon glyphicon-menu-right" aria-hidden="true" /> </button>
+                    </div>
+                </div>
             </div>
         )
     }

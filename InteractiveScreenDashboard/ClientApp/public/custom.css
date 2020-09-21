@@ -275,6 +275,8 @@ header nav {
         width: 0px;
     }
 
+    
+
 
 .result-not-found p {
     
@@ -777,6 +779,6 @@ img {
 
 @media (min-width: 1920px) {
     .search-main {
-        height: 76vh;
+        height: 80vh;
     }
 }
