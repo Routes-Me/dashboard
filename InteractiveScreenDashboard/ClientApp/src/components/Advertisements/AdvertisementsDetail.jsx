@@ -44,6 +44,7 @@ class AdvertisementsDetail extends React.Component {
         //var filePath = 'C:/Users/Hp/Downloads/Simulater Sample/sample.avi';
         //this.onVideoCompress(filePath);
         this.compressImage(file);
+        this.props.uploadMedia(this.state.image);
         
     }
 
@@ -58,7 +59,7 @@ class AdvertisementsDetail extends React.Component {
         const compressedImage = await onImageCompress(image);
         //console.log(`The compressed image size ==> ${this.calculateImageSize(compressedImage)}`);
         this.setState({ image: compressedImage });
-        this.props.uploadMedia(compressedImage);
+        
     }
 
     static getDerivedStateFromProps(props, state) {

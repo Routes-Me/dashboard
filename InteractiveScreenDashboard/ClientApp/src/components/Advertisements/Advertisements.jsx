@@ -75,8 +75,8 @@ class Advertisements extends Component {
                                 Advertisements.map(Advertisement => (
                                     <tr key={Advertisement.id}>
                                         <td>{Advertisement.id}</td>
-                                        <td>{Advertisement.name}</td>
-                                        <td>{Advertisement.status}</td>
+                                        <td>{Advertisement.id}</td>
+                                        <td>{Advertisement.id}</td>
                                         <td className="width44" >
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Advertisement.id)}>

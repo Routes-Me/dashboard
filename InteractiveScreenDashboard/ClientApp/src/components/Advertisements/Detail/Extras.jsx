@@ -95,8 +95,6 @@ class Extras extends React.Component {
 
     render() {
         const advertisementObj = this.state.advertisement;
-        const imageText = this.state.image === "" ? "160 X 600" : this.state.image;
-        const videoText = this.state.video === "" ? "1280 X 720" : this.state.video;
         return (
             <Form onSubmit={e => this.handleSubmit(e)}>
                 <br/>

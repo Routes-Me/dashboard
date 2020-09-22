@@ -35,14 +35,14 @@ const resizeFile = (file) => new Promise(resolve => {
 
 export async function uploadMedia(mediaFile) {
 
-    const compressedImage = await resizeFile(mediaFile);
-    const formData = new FormData();
+    //const compressedImage = await resizeFile(mediaFile);
+    //const formData = new FormData();
     //formData.append("File", compressedImage);
     //formData.append("File", mediaFile);
 
     return dispatch => {
         dispatch(requestUpload);
-        dispatch(uploadSuccessful(compressedImage))
+        dispatch(uploadSuccessful(mediaFile.toString()))
     }
 
 
