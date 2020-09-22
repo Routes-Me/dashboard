@@ -8,8 +8,9 @@ const INITIAL_STATE = {
     loading: true,
     hasError: false,
     error: null,
-    compressedImage: "",
-    compressedVideo:""
+    Title: "",
+    SubTitle:"",
+    MediaUrl: ""
 }
 
 const AdvertisementReducer = (state = INITIAL_STATE, action) => {
@@ -92,6 +93,40 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 loading: false,
                 hasError: true,
                 error: action.payload
+            };
+        case advertisementsConstants.onAdvertisment_MediaRequest:
+            return {
+                ...state,
+                loading: true,
+                hasError: false
+            };
+        case advertisementsConstants.onAdvertisment_MediaUpdate:
+            return {
+                ...state,
+                loading: false,
+                hasError: false,
+                MediaUrl: action.payload
+            };
+        case advertisementsConstants.onAdvertisment_MediaUpdate:
+            return {
+                ...state,
+                loading: false,
+                hasError: true,
+                error: action.payload
+            };
+        case advertisementsConstants.onPromotions_TitleChange:
+            return {
+                ...state,
+                loading: false,
+                hasError: false,
+                Title: action.payload
+            };
+        case advertisementsConstants.onPromotions_SubTitleChange:
+            return {
+                ...state,
+                loading: false,
+                hasError: false,
+                SubTitle: action.payload
             };
         default:
             return state;

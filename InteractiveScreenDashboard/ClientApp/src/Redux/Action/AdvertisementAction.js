@@ -37,39 +37,43 @@ export async function uploadMedia(mediaFile) {
 
     const compressedImage = await resizeFile(mediaFile);
     const formData = new FormData();
-    formData.append("File", compressedImage);
-
-
-
+    //formData.append("File", compressedImage);
+    //formData.append("File", mediaFile);
 
     return dispatch => {
         dispatch(requestUpload);
-        const options = {
-            onUploadProgress: (progressEvent) => {
-                const { loaded, total } = progressEvent;
-                let percent = Math.floor((loaded * 100) / total)
-                console.log(`${loaded}kb / ${total}kb | ${percent}`);
-            }
-        };
-
-        var url = userConstants.Domain + 'advertisements/convert';
-        try {
-            axios.post(url, formData, options).then(
-                response => {
-                    dispatch(uploadSuccessful(response));
-                    console.log(response);
-                },
-                error => {
-                    dispatch(uploadError(error));
-                }
-            )
-
-        }
-        catch (ex) {
-            console.log(ex);
-        }
-        
+        dispatch(uploadSuccessful(compressedImage))
     }
+
+
+    //return dispatch => {
+    //    dispatch(requestUpload);
+    //    const options = {
+    //        onUploadProgress: (progressEvent) => {
+    //            const { loaded, total } = progressEvent;
+    //            let percent = Math.floor((loaded * 100) / total)
+    //            console.log(`${loaded}kb / ${total}kb | ${percent}`);
+    //        }
+    //    };
+
+    //    var url = userConstants.Domain + 'advertisements/convert';
+    //    try {
+    //        axios.post(url, formData, options).then(
+    //            response => {
+    //                dispatch(uploadSuccessful(response));
+    //                console.log(response);
+    //            },
+    //            error => {
+    //                dispatch(uploadError(error));
+    //            }
+    //        )
+
+    //    }
+    //    catch (ex) {
+    //        console.log(ex);
+    //    }
+        
+    //}
 
     function requestUpload() { return { type: advertisementsConstants.uploadMedia_REQUEST }; }
     function uploadSuccessful(response) { return { type: advertisementsConstants.uploadMedia_SUCCESS, payload: response }; }
@@ -79,6 +83,35 @@ export async function uploadMedia(mediaFile) {
 export function compressMedia(mediaFile) {
 
     
+}
+
+export function onTitleChange(text) {
+    return dispatch => {
+        dispatch(updateTitleOnSimulater(text))
+    }
+    function updateTitleOnSimulater(text) { return { type: advertisementsConstants.onPromotions_TitleChange, payload: text }; }
+}
+
+export function onSubTitleChange(text) {
+    return dispatch => {
+        dispatch(updateSubTitleOnSimulator(text))
+    }
+    function updateSubTitleOnSimulator(text) { return { type: advertisementsConstants.onPromotions_SubTitleChange, payload: text }; }
+}
+
+
+export function onAdvertisementClick(index) {
+    return dispatch => {
+        dispatch(onTabClick(index))
+    }
+    function onTabClick(index) { return { type: advertisementsConstants.onAdvertisement_Clicked, payload: index }; }
+}
+
+export function onMediaInput(file) {
+    return dispatch => {
+        dispatch(updateMedia(file))
+    }
+    function updateMedia(file) { return { type: advertisementsConstants.onAdvertisment_MediaSelected, payload: file }; }
 }
 
 

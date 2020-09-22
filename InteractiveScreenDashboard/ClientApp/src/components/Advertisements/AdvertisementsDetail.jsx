@@ -19,8 +19,8 @@ class AdvertisementsDetail extends React.Component {
             id: "",
             name: "",
             institution: "",
-            image: "",
-            video:"",
+            imageUrl: "",
+            videoUrl:"",
             campaigns: [],
             dayInterval: "",
             advertisement: "",
@@ -41,9 +41,9 @@ class AdvertisementsDetail extends React.Component {
     fileChangedHandler = (event) => {
         const file = event.target.files[0];
         //const filepath = file.mozFullPath;
-        var filePath = 'C:/Users/Hp/Downloads/Simulater Sample/sample.avi';
-        this.onVideoCompress(filePath);
-        //this.compressImage(file);
+        //var filePath = 'C:/Users/Hp/Downloads/Simulater Sample/sample.avi';
+        //this.onVideoCompress(filePath);
+        this.compressImage(file);
         
     }
 
@@ -58,7 +58,7 @@ class AdvertisementsDetail extends React.Component {
         const compressedImage = await onImageCompress(image);
         //console.log(`The compressed image size ==> ${this.calculateImageSize(compressedImage)}`);
         this.setState({ image: compressedImage });
-        //this.props.uploadMedia(compressedImage);
+        this.props.uploadMedia(compressedImage);
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -99,16 +99,17 @@ class AdvertisementsDetail extends React.Component {
 
     render() {
         const advertisementObj = this.state.advertisement;
-        const imageText = this.state.image === "" ? "160 X 600" : this.state.image;
-        const videoText = this.state.video === "" ? "1280 X 720" : this.state.video;
+        const imageText = this.props.ImageURL === "" ? "160 X 600" : this.state.image;
+        const videoText = this.state.videoUrl === "" ? "1280 X 720" : this.state.video;
+        const tabIndex = this.state.tabIndex; 
         return (
             <div className="container-fluid">
                 <div className="row col-md-12 detail-form">
                     <div className="headerTabStyle">
                         <nav>
                             <div className="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                                <a className="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" onClick={(e) => this.onTabClick(0)} role="tab" aria-controls="nav-home" aria-selected="true"> Basic</a>
-                                <a className="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" onClick={(e) => this.onTabClick(1)} role="tab" aria-controls="nav-profile" aria-selected="false"> QR Code Promotion</a>
+                                <a className={`nav-item nav-link ${tabIndex === 0 && "active"}`}  id="nav-home-tab" data-toggle="tab" onClick={(e) => this.onTabClick(0)} role="tab" aria-controls="nav-home" aria-selected="true"> Basic</a>
+                                <a className={`nav-item nav-link ${tabIndex === 1 && "active"}`} id="nav-profile-tab" data-toggle="tab" onClick={(e) => this.onTabClick(1)} role="tab" aria-controls="nav-profile" aria-selected="false"> QR Code Promotion</a>
                             </div>
                         </nav>
                         {/*<button className="btn default" onClick={(e) => this.onTabClick(0)}> Basic </button>
@@ -122,8 +123,8 @@ class AdvertisementsDetail extends React.Component {
                             <div className="col-md-12 simulator">
                             <div className="container row topPanel">
                                 <div className="banner1">
-                                    {
-                                        this.state.video === "" ? videoText :
+                                        {
+                                            this.state.videoUrl === "" ? videoText :
                                             <ReactPlayer
                                                 width='100%'
                                                 height='100%'
@@ -131,12 +132,12 @@ class AdvertisementsDetail extends React.Component {
                                                 url="https://firebasestorage.googleapis.com/v0/b/wdeniapp.appspot.com/o/000000%2FKuwait%20National%20Day.mp4?alt=media&token=fd4c77c5-1d5c-4aed-bb77-a6de9acb00b3" />
                                     }
                                 </div>
-                                <div className="banner2">
-                                    {this.state.image === "" ? imageText : <img className="img-fluid" alt="" src={imageText} />}
+                                    <div className="banner2">
+                                        {this.props.ImageURL === "" ? imageText : <img className="img-fluid" alt="" src={imageText} />}
                                 </div>
                             </div>
-                            <div className="container row bottomPanel">
-                                <div className="banner3"></div>
+                                <div className="container row bottomPanel">
+                                    <div className="banner3"><p>{this.props.Title}</p><br /><p></p></div>
                                 <div className="banner4"></div>
                             </div>
                         </div>
@@ -144,10 +145,10 @@ class AdvertisementsDetail extends React.Component {
                     </div>
                 </div>
                 <div className="container-fluid">
-                <div className="footerStyle">
-                    <button type="submit" style={{ float: 'left' }}> Create </button>
-                        <button className="btn btn-light"> <span class="glyphicon glyphicon-menu-left" aria-hidden="true" /> Previous</button>
-                        <button className="next" style={{ marginLeft: '7px'}}>Next: Extras <span class="glyphicon glyphicon-menu-right" aria-hidden="true" /> </button>
+                    <div className="footerStyle">
+                        <button type="submit" style={{ float: 'left' }}> Create </button>
+                        <button className="btn btn-light" style={{ marginLeft: '107px' }} onClick={(e) => this.onTabClick(0)}> <span class="glyphicon glyphicon-menu-left" aria-hidden="true" /> Previous</button>
+                        <button className="next" style={{ marginLeft: '7px' }} onClick={(e) => this.onTabClick(1)}>Next: Extras <span class="glyphicon glyphicon-menu-right" aria-hidden="true" /> </button>
                     </div>
                 </div>
             </div>
@@ -163,7 +164,10 @@ const mapStateToProps = (state) => {
 
     return {
         DayInterval: state.AdvertisementStore.DayIntervals,
-        Campaigns: state.AdvertisementStore.Campaigns
+        Campaigns: state.AdvertisementStore.Campaigns,
+        Title: state.AdvertisementStore.Title,
+        SubTitle: state.AdvertisementStore.SubTitle,
+        ImageURL: state.AdvertisementStore.MediaUrl
     }
 
 }

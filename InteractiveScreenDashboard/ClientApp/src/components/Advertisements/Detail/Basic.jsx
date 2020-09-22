@@ -36,13 +36,22 @@ class Basic extends React.Component {
     }
 
     fileChangedHandler = (event) => {
-        const file = event.target.files[0];
-        this.compressImage(file);
-        //const filepath = file.mozFullPath;
-        var filePath = 'C:/Users/Hp/Downloads/Simulater Sample/sample.avi';
-        //this.onVideoCompress(filePath);
-        
 
+        const file = event.target.files[0];
+        if (file.type.includes('video')) {
+            this.setState({ image: undefined })
+            //this.compressVideo()
+        }
+        else {
+            this.setState({ video: undefined })
+            this.compressImage(file);
+        }
+        //this.props.uploadMedia(file);
+
+        //const filepath = file.mozFullPath;
+        //var filePath = 'C:/Users/Hp/Downloads/Simulater Sample/sample.avi';
+        //this.compressVideo(filePath);
+        
     }
 
     compressVideo = async (filePath) => {
@@ -56,7 +65,7 @@ class Basic extends React.Component {
         const compressedImage = await onImageCompress(image);
         //console.log(`The compressed image size ==> ${this.calculateImageSize(compressedImage)}`);
         this.setState({ image: compressedImage });
-        //this.props.uploadMedia(compressedImage);
+        this.props.uploadMedia(compressedImage);
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -93,8 +102,6 @@ class Basic extends React.Component {
 
     render() {
         const advertisementObj = this.state.advertisement;
-        const imageText = this.state.image === "" ? "160 X 600" : this.state.image;
-        const videoText = this.state.video === "" ? "1280 X 720" : this.state.video;
         return (
             <div className="container-fluid">
                 <Form onSubmit={e => this.handleSubmit(e)}>
@@ -112,7 +119,6 @@ class Basic extends React.Component {
                             </div>
 
                             <div className="row form-group">
-                                {/*VehicleObj.model.id*/}
                                 <div className="col-md-12">
                                     <Label>Day Interval</Label><br />
                                     <select defaultValue={advertisementObj ? this.state.dayInterval : "Select an interval"} className="custom-select my-1 mr-sm-2" name="dayInterval" onChange={this.onChange}>

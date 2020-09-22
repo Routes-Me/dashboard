@@ -93,6 +93,7 @@ header nav {
 }
 
 .left-panel {
+    top:0;
     max-width: 330px;
     width: 100%;
     position: fixed !important;

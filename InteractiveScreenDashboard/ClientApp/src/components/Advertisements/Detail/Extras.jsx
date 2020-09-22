@@ -15,8 +15,8 @@ class Extras extends React.Component {
 
         this.state = {
             id: "",
-            name: "",
-            institution: "",
+            title: "",
+            subtitle: "",
             image: "",
             video: "",
             campaigns: [],
@@ -33,6 +33,9 @@ class Extras extends React.Component {
 
     onChange = (event) => {
         this.setState({ [event.target.name]: event.target.value })
+        if (event.target.name === "title") {
+            this.props.updateTitle(event.target.value);
+        }
     }
 
     fileChangedHandler = (event) => {
@@ -105,8 +108,8 @@ class Extras extends React.Component {
                             <div className="row form-group">
                                 <div className="col-md-12">
                                     <Label>Title</Label><br />
-                                    <input type="text" name="email"
-                                        placeholder={advertisementObj === undefined ? "" : advertisementObj.name}
+                                <input type="text" name="title"
+                                    placeholder={advertisementObj === undefined ? "" : advertisementObj.title}
                                         value={advertisementObj.name}
                                         onChange={this.onChange}
                                         className="form-control" />
@@ -117,8 +120,8 @@ class Extras extends React.Component {
                             <div className="row form-group">
                                 <div className="col-md-12">
                                     <Label>Subtitle</Label><br />
-                                    <input type="text" name="email"
-                                        placeholder={advertisementObj === undefined ? "" : advertisementObj.name}
+                                <input type="text" name="subtitle"
+                                    placeholder={advertisementObj === undefined ? "" : advertisementObj.subtitle}
                                         value={advertisementObj.name}
                                         onChange={this.onChange}
                                         className="form-control" />
@@ -196,6 +199,8 @@ const actionCreators = {
     getCampaigns: AdvertisementAction.getCampaigns,
     getDayIntervals: AdvertisementAction.getDayIntervals,
     getInstitutions: InstitutionAction.getInstitutions,
+    updateTitle: AdvertisementAction.onTitleChange,
+    updateSubtitle: AdvertisementAction.onSubTitleChange,
     uploadMedia: AdvertisementAction.uploadMedia,
     saveAdvertisement: AdvertisementAction.addAdvertisement
 

@@ -54,9 +54,6 @@ class Primary extends Component
 
     render() {
 
-        // const { mainMenu1, mainMenu2, mainMenu3 } = this.state;
-        //console.log(`Selected Menu to render ==> ${this.state.selectedNavItem}`)
-
 
         return (
 
@@ -74,17 +71,6 @@ class Primary extends Component
                             <li key={navItem} className={this.returnSelectMenu(navItem)} onClick={(event) => this.toggleMenu(event, navItem)}><a><div className="icon-28"><img alt="" src={require(`./image/${navItem}.svg`)} className="menu-icon" /></div> {navItem}</a>
                             </li>
                         )}
-                        {/*<li className={this.returnSelectMenu(userConstants.NavItem_Users)} onClick={(event) => this.toggleMenu(event, userConstants.NavItem_Users)}><a><div className="icon-28"><img alt="" src={Users} className="menu-icon" /></div> {userConstants.NavItem_Users}</a>
-                        </li>
-                        <li className={this.returnSelectMenu(userConstants.NavItem_Vehicles)} onClick={(event) => this.toggleMenu(event, userConstants.NavItem_Vehicles)}><a><div className="icon-28"><img alt="" src={Vehicles} className="menu-icon" /></div> {userConstants.NavItem_Vehicles}</a>
-                        </li>
-                        <li className={this.returnSelectMenu(userConstants.NavItem_Advertisements)} onClick={(event) => this.toggleMenu(event, userConstants.NavItem_Advertisements)}><a><div className="icon-28"><img alt="" src={Advertisements} className="menu-icon" /></div> {userConstants.NavItem_Advertisements}</a>
-                        </li>
-                        <li className={this.returnSelectMenu(userConstants.NavItem_Drivers)} onClick={(event) => this.toggleMenu(event, userConstants.NavItem_Drivers)}><a><div className="icon-28"><img alt="" src={drivers} className="menu-icon" /></div> {userConstants.NavItem_Drivers}</a>
-                        </li>
-                        <li className={this.returnSelectMenu(userConstants.NavItem_Institutions)} onClick={(event) => this.toggleMenu(event, userConstants.NavItem_Institutions)}><a><div className="icon-28"><img alt="" src={Institutions} className="menu-icon" /></div> {userConstants.NavItem_Institutions}</a>
-                        </li>*/}
-                        
                      </ul>
                 </div>
 

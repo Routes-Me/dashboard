@@ -49,6 +49,8 @@ namespace InteractiveScreenDashboard.Controllers
         [HttpGet]
         public ActionResult getAllAdvertisements([FromRoute] int? institutionId,[FromQuery] QueryParameters parameters)
         {
+            List<Advertisement> addList = new List<Advertisement>();
+            
             var result = new ObjectResult(_Advertisement.getAdvertisements(institutionId, parameters))
             {
                 StatusCode = (int)HttpStatusCode.OK

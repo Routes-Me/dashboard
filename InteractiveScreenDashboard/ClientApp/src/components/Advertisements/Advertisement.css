@@ -149,6 +149,7 @@ div.banner2 img{
 div.banner3 {
     width: 245px;
     background-color: #d1d9e9;
+    overflow:hidden;
 }
 
 
@@ -216,7 +217,7 @@ button {
     font-size: 16px;
     font-weight: bold;
 }
-.nav-link:hover {
+.nav-link {
     border: none;
 }
 

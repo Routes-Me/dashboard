@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { userConstants } from '../../constants/userConstants';
 import * as AdvertisementAction from '../../Redux/Action';
 import '../Detail/Detail.css';
-import Pagination from "react-js-pagination";
 
 class Advertisements extends Component {
 
@@ -64,9 +63,10 @@ class Advertisements extends Component {
                     <table>
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Day Interval</th>
-                                <th>Created At</th>
+                                <th>ID</th>
+                                <th>NAME</th>
+                                <th>CAMPING</th>
+                                <th>STATUS</th>
                                 <th className="width44" />
                             </tr>
                         </thead>
@@ -75,8 +75,8 @@ class Advertisements extends Component {
                                 Advertisements.map(Advertisement => (
                                     <tr key={Advertisement.id}>
                                         <td>{Advertisement.id}</td>
-                                        <td>{Advertisement.createdAt}</td>
-                                        <td>{Advertisement.createdAt}</td>
+                                        <td>{Advertisement.name}</td>
+                                        <td>{Advertisement.status}</td>
                                         <td className="width44" >
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Advertisement.id)}>

@@ -3,6 +3,10 @@ import { institutionConstants } from '../../constants/institutionConstants';
 import { userConstants } from '../../constants/userConstants';
 import axios from 'axios';
 
+
+
+
+
 //Get Institution list
 export function getInstitutions(institutionId, pageIndex) {
 

@@ -113,10 +113,10 @@ class Secondary extends Component {
         //             Active vehicle count : ${this.state.activeVehiclesCount}`)
         return (
             < div >
-                <div className="justify-content-center row col-md-12" style={{ backgroundColor: "#f1f2f6" }}>
+                {/*<div className="justify-content-center row col-md-12" style={{ backgroundColor: "#f1f2f6" }}>
                     <a href="#" class="justify-content-center badge badge-primary" style={{ width: "38px", height: "4px", marginTop:"5px" }}>     </a>
                 </div>
-                {/*{this.props.selectedNavItem === userConstants.NavItem_Tracking ? <SecondaryTracking /> : <SecondaryVehicles />}*/}
+                {this.props.selectedNavItem === userConstants.NavItem_Tracking ? <SecondaryTracking /> : <SecondaryVehicles />}*/}
 
                 {this.props.selectedNavItem === userConstants.NavItem_Tracking && <SecondaryTracking />}
                 {this.props.selectedNavItem === userConstants.NavItem_Vehicles && <SecondaryVehicles />}

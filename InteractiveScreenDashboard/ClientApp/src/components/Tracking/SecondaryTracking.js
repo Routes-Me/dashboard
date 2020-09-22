@@ -106,8 +106,8 @@ class SecondaryTracking extends Component {
                 <div className="tab-button">
                     <div className="button-back">
                         {/*<div className="notification-duty-on"><span>1</span></div>*/}
-                        <button className={this.returnFilterStyle(trackingConstants.ActiveState)} onClick={() => this.toggleFilter(trackingConstants.ActiveState)}>({this.props.activeVehiclesCount}) ACTIVE</button>
-                        <button className={this.returnFilterStyle(trackingConstants.IdleState)} onClick={() => this.toggleFilter(trackingConstants.IdleState)}>IDLE ({this.props.idleVehiclesCount})</button>
+                        <button className={this.returnFilterStyle(trackingConstants.ActiveState)} onClick={() => this.toggleFilter(trackingConstants.ActiveState)} style={{ color: "black" }}>({this.props.activeVehiclesCount}) ACTIVE</button>
+                        <button className={this.returnFilterStyle(trackingConstants.IdleState)} onClick={() => this.toggleFilter(trackingConstants.IdleState)} style={{ color: "black" }}>IDLE ({this.props.idleVehiclesCount})</button>
                         {/*<div className="notification-duty-off"><span>{this.state.filter === trackingConstants.IdleState ? this.state.idleVehiclesCount : this.state.activeVehiclesCount}</span></div>*/}
 
                     </div>

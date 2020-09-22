@@ -22,5 +22,15 @@
 
     uploadMedia_REQUEST: "UPLOADMEDIA_REQUEST",
     uploadMedia_SUCCESS: "UPLOADMEDIA_SUCCESS",
-    uploadMedia_ERROR: "UPLOADMEDIA_ERROR"
+    uploadMedia_ERROR: "UPLOADMEDIA_ERROR",
+
+    onAdvertisement_Clicked: "ONADVERTISEMENT_CLICKED",
+
+    onAdvertisment_MediaRequest: "ONADVERTISEMENTMEDIA_REQUEST",
+    onAdvertisment_MediaUpdate: "ONADVERTISEMENTMEDIA_UPDATE",
+    onAdvertisment_MediaError: "ONADVERTISEMENTMEDIA_ERROR",
+
+    onPromotions_TitleChange: "ONPROMOTIONS_TITLECHANGE",
+    onPromotions_SubTitleChange: "ONPROMOTIONS_TITLECHANGE"
+
 }
