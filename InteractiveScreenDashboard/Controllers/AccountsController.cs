@@ -55,16 +55,16 @@ namespace InteractiveScreenDashboard.Controllers
             //string decodedCipher = decodePassword(testPassword);
 
 
-            var acc = _account.UserAccountAccessAsync(email, account.password);
+            Users acc = await _account.UserAccountAccessAsync(email, account.password);
 
-            return Ok(acc);
-            //if (acc!= null)
-            //{
-            //    Request.HttpContext.Response.Headers.Add("AccessToken", GenerateAccessToken(acc.User_id));
+            //return Ok(acc);
+            if (acc != null)
+            {
+                //Request.HttpContext.Response.Headers.Add("AccessToken", GenerateAccessToken(acc.User_id));
 
-            //    return Ok(acc);
-            //}
-            //return Unauthorized();
+                return Ok(acc);
+            }
+            return Unauthorized();
         }
 
         [HttpGet]

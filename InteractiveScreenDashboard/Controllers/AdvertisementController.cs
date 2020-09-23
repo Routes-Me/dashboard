@@ -88,9 +88,14 @@ namespace InteractiveScreenDashboard.Controllers
 
                 string Stoaragewrite = await WriteToStorage(fileToConvert.File);
                 //String FilePath = 
-                return StatusCode(StatusCodes.Status201Created);
-
                 
+
+                if (fileToConvert.File.ContentType.Contains("video"))
+                {
+                    Convertor convert = new Convertor();
+                    string compressedFilePath = convert.ConvertVideo("FilePath", false, "Playerpath");
+                }
+                return StatusCode(StatusCodes.Status201Created);
 
                 //using (var httpClient = new HttpClient())
                 //{

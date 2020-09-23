@@ -45,7 +45,7 @@ export function userSignInRequest(username, password) {
                     //console.log("User Details : ", JSON.stringify(user));
                     //const token = response.token;
                     //const token = jwt.decode(response.token);
-                    const user = response.data.result;
+                    const user = response.data;
                     localStorage.setItem('user', user);
                     dispatch(getLoginSuccess(user));
                     history.push('/home');
@@ -54,7 +54,7 @@ export function userSignInRequest(username, password) {
                 },
                 error => {
                     dispatch(getLoginFailure(error.toString()));
-                    //alert(error.toString());
+                    alert(error.toString());
                     //dispatch(alertActions.error(error.toString()));
                 }
             );

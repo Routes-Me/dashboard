@@ -76,6 +76,19 @@ import * as LoginAction from '../Redux/Action';
 		
 	}
 
+	  //static getDerivedStateFromProps(props, state) {
+		 // //console.log('Users : getDerivedStateFromProps called with NewProps', props.vehicleToDisplay);
+		 // if (props.institutionToDisplay !== undefined) {
+			//  if (props.institutionToDisplay !== state.institutionToDisplay) {
+			//	  return {
+			//		  institution: props.institutionToDisplay,
+			//		  id: props.institutionToDisplay.institutionId,
+			//		  name: props.institutionToDisplay.name,
+			//		  phoneNumber: props.institutionToDisplay.phoneNumber
+			//	  }
+			//  }
+		 // }
+	  //}
 	
 
 	render() {
@@ -92,7 +105,7 @@ import * as LoginAction from '../Redux/Action';
 			}
 		};
 
-		const { loading } = this.state;
+		const { loading } = this.props.loggingIn;
 		
 		//const { handleSubmit, register } = useForm();
 		//const onSubmit = values => console.log(values);
@@ -125,9 +138,9 @@ import * as LoginAction from '../Redux/Action';
 						</div>
 						<div className="form-group">
 							<button type="submit" className="buttonStyle">
-								{loading && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />}
-								{loading && <span>  Logging In...</span>}
-								{!loading && <span>Login</span>}
+								{this.state.loading && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />}
+								{this.state.loading && <span>  Logging In...</span>}
+								{!this.state.loading && <span>Login</span>}
 							</button>		
 						</div>			
 					</Form>
@@ -145,8 +158,9 @@ import * as LoginAction from '../Redux/Action';
 //}
 
 function mapState(state) {
-	const { loggingIn } = state;
-	return { loggingIn };
+	return {
+		loggingIn: state.Login.loading
+	};
 }
 
 const actionCreators = {

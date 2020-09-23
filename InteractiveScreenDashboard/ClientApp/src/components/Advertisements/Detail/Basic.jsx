@@ -40,13 +40,14 @@ class Basic extends React.Component {
         const file = event.target.files[0];
         if (file.type.includes('video')) {
             this.setState({ image: undefined })
+            //this.props.uploadMedia(file);
             //this.compressVideo()
         }
         else {
             this.setState({ video: undefined })
-            this.compressImage(file);
+            //this.compressImage(file);
         }
-        //this.props.uploadMedia(file);
+        this.props.uploadMedia(file);
 
         //const filepath = file.mozFullPath;
         //var filePath = 'C:/Users/Hp/Downloads/Simulater Sample/sample.avi';

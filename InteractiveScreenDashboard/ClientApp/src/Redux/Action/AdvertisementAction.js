@@ -30,50 +30,72 @@ const resizeFile = (file) => new Promise(resolve => {
     );
 });
 
+function dataURLtoFile(dataurl, filename) {
+
+    var arr = dataurl.split(','),
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n);
+
+    while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+    }
+
+    return new File([u8arr], filename, { type: mime });
+}
 
 
 
-export async function uploadMedia(mediaFile) {
+
+export function uploadMedia(mediaFile) {
 
     //const compressedImage = await resizeFile(mediaFile);
-    //const formData = new FormData();
-    //formData.append("File", compressedImage);
-    //formData.append("File", mediaFile);
 
-    return dispatch => {
-        dispatch(requestUpload);
-        dispatch(uploadSuccessful(mediaFile.toString()))
+    const file = mediaFile;
+    if (mediaFile.type.includes('image')) {
+        file = dataURLtoFile(mediaFile, "compressedImageFile")
     }
 
 
+    const formData = new FormData();
+    formData.append("File", file);
+    //formData.append("File", mediaFile);
+
     //return dispatch => {
     //    dispatch(requestUpload);
-    //    const options = {
-    //        onUploadProgress: (progressEvent) => {
-    //            const { loaded, total } = progressEvent;
-    //            let percent = Math.floor((loaded * 100) / total)
-    //            console.log(`${loaded}kb / ${total}kb | ${percent}`);
-    //        }
-    //    };
-
-    //    var url = userConstants.Domain + 'advertisements/convert';
-    //    try {
-    //        axios.post(url, formData, options).then(
-    //            response => {
-    //                dispatch(uploadSuccessful(response));
-    //                console.log(response);
-    //            },
-    //            error => {
-    //                dispatch(uploadError(error));
-    //            }
-    //        )
-
-    //    }
-    //    catch (ex) {
-    //        console.log(ex);
-    //    }
-        
+    //    dispatch(uploadSuccessful(mediaFile.toString()))
     //}
+
+
+    return dispatch => {
+        dispatch(requestUpload);
+        const options = {
+            onUploadProgress: (progressEvent) => {
+                const { loaded, total } = progressEvent;
+                let percent = Math.floor((loaded * 100) / total)
+                console.log(`${loaded}kb / ${total}kb | ${percent}`);
+            }
+        };
+
+        var url = userConstants.Domain + 'advertisements/convert';
+        try {
+            axios.post(url, formData, options).then(
+                response => {
+                    dispatch(uploadSuccessful(response));
+                    console.log(response);
+                },
+                error => {
+                    dispatch(uploadError(error));
+                }
+            )
+
+        }
+        catch (ex) {
+            console.log(ex);
+        }
+        
+    }
 
     function requestUpload() { return { type: advertisementsConstants.uploadMedia_REQUEST }; }
     function uploadSuccessful(response) { return { type: advertisementsConstants.uploadMedia_SUCCESS, payload: response }; }

@@ -100,6 +100,11 @@ class Tracking extends Component {
 
     };
 
+    static getDerivedStateFromProps(props, state) {
+        //console.log('Users : getDerivedStateFromProps called with NewProps', props.vehicleToDisplay);
+        
+    }
+
     //Function called whenever there's an activity on the map
     handleMapChange = ({ center, zoom, bounds }) => {
 

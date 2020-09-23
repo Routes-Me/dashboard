@@ -118,7 +118,7 @@ class Advertisements extends Component {
         return (
             <div className="vehicles-page" style={{ height: "100vh", width: "100%" }}>
                 {this.state.showDetails ?
-                    <Detail className={this.props.show ? 'slide-in' : 'slide-out'}
+                     <Detail className={this.props.show ? 'slide-in' : 'slide-out'}
                         show={this.showDetailScreen}
                         objectType={userConstants.NavItem_Advertisements}
                         object={this.state.advertisement} /> :

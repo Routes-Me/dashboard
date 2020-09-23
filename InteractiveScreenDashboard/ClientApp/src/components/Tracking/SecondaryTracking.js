@@ -30,7 +30,7 @@ class SecondaryTracking extends Component {
     }
 
     componentDidMount() {
-        this.props.GetOfflineVehicles();
+        //this.props.GetOfflineVehicles();
         //this.toggleFilter(this.state.filter);
     }
 

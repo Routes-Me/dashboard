@@ -3,7 +3,7 @@
 //const user = JSON.parse(localStorage.getItem('user'));
 
 const INITIAL_STATE = {
-    loading: true,
+    loading: false,
     hasError: false,
     error: null,
     SelectedNavOption:"",
@@ -13,7 +13,7 @@ const INITIAL_STATE = {
 
 
 
-const LoginReducer = (state = {}, action) => { 
+const LoginReducer = (state = INITIAL_STATE, action) => { 
     //console.log("/Login Reducer => state  : ", state);
     //console.log("/Login Reducer => action : ", action);
     switch (action.type) {
@@ -45,7 +45,7 @@ const LoginReducer = (state = {}, action) => {
                 loading: false,
                 hasError: false,
                 loggedIn: false,
-                user: action.payload
+                error: action.payload
             };
         case userConstants.ForgotPassword_REQUEST:
             return {

@@ -10,7 +10,7 @@ const INITIAL_STATE = {
     idForSelectedVehicle:0
 };
 
-const TrackingReducer = ( state = {}, action ) => {
+const TrackingReducer = (state = INITIAL_STATE, action ) => {
     switch (action.type) {
         case trackingConstants.Tracking_OnSubscribeRequest:
             return {
@@ -74,7 +74,7 @@ const TrackingReducer = ( state = {}, action ) => {
             };
 
         default:
-            return INITIAL_STATE;
+            return state;
     }
 };
 
