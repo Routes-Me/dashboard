@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+﻿import React from 'react';
 import { connect } from 'react-redux';
 import { Label } from 'reactstrap';
 import * as UserAction from '../../Redux/Action';
@@ -70,6 +70,7 @@ class UsersDetail extends React.Component {
         const buttonText = userObj ? "Update" : "Add";
 
         return (
+            <div className="container-fluid">
             <div className="row col-md-12 detail-form">
                 <Form onSubmit={e => this.handleSubmit(e)}>
                     <div class="col-md-10">
@@ -150,6 +151,12 @@ class UsersDetail extends React.Component {
                     </div>
                 </Form>
             </div>
+            <div className="container-fluid">
+                <div className="footerStyle">
+                    <button type="submit" style={{ float: 'left' }}> Create </button>
+                </div>
+            </div>
+            </div >
         )
     }
 }

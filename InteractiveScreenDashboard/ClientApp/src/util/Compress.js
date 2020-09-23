@@ -1,6 +1,6 @@
 ﻿import Resizer from 'react-image-file-resizer';
 
-export function onImageCompress(image) {
+export async function onImageCompress(image) {
     //const file = File.target.files[0];
 
     //Resizer.imageFileResizer(
@@ -16,7 +16,7 @@ export function onImageCompress(image) {
     //    "base64" // blob or base64 default base64
     //);
 
-    const compressedImage = resizeFile(image);
+    const compressedImage = await resizeFile(image);
     return compressedImage;
 
 }

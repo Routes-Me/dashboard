@@ -10,6 +10,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FFMpegCore" Version="2.2.6" />
+    <PackageReference Include="MediaToolkit" Version="1.1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.5" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
@@ -22,7 +24,10 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="3.1.8" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.2" />
     <PackageReference Include="NETCore.MailKit" Version="2.0.3" />
+    <PackageReference Include="NReco.VideoConverter" Version="1.1.4" />
+    <PackageReference Include="ProxyKit" Version="2.3.3" />
     <PackageReference Include="System.Net.Http.Json" Version="3.2.1" />
+    <PackageReference Include="Xabe.FFmpeg" Version="4.3.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,6 +60,9 @@
     <Reference Include="Encryption">
       <HintPath>..\..\..\..\Desktop\encrypt\Encryption\Encryption\bin\Release\netstandard2.0\Encryption.dll</HintPath>
     </Reference>
+    <Reference Include="UploadToBolbs">
+      <HintPath>..\..\..\..\Downloads\UploadToBolbs.dll</HintPath>
+    </Reference>
     <Reference Include="VideoConvertor">
       <HintPath>..\..\VideoConvertor\VideoConvertor\bin\Release\netstandard2.0\VideoConvertor.dll</HintPath>
     </Reference>
@@ -78,6 +86,7 @@
   <ItemGroup>
     <Folder Include="ClientApp\src\util\Player\CompressedFiles\" />
     <Folder Include="Converted\" />
+    <Folder Include="Data\Player\" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

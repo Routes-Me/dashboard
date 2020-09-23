@@ -108,8 +108,8 @@ class VehicleDetail extends React.Component {
         const buttonText = vehicleObj ? "Update" : "Add";
         const searchList = this.returnListToSearch();
         return (
+            <div className="container-fluid">
             <div className="row col-md-12 detail-form">
-
                 <Modal
                     show={this.state.searchModel}
                     onClose={this.toggleModal}
@@ -200,7 +200,12 @@ class VehicleDetail extends React.Component {
                         */}
                         </div>
                     </Form>
+            </div><div className="container-fluid">
+                <div className="footerStyle">
+                    <button type="submit" style={{ float: 'left' }}> Create </button>
+                </div>
             </div>
+            </div >
         )
     }
 }

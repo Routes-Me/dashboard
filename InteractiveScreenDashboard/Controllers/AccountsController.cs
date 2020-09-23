@@ -19,8 +19,6 @@ using System.Net.Http;
 
 namespace InteractiveScreenDashboard.Controllers
 {
-
-
     [Authorize]
     [Produces("application/json")]
     [Route("api/users")]
@@ -39,7 +37,8 @@ namespace InteractiveScreenDashboard.Controllers
             _jwtSettings = jwtsettings.Value;
         }
 
-        [AllowAnonymous]
+
+    
         [Produces(typeof(Users))]
         [HttpPost("login")]
         public async Task<IActionResult> LoginUser([FromBody] Authenticate account)
@@ -54,10 +53,8 @@ namespace InteractiveScreenDashboard.Controllers
             //string testPassword = "aypkE2WKlaKhsRUPsXzpFPXZyBZ2NhDHHq8wd6JwJwA==";
             //string decodedCipher = decodePassword(testPassword);
 
-
             Users acc = await _account.UserAccountAccessAsync(email, account.password);
 
-            //return Ok(acc);
             if (acc != null)
             {
                 //Request.HttpContext.Response.Headers.Add("AccessToken", GenerateAccessToken(acc.User_id));
@@ -70,7 +67,6 @@ namespace InteractiveScreenDashboard.Controllers
         [HttpGet]
         public ActionResult GetAllUserAccounts()
         {
-
             var result =new ObjectResult(_account.GetAllAccounts())
             {
                 StatusCode = (int)HttpStatusCode.OK
@@ -228,6 +224,7 @@ namespace InteractiveScreenDashboard.Controllers
             return Ok(updatedUser);
         }
 
+        
         [AllowAnonymous]
         [HttpGet("autherization/{Id}")]
         public IActionResult GetAutherization([FromRoute] int Id)

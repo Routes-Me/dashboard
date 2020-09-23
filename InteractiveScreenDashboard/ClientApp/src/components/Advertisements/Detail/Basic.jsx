@@ -4,7 +4,7 @@ import { Label } from 'reactstrap';
 import * as AdvertisementAction from '../../../Redux/Action';
 import * as InstitutionAction from '../../../Redux/Action';
 import Form from 'react-validation/build/form';
-import { onImageCompress, onVideoCompress } from '../../../util/Compress';
+import { onImageCompress } from '../../../util/Compress';
 import '../../Advertisements/Advertisement.css';
 
 
@@ -35,30 +35,25 @@ class Basic extends React.Component {
         this.setState({ [event.target.name]: event.target.value })
     }
 
-    fileChangedHandler = (event) => {
+    fileChangedHandler = async(event) => {
 
-        const file = event.target.files[0];
+        let fileType = undefined;
+        let file = event.target.files[0];
         if (file.type.includes('video')) {
             this.setState({ image: undefined })
+            fileType = 'video';
             //this.props.uploadMedia(file);
             //this.compressVideo()
         }
         else {
-            this.setState({ video: undefined })
-            //this.compressImage(file);
+            this.setState({ video: undefined });
+            fileType = 'image';
+            file = await onImageCompress(file);
         }
-        this.props.uploadMedia(file);
-
-        //const filepath = file.mozFullPath;
-        //var filePath = 'C:/Users/Hp/Downloads/Simulater Sample/sample.avi';
-        //this.compressVideo(filePath);
+        this.props.uploadMedia(file, fileType);
         
     }
 
-    compressVideo = async (filePath) => {
-        const compressedVideo = await onVideoCompress(filePath);
-        this.setState({ video: compressedVideo });
-    }
 
 
 
@@ -66,7 +61,8 @@ class Basic extends React.Component {
         const compressedImage = await onImageCompress(image);
         //console.log(`The compressed image size ==> ${this.calculateImageSize(compressedImage)}`);
         this.setState({ image: compressedImage });
-        this.props.uploadMedia(compressedImage);
+        return compressedImage;
+        //this.props.uploadMedia(compressedImage);
     }
 
     static getDerivedStateFromProps(props, state) {

@@ -86,15 +86,18 @@ namespace InteractiveScreenDashboard.Controllers
             try
             {
 
-                string Stoaragewrite = await WriteToStorage(fileToConvert.File);
-                //String FilePath = 
-                
 
                 if (fileToConvert.File.ContentType.Contains("video"))
                 {
-                    Convertor convert = new Convertor();
-                    string compressedFilePath = convert.ConvertVideo("FilePath", false, "Playerpath");
+                    string compressedFilename = Path.Combine(Directory.GetCurrentDirectory(), "Converted" ,"Compressed.mp4");
+                    string compressedFilePath = convertMedia(compressedFilename, false);
                 }
+                else
+                {
+                    string Stoaragewrite = await WriteToStorage(fileToConvert.File);
+                }
+                
+
                 return StatusCode(StatusCodes.Status201Created);
 
                 //using (var httpClient = new HttpClient())
@@ -140,7 +143,7 @@ namespace InteractiveScreenDashboard.Controllers
         {
             try
             {
-                string pathToConvertor = Path.Combine(_hostingEnvironment.WebRootPath, "/Data/Player/"); ;
+                string pathToConvertor = Path.Combine(Directory.GetCurrentDirectory(), "/Data/Player/","ffmpeg.exe"); ;
                 Convertor conversion = new Convertor();
                 string path = conversion.ConvertVideo(filePath, (bool)mute, pathToConvertor);
                 return path;

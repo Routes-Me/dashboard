@@ -3,7 +3,7 @@ import { userConstants } from '../../constants/userConstants';
 import { advertisementsConstants } from '../../constants/advertisementConstants';
 //import { resizeFile } from '../../util/Compress';
 import Resizer from 'react-image-file-resizer';
-
+import { onImageCompress } from '../../util/Compress';
 
 
 export function getAdvertisements(institutionId, pageIndex) {
@@ -32,11 +32,12 @@ const resizeFile = (file) => new Promise(resolve => {
 
 function dataURLtoFile(dataurl, filename) {
 
-    var arr = dataurl.split(','),
-        mime = arr[0].match(/:(.*?);/)[1],
-        bstr = atob(arr[1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n);
+    var urlStr = dataurl + "";
+    var arr = urlStr.split(',');
+    var mime = arr[0].match(/:(.*?);/)[1];
+    var bstr = atob(arr[1]);
+    var n = bstr.length;
+    var u8arr = new Uint8Array(n);
 
     while (n--) {
         u8arr[n] = bstr.charCodeAt(n);
@@ -48,25 +49,19 @@ function dataURLtoFile(dataurl, filename) {
 
 
 
-export function uploadMedia(mediaFile) {
+export function uploadMedia(mediaFile, fileType) {
 
     //const compressedImage = await resizeFile(mediaFile);
 
-    const file = mediaFile;
-    if (mediaFile.type.includes('image')) {
-        file = dataURLtoFile(mediaFile, "compressedImageFile")
+    let file = mediaFile;
+    if (fileType==='image') {
+        //const compressedImage = await onImageCompress(mediaFile);
+        file = dataURLtoFile(mediaFile, "compressedImageFile.jpg");
     }
 
 
     const formData = new FormData();
     formData.append("File", file);
-    //formData.append("File", mediaFile);
-
-    //return dispatch => {
-    //    dispatch(requestUpload);
-    //    dispatch(uploadSuccessful(mediaFile.toString()))
-    //}
-
 
     return dispatch => {
         dispatch(requestUpload);
@@ -101,6 +96,8 @@ export function uploadMedia(mediaFile) {
     function uploadSuccessful(response) { return { type: advertisementsConstants.uploadMedia_SUCCESS, payload: response }; }
     function uploadError(error) { return { type: advertisementsConstants.uploadMedia_ERROR, payload: error }; }
 }
+
+
 
 export function compressMedia(mediaFile) {
 
