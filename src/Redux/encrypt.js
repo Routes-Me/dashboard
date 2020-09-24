@@ -71,7 +71,7 @@ function decrypt(transitmessage, pass) {
 
 
 
-export function encryptAndEncode(raw, IV, PASSWORD)
+export function encryptAndEncode(PASSWORD)
 {
     //generate the position string
     var positionStr = randomStringOfLength(2,false);

@@ -2,7 +2,7 @@
 import { history } from '../../helper/history';
 import { userConstants } from '../../constants/userConstants';
 //import jwt from 'jsonwebtoken';
-import { encryptAES } from '../encrypt';
+import { encryptAndEncode } from '../encrypt';
 import setAuthorizationToken from '../../util/setAuthorizationToken'
 
 
