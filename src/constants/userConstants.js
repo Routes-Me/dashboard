@@ -45,5 +45,5 @@
 
     limit: 10,
 
-    Domain:'http://localhost:55205/api/' 
+    Domain:'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/' 
 };

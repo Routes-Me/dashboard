@@ -8,20 +8,21 @@ import axios from 'axios';
 
 
 //Get Institution list
-export function getInstitutions(institutionId, pageIndex) {
+export function getInstitutions(institutionId, offset) {
 
     return dispatch => {
 
+        // dispatch(storeInstitutionsData(MockServerData.Institutions.data));
+        const Token = localStorage.getItem('jwtToken').toString();
         dispatch(IstitutionDataRequest());
-        axios.get(userConstants.Domain + 'institutions?' + institutionId, {
-            params: { queryParameter: returnQueryParamters(pageIndex, true) }
-        }).then(
-            institutions => {
+        axios.get(userConstants.Domain + 'institutions', {headers: Token})
+        .then(
+            institutions => { 
                 dispatch(storeInstitutionsData(returnFormatedResponseForInstitutions(institutions)));
                 dispatch(updatePage(institutions.pagination));
             },
             error => {
-                //alert(error.toString());
+                alert(error.toString());
             });
         //const Institutions = MockAPICallForInstitutions();
         //const servicesData = MockAPICallForInstitutions().include.services;
@@ -30,11 +31,11 @@ export function getInstitutions(institutionId, pageIndex) {
 
     }
 
-}
+
 function IstitutionDataRequest() { return { type: institutionConstants.getInstitutions_REQUEST } };
 function storeInstitutionsData(institutions) { return { type: institutionConstants.getInstitutions_SUCCESS, payload: institutions } };
 function updatePage(pages) { return { type: institutionConstants.UpdatePage, payload: pages } }
-
+}
 
 function returnQueryParamters(offset, include) {
 

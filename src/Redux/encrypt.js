@@ -5,25 +5,21 @@ var ivSize = 128;
 var iterations = 100;
 
 
-//variables for Encryption
-const key = '82f2ceed4c503896c8a291e560bd4325'; // change to your key
-const iv = 'sinasinasisinaaa'; // change to your iv
-const apiKey = '123xxxyyyzzz'; // change to your api key
-
 
 
 
 export function encryptAES(text) {
-    var key = CryptoJS.enc.Utf8.parse('2020ROUTESME2020');
-    var iv = CryptoJS.enc.Utf8.parse('2020ROUTESME2020');  
-    var encryptedpassword = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(text), key,
+    var  iv = CryptoJS.enc.Utf8.parse('Qz-N!p#ATb9_2MkL');
+    var key  = CryptoJS.enc.Utf8.parse('ledV\\K\"zRaNF]WXki,RMtLLZ{Cyr_1');
+    var encodedText = CryptoJS.enc.Utf8.parse(text);
+    var encryptedpassword = CryptoJS.AES.encrypt(encodedText, key,
         {
-            keySize: 128 / 8,
+            keySize: 128,
             iv: iv,
             mode: CryptoJS.mode.CBC,
             padding: CryptoJS.pad.Pkcs7
         }); 
-    return encryptedpassword;
+    return encryptedpassword.toString();
 }
 
 export function encrypt(msg, pass) {
@@ -68,3 +64,91 @@ function decrypt(transitmessage, pass) {
     });
     return decrypted;
 }
+
+
+
+export function encryptAndEncode(PASSWORD)
+{
+    //generate the position string
+    var positionStr = randomStringOfLength(2,false);
+
+    //calculate the index 
+    var positionIndex = calculateIndexForWord(positionStr);
+
+    //generate Full SALT of 16Char
+    var salt = randomStringOfLength(16,true);
+
+    //generate the exclude char
+    var excludeText = randomStringOfLength(3,true);
+
+    //filter the SALT with the above exclude text
+    var refinedSalt = refineSalt(salt,excludeText);
+
+    var encryptedText = encryptAES(refinedSalt);
+
+    var prefixText = positionStr + excludeText
+
+    var formatedCipher = formatCipher(prefixText,encryptedText,salt,positionIndex);
+
+    return formatedCipher;
+
+}
+
+
+function randomStringOfLength(length,mixed) 
+{
+    var result           = '';
+    var alphabets        = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    var numbers          = '0123456789';
+    var characters       = '';
+
+    {mixed? characters = alphabets + numbers : characters = alphabets}
+
+
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+       result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+ }
+
+
+ function calculateIndexForWord(word)
+ {
+    var position = 0;
+    var wordCount = word.length;
+    for(var i=0; i<wordCount; i++)
+    {
+        position = position + parseInt(word.charCodeAt(i));
+    }
+    return position % 3;
+ }
+
+ function refineSalt(salt,excludeText)
+ {
+    for(var i=0; i<excludeText.length; i++){
+        const removedChar = excludeText.charAt(i);
+        salt = salt.replaceAll(removedChar,'');
+    }
+    return salt;
+ }
+
+ function formatCipher(prefix,cipher,salt,indexPosition){
+
+    var saltPart1 = salt.substring(0,10);
+    var saltPart2 = salt.substring(10);
+    var cipherPart1 ='', cipherPart2='',cipherPart3='';
+    if(indexPosition>0)
+    {
+        cipherPart1 = cipher.substring(0,indexPosition);
+        cipherPart2 = cipher.substring(indexPosition,indexPosition+1);
+        cipherPart3 = cipher.substring(indexPosition+1)
+        return prefix + cipherPart1 + saltPart1 + cipherPart2 + saltPart2 + cipherPart3;
+    }
+
+        cipherPart1 = cipher.substring(0,1);
+        cipherPart2 = cipher.substring(1);
+    
+    return prefix + saltPart1 + cipherPart1 + saltPart2 + cipherPart2;
+
+ }

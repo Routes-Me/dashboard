@@ -1,10 +1,10 @@
 ﻿import React, { Component } from 'react';
-import img1 from './image/5.jpg'; // Tell webpack this JS file uses this image
-import leftarrow from './image/left-arrow.png'; // Tell webpack this JS file uses this image
-import img3 from './image/3.jpg';
-import img4 from './image/4.jpg';
-import uparrow from './image/up-arrow.png';
-import right from './image/right.png';
+import img1 from '../image/5.jpg'; // Tell webpack this JS file uses this image
+import leftarrow from '../image/left-arrow.png'; // Tell webpack this JS file uses this image
+import img3 from '../image/3.jpg';
+import img4 from '../image/4.jpg';
+import uparrow from '../image/up-arrow.png';
+import right from '../image/right.png';
 
 
 

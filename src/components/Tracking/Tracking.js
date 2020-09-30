@@ -57,7 +57,7 @@ class Tracking extends Component {
                 zoom: MAP.defaultZoom
             },
             clusters: [],
-            timeout: 100000 * 20 * 1,  //10000 * 20 * 1,
+            timeout: 100000 * 30 * 1,  //10000 * 20 * 1,
             showModal: false,
             userLoggedIn: false,
             isTimedOut: false,
@@ -101,7 +101,7 @@ class Tracking extends Component {
     };
 
     static getDerivedStateFromProps(props, state) {
-        //console.log('Users : getDerivedStateFromProps called with NewProps', props.vehicleToDisplay);
+       // console.log('props', props);
         
     }
 
@@ -124,8 +124,7 @@ class Tracking extends Component {
 
     };
 
-    componentWillMount() {
-
+    componentDidMount(){
         console.log('This is the time of unmount',this.state.timeOffUnmount)
         this.props.SubscribeToHub();
         this.props.GetOfflineVehicles()
@@ -278,15 +277,8 @@ class Tracking extends Component {
 
     }
 
-    componentWillReceiveProps() {
+   
 
-        //this.getClusters();
-
-    }
-
-    //setSelectedMarker = (marker) => {
-    //    this.setState({ selected: marker})
-    //}
 
 
     render() {
@@ -300,7 +292,7 @@ class Tracking extends Component {
         return (
             <div className="mpas-tracking" style={{ height: "100vh", width: "100%" }}>
 
-                < IdleTimer
+                 <IdleTimer
                     ref={ref => { this.idleTimer = ref }}
                     element={document}
                     onActive={this.onActive}

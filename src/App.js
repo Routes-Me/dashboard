@@ -7,10 +7,12 @@ import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { history } from '../src/helper/history';
 import { Layout } from './components/Layout';
 import { Suspense, lazy } from 'react';
-import { Login } from './components/Login';
+import { Login } from './components/Login/Login';
 
 import Home from './components/Home';
+import { UsersDetail } from './components/Users/UsersDetail';
 import { PrivateRoute } from './components/PrivateRoute';
+
 //import { ForgotPassword } from './components/ForgotPassword';
 //import { savePassword } from './components/savePassword';
 //import { ResetPassword } from './components/ResetPassword';
@@ -33,7 +35,8 @@ export default class App extends Component {
                 <Router  history={history}>
                     <Switch>
                         <Route exact path='/' component={Login} />
-                        <PrivateRoute exact path='/home' component={Home} />
+                        <Route exact path='/AddAccount' component={UsersDetail}/>
+                        <Route exact path='/home' component={Home} />
                         <Suspense fallback={<div>Loading...</div>}>
                         <Route path='/forgotpassword' component={ForgotPassword} />
                         <Route path='/newpassword' component={savePassword} />
