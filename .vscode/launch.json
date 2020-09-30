@@ -11,10 +11,10 @@
             "type": "node-terminal"
         },
         {
-            "type": "Chrome",
+            "type": "chrome",
             "request": "launch",
             "name": "Chrome",
-            "url": "http://localhost:8080",
+            "url": "http://localhost:3000",
             "webRoot": "${workspaceFolder}/Routes/src"
         }
     ]
