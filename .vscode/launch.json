@@ -11,7 +11,7 @@
             "type": "node-terminal"
         },
         {
-            "type": "Chrome",
+            "type": "chrome",
             "request": "launch",
             "name": "Chrome",
             "url": "http://localhost:8080",
