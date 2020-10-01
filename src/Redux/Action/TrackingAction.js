@@ -5,7 +5,7 @@ import { userConstants } from '../../constants/userConstants';
 
 
 const hubConnection = new signalR.HubConnectionBuilder()
-    .withUrl("http://localhost:55202/trackServiceHub")
+    .withUrl("http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub")
     .configureLogging(signalR.LogLevel.Information)
     .build();
 
@@ -50,7 +50,7 @@ export function SubscribeToHub() {
             const FormatedRes = { vehicle_id: res.vehicle_id, institution_id: res.institution_id, status: "active", driver: "Mohammad (SR)", contact: "+965-55988028", model: "BMW X6 . 2017", company: "Afnan", coordinates: { latitude: res.coordinates.latitude, longitude: res.coordinates.longitude, timestamp: res.coordinates.timestamp } }
             //console.log("const values : " + res.vehicle_id);
             const vehicleId = res.vehicle_id;
-            dispatch(OnUpdateReceived([FormatedRes, ...sampleData]));
+            //dispatch(OnUpdateReceived([FormatedRes, ...sampleData]));
         });
 
     };
@@ -90,7 +90,7 @@ export function getOfflineData() {
             error => {
                 //alert(error.toString());
             });
-        dispatch(OfflineUpdateReceived(sampleOfflineData));
+        //dispatch(OfflineUpdateReceived(sampleOfflineData));
     };
 
 }

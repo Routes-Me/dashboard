@@ -141,66 +141,6 @@
         "responseCode": 200
     },
 
-
-    ApplicationsDetail: {
-        "pagination": {
-
-            "offset": 20,
-            "limit": 10,
-            "total": 3465
-
-        },
-        "data": {
-            "applications": [
-                {
-                    "id": 1,
-                    "name": "Dashboard"
-                },
-                {
-                    "id": 2,
-                    "name": "Taxi"
-                },
-                {
-                    "id": 3,
-                    "name": "Driver application"
-                }
-            ]
-        },
-        "status": true,
-        "message": "Models data retrived successfully.",
-        "responseCode": 200
-    },
-
-    UserRolesDetails: {
-        "pagination": {
-
-            "offset": 1,
-            "limit": 10,
-            "total": 2
-
-        },
-        "data": {
-            "userRoles": [
-                {
-                    "userRoleId": 1,
-                    "application": "driver",
-                    "name": "driver1",
-                    "description": "this is driver1"
-                },
-                {
-                    "userRoleId": 2,
-                    "application": "dashboard",
-                    "name": "manager",
-                    "description": "manager"
-                }
-            ]
-        },
-        "status": true,
-        "message": "Models data retrived successfully.",
-        "responseCode": 200
-    },
-
-
     MakeDetails: {
         "pagination": {
 
@@ -375,6 +315,98 @@
         "status": true,
         "message": "Users data retrived successfully.",
         "responseCode": 200
+    },
+
+
+    NavMenuItems : {
+
+        "data":[
+            {
+                "roleId":1,
+                "navItems":["Tracking","Users","Vehicles","Advertisements","Institutions"]
+            },
+            {
+                "roleId":2,
+                "navItems":["Tracking","Users","Vehicles","Advertisements"]
+            }
+        ]
+    },
+
+
+    Applications : {
+        data : [ 
+            {
+                "id":"",
+                "value":"select an application"
+            },
+            {
+                "id"    : "screen",
+                "value" : "screen" 
+            },
+            {
+                "id"    :"driver",
+                "value" :"driver" 
+            },
+            {
+                "id":"dashboard",
+                "value":"dashboard"
+            },
+            {
+                "id":"userapp",
+                "value":"userapp"
+            }
+        ]
+    },
+
+    Priviledges : {
+        data: [
+            {
+                "id":"",
+                "value":"select a role"
+            },
+        {
+            "id"    :"chife",
+            "value" :"chife" 
+        },
+        {
+            "id"    : "super",
+            "value" : "super" 
+        },
+        {
+            "id"   :"employee",
+            "value":"employee"
+        },
+        {
+            "id"   :"user",
+            "value":"user"
+        }
+      ]
+    },
+
+    Institutions :{
+        data: [
+            {
+                "id":"",
+                "value":"select an institution"
+            },
+            {
+                "id": 1,
+                "value": "Routes"
+            }
+        ]
+    },
+
+    Services:{
+        data:[
+            {
+                "id":"1",
+                "value": "Advertisor"
+            },
+            {
+                "id":"2",
+                "value":"Taxi Operator"
+            }
+        ]
     }
 
 

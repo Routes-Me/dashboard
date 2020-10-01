@@ -2,9 +2,9 @@
 import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import { isEmail } from 'validator';
-import logo from './image/bitmap.png'; // Tell webpack this JS file uses this image
+import logo from '../image/bitmap.png'; // Tell webpack this JS file uses this image
 import { connect } from 'react-redux';
-import * as LoginAction from '../Redux/Action';
+import * as LoginAction from '../../Redux/Action';
 
 
 
@@ -35,22 +35,19 @@ import * as LoginAction from '../Redux/Action';
 
 
 	validateAll = () => {
-	let usernameError = '';
-	let passwordError = '';
 
 		if (!this.state.username.length ===0) {
-			usernameError = "Please enter your username!!";
+			this.setState({ usernameError: "Please enter your username!!"});
 		}
 		//else if (!isEmail(this.state.username)) {
 		//	usernameError = "Invalid email!!";
 		//}
 
 		if (!this.state.password.length === 0) {
-			passwordError = "Please enter your password!!";
+			this.setState({ passwordError:"Please enter your password!!" });
 		}
 
-		if (usernameError || passwordError) {
-			this.setState({ usernameError: usernameError, passwordError:passwordError });
+		if (this.state.usernameError || this.state.passwordError) {
 			return false;
 		}
 
@@ -59,7 +56,7 @@ import * as LoginAction from '../Redux/Action';
 
 	onChange(e) {
 		this.setState({ [e.target.name]: e.target.value });
-		this.validateAll();
+		// this.validateAll();
 	}
 
 
@@ -126,7 +123,7 @@ import * as LoginAction from '../Redux/Action';
 
 					<Form onSubmit={this.handleSubmit}>
 						<div className="form-group">
-							<Input placeholder="Email" className="form-control email" type="email" value={this.state.username} onChange={this.onChange} name="username" validations={[required, email]} />
+							<Input placeholder="Email" className="form-control email" type="string" value={this.state.username} onChange={this.onChange} name="username" validations={[required]} />
 							<span className="form-error is-visible">{this.state.usernameError}</span>
 						</div>
 						<div className="form-group">

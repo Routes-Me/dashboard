@@ -7,20 +7,19 @@ import axios from 'axios';
 
 //Action to getVehicleList for Vehicles Component
 export function getVehiclesForInstitutionID(institutionId, pageIndex) {
-    institutionId = 3;
+    institutionId = 1;
     
+    const Token = localStorage.getItem('jwtToken').toString();
     return dispatch => {
         dispatch(vehicleDataRequest());
-        axios.get(userConstants.Domain + 'vehicles?institutionId' + institutionId, {
-            params: { queryParameter: returnQueryParamters(pageIndex) }
-        })
+        axios.get(userConstants.Domain + 'vehicles?institutionId=1&offset=1&limit=10', {header:Token})
         .then(
         vehicles => {
-                dispatch(storeVehicleData(returnFormatedVehicles(vehicles)));
+                dispatch(storeVehicleData(vehicles));
                 dispatch(UpdatePage(vehicles.pagination));
         },
         error => {
-            //alert(error.toString());
+            alert(error.toString());
         });
 
         //const FormatedVehicle = MockAPICallForVehicles(institutionId, pageIndex)

@@ -756,7 +756,7 @@ img {
 
 @media (min-width: 1399px) {
     .search-main {
-        height: 35vh;
+        height: 41vh;
     }
 }
 
@@ -768,7 +768,7 @@ img {
 
 @media (min-width: 1650px) {
     .search-main {
-        height: 49vh;
+        height: 70vh;
     }
 }
 

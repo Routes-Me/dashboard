@@ -4,6 +4,8 @@ import { Label } from 'reactstrap';
 import * as UserAction from '../../Redux/Action';
 import * as InstitutionAction from '../../Redux/Action';
 import Form from 'react-validation/build/form';
+import { encryptAndEncode } from '../../Redux/encrypt';
+
 
 class UsersDetail extends React.Component {
 
@@ -17,15 +19,15 @@ class UsersDetail extends React.Component {
             email: "",
             role: "",
             phone:"",
-            userRoles: [],
-            user: "",
-            application: [],
+            user: '',
+            userRoles: '',
+            application: '',
             errorText:""
         }
     }
 
     componentDidMount() {
-        this.props.getUserRoles();
+        this.props.getPriviledges();
         this.props.getApplications();
         this.props.getInstitutions();
     }
@@ -39,12 +41,14 @@ class UsersDetail extends React.Component {
         if (props.userToDisplay !== undefined) {
             if (props.userToDisplay !== state.userToDisplay) {
                 return {
+                    
                     user: props.userToDisplay,
                     id: props.userToDisplay.userId,
                     name: props.userToDisplay.name,
                     email: props.userToDisplay.email,
                     phone: props.userToDisplay.phone,
-                    application: props.userToDisplay.application
+                    application: props.userToDisplay.application,
+
                 }
             }
         }
@@ -55,14 +59,22 @@ class UsersDetail extends React.Component {
 
         event.preventDefault();
 
-        const vehicle = {
-            Email: this.state.email,
-            Phone: this.state.phone,
-            application: this.state.application,
-            name: this.state.name
-        }
+        const user = {
 
-        this.props.saveUser(vehicle);
+            Name: this.state.name,
+            Password: encryptAndEncode(this.state.password) ,
+            Email: this.state.email,
+            PhoneNumber: this.state.phone,
+            InstitutionId: this.state.InstitutionId,
+            Roles:[
+                {
+                     Application: this.state.application.toString(),
+                    Priviledges: this.state.userRoles.toString()
+               }
+            ]                                                                                                                                                                                                                                                                                                             
+        }
+        console.log('userObj',user )
+        this.props.saveUser(user);
     }
 
     render() {
@@ -73,15 +85,26 @@ class UsersDetail extends React.Component {
             <div className="container-fluid">
             <div className="row col-md-12 detail-form">
                 <Form onSubmit={e => this.handleSubmit(e)}>
-                    <div class="col-md-10">
-
+                    <div className="col-md-10">
 
                         <div className="row form-group">
                             <div className="col-md-4">
                                 <Label>Name</Label><br />
-                                <input type="text" name="email"
+                                <input type="text" name="name"
                                     placeholder={userObj === undefined ? "" : userObj.email}
                                     value={userObj.email}
+                                    onChange={this.onChange}
+                                    className="form-control" />
+                                <span className="form-error is-visible">{this.state.errorText}</span>
+                            </div>
+                        </div>
+
+                        <div className="row form-group">
+                            <div className="col-md-4">
+                                <Label>Password</Label><br />
+                                <input type="text" name="password"
+                                    placeholder={userObj === undefined ? "" : userObj.password}
+                                    value={userObj.password}
                                     onChange={this.onChange}
                                     className="form-control" />
                                 <span className="form-error is-visible">{this.state.errorText}</span>
@@ -90,11 +113,10 @@ class UsersDetail extends React.Component {
                         
 
                         <div className="row form-group">
-                            {/*VehicleObj.model.id*/}
                             <div className="col-md-4">
                                 <Label>Role</Label><br />
-                                <select defaultValue={userObj ? userObj.userRoleId : "Select a role"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
-                                    {this.props.UserRoles.map(role => (<option className="dropdown-item" value={role.userRoleId}>{role.name}</option>))}
+                                <select defaultValue={userObj ? userObj.userRoleId : "Select a role"} className="custom-select my-1 mr-sm-2" name="userRoles" onChange={this.onChange}>
+                                    {this.props.UserRolesList.map(role => (<option key={role.id} className="dropdown-item" value={role.id}>{role.value}</option>))}
                                 </select>
                             </div>
                         </div>
@@ -126,34 +148,29 @@ class UsersDetail extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-4">
                                 <Label>Applications</Label><br />
-                                <select multiple="multiple" class="custom-select" size="3" defaultValue={userObj.application}>
-                                    {this.props.applicationsList.map(application => (<option value={application.id}>{application.name}</option>))}
+                                <select defaultValue={userObj ? userObj.userRoleId : "Select a role"} className="custom-select my-1 mr-sm-2" name="application" onChange={this.onChange}>
+                                    {this.props.ApplicationsList.map(application => (<option key={application.id} className="dropdown-item" value={application.id}>{application.value}</option>))}
                                 </select>
                             </div>
                         </div>
 
                         <div className="row form-group">
-                            {/*VehicleObj.model.id*/}
                             <div className="col-md-4">
                                 <Label>Institution</Label><br />
-                                <select defaultValue={userObj ? userObj.institutionId : "Select a model"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
-                                    {this.props.InstitutionList.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
+                                <select defaultValue={userObj ? userObj.institutionId : "Select a institution"} className="custom-select my-1 mr-sm-2" name="InstitutionId" onChange={this.onChange}>
+                                    {this.props.InstitutionList.map(institution => (<option key={institution.id} className="dropdown-item" value={institution.id}>{institution.value}</option>))}
                                 </select>
                             </div>
                         </div>
 
 
-
-                        <br /><br />
-                        {/*
-                        <div className="align-self-end ml-auto" style={{ textAlign: "end" }}><button type="submit" className="btn btn-primary"> {buttonText} </button></div>
-                        */}
                     </div>
                 </Form>
             </div>
             <div className="container-fluid">
-                <div className="footerStyle">
-                    <button type="submit" style={{ float: 'left' }}> Create </button>
+                
+                <div className="footerStyle"><div className="left-panel" style={{width:'330px'}}></div>
+                    <button type="submit" style={{ float: 'left' }} onClick={(e)=> this.handleSubmit(e)}> Create </button>
                 </div>
             </div>
             </div >
@@ -164,23 +181,21 @@ class UsersDetail extends React.Component {
 
 //connect redux
 const mapStateToProps = (state) => {
-
-    const roles = state.UserStore.UserRoles;
-
+    
     return {
-        UserRoles: roles,
-        applicationsList: state.UserStore.Applications,
-        InstitutionList: state.InstitutionStore.Institutions
+        UserRolesList       : state.UserStore.UserRoles,
+        ApplicationsList    : state.UserStore.Applications,
+        InstitutionList     : state.InstitutionStore.Institutions
     }
 
 }
 
 const actionCreators = {
 
-    getUserRoles: UserAction.getUserRoles,
-    getApplications: UserAction.getApplications,
-    getInstitutions: InstitutionAction.getInstitutions,
-    saveUser: UserAction.saveUser
+    getPriviledges  : UserAction.getPriviledges,
+    getApplications : UserAction.getApplications,
+    getInstitutions : InstitutionAction.getInstitutions,
+    saveUser        : UserAction.saveUser
     
 }
 

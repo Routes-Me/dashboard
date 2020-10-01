@@ -6,7 +6,7 @@ const INITIAL_STATE = {
     loading: false,
     hasError: false,
     error: null,
-    SelectedNavOption:"",
+    SelectedNavOption:'',
     user: {}
 };
 

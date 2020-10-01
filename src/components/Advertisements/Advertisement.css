@@ -160,7 +160,7 @@ div.banner4 {
 }
 
 .footerStyle {
-    margin-left:-120px;
+    margin-left: -120;
     background-color: #fff;
     box-shadow: 0 -0.3px 0 rgba(0, 0, 0, 0.5);
     font-size: 18px;
@@ -169,6 +169,7 @@ div.banner4 {
     padding: 20px;
     position: fixed;
     bottom: 0;
+    right: '';
     height: 84px;
     width: 100%;
 }

@@ -8,20 +8,24 @@ import axios from 'axios';
 
 
 //Get Institution list
-export function getInstitutions(institutionId, pageIndex) {
+export function getInstitutions(institutionId, offset) {
 
     return dispatch => {
 
+        // dispatch(storeInstitutionsData(MockServerData.Institutions.data));
+        const Token = localStorage.getItem('jwtToken').toString();
         dispatch(IstitutionDataRequest());
-        axios.get(userConstants.Domain + 'institutions?' + institutionId, {
-            params: { queryParameter: returnQueryParamters(pageIndex, true) }
-        }).then(
-            institutions => {
+        axios.get(userConstants.Domain + 'institutions?offset=1&limit=10', {
+            headers:{"Authorization": 'Bearer '+ Token},
+            "Content-Type":"application/json; charset=utf-8",
+          })
+        .then(
+            institutions => { 
                 dispatch(storeInstitutionsData(returnFormatedResponseForInstitutions(institutions)));
                 dispatch(updatePage(institutions.pagination));
             },
             error => {
-                //alert(error.toString());
+                alert(error.toString());
             });
         //const Institutions = MockAPICallForInstitutions();
         //const servicesData = MockAPICallForInstitutions().include.services;
@@ -30,11 +34,12 @@ export function getInstitutions(institutionId, pageIndex) {
 
     }
 
-}
+
 function IstitutionDataRequest() { return { type: institutionConstants.getInstitutions_REQUEST } };
 function storeInstitutionsData(institutions) { return { type: institutionConstants.getInstitutions_SUCCESS, payload: institutions } };
-function updatePage(pages) { return { type: institutionConstants.UpdatePage, payload: pages } }
+function updatePage(pages) { return { type: institutionConstants.UpdatePage, payload: pages } };
 
+}
 
 function returnQueryParamters(offset, include) {
 
@@ -93,12 +98,12 @@ export function saveInstitution(institution) {
         if (institution.institutionId !== "")
         {
             //Update on API
-            axios.post(userConstants.Domain + 'api/institutions' + institution).then(
+            axios.post(userConstants.Domain + 'institutions' , institution).then(
                 institution => {
-                    dispatch(saveInstitutionSuccess);
+                    dispatch(saveInstitutionSuccess(institution));
                 },
                 error => {
-                    //alert(error.toString());
+                    alert(error.toString());
                 });
         }
         else

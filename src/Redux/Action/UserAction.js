@@ -6,19 +6,20 @@ import { stripBasename } from 'history/PathUtils';
 //Get UsersList
 export function getUsers(institutionId, pageIndex) {
 
+    const Token = localStorage.getItem('jwtToken').toString();
     return dispatch => {
 
         dispatch(UsersDataRequest());
-        axios.get(userConstants.Domain + 'api/users?' + institutionId, {
-            params: { queryParameter: returnQueryParamters(pageIndex, true) }
-        }).then(
+        axios.get(userConstants.Domain + 'users?offset=1&limit=10', {headers: Token,  mode: 'cors'})
+        .then(
                 users => {
-                    dispatch(storeUsersData(returnFormatedUsers(users)));
+                    dispatch(storeUsersData(users));
                 dispatch(updatePage(users.pagination));
                 },
                 error => {
-                   // alert(error.toString());
-                });
+                    alert(error.toString());
+                }
+            );
         //dispatch(UsersDataRequest());
         //const Users = MockAPICallForUsers();
         //dispatch(storeUserRoles(Users.include.userRoles));
@@ -82,85 +83,45 @@ function MockAPICallForUsers() {
 }
 
 
-
-function storeApplications(applist) {
-    return { type: userConstants.update_APPLICATIONS, payload: applist }
-}
-
-
-
-
 // get User Roles
-export function getUserRoles(pageIndex) {
+export function getPriviledges() {
 
     return dispatch => {
 
-        dispatch(userRolesRequest());
-        axios.get(userConstants.Domain + 'api/users/roles', {
-            params: { queryParameter: returnQueryParamters(pageIndex, true) }
-        }).then(
-            role => {
-                dispatch(storeUserRoles(role.data.userRoles));
-                //dispatch(updatePage(vehicles.pagination));
-            },
-            error => {
-                //alert(error.toString());
-            });
-
-        //const userRoles = mockAPICallForUserRoles();
-        //dispatch(storeUserRoles(userRoles));
+        dispatch(storeUserRoles(MockServerData.Priviledges.data));
 
     }
 
+    function storeUserRoles(roles) { return { type: userConstants.update_USERROLES, payload: roles } };
+
 }
-function userRolesRequest() { return { type: userConstants.getUserRoles_REQUEST } }
-function storeUserRoles(roles) { return { type: userConstants.update_USERROLES, payload: roles } }
+
+// get applications
+export function getApplications(){
+
+    return dispatch => {
+
+        dispatch(storeApplications(MockServerData.Applications.data))
+
+    }
+    
+    function storeApplications(apps){ return {type:userConstants.update_APPLICATIONS, payload:apps}};
+
+}
 
 //Autherize the logged in user with the userRole
 export function getAutherization(roleId) {
+    
+    let navList = MockServerData.NavMenuItems.data;
+    let navObj = navList.filter(x=>x.roleId===roleId);
+        
 
     return dispatch => {
-        dispatch(navItemRequest);
-        var url = userConstants.Domain + 'users/autherization/'
-        axios.get(url + roleId).then(
-            navObj => { dispatch(storeNavItems(navObj.data.navItems)) },
-            error => { alert(error.toString()) }
-        );
+        dispatch(storeNavItems(navObj[0].navItems));
     }
-}
-function navItemRequest() { return { type: userConstants.getNavItems_REQUEST } };
-function storeNavItems(navItems) {
-    return { type: userConstants.getNavItems_SUCCESS, payload: navItems }
-} 
 
+    function storeNavItems(navItems) { return { type: userConstants.getNavItems_SUCCESS, payload: navItems } } ;
 
-//Update with API
-function mockAPICallForUserRoles() {
-    return MockServerData.UserRolesDetails.data.userRoles;
-}
-
-
-
-//get aoolications list 
-export function getApplications() {
-    return dispatch => {
-        dispatch(applicationsRequest())
-        const applicationsList = mockAPICallforApplications()
-        dispatch(applicationsReceived(applicationsList))
-    }
-}
-
-//Update with API
-function mockAPICallforApplications() {
-    return MockServerData.ApplicationsDetail.data.applications;
-}
-
-function applicationsRequest() {
-    return { type: userConstants.getApplications_REQUEST };
-}
-
-function applicationsReceived(apps) {
-    return { type: userConstants.update_APPLICATIONS, payload: apps };
 }
 
 
@@ -170,12 +131,12 @@ export function saveUser(user) {
         dispatch(saveUserDataRequest);
         if (user.UserId !== "") {
             //Update on API
-            axios.post(userConstants.Domain + 'api/users?' + user).then(
+            axios.post(userConstants.Domain + 'signup' , user).then(
                 users => {
                     dispatch(saveUserDataSuccess);
                 },
                 error => {
-                    //alert(error.toString());
+                    alert(error.message.toString() );
                 });
         }
         else {
