@@ -3,10 +3,12 @@ import { institutionConstants } from "../../constants/institutionConstants";
 import { userConstants } from "../../constants/userConstants";
 import axios from "axios";
 
-const Token = localStorage.getItem("jwtToken").toString();
+
 
 //Get Institution list
 export function getInstitutions(institutionId, offset) {
+
+  const Token = localStorage.getItem("jwtToken").toString();
   return (dispatch) => {
     // dispatch(storeInstitutionsData(MockServerData.Institutions.data));
     
@@ -92,6 +94,8 @@ function UpdatetheServiceList(services) {
 
 //Save Institution Detail
 export function saveInstitution(institution) {
+
+  const Token = localStorage.getItem("jwtToken").toString();
   return (dispatch) => {
     dispatch(saveInstitutionRequest);
     if (institution.institutionId !== "") {

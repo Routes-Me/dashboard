@@ -52,7 +52,7 @@ export function SubscribeToHub() {
                 CheckConnectivity()
             }, 6000);
 
-        hubConnection.on("ReceiveAllData", (result) => {
+        hubConnection.on("ReceiveAll", (result) => {
             
             //sampleData.push(result)
             const res = JSON.parse(result);

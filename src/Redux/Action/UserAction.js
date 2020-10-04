@@ -4,11 +4,12 @@ import axios from 'axios';
 import { stripBasename } from 'history/PathUtils';
 
 
-const Token = localStorage.getItem("jwtToken").toString();
+// const Token = localStorage.getItem("jwtToken").toString();
 
 
 //Get UsersList
 export function getUsers(institutionId, pageIndex) {
+    const Token = localStorage.getItem("jwtToken").toString();
 
     return dispatch => {
         dispatch(UsersDataRequest());
@@ -149,6 +150,7 @@ export function getAutherization(roleId) {
 
 //Save User Detail
 export function saveUser(user) {
+    const Token = localStorage.getItem("jwtToken").toString();
     return dispatch => {
         dispatch(saveUserDataRequest);
         if (user.userId !== "" || user.userId !== undefined) {

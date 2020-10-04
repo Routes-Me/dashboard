@@ -5,12 +5,14 @@ import axios from 'axios';
 
 //const SampleInsitutionsIdArgument = { "institutionIds": [{ "Id": 3 }] };
 
-const Token = localStorage.getItem('jwtToken').toString();
+
+// let Token = localStorage.getItem('jwtToken').toString();
 
 //Action to getVehicleList for Vehicles Component
 export function getVehiclesForInstitutionID(institutionId, pageIndex) {
     institutionId = 1;
-    
+   
+    let Token = localStorage.getItem('jwtToken').toString();
     return dispatch => {
         dispatch(vehicleDataRequest());
         axios.get(userConstants.Domain + 'vehicles?offset=1&limit=10', {
@@ -118,7 +120,7 @@ export function getMakes() {
 
 //Action to Add or Update vehcile
 export function saveVehicle(vehicle) {
-
+    let Token = localStorage.getItem('jwtToken').toString();
     return dispatch => {
         dispatch(saveVehicleRequest(vehicle))
         if (vehicle.id !== "" && vehicle.id !== undefined) {
