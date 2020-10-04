@@ -394,6 +394,19 @@
                 "value": "Routes"
             }
         ]
+    },
+
+    Services:{
+        data:[
+            {
+                "id":"1",
+                "value": "Advertisor"
+            },
+            {
+                "id":"2",
+                "value":"Taxi Operator"
+            }
+        ]
     }
 
 

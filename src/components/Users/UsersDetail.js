@@ -37,7 +37,6 @@ class UsersDetail extends React.Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        console.log('Users : getDerivedStateFromProps called with NewProps', props.vehicleToDisplay);
         if (props.userToDisplay !== undefined) {
             if (props.userToDisplay !== state.userToDisplay) {
                 return {
@@ -60,7 +59,7 @@ class UsersDetail extends React.Component {
         event.preventDefault();
 
         const user = {
-
+            userId:this.state.id,
             Name: this.state.name,
             Password: encryptAndEncode(this.state.password) ,
             Email: this.state.email,
@@ -158,7 +157,7 @@ class UsersDetail extends React.Component {
                             <div className="col-md-4">
                                 <Label>Institution</Label><br />
                                 <select defaultValue={userObj ? userObj.institutionId : "Select a institution"} className="custom-select my-1 mr-sm-2" name="InstitutionId" onChange={this.onChange}>
-                                    {this.props.InstitutionList.map(institution => (<option key={institution.id} className="dropdown-item" value={institution.id}>{institution.value}</option>))}
+                                    {this.props.InstitutionList.map(institution => (<option key={institution.id} className="dropdown-item" value={institution.id}>{institution.name}</option>))}
                                 </select>
                             </div>
                         </div>

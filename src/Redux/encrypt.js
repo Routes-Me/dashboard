@@ -6,20 +6,20 @@ var iterations = 100;
 
 
 
-
-
 export function encryptAES(text) {
+
     var  iv = CryptoJS.enc.Utf8.parse('Qz-N!p#ATb9_2MkL');
     var key  = CryptoJS.enc.Utf8.parse('ledV\\K\"zRaNF]WXki,RMtLLZ{Cyr_1');
     var encodedText = CryptoJS.enc.Utf8.parse(text);
     var encryptedpassword = CryptoJS.AES.encrypt(encodedText, key,
         {
-            keySize: 128,
+            keySize: 128/8,
             iv: iv,
             mode: CryptoJS.mode.CBC,
             padding: CryptoJS.pad.Pkcs7
         }); 
     return encryptedpassword.toString();
+    
 }
 
 export function encrypt(msg, pass) {
@@ -86,14 +86,28 @@ export function encryptAndEncode(PASSWORD)
 
     var encryptedText = encryptAES(refinedSalt);
 
+    var positionToInsert = parseInt(generateRandomPosition());
+
+    var encryptedTextForDashBoardPart1 = encryptedText.substring(0,positionToInsert);
+    var encryptedTextForDashBoardPart2 = encryptedText.substring(positionToInsert);
+
+    let encryptedTextForDashBoard = encryptedTextForDashBoardPart1 + '%' + encryptedTextForDashBoardPart2
+
     var prefixText = positionStr + excludeText
 
-    var formatedCipher = formatCipher(prefixText,encryptedText,salt,positionIndex);
+    var formatedCipher = formatCipher(prefixText,encryptedTextForDashBoard,salt,positionIndex);
 
     return formatedCipher;
 
 }
 
+
+function generateRandomPosition(){
+    var numbers = '012345';
+    var numbersLength = numbers.length;
+    var result = numbers.charAt(Math.floor(Math.random() * numbersLength));
+    return result;
+}
 
 function randomStringOfLength(length,mixed) 
 {
@@ -133,8 +147,8 @@ function randomStringOfLength(length,mixed)
     return salt;
  }
 
- function formatCipher(prefix,cipher,salt,indexPosition){
-
+ function formatCipher(prefix,cipher,salt,indexPosition)
+ {
     var saltPart1 = salt.substring(0,10);
     var saltPart2 = salt.substring(10);
     var cipherPart1 ='', cipherPart2='',cipherPart3='';
