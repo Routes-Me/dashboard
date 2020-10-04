@@ -59,7 +59,7 @@ class UsersDetail extends React.Component {
         event.preventDefault();
 
         const user = {
-
+            userId:this.state.id,
             Name: this.state.name,
             Password: encryptAndEncode(this.state.password) ,
             Email: this.state.email,

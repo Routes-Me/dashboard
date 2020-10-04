@@ -151,7 +151,7 @@ export function getAutherization(roleId) {
 export function saveUser(user) {
     return dispatch => {
         dispatch(saveUserDataRequest);
-        if (user.UserId === "") {
+        if (user.userId !== "" || user.userId !== undefined) {
             axios.post(userConstants.Domain + 'signup' , user, {
                 headers: { Authorization: "Bearer " + Token },
                 "Content-Type": "application/json; charset=utf-8",
@@ -174,7 +174,7 @@ export function saveUser(user) {
                     dispatch(saveUserDataSuccess);
                 },
                 error => {
-                    //alert(error.toString());
+                    alert(error.toString());
                 });
         }
         

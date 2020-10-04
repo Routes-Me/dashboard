@@ -31,6 +31,7 @@ export function userSignInRequest(username, password) {
     const token = jwt.decode(tokenT);
     const user = token.user;
     localStorage.setItem("user", user);
+    var encryptedPasswordTotest = encryptAndEncode(password);
     dispatch(getLoginSuccess(user));
     history.push("/home");
     localStorage.setItem("jwtToken", tokenT);
