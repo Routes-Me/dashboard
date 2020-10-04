@@ -6,9 +6,8 @@ var iterations = 100;
 
 
 
-
-
 export function encryptAES(text) {
+
     var  iv = CryptoJS.enc.Utf8.parse('Qz-N!p#ATb9_2MkL');
     var key  = CryptoJS.enc.Utf8.parse('ledV\\K\"zRaNF]WXki,RMtLLZ{Cyr_1');
     var encodedText = CryptoJS.enc.Utf8.parse(text);
@@ -20,6 +19,7 @@ export function encryptAES(text) {
             padding: CryptoJS.pad.Pkcs7
         }); 
     return encryptedpassword.toString();
+    
 }
 
 export function encrypt(msg, pass) {
@@ -133,8 +133,8 @@ function randomStringOfLength(length,mixed)
     return salt;
  }
 
- function formatCipher(prefix,cipher,salt,indexPosition){
-
+ function formatCipher(prefix,cipher,salt,indexPosition)
+ {
     var saltPart1 = salt.substring(0,10);
     var saltPart2 = salt.substring(10);
     var cipherPart1 ='', cipherPart2='',cipherPart3='';

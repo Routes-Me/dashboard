@@ -109,6 +109,7 @@ class VehicleDetail extends React.Component {
         const searchList = this.returnListToSearch();
         return (
             <div className="container-fluid">
+                <Form onSubmit={e => this.handleSubmit(e)}>
             <div className="row col-md-12 detail-form">
                 <Modal
                     show={this.state.searchModel}
@@ -116,7 +117,7 @@ class VehicleDetail extends React.Component {
                     objectType={this.state.searchObject}
                     objectList={searchList} />
 
-                    <Form onSubmit={e => this.handleSubmit(e)}>
+                    
                         <div class="col-md-10">
                                                                                                    
                             <div className="row form-group">
@@ -134,7 +135,7 @@ class VehicleDetail extends React.Component {
                             <div className="row form-group">
                                 <div className="col-md-4">
                                     <Label>Year</Label><br />
-                                    <input type="text" name="modelYear"
+                                    <input type="date" name="modelYear"
                                         placeholder={vehicleObj === undefined ? "" : vehicleObj.modelYear}
                                         value={this.state.modelYear}
                                         onChange={this.onChange}
@@ -175,7 +176,7 @@ class VehicleDetail extends React.Component {
                             {/*VehicleObj.model.id*/}
                             <div className="col-md-4">
                                 <Label>Institution</Label><br />
-                                <select defaultValue={vehicleObj ? vehicleObj.institution.institutionId : "Select a model"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
+                                <select defaultValue={vehicleObj ? vehicleObj.institution.institutionId : "Select a model"} className="custom-select my-1 mr-sm-2" name="InstitutionId" onChange={this.onChange}>
                                     {this.props.InstitutionList.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
                                 </select>
                                 
@@ -199,12 +200,14 @@ class VehicleDetail extends React.Component {
                             <div className="align-self-end ml-auto" style={{ textAlign: "end" }}><button type="submit" className="btn btn-primary"> {buttonText} </button></div>
                         */}
                         </div>
-                    </Form>
-            </div><div className="container-fluid">
+                    
+            </div>
+            <div className="container-fluid">
                 <div className="footerStyle">
                     <button type="submit" style={{ float: 'left' }}> Create </button>
                 </div>
             </div>
+            </Form>
             </div >
         )
     }

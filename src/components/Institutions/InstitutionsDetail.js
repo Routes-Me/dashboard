@@ -48,8 +48,8 @@ class InstitutionsDetail extends React.Component {
 
         const institution = {
             CountryIso: "KW",
-            PhoneNumber: this.state.phone,
-            createdAT: "2020-06-29T10:54:53",
+            PhoneNumber: this.state.phoneNumber,
+            createdAT: "",
             Name: this.state.name
         }
 
@@ -62,8 +62,9 @@ class InstitutionsDetail extends React.Component {
 
         return (
             <div className="container-fluid">
-            <div className="row col-md-12 detail-form">
                 <Form onSubmit={e => this.handleSubmit(e)}>
+            <div className="row col-md-12 detail-form">
+                
                     <div class="col-md-10">
 
                         <div className="row form-group">
@@ -92,26 +93,22 @@ class InstitutionsDetail extends React.Component {
                             <div className="col-md-4">
                                 <Label>Services</Label><br />
                                 <select multiple class="custom-select" size="3" defaultValue={institutionObj.services}>
-                                    {this.props.servicesList.map(service => (<option value={service.id}>{service.name}</option>))}
+                                    {this.props.servicesList.map(service => (<option value={service.id}>{service.value}</option>))}
                                 </select>
                             </div>
                         </div>
 
-
-
-
                         <br /><br />
 
-                        {/*<div className="align-self-end ml-auto" style={{ textAlign: "end" }}><button type="submit" className="btn btn-primary"> {buttonText} </button></div>
-                        */}
                     </div>
-                </Form>
+                
             </div>
             <div className="container-fluid">
                     <div className="footerStyle">
-                        <button type="submit" style={{ float: 'left' }}> Create </button>
+                        <button type="submit" style={{ float: 'left' }}> {buttonText} </button>
                     </div>
              </div>
+             </Form>
             </div>
         )
     }
@@ -122,7 +119,6 @@ class InstitutionsDetail extends React.Component {
 const mapStateToProps = (state) => {
 
     const servicesList = state.InstitutionStore.Services;
-    console.log('DialogVehicles: Mapped State services Array returned :', servicesList);
 
     return {
         servicesList: state.InstitutionStore.Services

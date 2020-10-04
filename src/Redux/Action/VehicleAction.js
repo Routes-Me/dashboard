@@ -5,14 +5,18 @@ import axios from 'axios';
 
 //const SampleInsitutionsIdArgument = { "institutionIds": [{ "Id": 3 }] };
 
+const Token = localStorage.getItem('jwtToken').toString();
+
 //Action to getVehicleList for Vehicles Component
 export function getVehiclesForInstitutionID(institutionId, pageIndex) {
     institutionId = 1;
     
-    const Token = localStorage.getItem('jwtToken').toString();
     return dispatch => {
         dispatch(vehicleDataRequest());
-        axios.get(userConstants.Domain + 'vehicles?institutionId=1&offset=1&limit=10', {header:Token})
+        axios.get(userConstants.Domain + 'vehicles?offset=1&limit=10', {
+            headers: { Authorization: "Bearer " + Token },
+            "Content-Type": "application/json; charset=utf-8",
+          })
         .then(
         vehicles => {
                 dispatch(storeVehicleData(vehicles));
@@ -117,9 +121,12 @@ export function saveVehicle(vehicle) {
 
     return dispatch => {
         dispatch(saveVehicleRequest(vehicle))
-        if (vehicle.id !== "") {
+        if (vehicle.id !== "" && vehicle.id !== undefined) {
             dispatch(vehicleDataRequest());
-            axios.post(userConstants.Domain + 'vehicles?' + vehicle)
+            axios.put(userConstants.Domain + 'vehicles?'+ vehicle, {
+                headers: { Authorization: "Bearer " + Token },
+                "Content-Type": "application/json; charset=utf-8",
+              })
                 .then(
                     vehicle => {
                         dispatch(saveVehicleSuccess(vehicle));
@@ -128,13 +135,16 @@ export function saveVehicle(vehicle) {
                         //alert(error.toString());
                     });
         } else {
-            axios.put(userConstants.Domain + 'vehicles?' + vehicle)
+            axios.post(userConstants.Domain + 'vehicles?' + vehicle, {
+                headers: { Authorization: "Bearer " + Token },
+                "Content-Type": "application/json; charset=utf-8",
+              })
                 .then(
                     vehicle => {
                         dispatch(updateVehicleSuccess(vehicle));
                     },
                     error => {
-                        //alert(error.toString());
+                        alert(error.toString());
                     });
             
         }

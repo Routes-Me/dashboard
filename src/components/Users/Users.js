@@ -25,7 +25,6 @@ class Users extends Component {
 
     //Load Data
     componentDidMount() {
-        // get Institutions
         this.props.getUsersList();
     }
 
@@ -79,7 +78,7 @@ class Users extends Component {
                                         <td>{user.name}</td>
                                         <td>{user.email}</td>
                                         <td>{user.phone}</td>
-                                        <td>{user.description}</td>
+                                        <td>{user.createdAt}</td>
                                         <td className="width44" >
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForUserId(e, user.userId)}>
@@ -148,7 +147,6 @@ class Users extends Component {
 const mapStateToProps = (state) => {
 
     const Users = state.UserStore.Users;
-    //console.log('Mapped State User Array returned :', Users);
 
     return {
         UsersList: Users

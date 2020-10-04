@@ -6,8 +6,9 @@ import { userConstants } from '../../constants/userConstants';
 
 const hubConnection = new signalR.HubConnectionBuilder()
     .withUrl("http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub")
-    .configureLogging(signalR.LogLevel.Information)
+    .configureLogging('Hub Response :'+signalR.LogLevel.Information)
     .build();
+
 
 
 const sampleOfflineData = [
@@ -46,7 +47,7 @@ export function SubscribeToHub() {
             
             //sampleData.push(result)
             const res = JSON.parse(result);
-            //console.log("Response on SignalR ", res);
+            console.log("Response on SignalR ", res);
             const FormatedRes = { vehicle_id: res.vehicle_id, institution_id: res.institution_id, status: "active", driver: "Mohammad (SR)", contact: "+965-55988028", model: "BMW X6 . 2017", company: "Afnan", coordinates: { latitude: res.coordinates.latitude, longitude: res.coordinates.longitude, timestamp: res.coordinates.timestamp } }
             //console.log("const values : " + res.vehicle_id);
             const vehicleId = res.vehicle_id;
@@ -65,7 +66,7 @@ export function UnsubscribeFromHub() {
         dispatch(Unsubscribe());
         hubConnection.stop()
             .then(() => {
-                //console.log('Hub Disconnected!!');
+                console.log('Hub Disconnected!!');
                 dispatch(Disconnected());
             })
             .catch(err => {

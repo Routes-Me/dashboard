@@ -3,18 +3,23 @@ import { userConstants } from '../../constants/userConstants';
 import axios from 'axios';
 import { stripBasename } from 'history/PathUtils';
 
+
+const Token = localStorage.getItem("jwtToken").toString();
+
+
 //Get UsersList
 export function getUsers(institutionId, pageIndex) {
 
-    const Token = localStorage.getItem('jwtToken').toString();
     return dispatch => {
-
         dispatch(UsersDataRequest());
-        axios.get(userConstants.Domain + 'users?offset=1&limit=10', {headers: Token,  mode: 'cors'})
+        axios.get(userConstants.Domain + 'users?offset=1&limit=10', {
+            headers: { Authorization: "Bearer " + Token },
+            "Content-Type": "application/json; charset=utf-8",
+          })
         .then(
                 users => {
-                    dispatch(storeUsersData(users));
-                dispatch(updatePage(users.pagination));
+                    dispatch(storeUsersData(returnFormatedResponseForUsers(users)));
+                    dispatch(updatePage(users.data.pagination));
                 },
                 error => {
                     alert(error.toString());
@@ -75,6 +80,23 @@ function returnQueryParamters(offset, include) {
 
 }
 
+function returnFormatedResponseForUsers(response) {
+    const usersList = response.data.data;
+    // const servicesList = response.data.included.services;
+  
+        const formatedUsers = usersList.map((x) => ({
+        userId: x.userId,
+        name: x.name,
+        email: x.email,
+        phone: x.phone,
+        createdAt: x.createdAt,
+        application:x.application
+      //services: servicesList.filter((y) => y.include(x.services))
+    }));
+  
+    return formatedUsers;
+  }
+
 //Update on API
 function MockAPICallForUsers() {
     const response = MockServerData.UsersMockServerData;
@@ -129,9 +151,12 @@ export function getAutherization(roleId) {
 export function saveUser(user) {
     return dispatch => {
         dispatch(saveUserDataRequest);
-        if (user.UserId !== "") {
-            //Update on API
-            axios.post(userConstants.Domain + 'signup' , user).then(
+        if (user.UserId === "") {
+            axios.post(userConstants.Domain + 'signup' , user, {
+                headers: { Authorization: "Bearer " + Token },
+                "Content-Type": "application/json; charset=utf-8",
+              })
+              .then(
                 users => {
                     dispatch(saveUserDataSuccess);
                 },
@@ -140,8 +165,11 @@ export function saveUser(user) {
                 });
         }
         else {
-            //Update on API
-            axios.put(userConstants.Domain + 'api/users?' + user).then(
+            axios.put(userConstants.Domain + 'users?' + user,{
+                headers: { Authorization: "Bearer " + Token },
+                "Content-Type": "application/json; charset=utf-8",
+              })
+              .then(
                 users => {
                     dispatch(saveUserDataSuccess);
                 },
