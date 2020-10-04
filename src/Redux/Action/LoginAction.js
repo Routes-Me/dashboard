@@ -1,4 +1,4 @@
-﻿﻿import axios from "axios";
+﻿import axios from "axios";
 import { history } from "../../helper/history";
 import { userConstants } from "../../constants/userConstants";
 import jwt from "jsonwebtoken";
@@ -24,49 +24,49 @@ export function getUser() {
 }
 
 export function userSignInRequest(username, password) {
-  return (dispatch) => {
-    const tokenT =
-      "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJ2dGhhcmFrYUByb3V0ZXNtZS5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJzdXBlciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvdXNlcmRhdGEiOiIzIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIzIiwiZXhwIjoxNjE3MDIwMjcwLCJpc3MiOiJUcmFja1NlcnZpY2UiLCJhdWQiOiJUcmFja1NlcnZpY2UifQ.5DH6aw8zP-KpzUXa0kW0X1tpwqN3hffaBkSquAy9ENA";
+  // return (dispatch) => {
+  //   const tokenT =
+  //     "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJ2dGhhcmFrYUByb3V0ZXNtZS5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJzdXBlciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvdXNlcmRhdGEiOiIzIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIzIiwiZXhwIjoxNjE3MDIwMjcwLCJpc3MiOiJUcmFja1NlcnZpY2UiLCJhdWQiOiJUcmFja1NlcnZpY2UifQ.5DH6aw8zP-KpzUXa0kW0X1tpwqN3hffaBkSquAy9ENA";
 
-    const token = jwt.decode(tokenT);
-    const user = token.user;
-    localStorage.setItem("user", user);
-    var encryptedPasswordTotest = encryptAndEncode(password);
-    dispatch(getLoginSuccess(user));
-    history.push("/home");
-    localStorage.setItem("jwtToken", tokenT);
-    setAuthorizationToken(token);
-  };
-
-  // return dispatch => {
-  //     dispatch(request({ username, password }));
-  //     var encryptedpassword = encryptAES(password);
-  //     let userObject = {
-  //         Username: username,
-  //         Password: encryptAndEncode(password)
-  //     };
-
-  //     axios.post(userConstants.Domain + 'signin', userObject)
-  //         .then(
-  //             response => {
-
-  //                 console.log("User Details : ", JSON.stringify(user));
-  //                 const tokenT = response.token;
-  //                 const token = jwt.decode(response.token);
-  //                 const user = response.data;
-  //                 localStorage.setItem('user', user);
-  //                 dispatch(getLoginSuccess(user));
-  //                 history.push('/home');
-  //                 localStorage.setItem('jwtToken', token);
-  //                 setAuthorizationToken(token);
-  //             },
-  //             error => {
-  //                 dispatch(getLoginFailure(error.message.toString()));
-  //                 alert(error.toString());
-  //                 //dispatch(alertActions.error(error.toString()));
-  //             }
-  //         );
+  //   const token = jwt.decode(tokenT);
+  //   const user = token.user;
+  //   localStorage.setItem("user", user);
+  //   var encryptedPasswordTotest = encryptAndEncode(password);
+  //   dispatch(getLoginSuccess(user));
+  //   history.push("/home");
+  //   localStorage.setItem("jwtToken", tokenT);
+  //   setAuthorizationToken(token);
   // };
+
+  return dispatch => {
+      dispatch(request({ username, password }));
+      var encryptedpassword = encryptAES(password);
+      let userObject = {
+          Username: username,
+          Password: encryptAndEncode(password)
+      };
+
+      axios.post(userConstants.Domain + 'signin', userObject)
+          .then(
+              response => {
+
+                  console.log("User Details : ", JSON.stringify(user));
+                  const tokenT = response.token;
+                  const token = jwt.decode(response.token);
+                  const user = response.data;
+                  localStorage.setItem('user', user);
+                  dispatch(getLoginSuccess(user));
+                  history.push('/home');
+                  localStorage.setItem('jwtToken', token);
+                  setAuthorizationToken(token);
+              },
+              error => {
+                  dispatch(getLoginFailure(error.message.toString()));
+                  alert(error.toString());
+                  //dispatch(alertActions.error(error.toString()));
+              }
+          );
+  };
 
   function request(user) {
     return { type: userConstants.Login_REQUEST, user };
