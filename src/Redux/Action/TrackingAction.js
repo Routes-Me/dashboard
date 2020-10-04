@@ -4,12 +4,6 @@ import axios from 'axios';
 import { userConstants } from '../../constants/userConstants';
 
 
-const hubConnection = new signalR.HubConnectionBuilder()
-    .withUrl("http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub")
-    .configureLogging('Hub Response :'+signalR.LogLevel.Information)
-    .build();
-
-
 
 const sampleOfflineData = [
     { vehicle_id: 8, institution_id: 1, status: trackingConstants.IdleState, driver: "Mohammad Ali", contact: "+965-55988028", model: "BMW X6 . 2018", company: "Afnan", coordinates: { latitude: 29.376383900000000, longitude: 47.9866178, timestamp: "7/1/2020 5:55:51 AM" } },
@@ -26,6 +20,16 @@ const sampleData = [
     { vehicle_id: 4, institution_id: 1, status: trackingConstants.ActiveState, driver: "Saad Mua", contact: "+965-55988028", model: "JEEP X4 . 2019", company: "Afnan", coordinates: { latitude: 29.82, longitude: 47.3511, timestamp: "7/1/2020 5:55:51 AM" } },
     { vehicle_id: 5, institution_id: 1, status: trackingConstants.ActiveState, driver: "Yahya Alahaar", contact: "+965-55988128", model: "AUDI A6 . 2020", company: "Afnan", coordinates: { latitude: 29.72, longitude: 47.4511, timestamp: "7/1/2020 5:55:51 AM" } }];
 
+
+
+const hubConnection = new signalR.HubConnectionBuilder()
+    .withUrl("http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub")
+    .configureLogging(signalR.LogLevel.Information)
+    .build();
+
+
+
+
 export const Subscribing = payload => ({ type: trackingConstants.Tracking_OnSubscribeRequest });
 
 export const Connected = payload => ({type: trackingConstants.Tracking_Connected});
@@ -35,6 +39,7 @@ export function SubscribeToHub() {
     return dispatch => {
 
         dispatch(Subscribing());
+        
         hubConnection.start()
             .then(() => {
                 console.log('Hub Connected!!');
@@ -42,6 +47,10 @@ export function SubscribeToHub() {
             })
             .catch(err => console.error("Error while establishing connection : " + err));
 
+
+            setInterval(() => {
+                CheckConnectivity()
+            }, 6000);
 
         hubConnection.on("ReceiveAll", (result) => {
             
@@ -55,6 +64,28 @@ export function SubscribeToHub() {
         });
 
     };
+}
+
+
+export function CheckConnectivity(){
+
+    return dispatch =>{
+
+        if(hubConnection.state === 0)
+        {
+            console.log('Recoonect or connect')
+        
+            hubConnection.start()
+            .then(() => {
+                console.log('Hub Connected!!');
+                dispatch(Connected());
+            })
+            .catch(err => console.error("Error while establishing connection : " + err));
+
+        }
+
+    }
+    
 }
 
 export const Unsubscribe = payload => ({ type: trackingConstants.Tracking_OnUnSubscribeRequest });
