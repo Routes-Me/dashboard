@@ -2,6 +2,7 @@
 import * as signalR from '@aspnet/signalr';
 import axios from 'axios';
 import { userConstants } from '../../constants/userConstants';
+import { HubConnectionState } from '@microsoft/signalr';
 
 
 
@@ -32,7 +33,7 @@ const hubConnection = new signalR.HubConnectionBuilder()
 
 export const Subscribing = payload => ({ type: trackingConstants.Tracking_OnSubscribeRequest });
 
-export const Connected = payload => ({type: trackingConstants.Tracking_Connected});
+export const Connected = payload => ({type: trackingConstants.Tracking_Connected});                                                                                                                                                      
 
 export function SubscribeToHub() {
 
@@ -69,22 +70,22 @@ export function SubscribeToHub() {
 
 export function CheckConnectivity(){
 
-    return dispatch =>{
+    // return dispatch =>{
 
-        if(hubConnection.state === 0)
-        {
-            console.log('Recoonect or connect')
-        
+            
+           if(hubConnection.state === 0)
+           {
+            console.log('Recoonecting the hub')
             hubConnection.start()
             .then(() => {
                 console.log('Hub Connected!!');
-                dispatch(Connected());
+                // dispatch(Connected());
             })
             .catch(err => console.error("Error while establishing connection : " + err));
+           }
+            
 
-        }
-
-    }
+    // }
     
 }
 

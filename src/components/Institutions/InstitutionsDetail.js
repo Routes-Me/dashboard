@@ -13,7 +13,8 @@ class InstitutionsDetail extends React.Component {
             id: "",
             name: "",
             phoneNumber: "",
-            institution: ""
+            institution: "",
+            services:[]
         }
     }
 
@@ -45,15 +46,35 @@ class InstitutionsDetail extends React.Component {
     handleSubmit = (event) => {
 
         event.preventDefault();
+        
+        let action ="";
 
-        const institution = {
-            CountryIso: "KW",
-            PhoneNumber: this.state.phoneNumber,
-            createdAT: "",
-            Name: this.state.name
+        {this.state.institution.institutionId? action = "save": action = "add"}
+
+        if(action==="add"){
+            const institution = {
+                CountryIso: "KW",
+                PhoneNumber: this.state.phoneNumber,
+                createdAT: "",
+                Name: this.state.name,
+                Services: [this.state.services]
+            }
+            this.props.saveInstitution(institution,action);
+        }
+        else{
+            const institution = {
+                institutionId:this.state.institution.institutionId,
+                CountryIso: "KW",
+                PhoneNumber: this.state.phoneNumber,
+                createdAT: "",
+                Name: this.state.name
+            }
+            this.props.saveInstitution(institution,action);
         }
 
-        this.props.saveInstitution(institution);
+        
+       
+        
     }
 
     render() {
@@ -83,7 +104,7 @@ class InstitutionsDetail extends React.Component {
                                 <Label>Phone</Label><br />
                                 <input type="text" name="phoneNumber"
                                     placeholder={institutionObj === undefined ? "" : institutionObj.phoneNumber}
-                                    defaultValue={institutionObj.phoneNumber}
+                                    value={institutionObj.phoneNumber}
                                     onChange={this.onChange}
                                     className="form-control" />
                             </div>
@@ -92,7 +113,7 @@ class InstitutionsDetail extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-4">
                                 <Label>Services</Label><br />
-                                <select multiple class="custom-select" size="3" defaultValue={institutionObj.services}>
+                                <select multiple class="custom-select" size="3" defaultValue={institutionObj.services} name="services" onChange={this.onChange}>
                                     {this.props.servicesList.map(service => (<option value={service.id}>{service.value}</option>))}
                                 </select>
                             </div>

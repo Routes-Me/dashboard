@@ -93,12 +93,12 @@ function UpdatetheServiceList(services) {
 }
 
 //Save Institution Detail
-export function saveInstitution(institution) {
+export function saveInstitution(institution,action) {
 
   const Token = localStorage.getItem("jwtToken").toString();
   return (dispatch) => {
     dispatch(saveInstitutionRequest);
-    if (institution.institutionId !== "") {
+    if (action== "save") {                                                                                                                                                                                                       
       //Update
       axios.put(userConstants.Domain + "institutions", institution,{
         headers: { Authorization: "Bearer " + Token },
@@ -115,7 +115,7 @@ export function saveInstitution(institution) {
     } 
     else {
       //Create
-      axios.post(userConstants.Domain + "institutions" + institution, {
+      axios.post(userConstants.Domain + "institutions" , institution, {
         headers: { Authorization: "Bearer " + Token },
         "Content-Type": "application/json; charset=utf-8",
       })
@@ -124,7 +124,7 @@ export function saveInstitution(institution) {
           dispatch(saveInstitutionSuccess);
         },
         (error) => {
-          //alert(error.toString());
+          alert(error.toString());
         }
       );
     }

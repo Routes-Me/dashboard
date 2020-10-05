@@ -22,7 +22,8 @@ class UsersDetail extends React.Component {
             user: '',
             userRoles: '',
             application: '',
-            errorText:""
+            errorText:"",
+            password:""
         }
     }
 
@@ -47,6 +48,7 @@ class UsersDetail extends React.Component {
                     email: props.userToDisplay.email,
                     phone: props.userToDisplay.phone,
                     application: props.userToDisplay.application,
+                    InstitutionId: props.userToDisplay.InstitutionId
 
                 }
             }
@@ -59,7 +61,7 @@ class UsersDetail extends React.Component {
         event.preventDefault();
 
         const user = {
-            userId:this.state.id,
+            // userId:this.state.id,
             Name: this.state.name,
             Password: encryptAndEncode(this.state.password) ,
             Email: this.state.email,
@@ -72,8 +74,17 @@ class UsersDetail extends React.Component {
                }
             ]                                                                                                                                                                                                                                                                                                             
         }
+
         console.log('userObj',user )
-        this.props.saveUser(user);
+        // this.props.saveUser(user);
+
+        let action ="";
+
+        {this.state.user.userId? action = "save": action = "add"}
+
+        
+
+        this.props.saveUser(user,action);
     }
 
     render() {
@@ -157,7 +168,7 @@ class UsersDetail extends React.Component {
                             <div className="col-md-4">
                                 <Label>Institution</Label><br />
                                 <select defaultValue={userObj ? userObj.institutionId : "Select a institution"} className="custom-select my-1 mr-sm-2" name="InstitutionId" onChange={this.onChange}>
-                                    {this.props.InstitutionList.map(institution => (<option key={institution.id} className="dropdown-item" value={institution.id}>{institution.name}</option>))}
+                                    {this.props.InstitutionList.map(institution => (<option key={institution.institutionId} className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
                                 </select>
                             </div>
                         </div>

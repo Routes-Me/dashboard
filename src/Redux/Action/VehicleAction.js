@@ -125,7 +125,7 @@ export function saveVehicle(vehicle) {
         dispatch(saveVehicleRequest(vehicle))
         if (vehicle.id !== "" && vehicle.id !== undefined) {
             dispatch(vehicleDataRequest());
-            axios.put(userConstants.Domain + 'vehicles?'+ vehicle, {
+            axios.put(userConstants.Domain + 'vehicles',vehicle, {
                 headers: { Authorization: "Bearer " + Token },
                 "Content-Type": "application/json; charset=utf-8",
               })
@@ -137,7 +137,7 @@ export function saveVehicle(vehicle) {
                         //alert(error.toString());
                     });
         } else {
-            axios.post(userConstants.Domain + 'vehicles?' + vehicle, {
+            axios.post(userConstants.Domain + 'vehicles', vehicle, {
                 headers: { Authorization: "Bearer " + Token },
                 "Content-Type": "application/json; charset=utf-8",
               })
