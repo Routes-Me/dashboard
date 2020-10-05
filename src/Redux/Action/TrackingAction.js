@@ -53,7 +53,7 @@ export function SubscribeToHub() {
                 CheckConnectivity()
             }, 6000);
 
-        hubConnection.on("ReceiveAll", (result) => {
+        hubConnection.on("ReceiveAllData", (result) => {
             
             //sampleData.push(result)
             const res = JSON.parse(result);
@@ -62,6 +62,7 @@ export function SubscribeToHub() {
             //console.log("const values : " + res.vehicle_id);
             const vehicleId = res.vehicle_id;
             //dispatch(OnUpdateReceived([FormatedRes, ...sampleData]));
+            dispatch(OnUpdateReceived([FormatedRes]));
         });
 
     };

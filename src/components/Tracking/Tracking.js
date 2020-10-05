@@ -15,7 +15,7 @@ const MAP = {
     defaultCenter: susolvkaCoords,
     options: {
         minZoom: 7,
-        maxZoom: 15,
+        maxZoom: 25,
         style: {
             position: 'relative',
             margin: 0,
@@ -41,6 +41,7 @@ class Tracking extends Component {
         //this.onChildClick = this.onChildClick.bind(this)
         //this.handleMapChange = this.handleMapChange.bind(this)
         //this.onChildMouseEnter = this.onChildMouseEnter.bind(this)
+
         this.state = {
 
             loading: false,
@@ -67,23 +68,34 @@ class Tracking extends Component {
 
     }
 
+
+    static getDerivedStateFromProps(props, state) {
+        
+        if (props.result!== undefined){
+            if(props.result !== state.result)
+            {
+                return{
+                    result: props.result
+                }
+            }
+        }
+        
+        
+    }
     
 
     //Clustering handled by 3rd Party Supercluster
     getClusters = () => {
-
         const clusters = supercluster(this.props.result, {
             minZoom: 0,
             maxZoom: 16,
             radius: 60,
         });
         return clusters(this.state.mapOptions);
-
     };
 
     //Bounds are considered group markers : Radius & ZoomLevel
     createClusters = props => {
-
         //console.log("Map Bounds ==>", this.state.mapOptions.bounds)
         this.setState({
             clusters: this.state.mapOptions.bounds
@@ -97,18 +109,12 @@ class Tracking extends Component {
               }))
                 : []
         });
-
     };
 
-    static getDerivedStateFromProps(props, state) {
-       // console.log('props', props);
-        
-    }
+
 
     //Function called whenever there's an activity on the map
     handleMapChange = ({ center, zoom, bounds }) => {
-
-        console.log("HandleMapChange Called ==>", this.state.clusters)
         this.setState(
             {
                 mapOptions: {
@@ -121,7 +127,6 @@ class Tracking extends Component {
                 this.createClusters();
             }
         );
-
     };
 
     componentDidMount(){
@@ -130,29 +135,21 @@ class Tracking extends Component {
         this.props.GetOfflineVehicles();
         //navigator.geolocation.getCurrentPosition(this.currentCoords);
         //console.log("Will Mount Center => :", this.state.center);
-
     }
 
-
-  
-
     componentWillUnmount() {
-
         this.setState({ timeOffUnmount: new Date().toLocaleTimeString() });
         //console.log('The unmounted time ==>', this.state.timeOffUnmount);
         this.props.UnSubscribeToHub();
-
     }
 
     //Time out Functionality
     _onAction(e) {
-
         //console.log('user did something', e)
         if (this.state.isTimedOut) {
             this.props.SubscribeToHub();
         }
         this.setState({ isTimedOut: false })
-
     }
 
     //Time out Functionality
@@ -276,10 +273,7 @@ class Tracking extends Component {
         else {
             return isGrouped ? "active-cluster" : (isSelected ? "selected-marker" : "active-marker")
         }
-
     }
-
-   
 
 
 

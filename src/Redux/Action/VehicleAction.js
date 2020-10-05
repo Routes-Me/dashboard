@@ -136,7 +136,9 @@ export function saveVehicle(vehicle) {
                     error => {
                         //alert(error.toString());
                     });
-        } else {
+        } 
+        else 
+        {
             axios.post(userConstants.Domain + 'vehicles', vehicle, {
                 headers: { Authorization: "Bearer " + Token },
                 "Content-Type": "application/json; charset=utf-8",
