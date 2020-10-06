@@ -308,31 +308,42 @@ class Tracking extends Component {
                     onZoomChanged={this._handleZoomChanged.bind(this)}
                     yesIWantToUseGoogleMapApiInternals>
                     {
-                        clusters.map((cluster, index) => {
+                        
+                        this.props.result.map(point =>(
+                            <SimpleMarker
+                                    style={this.markerStyleName(point.status, false, false )}
+                                    key={point.id}
+                                    text={point.id}
+                                    lat={point.lat}
+                                    lng={point.lng} />
+                        ))
+                        
+                        
+                        // clusters.map((cluster, index) => {
                            
-                            if (cluster.numPoints === 1)
-                            {
-                                const isSelected = cluster.points[0].id === parseInt(this.props.idForSelectedVehicle)
-                                return <SimpleMarker
-                                    style={this.markerStyleName(cluster.points[0].status, false, isSelected )}
-                                    key={cluster.points[0].id}
-                                    text={cluster.points[0].id}
-                                    lat={cluster.points[0].lat}
-                                    lng={cluster.points[0].lng} />
-                            }
-                            else
-                            {
-                                const isIdle = cluster.points.filter(point => point.status === trackingConstants.IdleState).length >= cluster.points.filter(point => point.status === trackingConstants.ActiveState).length
-                                const status = isIdle ? trackingConstants.IdleState : trackingConstants.ActiveState
-                                return <ClusterMarker
-                                    styles={this.markerStyleName(status, true, false)}
-                                    key={cluster.id}
-                                    lat={cluster.lat}
-                                    lng={cluster.lng}
-                                    text={cluster.numPoints}
-                                    points={cluster.points} />
-                            }
-                        })
+                        //     if (cluster.numPoints === 1)
+                        //     {
+                        //         const isSelected = cluster.points[0].id === parseInt(this.props.idForSelectedVehicle)
+                        //         return <SimpleMarker
+                        //             style={this.markerStyleName(cluster.points[0].status, false, isSelected )}
+                        //             key={cluster.points[0].id}
+                        //             text={cluster.points[0].id}
+                        //             lat={cluster.points[0].lat}
+                        //             lng={cluster.points[0].lng} />
+                        //     }
+                        //     else
+                        //     {
+                        //         const isIdle = cluster.points.filter(point => point.status === trackingConstants.IdleState).length >= cluster.points.filter(point => point.status === trackingConstants.ActiveState).length
+                        //         const status = isIdle ? trackingConstants.IdleState : trackingConstants.ActiveState
+                        //         return <ClusterMarker
+                        //             styles={this.markerStyleName(status, true, false)}
+                        //             key={cluster.id}
+                        //             lat={cluster.lat}
+                        //             lng={cluster.lng}
+                        //             text={cluster.numPoints}
+                        //             points={cluster.points} />
+                        //     }
+                        // })
                     }
                 </GoogleMapReact>
                 

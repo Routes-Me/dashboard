@@ -106,7 +106,7 @@ export function saveInstitution(institution,action) {
       })
       .then(
         (institution) => {
-          dispatch(saveInstitutionSuccess(institution));
+          dispatch(saveInstitutionSuccess(institution.data));
         },
         (error) => {
           alert(error.toString());
