@@ -22,15 +22,24 @@ const sampleData = [
     { vehicle_id: 5, institution_id: 1, status: trackingConstants.ActiveState, driver: "Yahya Alahaar", contact: "+965-55988128", model: "AUDI A6 . 2020", company: "Afnan", coordinates: { latitude: 29.72, longitude: 47.4511, timestamp: "7/1/2020 5:55:51 AM" } }];
 
 
+let hubConnection = ""; 
 
-const hubConnection = new signalR.HubConnectionBuilder()
-    .withUrl("http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub",{ 
-        headers: { Authorization: "Bearer " + localStorage.getItem("jwtToken").toString() }   
-        })
+
+
+export function InitializeHub(){
+
+    return dispatch => {
+    const Token = localStorage.getItem("jwtToken") !== null ? localStorage.getItem("jwtToken").toString():"";
+
+    hubConnection = new signalR.HubConnectionBuilder()
+    .withUrl("http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub",{ headers: { Authorization: "Bearer " + Token } })
     .configureLogging(signalR.LogLevel.Information)
     .build();
 
+    }
+    
 
+}
 
 
 export const Subscribing = payload => ({ type: trackingConstants.Tracking_OnSubscribeRequest });
@@ -153,35 +162,6 @@ function OnUpdateReceived(result) {
 };
 
 
-//async function start() {
-//    try {
-//        await hubConnection.start();
-//        console.assert(hubConnection.state === signalR.HubConnectionState.Connected);
-//        console.log("connected");
-//    } catch (err) {
-//        console.assert(hubConnection.state === signalR.HubConnectionState.Disconnected);
-//        console.log(err);
-//        setTimeout(() => start(), 5000);
-//    }
-//};
-
-//SignalR CallBack Methods
-
-//hubConnection.onreconnecting(error => {
-//    console.assert(hubConnection.state === signalR.HubConnectionState.Reconnecting);
-//    console.log("Reconnecting Back to the Hub :" + error)
-//});
-
-//hubConnection.on("ReceiveAll", (result) => {
-//    console.log("Response on SignalR " + result);
-//    const res = JSON.parse(result);
-//    console.log("const values : " + res.vehicle_id);
-//    const vehicleId = res.vehicle_id;
-//    return dispatch => { dispatch(OnUpdateReceived(result)); };
-
-//});
-
-//export const OnUpdateReceived = payload => ({ type: trackingConstants.Tracking_OnUpdatesReceived, payload });
 
 
 

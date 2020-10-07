@@ -36,7 +36,7 @@ export default class App extends Component {
                     <Switch>
                         <Route exact path='/' component={Login} />
                         <Route exact path='/AddAccount' component={UsersDetail}/>
-                        <Route exact path='/home' component={Home} />
+                        <PrivateRoute exact path='/home' component={Home} />
                         <Suspense fallback={<div>Loading...</div>}>
                         <Route path='/forgotpassword' component={ForgotPassword} />
                         <Route path='/newpassword' component={savePassword} />

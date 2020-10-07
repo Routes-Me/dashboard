@@ -127,7 +127,8 @@ class Tracking extends Component {
     };
 
     componentDidMount(){
-        console.log('This is the time of unmount',this.state.timeOffUnmount)
+        
+        this.props.connectTheHub();
         this.props.SubscribeToHub();
         this.props.GetOfflineVehicles();
         //navigator.geolocation.getCurrentPosition(this.currentCoords);
@@ -368,6 +369,7 @@ const mapStateToProps = (state) => {
 }
 
 const actionCreators = {
+    connectTheHub : TrackingAction.InitializeHub,
     GetOfflineVehicles: TrackingAction.getOfflineData,
     SubscribeToHub: TrackingAction.SubscribeToHub,
     UnSubscribeToHub: TrackingAction.UnsubscribeFromHub,
