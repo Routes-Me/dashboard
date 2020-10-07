@@ -38,16 +38,13 @@ class Tracking extends Component {
         this.onAction = this._onAction.bind(this)
         this.onActive = this._onActive.bind(this)
         this.onIdle = this._onIdle.bind(this)
-        //this.onChildClick = this.onChildClick.bind(this)
-        //this.handleMapChange = this.handleMapChange.bind(this)
-        //this.onChildMouseEnter = this.onChildMouseEnter.bind(this)
 
         this.state = {
 
             loading: false,
             latitude: '',
             longitude: '',
-            result: '',
+            vehicles: [],
             center: "",
             zoom: this.props.zoom,
             hover: false,
@@ -71,22 +68,18 @@ class Tracking extends Component {
 
     static getDerivedStateFromProps(props, state) {
         
-        if (props.result!== undefined){
-            if(props.result !== state.result)
-            {
-                return{
-                    result: props.result
-                }
-            }
+        if (props.movedVehicle !== undefined && props.movedVehicle != "")
+        {
+            let i = state.vehicles.findIndex(vehicle=> vehicle.id === props.movedVehicle.id)
+            state.vehicles[i] ? state.vehicles[i] = props.movedVehicle : state.vehicles.push(props.movedVehicle)
+            
         }
-        
-        
     }
     
 
     //Clustering handled by 3rd Party Supercluster
     getClusters = () => {
-        const clusters = supercluster(this.props.result, {
+        const clusters = supercluster(this.state.vehicles, {
             minZoom: 0,
             maxZoom: 16,
             radius: 60,
@@ -308,31 +301,41 @@ class Tracking extends Component {
                     onZoomChanged={this._handleZoomChanged.bind(this)}
                     yesIWantToUseGoogleMapApiInternals>
                     {
-                        clusters.map((cluster, index) => {
-                           
-                            if (cluster.numPoints === 1)
-                            {
-                                const isSelected = cluster.points[0].id === parseInt(this.props.idForSelectedVehicle)
-                                return <SimpleMarker
-                                    style={this.markerStyleName(cluster.points[0].status, false, isSelected )}
-                                    key={cluster.points[0].id}
-                                    text={cluster.points[0].id}
-                                    lat={cluster.points[0].lat}
-                                    lng={cluster.points[0].lng} />
-                            }
-                            else
-                            {
-                                const isIdle = cluster.points.filter(point => point.status === trackingConstants.IdleState).length >= cluster.points.filter(point => point.status === trackingConstants.ActiveState).length
-                                const status = isIdle ? trackingConstants.IdleState : trackingConstants.ActiveState
-                                return <ClusterMarker
-                                    styles={this.markerStyleName(status, true, false)}
-                                    key={cluster.id}
-                                    lat={cluster.lat}
-                                    lng={cluster.lng}
-                                    text={cluster.numPoints}
-                                    points={cluster.points} />
-                            }
-                        })
+                        
+                        this.state.vehicles.map(point =>(
+                            <SimpleMarker
+                                    style={this.markerStyleName(point.status, false, false )}
+                                    key={point.id}
+                                    text={point.id}
+                                    lat={point.lat}
+                                    lng={point.lng} />
+                        ))
+                        
+                        
+                        // clusters.map((cluster, index) => {
+                        //     if (cluster.numPoints === 1)
+                        //     {
+                        //         const isSelected = cluster.points[0].id === parseInt(this.props.idForSelectedVehicle)
+                        //         return <SimpleMarker
+                        //             style={this.markerStyleName(cluster.points[0].status, false, isSelected )}
+                        //             key={cluster.points[0].id}
+                        //             text={cluster.points[0].id}
+                        //             lat={cluster.points[0].lat}
+                        //             lng={cluster.points[0].lng} />
+                        //     }
+                        //     else
+                        //     {
+                        //         const isIdle = cluster.points.filter(point => point.status === trackingConstants.IdleState).length >= cluster.points.filter(point => point.status === trackingConstants.ActiveState).length
+                        //         const status = isIdle ? trackingConstants.IdleState : trackingConstants.ActiveState
+                        //         return <ClusterMarker
+                        //             styles={this.markerStyleName(status, true, false)}
+                        //             key={cluster.id}
+                        //             lat={cluster.lat}
+                        //             lng={cluster.lng}
+                        //             text={cluster.numPoints}
+                        //             points={cluster.points} />
+                        //     }
+                        // })
                     }
                 </GoogleMapReact>
                 
@@ -348,13 +351,13 @@ class Tracking extends Component {
 
 const mapStateToProps = (state) => {
 
-    //console.log("Update obj : ", state.Tracking.OflineUpdates)
-    const vehicles = [...state.Tracking.ActiveVehicles, ...state.Tracking.IdleVehicles]
-    const points = vehicles.map(result => ({ id: parseInt(result.vehicle_id), status: result.status, lat: parseFloat(result.coordinates.latitude), lng: parseFloat(result.coordinates.longitude) }))
+    //const vehicles = [...state.Tracking.ActiveVehicles, ...state.Tracking.IdleVehicles]
+  //  const points = vehicles.map(result => ({ id: parseInt(result.deviceId), status: result.status, lat: parseFloat(result.coordinates.latitude), lng: parseFloat(result.coordinates.longitude) }))
     //console.log('Mapped State Array returned :', points);
     return {
-        result: points,
-        idForSelectedVehicle: state.Tracking.idForSelectedVehicle
+        //result: points,
+        idForSelectedVehicle: state.Tracking.idForSelectedVehicle,
+        movedVehicle : state.Tracking.MovedVehicle
     }
     
 }

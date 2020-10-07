@@ -40,14 +40,15 @@ export function SubscribeToHub() {
     return dispatch => {
 
         dispatch(Subscribing());
-        
-        hubConnection.start()
-            .then(() => {
-                console.log('Hub Connected!!');
-                dispatch(Connected());
-            })
-            .catch(err => console.error("Error while establishing connection : " + err));
-
+        if(hubConnection.state === 0)
+        {
+            hubConnection.start()
+                .then(() => {
+                    console.log('Hub Connected!!');
+                    dispatch(Connected());
+                })
+                .catch(err => console.error("Error while establishing connection : " + err));
+        }
 
             setInterval(() => {
                 CheckConnectivity()
@@ -58,11 +59,11 @@ export function SubscribeToHub() {
             //sampleData.push(result)
             const res = JSON.parse(result);
             console.log("Response on SignalR ", res);
-            const FormatedRes = { vehicle_id: res.vehicle_id, institution_id: res.institution_id, status: "active", driver: "Mohammad (SR)", contact: "+965-55988028", model: "BMW X6 . 2017", company: "Afnan", coordinates: { latitude: res.coordinates.latitude, longitude: res.coordinates.longitude, timestamp: res.coordinates.timestamp } }
+            const FormatedRes = { id: res.vehicleId, institutionId: res.institutionId, deviceId: res.deviceId, status: "active", driver: "Abdullah", contact: "+965-55988028", model: "BMW X6 . 2017", company: "Routes", coordinates: { latitude: parseFloat(res.coordinates.latitude), longitude: parseFloat(res.coordinates.longitude), timestamp: res.coordinates.timestamp } }
             //console.log("const values : " + res.vehicle_id);
-            const vehicleId = res.vehicle_id;
+            // const vehicleId = res.vehicle_id;
             //dispatch(OnUpdateReceived([FormatedRes, ...sampleData]));
-            dispatch(OnUpdateReceived([FormatedRes]));
+            dispatch(OnUpdateReceived(FormatedRes));
         });
 
     };
@@ -70,24 +71,16 @@ export function SubscribeToHub() {
 
 
 export function CheckConnectivity(){
-
-    // return dispatch =>{
-
-            
-           if(hubConnection.state === 0)
-           {
-            console.log('Recoonecting the hub')
+    if(hubConnection.state === 0)
+    {
+        console.log('Recoonecting the hub')
             hubConnection.start()
             .then(() => {
                 console.log('Hub Connected!!');
                 // dispatch(Connected());
             })
             .catch(err => console.error("Error while establishing connection : " + err));
-           }
-            
-
-    // }
-    
+    }
 }
 
 export const Unsubscribe = payload => ({ type: trackingConstants.Tracking_OnUnSubscribeRequest });
@@ -97,7 +90,9 @@ export function UnsubscribeFromHub() {
 
     return dispatch => {
         dispatch(Unsubscribe());
-        hubConnection.stop()
+        if(hubConnection.state === 0)
+        {
+            hubConnection.stop()
             .then(() => {
                 console.log('Hub Disconnected!!');
                 dispatch(Disconnected());
@@ -105,6 +100,7 @@ export function UnsubscribeFromHub() {
             .catch(err => {
                 console.error("Error while disconnecting : " + err);
             });
+        }
     };
 
     //function Unsubscribe() { return { type: trackingConstants.Tracking_OnUnSubscribeRequest }; }

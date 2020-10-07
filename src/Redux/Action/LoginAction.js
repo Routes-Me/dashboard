@@ -37,7 +37,7 @@ export function userSignInRequest(username, password) {
   //   localStorage.setItem("jwtToken", tokenT);
   //   setAuthorizationToken(token);
   // };
-
+  localStorage.clear();
   return dispatch => {
       dispatch(request({ username, password }));
       var encryptedpassword = encryptAES(password);
@@ -49,12 +49,13 @@ export function userSignInRequest(username, password) {
       axios.post(userConstants.Domain + 'signin', userObject)
           .then(
               response => {
+
                   //console.log("User Details : ", JSON.stringify(user));
-                  const tokenT = response.token;
-                  const token = jwt.decode(response.token);
+                  const token = response.data.token;
+                  const LoggedInUser = jwt.decode(token);
                   const user = response.data;
-                  localStorage.setItem('user', user);
-                  dispatch(getLoginSuccess(user));
+                  localStorage.setItem('user', LoggedInUser);
+                  dispatch(getLoginSuccess(LoggedInUser));
                   history.push('/home');
                   localStorage.setItem('jwtToken', token);
                   setAuthorizationToken(token);

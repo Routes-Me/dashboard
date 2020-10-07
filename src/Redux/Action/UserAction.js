@@ -9,7 +9,7 @@ import { stripBasename } from 'history/PathUtils';
 
 //Get UsersList
 export function getUsers(institutionId, pageIndex) {
-    const Token = localStorage.getItem("jwtToken").toString();
+    const Token = localStorage.getItem("jwtToken");
 
     return dispatch => {
         dispatch(UsersDataRequest());

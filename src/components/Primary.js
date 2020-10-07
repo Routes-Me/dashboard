@@ -54,7 +54,7 @@ class Primary extends Component
 
                 <div className="profile">
                     <img className="bitmap" alt="" src="/static/media/5.3ea9ef3d.jpg" />
-                    <p>Welcome Vivian {/*{this.props.user.first_name}*/}!!</p>
+                    <p>Welcome {this.props.user.Name}!!</p>
                 </div>
 
                 <div className="menu-part">
