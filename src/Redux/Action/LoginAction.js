@@ -55,7 +55,7 @@ export function userSignInRequest(username, password) {
                   const LoggedInUser = jwt.decode(token);
                   const user = response.data;
                   localStorage.setItem('user', LoggedInUser);
-                  dispatch(getLoginSuccess(user));
+                  dispatch(getLoginSuccess(LoggedInUser));
                   history.push('/home');
                   localStorage.setItem('jwtToken', token);
                   setAuthorizationToken(token);

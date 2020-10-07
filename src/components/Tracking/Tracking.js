@@ -38,16 +38,13 @@ class Tracking extends Component {
         this.onAction = this._onAction.bind(this)
         this.onActive = this._onActive.bind(this)
         this.onIdle = this._onIdle.bind(this)
-        //this.onChildClick = this.onChildClick.bind(this)
-        //this.handleMapChange = this.handleMapChange.bind(this)
-        //this.onChildMouseEnter = this.onChildMouseEnter.bind(this)
 
         this.state = {
 
             loading: false,
             latitude: '',
             longitude: '',
-            result: '',
+            vehicles: [],
             center: "",
             zoom: this.props.zoom,
             hover: false,
@@ -71,22 +68,18 @@ class Tracking extends Component {
 
     static getDerivedStateFromProps(props, state) {
         
-        if (props.result!== undefined){
-            if(props.result !== state.result)
-            {
-                return{
-                    result: props.result
-                }
-            }
+        if (props.movedVehicle !== undefined && props.movedVehicle != "")
+        {
+            let i = state.vehicles.findIndex(vehicle=> vehicle.id === props.movedVehicle.id)
+            state.vehicles[i] ? state.vehicles[i] = props.movedVehicle : state.vehicles.push(props.movedVehicle)
+            
         }
-        
-        
     }
     
 
     //Clustering handled by 3rd Party Supercluster
     getClusters = () => {
-        const clusters = supercluster(this.props.result, {
+        const clusters = supercluster(this.state.vehicles, {
             minZoom: 0,
             maxZoom: 16,
             radius: 60,
@@ -309,7 +302,7 @@ class Tracking extends Component {
                     yesIWantToUseGoogleMapApiInternals>
                     {
                         
-                        this.props.result.map(point =>(
+                        this.state.vehicles.map(point =>(
                             <SimpleMarker
                                     style={this.markerStyleName(point.status, false, false )}
                                     key={point.id}
@@ -320,7 +313,6 @@ class Tracking extends Component {
                         
                         
                         // clusters.map((cluster, index) => {
-                           
                         //     if (cluster.numPoints === 1)
                         //     {
                         //         const isSelected = cluster.points[0].id === parseInt(this.props.idForSelectedVehicle)
@@ -359,13 +351,13 @@ class Tracking extends Component {
 
 const mapStateToProps = (state) => {
 
-    //console.log("Update obj : ", state.Tracking.OflineUpdates)
-    const vehicles = [...state.Tracking.ActiveVehicles, ...state.Tracking.IdleVehicles]
-    const points = vehicles.map(result => ({ id: parseInt(result.vehicle_id), status: result.status, lat: parseFloat(result.coordinates.latitude), lng: parseFloat(result.coordinates.longitude) }))
+    //const vehicles = [...state.Tracking.ActiveVehicles, ...state.Tracking.IdleVehicles]
+  //  const points = vehicles.map(result => ({ id: parseInt(result.deviceId), status: result.status, lat: parseFloat(result.coordinates.latitude), lng: parseFloat(result.coordinates.longitude) }))
     //console.log('Mapped State Array returned :', points);
     return {
-        result: points,
-        idForSelectedVehicle: state.Tracking.idForSelectedVehicle
+        //result: points,
+        idForSelectedVehicle: state.Tracking.idForSelectedVehicle,
+        movedVehicle : state.Tracking.MovedVehicle
     }
     
 }
