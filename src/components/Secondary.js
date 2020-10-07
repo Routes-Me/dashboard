@@ -142,9 +142,9 @@ const mapStateToProps = (state) => {
 
     return {
         //vehicles: points,
-        idleVehiclesCount: state.Tracking.IdleVehicles.length,
-        activeVehiclesCount: state.Tracking.ActiveVehicles.length,
-        idForidForSelectedVehicle: state.Tracking.idForSelectedVehicle,
+        //idleVehiclesCount: state.Tracking.IdleVehicles.length,
+        //activeVehiclesCount: state.Tracking.ActiveVehicles.length,
+        //idForidForSelectedVehicle: state.Tracking.idForSelectedVehicle,
         selectedNavItem: state.Login.SelectedNavOption
     }
 

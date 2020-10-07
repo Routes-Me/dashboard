@@ -59,7 +59,7 @@ export function SubscribeToHub() {
             //sampleData.push(result)
             const res = JSON.parse(result);
             console.log("Response on SignalR ", res);
-            const FormatedRes = { id: res.vehicleId, institutionId: res.institutionId, deviceId: res.deviceId, status: "active", driver: "Abdullah", contact: "+965-55988028", model: "BMW X6 . 2017", company: "Routes", coordinates: { latitude: parseFloat(res.coordinates.latitude), longitude: parseFloat(res.coordinates.longitude), timestamp: res.coordinates.timestamp } }
+            const FormatedRes = { id: res.vehicleId, institutionId: res.institutionId, deviceId: res.deviceId, status: "active", driver: "Abdullah", contact: "+965-55988028", model: "BMW X6 . 2017", company: "Routes", coordinates: { lat: parseFloat(res.coordinates.latitude), lng: parseFloat(res.coordinates.longitude), timestamp: res.coordinates.timestamp } }
             //console.log("const values : " + res.vehicle_id);
             // const vehicleId = res.vehicle_id;
             //dispatch(OnUpdateReceived([FormatedRes, ...sampleData]));
