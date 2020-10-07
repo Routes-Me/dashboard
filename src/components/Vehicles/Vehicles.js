@@ -67,11 +67,11 @@ class Vehicles extends Component {
                     <table>
                         <thead>
                             <tr>
+                                <th>Id</th>
                                 <th>Plate</th>
-                                <th>Make</th>
                                 <th>Model</th>
-                                <th>Office</th>
                                 <th>Year</th>
+                                <th>Office</th>
                                 <th className="width44" />
                             </tr>
                         </thead>
@@ -79,11 +79,11 @@ class Vehicles extends Component {
                             {
                                 Vehicles.map(Vehicle => (
                                     <tr  key={Vehicle.id}>
+                                        <td>{Vehicle.id}</td>
                                         <td>{Vehicle.plateNumber}</td>
-                                        <td>{Vehicle.model.name}</td>
-                                        <td>{Vehicle.model.name}</td>
-                                        <td>{Vehicle.institution.name}</td>
+                                        <td>{Vehicle.model.Name}</td>
                                         <td>{Vehicle.modelYear}</td>
+                                        <td>{Vehicle.institution.Name}</td>
                                         <td className="width44" >
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Vehicle.id)}>

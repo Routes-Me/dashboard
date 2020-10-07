@@ -20,7 +20,7 @@ export function getVehiclesForInstitutionID(institutionId, pageIndex) {
         .then(
         vehicles => {
                 dispatch(storeVehicleData(returnFormatedVehicles(vehicles)));
-                dispatch(UpdatePage(vehicles.pagination));
+                //dispatch(UpdatePage(vehicles.pagination));
         },
         error => {
             alert(error.toString());
@@ -131,7 +131,7 @@ export function saveVehicle(vehicle) {
                         dispatch(saveVehicleSuccess(returnFormatedVehicles(vehicle.data)));
                     },
                     error => {
-                        //alert(error.toString());
+                        alert(error.toString());
                     });
         } 
         else 
@@ -195,8 +195,8 @@ function returnFormatedVehicles(response){
     //const VehicleList = response.data.vehicles.filter(vehicle => vehicle.institutionId === 3);
     const VehicleList = response.data.data;
     //console.log('Vehicle Action Array returned :', VehicleList);
-    const InstitutionList = response.included.institutions;
-    const ModelList = response.include.models;
+    const InstitutionList = response.data.included.institutions;
+    const ModelList = response.data.included.models;
     //const MakerList = response.include.makes;
 
     const FormatedVehicle = VehicleList.map(x => ({
