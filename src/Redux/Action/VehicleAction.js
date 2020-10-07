@@ -28,7 +28,7 @@ export function getVehiclesForInstitutionID(institutionId, pageIndex) {
             alert(error.toString());
         });
 
-        //const FormatedVehicle = MockAPICallForVehicles(institutionId, pageIndex)
+        //const FormatedVehicle = MockAPICallForVehicles(institutionId, pageIndex)`
         //console.log('data formated ', FormatedVehicle);
         //dispatch(storeVehicleData(FormatedVehicle));
 
@@ -194,8 +194,9 @@ function MockAPICallForVehicles(InstId,pageIndex) {
 }
 
 function returnFormatedVehicles(response){
-    const VehicleList = response.data.vehicles.filter(vehicle => vehicle.institutionId === 3)
+    //const VehicleList = response.data.vehicles.filter(vehicle => vehicle.institutionId === 3)
     //console.log('Vehicle Action Array returned :', VehicleList);
+    const VehicleList = response.data.data;
     const InstitutionList = response.include.institutions;
     const ModelList = response.include.models;
     const MakerList = response.include.makes;

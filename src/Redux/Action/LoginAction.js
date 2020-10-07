@@ -49,7 +49,7 @@ export function userSignInRequest(username, password) {
       axios.post(userConstants.Domain + 'signin', userObject)
           .then(
               response => {
-                  console.log("User Details : ", JSON.stringify(user));
+                  //console.log("User Details : ", JSON.stringify(user));
                   const tokenT = response.token;
                   const token = jwt.decode(response.token);
                   const user = response.data;
