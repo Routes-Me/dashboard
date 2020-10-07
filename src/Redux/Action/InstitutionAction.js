@@ -142,6 +142,16 @@ function saveInstitutionSuccess(institutions) {
   };
 }
 
+
+
+// delete institution
+// export function deleteInstitution(institutionId)
+// {
+//   return (dispatch)=>{
+
+//   }
+// }
+
 //Get Services
 export function getServicesList() {
   return (dispatch) => {
