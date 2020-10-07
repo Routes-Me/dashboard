@@ -70,9 +70,13 @@ class Tracking extends Component {
         
         if (props.movedVehicle !== undefined && props.movedVehicle != "")
         {
-            let i = state.vehicles.findIndex(vehicle=> vehicle.id === props.movedVehicle.id)
-            state.vehicles[i] ? state.vehicles[i] = props.movedVehicle : state.vehicles.push(props.movedVehicle)
-            
+            let i = state.vehicles.findIndex(vehicle=> vehicle.id === props.movedVehicle.id);
+            state.vehicles[i] ? state.vehicles[i] = props.movedVehicle : state.vehicles.push(props.movedVehicle);
+            let vehicleList = state.vehicles;
+            console.log('Vehicle List Count', vehicleList.length);
+            return{
+                vehicles: vehicleList
+            }
         }
     }
     
@@ -275,6 +279,7 @@ class Tracking extends Component {
         //const { results } = this.props;
         const { center } = this.state.center;
         const { clusters, selectedId } = this.state;
+        const vehicles = this.state.vehicles;
         //console.log("Render Body", clusters)
         //console.log("Rendered Count on result", results.length);
 
@@ -301,14 +306,13 @@ class Tracking extends Component {
                     onZoomChanged={this._handleZoomChanged.bind(this)}
                     yesIWantToUseGoogleMapApiInternals>
                     {
-                        
-                        this.state.vehicles.map(point =>(
+                        vehicles.map(point =>(
                             <SimpleMarker
-                                    style={this.markerStyleName(point.status, false, false )}
+                                    style={this.markerStyleName(point.status, false, point.id === parseInt(this.props.idForSelectedVehicle))}
                                     key={point.id}
                                     text={point.id}
-                                    lat={point.lat}
-                                    lng={point.lng} />
+                                    lat={point.coordinates.lat}
+                                    lng={point.coordinates.lng} />
                         ))
                         
                         
@@ -336,6 +340,7 @@ class Tracking extends Component {
                         //             points={cluster.points} />
                         //     }
                         // })
+                        
                     }
                 </GoogleMapReact>
                 
