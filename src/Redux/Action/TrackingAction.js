@@ -22,9 +22,12 @@ const sampleData = [
     { vehicle_id: 5, institution_id: 1, status: trackingConstants.ActiveState, driver: "Yahya Alahaar", contact: "+965-55988128", model: "AUDI A6 . 2020", company: "Afnan", coordinates: { latitude: 29.72, longitude: 47.4511, timestamp: "7/1/2020 5:55:51 AM" } }];
 
 
+const Token = localStorage.getItem("jwtToken").toString();
 
 const hubConnection = new signalR.HubConnectionBuilder()
-    .withUrl("http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub")
+    .withUrl("http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub",{ 
+        headers: { Authorization: "Bearer " + Token }   
+        })
     .configureLogging(signalR.LogLevel.Information)
     .build();
 
