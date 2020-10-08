@@ -5,7 +5,7 @@ const INITIAL_STATE = {
     Loading: true,
     hasError: false,
     error: null,
-    ActiveVehicles: [],
+    MovedVehicle: "",
     IdleVehicles: [],
     idForSelectedVehicle:0
 };
@@ -32,7 +32,7 @@ const TrackingReducer = (state = INITIAL_STATE, action ) => {
                 Loading: false,
                 hasError: false,
                 ConnectionEstablished: true,
-                ActiveVehicles: action.payload
+                MovedVehicle: action.payload
             };
         case trackingConstants.Tracking_Disconnected:
             return {

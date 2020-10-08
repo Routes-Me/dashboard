@@ -135,16 +135,16 @@ const mapStateToProps = (state) => {
 
     //console.log("Secondary panel Update off obj : ", state.Tracking.IdleVehicles)
     //console.log("Secondary panel Update on obj : ", state.Tracking.ActiveVehicles)
-    const points = [...state.Tracking.ActiveVehicles, ...state.Tracking.IdleVehicles]
+    //const points = [...state.Tracking.ActiveVehicles, ...state.Tracking.IdleVehicles]
     //const points = sampleArray.map(result => ({ vehicle_id: parseInt(result.vehicle_id), status: result.status, lat: parseFloat(result.coordinates.latitude), lng: parseFloat(result.coordinates.longitude) }))
     //console.log('Mapped State Array returned :', points);
 
 
     return {
-        vehicles: points,
-        idleVehiclesCount: state.Tracking.IdleVehicles.length,
-        activeVehiclesCount: state.Tracking.ActiveVehicles.length,
-        idForidForSelectedVehicle: state.Tracking.idForSelectedVehicle,
+        //vehicles: points,
+        //idleVehiclesCount: state.Tracking.IdleVehicles.length,
+        //activeVehiclesCount: state.Tracking.ActiveVehicles.length,
+        //idForidForSelectedVehicle: state.Tracking.idForSelectedVehicle,
         selectedNavItem: state.Login.SelectedNavOption
     }
 

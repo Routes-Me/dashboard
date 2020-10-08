@@ -9,7 +9,7 @@ import { stripBasename } from 'history/PathUtils';
 
 //Get UsersList
 export function getUsers(institutionId, pageIndex) {
-    const Token = localStorage.getItem("jwtToken").toString();
+    const Token = localStorage.getItem("jwtToken");
 
     return dispatch => {
         dispatch(UsersDataRequest());
@@ -149,11 +149,11 @@ export function getAutherization(roleId) {
 
 
 //Save User Detail
-export function saveUser(user) {
+export function saveUser(user,action) {
     const Token = localStorage.getItem("jwtToken").toString();
     return dispatch => {
         dispatch(saveUserDataRequest);
-        if (user.userId !== "" || user.userId !== undefined) {
+        if (action === "add") {
             axios.post(userConstants.Domain + 'signup' , user, {
                 headers: { Authorization: "Bearer " + Token },
                 "Content-Type": "application/json; charset=utf-8",
@@ -167,7 +167,7 @@ export function saveUser(user) {
                 });
         }
         else {
-            axios.put(userConstants.Domain + 'users?' + user,{
+            axios.put(userConstants.Domain + 'users' , user,{
                 headers: { Authorization: "Bearer " + Token },
                 "Content-Type": "application/json; charset=utf-8",
               })

@@ -8,7 +8,7 @@
     text-align: center !important;
     margin: 0;
     width: 100% !important;
-    filter: alpha(opacity: 0);
+    filter: alpha(opacity 0);
     height:124px;
 }
 

@@ -8,8 +8,8 @@ var iterations = 100;
 
 export function encryptAES(text) {
 
-    var  iv = CryptoJS.enc.Utf8.parse('Qz-N!p#ATb9_2MkL');
-    var key  = CryptoJS.enc.Utf8.parse('ledV\\K\"zRaNF]WXki,RMtLLZ{Cyr_1');
+    var  iv = CryptoJS.enc.Utf8.parse("7w'}DkAkO!A&mLyL");
+    var key  = CryptoJS.enc.Utf8.parse("Wf6cXM10cj_7B)V,");
     var encodedText = CryptoJS.enc.Utf8.parse(text);
     var encryptedpassword = CryptoJS.AES.encrypt(encodedText, key,
         {
@@ -84,20 +84,22 @@ export function encryptAndEncode(PASSWORD)
     //filter the SALT with the above exclude text
     var refinedSalt = refineSalt(salt,excludeText);
 
-    var encryptedText = encryptAES(refinedSalt);
-
-    var positionToInsert = parseInt(generateRandomPosition());
-
-    var encryptedTextForDashBoardPart1 = encryptedText.substring(0,positionToInsert);
-    var encryptedTextForDashBoardPart2 = encryptedText.substring(positionToInsert);
-
-    let encryptedTextForDashBoard = encryptedTextForDashBoardPart1 + '%' + encryptedTextForDashBoardPart2
+    var encryptedText = encryptAES(PASSWORD);
 
     var prefixText = positionStr + excludeText
 
-    var formatedCipher = formatCipher(prefixText,encryptedTextForDashBoard,salt,positionIndex);
 
-    return formatedCipher;
+    var formatedCipher = formatCipher(prefixText, encryptedText, salt, positionIndex);
+
+    var positionToInsert = parseInt(generateRandomPosition());
+
+    var encryptedTextForDashBoardPart1 = formatedCipher.substring(0, positionToInsert);
+    var encryptedTextForDashBoardPart2 = formatedCipher.substring(positionToInsert);
+
+    let cipherTextForDashBoard = encryptedTextForDashBoardPart1 + '%' + encryptedTextForDashBoardPart2
+
+    return cipherTextForDashBoard;
+
 
 }
 

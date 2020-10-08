@@ -6,29 +6,27 @@ import axios from 'axios';
 //const SampleInsitutionsIdArgument = { "institutionIds": [{ "Id": 3 }] };
 
 
-// let Token = localStorage.getItem('jwtToken').toString();
-
 //Action to getVehicleList for Vehicles Component
 export function getVehiclesForInstitutionID(institutionId, pageIndex) {
     institutionId = 1;
    
     let Token = localStorage.getItem('jwtToken').toString();
     return dispatch => {
-        dispatch(vehicleDataRequest());
-        axios.get(userConstants.Domain + 'vehicles?offset=1&limit=10', {
+        dispatch(vehicleDataRequest());                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+        axios.get(userConstants.Domain + 'vehicles?offset=1&limit=10&include=institutions,models', {
             headers: { Authorization: "Bearer " + Token },
             "Content-Type": "application/json; charset=utf-8",
           })
         .then(
         vehicles => {
-                dispatch(storeVehicleData(vehicles));
-                dispatch(UpdatePage(vehicles.pagination));
+                dispatch(storeVehicleData(returnFormatedVehicles(vehicles)));
+                //dispatch(UpdatePage(vehicles.pagination));
         },
         error => {
             alert(error.toString());
         });
 
-        //const FormatedVehicle = MockAPICallForVehicles(institutionId, pageIndex)
+        //const FormatedVehicle = MockAPICallForVehicles(institutionId, pageIndex)`
         //console.log('data formated ', FormatedVehicle);
         //dispatch(storeVehicleData(FormatedVehicle));
 
@@ -66,7 +64,6 @@ export function getModels(makeId) {
                error => {
                         //alert(error.toString());
             });
-
             dispatch(storeModelData(returnModelsByMockAPICallforModels().manuFacturersDetails.data.carModels))
 
     }
@@ -125,19 +122,21 @@ export function saveVehicle(vehicle) {
         dispatch(saveVehicleRequest(vehicle))
         if (vehicle.id !== "" && vehicle.id !== undefined) {
             dispatch(vehicleDataRequest());
-            axios.put(userConstants.Domain + 'vehicles?'+ vehicle, {
+            axios.put(userConstants.Domain + 'vehicles',vehicle, {
                 headers: { Authorization: "Bearer " + Token },
                 "Content-Type": "application/json; charset=utf-8",
               })
                 .then(
                     vehicle => {
-                        dispatch(saveVehicleSuccess(vehicle));
+                        dispatch(saveVehicleSuccess(returnFormatedVehicles(vehicle.data)));
                     },
                     error => {
-                        //alert(error.toString());
+                        alert(error.toString());
                     });
-        } else {
-            axios.post(userConstants.Domain + 'vehicles?' + vehicle, {
+        } 
+        else 
+        {
+            axios.post(userConstants.Domain + 'vehicles', vehicle, {
                 headers: { Authorization: "Bearer " + Token },
                 "Content-Type": "application/json; charset=utf-8",
               })
@@ -192,19 +191,21 @@ function MockAPICallForVehicles(InstId,pageIndex) {
 }
 
 function returnFormatedVehicles(response){
-    const VehicleList = response.data.vehicles.filter(vehicle => vehicle.institutionId === 3)
+
+    //const VehicleList = response.data.vehicles.filter(vehicle => vehicle.institutionId === 3);
+    const VehicleList = response.data.data;
     //console.log('Vehicle Action Array returned :', VehicleList);
-    const InstitutionList = response.include.institutions;
-    const ModelList = response.include.models;
-    const MakerList = response.include.makes;
+    const InstitutionList = response.data.included.institutions;
+    const ModelList = response.data.included.models;
+    //const MakerList = response.include.makes;
 
     const FormatedVehicle = VehicleList.map(x => ({
         id: x.vehicleId,
-        institution: InstitutionList.filter(y => y.institutionId === x.institutionId)[0],
+        institution: InstitutionList.filter(y => y.InstitutionId === x.institutionId)[0],
         plateNumber: x.plateNumber,
-        model: ModelList.filter(y => y.modelId === x.modelId)[0],
-        make: MakerList.filter(y => y.makeId === x.makeId)[0],
-        deviceId: x.deviceId,
+        model: ModelList.filter(y => y.ModelId === x.modelId)[0],
+        //make: MakerList.filter(y => y.makeId === x.makeId)[0],
+        //deviceId: x.deviceId,
         modelYear: x.modelYear
     }))
 

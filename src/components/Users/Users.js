@@ -74,18 +74,18 @@ class Users extends Component {
                             {
                                 usersList.map(user => (
                                     <tr key={user.userId}>
-                                        <td>{user.userId}</td>
-                                        <td>{user.name}</td>
-                                        <td>{user.email}</td>
-                                        <td>{user.phone}</td>
-                                        <td>{user.createdAt}</td>
-                                        <td className="width44" >
-                                            <div className="edit-popup">
-                                                <div className="edit-delet-butt" onClick={e => this.openSubMenuForUserId(e, user.userId)}>
-                                                    <span />
-                                                    <span />
-                                                    <span />
-                                                </div>
+                                    <td>{user.userId}</td>
+                                    <td>{user.name}</td>
+                                    <td>{user.email}</td>
+                                    <td>{user.phone}</td>
+                                    <td>{user.createdAt}</td>
+                                    <td className="width44" >
+                                        <div className="edit-popup">
+                                            <div className="edit-delet-butt" onClick={e => this.openSubMenuForUserId(e, user.userId)}>
+                                                <span />
+                                                <span />
+                                                <span />
+                                            </div>
                                                 <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === user.userId ? 'inline-block' : 'none' }}>
                                                     <li><a onClick={e => this.showDetailScreen(e, user)}>Edit</a></li>
                                                     <li><a>Delete</a></li>

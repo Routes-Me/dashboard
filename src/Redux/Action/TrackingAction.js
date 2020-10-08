@@ -2,6 +2,7 @@
 import * as signalR from '@aspnet/signalr';
 import axios from 'axios';
 import { userConstants } from '../../constants/userConstants';
+import { HubConnectionState } from '@microsoft/signalr';
 
 
 
@@ -21,46 +22,59 @@ const sampleData = [
     { vehicle_id: 5, institution_id: 1, status: trackingConstants.ActiveState, driver: "Yahya Alahaar", contact: "+965-55988128", model: "AUDI A6 . 2020", company: "Afnan", coordinates: { latitude: 29.72, longitude: 47.4511, timestamp: "7/1/2020 5:55:51 AM" } }];
 
 
+let hubConnection = ""; 
 
-const hubConnection = new signalR.HubConnectionBuilder()
-    .withUrl("http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub")
+
+
+export function InitializeHub(){
+
+    return dispatch => {
+    const Token = localStorage.getItem("jwtToken") !== null ? localStorage.getItem("jwtToken").toString():"";
+
+    hubConnection = new signalR.HubConnectionBuilder()
+    .withUrl("http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub",{ headers: { Authorization: "Bearer " + Token } })
     .configureLogging(signalR.LogLevel.Information)
     .build();
 
+    }
+    
 
+}
 
 
 export const Subscribing = payload => ({ type: trackingConstants.Tracking_OnSubscribeRequest });
 
-export const Connected = payload => ({type: trackingConstants.Tracking_Connected});
+export const Connected = payload => ({type: trackingConstants.Tracking_Connected});                                                                                                                                                      
 
 export function SubscribeToHub() {
 
     return dispatch => {
 
         dispatch(Subscribing());
-        
-        hubConnection.start()
-            .then(() => {
-                console.log('Hub Connected!!');
-                dispatch(Connected());
-            })
-            .catch(err => console.error("Error while establishing connection : " + err));
-
+        if(hubConnection.state === 0)
+        {
+            hubConnection.start()
+                .then(() => {
+                    console.log('Hub Connected!!');
+                    dispatch(Connected());
+                })
+                .catch(err => console.error("Error while establishing connection : " + err));
+        }
 
             setInterval(() => {
                 CheckConnectivity()
             }, 6000);
 
-        hubConnection.on("ReceiveAll", (result) => {
+        hubConnection.on("ReceiveAllData", (result) => {
             
             //sampleData.push(result)
             const res = JSON.parse(result);
             console.log("Response on SignalR ", res);
-            const FormatedRes = { vehicle_id: res.vehicle_id, institution_id: res.institution_id, status: "active", driver: "Mohammad (SR)", contact: "+965-55988028", model: "BMW X6 . 2017", company: "Afnan", coordinates: { latitude: res.coordinates.latitude, longitude: res.coordinates.longitude, timestamp: res.coordinates.timestamp } }
+            const FormatedRes = { id: res.vehicleId, institutionId: res.institutionId, deviceId: res.deviceId, status: "active", driver: "Abdullah", contact: "+965-55988028", model: "BMW X6 . 2017", company: "Routes", coordinates: { lat: parseFloat(res.coordinates.latitude), lng: parseFloat(res.coordinates.longitude), timestamp: res.coordinates.timestamp } }
             //console.log("const values : " + res.vehicle_id);
-            const vehicleId = res.vehicle_id;
+            // const vehicleId = res.vehicle_id;
             //dispatch(OnUpdateReceived([FormatedRes, ...sampleData]));
+            dispatch(OnUpdateReceived(FormatedRes));
         });
 
     };
@@ -68,24 +82,16 @@ export function SubscribeToHub() {
 
 
 export function CheckConnectivity(){
-
-    return dispatch =>{
-
-        if(hubConnection.state === 0)
-        {
-            console.log('Recoonect or connect')
-        
+    if(hubConnection.state === 0)
+    {
+        console.log('Recoonecting the hub')
             hubConnection.start()
             .then(() => {
                 console.log('Hub Connected!!');
-                dispatch(Connected());
+                // dispatch(Connected());
             })
             .catch(err => console.error("Error while establishing connection : " + err));
-
-        }
-
     }
-    
 }
 
 export const Unsubscribe = payload => ({ type: trackingConstants.Tracking_OnUnSubscribeRequest });
@@ -95,7 +101,9 @@ export function UnsubscribeFromHub() {
 
     return dispatch => {
         dispatch(Unsubscribe());
-        hubConnection.stop()
+        if(hubConnection.state === 0)
+        {
+            hubConnection.stop()
             .then(() => {
                 console.log('Hub Disconnected!!');
                 dispatch(Disconnected());
@@ -103,6 +111,7 @@ export function UnsubscribeFromHub() {
             .catch(err => {
                 console.error("Error while disconnecting : " + err);
             });
+        }
     };
 
     //function Unsubscribe() { return { type: trackingConstants.Tracking_OnUnSubscribeRequest }; }
@@ -153,35 +162,6 @@ function OnUpdateReceived(result) {
 };
 
 
-//async function start() {
-//    try {
-//        await hubConnection.start();
-//        console.assert(hubConnection.state === signalR.HubConnectionState.Connected);
-//        console.log("connected");
-//    } catch (err) {
-//        console.assert(hubConnection.state === signalR.HubConnectionState.Disconnected);
-//        console.log(err);
-//        setTimeout(() => start(), 5000);
-//    }
-//};
-
-//SignalR CallBack Methods
-
-//hubConnection.onreconnecting(error => {
-//    console.assert(hubConnection.state === signalR.HubConnectionState.Reconnecting);
-//    console.log("Reconnecting Back to the Hub :" + error)
-//});
-
-//hubConnection.on("ReceiveAll", (result) => {
-//    console.log("Response on SignalR " + result);
-//    const res = JSON.parse(result);
-//    console.log("const values : " + res.vehicle_id);
-//    const vehicleId = res.vehicle_id;
-//    return dispatch => { dispatch(OnUpdateReceived(result)); };
-
-//});
-
-//export const OnUpdateReceived = payload => ({ type: trackingConstants.Tracking_OnUpdatesReceived, payload });
 
 
 

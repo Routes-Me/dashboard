@@ -15,7 +15,7 @@ const MAP = {
     defaultCenter: susolvkaCoords,
     options: {
         minZoom: 7,
-        maxZoom: 15,
+        maxZoom: 25,
         style: {
             position: 'relative',
             margin: 0,
@@ -38,15 +38,13 @@ class Tracking extends Component {
         this.onAction = this._onAction.bind(this)
         this.onActive = this._onActive.bind(this)
         this.onIdle = this._onIdle.bind(this)
-        //this.onChildClick = this.onChildClick.bind(this)
-        //this.handleMapChange = this.handleMapChange.bind(this)
-        //this.onChildMouseEnter = this.onChildMouseEnter.bind(this)
+
         this.state = {
 
             loading: false,
             latitude: '',
             longitude: '',
-            result: '',
+            vehicles: [],
             center: "",
             zoom: this.props.zoom,
             hover: false,
@@ -67,23 +65,34 @@ class Tracking extends Component {
 
     }
 
+
+    static getDerivedStateFromProps(props, state) {
+        
+        if (props.movedVehicle !== undefined && props.movedVehicle != "")
+        {
+            let i = state.vehicles.findIndex(vehicle=> vehicle.id === props.movedVehicle.id);
+            state.vehicles[i] ? state.vehicles[i] = props.movedVehicle : state.vehicles.push(props.movedVehicle);
+            let vehicleList = state.vehicles;
+            console.log('Vehicle List Count', vehicleList.length);
+            return{
+                vehicles: vehicleList
+            }
+        }
+    }
     
 
     //Clustering handled by 3rd Party Supercluster
     getClusters = () => {
-
-        const clusters = supercluster(this.props.result, {
+        const clusters = supercluster(this.state.vehicles, {
             minZoom: 0,
             maxZoom: 16,
             radius: 60,
         });
         return clusters(this.state.mapOptions);
-
     };
 
     //Bounds are considered group markers : Radius & ZoomLevel
     createClusters = props => {
-
         //console.log("Map Bounds ==>", this.state.mapOptions.bounds)
         this.setState({
             clusters: this.state.mapOptions.bounds
@@ -97,18 +106,12 @@ class Tracking extends Component {
               }))
                 : []
         });
-
     };
 
-    static getDerivedStateFromProps(props, state) {
-       // console.log('props', props);
-        
-    }
+
 
     //Function called whenever there's an activity on the map
     handleMapChange = ({ center, zoom, bounds }) => {
-
-        console.log("HandleMapChange Called ==>", this.state.clusters)
         this.setState(
             {
                 mapOptions: {
@@ -121,36 +124,30 @@ class Tracking extends Component {
                 this.createClusters();
             }
         );
-
     };
 
     componentDidMount(){
-        console.log('This is the time of unmount',this.state.timeOffUnmount)
+        
+        this.props.connectTheHub();
         this.props.SubscribeToHub();
-        this.props.GetOfflineVehicles()
+        this.props.GetOfflineVehicles();
         //navigator.geolocation.getCurrentPosition(this.currentCoords);
         //console.log("Will Mount Center => :", this.state.center);
-
     }
 
-
     componentWillUnmount() {
-
         this.setState({ timeOffUnmount: new Date().toLocaleTimeString() });
         //console.log('The unmounted time ==>', this.state.timeOffUnmount);
         this.props.UnSubscribeToHub();
-
     }
 
     //Time out Functionality
     _onAction(e) {
-
         //console.log('user did something', e)
         if (this.state.isTimedOut) {
             this.props.SubscribeToHub();
         }
         this.setState({ isTimedOut: false })
-
     }
 
     //Time out Functionality
@@ -274,10 +271,7 @@ class Tracking extends Component {
         else {
             return isGrouped ? "active-cluster" : (isSelected ? "selected-marker" : "active-marker")
         }
-
     }
-
-   
 
 
 
@@ -286,6 +280,7 @@ class Tracking extends Component {
         //const { results } = this.props;
         const { center } = this.state.center;
         const { clusters, selectedId } = this.state;
+        const vehicles = this.state.vehicles;
         //console.log("Render Body", clusters)
         //console.log("Rendered Count on result", results.length);
 
@@ -312,31 +307,41 @@ class Tracking extends Component {
                     onZoomChanged={this._handleZoomChanged.bind(this)}
                     yesIWantToUseGoogleMapApiInternals>
                     {
-                        clusters.map((cluster, index) => {
-                           
-                            if (cluster.numPoints === 1)
-                            {
-                                const isSelected = cluster.points[0].id === parseInt(this.props.idForSelectedVehicle)
-                                return <SimpleMarker
-                                    style={this.markerStyleName(cluster.points[0].status, false, isSelected )}
-                                    key={cluster.points[0].id}
-                                    text={cluster.points[0].id}
-                                    lat={cluster.points[0].lat}
-                                    lng={cluster.points[0].lng} />
-                            }
-                            else
-                            {
-                                const isIdle = cluster.points.filter(point => point.status === trackingConstants.IdleState).length >= cluster.points.filter(point => point.status === trackingConstants.ActiveState).length
-                                const status = isIdle ? trackingConstants.IdleState : trackingConstants.ActiveState
-                                return <ClusterMarker
-                                    styles={this.markerStyleName(status, true, false)}
-                                    key={cluster.id}
-                                    lat={cluster.lat}
-                                    lng={cluster.lng}
-                                    text={cluster.numPoints}
-                                    points={cluster.points} />
-                            }
-                        })
+                        vehicles.map(point =>(
+                            <SimpleMarker
+                                    style={this.markerStyleName(point.status, false, point.id === parseInt(this.props.idForSelectedVehicle))}
+                                    key={point.id}
+                                    text={point.id}
+                                    lat={point.coordinates.lat}
+                                    lng={point.coordinates.lng} />
+                        ))
+                        
+                        
+                        // clusters.map((cluster, index) => {
+                        //     if (cluster.numPoints === 1)
+                        //     {
+                        //         const isSelected = cluster.points[0].id === parseInt(this.props.idForSelectedVehicle)
+                        //         return <SimpleMarker
+                        //             style={this.markerStyleName(cluster.points[0].status, false, isSelected )}
+                        //             key={cluster.points[0].id}
+                        //             text={cluster.points[0].id}
+                        //             lat={cluster.points[0].lat}
+                        //             lng={cluster.points[0].lng} />
+                        //     }
+                        //     else
+                        //     {
+                        //         const isIdle = cluster.points.filter(point => point.status === trackingConstants.IdleState).length >= cluster.points.filter(point => point.status === trackingConstants.ActiveState).length
+                        //         const status = isIdle ? trackingConstants.IdleState : trackingConstants.ActiveState
+                        //         return <ClusterMarker
+                        //             styles={this.markerStyleName(status, true, false)}
+                        //             key={cluster.id}
+                        //             lat={cluster.lat}
+                        //             lng={cluster.lng}
+                        //             text={cluster.numPoints}
+                        //             points={cluster.points} />
+                        //     }
+                        // })
+                        
                     }
                 </GoogleMapReact>
                 
@@ -352,18 +357,19 @@ class Tracking extends Component {
 
 const mapStateToProps = (state) => {
 
-    //console.log("Update obj : ", state.Tracking.OflineUpdates)
-    const vehicles = [...state.Tracking.ActiveVehicles, ...state.Tracking.IdleVehicles]
-    const points = vehicles.map(result => ({ id: parseInt(result.vehicle_id), status: result.status, lat: parseFloat(result.coordinates.latitude), lng: parseFloat(result.coordinates.longitude) }))
+    //const vehicles = [...state.Tracking.ActiveVehicles, ...state.Tracking.IdleVehicles]
+  //  const points = vehicles.map(result => ({ id: parseInt(result.deviceId), status: result.status, lat: parseFloat(result.coordinates.latitude), lng: parseFloat(result.coordinates.longitude) }))
     //console.log('Mapped State Array returned :', points);
     return {
-        result: points,
-        idForSelectedVehicle: state.Tracking.idForSelectedVehicle
+        //result: points,
+        idForSelectedVehicle: state.Tracking.idForSelectedVehicle,
+        movedVehicle : state.Tracking.MovedVehicle
     }
     
 }
 
 const actionCreators = {
+    connectTheHub : TrackingAction.InitializeHub,
     GetOfflineVehicles: TrackingAction.getOfflineData,
     SubscribeToHub: TrackingAction.SubscribeToHub,
     UnSubscribeToHub: TrackingAction.UnsubscribeFromHub,
