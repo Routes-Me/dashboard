@@ -7,7 +7,8 @@ const INITIAL_STATE = {
     hasError: false,
     error: null,
     SelectedNavOption:'',
-    user: {}
+    user: {},
+    token:""
 };
 
 
@@ -31,6 +32,14 @@ const LoginReducer = (state = INITIAL_STATE, action) => {
                 loggedIn: true,
                 user: action.payload
             };
+        case userConstants.Login_TokenReceived:
+                return {
+                    ...state,
+                    loading: false,
+                    hasError: false,
+                    loggedIn: true,
+                    token: action.payload
+                };  
         case userConstants.Login_LOGOUT:
             return {
                 ...state,

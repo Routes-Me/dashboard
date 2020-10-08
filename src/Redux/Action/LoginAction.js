@@ -58,6 +58,7 @@ export function userSignInRequest(username, password) {
                   dispatch(getLoginSuccess(LoggedInUser));
                   history.push('/home');
                   localStorage.setItem('jwtToken', token);
+                  dispatch(onReceiveToken(token));
                   setAuthorizationToken(token);
               },
               error => {
@@ -68,15 +69,11 @@ export function userSignInRequest(username, password) {
           );
   };
 
-  function request(user) {
-    return { type: userConstants.Login_REQUEST, user };
-  }
-  function success(user) {
-    return { type: userConstants.Login_SUCCESS, user };
-  }
-  function failure(error) {
-    return { type: userConstants.Login_FAILURE, error };
-  }
+  function request(user) { return { type: userConstants.Login_REQUEST, user }; }
+  function onReceiveToken(token) { return  {type: userConstants.Login_TokenReceived, payload: token} }
+  function success(user) { return { type: userConstants.Login_SUCCESS, user }; }
+  function failure(error) { return { type: userConstants.Login_FAILURE, error }; }
+
 }
 
 export function forgotPassword(email) {

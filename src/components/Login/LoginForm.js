@@ -73,19 +73,7 @@ import * as LoginAction from '../../Redux/Action';
 		
 	}
 
-	  //static getDerivedStateFromProps(props, state) {
-		 // //console.log('Users : getDerivedStateFromProps called with NewProps', props.vehicleToDisplay);
-		 // if (props.institutionToDisplay !== undefined) {
-			//  if (props.institutionToDisplay !== state.institutionToDisplay) {
-			//	  return {
-			//		  institution: props.institutionToDisplay,
-			//		  id: props.institutionToDisplay.institutionId,
-			//		  name: props.institutionToDisplay.name,
-			//		  phoneNumber: props.institutionToDisplay.phoneNumber
-			//	  }
-			//  }
-		 // }
-	  //}
+
 	
 
 	render() {
@@ -102,7 +90,6 @@ import * as LoginAction from '../../Redux/Action';
 			}
 		};
 
-		const { loading } = this.props.loggingIn;
 		
 		//const { handleSubmit, register } = useForm();
 		//const onSubmit = values => console.log(values);
@@ -123,7 +110,7 @@ import * as LoginAction from '../../Redux/Action';
 
 					<Form onSubmit={this.handleSubmit}>
 						<div className="form-group">
-							<Input placeholder="Email" className="form-control email" type="string" value={this.state.username} onChange={this.onChange} name="username" validations={[required]} />
+							<Input placeholder="Email" className="form-control email" type="string" value={this.state.username} onChange={this.onChange} name="username" validations={[email]} />
 							<span className="form-error is-visible">{this.state.usernameError}</span>
 						</div>
 						<div className="form-group">
@@ -135,9 +122,9 @@ import * as LoginAction from '../../Redux/Action';
 						</div>
 						<div className="form-group">
 							<button type="submit" className="buttonStyle">
-								{this.state.loading && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />}
-								{this.state.loading && <span>  Logging In...</span>}
-								{!this.state.loading && <span>Login</span>}
+								{this.props.loggingIn && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />}
+								{this.props.loggingIn && <span>  Logging In...</span>}
+								{!this.props.loggingIn && <span>Login</span>}
 							</button>		
 						</div>			
 					</Form>

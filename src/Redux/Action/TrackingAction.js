@@ -2,42 +2,51 @@
 import * as signalR from '@aspnet/signalr';
 import axios from 'axios';
 import { userConstants } from '../../constants/userConstants';
-import { HubConnectionState } from '@microsoft/signalr';
 
 
 
-const sampleOfflineData = [
-    { vehicle_id: 8, institution_id: 1, status: trackingConstants.IdleState, driver: "Mohammad Ali", contact: "+965-55988028", model: "BMW X6 . 2018", company: "Afnan", coordinates: { latitude: 29.376383900000000, longitude: 47.9866178, timestamp: "7/1/2020 5:55:51 AM" } },
-    { vehicle_id: 9, institution_id: 1, status: trackingConstants.IdleState, driver: "Saad Mua", contact: "+965-55988028", model: "JEEP X4 . 2019", company: "Afnan", coordinates: { latitude: 29.73, longitude: 47.3511, timestamp: "7/1/2020 5:55:51 AM" } },
-    { vehicle_id: 10, institution_id: 1, status: trackingConstants.IdleState, driver: "Waseem Noor", contact: "+965-66104209", model: "KIA Y6 . 2020", company: "Afnan",coordinates: { latitude: 29.74, longitude: 46.8511, timestamp: "7/1/2020 5:55:51 AM" } },
-    { vehicle_id: 11, institution_id: 1, status: trackingConstants.IdleState, driver: "Yahya Alahaar", contact: "+965-55988128", model: "AUDI A6 . 2020", company: "Afnan", coordinates: { latitude: 29.62, longitude: 46.9511, timestamp: "7/1/2020 5:55:51 AM" } },
-    { vehicle_id: 12, institution_id: 1, status: trackingConstants.IdleState, driver: "Mohammad Waali", contact: "+965-55988328", model: "BMW X3 . 2017", company: "Afnan", coordinates: { latitude: 29.63, longitude: 46.5611, timestamp: "7/1/2020 5:55:51 AM" } }
-];
+// const sampleOfflineData = [
+//     { vehicle_id: 8, institution_id: 1, status: trackingConstants.IdleState, driver: "Mohammad Ali", contact: "+965-55988028", model: "BMW X6 . 2018", company: "Afnan", coordinates: { latitude: 29.376383900000000, longitude: 47.9866178, timestamp: "7/1/2020 5:55:51 AM" } },
+//     { vehicle_id: 9, institution_id: 1, status: trackingConstants.IdleState, driver: "Saad Mua", contact: "+965-55988028", model: "JEEP X4 . 2019", company: "Afnan", coordinates: { latitude: 29.73, longitude: 47.3511, timestamp: "7/1/2020 5:55:51 AM" } },
+//     { vehicle_id: 10, institution_id: 1, status: trackingConstants.IdleState, driver: "Waseem Noor", contact: "+965-66104209", model: "KIA Y6 . 2020", company: "Afnan",coordinates: { latitude: 29.74, longitude: 46.8511, timestamp: "7/1/2020 5:55:51 AM" } },
+//     { vehicle_id: 11, institution_id: 1, status: trackingConstants.IdleState, driver: "Yahya Alahaar", contact: "+965-55988128", model: "AUDI A6 . 2020", company: "Afnan", coordinates: { latitude: 29.62, longitude: 46.9511, timestamp: "7/1/2020 5:55:51 AM" } },
+//     { vehicle_id: 12, institution_id: 1, status: trackingConstants.IdleState, driver: "Mohammad Waali", contact: "+965-55988328", model: "BMW X3 . 2017", company: "Afnan", coordinates: { latitude: 29.63, longitude: 46.5611, timestamp: "7/1/2020 5:55:51 AM" } }
+// ];
 
-const sampleData = [
-    { vehicle_id: 1, institution_id: 1, status: trackingConstants.ActiveState, driver: "Mohammad Ali", contact: "+965-55988028", model: "BMW X6 . 2017", company: "Afnan", coordinates: { latitude: 29.61, longitude: 47.5511, timestamp: "7/1/2020 5:55:51 AM" } },
-    { vehicle_id: 2, institution_id: 1, status: trackingConstants.ActiveState, driver: "Mohammad Waali", contact: "+965-55988328", model: "BMW X3 .2016", company: "Afnan", coordinates: { latitude: 29.71, longitude: 47.1511, timestamp: "7/1/2020 5:55:51 AM" } },
-    { vehicle_id: 3, institution_id: 1, status: trackingConstants.ActiveState, driver: "Waseem Noor", contact: "+965-66104209", model: "KIA Y6 . 2018", company: "Afnan", coordinates: { latitude: 29.81, longitude: 47.2511, timestamp: "7/1/2020 5:55:51 AM" } },
-    { vehicle_id: 4, institution_id: 1, status: trackingConstants.ActiveState, driver: "Saad Mua", contact: "+965-55988028", model: "JEEP X4 . 2019", company: "Afnan", coordinates: { latitude: 29.82, longitude: 47.3511, timestamp: "7/1/2020 5:55:51 AM" } },
-    { vehicle_id: 5, institution_id: 1, status: trackingConstants.ActiveState, driver: "Yahya Alahaar", contact: "+965-55988128", model: "AUDI A6 . 2020", company: "Afnan", coordinates: { latitude: 29.72, longitude: 47.4511, timestamp: "7/1/2020 5:55:51 AM" } }];
+// const sampleData = [
+//     { vehicle_id: 1, institution_id: 1, status: trackingConstants.ActiveState, driver: "Mohammad Ali", contact: "+965-55988028", model: "BMW X6 . 2017", company: "Afnan", coordinates: { latitude: 29.61, longitude: 47.5511, timestamp: "7/1/2020 5:55:51 AM" } },
+//     { vehicle_id: 2, institution_id: 1, status: trackingConstants.ActiveState, driver: "Mohammad Waali", contact: "+965-55988328", model: "BMW X3 .2016", company: "Afnan", coordinates: { latitude: 29.71, longitude: 47.1511, timestamp: "7/1/2020 5:55:51 AM" } },
+//     { vehicle_id: 3, institution_id: 1, status: trackingConstants.ActiveState, driver: "Waseem Noor", contact: "+965-66104209", model: "KIA Y6 . 2018", company: "Afnan", coordinates: { latitude: 29.81, longitude: 47.2511, timestamp: "7/1/2020 5:55:51 AM" } },
+//     { vehicle_id: 4, institution_id: 1, status: trackingConstants.ActiveState, driver: "Saad Mua", contact: "+965-55988028", model: "JEEP X4 . 2019", company: "Afnan", coordinates: { latitude: 29.82, longitude: 47.3511, timestamp: "7/1/2020 5:55:51 AM" } },
+//     { vehicle_id: 5, institution_id: 1, status: trackingConstants.ActiveState, driver: "Yahya Alahaar", contact: "+965-55988128", model: "AUDI A6 . 2020", company: "Afnan", coordinates: { latitude: 29.72, longitude: 47.4511, timestamp: "7/1/2020 5:55:51 AM" } }];
 
 
 let hubConnection = ""; 
 
 
 
-export function InitializeHub(){
+export function InitializeHub(token){
 
     return dispatch => {
-    const Token = localStorage.getItem("jwtToken") !== null ? localStorage.getItem("jwtToken").toString():"";
-
-    hubConnection = new signalR.HubConnectionBuilder()
-    .withUrl("http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub",{ headers: { Authorization: "Bearer " + Token } })
-    .configureLogging(signalR.LogLevel.Information)
-    .build();
+    
+        //const Token = localStorage.getItem("jwtToken").toString();
+        hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl("http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub",
+        {
+            accessTokenFactory:() => getAccessToken(token)
+        })
+        .configureLogging(signalR.LogLevel.Information)
+        .build();
+        hubConnection.serverTimeoutInMilliseconds = (60000 * 6);
 
     }
-    
+
+}
+
+
+function getAccessToken(token){
+return token;
+  //return "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJ2dGhhcmFrYUByb3V0ZXNtZS5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJzdXBlciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvdXNlcmRhdGEiOiIzIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIzIiwiZXhwIjoxNjE3MDIwMjcwLCJpc3MiOiJUcmFja1NlcnZpY2UiLCJhdWQiOiJUcmFja1NlcnZpY2UifQ.5DH6aw8zP-KpzUXa0kW0X1tpwqN3hffaBkSquAy9ENA";
 
 }
 
@@ -63,7 +72,7 @@ export function SubscribeToHub() {
 
             setInterval(() => {
                 CheckConnectivity()
-            }, 6000);
+            }, 60000);
 
         hubConnection.on("ReceiveAllData", (result) => {
             
@@ -123,7 +132,7 @@ export function getOfflineData() {
 
     return dispatch => {
         dispatch(OfflineDataRequest());
-        axios.get(userConstants.Domain + '/tracking').then(
+        axios.get(userConstants.Domain + 'tracking').then(
             idleVehicles => {
                 //dispatch(OfflineUpdateReceived(idleVehicles.data));
                 
@@ -134,8 +143,29 @@ export function getOfflineData() {
         //dispatch(OfflineUpdateReceived(sampleOfflineData));
     };
 
+
+    return dispatch => {
+        dispatch(vehicleDataRequest());                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+        axios.get(userConstants.Domain + 'vehicles?offset=1&limit=10&include=institutions,models', {
+            headers: { Authorization: "Bearer " + Token },
+            "Content-Type": "application/json; charset=utf-8",
+          })
+        .then(
+        vehicles => {
+                dispatch(OfflineUpdateReceived(vehicles));
+        },
+        error => {
+            alert(error.toString());
+        });
+
+        //const FormatedVehicle = MockAPICallForVehicles(institutionId, pageIndex)`
+        //console.log('data formated ', FormatedVehicle);
+        //dispatch(storeVehicleData(FormatedVehicle));
+
+    }
+
 }
-function OfflineUpdateReceived(result) { return { type: trackingConstants.Tracking_OfflineDataSynced, payload: result } };
+//function OfflineUpdateReceived(result) { return { type: trackingConstants.Tracking_OfflineDataSynced, payload: result } };
 export const OfflineDataRequest = () => ({ type: trackingConstants.Tracking_OfflineDataRequest });
 export const OfflineDataError = payload => ({ type: trackingConstants.Tracking_OfflineDataError });
 

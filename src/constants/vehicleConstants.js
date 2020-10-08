@@ -18,6 +18,10 @@
     searchDialogFor_Makers: "Manufacturers",
     searchDialogFor_Models: "Models",
 
+    deleteVehicle_Request : "DELETEVEHICLE_REQUEST",
+    deleteVehicle_Success : "DELETEVEHICLE_SUCCESS",
+    deleteVehicle_Error   : "DELETEVEHICLE_ERROR",
+
     updatePage: "UPDATE_PAGE"
 
 }

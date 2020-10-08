@@ -56,8 +56,14 @@ class Vehicles extends Component {
     }
 
 
-    //Delete Vehicle function
+    //Delete Vehicle
+    deleteVehicle = (e, vehicleId) => {
+        e.preventDefault();
+        this.props.deleteVehicle(vehicleId)
+    }
 
+
+   
 
     //Load Vehicles in a table
     renderAllVehicleTable(Vehicles) {
@@ -81,9 +87,9 @@ class Vehicles extends Component {
                                     <tr  key={Vehicle.id}>
                                         <td>{Vehicle.id}</td>
                                         <td>{Vehicle.plateNumber}</td>
-                                        <td>{Vehicle.model.Name}</td>
+                                        <td>{Vehicle.model?.Name}</td>
                                         <td>{Vehicle.modelYear}</td>
-                                        <td>{Vehicle.institution.Name}</td>
+                                        <td>{Vehicle.institution?.Name}</td>
                                         <td className="width44" >
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Vehicle.id)}>
@@ -93,7 +99,7 @@ class Vehicles extends Component {
                                                 </div>
                                                 <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === Vehicle.id ? 'inline-block' : 'none' }}>
                                                     <li><a onClick={e => this.showDetailScreen(e, Vehicle)}>Edit</a></li>
-                                                    <li><a>Delete</a></li>
+                                                    <li><a onClick={e => this.deleteVehicle(e, Vehicle.id)}>Delete</a></li>
                                                 </ul>
                                             </div>
                                         </td>

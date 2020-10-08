@@ -152,19 +152,45 @@ export function saveVehicle(vehicle) {
     }
 
 }
-
-//Action to Delete vehicle
-export function deleteVehicle(vehcileId) {
-    return dispatch => {
-        
-    }
-}
-
 function saveVehicleRequest(vehicle) {return { type: vehicleConstants.addVehicle_REQUEST, payload: vehicle }}
 
 function saveVehicleSuccess(vehicle) {return { type: vehicleConstants.addVehicle_SUCCESS, payload: vehicle }}
 
 function updateVehicleSuccess(vehicle) {console.log('Update method called for existing vehicle')}
+
+
+
+// delete vehicle
+export function deleteVehicle(vehicleId)
+{
+  const Token = localStorage.getItem("jwtToken").toString();
+  return (dispatch)=>{
+    dispatch(deleteVehicleRequest)
+    if(vehicleId!= null)
+    {
+      axios.delete(userConstants.Domain + "vehicles/"+vehicleId,{
+        headers: { Authorization: "Bearer " + Token },
+        "Content-Type": "application/json; charset=utf-8",
+      })
+      .then(
+        (vehicle) => {
+          dispatch(deleteVehicleSuccess(vehicle));
+        },
+        (error) => {
+          alert(error.toString());
+        }
+      );
+    }
+  }
+}
+
+function deleteVehicleRequest() { return {type: vehicleConstants.deleteVehicle_Request} }
+
+function deleteVehicleSuccess(institution){ return {type: vehicleConstants.deleteVehicle_Success, payload: institution} }
+
+function deleteVehicleError(message) { return {type: vehicleConstants.deleteVehicle_Error, payload: message} }
+
+
 
 
 
@@ -214,6 +240,7 @@ function returnFormatedVehicles(response){
 
 
 
+
 //Update with API
 function MockAPICallForMakes() {
     return MockServerData.MakeDetails.data.makes;
@@ -224,14 +251,5 @@ function MockAPICallFormodels() {
 }
 
 
-
-//function filterModelIdFromModelArray() {
-
-//}
-
-
-function returnMockVehiclesForInstitutionIds() {
-    return MockServerData.VehicleMockServerData
-}
 
 

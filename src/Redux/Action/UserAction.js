@@ -1,14 +1,13 @@
 ﻿import { MockServerData } from '../../constants/MockServerData';
 import { userConstants } from '../../constants/userConstants';
 import axios from 'axios';
-import { stripBasename } from 'history/PathUtils';
 
 
-// const Token = localStorage.getItem("jwtToken").toString();
 
 
 //Get UsersList
 export function getUsers(institutionId, pageIndex) {
+
     const Token = localStorage.getItem("jwtToken");
 
     return dispatch => {
@@ -16,31 +15,62 @@ export function getUsers(institutionId, pageIndex) {
         axios.get(userConstants.Domain + 'users?offset=1&limit=10', {
             headers: { Authorization: "Bearer " + Token },
             "Content-Type": "application/json; charset=utf-8",
-          })
+        })
         .then(
                 users => {
                     dispatch(storeUsersData(returnFormatedResponseForUsers(users)));
                     dispatch(updatePage(users.data.pagination));
                 },
+
                 error => {
                     alert(error.toString());
                 }
             );
-        //dispatch(UsersDataRequest());
-        //const Users = MockAPICallForUsers();
-        //dispatch(storeUserRoles(Users.include.userRoles));
-        //dispatch(storeApplications(Users.include.applications));
-        //dispatch(UsersDataReceived(Users.data.users));
-
     }
 
 }
 
 function UsersDataRequest() { return { type: userConstants.getUsers_REQUEST } }
+
 function storeUsersData(Users) { return { type: userConstants.getUsers_SUCCESS, payload: Users } }
+
 function updatePage(pages) { return { type: userConstants.UpdatePage, payload: pages } }
 
-//id in the response would be replaced by object in this function
+
+// delete user
+export function deleteUser(userId)
+{
+  const Token = localStorage.getItem("jwtToken").toString();
+  return (dispatch)=>{
+    dispatch(deleteUserRequest)
+    if(userId!= null)
+    {
+      axios.delete(userConstants.Domain + "users/"+userId,{
+        headers: { Authorization: "Bearer " + Token },
+        "Content-Type": "application/json; charset=utf-8",
+      })
+      .then(
+        (user) => {
+          dispatch(deleteUserSuccess(user));
+        },
+        (error) => {
+          alert(error.toString());
+        }
+      );
+    }
+  }
+}
+
+function deleteUserRequest() { return {type: userConstants.deleteUser_Request} }
+
+function deleteUserSuccess(user){ return {type: userConstants.deleteUser_Success, payload: user} }
+
+function deleteUserError(message) { return {type: userConstants.deleteUser_Error, payload: message} }
+
+
+
+
+
 function returnFormatedUsers(response) {
     const usersList = response.data.users.filter(user => user.institutionId === 3)
     //console.log('Vehicle Action Array returned :', VehicleList);
@@ -96,25 +126,13 @@ function returnFormatedResponseForUsers(response) {
     }));
   
     return formatedUsers;
-  }
-
-//Update on API
-function MockAPICallForUsers() {
-    const response = MockServerData.UsersMockServerData;
-    //const UsersList = res.data.users;
-    return response;
 }
 
 
 // get User Roles
 export function getPriviledges() {
 
-    return dispatch => {
-
-        dispatch(storeUserRoles(MockServerData.Priviledges.data));
-
-    }
-
+    return dispatch => {  dispatch(storeUserRoles(MockServerData.Priviledges.data)) }
     function storeUserRoles(roles) { return { type: userConstants.update_USERROLES, payload: roles } };
 
 }
@@ -122,12 +140,7 @@ export function getPriviledges() {
 // get applications
 export function getApplications(){
 
-    return dispatch => {
-
-        dispatch(storeApplications(MockServerData.Applications.data))
-
-    }
-    
+    return dispatch => { dispatch(storeApplications(MockServerData.Applications.data)) }
     function storeApplications(apps){ return {type:userConstants.update_APPLICATIONS, payload:apps}};
 
 }
@@ -185,15 +198,7 @@ export function saveUser(user,action) {
 function saveUserDataRequest() { return { type: userConstants.saveUsers_REQUEST } }
 function saveUserDataSuccess() { return { type: userConstants.saveUsers_SUCCESS } }
 
-//Update on API
-function MockAPICallForPutUser(user) {
-    console.log("Dictionary for the create PUT/user API", user);
-}
 
-//Update on API
-function MockAPICallForPostUser(user) {
-    console.log("Dictionary for the create POST/user API", user);
-}
 
 
 

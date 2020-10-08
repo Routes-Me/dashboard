@@ -128,7 +128,7 @@ class Tracking extends Component {
 
     componentDidMount(){
         
-        this.props.connectTheHub();
+        this.props.connectTheHub(this.props.token);
         this.props.SubscribeToHub();
         this.props.GetOfflineVehicles();
         //navigator.geolocation.getCurrentPosition(this.currentCoords);
@@ -363,7 +363,8 @@ const mapStateToProps = (state) => {
     return {
         //result: points,
         idForSelectedVehicle: state.Tracking.idForSelectedVehicle,
-        movedVehicle : state.Tracking.MovedVehicle
+        movedVehicle : state.Tracking.MovedVehicle,
+        token : state.Login.token
     }
     
 }

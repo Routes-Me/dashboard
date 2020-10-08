@@ -6,16 +6,16 @@ import axios from "axios";
 
 
 //Get Institution list
-export function getInstitutions(institutionId, offset) {
+export function getInstitutions(token, institutionId, offset) {
 
-  const Token = localStorage.getItem("jwtToken").toString();
+  //const Token = localStorage.getItem("jwtToken").toString();
   return (dispatch) => {
     // dispatch(storeInstitutionsData(MockServerData.Institutions.data));
     
     dispatch(IstitutionDataRequest());
     axios
       .get(userConstants.Domain + "institutions?offset=1&limit=10", {
-        headers: { Authorization: "Bearer " + Token },
+        headers: { Authorization: "Bearer " + token },
         "Content-Type": "application/json; charset=utf-8",
       })
       .then(
@@ -94,7 +94,7 @@ function UpdatetheServiceList(services) {
 
 //Save Institution Detail
 export function saveInstitution(institution,action) {
-
+  
   const Token = localStorage.getItem("jwtToken").toString();
   return (dispatch) => {
     dispatch(saveInstitutionRequest);
@@ -145,12 +145,44 @@ function saveInstitutionSuccess(institutions) {
 
 
 // delete institution
-// export function deleteInstitution(institutionId)
-// {
-//   return (dispatch)=>{
+export function DeleteInstitution(institutionId)
+{
+  const Token = localStorage.getItem("jwtToken").toString();
+  return (dispatch)=>{
+    dispatch(deleteInstitutionRequest)
+    if(institutionId!= null)
+    {
+      axios.delete(userConstants.Domain + "institutions/"+institutionId,
+      {
+        headers: { Authorization: "Bearer " + Token },
+        "Content-Type": "application/json; charset=utf-8"
+      })
+      .then(
+        (institution) => {
+          dispatch(saveInstitutionSuccess(institution.data));
+        },
+        (error) => {
+          alert(error.toString());
+        }
+      );
+    }
+  }
+}
 
-//   }
-// }
+function deleteInstitutionRequest()
+{
+  return {type: institutionConstants.deleteInstitutionRequest}
+}
+
+function deleteInstitutionSuccess(institution){
+  return {type: institutionConstants.deleteInstitutionSuccess, payload: institution}
+}
+
+
+function deleteInstitutionError(message)
+{
+  return {type: institutionConstants.deleteInstitutionError, payload: message}
+}
 
 //Get Services
 export function getServicesList() {

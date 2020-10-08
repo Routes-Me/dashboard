@@ -33,9 +33,6 @@ class Primary extends Component
         this.props.updateNavItem(type);
     };
 
-  
-
-
 
     returnSelectMenu=(NavItem) =>{
 

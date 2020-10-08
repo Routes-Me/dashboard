@@ -1,6 +1,5 @@
-﻿import React, { Component } from 'react';
+﻿import React from 'react';
 import { connect } from 'react-redux';
-import { Label } from 'reactstrap';
 import * as AdvertisementAction from '../../Redux/Action';
 import * as InstitutionAction from '../../Redux/Action';
 import { onImageCompress, onVideoCompress } from '../../util/Compress';

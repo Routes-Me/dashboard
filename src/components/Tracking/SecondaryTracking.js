@@ -111,7 +111,6 @@ class SecondaryTracking extends Component {
                 </div>
 
                 <div className="search-main">
-
                     {
                         this.props.vehicles.filter(vehicle => vehicle.status === this.state.filter).length === 0 ?
                             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
@@ -135,6 +134,7 @@ class SecondaryTracking extends Component {
                     </div>
 
                 </div>
+
             </div>
 
         );

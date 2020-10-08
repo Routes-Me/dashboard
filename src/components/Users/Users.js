@@ -50,7 +50,11 @@ class Users extends Component {
         })
     }
 
-    //Delete Institution
+    //Delete user
+    deleteUser = (e, userId) => {
+        e.preventDefault();
+        this.props.deleteUser();
+    }
 
 
 
@@ -157,7 +161,8 @@ const mapStateToProps = (state) => {
 
 //Create Redux for Users
 const actionCreators = {
-    getUsersList: UserAction.getUsers
+    getUsersList: UserAction.getUsers,
+    deleteUser: UserAction.deleteUser
 };
 
 const connectedUsers = connect(mapStateToProps, actionCreators)(Users);

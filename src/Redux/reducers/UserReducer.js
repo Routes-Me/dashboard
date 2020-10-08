@@ -78,6 +78,18 @@ const UserReducer = (state = INITIAL_STATE, action) => {
                 Loading: false,
                 hasError: false
             };
+        case userConstants.deleteUser_Request:
+            return {
+                ...state,
+                Loading: true,
+                hasError: false
+            };
+        case userConstants.deleteUser_Success:
+            return {
+                ...state,
+                Loading: false,
+                hasError: false
+            };
         case userConstants.UpdatePage:
             return {
                 ...state,

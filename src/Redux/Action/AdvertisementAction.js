@@ -65,6 +65,7 @@ export function uploadMedia(mediaFile, fileType) {
 
     return dispatch => {
         dispatch(requestUpload);
+        
         const options = {
             onUploadProgress: (progressEvent) => {
                 const { loaded, total } = progressEvent;
@@ -158,8 +159,8 @@ function returnQueryParamters(offset, include) {
 
 
 function returnFormatedAdvertisements(response) {
-    const AdvertisementList = response.data;
-    const InstitutionList = response.included.institutions;
+    const AdvertisementList = response.data
+    const InstitutionList = response.included.institutions
     const MediaList = response.included.medias
 
     const FormatedAdvertisements = AdvertisementList.map(x => ({

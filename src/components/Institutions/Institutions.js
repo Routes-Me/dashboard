@@ -26,7 +26,7 @@ class Institutions extends Component {
     //Load Data
     componentDidMount() {
         // get Institutions
-        this.props.getInstitutionsList();
+        this.props.getInstitutionsList(this.props.token);
     }
 
     //Handle Page selection
@@ -52,6 +52,10 @@ class Institutions extends Component {
     }
 
     //Delete Institution
+    deleteInstitution = (e, institutionId) => {
+        e.preventDefault();
+        this.props.deleteInstitution(institutionId)
+    }
 
 
 
@@ -85,7 +89,7 @@ class Institutions extends Component {
                                                 </div>
                                                 <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === institution.institutionId ? 'inline-block' : 'none' }}>
                                                     <li><a onClick={e => this.showDetailScreen(e, institution)}>Edit</a></li>
-                                                    <li><a>Delete</a></li>
+                                                    <li><a onClick={e => this.deleteInstitution(e, institution.institutionId)}>Delete</a></li>
                                                 </ul>
                                             </div>
                                         </td>
@@ -139,9 +143,9 @@ class Institutions extends Component {
 
 const mapStateToProps = (state) => {
 
-    const Institutions = state.InstitutionStore.Institutions;
         return {
-            InstitutionsList: Institutions
+            InstitutionsList: state.InstitutionStore.Institutions,
+            token : state.Login.token
     }
 
 }
@@ -149,7 +153,8 @@ const mapStateToProps = (state) => {
 
 //Create Redux for Users
 const actionCreators = {
-    getInstitutionsList: InstitutionAction.getInstitutions
+    getInstitutionsList: InstitutionAction.getInstitutions,
+    deleteInstitution : InstitutionAction.DeleteInstitution
 };
 
 const connectedInstitutions = connect(mapStateToProps, actionCreators)(Institutions);

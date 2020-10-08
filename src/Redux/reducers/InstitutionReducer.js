@@ -41,13 +41,13 @@ const InstitutionReducer = (state = INITIAL_STATE, action) => {
                 hasError: false,
                 Services: action.payload
             };
-        case institutionConstants.saveInstitutions_REQUEST:
+        case institutionConstants.deleteInstitutionRequest:
             return {
                 ...state,
                 Loading: true,
                 hasError: false
             };
-        case institutionConstants.saveInstitutions_SUCCESS:
+        case institutionConstants.deleteInstitutionSuccess:
             return {
                 ...state,
                 Loading: false,
@@ -61,7 +61,7 @@ const InstitutionReducer = (state = INITIAL_STATE, action) => {
                 Page: action.payload
             };
         default:
-            return INITIAL_STATE;
+            return state;
     }
 }
 

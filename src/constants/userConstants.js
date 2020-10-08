@@ -3,6 +3,7 @@
     Login_REQUEST : 'LOGIN_REQUEST',
     Login_SUCCESS : 'LOGIN_SUCCESS',
     Login_FAILURE: 'LOGIN_FAILURE', 
+    Login_TokenReceived : 'TOKEN_RECEIVED',
 
 
     LogOut_REQUEST: 'LOGOUT_REQUEST',
@@ -40,6 +41,10 @@
 
     saveUsers_REQUEST: "SAVEUSERS_REQUEST",
     saveUsers_SUCCESS: "SAVEUSERS_SUCCES",
+
+    deleteUser_Request : "DELETEUSER_REQUEST",
+    deleteUser_Success : "DELETEUSER_SUCCESS",
+    deleteUser_Error   : "DELETEUSER_ERROR",
 
     UpdatePage: "UPDATE_PAGE",
 

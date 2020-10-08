@@ -63,6 +63,18 @@ const VehicleReducer = (state = INITIAL_STATE, action) => {
                 loading: false,
                 hasError: false
             };
+        case vehicleConstants.deleteVehicle_Request:
+            return {
+                ...state,
+                loading: true,
+                hasError: false
+            };
+        case vehicleConstants.deleteVehicle_Success:
+            return {
+                ...state,
+                loading: false,
+                hasError: false
+            };
         case vehicleConstants.updatePage:
             return {
                 ...state,
