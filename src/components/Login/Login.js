@@ -31,7 +31,7 @@ export class Login extends Component {
 
 					<div className="row">
 
-						<div className="col-md-4">
+						<div className="col-sm-12 col-md-4">
 							<LoginForm />
 						</div>
 						<div className="test">
