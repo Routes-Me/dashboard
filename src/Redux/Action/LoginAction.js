@@ -50,6 +50,7 @@ export function userSignInRequest(username, password) {
               },
               error => {
                   dispatch(getLoginFailure(error.message.toString()));
+                  console.log('error message', error.toString());
                   alert(error.toString());
                   //dispatch(alertActions.error(error.toString()));
               }
