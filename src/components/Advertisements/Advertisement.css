@@ -51,7 +51,7 @@
         right: 0;
         height: 20px;
         content: "";
-        background-image: url("../image/upload_icon.svg");
+        background-image: url("../images/upload_icon.svg");
         display: block;
         margin: 0 auto;
         background-size: 100%;
@@ -84,7 +84,7 @@
 }
 
 div.simulator {
-    background-image: url("../image/simulator.svg");
+    background-image: url("../images/simulator.svg");
     float: right;
     width: 443px;
     height:343px;

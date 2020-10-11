@@ -16,18 +16,18 @@ $originY: ($markerHeight * -1) + 4;
 
 .active-marker{
 	@extend .marker;
-	background-image: url('../image/icon-3.png');
+	background-image: url('../images/icon-3.png');
 }
 
 .idle-marker {
 	@extend .marker;
-	background-image: url('../image/icon-2.png');
+	background-image: url('../images/icon-2.png');
 }
 
 
 
 .selected-marker {
-	background-image: url('../image/group-5.png');
+	background-image: url('../images/group-5.png');
 	width: 100px;
 	height: 115px;
 	background-size: 100%;
@@ -80,13 +80,13 @@ $originY: ($markerHeight * -1) + 4;
 
 .active-cluster {
 	@extend .cluster;
-	background-image: url('../image/big-icon-2.png');
+	background-image: url('../images/big-icon-2.png');
 }
 
 
 .idle-cluster {
 	@extend .cluster;
-	background-image: url('../image/big-icon-1.png');
+	background-image: url('../images/big-icon-1.png');
 }
 
 /*
