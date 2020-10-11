@@ -3,12 +3,8 @@ import compose from 'recompose/compose';
 import defaultProps from 'recompose/defaultProps';
 import { Motion } from 'react-motion';
 import { clusterMarkerHOC } from './ClusterMarker.js';
-import $ from "jquery";
 import './SimpleMarker.scss';
 
-const onMarkerClick = (key) => {
-    $('.active-marker').toggleClass("selected")
-};
 
 export const simpleMarker = ({
     style,

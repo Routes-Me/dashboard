@@ -15,7 +15,7 @@ class VehicleDetail extends React.Component {
         this.state = {
             deviceId: "",
             vehicleId: "",
-            InstitutionId: "",
+            institutionId: "",
             make:"",
             model: "",
             modelYear: "",
@@ -46,7 +46,7 @@ class VehicleDetail extends React.Component {
                 return {
                     vehicleToDisplay: props.vehicleToDisplay,
                     vehicleId: props.vehicleToDisplay.id,
-                    InstitutionId: props.vehicleToDisplay.institution.institutionId,
+                    institutionId: props.vehicleToDisplay.institution?.InstitutionId,
                     modelYear: props.vehicleToDisplay.modelYear,
                     model: props.vehicleToDisplay.model,
                     make: props.vehicleToDisplay.make,
@@ -63,17 +63,33 @@ class VehicleDetail extends React.Component {
     handleSubmit = (event) => {
 
         event.preventDefault();
+        let vehicle =""
+        let action ="";
 
-        const vehicle = {
-            VehicleId: this.state.vehicleId,
-            DeviceId: this.state.deviceId,
-            PlateNumber: this.state.plateNumber,
-            InstitutionId: this.state.InstitutionId,
-            modelYear: this.state.modelYear,
-            modelId: this.state.model.modelId
+        {this.state.vehicleId? action = "save": action="add"}
+
+        if(action==="add"){
+            vehicle = {
+                DeviceId: this.state.deviceId,
+                PlateNumber: this.state.plateNumber,
+                InstitutionId: this.state.institutionId,
+                modelYear: this.state.modelYear,
+                modelId: this.state.model.modelId
+            }
         }
+        else{
+            vehicle = {
+                VehicleId: this.state.vehicleId,
+                DeviceId: this.state.deviceId,
+                PlateNumber: this.state.plateNumber,
+                InstitutionId: this.state.institutionId,
+                modelYear: this.state.modelYear,
+                modelId: this.state.model.modelId
+            }
+        }
+        
 
-        this.props.saveVehicle(vehicle);
+        this.props.saveVehicle(vehicle,action);
     }
 
     returnListToSearch = () => {
@@ -118,13 +134,11 @@ class VehicleDetail extends React.Component {
                     objectList={searchList} />
 
                     
-                        <div class="col-md-10">
-                                                                                                   
+                        <div class="col-md-10">             
                             <div className="row form-group">
                                 <div className="col-md-4">
                                     <Label>Plate Number</Label><br />
                                     <input type="text" name="plateNumber"
-                                    placeholder={vehicleObj === undefined ? "" : vehicleObj.plateNumber}
                                     value={this.state.plateNumber}
                                     onChange={this.onChange}
                                     className="form-control"
@@ -132,15 +146,14 @@ class VehicleDetail extends React.Component {
                                 </div>
                         </div><br /><br />
 
-                            <div className="row form-group">
-                                <div className="col-md-4">
-                                    <Label>Year</Label><br />
+                        <div className="row form-group">
+                            <div className="col-md-4">
+                                <Label>Year</Label><br />
                                     <input type="date" name="modelYear"
-                                        placeholder={vehicleObj === undefined ? "" : vehicleObj.modelYear}
                                         value={this.state.modelYear}
                                         onChange={this.onChange}
                                         className="form-control" />
-                                </div>
+                            </div>
                         </div>
 
                         <div className="row form-group">
@@ -176,8 +189,8 @@ class VehicleDetail extends React.Component {
                             {/*VehicleObj.model.id*/}
                             <div className="col-md-4">
                                 <Label>Institution</Label><br />
-                                <select defaultValue={vehicleObj ? vehicleObj.institution.institutionId : "Select a model"} className="custom-select my-1 mr-sm-2" name="InstitutionId" onChange={this.onChange}>
-                                    {this.props.InstitutionList.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
+                                <select defaultValue={this.state.institutionId? this.state.institutionId : "Select a model"} className="custom-select my-1 mr-sm-2" name="institutionId" onChange={this.onChange}>
+                                    {this.props.InstitutionList.map(institution => (<option className="dropdown-item" value={this.state.institutionId}>{institution.name}</option>))}
                                 </select>
                                 
                             </div>
@@ -215,10 +228,11 @@ class VehicleDetail extends React.Component {
 
 const mapStateToProps = (state) => {
 
+
     return {
-        InstitutionList: state.InstitutionStore.Institutions,
-        MakersList: state.VehicleStore.Makes,
-        ModelsList: state.VehicleStore.Models
+        InstitutionList: ["Select an institution", ...state.InstitutionStore.Institutions],
+        MakersList: ["Select a make", ...state.VehicleStore.Makes],
+        ModelsList: ["Select a model",...state.VehicleStore.Models]
     }
 
 }

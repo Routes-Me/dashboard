@@ -27,7 +27,7 @@ class Vehicles extends Component {
     componentDidMount() {
         //this.populateVehicleData();
         //this.props.getVehicleModels();
-        this.props.getVehiclesForInstitution();
+        this.props.getVehiclesForInstitution(this.props.token);
     }
 
 
@@ -177,7 +177,8 @@ const mapStateToProps = (state) => {
     const vehicles = state.VehicleStore.Vehicles;
 
     return {
-        VehicleList: vehicles
+        VehicleList: vehicles,
+        token : state.Login.token
     }
 
 }

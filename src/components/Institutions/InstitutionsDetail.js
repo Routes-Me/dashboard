@@ -13,8 +13,8 @@ class InstitutionsDetail extends React.Component {
             id: "",
             name: "",
             phoneNumber: "",
-            institution: "",
-            services:[]
+            services:[],
+            institution: ""
         }
     }
 
@@ -29,12 +29,13 @@ class InstitutionsDetail extends React.Component {
     static getDerivedStateFromProps(props, state) {
         //console.log('Users : getDerivedStateFromProps called with NewProps', props.vehicleToDisplay);
         if (props.institutionToDisplay !== undefined) {
-            if (props.institutionToDisplay !== state.institutionToDisplay) {
+            if (props.institutionToDisplay !== state.institution) {
                 return {
                     institution: props.institutionToDisplay,
-                    id: props.institutionToDisplay.institutionId,
+                    id: props.institutionToDisplay.institutionId.map,
                     name: props.institutionToDisplay.name,
-                    phoneNumber: props.institutionToDisplay.phoneNumber
+                    phoneNumber:props.institutionToDisplay.phoneNumber,
+                    services:props.institutionToDisplay.services
                 }
             }
         }
@@ -67,7 +68,8 @@ class InstitutionsDetail extends React.Component {
                 CountryIso: "KW",
                 PhoneNumber: this.state.phoneNumber,
                 createdAT: "",
-                Name: this.state.name
+                Name: this.state.name,
+                Services: [this.state.services]
             }
             this.props.saveInstitution(institution,action);
         }
@@ -92,8 +94,7 @@ class InstitutionsDetail extends React.Component {
                             <div className="col-md-4">
                                 <Label>Name</Label><br />
                                 <input type="text" name="name"
-                                    placeholder={institutionObj === undefined ? "" : institutionObj.name}
-                                    value={institutionObj.name}
+                                    value={this.state.name}
                                     onChange={this.onChange}
                                     className="form-control" />
                             </div>
@@ -103,8 +104,7 @@ class InstitutionsDetail extends React.Component {
                             <div className="col-md-4">
                                 <Label>Phone</Label><br />
                                 <input type="text" name="phoneNumber"
-                                    placeholder={institutionObj === undefined ? "" : institutionObj.phoneNumber}
-                                    value={institutionObj.phoneNumber}
+                                    value={this.state.phoneNumber}
                                     onChange={this.onChange}
                                     className="form-control" />
                             </div>
@@ -113,7 +113,7 @@ class InstitutionsDetail extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-4">
                                 <Label>Services</Label><br />
-                                <select multiple class="custom-select" size="3" defaultValue={institutionObj.services} name="services" onChange={this.onChange}>
+                                <select multiple class="custom-select" size="3" defaultValue={this.state.services} name="services" onChange={this.onChange}>
                                     {this.props.servicesList.map(service => (<option value={service.id}>{service.value}</option>))}
                                 </select>
                             </div>
@@ -138,8 +138,6 @@ class InstitutionsDetail extends React.Component {
 
 //connect redux
 const mapStateToProps = (state) => {
-
-    const servicesList = state.InstitutionStore.Services;
 
     return {
         servicesList: state.InstitutionStore.Services

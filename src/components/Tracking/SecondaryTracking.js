@@ -25,7 +25,7 @@ class SecondaryTracking extends Component {
 
 
     componentDidMount() {
-        this.props.GetOfflineVehicles();
+        this.props.GetOfflineVehicles(this.props.token);
         this.toggleFilter(this.state.filter);
     }
 
@@ -50,18 +50,18 @@ class SecondaryTracking extends Component {
 
 
     //Render the Acordian
-    // renderAllVehicles(VehicleListToBeRendered) {
-    //     return (
-    //         <div>{
-    //             VehicleListToBeRendered.filter(Vehicle => Vehicle.status === this.state.filter)
-    //                 .map(Vehicle => (
-    //                     <div key={Vehicle.vehicle_id} onClick={(e) => this.showVehicle(Vehicle.vehicle_id)}>
-    //                         <SecondaryList vehicle={Vehicle} index={Vehicle.vehicle_id} selectedIndex={this.props.idForidForSelectedVehicle} />
-    //                     </div>
-    //                 ))
-    //         }</div>
-    //     )
-    // }
+    renderAllVehicles(VehicleListToBeRendered) {
+        return (
+            <div>{
+                VehicleListToBeRendered.filter(Vehicle => Vehicle.status === this.state.filter)
+                    .map(Vehicle => (
+                        <div key={Vehicle.vehicle_id} onClick={(e) => this.showVehicle(Vehicle.id)}>
+                            <SecondaryList vehicle={Vehicle} index={Vehicle.id} selectedIndex={this.props.idForidForSelectedVehicle} />
+                        </div>
+                    ))
+            }</div>
+        )
+    }
 
     //Return count of Idle & Active
     returnCountForFilterType() {
@@ -92,7 +92,7 @@ class SecondaryTracking extends Component {
 
     render() {
 
-        let content = [];//this.renderAllVehicles(this.props.vehicles);
+        let content = this.renderAllVehicles(this.props.vehicles);
         //console.log(`              ---Rendered Details()--- 
         //             Selected Filter :      ${this.state.filter}
         //             Idle vehicle count :   ${this.state.idleVehiclesCount}
@@ -149,13 +149,13 @@ const mapStateToProps = (state) => {
     //const points = sampleArray.map(result => ({ vehicle_id: parseInt(result.vehicle_id), status: result.status, lat: parseFloat(result.coordinates.latitude), lng: parseFloat(result.coordinates.longitude) }))
     //console.log('Mapped State Array returned :', points);
 
-
     return {
-        vehicles: [],//points,
+        vehicles: state.Tracking.IdleVehicles,
         idleVehiclesCount: state.Tracking.IdleVehicles.length,
         //activeVehiclesCount: state.Tracking.ActiveVehicles.length,
         idForidForSelectedVehicle: state.Tracking.idForSelectedVehicle,
-        selectedNavItem: state.Login.SelectedNavOption
+        selectedNavItem: state.Login.SelectedNavOption,
+        token : state.Login.token
     }
 
 }

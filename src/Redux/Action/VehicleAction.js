@@ -7,10 +7,9 @@ import axios from 'axios';
 
 
 //Action to getVehicleList for Vehicles Component
-export function getVehiclesForInstitutionID(institutionId, pageIndex) {
+export function getVehiclesForInstitutionID(Token,institutionId, pageIndex) {
     institutionId = 1;
    
-    let Token = localStorage.getItem('jwtToken').toString();
     return dispatch => {
         dispatch(vehicleDataRequest());                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
         axios.get(userConstants.Domain + 'vehicles?offset=1&limit=10&include=institutions,models', {
@@ -116,11 +115,11 @@ export function getMakes() {
 
 
 //Action to Add or Update vehcile
-export function saveVehicle(vehicle) {
+export function saveVehicle(vehicle,action) {
     let Token = localStorage.getItem('jwtToken').toString();
     return dispatch => {
         dispatch(saveVehicleRequest(vehicle))
-        if (vehicle.id !== "" && vehicle.id !== undefined) {
+        if (action== "save") {
             dispatch(vehicleDataRequest());
             axios.put(userConstants.Domain + 'vehicles',vehicle, {
                 headers: { Authorization: "Bearer " + Token },

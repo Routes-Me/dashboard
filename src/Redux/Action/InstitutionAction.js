@@ -82,12 +82,6 @@ function returnFormatedResponseForInstitutions(response) {
   return formatedInstitutions;
 }
 
-//Update on API
-function MockAPICallForInstitutions() {
-  const institutionData = MockServerData.institutionDetails.data.institutions;
-  return institutionData;
-}
-
 function UpdatetheServiceList(services) {
   return { type: institutionConstants.serviceList_UPDATED, payload: services };
 }

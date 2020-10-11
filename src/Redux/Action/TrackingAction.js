@@ -20,7 +20,6 @@ import { userConstants } from '../../constants/userConstants';
 //     { vehicle_id: 4, institution_id: 1, status: trackingConstants.ActiveState, driver: "Saad Mua", contact: "+965-55988028", model: "JEEP X4 . 2019", company: "Afnan", coordinates: { latitude: 29.82, longitude: 47.3511, timestamp: "7/1/2020 5:55:51 AM" } },
 //     { vehicle_id: 5, institution_id: 1, status: trackingConstants.ActiveState, driver: "Yahya Alahaar", contact: "+965-55988128", model: "AUDI A6 . 2020", company: "Afnan", coordinates: { latitude: 29.72, longitude: 47.4511, timestamp: "7/1/2020 5:55:51 AM" } }];
 
-
 let hubConnection = ""; 
 
 
@@ -44,12 +43,7 @@ export function InitializeHub(token){
 }
 
 
-function getAccessToken(token){
-return token;
-  //return "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJ2dGhhcmFrYUByb3V0ZXNtZS5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJzdXBlciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvdXNlcmRhdGEiOiIzIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIzIiwiZXhwIjoxNjE3MDIwMjcwLCJpc3MiOiJUcmFja1NlcnZpY2UiLCJhdWQiOiJUcmFja1NlcnZpY2UifQ.5DH6aw8zP-KpzUXa0kW0X1tpwqN3hffaBkSquAy9ENA";
-
-}
-
+function getAccessToken(token){ return token }
 
 export const Subscribing = payload => ({ type: trackingConstants.Tracking_OnSubscribeRequest });
 
@@ -102,9 +96,10 @@ export function CheckConnectivity(){
             .catch(err => console.error("Error while establishing connection : " + err));
     }
 }
-
 export const Unsubscribe = payload => ({ type: trackingConstants.Tracking_OnUnSubscribeRequest });
 export const Disconnected = payload => ({ type: trackingConstants.Tracking_Disconnected });
+
+
 
 export function UnsubscribeFromHub() {
 
@@ -113,8 +108,8 @@ export function UnsubscribeFromHub() {
         if(hubConnection.state === 0)
         {
             hubConnection.stop()
-            .then(() => {
-                console.log('Hub Disconnected!!');
+            .then(() => {                                                                                                                                                                                                                                                                                                                                                        
+                console.log('Hub Disconnected!!');                                                                                                                                                                                                                                                                                                                                          
                 dispatch(Disconnected());
             })
             .catch(err => {
@@ -128,46 +123,48 @@ export function UnsubscribeFromHub() {
 }
 
 
-export function getOfflineData() {
+export function getOfflineData(Token) {
 
     return dispatch => {
         dispatch(OfflineDataRequest());
-        axios.get(userConstants.Domain + 'tracking').then(
-            idleVehicles => {
-                //dispatch(OfflineUpdateReceived(idleVehicles.data));
-                
-            },
-            error => {
-                //alert(error.toString());
-            });
-        //dispatch(OfflineUpdateReceived(sampleOfflineData));
-    };
-
-
-    return dispatch => {
-        dispatch(vehicleDataRequest());                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
         axios.get(userConstants.Domain + 'vehicles?offset=1&limit=10&include=institutions,models', {
             headers: { Authorization: "Bearer " + Token },
             "Content-Type": "application/json; charset=utf-8",
           })
         .then(
-        vehicles => {
-                dispatch(OfflineUpdateReceived(vehicles));
+            idleVehicles => {
+                dispatch(OfflineUpdateReceived(returnFormatedVehicles(idleVehicles)));
         },
         error => {
-            alert(error.toString());
+               alert(error.toString());
         });
-
-        //const FormatedVehicle = MockAPICallForVehicles(institutionId, pageIndex)`
-        //console.log('data formated ', FormatedVehicle);
-        //dispatch(storeVehicleData(FormatedVehicle));
-
     }
 
 }
-//function OfflineUpdateReceived(result) { return { type: trackingConstants.Tracking_OfflineDataSynced, payload: result } };
+
+function OfflineUpdateReceived(result) { return { type: trackingConstants.Tracking_OfflineDataSynced, payload: result } };
 export const OfflineDataRequest = () => ({ type: trackingConstants.Tracking_OfflineDataRequest });
 export const OfflineDataError = payload => ({ type: trackingConstants.Tracking_OfflineDataError });
+
+function returnFormatedVehicles(response){
+
+    const VehicleList = response.data.data;
+    const InstitutionList = response.data.included.institutions;
+    const ModelList = response.data.included.models;
+
+    const FormatedVehicle = VehicleList.map(x => ({
+        id: x.vehicleId,
+        institution: InstitutionList.filter(y => y.InstitutionId === x.institutionId)[0],
+        plateNumber: x.plateNumber,
+        model: ModelList.filter(y => y.ModelId === x.modelId)[0],
+        status:"idle",
+        //make: MakerList.filter(y => y.makeId === x.makeId)[0],
+        //deviceId: x.deviceId,
+        modelYear: x.modelYear
+    }))
+
+    return FormatedVehicle;
+}
 
 
 export function updateSelectedMarker(vehicleID) {
