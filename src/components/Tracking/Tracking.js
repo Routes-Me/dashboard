@@ -309,7 +309,7 @@ class Tracking extends Component {
                     {
                         vehicles.map(point =>(
                             <SimpleMarker
-                                    style={this.markerStyleName(point.status, false, point.id === parseInt(this.props.idForSelectedVehicle))}
+                                    style={this.markerStyleName(point.status, false, point.id === this.props.idForSelectedVehicle)}
                                     key={point.id}
                                     text={point.id}
                                     lat={point.coordinates.lat}

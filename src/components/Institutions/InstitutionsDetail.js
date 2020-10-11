@@ -32,7 +32,7 @@ class InstitutionsDetail extends React.Component {
             if (props.institutionToDisplay !== state.institution) {
                 return {
                     institution: props.institutionToDisplay,
-                    id: props.institutionToDisplay.institutionId.map,
+                    id: props.institutionToDisplay.institutionId,
                     name: props.institutionToDisplay.name,
                     phoneNumber:props.institutionToDisplay.phoneNumber,
                     services:props.institutionToDisplay.services
@@ -60,7 +60,7 @@ class InstitutionsDetail extends React.Component {
                 Name: this.state.name,
                 Services: [this.state.services]
             }
-            this.props.saveInstitution(institution,action);
+            this.props.saveInstitution(this.props.token,institution,action);
         }
         else{
             const institution = {
@@ -71,7 +71,7 @@ class InstitutionsDetail extends React.Component {
                 Name: this.state.name,
                 Services: [this.state.services]
             }
-            this.props.saveInstitution(institution,action);
+            this.props.saveInstitution(this.props.token,institution,action);
         }
 
         
@@ -113,7 +113,7 @@ class InstitutionsDetail extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-4">
                                 <Label>Services</Label><br />
-                                <select multiple class="custom-select" size="3" defaultValue={this.state.services} name="services" onChange={this.onChange}>
+                                <select multiple class="custom-select" size="3" value={this.state.services} name="services" onChange={this.onChange}>
                                     {this.props.servicesList.map(service => (<option value={service.id}>{service.value}</option>))}
                                 </select>
                             </div>
@@ -140,7 +140,8 @@ class InstitutionsDetail extends React.Component {
 const mapStateToProps = (state) => {
 
     return {
-        servicesList: state.InstitutionStore.Services
+        servicesList: state.InstitutionStore.Services,
+        token : state.Login.token
     }
 
 }

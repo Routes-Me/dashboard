@@ -4,7 +4,6 @@ import { userConstants } from "../../constants/userConstants";
 import axios from "axios";
 
 
-
 //Get Institution list
 export function getInstitutions(token, institutionId, offset) {
 
@@ -14,7 +13,7 @@ export function getInstitutions(token, institutionId, offset) {
     
     dispatch(IstitutionDataRequest());
     axios
-      .get(userConstants.Domain + "institutions?offset=1&limit=10", {
+      .get(userConstants.Domain + "institutions?offset=1&limit=10&include=services", {
         headers: { Authorization: "Bearer " + token },
         "Content-Type": "application/json; charset=utf-8",
       })
@@ -68,7 +67,7 @@ function returnFormatedResponseForInstitutions(response) {
   const institutionsList = response.data.data;
   const servicesList = MockServerData.Services.data;
 
-  // const servicesList = response.data.included.services;
+  //const servicesList = response.data.included.services;
 
   const formatedInstitutions = institutionsList.map((x) => ({
     institutionId: x.institutionId,
@@ -87,15 +86,15 @@ function UpdatetheServiceList(services) {
 }
 
 //Save Institution Detail
-export function saveInstitution(institution,action) {
+export function saveInstitution(token,institution,action) {
   
-  const Token = localStorage.getItem("jwtToken").toString();
+  //const Token = localStorage.getItem("jwtToken").toString();
   return (dispatch) => {
     dispatch(saveInstitutionRequest);
     if (action== "save") {                                                                                                                                                                                                       
       //Update
       axios.put(userConstants.Domain + "institutions", institution,{
-        headers: { Authorization: "Bearer " + Token },
+        headers: { Authorization: "Bearer " + token },
         "Content-Type": "application/json; charset=utf-8",
       })
       .then(
@@ -110,7 +109,7 @@ export function saveInstitution(institution,action) {
     else {
       //Create
       axios.post(userConstants.Domain + "institutions" , institution, {
-        headers: { Authorization: "Bearer " + Token },
+        headers: { Authorization: "Bearer " + token },
         "Content-Type": "application/json; charset=utf-8",
       })
       .then(
