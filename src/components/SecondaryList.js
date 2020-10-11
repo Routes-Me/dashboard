@@ -1,8 +1,8 @@
 ﻿import React from 'react';
-import alarem from './images/alarem.svg';
-import bank from './images/bank.svg';
-import carnew from './images/carnew.svg';
-import phone from './images/phone.svg';
+import alarem from '../images/alarem.svg';
+import bank from '../images/bank.svg';
+import carnew from '../images/carnew.svg';
+import phone from '../images/phone.svg';
 import './Style/CustomStyle.css';
 
 
