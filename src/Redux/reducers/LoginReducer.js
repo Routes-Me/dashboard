@@ -32,6 +32,14 @@ const LoginReducer = (state = INITIAL_STATE, action) => {
                 loggedIn: true,
                 user: action.payload
             };
+        case userConstants.Login_FAILURE:
+            return {
+                    ...state,
+                    loading: false,
+                    hasError: true,
+                    loggedIn: false,
+                    user: ""
+                };
         case userConstants.Login_TokenReceived:
                 return {
                     ...state,
