@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Banner } from './Banner';
 import { LoginForm } from './LoginForm';
+import {Footer} from './Footer';
 
 
 
@@ -43,6 +44,7 @@ export class Login extends Component {
 					</div>
 
 				</div> 
+				<Footer/>
 
 			</div>
         );

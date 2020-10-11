@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 import * as AdvertisementAction from '../../Redux/Action';
 import * as InstitutionAction from '../../Redux/Action';
-import { onImageCompress, onVideoCompress } from '../../util/Compress';
+import { onImageCompress } from '../../util/Compress';
 import { Basic } from './Detail/Basic';
 import { Extras } from './Detail/Extras';
 import ReactPlayer from 'react-player';
@@ -39,17 +39,9 @@ class AdvertisementsDetail extends React.Component {
 
     fileChangedHandler = (event) => {
         const file = event.target.files[0];
-        //const filepath = file.mozFullPath;
-        //var filePath = 'C:/Users/Hp/Downloads/Simulater Sample/sample.avi';
-        //this.onVideoCompress(filePath);
         this.compressImage(file);
         this.props.uploadMedia(this.state.image);
         
-    }
-
-    compressVideo = async (filePath) => {
-        const compressedVideo = await onVideoCompress(filePath);
-        this.setState({ video: compressedVideo });
     }
 
  

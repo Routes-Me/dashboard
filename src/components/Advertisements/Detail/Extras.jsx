@@ -4,7 +4,7 @@ import { Label } from 'reactstrap';
 import * as AdvertisementAction from '../../../Redux/Action';
 import * as InstitutionAction from '../../../Redux/Action';
 import Form from 'react-validation/build/form';
-import { onImageCompress, onVideoCompress } from '../../../util/Compress';
+import { onImageCompress } from '../../../util/Compress';
 import '../../Advertisements/Advertisement.css';
 
 
@@ -40,17 +40,11 @@ class Extras extends React.Component {
 
     fileChangedHandler = (event) => {
         const file = event.target.files[0];
-        //const filepath = file.mozFullPath;
-        var filePath = 'C:/Users/Hp/Downloads/Simulater Sample/sample.avi';
-        this.onVideoCompress(filePath);
-        //this.compressImage(file);
+        this.compressImage(file);
 
     }
 
-    compressVideo = async (filePath) => {
-        const compressedVideo = await onVideoCompress(filePath);
-        this.setState({ video: compressedVideo });
-    }
+  
 
 
 

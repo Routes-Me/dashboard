@@ -49,10 +49,6 @@ export class Banner extends Component {
 						</div>
 					</div>
 				</div>
-
-				<div className="call">
-					Call support  +965 22020406
-        </div>
 			</div>
 		);
 	}
