@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export class Footer extends Component {
     render() {
         return (
-            <div class="footer">
+            <div className="footer">
                  <p>Call support  +965 22020406</p>
             </div>
         );

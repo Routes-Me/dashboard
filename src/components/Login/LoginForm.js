@@ -2,7 +2,7 @@
 import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import { isEmail } from 'validator';
-import logo from '../image/bitmap.png'; // Tell webpack this JS file uses this image
+import logo from '../images/Routes_logo.svg'; // Tell webpack this JS file uses this image
 import { connect } from 'react-redux';
 import * as LoginAction from '../../Redux/Action';
 
