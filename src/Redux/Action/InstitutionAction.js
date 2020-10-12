@@ -7,13 +7,11 @@ import axios from "axios";
 //Get Institution list
 export function getInstitutions(token, institutionId, offset) {
 
-  //const Token = localStorage.getItem("jwtToken").toString();
   return (dispatch) => {
-    // dispatch(storeInstitutionsData(MockServerData.Institutions.data));
     
     dispatch(IstitutionDataRequest());
     axios
-      .get(userConstants.Domain + "institutions?offset=1&limit=10&include=services", {
+      .get(userConstants.Domain + buildURL('institutions',1,true), {
         headers: { Authorization: "Bearer " + token },
         "Content-Type": "application/json; charset=utf-8",
       })
@@ -32,35 +30,25 @@ export function getInstitutions(token, institutionId, offset) {
       );
   };
 
-  function IstitutionDataRequest() {
-    return { type: institutionConstants.getInstitutions_REQUEST };
-  }
-  function storeInstitutionsData(institutions) {
-    return {
-      type: institutionConstants.getInstitutions_SUCCESS,
-      payload: institutions,
-    };
-  }
-  function updatePage(pages) {
-    return { type: institutionConstants.updatePage, payload: pages };
-  }
+  function IstitutionDataRequest() { return { type: institutionConstants.getInstitutions_REQUEST }; }
+  function storeInstitutionsData(institutions) { return { type: institutionConstants.getInstitutions_SUCCESS, payload: institutions }; }
+  function updatePage(pages) { return { type: institutionConstants.updatePage, payload: pages };}
+
 }
 
-function returnQueryParamters(offset, include) {
-  let queryParameter;
-  if (include) {
-    queryParameter = {
-      offset: offset,
-      limit: userConstants.limit,
-      include: ["services"],
-    };
-  } else {
-    queryParameter = {
-      offset: offset,
-      limit: userConstants.limit,
-    };
+
+
+function buildURL(entity, offset, include) {
+
+  let queryParameter =""
+  if(include){
+    queryParameter=entity+"?offset="+offset+"&limit="+userConstants.Pagelimit+"&include=services";
+  }
+  else{
+    queryParameter="institutions?offset="+offset+"&limit="+userConstants.Pagelimit;
   }
   return queryParameter;
+
 }
 
 function returnFormatedResponseForInstitutions(response) {
@@ -124,16 +112,8 @@ export function saveInstitution(token,institution,action) {
   };
 }
 
-function saveInstitutionRequest() {
-  return { type: institutionConstants.saveInstitutions_REQUEST };
-}
-
-function saveInstitutionSuccess(institutions) {
-  return {
-    type: institutionConstants.saveInstitutions_SUCCESS,
-    payload: institutions,
-  };
-}
+function saveInstitutionRequest() {return { type: institutionConstants.saveInstitutions_REQUEST };}
+function saveInstitutionSuccess(institutions) { return { type: institutionConstants.saveInstitutions_SUCCESS, payload: institutions}; }
 
 
 
@@ -152,7 +132,7 @@ export function DeleteInstitution(institutionId)
       })
       .then(
         (institution) => {
-          dispatch(saveInstitutionSuccess(institution.data));
+          dispatch(deleteInstitutionSuccess(institution.data));
         },
         (error) => {
           alert(error.toString());
@@ -162,51 +142,31 @@ export function DeleteInstitution(institutionId)
   }
 }
 
-function deleteInstitutionRequest()
-{
-  return {type: institutionConstants.deleteInstitutionRequest}
-}
-
-function deleteInstitutionSuccess(institution){
-  return {type: institutionConstants.deleteInstitutionSuccess, payload: institution}
-}
-
-
-function deleteInstitutionError(message)
-{
-  return {type: institutionConstants.deleteInstitutionError, payload: message}
-}
+function deleteInstitutionRequest() { return {type: institutionConstants.deleteInstitutionRequest} }
+function deleteInstitutionSuccess(institution){ return {type: institutionConstants.deleteInstitutionSuccess, payload: institution}}
+function deleteInstitutionError(message){ return {type: institutionConstants.deleteInstitutionError, payload: message}}
 
 //Get Services
-export function getServicesList() {
+export function getServicesList(token) {
   return (dispatch) => {
     dispatch(ServicesDataRequest());
-    // axios
-    //   .get(userConstants.Domain + "api/services?", {
-    //     params: { queryParameter: returnQueryParamters(pageIndex, false) },
-    //   })
-    //   .then(
-    //     (services) => {
-    //       dispatch(storeServicesData(services.data.services));
-    //     },
-    //     (error) => {
-    //       //alert(error.toString());
-    //     }
-    //   );
-
-    const Services = MockAPICallforServices();
-    dispatch(storeServicesData(Services));
+    axios.get(userConstants.Domain + buildURL('services',1), {
+      headers: { Authorization: "Bearer " + token },
+      "Content-Type": "application/json; charset=utf-8",
+    })
+    .then(
+      (services) => {
+        dispatch(storeServicesData(services.data.data));
+      },
+      (error) => {
+        alert(error.toString());
+      }
+    );
+    //const Services = MockAPICallforServices();
+    //dispatch(storeServicesData(Services));
   };
 }
-function ServicesDataRequest() {
-  return { type: institutionConstants.getServices_REQUEST };
-}
-function storeServicesData(Services) {
-  return { type: institutionConstants.getServices_SUCCESS, payload: Services };
-}
+function ServicesDataRequest() { return { type: institutionConstants.getServices_REQUEST };}
+function storeServicesData(Services) { return { type: institutionConstants.getServices_SUCCESS, payload: Services };}
 
-//Update on API
-function MockAPICallforServices() {
-  const services = MockServerData.Services.data;
-  return services;
-}
+

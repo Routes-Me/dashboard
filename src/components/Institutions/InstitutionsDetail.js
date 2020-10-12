@@ -19,7 +19,7 @@ class InstitutionsDetail extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getServiceList();
+        this.props.getServiceList(this.props.token);
     }
 
     onChange = (event) => {
@@ -114,7 +114,7 @@ class InstitutionsDetail extends React.Component {
                             <div className="col-md-4">
                                 <Label>Services</Label><br />
                                 <select multiple class="custom-select" size="3" value={this.state.services} name="services" onChange={this.onChange}>
-                                    {this.props.servicesList.map(service => (<option value={service.id}>{service.value}</option>))}
+                                    {this.props.servicesList.map(service => (<option value={service.serviceId}>{service.name}</option>))}
                                 </select>
                             </div>
                         </div>

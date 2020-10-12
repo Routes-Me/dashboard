@@ -6,7 +6,6 @@ import GoogleMapReact from 'google-map-react';
 
 import ClusterMarker from '../markers/ClusterMarker';
 import SimpleMarker from '../markers/SimpleMarker';
-import '../markers/Ripple.css'
 import supercluster from 'points-cluster';
 import { susolvkaCoords, markersData } from '../data/fakeData';
 import IdleTimer from 'react-idle-timer';
@@ -268,7 +267,7 @@ class Tracking extends Component {
     markerStyleName( status, isGrouped, isSelected ) {
         
         if (status === trackingConstants.IdleState) {
-            return isGrouped ? "idle-cluster" : (isSelected ? "select effect" : "idle-marker")
+            return isGrouped ? "idle-cluster" : (isSelected ? "select" : "idle-marker")
         }
         else {
             return isGrouped ? "active-cluster" : (isSelected ? "selected-marker" : "active-marker")
