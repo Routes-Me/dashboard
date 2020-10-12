@@ -12,7 +12,7 @@ export function getUsers(institutionId, pageIndex) {
 
     return dispatch => {
         dispatch(UsersDataRequest());
-        axios.get(userConstants.Domain + 'users?offset=1&limit=10', {
+        axios.get(userConstants.Domain + buildURL('users',1,true), {
             headers: { Authorization: "Bearer " + Token },
             "Content-Type": "application/json; charset=utf-8",
         })
@@ -72,8 +72,8 @@ function deleteUserError(message) { return {type: userConstants.deleteUser_Error
 
 
 function returnFormatedUsers(response) {
+
     const usersList = response.data.users.filter(user => user.institutionId === 3)
-    //console.log('Vehicle Action Array returned :', VehicleList);
     const userRolesList = response.include.userRoles;
 
     const FormatedUsers = usersList.map(x => ({
@@ -83,12 +83,42 @@ function returnFormatedUsers(response) {
         createdDate: x.createdDate,
         isVerified: x.isVerified,
         lastLoginDate: x.lastLoginDate,
-        userRoles: userRolesList.filter(y => y.include(x.userRoles)),
+        userRoles: filterUserRolesList(userRolesList,x.userRoles),
         name: x.name,
         description: x.description
     }))
-
     return FormatedUsers;
+
+}
+
+
+function filterUserRolesList(userRolesList, userRoles)
+{
+  let roles = "";
+  if( userRoles !== undefined && userRolesList.length > 0)
+  {
+    roles = userRolesList.filter(y => y.include(userRoles));
+  }
+  else
+  {
+    roles =[0];
+  }
+  return roles
+}
+
+
+function buildURL(entity, offset, include) 
+{
+    let queryParameter =""
+    if(include)
+    {
+      queryParameter=entity+"?offset="+offset+"&limit="+userConstants.Pagelimit+"&include=services";
+    }
+    else
+    {
+      queryParameter=entity+"?offset="+offset+"&limit="+userConstants.Pagelimit;
+    }
+    return queryParameter;
 }
 
 function returnQueryParamters(offset, include) {

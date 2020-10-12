@@ -1,6 +1,7 @@
 ﻿import { MockServerData } from "../../constants/MockServerData";
 import { institutionConstants } from "../../constants/institutionConstants";
 import { userConstants } from "../../constants/userConstants";
+import {config} from "../../constants/config";
 import axios from "axios";
 
 
@@ -45,7 +46,7 @@ function buildURL(entity, offset, include) {
     queryParameter=entity+"?offset="+offset+"&limit="+userConstants.Pagelimit+"&include=services";
   }
   else{
-    queryParameter="institutions?offset="+offset+"&limit="+userConstants.Pagelimit;
+    queryParameter=entity+"?offset="+offset+"&limit="+userConstants.Pagelimit;
   }
   return queryParameter;
 
@@ -53,9 +54,8 @@ function buildURL(entity, offset, include) {
 
 function returnFormatedResponseForInstitutions(response) {
   const institutionsList = response.data.data;
-  const servicesList = MockServerData.Services.data;
 
-  //const servicesList = response.data.included.services;
+  const servicesList = response.data.included.services;
 
   const formatedInstitutions = institutionsList.map((x) => ({
     institutionId: x.institutionId,
@@ -63,10 +63,24 @@ function returnFormatedResponseForInstitutions(response) {
     createdAt: x.createdAt,
     phoneNumber: x.phoneNumber,
     countryIso: x.countryIso,
-    //services: servicesList.filter((y) => y.include(x.services))
+    services: filterServiceList(servicesList, x.services)
   }));
 
   return formatedInstitutions;
+}
+
+function filterServiceList(servicesList, services)
+{
+  let Services = "";
+  if( services !== undefined && servicesList.length > 0)
+  {
+    Services = servicesList.filter(y => y.include(services));
+  }
+  else
+  {
+    Services =[0];
+  }
+  return Services
 }
 
 function UpdatetheServiceList(services) {
@@ -133,6 +147,7 @@ export function DeleteInstitution(institutionId)
       .then(
         (institution) => {
           dispatch(deleteInstitutionSuccess(institution.data));
+          getInstitutions(Token)
         },
         (error) => {
           alert(error.toString());
@@ -156,7 +171,7 @@ export function getServicesList(token) {
     })
     .then(
       (services) => {
-        dispatch(storeServicesData(services.data.data));
+        dispatch(storeServicesData([config.selectService, ...services.data.data]));
       },
       (error) => {
         alert(error.toString());

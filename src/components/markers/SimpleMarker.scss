@@ -143,9 +143,8 @@ $originY: ($markerHeight * -1) + 4;
 	height: 30px;
 	width: 30px;
 	transform: scale(1);
-	animation: pulse 2s infinite;
-	left: -30;
-	top: -30;
+	animation: pulse 3s infinite;
+	position: absolute;
 }
 
 @keyframes pulse {
