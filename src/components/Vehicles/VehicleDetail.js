@@ -29,9 +29,11 @@ class VehicleDetail extends React.Component {
         }
     }
 
-    componentDidMount() {
-        console.log("component did mount!")
-        this.props.getInstitutions();
+    componentDidMount() { 
+        console.log("vehicle detail component did mount!")
+        this.props.getInstitutions(this.props.Token);
+        this.props.getMakes(this.props.Token);
+        this.props.getModels(this.props.Token);
     }
 
 
@@ -227,20 +229,19 @@ class VehicleDetail extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-
-
     return {
+        Token : state.Login.token,
         InstitutionList: ["Select an institution", ...state.InstitutionStore.Institutions],
-        MakersList: ["Select a make", ...state.VehicleStore.Makes],
-        ModelsList: ["Select a model",...state.VehicleStore.Models]
+        MakersList: state.VehicleStore.Makes,
+        ModelsList: state.VehicleStore.Models
     }
 
 }
 
 const actionCreators = {
     getInstitutions: InstitutionAction.getInstitutions,
-    getMakes: VehicleAction.getMakes,
-    getModels: VehicleAction.getNewModels,
+    getMakes: VehicleAction.getManufacturers,
+    getModels: VehicleAction.getModels,
     saveVehicle: VehicleAction.saveVehicle
 };
 

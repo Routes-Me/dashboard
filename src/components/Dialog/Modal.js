@@ -1,8 +1,7 @@
 ﻿import React from 'react';
 import { DialogVehicles } from '../Vehicles/DialogVehicles';
 import '../Style/CustomStyle.css';
-import { userConstants } from '../../constants/userConstants';
-import { Label } from 'reactstrap';
+import { vehicleConstants } from '../../constants/vehicleConstants';
 
 class Modal extends React.Component {
 
@@ -32,7 +31,7 @@ class Modal extends React.Component {
                             <tbody>
                             {
                                 searchList.map(obj => (
-                                    <tr key={obj.id} onClick>
+                                    <tr key={this.returnIdforObjectType(obj,this.props.objectType)}>
                                         <td style={{ textAlign: "center", paddingLeft: 39 }}>{obj.name}</td>
                                     </tr>
                                     ))
@@ -44,6 +43,7 @@ class Modal extends React.Component {
         }
     }
 
+    returnIdforObjectType = (object, objectType) => objectType === vehicleConstants.searchDialogFor_Makers ? object.manufactureId : object.modelId;
 
     render() {
 
@@ -85,14 +85,6 @@ class Modal extends React.Component {
         return (
             <div className="modalNew">
                 <div class="modal-content" style={{ modalStyle }}>
-                    {/*<span class="close" onClick={this.props.onClose}>&times;</span>
-                    <div className="hehading-add-butt" style={{ textAlign: "center" }}>
-                        {VehicleObj === undefined ? <h3>Add New Vehicle </h3> : <h3>Vehicle Id {VehicleObj.id}</h3>}
-                    </div><br /><br />
-                    <div class="modal-header">
-                        {VehicleObj === undefined ? <h3>Add New Vehicle </h3> : <h3>Vehicle Id {VehicleObj.id}</h3>}
-                        <span class="close" style={{ float: "right" }} onClick={this.props.onClose}>&times;</span>
-                    </div><br /><br />*/}
                     
                     <div className="top-part-vehicles-search padding-lr-80">
                         <span class="closeBtn" style={{ float: "right", display:"block" }} onClick={this.props.onClose} />
