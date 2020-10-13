@@ -267,7 +267,7 @@ class Tracking extends Component {
     markerStyleName( status, isGrouped, isSelected ) {
         
         if (status === trackingConstants.IdleState) {
-            return isGrouped ? "idle-cluster" : (isSelected ? "selected-marker" : "idle-marker")
+            return isGrouped ? "idle-cluster" : (isSelected ? "select effect" : "idle-marker")
         }
         else {
             return isGrouped ? "active-cluster" : (isSelected ? "select" : "active-marker")

@@ -36,8 +36,6 @@ export function userSignInRequest(username, password) {
       axios.post(userConstants.Domain + 'signin', userObject)
           .then(
               response => {
-
-                  //console.log("User Details : ", JSON.stringify(user));
                   const token = response.data.token;
                   const LoggedInUser = jwt.decode(token);
                   const user = response.data;
@@ -105,8 +103,6 @@ export function forgotPassword(email) {
 export function ResetPassword(institutionObject) {
   return (dispatch) => {
     var email = institutionObject.Email;
-    // var encryptedpassword = encryptAES(institutionObject.Password);
-    // var encryptedconfirmpassword = encryptAES(institutionObject.ConfirmPassword);
     var encryptedpassword = encryptAndEncode(institutionObject.password);
     var encryptedconfirmpassword = encryptAndEncode(
       institutionObject.ConfirmPassword

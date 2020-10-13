@@ -23,7 +23,18 @@ class InstitutionsDetail extends React.Component {
     }
 
     onChange = (event) => {
-        this.setState({ [event.target.name]: event.target.value })
+        if(event.target.name === "services")
+        {
+            const selected=[];
+            let selectedOption=(event.target.selectedOptions);
+            for (let i = 0; i < selectedOption.length; i++)
+            {
+                selected.push(selectedOption.item(i).value)
+            }
+            this.setState({ [event.target.name]: selected})
+        }
+        else
+        this.setState({ [event.target.name]: event.target.value})
     }
 
     static getDerivedStateFromProps(props, state) {
