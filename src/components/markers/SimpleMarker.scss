@@ -1,8 +1,13 @@
 $markerWidth: 40px;
 $markerHeight: 40px;
-
 $originX: ($markerWidth * -1) + 4;
 $originY: ($markerHeight * -1) + 4;
+
+$selectMarkerWidth: 30px;
+$selectMarkerHeight: 30px;
+
+
+
 
 .marker {
 	background-repeat: no-repeat;
@@ -16,12 +21,12 @@ $originY: ($markerHeight * -1) + 4;
 
 .active-marker{
 	@extend .marker;
-	background-image: url('../../images/icon-3.png');
+	background-image: url('../../images/active-marker.svg');
 }
 
 .idle-marker {
 	@extend .marker;
-	background-image: url('../../images/icon-2.png');
+	background-image: url('../../images/idle-marker.svg');
 }
 
 
@@ -80,13 +85,13 @@ $originY: ($markerHeight * -1) + 4;
 
 .active-cluster {
 	@extend .cluster;
-	background-image: url('../../images/big-icon-2.png');
+	background-image: url('../../images/active-cluster.svg');
 }
 
 
 .idle-cluster {
 	@extend .cluster;
-	background-image: url('../../images/big-icon-1.png');
+	background-image: url('../../images/idle-cluster.svg');
 }
 
 /*
@@ -140,8 +145,8 @@ $originY: ($markerHeight * -1) + 4;
 	border-radius: 50%;
 	box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
 	margin: 0px;
-	height: 30px;
-	width: 30px;
+	height: $selectMarkerWidth;
+	width: $selectMarkerHeight;
 	transform: scale(1);
 	animation: pulse 3s infinite;
 	position: absolute;

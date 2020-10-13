@@ -13,6 +13,8 @@ export const config = {
     selectMake :{
         manufactureId: 0,
         name: "Please select a make"
-        }  
+        }  ,
+
+    Domain:'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/' 
 
 };

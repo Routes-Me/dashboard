@@ -546,6 +546,13 @@ header nav {
     margin-bottom: 0px !important;
 }
 
+
+.table-list {
+    margin-top: 68px;
+    width: 100%;
+
+}
+
 .table-list-vehicles {
     margin-top: 68px;
 }

@@ -20,19 +20,16 @@ class VehicleDetail extends React.Component {
             model: "",
             modelYear: "",
             plateNumber: "",
-            selectedModel: "",
             vehicleToDisplay: "",
             searchModel: false,
-            searchObject: "",
-            modelList: [],
-            makersList:[]
+            searchObject: ""
         }
     }
 
     componentDidMount() { 
         console.log("vehicle detail component did mount!")
-        this.props.getInstitutions(this.props.Token);
-        this.props.getMakes(this.props.Token);
+        this.props.getInstitutions();
+        this.props.getMakes();
         this.props.getModels(this.props.Token);
     }
 
@@ -122,13 +119,15 @@ class VehicleDetail extends React.Component {
     }
 
     render() {
+
         const vehicleObj = this.state.vehicleToDisplay;
         const buttonText = vehicleObj ? "Update" : "Add";
         const searchList = this.returnListToSearch();
         return (
             <div className="container-fluid">
-                <Form onSubmit={e => this.handleSubmit(e)}>
+            <Form onSubmit={e => this.handleSubmit(e)}>
             <div className="row col-md-12 detail-form">
+
                 <Modal
                     show={this.state.searchModel}
                     onClose={this.toggleModal}
@@ -209,11 +208,8 @@ class VehicleDetail extends React.Component {
                                 </div>
                             </div>
 
-                            
-                            <br /><br />
-
-                            <div className="align-self-end ml-auto" style={{ textAlign: "end" }}><button type="submit" className="btn btn-primary"> {buttonText} </button></div>
                         */}
+
                         </div>
                     
             </div>
@@ -230,7 +226,6 @@ class VehicleDetail extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        Token : state.Login.token,
         InstitutionList: ["Select an institution", ...state.InstitutionStore.Institutions],
         MakersList: state.VehicleStore.Makes,
         ModelsList: state.VehicleStore.Models

@@ -3,7 +3,7 @@ import { history } from "../../helper/history";
 import { userConstants } from "../../constants/userConstants";
 import jwt from "jsonwebtoken";
 import { encryptAndEncode, encryptAES } from "../encrypt";
-import setAuthorizationToken from "../../util/setAuthorizationToken";
+import {setAuthorizationToken} from '../../util/request'
 
 const userObj = {};
 
@@ -44,7 +44,7 @@ export function userSignInRequest(username, password) {
                   history.push('/home');
                   localStorage.setItem('jwtToken', token);
                   dispatch(onReceiveToken(token));
-                  setAuthorizationToken(token);
+                  setAuthorizationToken(token)
               },
               error => {
                   dispatch(getLoginFailure(error.message.toString()));

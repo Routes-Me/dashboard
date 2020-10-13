@@ -130,7 +130,7 @@
         transition: max-height 0.5s ease-in;
         overflow: hidden;
         list-style-type: none;
-        padding-left: 15px;
+        padding-left: 40px;
         margin-bottom: 0px;
     }
 
@@ -142,7 +142,7 @@
         transition: max-height 0.8s ease-out;
         overflow: hidden;
         list-style-type: none;
-        padding: 16px 15px 50px 15px;
+        padding: 16px 15px 16px 40px;
         border-bottom: 18px solid;
         border-bottom-color: #f1f2f6;
         margin-bottom: 0px;
