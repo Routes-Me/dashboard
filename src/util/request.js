@@ -14,6 +14,10 @@ export async function setAuthorizationToken(token){
           if (token) {
             config.headers["Authorization"] = 'Bearer ' + token;
           }
+          else if(localStorage.getItem('jwtToken')!=null)
+          {
+            config.headers["Authorization"] = 'Bearer ' + localStorage.getItem('jwtToken');
+          }
           return config;
         },
         function(error) {

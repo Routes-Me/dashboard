@@ -151,20 +151,6 @@ class Vehicles extends Component {
                             </div>
                         </div>
                         {content}
-                        {/*<div className="left page-nav padding-lr-80">
-                            <span className="page-count">Page 15 of 20</span>
-                            <Pagination
-                                hideDisabled
-                                firstPageText={'<<<<'}
-                                lastPageText={'>>>>'}
-                                prevPageText={'<<'}
-                                nextPageText={'>>'}
-                                activePage={this.state.activePage}
-                                itemsCountPerPage={10}
-                                totalItemsCount={450}
-                                pageRangeDisplayed={5}
-                                onChange={this.handlePageChange.bind(this)} />
-                        </div>*/}
                     </div>}
             </div>
         );

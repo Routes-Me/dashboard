@@ -2,7 +2,7 @@
 import { history } from "../../helper/history";
 import { userConstants } from "../../constants/userConstants";
 import jwt from "jsonwebtoken";
-import { encryptAndEncode, encryptAES } from "../encrypt";
+import { encryptAndEncode } from "../encrypt";
 import {setAuthorizationToken} from '../../util/request'
 
 const userObj = {};
@@ -27,7 +27,6 @@ export function userSignInRequest(username, password) {
   localStorage.clear();
   return dispatch => {
       dispatch(request({ username, password }));
-      var encryptedpassword = encryptAES(password);
       let userObject = {
           Username: username,
           Password: encryptAndEncode(password)
@@ -41,10 +40,10 @@ export function userSignInRequest(username, password) {
                   const user = response.data;
                   localStorage.setItem('user', LoggedInUser);
                   dispatch(getLoginSuccess(LoggedInUser));
-                  history.push('/home');
                   localStorage.setItem('jwtToken', token);
                   dispatch(onReceiveToken(token));
                   setAuthorizationToken(token)
+                  history.push('/home');
               },
               error => {
                   dispatch(getLoginFailure(error.message.toString()));

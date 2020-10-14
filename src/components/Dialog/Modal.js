@@ -1,7 +1,8 @@
 ﻿import React from 'react';
-import { DialogVehicles } from '../Vehicles/DialogVehicles';
 import '../Style/CustomStyle.css';
 import { vehicleConstants } from '../../constants/vehicleConstants';
+import * as VehicleAction from '../../Redux/Action';
+import { connect } from 'react-redux';
 
 class Modal extends React.Component {
 
@@ -31,8 +32,8 @@ class Modal extends React.Component {
                             <tbody>
                             {
                                 searchList.map(obj => (
-                                    <tr key={this.returnIdforObjectType(obj,this.props.objectType)}>
-                                        <td style={{ paddingLeft: 39, textAlign: "left" }}>{obj.name}</td>
+                                    <tr style={{ paddingLeft: 39, textAlign: "left" }} key={obj.name} onClick={()=>{this.onselection(obj)}}>
+                                        <td>{obj.name}</td>
                                     </tr>
                                     ))
                                 }
@@ -43,11 +44,14 @@ class Modal extends React.Component {
         }
     }
 
-    returnIdforObjectType = (object, objectType) => objectType === vehicleConstants.searchDialogFor_Makers ? object.manufactureId : object.modelId;
+    returnIdforObjectType = (object, objectType) => objectType === vehicleConstants.searchDialogFor_Makers ? object.manufacturerId : object.modelId;
+
+    onselection(obj){
+        this.props.onSelect(obj);
+    } 
 
     render() {
 
-        
         // Render nothing if the "show" prop is false
         if (!this.props.show) {
             return null;
@@ -63,8 +67,6 @@ class Modal extends React.Component {
             backgroundColor: 'rgba(0,0,0,0.3)',
             padding: 50
         };
-
-     
 
         // The modal "window"
         const modalStyle = {
@@ -101,16 +103,12 @@ class Modal extends React.Component {
                         </div>
                     </div>
                     {content}
-                    {/*{this.props.objectType === userConstants.NavItem_Vehicles && <DialogVehicles vehicleToDisplay={VehicleObj}/>}*/}
-
-
 
                 </div>
             </div>
         );
     }
 }
-
 
 
 export default Modal;

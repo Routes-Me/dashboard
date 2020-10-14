@@ -3,19 +3,16 @@ import { institutionConstants } from "../../constants/institutionConstants";
 import { userConstants } from "../../constants/userConstants";
 import {config} from "../../constants/config";
 import axios from "axios";
+import apiHandler from '../../util/request';
 
 
 //Get Institution list
-export function getInstitutions(token, institutionId, offset) {
+export function getInstitutions(institutionId, offset) {
 
   return (dispatch) => {
     
     dispatch(IstitutionDataRequest());
-    axios
-      .get(userConstants.Domain + buildURL('institutions',1,true), {
-        headers: { Authorization: "Bearer " + token },
-        "Content-Type": "application/json; charset=utf-8",
-      })
+    apiHandler.get(buildURL('institutions',1,true))
       .then(
         (institutions) => {
           dispatch(
@@ -88,17 +85,13 @@ function UpdatetheServiceList(services) {
 }
 
 //Save Institution Detail
-export function saveInstitution(token,institution,action) {
+export function saveInstitution(institution,action) {
   
-  //const Token = localStorage.getItem("jwtToken").toString();
   return (dispatch) => {
     dispatch(saveInstitutionRequest);
     if (action== "save") {                                                                                                                                                                                                       
       //Update
-      axios.put(userConstants.Domain + "institutions", institution,{
-        headers: { Authorization: "Bearer " + token },
-        "Content-Type": "application/json; charset=utf-8",
-      })
+      apiHandler.put("institutions", institution)
       .then(
         (institution) => {
           dispatch(saveInstitutionSuccess(institution.data));
@@ -110,10 +103,7 @@ export function saveInstitution(token,institution,action) {
     } 
     else {
       //Create
-      axios.post(userConstants.Domain + "institutions" , institution, {
-        headers: { Authorization: "Bearer " + token },
-        "Content-Type": "application/json; charset=utf-8",
-      })
+      apiHandler.post("institutions" , institution)
       .then(
         (institution) => {
           dispatch(saveInstitutionSuccess);
@@ -134,20 +124,15 @@ function saveInstitutionSuccess(institutions) { return { type: institutionConsta
 // delete institution
 export function DeleteInstitution(institutionId)
 {
-  const Token = localStorage.getItem("jwtToken").toString();
   return (dispatch)=>{
     dispatch(deleteInstitutionRequest)
     if(institutionId!= null)
     {
-      axios.delete(userConstants.Domain + "institutions/"+institutionId,
-      {
-        headers: { Authorization: "Bearer " + Token },
-        "Content-Type": "application/json; charset=utf-8"
-      })
+      apiHandler.delete("institutions/"+institutionId)
       .then(
         (institution) => {
           dispatch(deleteInstitutionSuccess(institution.data));
-          getInstitutions(Token)
+          getInstitutions()
         },
         (error) => {
           alert(error.toString());
@@ -162,13 +147,10 @@ function deleteInstitutionSuccess(institution){ return {type: institutionConstan
 function deleteInstitutionError(message){ return {type: institutionConstants.deleteInstitutionError, payload: message}}
 
 //Get Services
-export function getServicesList(token) {
+export function getServicesList() {
   return (dispatch) => {
     dispatch(ServicesDataRequest());
-    axios.get(userConstants.Domain + buildURL('services',1), {
-      headers: { Authorization: "Bearer " + token },
-      "Content-Type": "application/json; charset=utf-8",
-    })
+    apiHandler.get(buildURL('services',1))
     .then(
       (services) => {
         dispatch(storeServicesData([config.selectService, ...services.data.data]));
@@ -177,8 +159,6 @@ export function getServicesList(token) {
         alert(error.toString());
       }
     );
-    //const Services = MockAPICallforServices();
-    //dispatch(storeServicesData(Services));
   };
 }
 function ServicesDataRequest() { return { type: institutionConstants.getServices_REQUEST };}

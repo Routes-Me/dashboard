@@ -11,7 +11,7 @@ export const config = {
     },
 
     selectMake :{
-        manufactureId: 0,
+        manufacturerId: 0,
         name: "Please select a make"
         }  ,
 

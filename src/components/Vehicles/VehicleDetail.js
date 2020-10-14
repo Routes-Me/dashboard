@@ -29,14 +29,10 @@ class VehicleDetail extends React.Component {
     componentDidMount() { 
         console.log("vehicle detail component did mount!")
         this.props.getInstitutions();
-        this.props.getMakes();
-        this.props.getModels(this.props.Token);
     }
 
 
-    onChange = (event) => {
-        this.setState({ [event.target.name] : event.target.value })
-    }
+    onChange = event => this.setState({ [event.target.name] : event.target.value })
 
     static getDerivedStateFromProps(props, state) {
 
@@ -50,9 +46,7 @@ class VehicleDetail extends React.Component {
                     model: props.vehicleToDisplay.model,
                     make: props.vehicleToDisplay.make,
                     deviceId: props.vehicleToDisplay.deviceId,
-                    plateNumber: props.vehicleToDisplay.plateNumber,
-                    modelList: props.ModelsList,
-                    makersList: props.MakersList
+                    plateNumber: props.vehicleToDisplay.plateNumber
                 }
             }
         }
@@ -91,6 +85,7 @@ class VehicleDetail extends React.Component {
         this.props.saveVehicle(vehicle,action);
     }
 
+
     returnListToSearch = () => {
         if (this.state.searchObject !== "" && this.state.searchObject !== undefined) {
             if (this.state.searchObject === vehicleConstants.searchDialogFor_Makers) {
@@ -102,11 +97,14 @@ class VehicleDetail extends React.Component {
         }
     };
 
+    updateSelectedId = obj => this.state.searchObject === vehicleConstants.searchDialogFor_Makers? this.setState({ make:obj, searchModel: !this.state.searchModel}) : this.setState({ model:obj, searchModel: !this.state.searchModel})
+    
+
     //show model dialog 
     toggleModal = (e, objectType) => {
         e.preventDefault();
         { objectType === vehicleConstants.searchDialogFor_Makers && this.props.getMakes() }
-        { objectType === vehicleConstants.searchDialogFor_Models && this.props.getModels() }
+        { objectType === vehicleConstants.searchDialogFor_Models && this.props.getModels(this.state.make.manufacturerId) }
         this.setState({
             searchModel: !this.state.searchModel,
             searchObject: objectType
@@ -123,6 +121,7 @@ class VehicleDetail extends React.Component {
         const vehicleObj = this.state.vehicleToDisplay;
         const buttonText = vehicleObj ? "Update" : "Add";
         const searchList = this.returnListToSearch();
+        console.log('list =>',searchList);
         return (
             <div className="container-fluid">
             <Form onSubmit={e => this.handleSubmit(e)}>
@@ -132,7 +131,8 @@ class VehicleDetail extends React.Component {
                     show={this.state.searchModel}
                     onClose={this.toggleModal}
                     objectType={this.state.searchObject}
-                    objectList={searchList} />
+                    objectList={searchList} 
+                    onSelect={this.updateSelectedId} />
 
                     
                         <div class="col-md-12">             
@@ -150,7 +150,7 @@ class VehicleDetail extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-6">
                                 <Label>Year</Label><br />
-                                    <input type="date" name="modelYear"
+                                    <input type="number" min="1900" max="2020" step="1" name="modelYear"
                                         value={this.state.modelYear}
                                         onChange={this.onChange}
                                         className="form-control" />
@@ -162,12 +162,9 @@ class VehicleDetail extends React.Component {
                                 <Label>Make</Label><br />
                                 <div class="btn-grp dropright">
                                     <button type="button" class="btn btn-block btn-light dropdown-toggle" aria-haspopup="true" aria-expanded="false" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Makers)}>
-                                        {vehicleObj ? this.state.model.name : "Select a Manufacturer"}
+                                        {this.state.make ? this.state.make.name : "Select a Manufacturer"}
                                     </button>
                                 </div>
-                                {/*<select defaultValue={vehicleObj ? vehicleObj.model.id : "Select a model"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
-                                    {this.props.ModelList.map(model => (<option className="dropdown-item" value={model.id}>{model.name}</option>))}
-                                </select>*/}
                             </div>
                         </div>
 
@@ -177,12 +174,9 @@ class VehicleDetail extends React.Component {
                                 <Label>Model</Label><br />
                                 <div class="btn-grp dropright">
                                     <button type="button" class="btn btn-block btn-light dropdown-toggle" aria-haspopup="true" aria-expanded="false" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Models)}>
-                                        {vehicleObj ? this.state.model.name : "Select a Model"}
+                                        {this.state.model ? this.state.model.name : "Select a Model"}
                                     </button>
                                 </div>
-                                {/*<select defaultValue={vehicleObj ? vehicleObj.model.id : "Select a model"} className="custom-select my-1 mr-sm-2" name="modelId" onChange={this.onChange}>
-                                        {this.props.ModelList.map(model => (<option className="dropdown-item" value={model.id}>{model.name}</option>))}
-                                    </select>*/}
                             </div>
                         </div>
 
@@ -215,7 +209,7 @@ class VehicleDetail extends React.Component {
             </div>
             <div className="container-fluid">
                 <div className="footerStyle">
-                    <button type="submit" style={{ float: 'left' }}> Create </button>
+                    <button type="submit" style={{ float: 'left' }}> {buttonText} </button>
                 </div>
             </div>
             </Form>
@@ -228,7 +222,8 @@ const mapStateToProps = (state) => {
     return {
         InstitutionList: ["Select an institution", ...state.InstitutionStore.Institutions],
         MakersList: state.VehicleStore.Makes,
-        ModelsList: state.VehicleStore.Models
+        ModelsList: state.VehicleStore.Models,
+        DialogId : state.VehicleStore.selectedId
     }
 
 }

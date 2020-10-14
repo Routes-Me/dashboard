@@ -62,12 +62,12 @@ function StoreMakesData(makes) { return { type: vehicleConstants.getMakes_SUCCES
 
 
 
-export function getModels(Token,makeId) {
+export function getModels(makeId) {
     let pageIndex;
     return dispatch => {
 
         dispatch(ModelDataRequest());
-        apiHandler.get('manufacturers/'+makeId+'/models')
+        apiHandler.get('manufacturers/'+makeId+'/model')
         .then(
                model => {
                         dispatch(storeModelData([config.selectModel,...model.data.data]));
@@ -93,11 +93,11 @@ export function saveVehicle(vehicle,action) {
         if (action== "save") {
             apiHandler.put('vehicles',vehicle)
               .then(
-                    vehicle => {
-                        dispatch(saveVehicleSuccess(returnFormatedVehicles(vehicle.data)));
+                vehicle => {
+                      dispatch(saveVehicleSuccess(returnFormatedVehicles(vehicle.data)));
                     },
                     error => {
-                        alert(error.toString());
+                      alert(error.toString());
                     });
         } 
         else 
@@ -105,10 +105,10 @@ export function saveVehicle(vehicle,action) {
           apiHandler.post('vehicles', vehicle)
               .then(
                     vehicle => {
-                        dispatch(updateVehicleSuccess(vehicle));
+                      dispatch(updateVehicleSuccess(vehicle));
                     },
                     error => {
-                        alert(error.toString());
+                      alert(error.toString());
                     });
         }
     }
@@ -184,7 +184,6 @@ function filterObjecteList(objectList, elements)
   }
   return Objects
 }
-
 
 
 
