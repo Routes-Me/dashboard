@@ -150,7 +150,6 @@
 
 
     .menu > li {
-        display: inline-block;
         float: left;
         height: 30px;
         width: 130px;
