@@ -183,6 +183,7 @@ div.banner4 {
     border: 1px #000;
 }
 
+
 .headerTabStyle button:hover {
     border-bottom: solid 2px #000;
 
@@ -201,6 +202,7 @@ button {
     background-color: #18428f;
     color:white;
     border-radius:4px;
+    border-color: 18428f;
 }
 
     .next {

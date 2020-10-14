@@ -22,13 +22,13 @@ export default class Detail extends Component {
                     <div className="col-md-6">
                         <p className="detail-Subtitle">{this.props.objectType} / {title} </p>
                         <div className="row">
-                        <button className="backBtn" onClick={this.props.show} />
+                        {/*<button className="backBtn" onClick={this.props.show} />*/}
                         <p className="detail-Title"><b>{title}</b></p>
                     </div>
                     </div>
                     <div className="col-md-6">
-                        {/*< DetailHeader objectType={this.props.objectType} object={this.props.object} show={this.props.show} />
-                        <button type="submit" className="btn btn-primary btn-save"> {action} </button>*/}
+                        {/*< DetailHeader objectType={this.props.objectType} object={this.props.object} show={this.props.show} />*/}
+                        <button className="closeCrudBtn" onClick={this.props.show}/>
                     </div>
                  </div>
                 {/*< DetailHeader objectType={this.props.objectType} object={this.props.object} show={this.props.show} />*/}

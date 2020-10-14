@@ -8,6 +8,24 @@
     background-size:contain;
 }
 
+.closeCrudBtn {
+    float: right;
+    background-color: transparent;
+    background-image: url("../../images/close-square-inactive.svg");
+    background-position: 12px 12px;
+    background-repeat: no-repeat;
+    border: transparent;
+    border-radius: 0%;
+    width: 44px;
+    height: 44px;
+}
+
+
+.closeCrudBtn:hover{
+    background-color:#bb141a;
+    background-image: url("../../images/close-square.svg");
+}
+
 .form-group {
     margin-top: 30px;
 }
@@ -16,7 +34,7 @@
 .detail-Title {
     font-size: 35px;
     font-weight: bold;
-    padding-left:14px;
+    padding-left:65px;
 }
 
 .detail-Subtitle {
