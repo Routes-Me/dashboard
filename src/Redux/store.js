@@ -4,7 +4,6 @@ import rootReducer from '../Redux/reducers/Index';
 //import loggerMiddleware from './middleware/logger';
 import { saveState, loadState } from '../util/localStorage';
 
-
 //const store = () => applyMiddleware(loggerMiddleware,thunk)(createStore)(rootReducer);
 
 

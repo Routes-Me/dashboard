@@ -25,10 +25,8 @@ class Vehicles extends Component {
     }
 
     componentDidMount() {
-        //this.populateVehicleData();
-        //this.props.getVehicleModels();
-        this.props.getVehiclesForInstitution(this.props.token);
-    }
+        this.props.getVehiclesForInstitution();
+}
 
 
  
@@ -62,8 +60,6 @@ class Vehicles extends Component {
         this.props.deleteVehicle(vehicleId)
     }
 
-
-   
 
     //Load Vehicles in a table
     renderAllVehicleTable(Vehicles) {
@@ -117,15 +113,6 @@ class Vehicles extends Component {
 
     render() {
 
-
-
-        //let content = this.state.loading ?
-        //    <div><br /><br /><p><em> Loading...</em> </p></div> :
-        //    this.state.failed ?
-        //        <div className="text-danger"><br /><br />
-        //            <em>{this.state.error}</em>
-        //        </div> : this.renderAllVehicleTable(this.state.VehicleList);
-
         let content = this.renderAllVehicleTable(this.props.VehicleList);
 
         return (
@@ -163,8 +150,7 @@ const mapStateToProps = (state) => {
     const vehicles = state.VehicleStore.Vehicles;
 
     return {
-        VehicleList: vehicles,
-        token : state.Login.token
+        VehicleList: vehicles
     }
 
 }

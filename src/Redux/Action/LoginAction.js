@@ -1,15 +1,15 @@
 ﻿import axios from "axios";
 import { history } from "../../helper/history";
 import { userConstants } from "../../constants/userConstants";
+import { MockServerData } from '../../constants/MockServerData';
+
 import jwt from "jsonwebtoken";
 import { encryptAndEncode } from "../../util/encrypt";
 import {setToken, clearStorage} from '../../util/localStorage';
 
 
-
-
 export function userSignInRequest(username, password) {
-  clearStorage();
+  
   return dispatch => {
       dispatch(request({ username, password }));
       let userObject = {
@@ -25,6 +25,7 @@ export function userSignInRequest(username, password) {
                   dispatch(getLoginSuccess(LoggedInUser));
                   setToken(token);
                   dispatch(onReceiveToken(token));
+                  getAutherization(1);
                   history.push('/home');
               },
               error => {
@@ -39,6 +40,21 @@ export function userSignInRequest(username, password) {
   function onReceiveToken(token) { return  {type: userConstants.Login_TokenReceived, payload: token} }
   function getLoginSuccess(payload) { return ({ type: userConstants.Login_SUCCESS, payload }); }
   function failure(error) { return { type: userConstants.Login_FAILURE, error }; }
+
+}
+
+
+//Autherize the logged in user with the userRole
+export function getAutherization(roleId) {
+
+  let navList = MockServerData.NavMenuItems.data;
+  let navObj = navList.filter(x=>x.roleId===roleId);
+
+  return dispatch => {
+      dispatch(storeNavItems(navObj[0].navItems));
+  }
+
+  function storeNavItems(navItems) { return { type: userConstants.getNavItems_SUCCESS, payload: navItems } } ;
 
 }
 

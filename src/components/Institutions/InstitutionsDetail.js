@@ -85,9 +85,6 @@ class InstitutionsDetail extends React.Component {
             this.props.saveInstitution(this.props.token,institution,action);
         }
 
-        
-       
-        
     }
 
     render() {
@@ -97,9 +94,9 @@ class InstitutionsDetail extends React.Component {
         return (
             <div className="container-fluid">
                 <Form onSubmit={e => this.handleSubmit(e)}>
-            <div className="row col-md-12 detail-form">
+            <div className="row col-md-12 detail-form" style={{padding:"0px"}}>
                 
-                    <div class="col-md-10">
+                    <div class="col-md-12">
 
                         <div className="row form-group">
                             <div className="col-md-4">

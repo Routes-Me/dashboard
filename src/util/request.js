@@ -1,5 +1,7 @@
 import axios from "axios";
 import { config } from "../constants/config";
+import { history } from "../helper/history";
+import {getToken, clearStorage} from '../util/localStorage';
 
 const instance = axios.create({
   baseURL: config.Domain,
@@ -8,24 +10,40 @@ const instance = axios.create({
 export async function setAuthorizationToken(token) {
   instance.interceptors.request.use(
     function (config) {
-      // const token = localStorage.getItem("token");
-      if (token) {
+      if (token) 
+      {
         config.headers["Authorization"] = "Bearer " + token;
-      } else if (localStorage.getItem("token") != null) {
-        config.headers["Authorization"] = "Bearer " + localStorage.getItem("token");
+      } 
+      else if (getToken() != null) 
+      {
+        config.headers["Authorization"] = "Bearer " + getToken();
       }
       else
       {
-        window.location.href = '/'
+        history.push('/');
       }
       return config;
     },
     function (error) {
+      history.push('/');
       return Promise.reject(error);
     }
   );
 }
 
+
+instance.interceptors.response.use(
+  function success(param) {
+    console.log(`${param.method} response send from ${param.url} at ${new Date().getTime()}`);
+    return param;
+  },
+  function failure(error) {
+    if(401 === error.response.status)
+    clearStorage();
+    history.push('/');
+    return Promise.reject(error);
+  }
+);
 
 
 export default instance;

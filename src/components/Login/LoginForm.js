@@ -2,10 +2,10 @@
 import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import { isEmail } from 'validator';
-import logo from '../../images/Routes_logo.svg'; // Tell webpack this JS file uses this image
+import logo from '../../images/Routes_logo.svg'; 
 import { connect } from 'react-redux';
 import * as LoginAction from '../../Redux/Action';
-
+import {clearStorage} from '../../util/localStorage'
 
 
 
@@ -15,7 +15,7 @@ import * as LoginAction from '../../Redux/Action';
 
 		super(props);
 
-
+		clearStorage();
 		this.onChange = this.onChange.bind(this);
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.validateAll = this.validateAll.bind(this);

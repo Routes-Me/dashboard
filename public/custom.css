@@ -603,9 +603,9 @@ td {
     border-bottom: 1px solid #dee2e6;
 }
 
-.table-list-vehicles table tbody tr:nth-child(odd) {
+/* .table-list-vehicles table tbody tr:nth-child(odd) {
     background-color: rgba(143, 101, 24, 0.15);
-}
+} */
 
 .table-list-vehicles table tr:hover {
     background-color: rgba(24, 66, 143, 0.15);

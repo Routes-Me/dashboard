@@ -20,10 +20,9 @@ class Primary extends Component
     }
 
     componentDidMount() {
-        
-        // this.props.getAutherization(this.props.user.user_role_id);
+
         this.props.getAutherization(1);
-        this.props.updateNavItem(this.state.selectedNavItem);
+
     }
     
 
@@ -73,16 +72,15 @@ class Primary extends Component
 
 const mapStateToProps = (state) => {
 
-    //console.log("Selected Nav Item : ", state.Login.SelectedNavOption)
     return {
         selectedNavItem: state.Login.SelectedNavOption,
         user: state.Login.user,
-        navItems: state.UserStore.navItems === undefined? []: state.UserStore.navItems
+        navItems: state.Login.navItems === undefined? []: state.Login.navItems
     }
 };
 
 const actionCreators = {
-    getAutherization: UserAction.getAutherization,
+    getAutherization: LoginAction.getAutherization,
     updateNavItem: LoginAction.UpdateNavSelection
 };
 

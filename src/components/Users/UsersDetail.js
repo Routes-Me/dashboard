@@ -69,7 +69,7 @@ class UsersDetail extends React.Component {
             InstitutionId: this.state.InstitutionId,
             Roles:[
                 {
-                     Application: this.state.application.toString(),
+                    Application: this.state.application.toString(),
                     Priviledges: this.state.userRoles.toString()
                }
             ]                                                                                                                                                                                                                                                                                                             
@@ -82,8 +82,6 @@ class UsersDetail extends React.Component {
 
         {this.state.user.userId? action = "save": action = "add"}
 
-        
-
         this.props.saveUser(user,action);
     }
 
@@ -93,9 +91,9 @@ class UsersDetail extends React.Component {
 
         return (
             <div className="container-fluid">
-            <div className="row col-md-12 detail-form">
+            <div className="row col-md-12 detail-form" style={{padding:"0px"}}>
                 <Form onSubmit={e => this.handleSubmit(e)}>
-                    <div className="col-md-10">
+                    <div className="col-md-12">
 
                         <div className="row form-group">
                             <div className="col-md-4">
