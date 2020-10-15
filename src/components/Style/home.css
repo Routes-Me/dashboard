@@ -150,11 +150,13 @@
 
 
     .menu > li {
+        display: flex;
         float: left;
         height: 30px;
         width: 130px;
         line-height: 30px;
     }
+    
 li {
     vertical-align: middle;
     margin: 0 0 10px 0;
@@ -183,28 +185,9 @@ li {
     box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
 }
 
-.modalNew {
-    display: block; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 2; /* Sit on top */
-    left: 0;
-    top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
-    overflow: hidden; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-}
 
-/* Modal Content/Box */
-.modal-content {
-    background-color: #fefefe;
-    margin: 5% auto; /* 15% from the top and centered */
-    padding-top:20px;
-    border: 1px solid #888;
-    width: 50%; /* Could be more or less, depending on screen size */
-    height: 50%;
-}
+
+
 
 /* The Close Button */
 .close {
@@ -244,4 +227,11 @@ form {
     flex-flow: column;
     height: 100%;
     width: 100%;
+}
+
+
+/*right pointing button*/
+
+.btn-grp span {
+    float: right;
 }

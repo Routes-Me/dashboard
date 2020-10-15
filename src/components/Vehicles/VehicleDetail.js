@@ -150,7 +150,7 @@ class VehicleDetail extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-6">
                                 <Label>Year</Label><br />
-                                    <input type="number" min="1900" max="2020" step="1" name="modelYear"
+                                    <input type="number" min="2000" max="2020" step="1" name="modelYear"
                                         value={this.state.modelYear}
                                         onChange={this.onChange}
                                         className="form-control" />
@@ -160,9 +160,9 @@ class VehicleDetail extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-6">
                                 <Label>Make</Label><br />
-                                <div class="btn-grp dropright">
-                                    <button type="button" class="btn btn-block btn-light dropdown-toggle" aria-haspopup="true" aria-expanded="false" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Makers)}>
-                                        {this.state.make ? this.state.make.name : "Select a Manufacturer"}
+                                <div class="btn-grp">
+                                    <button type="button" class="btn btn-block btn-light" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Makers)}>
+                                        {this.state.make ? this.state.make.name : "Select a Manufacturer"}<span className="glyphicon glyphicon-play"/>
                                     </button>
                                 </div>
                             </div>
@@ -172,9 +172,9 @@ class VehicleDetail extends React.Component {
                                 {/*VehicleObj.model.id*/}
                             <div className="col-md-6">
                                 <Label>Model</Label><br />
-                                <div class="btn-grp dropright">
-                                    <button type="button" class="btn btn-block btn-light dropdown-toggle" aria-haspopup="true" aria-expanded="false" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Models)}>
-                                        {this.state.model ? this.state.model.name : "Select a Model"}
+                                <div class="btn-grp">
+                                    <button type="button" class="btn btn-block btn-light" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Models)}>
+                                        {this.state.model ? this.state.model.name : "Select a Model"}<span className="glyphicon glyphicon-play"/>
                                     </button>
                                 </div>
                             </div>

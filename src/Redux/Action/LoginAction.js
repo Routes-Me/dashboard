@@ -2,29 +2,14 @@
 import { history } from "../../helper/history";
 import { userConstants } from "../../constants/userConstants";
 import jwt from "jsonwebtoken";
-import { encryptAndEncode } from "../encrypt";
-import {setAuthorizationToken} from '../../util/request'
+import { encryptAndEncode } from "../../util/encrypt";
+import {setToken, clearStorage} from '../../util/localStorage';
 
-const userObj = {};
 
-export const getLoginSuccess = (payload) => ({
-  type: userConstants.Login_SUCCESS,
-  payload,
-});
 
-export const getLoginFailure = (payload) => ({
-  type: userConstants.Login_FAILURE,
-  payload,
-});
-
-export function getUser() {
-  userObj = localStorage.getItem("user");
-  console.log("User Logged In is : ", userObj);
-  return userObj;
-}
 
 export function userSignInRequest(username, password) {
-  localStorage.clear();
+  clearStorage();
   return dispatch => {
       dispatch(request({ username, password }));
       let userObject = {
@@ -37,26 +22,22 @@ export function userSignInRequest(username, password) {
               response => {
                   const token = response.data.token;
                   const LoggedInUser = jwt.decode(token);
-                  const user = response.data;
-                  localStorage.setItem('user', LoggedInUser);
                   dispatch(getLoginSuccess(LoggedInUser));
-                  localStorage.setItem('jwtToken', token);
+                  setToken(token);
                   dispatch(onReceiveToken(token));
-                  setAuthorizationToken(token)
                   history.push('/home');
               },
               error => {
-                  dispatch(getLoginFailure(error.message.toString()));
+                  dispatch(failure(error.message.toString()));
                   console.log('error message', error.toString());
                   alert(error.toString());
-                  //dispatch(alertActions.error(error.toString()));
               }
           );
   };
 
   function request(user) { return { type: userConstants.Login_REQUEST, user }; }
   function onReceiveToken(token) { return  {type: userConstants.Login_TokenReceived, payload: token} }
-  function success(user) { return { type: userConstants.Login_SUCCESS, user }; }
+  function getLoginSuccess(payload) { return ({ type: userConstants.Login_SUCCESS, payload }); }
   function failure(error) { return { type: userConstants.Login_FAILURE, error }; }
 
 }
@@ -165,8 +146,7 @@ export function logout() {
   //userService.logout();
   return (dispatch) => {
     dispatch(logOutRequest());
-    localStorage.clear();
-    setAuthorizationToken(false);
+    clearStorage();
     dispatch(loggedOut());
   };
 }

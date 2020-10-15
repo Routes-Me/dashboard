@@ -1,8 +1,7 @@
 ﻿import React from 'react';
-import '../Style/CustomStyle.css';
+import '../Style/home.css';
+import '../Dialog/modal.scss';
 import { vehicleConstants } from '../../constants/vehicleConstants';
-import * as VehicleAction from '../../Redux/Action';
-import { connect } from 'react-redux';
 
 class Modal extends React.Component {
 

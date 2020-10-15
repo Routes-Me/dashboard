@@ -1,8 +1,6 @@
-﻿import { MockServerData } from "../../constants/MockServerData";
-import { institutionConstants } from "../../constants/institutionConstants";
+﻿import { institutionConstants } from "../../constants/institutionConstants";
 import { userConstants } from "../../constants/userConstants";
 import {config} from "../../constants/config";
-import axios from "axios";
 import apiHandler from '../../util/request';
 
 

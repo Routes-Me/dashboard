@@ -1,8 +1,8 @@
 ﻿import { createStore, compose, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from '../Redux/reducers/Index';
-import loggerMiddleware from './middleware/logger';
-import { saveState, loadState } from './localStorage';
+//import loggerMiddleware from './middleware/logger';
+import { saveState, loadState } from '../util/localStorage';
 
 
 //const store = () => applyMiddleware(loggerMiddleware,thunk)(createStore)(rootReducer);
@@ -12,14 +12,6 @@ import { saveState, loadState } from './localStorage';
 
 //export default store;
 
-//function saveToLocalStorage(state) {
-//    try {
-//        const serializedState = JSON.stringify(state);
-//        localStorage.setItem('state', serializedState);
-//    } catch (e) {
-//        console.log(e);
-//    }
-//}
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

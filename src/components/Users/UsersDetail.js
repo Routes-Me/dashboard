@@ -4,7 +4,7 @@ import { Label } from 'reactstrap';
 import * as UserAction from '../../Redux/Action';
 import * as InstitutionAction from '../../Redux/Action';
 import Form from 'react-validation/build/form';
-import { encryptAndEncode } from '../../Redux/encrypt';
+import { encryptAndEncode } from '../../util/encrypt';
 
 
 class UsersDetail extends React.Component {

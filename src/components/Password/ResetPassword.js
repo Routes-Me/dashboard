@@ -2,7 +2,7 @@
 import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import { connect } from 'react-redux';
-import * as LoginAction from '../Redux/Action';
+import * as LoginAction from '../../Redux/Action';
 
 class ResetPassword extends Component {
 

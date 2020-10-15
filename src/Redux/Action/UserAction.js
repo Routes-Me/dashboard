@@ -1,6 +1,6 @@
 ﻿import { MockServerData } from '../../constants/MockServerData';
 import { userConstants } from '../../constants/userConstants';
-import axios from 'axios';
+import apiHandler from '../../util/request';
 
 
 
@@ -8,14 +8,9 @@ import axios from 'axios';
 //Get UsersList
 export function getUsers(institutionId, pageIndex) {
 
-    const Token = localStorage.getItem("jwtToken");
-
     return dispatch => {
         dispatch(UsersDataRequest());
-        axios.get(userConstants.Domain + buildURL('users',1,true), {
-            headers: { Authorization: "Bearer " + Token },
-            "Content-Type": "application/json; charset=utf-8",
-        })
+        apiHandler.get(buildURL('users',1,true))
         .then(
                 users => {
                     dispatch(storeUsersData(returnFormatedResponseForUsers(users)));
@@ -40,15 +35,11 @@ function updatePage(pages) { return { type: userConstants.UpdatePage, payload: p
 // delete user
 export function deleteUser(userId)
 {
-  const Token = localStorage.getItem("jwtToken").toString();
   return (dispatch)=>{
     dispatch(deleteUserRequest)
     if(userId!= null)
     {
-      axios.delete(userConstants.Domain + "users/"+userId,{
-        headers: { Authorization: "Bearer " + Token },
-        "Content-Type": "application/json; charset=utf-8",
-      })
+      apiHandler.delete("users/"+userId)
       .then(
         (user) => {
           dispatch(deleteUserSuccess(user));
@@ -177,10 +168,9 @@ export function getApplications(){
 
 //Autherize the logged in user with the userRole
 export function getAutherization(roleId) {
-    
+
     let navList = MockServerData.NavMenuItems.data;
     let navObj = navList.filter(x=>x.roleId===roleId);
-        
 
     return dispatch => {
         dispatch(storeNavItems(navObj[0].navItems));
@@ -193,14 +183,11 @@ export function getAutherization(roleId) {
 
 //Save User Detail
 export function saveUser(user,action) {
-    const Token = localStorage.getItem("jwtToken").toString();
+
     return dispatch => {
         dispatch(saveUserDataRequest);
         if (action === "add") {
-            axios.post(userConstants.Domain + 'signup' , user, {
-                headers: { Authorization: "Bearer " + Token },
-                "Content-Type": "application/json; charset=utf-8",
-              })
+          apiHandler.post('signup', user)
               .then(
                 users => {
                     dispatch(saveUserDataSuccess);
@@ -210,10 +197,7 @@ export function saveUser(user,action) {
                 });
         }
         else {
-            axios.put(userConstants.Domain + 'users' , user,{
-                headers: { Authorization: "Bearer " + Token },
-                "Content-Type": "application/json; charset=utf-8",
-              })
+          apiHandler.put('users' , user)
               .then(
                 users => {
                     dispatch(saveUserDataSuccess);
@@ -222,8 +206,8 @@ export function saveUser(user,action) {
                     alert(error.toString());
                 });
         }
-        
     }
+
 }
 function saveUserDataRequest() { return { type: userConstants.saveUsers_REQUEST } }
 function saveUserDataSuccess() { return { type: userConstants.saveUsers_SUCCESS } }

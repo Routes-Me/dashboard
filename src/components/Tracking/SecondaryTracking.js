@@ -6,11 +6,6 @@ import { connect } from 'react-redux';
 import * as TrackingAction from '../../Redux/Action';
 import { trackingConstants } from '../../constants/trackingConstants';
 
-
-const divStyle = {
-    overflow:'hidden'
-}
-
 class SecondaryTracking extends Component {
 
     constructor(props) {
@@ -129,7 +124,7 @@ class SecondaryTracking extends Component {
                         <div className="search-relative">
                             <input type="text" autoComplete="off" name="search" placeholder="Filter" className="search"></input>
                             <i className="fa fa-search" aria-hidden="true"></i>
-                            <span className="cross-icon"><img src="../cross-image.png" /></span>
+                            <span className="cross-icon"><img alt="close button" src="../cross-image.png" /></span>
                         </div>
                     </div>
 

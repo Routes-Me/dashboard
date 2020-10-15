@@ -1,7 +1,5 @@
 ﻿import { userConstants } from '../../constants/userConstants';
 
-//const user = JSON.parse(localStorage.getItem('user'));
-
 const INITIAL_STATE = {
     loading: false,
     hasError: false,
@@ -15,8 +13,7 @@ const INITIAL_STATE = {
 
 
 const LoginReducer = (state = INITIAL_STATE, action) => { 
-    //console.log("/Login Reducer => state  : ", state);
-    //console.log("/Login Reducer => action : ", action);
+    
     switch (action.type) {
         case userConstants.Login_REQUEST:
             return {

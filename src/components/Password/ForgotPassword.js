@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Input from 'react-validation/build/input';
+// import Input from 'react-validation/build/input';
 import { isEmail } from 'validator';
 import { connect } from 'react-redux';
-import * as LoginAction from '../Redux/Action';
+import * as LoginAction from '../../Redux/Action';
 
  class ForgotPassword extends Component {
     

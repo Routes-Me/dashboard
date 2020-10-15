@@ -136,7 +136,7 @@ export function getOfflineData(Token) {
                 dispatch(OfflineUpdateReceived(returnFormatedVehicles(idleVehicles)));
         },
         error => {
-               alert(error.toString());
+               alert("Offline vehicle ", error.toString());
         });
     }
 
