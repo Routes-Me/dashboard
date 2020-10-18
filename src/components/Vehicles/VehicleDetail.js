@@ -118,6 +118,11 @@ class VehicleDetail extends React.Component {
 
     render() {
 
+        // Render nothing if the "show" prop is false
+        // if (this.props.savedSuccessfully && !this.props.show) {
+        //     return null;
+        // }
+
         const vehicleObj = this.state.vehicleToDisplay;
         const buttonText = vehicleObj ? "Update" : "Add";
         const searchList = this.returnListToSearch();
@@ -134,7 +139,6 @@ class VehicleDetail extends React.Component {
                     objectList={searchList} 
                     onSelect={this.updateSelectedId} />
 
-                    
                         <div class="col-md-12">             
                             <div className="row form-group">
                                 <div className="col-md-4">
@@ -169,7 +173,6 @@ class VehicleDetail extends React.Component {
                         </div>
 
                         <div className="row form-group">
-                                {/*VehicleObj.model.id*/}
                             <div className="col-md-4">
                                 <Label>Model</Label><br />
                                 <div class="btn-grp">
@@ -181,11 +184,10 @@ class VehicleDetail extends React.Component {
                         </div>
 
                         <div className="row form-group">
-                            {/*VehicleObj.model.id*/}
                             <div className="col-md-4">
                                 <Label>Institution</Label><br />
                                 <select defaultValue={this.state.institutionId? this.state.institutionId : "Select a model"} className="custom-select my-1 mr-sm-2" name="institutionId" onChange={this.onChange}>
-                                    {this.props.InstitutionList.map(institution => (<option className="dropdown-item" value={this.state.institutionId}>{institution.name}</option>))}
+                                    {this.props.InstitutionList.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
                                 </select>
                                 
                             </div>
@@ -200,12 +202,10 @@ class VehicleDetail extends React.Component {
                                         onChange={this.onChange}
                                         className="textFieldStyle" />
                                 </div>
-                            </div>
-
-                        */}
+                            </div>*/}
 
                         </div>
-                    
+
             </div>
             <div className="container-fluid">
                 <div className="footerStyle">
@@ -223,7 +223,8 @@ const mapStateToProps = (state) => {
         InstitutionList: ["Select an institution", ...state.InstitutionStore.Institutions],
         MakersList: state.VehicleStore.Makes,
         ModelsList: state.VehicleStore.Models,
-        DialogId : state.VehicleStore.selectedId
+        DialogId : state.VehicleStore.selectedId,
+        savedSuccessfully : state.VehicleStore.Loading
     }
 
 }

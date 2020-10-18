@@ -65,20 +65,19 @@ class InstitutionsDetail extends React.Component {
 
         if(action==="add"){
             const institution = {
-                CountryIso: "KW",
-                PhoneNumber: this.state.phoneNumber,
-                createdAT: "",
                 Name: this.state.name,
+                PhoneNumber: this.state.phoneNumber,
+                CountryIso: "KW",
                 Services: [this.state.services]
             }
-            this.props.saveInstitution(this.props.token,institution,action);
+            this.props.saveInstitution(institution,action);
         }
         else{
             const institution = {
                 InstitutionId:this.state.institution.institutionId,
-                CountryIso: "KW",
-                PhoneNumber: this.state.phoneNumber,
                 Name: this.state.name,
+                PhoneNumber: this.state.phoneNumber,
+                CountryIso: "KW",
                 Services: [this.state.services]
             }
             this.props.saveInstitution(institution,action);

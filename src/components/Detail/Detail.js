@@ -5,11 +5,16 @@ import '../Detail/Detail.css';
 
 export default class Detail extends Component {
 
+    closeDetails(){
+        return null;
+    }
+
+
     render() {
 
         // Render nothing if the "show" prop is false
         if (!this.props.show) {
-            return null;
+            this.closeDetails(this.props.show);
         }
 
         const action = this.props.object ? "Update" : "Add";
@@ -35,7 +40,7 @@ export default class Detail extends Component {
                     </div>
                  </div>
                 {/*< DetailHeader objectType={this.props.objectType} object={this.props.object} show={this.props.show} />*/}
-                <DetailBody objectType={this.props.objectType} object={this.props.object} onClose={this.props.show}/>
+                <DetailBody objectType={this.props.objectType} object={this.props.object} onClose={this.closeDetails()}/>
             </div>
             )
     }

@@ -22,7 +22,7 @@ export async function setAuthorizationToken(token) {
       {
         history.push('/');
       }
-      // config.headers["Content-Type"] = "application/json; charset=utf-8";
+      config.headers["Content-Type"] = "application/json; charset=utf-8";
       return config;
     },
     function (error) {
@@ -39,9 +39,11 @@ instance.interceptors.response.use(
     return param;
   },
   function failure(error) {
-    if(401 === error.response.status)
-    clearStorage();
-    history.push('/');
+    if(error.response.status === 401)
+    {
+      clearStorage();
+      history.push('/');
+    }
     return Promise.reject(error);
   }
 );

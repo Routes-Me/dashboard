@@ -69,8 +69,8 @@ class UsersDetail extends React.Component {
             InstitutionId: this.state.InstitutionId,
             Roles:[
                 {
-                    Application: this.state.application.toString(),
-                    Priviledges: this.state.userRoles.toString()
+                    ApplicationId: this.state.application.toString(),
+                    PrivilegeId: this.state.userRoles.toString()
                }
             ]                                                                                                                                                                                                                                                                                                             
         }
@@ -86,6 +86,11 @@ class UsersDetail extends React.Component {
     }
 
     render() {
+        // Render nothing if the "show" prop is false
+        if (this.props.savedSuccessfully && !this.props.show) {
+            return null;
+        }
+        
         const userObj = this.state.user;
         const buttonText = userObj ? "Update" : "Add";
 
@@ -193,7 +198,8 @@ const mapStateToProps = (state) => {
     return {
         UserRolesList       : state.UserStore.UserRoles,
         ApplicationsList    : state.UserStore.Applications,
-        InstitutionList     : state.InstitutionStore.Institutions
+        InstitutionList     : state.InstitutionStore.Institutions,
+        savedSuccessfully : state.UserStore.Loading
     }
 
 }

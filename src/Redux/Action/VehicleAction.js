@@ -94,8 +94,8 @@ export function saveVehicle(vehicle,action) {
         if (action== "save") {
             apiHandler.put('vehicles',vehicle)
               .then(
-                vehicle => {
-                      dispatch(saveVehicleSuccess(returnFormatedVehicles(vehicle.data)));
+                  vehicle => {
+                      dispatch(saveVehicleSuccess(vehicle));
                     },
                     error => {
                       alert(error.toString());
@@ -105,7 +105,7 @@ export function saveVehicle(vehicle,action) {
         {
           apiHandler.post('vehicles', vehicle)
               .then(
-                    vehicle => {
+                  vehicle => {
                       dispatch(updateVehicleSuccess(vehicle));
                     },
                     error => {
@@ -133,8 +133,8 @@ export function deleteVehicle(vehicleId)
       apiHandler.delete(`vehicles/${vehicleId}`)
       .then(
         (vehicle) => {
-          dispatch(deleteVehicleSuccess(vehicle));
           getVehiclesForInstitutionID();
+          dispatch(deleteVehicleSuccess(vehicle));
         },
         (error) => {
           alert(error.toString());

@@ -2,6 +2,7 @@
 import { userConstants } from "../../constants/userConstants";
 import {config} from "../../constants/config";
 import apiHandler from '../../util/request';
+import axios from "axios";
 
 
 //Get Institution list
@@ -66,10 +67,13 @@ function returnFormatedResponseForInstitutions(response) {
 
 function filterServiceList(servicesList, services)
 {
-  let Services = "";
-  if( services !== undefined && servicesList.length > 0)
+  let Services = [];
+  if( services !== null && servicesList.length > 0)
   {
-    Services = servicesList.filter(y => y.include(services));
+    for(var i=0; i<services.length; i++){
+      Services.push(servicesList.filter(y => y.ServiceId===services[i]));
+    }
+    
   }
   else
   {
@@ -85,11 +89,16 @@ function UpdatetheServiceList(services) {
 //Save Institution Detail
 export function saveInstitution(institution,action) {
   
+  let token ='eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI2IiwiTmFtZSI6Im1hbmFnZXIiLCJFbWFpbCI6Im5pcm1hbDAwMTEyMzUzZDQxQGdtYWlsLmNvbSIsIlBob25lTnVtYmVyIjoiIiwiUGFzc3dvcmQiOiJSNWxHOXVNUldoZz0uYU4wbnM3eXU1bUFucVFHVUhtOEVqYVlPejRZczIyNUlUYlRtaEg1alYwbz0iLCJSb2xlcyI6Ilt7XCJBcHBsaWNhdGlvblwiOlwic2NyZWVuXCIsXCJQcml2aWxlZ2VcIjpcInN1cGVyXCJ9XSIsIkluc3RpdHV0aW9uSWQiOiIiLCJleHAiOjE2MTc2NDA1NDIsImlzcyI6IlRyYWNrU2VydmljZSIsImF1ZCI6IlRyYWNrU2VydmljZSJ9.Nf-aRwcGYRWU7xju5r9XEmJlYLdfD0o2ypH68P1k0ag'
+
   return (dispatch) => {
     dispatch(saveInstitutionRequest);
     if (action== "save") {                                                                                                                                                                                                       
       //Update
-      apiHandler.put("institutions", institution)
+      axios.put(userConstants.Domain+"institutions", institution,{
+        headers: { Authorization: "Bearer " + token },
+        "Content-Type": "application/json; charset=utf-8",
+      })
       .then(
         (institution) => {
           dispatch(saveInstitutionSuccess(institution.data));
@@ -101,7 +110,10 @@ export function saveInstitution(institution,action) {
     } 
     else {
       //Create
-      apiHandler.post("institutions" , institution)
+      axios.post(userConstants.Domain+"institutions" , institution,{
+        headers: { Authorization: "Bearer " + token },
+        "Content-Type": "application/json; charset=utf-8",
+      })
       .then(
         (institution) => {
           dispatch(saveInstitutionSuccess);
@@ -129,8 +141,8 @@ export function DeleteInstitution(institutionId)
       apiHandler.delete("institutions/"+institutionId)
       .then(
         (institution) => {
+          getInstitutions();
           dispatch(deleteInstitutionSuccess(institution.data));
-          getInstitutions()
         },
         (error) => {
           alert(error.toString());

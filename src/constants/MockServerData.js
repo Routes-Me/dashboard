@@ -349,7 +349,7 @@
                 "value" :"driver" 
             },
             {
-                "id":"dashboard",
+                "id":1,
                 "value":"dashboard"
             },
             {
@@ -370,7 +370,7 @@
             "value" :"chife" 
         },
         {
-            "id"    : "super",
+            "id"    : 1,
             "value" : "super" 
         },
         {

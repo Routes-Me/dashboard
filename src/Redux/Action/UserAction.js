@@ -32,6 +32,59 @@ function storeUsersData(Users) { return { type: userConstants.getUsers_SUCCESS, 
 function updatePage(pages) { return { type: userConstants.UpdatePage, payload: pages } }
 
 
+
+// get User Roles
+export function getPriviledges() {
+  return dispatch => {  
+    apiHandler.get(buildURL('privileges',1,false))
+        .then(
+            priviledges => {
+                    dispatch(storeUsersData(storeUserRoles(priviledges.data)));
+                },
+                error => {
+                    alert(error.toString());
+                }
+            );
+    dispatch(storeUserRoles(MockServerData.Priviledges.data))
+  }
+  function storeUserRoles(roles) { return { type: userConstants.update_USERROLES, payload: roles } };
+
+}
+
+// get applications
+export function getApplications(){
+
+  return dispatch => { 
+    apiHandler.get(buildURL('applications',1,false))
+        .then(
+          applications =>{
+                    dispatch(storeUsersData(storeApplications(applications.data)));
+                },
+                error =>{
+                    alert(error.toString());
+                }
+        );
+    dispatch(storeApplications(MockServerData.Applications.data)) 
+  }
+  function storeApplications(apps){ return {type:userConstants.update_APPLICATIONS, payload:apps }};
+
+}
+
+//Autherize the logged in user with the userRole
+export function getAutherization(roleId) {
+
+  let navList = MockServerData.NavMenuItems.data;
+  let navObj = navList.filter(x=>x.roleId===roleId);
+
+  return dispatch => {
+      dispatch(storeNavItems(navObj[0].navItems));
+  }
+
+  function storeNavItems(navItems) { return { type: userConstants.getNavItems_SUCCESS, payload: navItems } } ;
+
+}
+
+
 // delete user
 export function deleteUser(userId)
 {
@@ -151,35 +204,6 @@ function returnFormatedResponseForUsers(response) {
 }
 
 
-// get User Roles
-export function getPriviledges() {
-
-    return dispatch => {  dispatch(storeUserRoles(MockServerData.Priviledges.data)) }
-    function storeUserRoles(roles) { return { type: userConstants.update_USERROLES, payload: roles } };
-
-}
-
-// get applications
-export function getApplications(){
-
-    return dispatch => { dispatch(storeApplications(MockServerData.Applications.data)) }
-    function storeApplications(apps){ return {type:userConstants.update_APPLICATIONS, payload:apps}};
-
-}
-
-//Autherize the logged in user with the userRole
-export function getAutherization(roleId) {
-
-    let navList = MockServerData.NavMenuItems.data;
-    let navObj = navList.filter(x=>x.roleId===roleId);
-
-    return dispatch => {
-        dispatch(storeNavItems(navObj[0].navItems));
-    }
-
-    function storeNavItems(navItems) { return { type: userConstants.getNavItems_SUCCESS, payload: navItems } } ;
-
-}
 
 
 //Save User Detail
