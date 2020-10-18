@@ -75,19 +75,24 @@ class InstitutionsDetail extends React.Component {
         }
         else{
             const institution = {
-                institutionId:this.state.institution.institutionId,
+                InstitutionId:this.state.institution.institutionId,
                 CountryIso: "KW",
                 PhoneNumber: this.state.phoneNumber,
-                createdAT: "",
                 Name: this.state.name,
                 Services: [this.state.services]
             }
-            this.props.saveInstitution(this.props.token,institution,action);
+            this.props.saveInstitution(institution,action);
         }
 
     }
 
     render() {
+
+        // Render nothing if the "show" prop is false
+        if (this.props.savedSuccessfully && !this.props.show) {
+            return null;
+        }
+
         const institutionObj = this.state.institution;
         const buttonText = institutionObj ? "Update" : "Add";
 
@@ -149,7 +154,8 @@ const mapStateToProps = (state) => {
 
     return {
         servicesList: state.InstitutionStore.Services,
-        token : state.Login.token
+        token : state.Login.token,
+        savedSuccessfully : state.InstitutionStore.Loading
     }
 
 }

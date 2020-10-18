@@ -43,6 +43,7 @@ export function deleteUser(userId)
       .then(
         (user) => {
           dispatch(deleteUserSuccess(user));
+          getUsers();
         },
         (error) => {
           alert(error.toString());

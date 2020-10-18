@@ -22,6 +22,7 @@ export async function setAuthorizationToken(token) {
       {
         history.push('/');
       }
+      // config.headers["Content-Type"] = "application/json; charset=utf-8";
       return config;
     },
     function (error) {

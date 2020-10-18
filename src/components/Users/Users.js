@@ -92,7 +92,7 @@ class Users extends Component {
                                             </div>
                                                 <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === user.userId ? 'inline-block' : 'none' }}>
                                                     <li><a onClick={e => this.showDetailScreen(e, user)}>Edit</a></li>
-                                                    <li><a>Delete</a></li>
+                                                    <li><a onClick={e=> this.deleteUser(e, user.userId)}>Delete</a></li>
                                                 </ul>
                                             </div>
                                         </td>

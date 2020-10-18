@@ -71,6 +71,7 @@ export function getModels(makeId) {
         .then(
                model => {
                         dispatch(storeModelData([config.selectModel,...model.data.data]));
+                        getVehiclesForInstitutionID();
                     },
                error => {
                         alert(`getModels ${error.toString()}`);
@@ -133,6 +134,7 @@ export function deleteVehicle(vehicleId)
       .then(
         (vehicle) => {
           dispatch(deleteVehicleSuccess(vehicle));
+          getVehiclesForInstitutionID();
         },
         (error) => {
           alert(error.toString());
