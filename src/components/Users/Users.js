@@ -70,7 +70,7 @@ class Users extends Component {
                                 <th>NAME</th>
                                 <th>EMAIL</th>
                                 <th>PHONE</th>
-                                <th>ROLE</th>
+                                <th>CREATED AT</th>
                                 <th className="width44" />
                             </tr>
                         </thead>

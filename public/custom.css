@@ -757,15 +757,18 @@ img {
     -ms-user-select: none;
 }
 
-@media (min-width: 1399px) {
+
+
+
+@media (max-width: 1399px) {
     .search-main {
-        height: 41vh;
+        height: 70vh;
     }
 }
 
 @media (min-width: 1440px) {
     .search-main {
-        height: 41vh;
+        height: 80vh;
     }
 }
 

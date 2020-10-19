@@ -97,7 +97,8 @@ export function saveInstitution(institution,action) {
       //Update
       axios.put(userConstants.Domain+"institutions", institution,{
         headers: { Authorization: "Bearer " + token },
-        "Content-Type": "application/json; charset=utf-8",
+        "Content-Type": "application/json",
+        "application":"dashboard"
       })
       .then(
         (institution) => {

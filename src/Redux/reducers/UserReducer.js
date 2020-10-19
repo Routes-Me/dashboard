@@ -2,7 +2,7 @@
 
 const INITIAL_STATE = {
     Users: [],
-    UserRoles: [],
+    Privileges: [],
     Applications: [],
     Page: "",
     Loading: true,
@@ -31,12 +31,12 @@ const UserReducer = (state = INITIAL_STATE, action) => {
                 Laoding: true,
                 hasError: false
             };
-        case userConstants.update_USERROLES:
+        case userConstants.update_PRIVILEGES:
             return {
                 ...state,
                 Loading: true,
                 hasError: false,
-                UserRoles: action.payload
+                Privileges: action.payload
             };
         case userConstants.getApplications_REQUEST:
             return {

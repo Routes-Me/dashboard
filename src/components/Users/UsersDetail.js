@@ -5,6 +5,7 @@ import * as UserAction from '../../Redux/Action';
 import * as InstitutionAction from '../../Redux/Action';
 import Form from 'react-validation/build/form';
 import { encryptAndEncode } from '../../util/encrypt';
+import {config} from "../../constants/config";
 
 
 class UsersDetail extends React.Component {
@@ -47,7 +48,7 @@ class UsersDetail extends React.Component {
                     name: props.userToDisplay.name,
                     email: props.userToDisplay.email,
                     phone: props.userToDisplay.phone,
-                    application: props.userToDisplay.application,
+                    roles: props.userToDisplay.roles,
                     InstitutionId: props.userToDisplay.InstitutionId
 
                 }
@@ -87,9 +88,9 @@ class UsersDetail extends React.Component {
 
     render() {
         // Render nothing if the "show" prop is false
-        if (this.props.savedSuccessfully && !this.props.show) {
-            return null;
-        }
+        // if (this.props.savedSuccessfully && !this.props.show) {
+        //     return null;
+        // }
         
         const userObj = this.state.user;
         const buttonText = userObj ? "Update" : "Add";
@@ -127,15 +128,6 @@ class UsersDetail extends React.Component {
 
                         <div className="row form-group">
                             <div className="col-md-4">
-                                <Label>Role</Label><br />
-                                <select defaultValue={userObj ? userObj.userRoleId : "Select a role"} className="custom-select my-1 mr-sm-2" name="userRoles" onChange={this.onChange}>
-                                    {this.props.UserRolesList.map(role => (<option key={role.id} className="dropdown-item" value={role.id}>{role.value}</option>))}
-                                </select>
-                            </div>
-                        </div>
-
-                        <div className="row form-group">
-                            <div className="col-md-4">
                                 <Label>Email</Label><br />
                                 <input type="text" name="email"
                                     placeholder={userObj === undefined ? "" : userObj.email}
@@ -162,7 +154,16 @@ class UsersDetail extends React.Component {
                             <div className="col-md-4">
                                 <Label>Applications</Label><br />
                                 <select defaultValue={userObj ? userObj.userRoleId : "Select a role"} className="custom-select my-1 mr-sm-2" name="application" onChange={this.onChange}>
-                                    {this.props.ApplicationsList.map(application => (<option key={application.id} className="dropdown-item" value={application.id}>{application.value}</option>))}
+                                    {this.props.ApplicationsList.map(application => (<option key={application.applicationId} className="dropdown-item" value={application.applicationId}>{application.name}</option>))}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="row form-group">
+                            <div className="col-md-4">
+                                <Label>Privilege</Label><br />
+                                <select defaultValue={userObj ? userObj.userRoleId : "Select a role"} className="custom-select my-1 mr-sm-2" name="userRoles" onChange={this.onChange}>
+                                    {this.props.PrivilegeList.map(privilege => (<option key={privilege.privilegeId} className="dropdown-item" value={privilege.privilegeId}>{privilege.name}</option>))}
                                 </select>
                             </div>
                         </div>
@@ -196,10 +197,10 @@ class UsersDetail extends React.Component {
 const mapStateToProps = (state) => {
     
     return {
-        UserRolesList       : state.UserStore.UserRoles,
-        ApplicationsList    : state.UserStore.Applications,
-        InstitutionList     : state.InstitutionStore.Institutions,
-        savedSuccessfully : state.UserStore.Loading
+        PrivilegeList       : [config.selectPrivilege,...state.UserStore.Privileges],
+        ApplicationsList    : [config.selectApplication,...state.UserStore.Applications],
+        InstitutionList     : [config.selectInstitution,...state.InstitutionStore.Institutions],
+        savedSuccessfully   : state.UserStore.Loading
     }
 
 }

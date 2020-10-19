@@ -4,7 +4,6 @@ import apiHandler from '../../util/request';
 
 
 
-
 //Get UsersList
 export function getUsers(institutionId, pageIndex) {
 
@@ -39,15 +38,15 @@ export function getPriviledges() {
     apiHandler.get(buildURL('privileges',1,false))
         .then(
             priviledges => {
-                    dispatch(storeUsersData(storeUserRoles(priviledges.data)));
+                    dispatch(storeUserRoles(priviledges.data.data));
                 },
                 error => {
                     alert(error.toString());
                 }
             );
-    dispatch(storeUserRoles(MockServerData.Priviledges.data))
+    //dispatch(storeUserRoles(MockServerData.Priviledges.data))
   }
-  function storeUserRoles(roles) { return { type: userConstants.update_USERROLES, payload: roles } };
+  function storeUserRoles(roles) { return { type: userConstants.update_PRIVILEGES, payload: roles } };
 
 }
 
@@ -58,13 +57,13 @@ export function getApplications(){
     apiHandler.get(buildURL('applications',1,false))
         .then(
           applications =>{
-                    dispatch(storeUsersData(storeApplications(applications.data)));
+                    dispatch(storeApplications(applications.data.data));
                 },
                 error =>{
                     alert(error.toString());
                 }
         );
-    dispatch(storeApplications(MockServerData.Applications.data)) 
+    //dispatch(storeApplications(MockServerData.Applications.data)) 
   }
   function storeApplications(apps){ return {type:userConstants.update_APPLICATIONS, payload:apps }};
 
@@ -196,7 +195,7 @@ function returnFormatedResponseForUsers(response) {
         email: x.email,
         phone: x.phone,
         createdAt: x.createdAt,
-        application:x.application
+        roles:x.roles
       //services: servicesList.filter((y) => y.include(x.services))
     }));
   
