@@ -187,7 +187,6 @@ function returnQueryParamters(offset, include) {
 
 function returnFormatedResponseForUsers(response) {
     const usersList = response.data.data;
-    // const servicesList = response.data.included.services;
   
         const formatedUsers = usersList.map((x) => ({
         userId: x.userId,
@@ -196,7 +195,6 @@ function returnFormatedResponseForUsers(response) {
         phone: x.phone,
         createdAt: x.createdAt,
         roles:x.roles
-      //services: servicesList.filter((y) => y.include(x.services))
     }));
   
     return formatedUsers;

@@ -106,7 +106,7 @@ class UsersDetail extends React.Component {
                                 <Label>Name</Label><br />
                                 <input type="text" name="name"
                                     placeholder={userObj === undefined ? "" : userObj.email}
-                                    value={userObj.email}
+                                    value={this.state.email}
                                     onChange={this.onChange}
                                     className="form-control" />
                                 <span className="form-error is-visible">{this.state.errorText}</span>
@@ -118,7 +118,7 @@ class UsersDetail extends React.Component {
                                 <Label>Password</Label><br />
                                 <input type="text" name="password"
                                     placeholder={userObj === undefined ? "" : userObj.password}
-                                    value={userObj.password}
+                                    value={this.state.password}
                                     onChange={this.onChange}
                                     className="form-control" />
                                 <span className="form-error is-visible">{this.state.errorText}</span>
@@ -131,7 +131,7 @@ class UsersDetail extends React.Component {
                                 <Label>Email</Label><br />
                                 <input type="text" name="email"
                                     placeholder={userObj === undefined ? "" : userObj.email}
-                                    value={userObj.email}
+                                    value={this.state.email}
                                     onChange={this.onChange}
                                     className="form-control" />
                                 <span className="form-error is-visible">{this.state.errorText}</span>
@@ -143,7 +143,7 @@ class UsersDetail extends React.Component {
                                 <Label>Phone</Label><br />
                                 <input type="text" name="phone"
                                     placeholder={userObj === undefined ? "" : userObj.phone}
-                                    defaultValue={userObj.phone}
+                                    defaultValue={this.state.phone}
                                     onChange={this.onChange}
                                     className="form-control" />
                                 <span className="form-error is-visible">{this.state.errorText}</span>
@@ -153,7 +153,7 @@ class UsersDetail extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-4">
                                 <Label>Applications</Label><br />
-                                <select defaultValue={userObj ? userObj.userRoleId : "Select a role"} className="custom-select my-1 mr-sm-2" name="application" onChange={this.onChange}>
+                                <select defaultValue={userObj ? this.state.roles[0].applicationId : "Select a role"} className="custom-select my-1 mr-sm-2" name="application" onChange={this.onChange}>
                                     {this.props.ApplicationsList.map(application => (<option key={application.applicationId} className="dropdown-item" value={application.applicationId}>{application.name}</option>))}
                                 </select>
                             </div>
@@ -162,7 +162,7 @@ class UsersDetail extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-4">
                                 <Label>Privilege</Label><br />
-                                <select defaultValue={userObj ? userObj.userRoleId : "Select a role"} className="custom-select my-1 mr-sm-2" name="userRoles" onChange={this.onChange}>
+                                <select defaultValue={userObj ?this.state.roles[0].privilegeId : "Select a role"} className="custom-select my-1 mr-sm-2" name="userRoles" onChange={this.onChange}>
                                     {this.props.PrivilegeList.map(privilege => (<option key={privilege.privilegeId} className="dropdown-item" value={privilege.privilegeId}>{privilege.name}</option>))}
                                 </select>
                             </div>
@@ -171,7 +171,7 @@ class UsersDetail extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-4">
                                 <Label>Institution</Label><br />
-                                <select defaultValue={userObj ? userObj.institutionId : "Select a institution"} className="custom-select my-1 mr-sm-2" name="InstitutionId" onChange={this.onChange}>
+                                <select defaultValue={userObj ? this.state.institutionId : "Select a institution"} className="custom-select my-1 mr-sm-2" name="InstitutionId" onChange={this.onChange}>
                                     {this.props.InstitutionList.map(institution => (<option key={institution.institutionId} className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
                                 </select>
                             </div>

@@ -6,6 +6,7 @@ import * as InstitutionAction from '../../Redux/Action';
 import Form from 'react-validation/build/form';
 import Modal from '../Dialog/Modal';
 import { vehicleConstants } from "../../constants/vehicleConstants";
+import {config} from "../../constants/config";
 
 class VehicleDetail extends React.Component {
 
@@ -220,7 +221,7 @@ class VehicleDetail extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        InstitutionList: ["Select an institution", ...state.InstitutionStore.Institutions],
+        InstitutionList: [config.selectInstitution, ...state.InstitutionStore.Institutions],
         MakersList: state.VehicleStore.Makes,
         ModelsList: state.VehicleStore.Models,
         DialogId : state.VehicleStore.selectedId,

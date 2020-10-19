@@ -68,7 +68,7 @@ class InstitutionsDetail extends React.Component {
                 Name: this.state.name,
                 PhoneNumber: this.state.phoneNumber,
                 CountryIso: "KW",
-                Services: [this.state.services]
+                Services: this.state.services
             }
             this.props.saveInstitution(institution,action);
         }
@@ -78,7 +78,7 @@ class InstitutionsDetail extends React.Component {
                 Name: this.state.name,
                 PhoneNumber: this.state.phoneNumber,
                 CountryIso: "KW",
-                Services: [this.state.services]
+                Services: this.state.services
             }
             this.props.saveInstitution(institution,action);
         }
@@ -88,9 +88,9 @@ class InstitutionsDetail extends React.Component {
     render() {
 
         // Render nothing if the "show" prop is false
-        if (this.props.savedSuccessfully && !this.props.show) {
-            return null;
-        }
+        // if (this.props.savedSuccessfully && !this.props.show) {
+        //     return null;
+        // }
 
         const institutionObj = this.state.institution;
         const buttonText = institutionObj ? "Update" : "Add";
