@@ -25,6 +25,7 @@ class Vehicles extends Component {
     }
 
     componentDidMount() {
+        console.log("vehicle list component did mount!")
         this.props.getVehiclesForInstitution();
 }
 

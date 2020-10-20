@@ -4,14 +4,13 @@ import { advertisementsConstants } from '../../constants/advertisementConstants'
 //import { resizeFile } from '../../util/Compress';
 import Resizer from 'react-image-file-resizer';
 import { onImageCompress } from '../../util/Compress';
+import apiHandler from '../../util/request';
 
 
 export function getAdvertisements(institutionId, pageIndex) {
     return dispatch => {
         dispatch(request())
-        axios.get(userConstants.Domain + 'advertisements?institutionId' + institutionId, {
-            params: { queryParameter: returnQueryParamters(pageIndex, true) }
-        })
+        apiHandler.get(buildURL('advertisements',1,true))
             .then(
                 response => { dispatch(success(returnFormatedAdvertisements(response))) },
                 error => { dispatch(failure(error)) }
@@ -158,8 +157,22 @@ function returnQueryParamters(offset, include) {
 }
 
 
+function buildURL(entity, offset, include) {
+
+    let queryParameter =""
+    if(include){
+      queryParameter=entity+"?offset="+offset+"&limit="+userConstants.Pagelimit+"&include=media,institution";
+    }
+    else{
+      queryParameter=entity+"?offset="+offset+"&limit="+userConstants.Pagelimit;
+    }
+    return queryParameter;
+
+}
+
+
 function returnFormatedAdvertisements(response) {
-    const AdvertisementList = response.data
+    const AdvertisementList = response.data.data
     const InstitutionList = response.included.institutions
     const MediaList = response.included.medias
 

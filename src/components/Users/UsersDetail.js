@@ -40,7 +40,7 @@ class UsersDetail extends React.Component {
 
     static getDerivedStateFromProps(props, state) {
         if (props.userToDisplay !== undefined) {
-            if (props.userToDisplay !== state.userToDisplay) {
+            if (props.userToDisplay !== state.user) {
                 return {
                     
                     user: props.userToDisplay,
@@ -49,7 +49,7 @@ class UsersDetail extends React.Component {
                     email: props.userToDisplay.email,
                     phone: props.userToDisplay.phone,
                     roles: props.userToDisplay.roles,
-                    InstitutionId: props.userToDisplay.InstitutionId
+                    institutionId: props.userToDisplay.InstitutionId
 
                 }
             }
@@ -67,23 +67,23 @@ class UsersDetail extends React.Component {
             Password: encryptAndEncode(this.state.password) ,
             Email: this.state.email,
             PhoneNumber: this.state.phone,
-            InstitutionId: this.state.InstitutionId,
+            InstitutionId: this.state.institutionId,
             Roles:[
                 {
                     ApplicationId: this.state.application,
                     PrivilegeId: this.state.privilege
-               }
+                }
             ]                                                                                                                                                                                                                                                                                                             
         }
 
         console.log('userObj',user )
-        // this.props.saveUser(user);
 
         let action ="";
 
         {this.state.user.userId? action = "save": action = "add"}
 
         this.props.saveUser(user,action);
+
     }
 
     render() {

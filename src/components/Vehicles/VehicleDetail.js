@@ -28,7 +28,6 @@ class VehicleDetail extends React.Component {
     }
 
     componentDidMount() { 
-        console.log("vehicle detail component did mount!")
         this.props.getInstitutions();
     }
 
@@ -45,7 +44,7 @@ class VehicleDetail extends React.Component {
                     institutionId: props.vehicleToDisplay.institution?.InstitutionId,
                     modelYear: props.vehicleToDisplay.modelYear,
                     model: props.vehicleToDisplay.model,
-                    make: props.vehicleToDisplay.make,
+                    make: props.vehicleToDisplay.model.Manufacturers[0],
                     deviceId: props.vehicleToDisplay.deviceId,
                     plateNumber: props.vehicleToDisplay.plateNumber
                 }
@@ -68,7 +67,7 @@ class VehicleDetail extends React.Component {
                 PlateNumber: this.state.plateNumber,
                 InstitutionId: this.state.institutionId,
                 modelYear: this.state.modelYear,
-                modelId: this.state.model.modelId
+                modelId: this.state.model.ModelId
             }
         }
         else{
@@ -78,12 +77,12 @@ class VehicleDetail extends React.Component {
                 PlateNumber: this.state.plateNumber,
                 InstitutionId: this.state.institutionId,
                 modelYear: this.state.modelYear,
-                modelId: this.state.model.modelId
+                modelId: this.state.model.ModelId
             }
         }
-        
 
         this.props.saveVehicle(vehicle,action);
+
     }
 
 
@@ -166,7 +165,7 @@ class VehicleDetail extends React.Component {
                             <div className="col-md-4">
                                 <Label>Make</Label><br />
                                 <div class="btn-grp">
-                                    <button type="button" class="btn btn-block btn-light" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Makers)}>
+                                    <button type="button" class="btn btn-block btn-light text-left" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Makers)}>
                                         {this.state.make ? this.state.make.name : "Select a Manufacturer"}<span className="glyphicon glyphicon-play"/>
                                     </button>
                                 </div>
@@ -177,7 +176,7 @@ class VehicleDetail extends React.Component {
                             <div className="col-md-4">
                                 <Label>Model</Label><br />
                                 <div class="btn-grp">
-                                    <button type="button" class="btn btn-block btn-light" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Models)}>
+                                    <button type="button" class="btn btn-block btn-light text-left" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Models)}>
                                         {this.state.model ? this.state.model.name : "Select a Model"}<span className="glyphicon glyphicon-play"/>
                                     </button>
                                 </div>

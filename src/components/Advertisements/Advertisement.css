@@ -160,7 +160,7 @@ div.banner4 {
 }
 
 .footerStyle {
-    left: 330px;
+    left: 283px;
     background-color: #fff;
     box-shadow: 0 -0.3px 0 rgba(0, 0, 0, 0.5);
     font-size: 18px;
@@ -177,6 +177,7 @@ div.banner4 {
 .footerStyle button {
     width:183px;
     height:44px;
+    margin-left: 40px;
 }
 
 .btnExtra {
