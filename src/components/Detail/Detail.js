@@ -5,9 +5,7 @@ import '../Detail/Detail.css';
 
 export default class Detail extends Component {
 
-    closeDetails(){
-        return null;
-    }
+    closeDetails = () => null;
 
 
     render() {
@@ -40,7 +38,7 @@ export default class Detail extends Component {
                     </div>
                  </div>
                 {/*< DetailHeader objectType={this.props.objectType} object={this.props.object} show={this.props.show} />*/}
-                <DetailBody objectType={this.props.objectType} object={this.props.object} onClose={this.closeDetails()}/>
+                <DetailBody objectType={this.props.objectType} object={this.props.object} onClose={this.closeDetails}/>
             </div>
             )
     }

@@ -100,7 +100,7 @@ class Institutions extends Component {
                     </table>
                 </div>
             </div>
-            )
+        )
     }
 
 

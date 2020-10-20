@@ -21,7 +21,7 @@ class UsersDetail extends React.Component {
             role: "",
             phone:"",
             user: '',
-            userRoles: '',
+            privilege: '',
             application: '',
             errorText:"",
             password:""
@@ -70,8 +70,8 @@ class UsersDetail extends React.Component {
             InstitutionId: this.state.InstitutionId,
             Roles:[
                 {
-                    ApplicationId: this.state.application.toString(),
-                    PrivilegeId: this.state.userRoles.toString()
+                    ApplicationId: this.state.application,
+                    PrivilegeId: this.state.privilege
                }
             ]                                                                                                                                                                                                                                                                                                             
         }
@@ -105,8 +105,7 @@ class UsersDetail extends React.Component {
                             <div className="col-md-4">
                                 <Label>Name</Label><br />
                                 <input type="text" name="name"
-                                    placeholder={userObj === undefined ? "" : userObj.email}
-                                    value={this.state.email}
+                                    value={this.state.name}
                                     onChange={this.onChange}
                                     className="form-control" />
                                 <span className="form-error is-visible">{this.state.errorText}</span>
@@ -117,7 +116,6 @@ class UsersDetail extends React.Component {
                             <div className="col-md-4">
                                 <Label>Password</Label><br />
                                 <input type="text" name="password"
-                                    placeholder={userObj === undefined ? "" : userObj.password}
                                     value={this.state.password}
                                     onChange={this.onChange}
                                     className="form-control" />
@@ -130,7 +128,6 @@ class UsersDetail extends React.Component {
                             <div className="col-md-4">
                                 <Label>Email</Label><br />
                                 <input type="text" name="email"
-                                    placeholder={userObj === undefined ? "" : userObj.email}
                                     value={this.state.email}
                                     onChange={this.onChange}
                                     className="form-control" />
@@ -142,7 +139,6 @@ class UsersDetail extends React.Component {
                             <div className="col-md-4">
                                 <Label>Phone</Label><br />
                                 <input type="text" name="phone"
-                                    placeholder={userObj === undefined ? "" : userObj.phone}
                                     defaultValue={this.state.phone}
                                     onChange={this.onChange}
                                     className="form-control" />
@@ -162,7 +158,7 @@ class UsersDetail extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-4">
                                 <Label>Privilege</Label><br />
-                                <select defaultValue={userObj ?this.state.roles[0].privilegeId : "Select a role"} className="custom-select my-1 mr-sm-2" name="userRoles" onChange={this.onChange}>
+                                <select defaultValue={userObj ?this.state.roles[0].privilegeId : "Select a role"} className="custom-select my-1 mr-sm-2" name="privilege" onChange={this.onChange}>
                                     {this.props.PrivilegeList.map(privilege => (<option key={privilege.privilegeId} className="dropdown-item" value={privilege.privilegeId}>{privilege.name}</option>))}
                                 </select>
                             </div>

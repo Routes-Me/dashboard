@@ -49,8 +49,8 @@ function buildURL(entity, offset, include) {
 }
 
 function returnFormatedResponseForInstitutions(response) {
-  const institutionsList = response.data.data;
 
+  const institutionsList = response.data.data;
   const servicesList = response.data.included.services;
 
   const formatedInstitutions = institutionsList.map((x) => ({
@@ -63,6 +63,7 @@ function returnFormatedResponseForInstitutions(response) {
   }));
 
   return formatedInstitutions;
+
 }
 
 function filterServiceList(servicesList, services)
@@ -70,16 +71,16 @@ function filterServiceList(servicesList, services)
   let Services = [];
   if( services !== null && servicesList.length > 0)
   {
-    for(var i=0; i<services.length; i++){
-      Services.push(servicesList.filter(y => y.ServiceId===services[i]));
-    }
-    
+    // for(var i=0; i<services.length; i++){
+    //   Services.push(servicesList.filter(y => y.ServiceId===services[i]));
+    // }
+    return services;
   }
   else
   {
     Services =[0];
   }
-  return Services
+  return Services;
 }
 
 function UpdatetheServiceList(services) {
@@ -88,17 +89,12 @@ function UpdatetheServiceList(services) {
 
 //Save Institution Detail
 export function saveInstitution(institution,action) {
-  
-  let token ='eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySWQiOiI2IiwiTmFtZSI6Im1hbmFnZXIiLCJFbWFpbCI6Im5pcm1hbDAwMTEyMzUzZDQxQGdtYWlsLmNvbSIsIlBob25lTnVtYmVyIjoiIiwiUGFzc3dvcmQiOiJSNWxHOXVNUldoZz0uYU4wbnM3eXU1bUFucVFHVUhtOEVqYVlPejRZczIyNUlUYlRtaEg1alYwbz0iLCJSb2xlcyI6Ilt7XCJBcHBsaWNhdGlvblwiOlwic2NyZWVuXCIsXCJQcml2aWxlZ2VcIjpcInN1cGVyXCJ9XSIsIkluc3RpdHV0aW9uSWQiOiIiLCJleHAiOjE2MTc2NDA1NDIsImlzcyI6IlRyYWNrU2VydmljZSIsImF1ZCI6IlRyYWNrU2VydmljZSJ9.Nf-aRwcGYRWU7xju5r9XEmJlYLdfD0o2ypH68P1k0ag'
 
   return (dispatch) => {
     dispatch(saveInstitutionRequest);
     if (action== "save") {                                                                                                                                                                                                       
       //Update
-      axios.put(userConstants.Domain+"institutions", institution,{
-        headers: { Authorization: "Bearer " + token },
-        "Content-Type": "application/json; charset=utf-8",
-      })
+      apiHandler.put("institutions", institution)
       .then(
         (institution) => {
           dispatch(saveInstitutionSuccess(institution.data));
@@ -110,10 +106,7 @@ export function saveInstitution(institution,action) {
     } 
     else {
       //Create
-      axios.post(userConstants.Domain+"institutions" , institution,{
-        headers: { Authorization: "Bearer " + token },
-        "Content-Type": "application/json; charset=utf-8",
-      })
+      apiHandler.post("institutions" , institution)
       .then(
         (institution) => {
           dispatch(saveInstitutionSuccess);
