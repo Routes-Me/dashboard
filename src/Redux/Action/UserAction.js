@@ -196,7 +196,7 @@ function returnFormatedResponseForUsers(response) {
         createdAt: x.createdAt,
         roles:x.roles
     }));
-  
+
     return formatedUsers;
 }
 

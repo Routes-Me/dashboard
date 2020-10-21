@@ -77,6 +77,7 @@ class Advertisements extends Component {
                                         <td>{Advertisement.id}</td>
                                         <td>{Advertisement.resourceName}</td>
                                         <td>{Advertisement.id}</td>
+                                        <td>{Advertisement.createdAt}</td>
                                         <td className="width44" >
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Advertisement.id)}>

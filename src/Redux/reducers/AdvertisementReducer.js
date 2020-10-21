@@ -10,7 +10,7 @@ const INITIAL_STATE = {
     error: null,
     Title: "",
     SubTitle:"",
-    MediaUrl: ""
+    Media: ""
 }
 
 const AdvertisementReducer = (state = INITIAL_STATE, action) => {
@@ -48,13 +48,6 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 hasError: false,
                 Campaigns: action.payload
             };
-        case advertisementsConstants.getDayIntervals_ERROR:
-            return {
-                ...state,
-                loading: false,
-                hasError: true,
-                error: action.payload
-            };
         case advertisementsConstants.getDayIntervals_REQUEST:
             return {
                 ...state,
@@ -67,13 +60,6 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 loading: false,
                 hasError: false,
                 DayIntervals: action.payload
-            };
-        case advertisementsConstants.getDayIntervals_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                hasError: true,
-                error: action.payload
             };
         case advertisementsConstants.saveAdvertisements_REQUEST:
             return {
@@ -105,7 +91,7 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 loading: false,
                 hasError: false,
-                MediaUrl: action.payload
+                Media: action.payload
             };
         case advertisementsConstants.onAdvertisment_MediaError:
             return {

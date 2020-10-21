@@ -137,7 +137,7 @@ class Basic extends React.Component {
 
                             <div className="row form-group">
                                 <div className="col-md-12">
-                                    <Label>Media</Label><br/>
+                                    <Label>Campaigns</Label><br/>
                                     <select multiple="multiple" className="custom-select" size="3" defaultValue={advertisementObj.campaigns}>
                                         {this.props.Campaigns.map(campaign => (<option value={campaign.id}>{campaign.name}</option>))}
                                     </select>
