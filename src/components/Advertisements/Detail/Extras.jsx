@@ -91,7 +91,6 @@ class Extras extends React.Component {
         const advertisementObj = this.state.advertisement;
         return (
             <Form onSubmit={e => this.handleSubmit(e)}>
-                <br/>
                 <label>Routes enables you to add a promoted QR code connected to the advertisement</label>
                 <br />
                     <div className="row">

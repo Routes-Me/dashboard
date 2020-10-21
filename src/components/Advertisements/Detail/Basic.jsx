@@ -101,6 +101,8 @@ class Basic extends React.Component {
         const advertisementObj = this.state.advertisement;
         return (
             <div className="container-fluid">
+                <label>Create an advertisment that runs interactively on taxi screens, Complete the Basics tab then Create to add the advertisment or review each tab for full customization</label>
+                <br />
                 <Form onSubmit={e => this.handleSubmit(e)}>
                     <div className="row">
                         <div className="col-md-12">

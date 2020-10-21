@@ -1,7 +1,6 @@
 ﻿import axios from 'axios';
 import { userConstants } from '../../constants/userConstants';
 import { advertisementsConstants } from '../../constants/advertisementConstants';
-//import { resizeFile } from '../../util/Compress';
 import Resizer from 'react-image-file-resizer';
 import { onImageCompress } from '../../util/Compress';
 import apiHandler from '../../util/request';
@@ -17,7 +16,7 @@ export function getAdvertisements(institutionId, pageIndex) {
             )
     }
     function request() { return { type: advertisementsConstants.getAdvertisements_REQUEST };}
-    function success() { return { type: advertisementsConstants.getAdvertisements_SUCCESS };}
+    function success(response) { return { type: advertisementsConstants.getAdvertisements_SUCCESS, payload:response };}
     function failure(error) { return { type: advertisementsConstants.getAdvertisements_ERROR, payload:error };}
 }
 
@@ -173,11 +172,12 @@ function buildURL(entity, offset, include) {
 
 function returnFormatedAdvertisements(response) {
     const AdvertisementList = response.data.data
-    const InstitutionList = response.included.institutions
-    const MediaList = response.included.medias
+    const InstitutionList = response.data.included.institution
+    const MediaList = response.data.included.media 
 
-    const FormatedAdvertisements = AdvertisementList.map(x => ({
+    const FormatedAdvertisements = AdvertisementList?.map(x => ({
         id: x.advertisementId,
+        resourceName: x.resourceName,
         institution: InstitutionList.filter(y => y.institutionId === x.institutionId)[0],
         media: MediaList.filter(y => y.mediaId === x.mediaId)[0],
         createdAt: x.createdAt

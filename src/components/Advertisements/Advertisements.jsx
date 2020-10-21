@@ -72,10 +72,10 @@ class Advertisements extends Component {
                         </thead>
                         <tbody>
                             {
-                                Advertisements.map(Advertisement => (
+                                Advertisements?.map(Advertisement => (
                                     <tr key={Advertisement.id}>
                                         <td>{Advertisement.id}</td>
-                                        <td>{Advertisement.id}</td>
+                                        <td>{Advertisement.resourceName}</td>
                                         <td>{Advertisement.id}</td>
                                         <td className="width44" >
                                             <div className="edit-popup">
@@ -164,7 +164,7 @@ const mapStateToProps = (state) => {
     const advertisements = state.AdvertisementStore.Advertisements;
 
     return {
-        AdvertisementList: advertisements
+        AdvertisementList: state.AdvertisementStore.Advertisements
     }
 
 }
