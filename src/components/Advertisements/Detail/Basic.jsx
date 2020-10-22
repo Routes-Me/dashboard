@@ -26,7 +26,7 @@ class Basic extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getCampaigns();
+        //this.props.getCampaigns();
         this.props.getDayIntervals();
         //this.props.getInstitutions();
     }
@@ -121,7 +121,7 @@ class Basic extends React.Component {
                                 <div className="col-md-12">
                                     <Label>Day Interval</Label><br />
                                     <select defaultValue={advertisementObj ? this.state.dayInterval : "Select an interval"} className="custom-select my-1 mr-sm-2" name="dayInterval" onChange={this.onChange}>
-                                        {this.props.DayInterval.map(interval => (<option className="dropdown-item" value={interval.Id}>{interval.name}</option>))}
+                                        {this.props.DayInterval.map(interval => (<option className="dropdown-item" value={interval.intervalId}>{interval.title}</option>))}
                                     </select>
                                 </div>
                             </div>
@@ -138,8 +138,8 @@ class Basic extends React.Component {
                             <div className="row form-group">
                                 <div className="col-md-12">
                                     <Label>Campaigns</Label><br/>
-                                    <select multiple="multiple" className="custom-select" size="3" defaultValue={advertisementObj.campaigns}>
-                                        {this.props.Campaigns.map(campaign => (<option value={campaign.id}>{campaign.name}</option>))}
+                                    <select multiple="multiple" className="custom-select" size="5" defaultValue={advertisementObj.campaigns}>
+                                        {this.props.Campaigns.map(campaign => (<option value={campaign.campaignId}>{campaign.title}</option>))}
                                     </select>
                                 </div>
                             </div>

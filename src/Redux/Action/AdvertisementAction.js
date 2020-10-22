@@ -34,7 +34,7 @@ export function getCampaigns() {
         dispatch(getCampaignRequest())
         apiHandler.get('campaigns')
             .then(
-                response => { dispatch(getCampaignsSuccess(response)) },
+                response => { dispatch(getCampaignsSuccess(response.data.data)) },
                 error => { dispatch(getCampaignsFailure(error)) }
             )
     }
@@ -49,12 +49,12 @@ export function getDayIntervals() {
         dispatch(getDayIntervalRequest())
         apiHandler.get('intervals')
             .then(
-                response => { dispatch(getDayIntervalSuccess(response)) },
+                response => { dispatch(getDayIntervalSuccess(response.data.data)) },
                 error => { dispatch(getDayIntervalsFailure(error)) }
             )
     }
     function getDayIntervalRequest() { return { type: advertisementsConstants.getDayIntervals_REQUEST }; }
-    function getDayIntervalSuccess(response) { return { type: advertisementsConstants.getDayIntervalSuccess, payload: response }; }
+    function getDayIntervalSuccess(response) { return { type: advertisementsConstants.getDayIntervals_SUCCESS, payload: response }; }
     function getDayIntervalsFailure(error) { return { type: advertisementsConstants.getDayIntervals_ERROR, payload: error }; }
 }
 
@@ -215,8 +215,7 @@ function returnFormatedAdvertisements(response) {
         createdAt: x.createdAt,
         institution: InstitutionList.filter(y => y.institutionId === x.institutionId)[0],
         media: MediaList.filter(y => y.mediaId === x.mediaId)[0],
-        interval: IntervalList.filter(y=>y.IntervalId === x.intervalId)[0],
-        campaign: CampaignList.filter(y=>y.CampaignId === x.campaignId)[0]
+        interval: IntervalList.filter(y=>y.IntervalId === x.intervalId)[0]
     }))
 
     return FormatedAdvertisements;
