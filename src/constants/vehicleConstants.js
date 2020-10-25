@@ -22,6 +22,8 @@
     deleteVehicle_Success : "DELETEVEHICLE_SUCCESS",
     deleteVehicle_Error   : "DELETEVEHICLE_ERROR",
 
+    onDialogSelection : "ONDIALOG_SELECTION",
+
     updatePage: "UPDATE_PAGE"
 
 }

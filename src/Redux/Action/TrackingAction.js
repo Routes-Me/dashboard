@@ -1,7 +1,7 @@
 ﻿import { trackingConstants } from '../../constants/trackingConstants';
 import * as signalR from '@aspnet/signalr';
-import axios from 'axios';
 import { userConstants } from '../../constants/userConstants';
+import apiHandler from '../../util/request';
 
 
 
@@ -127,16 +127,13 @@ export function getOfflineData(Token) {
 
     return dispatch => {
         dispatch(OfflineDataRequest());
-        axios.get(userConstants.Domain + 'vehicles?offset=1&limit=10&include=institutions,models', {
-            headers: { Authorization: "Bearer " + Token },
-            "Content-Type": "application/json; charset=utf-8",
-          })
+        apiHandler.get('vehicles?offset=1&limit=10&include=institutions,models')
         .then(
             idleVehicles => {
                 dispatch(OfflineUpdateReceived(returnFormatedVehicles(idleVehicles)));
         },
         error => {
-               alert(error.toString());
+               alert("Offline vehicle "+ error.toString());
         });
     }
 

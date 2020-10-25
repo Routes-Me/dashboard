@@ -1,11 +1,9 @@
 ﻿import { userConstants } from '../../constants/userConstants';
-import { stat } from 'fs';
 
 const INITIAL_STATE = {
     Users: [],
-    UserRoles: [],
+    Privileges: [],
     Applications: [],
-    navItems : [],
     Page: "",
     Loading: true,
     hasError: false,
@@ -33,25 +31,12 @@ const UserReducer = (state = INITIAL_STATE, action) => {
                 Laoding: true,
                 hasError: false
             };
-        case userConstants.update_USERROLES:
+        case userConstants.update_PRIVILEGES:
             return {
                 ...state,
                 Loading: true,
                 hasError: false,
-                UserRoles: action.payload
-            };
-        case userConstants.getNavItems_REQUEST:
-            return {
-                ...state,
-                Laoding: true,
-                hasError: false
-            };
-        case userConstants.getNavItems_SUCCESS:
-            return {
-                ...state,
-                Loading: false,
-                hasError: false,
-                navItems: action.payload
+                Privileges: action.payload
             };
         case userConstants.getApplications_REQUEST:
             return {

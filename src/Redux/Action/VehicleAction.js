@@ -1,92 +1,58 @@
 ﻿import { vehicleConstants } from "../../constants/vehicleConstants";
 import { userConstants } from "../../constants/userConstants";
-import { MockServerData } from '../../constants/MockServerData';
-import axios from 'axios';
+import {config} from "../../constants/config";
+import apiHandler from '../../util/request';
 
 //const SampleInsitutionsIdArgument = { "institutionIds": [{ "Id": 3 }] };
 
+function buildURL(entity, offset, include) {
+
+    let queryParameter =""
+    if(include){
+      queryParameter=entity+"?offset="+offset+"&limit="+userConstants.Pagelimit+"&include=institutions,models";
+    }
+    else{
+      queryParameter=entity+"?offset="+offset+"&limit="+userConstants.Pagelimit;
+    }
+    return queryParameter;
+
+}
 
 //Action to getVehicleList for Vehicles Component
-export function getVehiclesForInstitutionID(Token,institutionId, pageIndex) {
-    institutionId = 1;
-   
+export function getVehiclesForInstitutionID(institutionId, pageIndex) {
+
     return dispatch => {
         dispatch(vehicleDataRequest());                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-        axios.get(userConstants.Domain + 'vehicles?offset=1&limit=10&include=institutions,models', {
-            headers: { Authorization: "Bearer " + Token },
-            "Content-Type": "application/json; charset=utf-8",
-          })
+        apiHandler.get(buildURL('vehicles',1,true))
         .then(
         vehicles => {
                 dispatch(storeVehicleData(returnFormatedVehicles(vehicles)));
                 //dispatch(UpdatePage(vehicles.pagination));
         },
         error => {
-            alert(error.toString());
+            alert(`getVehicle ${error.toString()}`);
         });
-
-        //const FormatedVehicle = MockAPICallForVehicles(institutionId, pageIndex)`
-        //console.log('data formated ', FormatedVehicle);
-        //dispatch(storeVehicleData(FormatedVehicle));
-
     }
-}
 
+}
 
 function vehicleDataRequest() { return { type: vehicleConstants.getInstitutions_REQUEST } }
 function storeVehicleData(vehicles) { return { type: vehicleConstants.getVehicles_SUCCESS, payload: vehicles } }
 function UpdatePage(pages) { return { type: vehicleConstants.UpdatePage, payload:pages } }
 
 
-function returnQueryParamters(offset) {
-    const queryParameter = {
-        "offset": offset,
-        "limit": userConstants.limit,
-        "include": ["makes", "models"] 
-    }
-    return queryParameter;
-}
-
-//Action to getModels for dropdown in vehicles Component
-export function getModels(makeId) {
-    let pageIndex;
-    return dispatch => {
-
-        dispatch(ModelDataRequest());
-        axios.get(userConstants.Domain + 'vehicles/models?' + makeId, {
-                params: { queryParameter: returnQueryParamters(pageIndex) }
-        })
-        .then(
-               model => {
-                        dispatch(storeModelData(model.data.models));
-                    },
-               error => {
-                        //alert(error.toString());
-            });
-            dispatch(storeModelData(returnModelsByMockAPICallforModels().manuFacturersDetails.data.carModels))
-
-    }
-}
-
-function ModelDataRequest() { return { type: vehicleConstants.getModels_REQUEST } }
-function storeModelData(models) { return { type: vehicleConstants.getModels_SUCCESS, payload: models } }
-
-
-export function getManufacturers() {
+export function getManufacturers(Token) {
     let pageIndex;
     return dispatch => {
         dispatch(MakesDataRequest());
-        axios.get(userConstants.Domain + 'vehicles/manufacturers', {
-            params: { queryParameter: returnQueryParamters(pageIndex) }
-        })
+        apiHandler.get(buildURL('manufacturers',1,false))
         .then(
-                manufacturer => {
-                dispatch(StoreMakesData(manufacturer.data.manufacturers));
+                manufacturer =>{
+                dispatch(StoreMakesData([config.selectMake,...manufacturer.data.data]));
                 },
                 error => {
-                    //alert(error.toString());
+                    alert(`getManufacturers ${error.toString()}`);
                 });
-
     }
 }
 
@@ -94,59 +60,57 @@ export function getManufacturers() {
 function MakesDataRequest() { return { type: vehicleConstants.getMakes_REQUEST } }
 function StoreMakesData(makes) { return { type: vehicleConstants.getMakes_SUCCESS, payload: makes } }
 
-//get new models
-export function getNewModels(makeId) {
+
+
+export function getModels(makeId) {
+    let pageIndex;
     return dispatch => {
-        dispatch(ModelDataRequest);
-        const models = MockAPICallFormodels(makeId);
-        dispatch(storeModelData(models));
+
+        dispatch(ModelDataRequest());
+        apiHandler.get('manufacturers/'+makeId+'/model')
+        .then(
+               model => {
+                        dispatch(storeModelData([config.selectModel,...model.data.data]));
+                        getVehiclesForInstitutionID();
+                    },
+               error => {
+                        alert(`getModels ${error.toString()}`);
+            });
     }
 }
 
+function ModelDataRequest() { return { type: vehicleConstants.getModels_REQUEST } }
+function storeModelData(models) { return { type: vehicleConstants.getModels_SUCCESS, payload: models } }
 
-//get Makes
-export function getMakes() {
-    return dispatch => {
-        dispatch(MakesDataRequest);
-        const makes = MockAPICallForMakes();
-        dispatch(StoreMakesData(makes));
-    }
-}
+
+
+
 
 
 //Action to Add or Update vehcile
 export function saveVehicle(vehicle,action) {
-    let Token = localStorage.getItem('jwtToken').toString();
     return dispatch => {
         dispatch(saveVehicleRequest(vehicle))
         if (action== "save") {
-            dispatch(vehicleDataRequest());
-            axios.put(userConstants.Domain + 'vehicles',vehicle, {
-                headers: { Authorization: "Bearer " + Token },
-                "Content-Type": "application/json; charset=utf-8",
-              })
-                .then(
-                    vehicle => {
-                        dispatch(saveVehicleSuccess(returnFormatedVehicles(vehicle.data)));
+            apiHandler.put('vehicles',vehicle)
+              .then(
+                  vehicle => {
+                      dispatch(saveVehicleSuccess(vehicle));
                     },
                     error => {
-                        alert(error.toString());
+                      alert(error.toString());
                     });
         } 
         else 
         {
-            axios.post(userConstants.Domain + 'vehicles', vehicle, {
-                headers: { Authorization: "Bearer " + Token },
-                "Content-Type": "application/json; charset=utf-8",
-              })
-                .then(
-                    vehicle => {
-                        dispatch(updateVehicleSuccess(vehicle));
+          apiHandler.post('vehicles', vehicle)
+              .then(
+                  vehicle => {
+                      dispatch(updateVehicleSuccess(vehicle));
                     },
                     error => {
-                        alert(error.toString());
+                      alert(error.toString());
                     });
-            
         }
     }
 
@@ -162,17 +126,14 @@ function updateVehicleSuccess(vehicle) {console.log('Update method called for ex
 // delete vehicle
 export function deleteVehicle(vehicleId)
 {
-  const Token = localStorage.getItem("jwtToken").toString();
   return (dispatch)=>{
     dispatch(deleteVehicleRequest)
     if(vehicleId!= null)
     {
-      axios.delete(userConstants.Domain + "vehicles/"+vehicleId,{
-        headers: { Authorization: "Bearer " + Token },
-        "Content-Type": "application/json; charset=utf-8",
-      })
+      apiHandler.delete(`vehicles/${vehicleId}`)
       .then(
         (vehicle) => {
+          getVehiclesForInstitutionID();
           dispatch(deleteVehicleSuccess(vehicle));
         },
         (error) => {
@@ -191,30 +152,6 @@ function deleteVehicleError(message) { return {type: vehicleConstants.deleteVehi
 
 
 
-
-
-
-
-function returnModelsByMockAPICallforModels() {
-    return MockServerData.ModelMockServerData;
-}
-
-
-
-function FilterModelsforId(modelId) {
-    const ListofModel = returnModelsByMockAPICallforModels().manuFacturersDetails.data.carModels;
-    const ListofFilteredModel = ListofModel.filter(x => x.modelId === modelId);
-    return ListofFilteredModel[0];
-}
-
-
-
-function MockAPICallForVehicles(InstId,pageIndex) {
-
-    const res = MockServerData.VehicleDetails;
-    return returnFormatedVehicles(res);
-}
-
 function returnFormatedVehicles(response){
 
     //const VehicleList = response.data.vehicles.filter(vehicle => vehicle.institutionId === 3);
@@ -222,7 +159,6 @@ function returnFormatedVehicles(response){
     //console.log('Vehicle Action Array returned :', VehicleList);
     const InstitutionList = response.data.included.institutions;
     const ModelList = response.data.included.models;
-    //const MakerList = response.include.makes;
 
     const FormatedVehicle = VehicleList.map(x => ({
         id: x.vehicleId,
@@ -237,16 +173,18 @@ function returnFormatedVehicles(response){
     return FormatedVehicle;
 }
 
-
-
-
-//Update with API
-function MockAPICallForMakes() {
-    return MockServerData.MakeDetails.data.makes;
-}
-
-function MockAPICallFormodels() {
-    return MockServerData.ModelDetails.data.models
+function filterObjecteList(objectList, elements)
+{
+  let Objects = "";
+  if( elements !== undefined && objectList.length > 0)
+  {
+    Objects = objectList.filter(y => y.include(elements));
+  }
+  else
+  {
+    Objects =[0];
+  }
+  return Objects
 }
 
 

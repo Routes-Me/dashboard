@@ -224,8 +224,7 @@
                     "isVerified": false,
                     "lastLoginDate": null,
                     "institutionId": 3,
-                    "userRoleId":1,
-                    "application": [1,3],
+                    "rolesId":[12,23],
                     "name": "manager",
                     "description": "manager"
                 },
@@ -238,8 +237,12 @@
                     "isVerified": false,
                     "lastLoginDate": null,
                     "institutionId": 3,
-                    "userRoleId": 2,
-                    "application": [3],
+                    "roles": [
+                        {
+                            privilege_id:1,
+                            application_id:3
+                        }
+                    ],
                     "name": "manager",
                     "description": "manager"
                 }
@@ -249,13 +252,11 @@
             "userRoles": [
                 {
                     "userRoleId": 1,
-                    "application": "driver",
                     "name": "driver1",
                     "description": "this is driver1"
                 },
                 {
                     "userRoleId": 2,
-                    "application": "dashboard",
                     "name": "manager",
                     "description": "manager"
                 }
@@ -348,7 +349,7 @@
                 "value" :"driver" 
             },
             {
-                "id":"dashboard",
+                "id":1,
                 "value":"dashboard"
             },
             {
@@ -369,7 +370,7 @@
             "value" :"chife" 
         },
         {
-            "id"    : "super",
+            "id"    : 1,
             "value" : "super" 
         },
         {

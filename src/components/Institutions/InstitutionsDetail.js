@@ -19,11 +19,22 @@ class InstitutionsDetail extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getServiceList();
+        this.props.getServiceList(this.props.token);
     }
 
     onChange = (event) => {
-        this.setState({ [event.target.name]: event.target.value })
+        if(event.target.name === "services")
+        {
+            const selected=[];
+            let selectedOption=(event.target.selectedOptions);
+            for (let i = 0; i < selectedOption.length; i++)
+            {
+                selected.push(selectedOption.item(i).value)
+            }
+            this.setState({ [event.target.name]: selected})
+        }
+        else
+        this.setState({ [event.target.name]: event.target.value})
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -54,41 +65,42 @@ class InstitutionsDetail extends React.Component {
 
         if(action==="add"){
             const institution = {
-                CountryIso: "KW",
-                PhoneNumber: this.state.phoneNumber,
-                createdAT: "",
                 Name: this.state.name,
-                Services: [this.state.services]
+                PhoneNumber: this.state.phoneNumber,
+                CountryIso: "KW",
+                Services: this.state.services
             }
-            this.props.saveInstitution(this.props.token,institution,action);
+            this.props.saveInstitution(institution,action);
         }
         else{
             const institution = {
-                institutionId:this.state.institution.institutionId,
-                CountryIso: "KW",
-                PhoneNumber: this.state.phoneNumber,
-                createdAT: "",
+                InstitutionId:this.state.institution.institutionId,
                 Name: this.state.name,
-                Services: [this.state.services]
+                PhoneNumber: this.state.phoneNumber,
+                CountryIso: "KW",
+                Services: this.state.services
             }
-            this.props.saveInstitution(this.props.token,institution,action);
+            this.props.saveInstitution(institution,action);
         }
 
-        
-       
-        
     }
 
     render() {
+
+        // Render nothing if the "show" prop is false
+        // if (this.props.savedSuccessfully && !this.props.show) {
+        //     return null;
+        // }
+
         const institutionObj = this.state.institution;
         const buttonText = institutionObj ? "Update" : "Add";
 
         return (
             <div className="container-fluid">
                 <Form onSubmit={e => this.handleSubmit(e)}>
-            <div className="row col-md-12 detail-form">
+            <div className="row col-md-12 detail-form" style={{padding:"0px"}}>
                 
-                    <div class="col-md-10">
+                    <div class="col-md-12">
 
                         <div className="row form-group">
                             <div className="col-md-4">
@@ -113,8 +125,8 @@ class InstitutionsDetail extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-4">
                                 <Label>Services</Label><br />
-                                <select multiple class="custom-select" size="3" value={this.state.services} name="services" onChange={this.onChange}>
-                                    {this.props.servicesList.map(service => (<option value={service.id}>{service.value}</option>))}
+                                <select class="custom-select" multiple size="3" defaultValue={this.state.services} name="services" onChange={this.onChange}>
+                                    {this.props.servicesList.map(service => (<option value={service.serviceId}>{service.name}</option>))}
                                 </select>
                             </div>
                         </div>
@@ -141,7 +153,8 @@ const mapStateToProps = (state) => {
 
     return {
         servicesList: state.InstitutionStore.Services,
-        token : state.Login.token
+        token : state.Login.token,
+        savedSuccessfully : state.InstitutionStore.Loading
     }
 
 }

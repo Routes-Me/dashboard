@@ -1,13 +1,12 @@
 ﻿import { userConstants } from '../../constants/userConstants';
 
-//const user = JSON.parse(localStorage.getItem('user'));
-
 const INITIAL_STATE = {
     loading: false,
     hasError: false,
     error: null,
-    SelectedNavOption:'',
+    SelectedNavOption:userConstants.NavItem_Tracking,
     user: {},
+    navItems : [],
     token:""
 };
 
@@ -15,8 +14,7 @@ const INITIAL_STATE = {
 
 
 const LoginReducer = (state = INITIAL_STATE, action) => { 
-    //console.log("/Login Reducer => state  : ", state);
-    //console.log("/Login Reducer => action : ", action);
+    
     switch (action.type) {
         case userConstants.Login_REQUEST:
             return {
@@ -94,6 +92,19 @@ const LoginReducer = (state = INITIAL_STATE, action) => {
                 loggedIn: true,
                 SelectedNavOption: action.payload
             };
+        case userConstants.getNavItems_REQUEST:
+            return {
+                ...state,
+                Laoding: true,
+                hasError: false
+            };
+        case userConstants.getNavItems_SUCCESS:
+                return {
+                    ...state,
+                    Loading: false,
+                    hasError: false,
+                    navItems: action.payload
+                };
         default:
             return state;
     }

@@ -26,7 +26,7 @@ class Institutions extends Component {
     //Load Data
     componentDidMount() {
         // get Institutions
-        this.props.getInstitutionsList(this.props.token);
+        this.props.getInstitutionsList();
     }
 
     //Handle Page selection
@@ -100,7 +100,7 @@ class Institutions extends Component {
                     </table>
                 </div>
             </div>
-            )
+        )
     }
 
 
@@ -144,8 +144,7 @@ class Institutions extends Component {
 const mapStateToProps = (state) => {
 
         return {
-            InstitutionsList: state.InstitutionStore.Institutions,
-            token : state.Login.token
+            InstitutionsList: state.InstitutionStore.Institutions
     }
 
 }

@@ -1,8 +1,7 @@
 ﻿import React from 'react';
-import { DialogVehicles } from '../Vehicles/DialogVehicles';
-import '../Style/CustomStyle.css';
-import { userConstants } from '../../constants/userConstants';
-import { Label } from 'reactstrap';
+import '../Style/home.css';
+import '../Dialog/modal.scss';
+import { vehicleConstants } from '../../constants/vehicleConstants';
 
 class Modal extends React.Component {
 
@@ -32,8 +31,8 @@ class Modal extends React.Component {
                             <tbody>
                             {
                                 searchList.map(obj => (
-                                    <tr key={obj.id} onClick>
-                                        <td style={{ textAlign: "center", paddingLeft: 39 }}>{obj.name}</td>
+                                    <tr style={{ paddingLeft: 39, textAlign: "left" }} key={obj.name} onClick={()=>{this.onselection(obj)}}>
+                                        <td>{obj.name}</td>
                                     </tr>
                                     ))
                                 }
@@ -44,10 +43,14 @@ class Modal extends React.Component {
         }
     }
 
+    returnIdforObjectType = (object, objectType) => objectType === vehicleConstants.searchDialogFor_Makers ? object.manufacturerId : object.modelId;
+
+    onselection(obj){
+        this.props.onSelect(obj);
+    } 
 
     render() {
 
-        
         // Render nothing if the "show" prop is false
         if (!this.props.show) {
             return null;
@@ -63,8 +66,6 @@ class Modal extends React.Component {
             backgroundColor: 'rgba(0,0,0,0.3)',
             padding: 50
         };
-
-     
 
         // The modal "window"
         const modalStyle = {
@@ -85,14 +86,6 @@ class Modal extends React.Component {
         return (
             <div className="modalNew">
                 <div class="modal-content" style={{ modalStyle }}>
-                    {/*<span class="close" onClick={this.props.onClose}>&times;</span>
-                    <div className="hehading-add-butt" style={{ textAlign: "center" }}>
-                        {VehicleObj === undefined ? <h3>Add New Vehicle </h3> : <h3>Vehicle Id {VehicleObj.id}</h3>}
-                    </div><br /><br />
-                    <div class="modal-header">
-                        {VehicleObj === undefined ? <h3>Add New Vehicle </h3> : <h3>Vehicle Id {VehicleObj.id}</h3>}
-                        <span class="close" style={{ float: "right" }} onClick={this.props.onClose}>&times;</span>
-                    </div><br /><br />*/}
                     
                     <div className="top-part-vehicles-search padding-lr-80">
                         <span class="closeBtn" style={{ float: "right", display:"block" }} onClick={this.props.onClose} />
@@ -109,16 +102,12 @@ class Modal extends React.Component {
                         </div>
                     </div>
                     {content}
-                    {/*{this.props.objectType === userConstants.NavItem_Vehicles && <DialogVehicles vehicleToDisplay={VehicleObj}/>}*/}
-
-
 
                 </div>
             </div>
         );
     }
 }
-
 
 
 export default Modal;

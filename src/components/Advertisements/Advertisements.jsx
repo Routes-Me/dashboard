@@ -72,11 +72,12 @@ class Advertisements extends Component {
                         </thead>
                         <tbody>
                             {
-                                Advertisements.map(Advertisement => (
+                                Advertisements?.map(Advertisement => (
                                     <tr key={Advertisement.id}>
                                         <td>{Advertisement.id}</td>
+                                        <td>{Advertisement.resourceName}</td>
                                         <td>{Advertisement.id}</td>
-                                        <td>{Advertisement.id}</td>
+                                        <td>{Advertisement.createdAt}</td>
                                         <td className="width44" >
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Advertisement.id)}>
@@ -164,7 +165,7 @@ const mapStateToProps = (state) => {
     const advertisements = state.AdvertisementStore.Advertisements;
 
     return {
-        AdvertisementList: advertisements
+        AdvertisementList: state.AdvertisementStore.Advertisements
     }
 
 }

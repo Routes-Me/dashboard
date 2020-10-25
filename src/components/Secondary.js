@@ -38,11 +38,6 @@ class Secondary extends Component {
         this.toggleFilter(this.state.filter);
     }
 
-    // componentDidMount() {
-    //     this.props.GetOfflineVehicles();
-    //     //this.toggleFilter(this.state.filter);
-    // }
-
 
 
     //Toggle Acordian

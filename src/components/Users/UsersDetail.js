@@ -4,7 +4,8 @@ import { Label } from 'reactstrap';
 import * as UserAction from '../../Redux/Action';
 import * as InstitutionAction from '../../Redux/Action';
 import Form from 'react-validation/build/form';
-import { encryptAndEncode } from '../../Redux/encrypt';
+import { encryptAndEncode } from '../../util/encrypt';
+import {config} from "../../constants/config";
 
 
 class UsersDetail extends React.Component {
@@ -20,7 +21,7 @@ class UsersDetail extends React.Component {
             role: "",
             phone:"",
             user: '',
-            userRoles: '',
+            privilege: '',
             application: '',
             errorText:"",
             password:""
@@ -39,7 +40,7 @@ class UsersDetail extends React.Component {
 
     static getDerivedStateFromProps(props, state) {
         if (props.userToDisplay !== undefined) {
-            if (props.userToDisplay !== state.userToDisplay) {
+            if (props.userToDisplay !== state.user) {
                 return {
                     
                     user: props.userToDisplay,
@@ -47,8 +48,8 @@ class UsersDetail extends React.Component {
                     name: props.userToDisplay.name,
                     email: props.userToDisplay.email,
                     phone: props.userToDisplay.phone,
-                    application: props.userToDisplay.application,
-                    InstitutionId: props.userToDisplay.InstitutionId
+                    roles: props.userToDisplay.roles,
+                    institutionId: props.userToDisplay.InstitutionId
 
                 }
             }
@@ -66,43 +67,45 @@ class UsersDetail extends React.Component {
             Password: encryptAndEncode(this.state.password) ,
             Email: this.state.email,
             PhoneNumber: this.state.phone,
-            InstitutionId: this.state.InstitutionId,
+            InstitutionId: this.state.institutionId,
             Roles:[
                 {
-                     Application: this.state.application.toString(),
-                    Priviledges: this.state.userRoles.toString()
-               }
+                    ApplicationId: this.state.application,
+                    PrivilegeId: this.state.privilege
+                }
             ]                                                                                                                                                                                                                                                                                                             
         }
 
         console.log('userObj',user )
-        // this.props.saveUser(user);
 
         let action ="";
 
         {this.state.user.userId? action = "save": action = "add"}
 
-        
-
         this.props.saveUser(user,action);
+
     }
 
     render() {
+        // Render nothing if the "show" prop is false
+        // if (this.props.savedSuccessfully && !this.props.show) {
+        //     return null;
+        // }
+        
         const userObj = this.state.user;
         const buttonText = userObj ? "Update" : "Add";
 
         return (
             <div className="container-fluid">
-            <div className="row col-md-12 detail-form">
+            <div className="row col-md-12 detail-form" style={{padding:"0px"}}>
                 <Form onSubmit={e => this.handleSubmit(e)}>
-                    <div className="col-md-10">
+                    <div className="col-md-12">
 
                         <div className="row form-group">
                             <div className="col-md-4">
                                 <Label>Name</Label><br />
                                 <input type="text" name="name"
-                                    placeholder={userObj === undefined ? "" : userObj.email}
-                                    value={userObj.email}
+                                    value={this.state.name}
                                     onChange={this.onChange}
                                     className="form-control" />
                                 <span className="form-error is-visible">{this.state.errorText}</span>
@@ -113,8 +116,7 @@ class UsersDetail extends React.Component {
                             <div className="col-md-4">
                                 <Label>Password</Label><br />
                                 <input type="text" name="password"
-                                    placeholder={userObj === undefined ? "" : userObj.password}
-                                    value={userObj.password}
+                                    value={this.state.password}
                                     onChange={this.onChange}
                                     className="form-control" />
                                 <span className="form-error is-visible">{this.state.errorText}</span>
@@ -124,19 +126,9 @@ class UsersDetail extends React.Component {
 
                         <div className="row form-group">
                             <div className="col-md-4">
-                                <Label>Role</Label><br />
-                                <select defaultValue={userObj ? userObj.userRoleId : "Select a role"} className="custom-select my-1 mr-sm-2" name="userRoles" onChange={this.onChange}>
-                                    {this.props.UserRolesList.map(role => (<option key={role.id} className="dropdown-item" value={role.id}>{role.value}</option>))}
-                                </select>
-                            </div>
-                        </div>
-
-                        <div className="row form-group">
-                            <div className="col-md-4">
                                 <Label>Email</Label><br />
                                 <input type="text" name="email"
-                                    placeholder={userObj === undefined ? "" : userObj.email}
-                                    value={userObj.email}
+                                    value={this.state.email}
                                     onChange={this.onChange}
                                     className="form-control" />
                                 <span className="form-error is-visible">{this.state.errorText}</span>
@@ -147,8 +139,7 @@ class UsersDetail extends React.Component {
                             <div className="col-md-4">
                                 <Label>Phone</Label><br />
                                 <input type="text" name="phone"
-                                    placeholder={userObj === undefined ? "" : userObj.phone}
-                                    defaultValue={userObj.phone}
+                                    defaultValue={this.state.phone}
                                     onChange={this.onChange}
                                     className="form-control" />
                                 <span className="form-error is-visible">{this.state.errorText}</span>
@@ -158,8 +149,17 @@ class UsersDetail extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-4">
                                 <Label>Applications</Label><br />
-                                <select defaultValue={userObj ? userObj.userRoleId : "Select a role"} className="custom-select my-1 mr-sm-2" name="application" onChange={this.onChange}>
-                                    {this.props.ApplicationsList.map(application => (<option key={application.id} className="dropdown-item" value={application.id}>{application.value}</option>))}
+                                <select defaultValue={userObj ? this.state.roles[0].applicationId : "Select a role"} className="custom-select my-1 mr-sm-2" name="application" onChange={this.onChange}>
+                                    {this.props.ApplicationsList.map(application => (<option key={application.applicationId} className="dropdown-item" value={application.applicationId}>{application.name}</option>))}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="row form-group">
+                            <div className="col-md-4">
+                                <Label>Privilege</Label><br />
+                                <select defaultValue={userObj ?this.state.roles[0].privilegeId : "Select a role"} className="custom-select my-1 mr-sm-2" name="privilege" onChange={this.onChange}>
+                                    {this.props.PrivilegeList.map(privilege => (<option key={privilege.privilegeId} className="dropdown-item" value={privilege.privilegeId}>{privilege.name}</option>))}
                                 </select>
                             </div>
                         </div>
@@ -167,7 +167,7 @@ class UsersDetail extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-4">
                                 <Label>Institution</Label><br />
-                                <select defaultValue={userObj ? userObj.institutionId : "Select a institution"} className="custom-select my-1 mr-sm-2" name="InstitutionId" onChange={this.onChange}>
+                                <select defaultValue={userObj ? this.state.institutionId : "Select a institution"} className="custom-select my-1 mr-sm-2" name="InstitutionId" onChange={this.onChange}>
                                     {this.props.InstitutionList.map(institution => (<option key={institution.institutionId} className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
                                 </select>
                             </div>
@@ -193,9 +193,10 @@ class UsersDetail extends React.Component {
 const mapStateToProps = (state) => {
     
     return {
-        UserRolesList       : state.UserStore.UserRoles,
-        ApplicationsList    : state.UserStore.Applications,
-        InstitutionList     : state.InstitutionStore.Institutions
+        PrivilegeList       : [config.selectPrivilege,...state.UserStore.Privileges],
+        ApplicationsList    : [config.selectApplication,...state.UserStore.Applications],
+        InstitutionList     : [config.selectInstitution,...state.InstitutionStore.Institutions],
+        savedSuccessfully   : state.UserStore.Loading
     }
 
 }

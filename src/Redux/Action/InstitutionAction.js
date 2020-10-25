@@ -1,22 +1,17 @@
-﻿import { MockServerData } from "../../constants/MockServerData";
-import { institutionConstants } from "../../constants/institutionConstants";
+﻿import { institutionConstants } from "../../constants/institutionConstants";
 import { userConstants } from "../../constants/userConstants";
+import {config} from "../../constants/config";
+import apiHandler from '../../util/request';
 import axios from "axios";
 
 
 //Get Institution list
-export function getInstitutions(token, institutionId, offset) {
+export function getInstitutions(institutionId, offset) {
 
-  //const Token = localStorage.getItem("jwtToken").toString();
   return (dispatch) => {
-    // dispatch(storeInstitutionsData(MockServerData.Institutions.data));
     
     dispatch(IstitutionDataRequest());
-    axios
-      .get(userConstants.Domain + "institutions?offset=1&limit=10&include=services", {
-        headers: { Authorization: "Bearer " + token },
-        "Content-Type": "application/json; charset=utf-8",
-      })
+    apiHandler.get(buildURL('institutions',1,true))
       .then(
         (institutions) => {
           dispatch(
@@ -32,42 +27,31 @@ export function getInstitutions(token, institutionId, offset) {
       );
   };
 
-  function IstitutionDataRequest() {
-    return { type: institutionConstants.getInstitutions_REQUEST };
-  }
-  function storeInstitutionsData(institutions) {
-    return {
-      type: institutionConstants.getInstitutions_SUCCESS,
-      payload: institutions,
-    };
-  }
-  function updatePage(pages) {
-    return { type: institutionConstants.updatePage, payload: pages };
-  }
+  function IstitutionDataRequest() { return { type: institutionConstants.getInstitutions_REQUEST }; }
+  function storeInstitutionsData(institutions) { return { type: institutionConstants.getInstitutions_SUCCESS, payload: institutions }; }
+  function updatePage(pages) { return { type: institutionConstants.updatePage, payload: pages };}
+
 }
 
-function returnQueryParamters(offset, include) {
-  let queryParameter;
-  if (include) {
-    queryParameter = {
-      offset: offset,
-      limit: userConstants.limit,
-      include: ["services"],
-    };
-  } else {
-    queryParameter = {
-      offset: offset,
-      limit: userConstants.limit,
-    };
+
+
+function buildURL(entity, offset, include) {
+
+  let queryParameter =""
+  if(include){
+    queryParameter=entity+"?offset="+offset+"&limit="+userConstants.Pagelimit+"&include=services";
+  }
+  else{
+    queryParameter=entity+"?offset="+offset+"&limit="+userConstants.Pagelimit;
   }
   return queryParameter;
+
 }
 
 function returnFormatedResponseForInstitutions(response) {
-  const institutionsList = response.data.data;
-  const servicesList = MockServerData.Services.data;
 
-  //const servicesList = response.data.included.services;
+  const institutionsList = response.data.data;
+  const servicesList = response.data.included.services;
 
   const formatedInstitutions = institutionsList.map((x) => ({
     institutionId: x.institutionId,
@@ -75,10 +59,28 @@ function returnFormatedResponseForInstitutions(response) {
     createdAt: x.createdAt,
     phoneNumber: x.phoneNumber,
     countryIso: x.countryIso,
-    //services: servicesList.filter((y) => y.include(x.services))
+    services: filterServiceList(servicesList, x.services)
   }));
 
   return formatedInstitutions;
+
+}
+
+function filterServiceList(servicesList, services)
+{
+  let Services = [];
+  if( services !== null && servicesList.length > 0)
+  {
+    // for(var i=0; i<services.length; i++){
+    //   Services.push(servicesList.filter(y => y.ServiceId===services[i]));
+    // }
+    return services;
+  }
+  else
+  {
+    Services =[0];
+  }
+  return Services;
 }
 
 function UpdatetheServiceList(services) {
@@ -86,17 +88,13 @@ function UpdatetheServiceList(services) {
 }
 
 //Save Institution Detail
-export function saveInstitution(token,institution,action) {
-  
-  //const Token = localStorage.getItem("jwtToken").toString();
+export function saveInstitution(institution,action) {
+
   return (dispatch) => {
     dispatch(saveInstitutionRequest);
     if (action== "save") {                                                                                                                                                                                                       
       //Update
-      axios.put(userConstants.Domain + "institutions", institution,{
-        headers: { Authorization: "Bearer " + token },
-        "Content-Type": "application/json; charset=utf-8",
-      })
+      apiHandler.put("institutions", institution)
       .then(
         (institution) => {
           dispatch(saveInstitutionSuccess(institution.data));
@@ -108,10 +106,7 @@ export function saveInstitution(token,institution,action) {
     } 
     else {
       //Create
-      axios.post(userConstants.Domain + "institutions" , institution, {
-        headers: { Authorization: "Bearer " + token },
-        "Content-Type": "application/json; charset=utf-8",
-      })
+      apiHandler.post("institutions" , institution)
       .then(
         (institution) => {
           dispatch(saveInstitutionSuccess);
@@ -124,35 +119,23 @@ export function saveInstitution(token,institution,action) {
   };
 }
 
-function saveInstitutionRequest() {
-  return { type: institutionConstants.saveInstitutions_REQUEST };
-}
-
-function saveInstitutionSuccess(institutions) {
-  return {
-    type: institutionConstants.saveInstitutions_SUCCESS,
-    payload: institutions,
-  };
-}
+function saveInstitutionRequest() {return { type: institutionConstants.saveInstitutions_REQUEST };}
+function saveInstitutionSuccess(institutions) { return { type: institutionConstants.saveInstitutions_SUCCESS, payload: institutions}; }
 
 
 
 // delete institution
 export function DeleteInstitution(institutionId)
 {
-  const Token = localStorage.getItem("jwtToken").toString();
   return (dispatch)=>{
     dispatch(deleteInstitutionRequest)
     if(institutionId!= null)
     {
-      axios.delete(userConstants.Domain + "institutions/"+institutionId,
-      {
-        headers: { Authorization: "Bearer " + Token },
-        "Content-Type": "application/json; charset=utf-8"
-      })
+      apiHandler.delete("institutions/"+institutionId)
       .then(
         (institution) => {
-          dispatch(saveInstitutionSuccess(institution.data));
+          getInstitutions();
+          dispatch(deleteInstitutionSuccess(institution.data));
         },
         (error) => {
           alert(error.toString());
@@ -162,51 +145,26 @@ export function DeleteInstitution(institutionId)
   }
 }
 
-function deleteInstitutionRequest()
-{
-  return {type: institutionConstants.deleteInstitutionRequest}
-}
-
-function deleteInstitutionSuccess(institution){
-  return {type: institutionConstants.deleteInstitutionSuccess, payload: institution}
-}
-
-
-function deleteInstitutionError(message)
-{
-  return {type: institutionConstants.deleteInstitutionError, payload: message}
-}
+function deleteInstitutionRequest() { return {type: institutionConstants.deleteInstitutionRequest} }
+function deleteInstitutionSuccess(institution){ return {type: institutionConstants.deleteInstitutionSuccess, payload: institution}}
+function deleteInstitutionError(message){ return {type: institutionConstants.deleteInstitutionError, payload: message}}
 
 //Get Services
 export function getServicesList() {
   return (dispatch) => {
     dispatch(ServicesDataRequest());
-    // axios
-    //   .get(userConstants.Domain + "api/services?", {
-    //     params: { queryParameter: returnQueryParamters(pageIndex, false) },
-    //   })
-    //   .then(
-    //     (services) => {
-    //       dispatch(storeServicesData(services.data.services));
-    //     },
-    //     (error) => {
-    //       //alert(error.toString());
-    //     }
-    //   );
-
-    const Services = MockAPICallforServices();
-    dispatch(storeServicesData(Services));
+    apiHandler.get(buildURL('services',1))
+    .then(
+      (services) => {
+        dispatch(storeServicesData([config.selectService, ...services.data.data]));
+      },
+      (error) => {
+        alert(error.toString());
+      }
+    );
   };
 }
-function ServicesDataRequest() {
-  return { type: institutionConstants.getServices_REQUEST };
-}
-function storeServicesData(Services) {
-  return { type: institutionConstants.getServices_SUCCESS, payload: Services };
-}
+function ServicesDataRequest() { return { type: institutionConstants.getServices_REQUEST };}
+function storeServicesData(Services) { return { type: institutionConstants.getServices_SUCCESS, payload: Services };}
 
-//Update on API
-function MockAPICallforServices() {
-  const services = MockServerData.Services.data;
-  return services;
-}
+

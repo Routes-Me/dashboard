@@ -1,33 +1,17 @@
 ﻿import axios from "axios";
 import { history } from "../../helper/history";
 import { userConstants } from "../../constants/userConstants";
+import { MockServerData } from '../../constants/MockServerData';
+
 import jwt from "jsonwebtoken";
-import { encryptAndEncode, encryptAES } from "../encrypt";
-import setAuthorizationToken from "../../util/setAuthorizationToken";
+import { encryptAndEncode } from "../../util/encrypt";
+import {setToken, clearStorage} from '../../util/localStorage';
 
-const userObj = {};
-
-export const getLoginSuccess = (payload) => ({
-  type: userConstants.Login_SUCCESS,
-  payload,
-});
-
-export const getLoginFailure = (payload) => ({
-  type: userConstants.Login_FAILURE,
-  payload,
-});
-
-export function getUser() {
-  userObj = localStorage.getItem("user");
-  console.log("User Logged In is : ", userObj);
-  return userObj;
-}
 
 export function userSignInRequest(username, password) {
-  localStorage.clear();
+  
   return dispatch => {
       dispatch(request({ username, password }));
-      var encryptedpassword = encryptAES(password);
       let userObject = {
           Username: username,
           Password: encryptAndEncode(password)
@@ -36,31 +20,41 @@ export function userSignInRequest(username, password) {
       axios.post(userConstants.Domain + 'signin', userObject)
           .then(
               response => {
-
-                  //console.log("User Details : ", JSON.stringify(user));
                   const token = response.data.token;
                   const LoggedInUser = jwt.decode(token);
-                  const user = response.data;
-                  localStorage.setItem('user', LoggedInUser);
                   dispatch(getLoginSuccess(LoggedInUser));
-                  history.push('/home');
-                  localStorage.setItem('jwtToken', token);
+                  setToken(token);
                   dispatch(onReceiveToken(token));
-                  setAuthorizationToken(token);
+                  getAutherization(1);
+                  history.push('/home');
               },
               error => {
-                  dispatch(getLoginFailure(error.message.toString()));
+                  dispatch(failure(error.message.toString()));
                   console.log('error message', error.toString());
                   alert(error.toString());
-                  //dispatch(alertActions.error(error.toString()));
               }
           );
   };
 
   function request(user) { return { type: userConstants.Login_REQUEST, user }; }
   function onReceiveToken(token) { return  {type: userConstants.Login_TokenReceived, payload: token} }
-  function success(user) { return { type: userConstants.Login_SUCCESS, user }; }
+  function getLoginSuccess(payload) { return ({ type: userConstants.Login_SUCCESS, payload }); }
   function failure(error) { return { type: userConstants.Login_FAILURE, error }; }
+
+}
+
+
+//Autherize the logged in user with the userRole
+export function getAutherization(roleId) {
+
+  let navList = MockServerData.NavMenuItems.data;
+  let navObj = navList.filter(x=>x.roleId===roleId);
+
+  return dispatch => {
+      dispatch(storeNavItems(navObj[0].navItems));
+  }
+
+  function storeNavItems(navItems) { return { type: userConstants.getNavItems_SUCCESS, payload: navItems } } ;
 
 }
 
@@ -105,8 +99,6 @@ export function forgotPassword(email) {
 export function ResetPassword(institutionObject) {
   return (dispatch) => {
     var email = institutionObject.Email;
-    // var encryptedpassword = encryptAES(institutionObject.Password);
-    // var encryptedconfirmpassword = encryptAES(institutionObject.ConfirmPassword);
     var encryptedpassword = encryptAndEncode(institutionObject.password);
     var encryptedconfirmpassword = encryptAndEncode(
       institutionObject.ConfirmPassword
@@ -170,8 +162,7 @@ export function logout() {
   //userService.logout();
   return (dispatch) => {
     dispatch(logOutRequest());
-    localStorage.clear();
-    setAuthorizationToken(false);
+    clearStorage();
     dispatch(loggedOut());
   };
 }

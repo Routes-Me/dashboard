@@ -20,10 +20,9 @@ class Primary extends Component
     }
 
     componentDidMount() {
-        
-        // this.props.getAutherization(this.props.user.user_role_id);
+
         this.props.getAutherization(1);
-        this.props.updateNavItem(this.state.selectedNavItem);
+
     }
     
 
@@ -50,14 +49,14 @@ class Primary extends Component
             <div className="overfollow-scroll" >
 
                 <div className="profile">
-                    <img className="bitmap" alt="" src="/static/media/5.3ea9ef3d.jpg" />
-                    <p>Welcome {this.props.user.Name}!!</p>
+                    <p className="title">{this.props.user.Name}</p>
+                    <p className="subTitle">{this.props.user.Email}</p>
                 </div>
 
                 <div className="menu-part">
                     <ul>
                         {this.props.navItems.map(navItem =>
-                            <li key={navItem} className={this.returnSelectMenu(navItem)} onClick={(event) => this.toggleMenu(event, navItem)}><a><div className="icon-28"><img alt="" src={require(`./images/${navItem}.svg`)} className="menu-icon" /></div> {navItem}</a>
+                            <li key={navItem} className={this.returnSelectMenu(navItem)} onClick={(event) => this.toggleMenu(event, navItem)}><a><div className="icon-22"><img alt="" src={require(`../images/${navItem}.svg`)} className="menu-icon" /></div> {navItem}</a>
                             </li>
                         )}
                      </ul>
@@ -73,16 +72,15 @@ class Primary extends Component
 
 const mapStateToProps = (state) => {
 
-    //console.log("Selected Nav Item : ", state.Login.SelectedNavOption)
     return {
         selectedNavItem: state.Login.SelectedNavOption,
         user: state.Login.user,
-        navItems: state.UserStore.navItems === undefined? []: state.UserStore.navItems
+        navItems: state.Login.navItems === undefined? []: state.Login.navItems
     }
 };
 
 const actionCreators = {
-    getAutherization: UserAction.getAutherization,
+    getAutherization: LoginAction.getAutherization,
     updateNavItem: LoginAction.UpdateNavSelection
 };
 

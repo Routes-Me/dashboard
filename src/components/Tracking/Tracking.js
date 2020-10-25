@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as TrackingAction from '../../Redux/Action';
 import GoogleMapReact from 'google-map-react';
 //import GoogleMap from 'google-map-react';
+
 import ClusterMarker from '../markers/ClusterMarker';
 import SimpleMarker from '../markers/SimpleMarker';
 import supercluster from 'points-cluster';
@@ -266,10 +267,10 @@ class Tracking extends Component {
     markerStyleName( status, isGrouped, isSelected ) {
         
         if (status === trackingConstants.IdleState) {
-            return isGrouped ? "idle-cluster" : (isSelected ? "selected-marker" : "idle-marker")
+            return isGrouped ? "idle-cluster" : (isSelected ? "select effect" : "idle-marker")
         }
         else {
-            return isGrouped ? "active-cluster" : (isSelected ? "selected-marker" : "active-marker")
+            return isGrouped ? "active-cluster" : (isSelected ? "select" : "active-marker")
         }
     }
 

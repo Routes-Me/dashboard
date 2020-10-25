@@ -28,9 +28,9 @@
     getUsers_SUCCESS: "GETUSERS_SUCCESS",
 
     
-    getUserRoles_REQUEST: "GETUSERROLES_REQUEST",
-    update_USERROLES: "UPDATE_USERROLES",
-    getUserRoles_ERROR: "GETUSERROLES_ERROR",
+    getPrivileges_REQUEST: "GETPRIVILEGES_REQUEST",
+    update_PRIVILEGES: "UPDATE_PRIVILEGES",
+    getPrivileges_ERROR: "GETPRIVILEGES_ERROR",
 
     getNavItems_REQUEST: "GETNAVITEMS_REQUEST",
     getNavItems_SUCCESS: "GETNAVITEMS_SUCCESS",
@@ -48,9 +48,9 @@
 
     UpdatePage: "UPDATE_PAGE",
 
-    limit: 10,
+    Pagelimit: 10,
 
-    //Domain:'http://localhost:5000/api/'   
+    //Domain:'http://localhost:5000/api/' 
     Domain:'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/' 
 
 };

@@ -1,21 +1,15 @@
 ﻿import { MockServerData } from '../../constants/MockServerData';
 import { userConstants } from '../../constants/userConstants';
-import axios from 'axios';
-
+import apiHandler from '../../util/request';
 
 
 
 //Get UsersList
 export function getUsers(institutionId, pageIndex) {
 
-    const Token = localStorage.getItem("jwtToken");
-
     return dispatch => {
         dispatch(UsersDataRequest());
-        axios.get(userConstants.Domain + 'users?offset=1&limit=10', {
-            headers: { Authorization: "Bearer " + Token },
-            "Content-Type": "application/json; charset=utf-8",
-        })
+        apiHandler.get(buildURL('users',1,true))
         .then(
                 users => {
                     dispatch(storeUsersData(returnFormatedResponseForUsers(users)));
@@ -37,21 +31,71 @@ function storeUsersData(Users) { return { type: userConstants.getUsers_SUCCESS, 
 function updatePage(pages) { return { type: userConstants.UpdatePage, payload: pages } }
 
 
+
+// get User Roles
+export function getPriviledges() {
+  return dispatch => {  
+    apiHandler.get(buildURL('privileges',1,false))
+        .then(
+            priviledges => {
+                    dispatch(storeUserRoles(priviledges.data.data));
+                },
+                error => {
+                    alert(error.toString());
+                }
+            );
+    //dispatch(storeUserRoles(MockServerData.Priviledges.data))
+  }
+  function storeUserRoles(roles) { return { type: userConstants.update_PRIVILEGES, payload: roles } };
+
+}
+
+// get applications
+export function getApplications(){
+
+  return dispatch => { 
+    apiHandler.get(buildURL('applications',1,false))
+        .then(
+          applications =>{
+                    dispatch(storeApplications(applications.data.data));
+                },
+                error =>{
+                    alert(error.toString());
+                }
+        );
+    //dispatch(storeApplications(MockServerData.Applications.data)) 
+  }
+  function storeApplications(apps){ return {type:userConstants.update_APPLICATIONS, payload:apps }};
+
+}
+
+//Autherize the logged in user with the userRole
+export function getAutherization(roleId) {
+
+  let navList = MockServerData.NavMenuItems.data;
+  let navObj = navList.filter(x=>x.roleId===roleId);
+
+  return dispatch => {
+      dispatch(storeNavItems(navObj[0].navItems));
+  }
+
+  function storeNavItems(navItems) { return { type: userConstants.getNavItems_SUCCESS, payload: navItems } } ;
+
+}
+
+
 // delete user
 export function deleteUser(userId)
 {
-  const Token = localStorage.getItem("jwtToken").toString();
   return (dispatch)=>{
     dispatch(deleteUserRequest)
     if(userId!= null)
     {
-      axios.delete(userConstants.Domain + "users/"+userId,{
-        headers: { Authorization: "Bearer " + Token },
-        "Content-Type": "application/json; charset=utf-8",
-      })
+      apiHandler.delete("users/"+userId)
       .then(
         (user) => {
           dispatch(deleteUserSuccess(user));
+          getUsers();
         },
         (error) => {
           alert(error.toString());
@@ -72,8 +116,8 @@ function deleteUserError(message) { return {type: userConstants.deleteUser_Error
 
 
 function returnFormatedUsers(response) {
+
     const usersList = response.data.users.filter(user => user.institutionId === 3)
-    //console.log('Vehicle Action Array returned :', VehicleList);
     const userRolesList = response.include.userRoles;
 
     const FormatedUsers = usersList.map(x => ({
@@ -83,12 +127,42 @@ function returnFormatedUsers(response) {
         createdDate: x.createdDate,
         isVerified: x.isVerified,
         lastLoginDate: x.lastLoginDate,
-        userRoles: userRolesList.filter(y => y.include(x.userRoles)),
+        userRoles: filterUserRolesList(userRolesList,x.userRoles),
         name: x.name,
         description: x.description
     }))
-
     return FormatedUsers;
+
+}
+
+
+function filterUserRolesList(userRolesList, userRoles)
+{
+  let roles = "";
+  if( userRoles !== undefined && userRolesList.length > 0)
+  {
+    roles = userRolesList.filter(y => y.include(userRoles));
+  }
+  else
+  {
+    roles =[0];
+  }
+  return roles
+}
+
+
+function buildURL(entity, offset, include) 
+{
+    let queryParameter =""
+    if(include)
+    {
+      queryParameter=entity+"?offset="+offset+"&limit="+userConstants.Pagelimit+"&include=services";
+    }
+    else
+    {
+      queryParameter=entity+"?offset="+offset+"&limit="+userConstants.Pagelimit;
+    }
+    return queryParameter;
 }
 
 function returnQueryParamters(offset, include) {
@@ -113,7 +187,6 @@ function returnQueryParamters(offset, include) {
 
 function returnFormatedResponseForUsers(response) {
     const usersList = response.data.data;
-    // const servicesList = response.data.included.services;
   
         const formatedUsers = usersList.map((x) => ({
         userId: x.userId,
@@ -121,56 +194,22 @@ function returnFormatedResponseForUsers(response) {
         email: x.email,
         phone: x.phone,
         createdAt: x.createdAt,
-        application:x.application
-      //services: servicesList.filter((y) => y.include(x.services))
+        roles:x.roles
     }));
-  
+
     return formatedUsers;
 }
 
 
-// get User Roles
-export function getPriviledges() {
-
-    return dispatch => {  dispatch(storeUserRoles(MockServerData.Priviledges.data)) }
-    function storeUserRoles(roles) { return { type: userConstants.update_USERROLES, payload: roles } };
-
-}
-
-// get applications
-export function getApplications(){
-
-    return dispatch => { dispatch(storeApplications(MockServerData.Applications.data)) }
-    function storeApplications(apps){ return {type:userConstants.update_APPLICATIONS, payload:apps}};
-
-}
-
-//Autherize the logged in user with the userRole
-export function getAutherization(roleId) {
-    
-    let navList = MockServerData.NavMenuItems.data;
-    let navObj = navList.filter(x=>x.roleId===roleId);
-        
-
-    return dispatch => {
-        dispatch(storeNavItems(navObj[0].navItems));
-    }
-
-    function storeNavItems(navItems) { return { type: userConstants.getNavItems_SUCCESS, payload: navItems } } ;
-
-}
 
 
 //Save User Detail
 export function saveUser(user,action) {
-    const Token = localStorage.getItem("jwtToken").toString();
+
     return dispatch => {
         dispatch(saveUserDataRequest);
         if (action === "add") {
-            axios.post(userConstants.Domain + 'signup' , user, {
-                headers: { Authorization: "Bearer " + Token },
-                "Content-Type": "application/json; charset=utf-8",
-              })
+          apiHandler.post('signup', user)
               .then(
                 users => {
                     dispatch(saveUserDataSuccess);
@@ -180,10 +219,7 @@ export function saveUser(user,action) {
                 });
         }
         else {
-            axios.put(userConstants.Domain + 'users' , user,{
-                headers: { Authorization: "Bearer " + Token },
-                "Content-Type": "application/json; charset=utf-8",
-              })
+          apiHandler.put('users' , user)
               .then(
                 users => {
                     dispatch(saveUserDataSuccess);
@@ -192,8 +228,8 @@ export function saveUser(user,action) {
                     alert(error.toString());
                 });
         }
-        
     }
+
 }
 function saveUserDataRequest() { return { type: userConstants.saveUsers_REQUEST } }
 function saveUserDataSuccess() { return { type: userConstants.saveUsers_SUCCESS } }
