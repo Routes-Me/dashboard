@@ -80,20 +80,20 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 hasError: true,
                 error: action.payload
             };
-        case advertisementsConstants.onAdvertisment_MediaRequest:
+        case advertisementsConstants.uploadMedia_REQUEST:
             return {
                 ...state,
                 loading: true,
                 hasError: false
             };
-        case advertisementsConstants.onAdvertisment_MediaUpdate:
+        case advertisementsConstants.uploadMedia_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 hasError: false,
                 Media: action.payload
             };
-        case advertisementsConstants.onAdvertisment_MediaError:
+        case advertisementsConstants.uploadMedia_ERROR:
             return {
                 ...state,
                 loading: false,

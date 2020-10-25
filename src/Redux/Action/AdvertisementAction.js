@@ -108,7 +108,7 @@ export function uploadMedia(mediaFile, fileType) {
         try {
             apiHandler.post('medias', formData, options).then(
                 response => {
-                    dispatch(uploadSuccessful(response));
+                    dispatch(uploadSuccessful(formatMediaResponse(response)));
                     console.log(response);
                 },
                 error => {
@@ -130,9 +130,20 @@ export function uploadMedia(mediaFile, fileType) {
 
 
 
-export function compressMedia(mediaFile) {
 
-    
+
+function formatMediaResponse(media){
+
+   const Media ={
+       Url  : media.url,
+       Type : returnFileType(media.url),
+       Id   : media.mediaId
+   }
+
+}
+
+function returnFileType(url){
+    return url.substring(url.lastIndexOf('.'),url.length);
 }
 
 export function onTitleChange(text) {
@@ -213,6 +224,7 @@ function returnFormatedAdvertisements(response) {
         id: x.advertisementId,
         resourceName: x.resourceName,
         createdAt: x.createdAt,
+        campaigns: CampaignList.filter(y => y.CampaignId === x.campaignId)[0],
         institution: InstitutionList.filter(y => y.institutionId === x.institutionId)[0],
         media: MediaList.filter(y => y.mediaId === x.mediaId)[0],
         interval: IntervalList.filter(y=>y.IntervalId === x.intervalId)[0]

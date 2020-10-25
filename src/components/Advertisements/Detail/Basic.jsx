@@ -20,15 +20,14 @@ class Basic extends React.Component {
             image: "",
             video: "",
             campaigns: [],
-            dayInterval: "",
+            dayInterval: 0,
             advertisement: ""
         }
     }
 
     componentDidMount() {
-        //this.props.getCampaigns();
+        this.props.getCampaigns();
         this.props.getDayIntervals();
-        //this.props.getInstitutions();
     }
 
     onChange = (event) => {
@@ -88,10 +87,11 @@ class Basic extends React.Component {
         event.preventDefault();
 
         const vehicle = {
-            Email: this.state.email,
+            name: this.state.name,
             Phone: this.state.phone,
-            application: this.state.application,
-            name: this.state.name
+            MediaId: this.props.UploadedMedia,
+            IntervalId: this.state.application,
+            CampaignId: this.state.campaigns
         }
 
         this.props.saveUser(vehicle);
@@ -109,18 +109,18 @@ class Basic extends React.Component {
                             <div className="row form-group">
                                 <div className="col-md-12">
                                     <Label>Name</Label><br />
-                                    <input type="text" name="email"
-                                        placeholder={advertisementObj === undefined ? "" : advertisementObj.name}
-                                        value={advertisementObj.name}
+                                    <input type="text" name="name"
+                                        value={this.state.name}
                                         onChange={this.onChange}
                                         className="form-control" />
+                                    <span className="form-error is-visible">{this.state.errorText}</span>
                                 </div>
                             </div>
 
                             <div className="row form-group">
                                 <div className="col-md-12">
                                     <Label>Day Interval</Label><br />
-                                    <select defaultValue={advertisementObj ? this.state.dayInterval : "Select an interval"} className="custom-select my-1 mr-sm-2" name="dayInterval" onChange={this.onChange}>
+                                    <select defaultValue={this.state.dayInterval} className="custom-select my-1 mr-sm-2" name="dayInterval" onChange={this.onChange}>
                                         {this.props.DayInterval.map(interval => (<option className="dropdown-item" value={interval.intervalId}>{interval.title}</option>))}
                                     </select>
                                 </div>
@@ -138,7 +138,7 @@ class Basic extends React.Component {
                             <div className="row form-group">
                                 <div className="col-md-12">
                                     <Label>Campaigns</Label><br/>
-                                    <select multiple="multiple" className="custom-select" size="5" defaultValue={advertisementObj.campaigns}>
+                                    <select multiple="multiple" className="custom-select" size="5" defaultValue={this.state.campaigns} name="campaigns">
                                         {this.props.Campaigns.map(campaign => (<option value={campaign.campaignId}>{campaign.title}</option>))}
                                     </select>
                                 </div>
@@ -166,11 +166,10 @@ class Basic extends React.Component {
 //connect redux
 const mapStateToProps = (state) => {
 
-    const intervals = state.AdvertisementStore.DayIntervals;
-
     return {
         DayInterval: state.AdvertisementStore.DayIntervals,
-        Campaigns: state.AdvertisementStore.Campaigns
+        Campaigns: state.AdvertisementStore.Campaigns,
+        UploadedMedia: state.AdvertisementStore.Media
     }
 
 }
@@ -179,7 +178,6 @@ const actionCreators = {
 
     getCampaigns: AdvertisementAction.getCampaigns,
     getDayIntervals: AdvertisementAction.getDayIntervals,
-    getInstitutions: InstitutionAction.getInstitutions,
     uploadMedia: AdvertisementAction.uploadMedia,
     saveAdvertisement: AdvertisementAction.addAdvertisement
 
