@@ -1,8 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as LoginAction from '../Redux/Action';
-import * as UserAction from '../Redux/Action';
-import { userConstants } from '../constants/userConstants';
 
 
 
@@ -59,7 +57,7 @@ class Primary extends Component
                             <li key={navItem} className={this.returnSelectMenu(navItem)} onClick={(event) => this.toggleMenu(event, navItem)}><a><div className="icon-22"><img alt="" src={require(`../images/${navItem}.svg`)} className="menu-icon" /></div> {navItem}</a>
                             </li>
                         )}
-                     </ul>
+                    </ul>
                 </div>
 
             </div>

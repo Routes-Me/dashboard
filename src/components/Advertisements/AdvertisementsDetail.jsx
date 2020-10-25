@@ -15,14 +15,9 @@ class AdvertisementsDetail extends React.Component {
         super(props)
 
         this.state = {
-            id: "",
-            name: "",
-            institution: "",
             imageUrl: "",
-            videoUrl:"",
-            campaigns: [],
-            dayInterval: "",
-            advertisement: "",
+            videoUrl:"test",
+            mediaType:"",
             tabIndex:0
         }
     }
@@ -37,52 +32,17 @@ class AdvertisementsDetail extends React.Component {
         this.setState({ [event.target.name]: event.target.value })
     }
 
-    fileChangedHandler = (event) => {
-        const file = event.target.files[0];
-        this.compressImage(file);
-        this.props.uploadMedia(this.state.image);
-        
-    }
 
- 
 
-    compressImage = async (image) => {
-        const compressedImage = await onImageCompress(image);
-        //console.log(`The compressed image size ==> ${this.calculateImageSize(compressedImage)}`);
-        this.setState({ image: compressedImage });
-        
-    }
 
-    static getDerivedStateFromProps(props, state) {
-        console.log('Users : getDerivedStateFromProps called with NewProps', props.advertisementToDisplay);
-        if (props.advertisementToDisplay !== undefined) {
-            if (props.advertisementToDisplay !== state.userToDisplay) {
-                return {
-                    advertisement: props.advertisementToDisplay,
-                    id: props.advertisementToDisplay.id,
-                    name: props.advertisementToDisplay.name,
-                    dayInterval: props.advertisementToDisplay.dayInterval,
-                    institution: props.advertisementToDisplay.institution,
-                    media: props.advertisementToDisplay.media,
-                    campaigns: props.advertisementToDisplay.campaigns
-                }
+    static getDerivedStateFromProps (props, state){
+        if (props.UploadedMedia !== undefined) 
+        {
+            if (props.UploadedMedia.Type !== state.mediaType) 
+            {
+                return props.UploadedMedia.Type === 'mp4'? { imageUrl: props.UploadedMedia.Url, mediaType:"video" } : { videoUrl: props.UploadedMedia.Url, mediaType:'image'}
             }
         }
-    }
-
-    //Submit button action 
-    handleSubmit = (event) => {
-
-        event.preventDefault();
-
-        const vehicle = {
-            Email: this.state.email,
-            Phone: this.state.phone,
-            application: this.state.application,
-            name: this.state.name
-        }
-
-        this.props.saveUser(vehicle);
     }
 
     onTabClick = (index) => {
@@ -90,9 +50,11 @@ class AdvertisementsDetail extends React.Component {
     }
 
     render() {
+
         const advertisementObj = this.state.advertisement;
-        const imageText = this.props.ImageURL === "" ? "160 X 600" : this.state.image;
-        const videoText = this.state.videoUrl === "" ? "1280 X 720" : this.state.video;
+
+        const imageText = this.state.imageUrl === "" ? "160 X 600" : this.state.imageUrl;
+        const videoText = this.state.videoUrl === "" ? "1280 X 720" : this.state.videoUrl;
         const tabIndex = this.state.tabIndex; 
         return (
             <div className="container-fluid">
@@ -100,12 +62,10 @@ class AdvertisementsDetail extends React.Component {
                     <div className="headerTabStyle">
                         <nav>
                             <div className="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                                <a className={`nav-item nav-link ${tabIndex === 0 && "active"}`}  id="nav-home-tab" data-toggle="tab" onClick={(e) => this.onTabClick(0)} role="tab" aria-controls="nav-home" aria-selected="true"> Basic</a>
-                                <a className={`nav-item nav-link ${tabIndex === 1 && "active"}`} id="nav-profile-tab" data-toggle="tab" onClick={(e) => this.onTabClick(1)} role="tab" aria-controls="nav-profile" aria-selected="false"> QR Code Promotion</a>
+                                <a className={`nav-item nav-link ${tabIndex === 1 && "active"}`}  id="nav-home-tab" data-toggle="tab" onClick={(e) => this.onTabClick(0)} role="tab" aria-controls="nav-home" aria-selected="true"> Basic</a>
+                                <a className={`nav-item nav-link ${tabIndex === 2 && "active"}`} id="nav-profile-tab" data-toggle="tab" onClick={(e) => this.onTabClick(1)} role="tab" aria-controls="nav-profile" aria-selected="false"> QR Code Promotion</a>
                             </div>
                         </nav>
-                        {/*<button className="btn default" onClick={(e) => this.onTabClick(0)}> Basic </button>
-                        <button className="btn default" onClick={(e) => this.onTabClick(1)}> QR Code Promotion</button>*/}
                     </div>
                     <div className="row col-md-12 detail-form">
                         <div className="col-md-6">
@@ -115,16 +75,16 @@ class AdvertisementsDetail extends React.Component {
                             <div className="col-md-12 simulator">
                             <div className="container row topPanel">
                                 <div className="banner1">
-                                        {
+                                    {
                                             this.state.videoUrl === "" ? videoText :
                                             <ReactPlayer
                                                 width='100%'
                                                 height='100%'
                                                 controls
-                                                url="https://firebasestorage.googleapis.com/v0/b/wdeniapp.appspot.com/o/000000%2FKuwait%20National%20Day.mp4?alt=media&token=fd4c77c5-1d5c-4aed-bb77-a6de9acb00b3" />
+                                                url={videoText} />
                                     }
                                 </div>
-                                    <div className="banner2">
+                                <div className="banner2">
                                         {this.props.ImageURL === "" ? imageText : <img className="img-fluid" alt="" src={imageText} />}
                                 </div>
                             </div>
@@ -138,8 +98,8 @@ class AdvertisementsDetail extends React.Component {
                 </div>
                     <div className="footerStyle">
                         <button type="submit" style={{ float: 'left' }}> Create </button>
-                        <button className="btn btn-light" style={{ marginLeft: '107px' }} onClick={(e) => this.onTabClick(0)}> <span class="glyphicon glyphicon-menu-left" aria-hidden="true" /> Previous</button>
-                        <button className="next" style={{ marginLeft: '7px' }} onClick={(e) => this.onTabClick(1)}>Next: Extras <span class="glyphicon glyphicon-menu-right" aria-hidden="true" /> </button>
+                        <button className="btn btn-light" style={{ marginLeft: '107px' }} onClick={(e) => this.onTabClick(1)}> <span class="glyphicon glyphicon-menu-left" aria-hidden="true" /> Previous</button>
+                        <button className="next" style={{ marginLeft: '7px' }} onClick={(e) => this.onTabClick(2)}>Next: Extras <span class="glyphicon glyphicon-menu-right" aria-hidden="true" /> </button>
                     </div>
             </div>
         )
@@ -150,23 +110,16 @@ class AdvertisementsDetail extends React.Component {
 //connect redux
 const mapStateToProps = (state) => {
 
-    const intervals = state.AdvertisementStore.DayIntervals;
-
     return {
-        DayInterval: state.AdvertisementStore.DayIntervals,
-        Campaigns: state.AdvertisementStore.Campaigns,
         Title: state.AdvertisementStore.Title,
         SubTitle: state.AdvertisementStore.SubTitle,
-        ImageURL: state.AdvertisementStore.MediaUrl
+        UploadedMedia: state.AdvertisementStore.Media
     }
 
 }
 
 const actionCreators = {
 
-    getCampaigns: AdvertisementAction.getCampaigns,
-    getDayIntervals: AdvertisementAction.getDayIntervals,
-    getInstitutions: InstitutionAction.getInstitutions,
     uploadMedia: AdvertisementAction.uploadMedia,
     saveAdvertisement: AdvertisementAction.addAdvertisement
 

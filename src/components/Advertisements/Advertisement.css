@@ -227,6 +227,11 @@ button {
 }
 
 
+.status {
+    display: flex;
+}
+
+
 
 
 

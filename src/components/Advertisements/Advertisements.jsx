@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { userConstants } from '../../constants/userConstants';
 import * as AdvertisementAction from '../../Redux/Action';
 import '../Detail/Detail.css';
+import Status from '../Advertisements/RowItem/Status';
 
 class Advertisements extends Component {
 
@@ -65,7 +66,7 @@ class Advertisements extends Component {
                             <tr>
                                 <th>ID</th>
                                 <th>NAME</th>
-                                <th>CAMPING</th>
+                                <th>CREATED AT</th>
                                 <th>STATUS</th>
                                 <th className="width44" />
                             </tr>
@@ -76,8 +77,8 @@ class Advertisements extends Component {
                                     <tr key={Advertisement.id}>
                                         <td>{Advertisement.id}</td>
                                         <td>{Advertisement.resourceName}</td>
-                                        <td>{Advertisement.id}</td>
                                         <td>{Advertisement.createdAt}</td>
+                                        <td><Status text={Advertisement.campaigns.Status}/></td>
                                         <td className="width44" >
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Advertisement.id)}>

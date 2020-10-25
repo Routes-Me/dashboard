@@ -1,8 +1,8 @@
 ﻿import axios from "axios";
 import { history } from "../../helper/history";
-import { userConstants } from "../../constants/userConstants";
 import { MockServerData } from '../../constants/MockServerData';
-
+import { config } from "../../constants/config";
+import {userConstants} from '../../constants/userConstants';
 import jwt from "jsonwebtoken";
 import { encryptAndEncode } from "../../util/encrypt";
 import {setToken, clearStorage} from '../../util/localStorage';
@@ -17,10 +17,11 @@ export function userSignInRequest(username, password) {
           Password: encryptAndEncode(password)
       };
 
-      axios.post(userConstants.Domain + 'signin', userObject)
+      axios.post(config.Domain + 'signin', userObject)
           .then(
               response => {
                   const token = response.data.token;
+                  const testDecode = parseJwt(token)
                   const LoggedInUser = jwt.decode(token);
                   dispatch(getLoginSuccess(LoggedInUser));
                   setToken(token);
@@ -42,6 +43,16 @@ export function userSignInRequest(username, password) {
   function failure(error) { return { type: userConstants.Login_FAILURE, error }; }
 
 }
+
+function parseJwt (token) {
+  var base64Url = token.split('.')[1];
+  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+
+  return JSON.parse(jsonPayload);
+};
 
 
 //Autherize the logged in user with the userRole
@@ -66,7 +77,7 @@ export function forgotPassword(email) {
     dispatch(requestForgotPassword(PasswordObject));
 
     axios
-      .post(userConstants.Domain + "api/Users/forgot_password", PasswordObject)
+      .post(config.Domain + "api/Users/forgot_password", PasswordObject)
       .then(
         (user) => {
           dispatch(ForgotPasswordsuccess(user));
@@ -114,7 +125,7 @@ export function ResetPassword(institutionObject) {
 
     axios
       .post(
-        userConstants.Domain + "api/Users/rest_password",
+        config.Domain + "api/Users/rest_password",
         ResetPasswordObject
       )
       .then(
