@@ -19,7 +19,7 @@ class AdvertisementsDetail extends React.Component {
             name: "",
             institution: "",
             imageUrl: "",
-            videoUrl:"",
+            videoUrl:"tt",
             campaigns: [],
             dayInterval: "",
             advertisement: "",
@@ -121,7 +121,7 @@ class AdvertisementsDetail extends React.Component {
                                                 width='100%'
                                                 height='100%'
                                                 controls
-                                                url="https://firebasestorage.googleapis.com/v0/b/wdeniapp.appspot.com/o/000000%2FKuwait%20National%20Day.mp4?alt=media&token=fd4c77c5-1d5c-4aed-bb77-a6de9acb00b3" />
+                                                url="https://routesme.blob.core.windows.net/advertisements/Shukran%204th%20Ring%20Screen_637388706309724311.mp4" />
                                     }
                                 </div>
                                     <div className="banner2">

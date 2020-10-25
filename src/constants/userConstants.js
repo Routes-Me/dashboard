@@ -48,9 +48,6 @@
 
     UpdatePage: "UPDATE_PAGE",
 
-    Pagelimit: 10,
-
-    //Domain:'http://localhost:5000/api/' 
-    Domain:'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/' 
+    Pagelimit: 10
 
 };
