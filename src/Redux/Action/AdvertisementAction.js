@@ -1,5 +1,4 @@
-﻿import axios from 'axios';
-import { userConstants } from '../../constants/userConstants';
+﻿import { config } from '../../constants/config'
 import { advertisementsConstants } from '../../constants/advertisementConstants';
 import Resizer from 'react-image-file-resizer';
 import { onImageCompress } from '../../util/Compress';
@@ -104,7 +103,6 @@ export function uploadMedia(mediaFile, fileType) {
             }
         };
 
-        var url = userConstants.Domain + 'advertisements/convert';
         try {
             apiHandler.post('medias', formData, options).then(
                 response => {
@@ -178,35 +176,16 @@ export function onMediaInput(file) {
 
 
 
-function returnQueryParamters(offset, include) {
-
-    let queryParameter;
-    if (include) {
-        queryParameter = {
-            "offset": offset,
-            "limit": userConstants.limit,
-            "include": ["services"]
-        }
-    }
-    else {
-        queryParameter = {
-            "offset": offset,
-            "limit": userConstants.limit
-        }
-    }
-    return queryParameter;
-
-}
 
 
 function buildURL(entity, offset, include) {
 
     let queryParameter =""
     if(include){
-      queryParameter=entity+"?offset="+offset+"&limit="+userConstants.Pagelimit+"&include=media,institution,campaign,interval";
+      queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit+"&include=media,institution,campaign,interval";
     }
     else{
-      queryParameter=entity+"?offset="+offset+"&limit="+userConstants.Pagelimit;
+      queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit;
     }
     return queryParameter;
 
@@ -254,7 +233,7 @@ function filterCampaignList(CampaignList, Campaigns)
 export function addAdvertisement(advertisement) {
     return dispatch => {
         dispatch(addAdvertisementRequest())
-        axios.post(userConstants.Domain + 'advertisements', advertisement)
+        apiHandler.post('advertisements', advertisement)
             .then(
                 response => { dispatch(savedAdvertisement(response)) },
                 error => { dispatch(saveAdvertisementFailure(error)) }
@@ -268,7 +247,7 @@ export function addAdvertisement(advertisement) {
 export function deleteAdvertisement(id) {
     return dispatch => {
         dispatch(deleteAdvertisementRequest())
-        axios.delete(userConstants.Domain + 'advertisements' + id)
+        apiHandler.delete('advertisements/' + id)
             .then(
                 response => { dispatch(deletedAdvertisement(response)) },
                 error => { dispatch(deleteAdvertisementFailure(error)) }

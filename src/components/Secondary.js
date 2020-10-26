@@ -34,7 +34,6 @@ class Secondary extends Component {
     }
 
     componentDidMount() {
-        this.props.GetOfflineVehicles();
         this.toggleFilter(this.state.filter);
     }
 
@@ -108,10 +107,6 @@ class Secondary extends Component {
         //             Active vehicle count : ${this.state.activeVehiclesCount}`)
         return (
             < div >
-                {/*<div className="justify-content-center row col-md-12" style={{ backgroundColor: "#f1f2f6" }}>
-                    <a href="#" class="justify-content-center badge badge-primary" style={{ width: "38px", height: "4px", marginTop:"5px" }}>     </a>
-                </div>
-                {this.props.selectedNavItem === userConstants.NavItem_Tracking ? <SecondaryTracking /> : <SecondaryVehicles />}*/}
 
                 {this.props.selectedNavItem === userConstants.NavItem_Tracking && <SecondaryTracking />}
                 {this.props.selectedNavItem === userConstants.NavItem_Vehicles && <SecondaryVehicles />}
@@ -128,25 +123,14 @@ class Secondary extends Component {
 
 const mapStateToProps = (state) => {
 
-    //console.log("Secondary panel Update off obj : ", state.Tracking.IdleVehicles)
-    //console.log("Secondary panel Update on obj : ", state.Tracking.ActiveVehicles)
-    //const points = [...state.Tracking.ActiveVehicles, ...state.Tracking.IdleVehicles]
-    //const points = sampleArray.map(result => ({ vehicle_id: parseInt(result.vehicle_id), status: result.status, lat: parseFloat(result.coordinates.latitude), lng: parseFloat(result.coordinates.longitude) }))
-    //console.log('Mapped State Array returned :', points);
-
 
     return {
-        //vehicles: points,
-        //idleVehiclesCount: state.Tracking.IdleVehicles.length,
-        //activeVehiclesCount: state.Tracking.ActiveVehicles.length,
-        //idForidForSelectedVehicle: state.Tracking.idForSelectedVehicle,
         selectedNavItem: state.Login.SelectedNavOption
     }
 
 }
 
 const actionCreators = {
-    GetOfflineVehicles: TrackingAction.getOfflineData,
     UpdateTheSelectedMarker: TrackingAction.updateSelectedMarker
 };
 

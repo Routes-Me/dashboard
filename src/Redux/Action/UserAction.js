@@ -1,5 +1,6 @@
 ﻿import { MockServerData } from '../../constants/MockServerData';
 import { userConstants } from '../../constants/userConstants';
+import { config } from '../../constants/config';
 import apiHandler from '../../util/request';
 
 
@@ -156,11 +157,11 @@ function buildURL(entity, offset, include)
     let queryParameter =""
     if(include)
     {
-      queryParameter=entity+"?offset="+offset+"&limit="+userConstants.Pagelimit+"&include=services";
+      queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit+"&include=services";
     }
     else
     {
-      queryParameter=entity+"?offset="+offset+"&limit="+userConstants.Pagelimit;
+      queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit;
     }
     return queryParameter;
 }

@@ -48,6 +48,5 @@
 
     UpdatePage: "UPDATE_PAGE",
 
-    Pagelimit: 10
 
 };

@@ -1,9 +1,6 @@
 ﻿import { institutionConstants } from "../../constants/institutionConstants";
-import { userConstants } from "../../constants/userConstants";
 import {config} from "../../constants/config";
 import apiHandler from '../../util/request';
-import axios from "axios";
-
 
 //Get Institution list
 export function getInstitutions(institutionId, offset) {
@@ -39,10 +36,10 @@ function buildURL(entity, offset, include) {
 
   let queryParameter =""
   if(include){
-    queryParameter=entity+"?offset="+offset+"&limit="+userConstants.Pagelimit+"&include=services";
+    queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit+"&include=services";
   }
   else{
-    queryParameter=entity+"?offset="+offset+"&limit="+userConstants.Pagelimit;
+    queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit;
   }
   return queryParameter;
 

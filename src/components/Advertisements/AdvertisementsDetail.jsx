@@ -16,13 +16,12 @@ class AdvertisementsDetail extends React.Component {
 
         this.state = {
             imageUrl: "",
-            videoUrl:"test",
+            videoUrl:"",
             mediaType:"",
-            tabIndex:0
+            tabIndex:1
         }
-    }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
-  
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        a
+    }
+    
     onChange = (event) => {
         this.setState({ [event.target.name]: event.target.value })
     }
@@ -31,7 +30,7 @@ class AdvertisementsDetail extends React.Component {
 
 
     static getDerivedStateFromProps (props, state){
-        if (props.UploadedMedia !== undefined) 
+        if (props.UploadedMedia !== "") 
         {
             if (props.UploadedMedia.Type !== state.mediaType) 
             {
@@ -57,14 +56,14 @@ class AdvertisementsDetail extends React.Component {
                     <div className="headerTabStyle">
                         <nav>
                             <div className="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                                <a className={`nav-item nav-link ${tabIndex === 1 && "active"}`}  id="nav-home-tab" data-toggle="tab" onClick={(e) => this.onTabClick(0)} role="tab" aria-controls="nav-home" aria-selected="true"> Basic</a>
-                                <a className={`nav-item nav-link ${tabIndex === 2 && "active"}`} id="nav-profile-tab" data-toggle="tab" onClick={(e) => this.onTabClick(1)} role="tab" aria-controls="nav-profile" aria-selected="false"> QR Code Promotion</a>
+                                <a className={`nav-item nav-link ${tabIndex === 1 && "active"}`}  id="nav-home-tab" data-toggle="tab" onClick={(e) => this.onTabClick(1)} role="tab" aria-controls="nav-home" aria-selected="true"> Basic</a>
+                                <a className={`nav-item nav-link ${tabIndex === 2 && "active"}`} id="nav-profile-tab" data-toggle="tab" onClick={(e) => this.onTabClick(2)} role="tab" aria-controls="nav-profile" aria-selected="false"> QR Code Promotion</a>
                             </div>
                         </nav>
                     </div>
                     <div className="row col-md-12 detail-form">
                         <div className="col-md-6">
-                            {this.state.tabIndex === 0 ? < Basic /> : <Extras />}
+                            {this.state.tabIndex === 1 ? < Basic /> : <Extras />}
                         </div>
                         <div className="col-md-6">
                             <div className="col-md-12 simulator">
@@ -80,7 +79,7 @@ class AdvertisementsDetail extends React.Component {
                                 }
                                 </div>
                                 <div className="banner2">
-                                        {this.props.ImageURL === "" ? imageText : <img className="img-fluid" alt="" src={imageText} />}
+                                        {this.state.imageUrl === "" ? imageText : <img className="img-fluid" alt="" src={imageText} />}
                                 </div>
                             </div>
                                 <div className="container row bottomPanel">

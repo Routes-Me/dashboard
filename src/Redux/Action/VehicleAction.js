@@ -1,5 +1,4 @@
 ﻿import { vehicleConstants } from "../../constants/vehicleConstants";
-import { userConstants } from "../../constants/userConstants";
 import {config} from "../../constants/config";
 import apiHandler from '../../util/request';
 
@@ -9,10 +8,10 @@ function buildURL(entity, offset, include) {
 
     let queryParameter =""
     if(include){
-      queryParameter=entity+"?offset="+offset+"&limit="+userConstants.Pagelimit+"&include=institutions,models";
+      queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit+"&include=institutions,models";
     }
     else{
-      queryParameter=entity+"?offset="+offset+"&limit="+userConstants.Pagelimit;
+      queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit;
     }
     return queryParameter;
 
