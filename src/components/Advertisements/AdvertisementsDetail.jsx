@@ -20,14 +20,9 @@ class AdvertisementsDetail extends React.Component {
             mediaType:"",
             tabIndex:0
         }
-    }
-
-    componentDidMount() {
-        this.props.getCampaigns();
-        this.props.getDayIntervals();
-        //this.props.getInstitutions();
-    }
-
+    }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+  
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        a
     onChange = (event) => {
         this.setState({ [event.target.name]: event.target.value })
     }
