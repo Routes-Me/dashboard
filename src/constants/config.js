@@ -30,6 +30,11 @@ export const config = {
         name: "Please select the institution"
     },
 
+    selectDayInterval:{
+        intervalId:0,
+        title:"Please select a interval"
+    },
+
     Domain:'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/',
 
     Pagelimit : 10

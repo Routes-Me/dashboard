@@ -34,7 +34,7 @@ class AdvertisementsDetail extends React.Component {
         {
             if (props.UploadedMedia.Type !== state.mediaType) 
             {
-                return props.UploadedMedia.Type === 'mp4'? { imageUrl: props.UploadedMedia.Url, mediaType:"video" } : { videoUrl: props.UploadedMedia.Url, mediaType:'image'}
+                return props.UploadedMedia.Type === 'mp4'? { videoUrl: props.UploadedMedia.Url, mediaType:'image', imageUrl:""} : { imageUrl: props.UploadedMedia.Url, mediaType:"video" , videoUrl:""};
             }
         }
     }

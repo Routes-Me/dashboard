@@ -84,13 +84,12 @@ export function uploadMedia(mediaFile, fileType) {
 
     let file = mediaFile;
     if (fileType==='image') {
-        //const compressedImage = await onImageCompress(mediaFile);
         file = dataURLtoFile(mediaFile, "compressedImageFile.jpg");
     }
 
 
     const formData = new FormData();
-    formData.append("File", file);
+    formData.append("media", file);
 
     return dispatch => {
         dispatch(requestUpload);
@@ -106,7 +105,7 @@ export function uploadMedia(mediaFile, fileType) {
         try {
             apiHandler.post('medias', formData, options).then(
                 response => {
-                    dispatch(uploadSuccessful(formatMediaResponse(response)));
+                    dispatch(uploadSuccessful(formatMediaResponse(response.data)));
                     console.log(response);
                 },
                 error => {
@@ -138,10 +137,11 @@ function formatMediaResponse(media){
        Id   : media.mediaId
    }
 
+   return Media;
 }
 
 function returnFileType(url){
-    return url.substring(url.lastIndexOf('.'),url.length);
+    return url.substring(url.lastIndexOf('.')+1,url.length);
 }
 
 export function onTitleChange(text) {
@@ -194,16 +194,16 @@ function buildURL(entity, offset, include) {
 
 function returnFormatedAdvertisements(response) {
     const AdvertisementList = response.data.data;
-    const InstitutionList = response.data.included.institution;
-    const MediaList = response.data.included.media;
-    const CampaignList = response.data.included.campaign;
-    const IntervalList = response.data.included.interval;
+    const InstitutionList   = response.data.included.institution;
+    const MediaList         = response.data.included.media;
+    const CampaignList      = response.data.included.campaign;
+    const IntervalList      = response.data.included.interval;
 
     const FormatedAdvertisements = AdvertisementList?.map(x => ({
         id: x.advertisementId,
         resourceName: x.resourceName,
         createdAt: x.createdAt,
-        campaigns: CampaignList.filter(y => y.CampaignId === x.campaignId)[0],
+        campaigns: filterCampaignList(CampaignList, x.campaignId)[0],
         institution: InstitutionList.filter(y => y.institutionId === x.institutionId)[0],
         media: MediaList.filter(y => y.mediaId === x.mediaId)[0],
         interval: IntervalList.filter(y=>y.IntervalId === x.intervalId)[0]
@@ -219,7 +219,7 @@ function filterCampaignList(CampaignList, Campaigns)
   if( Campaigns !== null && CampaignList.length > 0)
   {
     for(var i=0; i<Campaigns.length; i++){
-        filteredList.push(CampaignList.filter(y => y.ServiceId===Campaigns[i]));
+        filteredList.push(CampaignList.filter(y => y.CampaignId===Campaigns[i]));
     }
     return filteredList;
   }

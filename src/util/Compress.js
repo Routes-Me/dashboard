@@ -13,7 +13,7 @@ const resizeFile = (file) => new Promise(resolve => {
         uri => {
             resolve(uri);
         },
-        'base64'
+        'Blob'
     );
 });
 

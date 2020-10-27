@@ -2,10 +2,10 @@
 import { connect } from 'react-redux';
 import { Label } from 'reactstrap';
 import * as AdvertisementAction from '../../../Redux/Action';
-import * as InstitutionAction from '../../../Redux/Action';
 import Form from 'react-validation/build/form';
 import { onImageCompress } from '../../../util/Compress';
 import '../../Advertisements/Advertisement.css';
+import { config } from '../../../constants/config';
 
 
 class Basic extends React.Component {
@@ -167,7 +167,7 @@ class Basic extends React.Component {
 const mapStateToProps = (state) => {
 
     return {
-        DayInterval: state.AdvertisementStore.DayIntervals,
+        DayInterval: [config.selectDayInterval, ...state.AdvertisementStore.DayIntervals],
         Campaigns: state.AdvertisementStore.Campaigns,
         UploadedMedia: state.AdvertisementStore.Media
     }
