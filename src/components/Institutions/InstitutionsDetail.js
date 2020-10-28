@@ -125,7 +125,7 @@ class InstitutionsDetail extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-4">
                                 <Label>Services</Label><br />
-                                <select class="custom-select" multiple size="3" defaultValue={this.state.services} name="services" onChange={this.onChange}>
+                                <select class="custom-select" multiple size="5" defaultValue={this.state.services} name="services" onChange={this.onChange}>
                                     {this.props.servicesList.map(service => (<option value={service.serviceId}>{service.name}</option>))}
                                 </select>
                             </div>

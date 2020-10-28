@@ -1,7 +1,6 @@
 ﻿import { config } from '../../constants/config'
 import { advertisementsConstants } from '../../constants/advertisementConstants';
 import Resizer from 'react-image-file-resizer';
-import { onImageCompress } from '../../util/Compress';
 import apiHandler from '../../util/request';
 
 

@@ -13,7 +13,7 @@ export const config = {
     selectMake :{
         manufacturerId: 0,
         name: "Please select a make"
-        },
+    },
 
     selectApplication:{
             applicationId: 0,

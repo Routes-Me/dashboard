@@ -18,7 +18,9 @@ class AdvertisementsDetail extends React.Component {
             imageUrl: "",
             videoUrl:"",
             mediaType:"",
-            tabIndex:1
+            tabIndex:1,
+            submitBasic:false,
+            submitExtra:false
         }
     }
     
@@ -40,7 +42,11 @@ class AdvertisementsDetail extends React.Component {
     }
 
     onTabClick = (index) => {
-        this.setState({ tabIndex: index });
+        this.setState({ tabIndex: index, submitBasic: true});
+    }
+
+    onCreate = (e) =>{
+        this.setState({submitBasic:true});
     }
 
     render() {
@@ -63,37 +69,37 @@ class AdvertisementsDetail extends React.Component {
                     </div>
                     <div className="row col-md-12 detail-form">
                         <div className="col-md-6">
-                            {this.state.tabIndex === 1 ? < Basic /> : <Extras />}
+                            {this.state.tabIndex === 1 ? <Basic submitForm={this.state.submitBasic}/> : <Extras submitForm={this.state.submitExtra}/>}
                         </div>
                         <div className="col-md-6">
                             <div className="col-md-12 simulator">
-                            <div className="container row topPanel">
-                                <div className="banner1">
-                                {
-                                    this.state.videoUrl === "" ? videoText :
-                                        <ReactPlayer
+                                <div className="container row topPanel">
+                                    <div className="banner1">
+                                    {
+                                        this.state.videoUrl === "" ? videoText :
+                                            <ReactPlayer
                                                 width='100%'
                                                 height='100%'
                                                 controls
-                                                url={videoText} />
-                                }
+                                                url={videoText}/>
+                                    }
+                                    </div>
+                                    <div className="banner2">
+                                            {this.state.imageUrl === "" ? imageText : <img className="img-fluid" alt="" src={imageText} />}
+                                    </div>
                                 </div>
-                                <div className="banner2">
-                                        {this.state.imageUrl === "" ? imageText : <img className="img-fluid" alt="" src={imageText} />}
-                                </div>
-                            </div>
                                 <div className="container row bottomPanel">
                                     <div className="banner3"><p>{this.props.Title}</p><br /><p></p></div>
-                                <div className="banner4"></div>
+                                    <div className="banner4"></div>
+                                </div>
                             </div>
-                        </div>
                         </div>
                     </div>
                 </div>
                     <div className="footerStyle">
-                        <button type="submit" style={{ float: 'left' }}> Create </button>
+                        <button type="submit" style={{ float: 'left' }} onClick={(e) => this.onCreate(e)}> Create </button>
                         <button className="btn btn-light" style={{ marginLeft: '107px' }} onClick={(e) => this.onTabClick(1)}> <span class="glyphicon glyphicon-menu-left" aria-hidden="true" /> Previous</button>
-                        <button className="next" style={{ marginLeft: '7px' }} onClick={(e) => this.onTabClick(2)}>Next: Extras <span class="glyphicon glyphicon-menu-right" aria-hidden="true" /> </button>
+                        <button className="next" style={{ marginLeft: '7px' }} onClick={(e) => this.onTabClick(2)}> Next: Extras <span class="glyphicon glyphicon-menu-right" aria-hidden="true" /> </button>
                     </div>
             </div>
         )

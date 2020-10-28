@@ -16,7 +16,7 @@ class UsersDetail extends React.Component {
         this.state = {
             id: "",
             name: "",
-            InstitutionId: "",
+            institutionId: "",
             email: "",
             role: "",
             phone:"",
@@ -167,7 +167,7 @@ class UsersDetail extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-4">
                                 <Label>Institution</Label><br />
-                                <select defaultValue={userObj ? this.state.institutionId : "Select a institution"} className="custom-select my-1 mr-sm-2" name="InstitutionId" onChange={this.onChange}>
+                                <select defaultValue={userObj ? this.state.institutionId : "Select a institution"} className="custom-select my-1 mr-sm-2" name="institutionId" onChange={this.onChange}>
                                     {this.props.InstitutionList.map(institution => (<option key={institution.institutionId} className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
                                 </select>
                             </div>
