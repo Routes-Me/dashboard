@@ -100,14 +100,18 @@ class Basic extends React.Component {
     handleSubmit = () => {
 
         const advertisement = {
+
             ResourceName    : this.state.name,
-            InstitutionId   : this.state.phone,
+            IntervalId      : this.state.dayInterval,
+            InstitutionId   : this.state.institutionId,
             MediaId         : this.props.UploadedMedia.Id,
             IntervalId      : this.state.application,
-            CampaignId      : this.state.campaigns
+            CampaignId      : this.state.campaigns,
+
         }
 
         this.props.saveAdvertisement(advertisement);
+
     }
 
     render() {
