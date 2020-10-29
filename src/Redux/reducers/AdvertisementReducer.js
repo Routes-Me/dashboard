@@ -10,7 +10,8 @@ const INITIAL_STATE = {
     error: null,
     Title: "",
     SubTitle:"",
-    Media: ""
+    Media: "",
+    Advertisement:''
 }
 
 const AdvertisementReducer = (state = INITIAL_STATE, action) => {
@@ -71,7 +72,8 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 loading: false,
-                hasError: false
+                hasError: false,
+                Advertisement: action.payload
             };
         case advertisementsConstants.saveAdvertisements_ERROR:
             return {

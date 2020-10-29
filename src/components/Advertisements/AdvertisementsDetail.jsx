@@ -1,7 +1,6 @@
 ﻿import React from 'react';
 import { connect } from 'react-redux';
 import * as AdvertisementAction from '../../Redux/Action';
-import * as InstitutionAction from '../../Redux/Action';
 import { onImageCompress } from '../../util/Compress';
 import { Basic } from './Detail/Basic';
 import { Extras } from './Detail/Extras';
@@ -29,8 +28,6 @@ class AdvertisementsDetail extends React.Component {
     }
 
 
-
-
     static getDerivedStateFromProps (props, state){
         if (props.UploadedMedia !== "") 
         {
@@ -39,15 +36,26 @@ class AdvertisementsDetail extends React.Component {
                 return props.UploadedMedia.Type === 'mp4'? { videoUrl: props.UploadedMedia.Url, mediaType:'image', imageUrl:""} : { imageUrl: props.UploadedMedia.Url, mediaType:"video" , videoUrl:""};
             }
         }
+        // if(!props.Loading && props.NewAdvertisement !=='')
+        // {
+        //     this.props.
+        // }
+        return null;
     }
 
     onTabClick = (index) => {
-        this.setState({ tabIndex: index, submitBasic: true});
+        this.setState({ tabIndex: index });
+        if(index===2)
+        {
+            this.setState({submitBasic:true});
+        }
     }
 
     onCreate = (e) =>{
         this.setState({submitBasic:true});
     }
+
+    
 
     render() {
 
@@ -99,7 +107,7 @@ class AdvertisementsDetail extends React.Component {
                     <div className="footerStyle">
                         <button type="submit" style={{ float: 'left' }} onClick={(e) => this.onCreate(e)}> Create </button>
                         <button className="btn btn-light" style={{ marginLeft: '107px' }} onClick={(e) => this.onTabClick(1)}> <span class="glyphicon glyphicon-menu-left" aria-hidden="true" /> Previous</button>
-                        <button className="next" style={{ marginLeft: '7px' }} onClick={(e) => this.onTabClick(2)}> Next: Extras <span class="glyphicon glyphicon-menu-right" aria-hidden="true" /> </button>
+                        <button className="next" style={{ marginLeft: '7px' }} onClick={(e) => this.onCreate()}> Next: Extras <span class="glyphicon glyphicon-menu-right" aria-hidden="true" /> </button>
                     </div>
             </div>
         )
@@ -113,7 +121,8 @@ const mapStateToProps = (state) => {
     return {
         Title: state.AdvertisementStore.Title,
         SubTitle: state.AdvertisementStore.SubTitle,
-        UploadedMedia: state.AdvertisementStore.Media
+        Loading : state.AdvertisementStore.loading,
+        NewAdvertisement : state.AdvertisementStore.Advertisement
     }
 
 }

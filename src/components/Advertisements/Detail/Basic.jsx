@@ -23,7 +23,7 @@ class Basic extends React.Component {
             campaigns: [],
             dayInterval: 0,
             advertisement: "",
-            submitForm:false
+            submit:false
         }
     }
 
@@ -75,11 +75,12 @@ class Basic extends React.Component {
         //console.log(`The compressed image size ==> ${this.calculateImageSize(compressedImage)}`);
         this.setState({ image: compressedImage });
         return compressedImage;
-        //this.props.uploadMedia(compressedImage);
     }
 
+
+
     static getDerivedStateFromProps(props, state) {
-        console.log('Users : getDerivedStateFromProps called with NewProps', props.advertisementToDisplay);
+        // console.log('Users : getDerivedStateFromProps called with NewProps', props.advertisementToDisplay);
         if (props.advertisementToDisplay !== undefined) {
             if (props.advertisementToDisplay !== state.advertisement) {
                 return {
@@ -90,11 +91,17 @@ class Basic extends React.Component {
                     institution     : props.advertisementToDisplay.institution,
                     media           : props.advertisementToDisplay.media,
                     campaigns       : props.advertisementToDisplay.campaigns
-
                 }
             }
         }
+        return null;
     }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.submitForm !== prevProps.submitForm) {
+          this.handleSubmit();
+        }
+      }
 
     //Submit button action 
     handleSubmit = () => {
@@ -102,11 +109,10 @@ class Basic extends React.Component {
         const advertisement = {
 
             ResourceName    : this.state.name,
-            IntervalId      : this.state.dayInterval,
             InstitutionId   : this.state.institutionId,
             MediaId         : this.props.UploadedMedia.Id,
-            IntervalId      : this.state.application,
-            CampaignId      : this.state.campaigns,
+            IntervalId      : this.state.dayInterval,
+            CampaignId      : this.state.campaigns[0]
 
         }
 
@@ -116,7 +122,7 @@ class Basic extends React.Component {
 
     render() {
         
-        {this.props.submitForm && this.handleSubmit()} 
+        // {this.state.submit && this.handleSubmit()} 
         return (
             <div className="container-fluid">
                 <label>Create an advertisment that runs interactively on taxi screens, Complete the Basics tab then Create to add the advertisment or review each tab for full customization</label>

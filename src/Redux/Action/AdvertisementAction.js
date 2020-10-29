@@ -79,7 +79,6 @@ function dataURLtoFile(dataurl, filename) {
 
 export function uploadMedia(mediaFile, fileType) {
 
-    //const compressedImage = await resizeFile(mediaFile);
 
     let file = mediaFile;
     if (fileType==='image') {
@@ -111,7 +110,6 @@ export function uploadMedia(mediaFile, fileType) {
                     dispatch(uploadError(error));
                 }
             )
-
         }
         catch (ex) {
             console.log(ex);
@@ -234,12 +232,12 @@ export function addAdvertisement(advertisement) {
         dispatch(addAdvertisementRequest())
         apiHandler.post('advertisements', advertisement)
             .then(
-                response => { dispatch(savedAdvertisement(response)) },
+                response => { dispatch(savedAdvertisement(response.data)) },
                 error => { dispatch(saveAdvertisementFailure(error)) }
             )
     }
     function addAdvertisementRequest() { return { type: advertisementsConstants.saveAdvertisements_REQUEST }; }
-    function savedAdvertisement(response) { return { type: advertisementsConstants.saveAdvertisements_SUCCESS, payload:response }; }
+    function savedAdvertisement(advertisement) { return { type: advertisementsConstants.saveAdvertisements_SUCCESS, payload:advertisement }; }
     function saveAdvertisementFailure(error) { return { type: advertisementsConstants.saveAdvertisements_ERROR, payload:error }; }
 }
 
