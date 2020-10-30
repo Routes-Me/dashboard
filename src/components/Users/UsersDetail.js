@@ -102,7 +102,7 @@ class UsersDetail extends React.Component {
                     <div className="col-md-12">
 
                         <div className="row form-group">
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                                 <Label>Name</Label><br />
                                 <input type="text" name="name"
                                     value={this.state.name}
@@ -113,7 +113,7 @@ class UsersDetail extends React.Component {
                         </div>
 
                         <div className="row form-group">
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                                 <Label>Password</Label><br />
                                 <input type="text" name="password"
                                     value={this.state.password}
@@ -125,7 +125,7 @@ class UsersDetail extends React.Component {
                         
 
                         <div className="row form-group">
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                                 <Label>Email</Label><br />
                                 <input type="text" name="email"
                                     value={this.state.email}
@@ -136,7 +136,7 @@ class UsersDetail extends React.Component {
                         </div>
 
                         <div className="row form-group">
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                                 <Label>Phone</Label><br />
                                 <input type="text" name="phone"
                                     defaultValue={this.state.phone}
@@ -147,7 +147,7 @@ class UsersDetail extends React.Component {
                         </div>
 
                         <div className="row form-group">
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                                 <Label>Applications</Label><br />
                                 <select defaultValue={userObj ? this.state.roles[0].applicationId : "Select a role"} className="custom-select my-1 mr-sm-2" name="application" onChange={this.onChange}>
                                     {this.props.ApplicationsList.map(application => (<option key={application.applicationId} className="dropdown-item" value={application.applicationId}>{application.name}</option>))}
@@ -156,7 +156,7 @@ class UsersDetail extends React.Component {
                         </div>
 
                         <div className="row form-group">
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                                 <Label>Privilege</Label><br />
                                 <select defaultValue={userObj ?this.state.roles[0].privilegeId : "Select a role"} className="custom-select my-1 mr-sm-2" name="privilege" onChange={this.onChange}>
                                     {this.props.PrivilegeList.map(privilege => (<option key={privilege.privilegeId} className="dropdown-item" value={privilege.privilegeId}>{privilege.name}</option>))}
@@ -165,7 +165,7 @@ class UsersDetail extends React.Component {
                         </div>
 
                         <div className="row form-group">
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                                 <Label>Institution</Label><br />
                                 <select defaultValue={userObj ? this.state.institutionId : "Select a institution"} className="custom-select my-1 mr-sm-2" name="institutionId" onChange={this.onChange}>
                                     {this.props.InstitutionList.map(institution => (<option key={institution.institutionId} className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}

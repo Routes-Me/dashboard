@@ -1,7 +1,6 @@
 ﻿import React from 'react';
 import { connect } from 'react-redux';
 import * as AdvertisementAction from '../../Redux/Action';
-import { onImageCompress } from '../../util/Compress';
 import { Basic } from './Detail/Basic';
 import { Extras } from './Detail/Extras';
 import ReactPlayer from 'react-player';
@@ -29,17 +28,18 @@ class AdvertisementsDetail extends React.Component {
 
 
     static getDerivedStateFromProps (props, state){
-        if (props.UploadedMedia !== "") 
+
+        if (props.UploadedMedia!==undefined && (props.UploadedMedia !== ""))
         {
             if (props.UploadedMedia.Type !== state.mediaType) 
             {
                 return props.UploadedMedia.Type === 'mp4'? { videoUrl: props.UploadedMedia.Url, mediaType:'image', imageUrl:""} : { imageUrl: props.UploadedMedia.Url, mediaType:"video" , videoUrl:""};
             }
         }
-        // if(!props.Loading && props.NewAdvertisement !=='')
-        // {
-        //     this.props.
-        // }
+        if(!props.Loading && props.NewAdvertisement !=='')
+        {
+            this.onTabClick(2)
+        }
         return null;
     }
 
@@ -59,7 +59,6 @@ class AdvertisementsDetail extends React.Component {
 
     render() {
 
-        const advertisementObj = this.state.advertisement;
 
         const imageText = this.state.imageUrl === "" ? "160 X 600" : this.state.imageUrl;
         const videoText = this.state.videoUrl === "" ? "1280 X 720" : this.state.videoUrl;

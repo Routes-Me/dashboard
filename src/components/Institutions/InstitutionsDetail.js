@@ -103,7 +103,7 @@ class InstitutionsDetail extends React.Component {
                     <div class="col-md-12">
 
                         <div className="row form-group">
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                                 <Label>Name</Label><br />
                                 <input type="text" name="name"
                                     value={this.state.name}
@@ -113,7 +113,7 @@ class InstitutionsDetail extends React.Component {
                         </div>
 
                         <div className="row form-group">
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                                 <Label>Phone</Label><br />
                                 <input type="text" name="phoneNumber"
                                     value={this.state.phoneNumber}
@@ -123,7 +123,7 @@ class InstitutionsDetail extends React.Component {
                         </div>
 
                         <div className="row form-group">
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                                 <Label>Services</Label><br />
                                 <select class="custom-select" multiple size="5" defaultValue={this.state.services} name="services" onChange={this.onChange}>
                                     {this.props.servicesList.map(service => (<option value={service.serviceId}>{service.name}</option>))}

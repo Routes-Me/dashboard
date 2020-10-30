@@ -141,7 +141,7 @@ class VehicleDetail extends React.Component {
 
                         <div class="col-md-12">             
                             <div className="row form-group">
-                                <div className="col-md-4">
+                                <div className="col-md-6">
                                     <Label>Plate Number</Label><br />
                                     <input type="text" name="plateNumber"
                                     value={this.state.plateNumber}
@@ -152,9 +152,9 @@ class VehicleDetail extends React.Component {
                         </div><br /><br />
 
                         <div className="row form-group">
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                                 <Label>Year</Label><br />
-                                    <input type="number" min="2000" max="2020" step="1" name="modelYear"
+                                    <input type="date" min="2000" max="2020" step="1" name="modelYear"
                                         value={this.state.modelYear}
                                         onChange={this.onChange}
                                         className="form-control" />
@@ -162,7 +162,7 @@ class VehicleDetail extends React.Component {
                         </div>
 
                         <div className="row form-group">
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                                 <Label>Make</Label><br />
                                 <div class="btn-grp">
                                     <button type="button" class="btn btn-block btn-light text-left" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Makers)}>
@@ -173,7 +173,7 @@ class VehicleDetail extends React.Component {
                         </div>
 
                         <div className="row form-group">
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                                 <Label>Model</Label><br />
                                 <div class="btn-grp">
                                     <button type="button" class="btn btn-block btn-light text-left" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Models)}>
@@ -184,7 +184,7 @@ class VehicleDetail extends React.Component {
                         </div>
 
                         <div className="row form-group">
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                                 <Label>Institution</Label><br />
                                 <select defaultValue={this.state.institutionId? this.state.institutionId : "Select a model"} className="custom-select my-1 mr-sm-2" name="institutionId" onChange={this.onChange}>
                                     {this.props.InstitutionList.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
