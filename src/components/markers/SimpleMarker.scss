@@ -6,8 +6,26 @@ $originY: ($markerHeight * -1) + 4;
 $selectMarkerWidth: 30px;
 $selectMarkerHeight: 30px;
 
+$carWidth:180px;
+$carHeight:190px;
+$originCarX: ($carWidth * -3) ;
+$originCarY: ($carHeight * -3) ;
+
+.car{
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 80%;
+	cursor: pointer;
+	width: $carWidth;
+	height: $carHeight;
+	transform-origin: originCarX originCarY;
+}
 
 
+.select_car {
+	@extend .car;
+	background-image: url('../../images/Taxi-icon.svg');
+}
 
 .marker {
 	background-repeat: no-repeat;
@@ -58,14 +76,14 @@ $selectMarkerHeight: 30px;
 .active-marker.selected::before {
 	content: "";
 	position: absolute;
-	left: 50%;
+	left: 0%;
 	bottom: 0;
 	border-radius: 50%;
 	width: 6px;
 	height: 6px;
 	border: solid 1px #b5b5b5;
 	background-color: #ffffff;
-	transform: translatex(-50%);
+	transform: translatex(-80%);
 }
 
 
@@ -140,6 +158,8 @@ $selectMarkerHeight: 30px;
 }
 
 
+
+
 .select {
 	background: rgba(155, 120, 55, 1);
 	border-radius: 50%;
@@ -149,7 +169,7 @@ $selectMarkerHeight: 30px;
 	width: $selectMarkerHeight;
 	transform: scale(1);
 	animation: pulse 3s infinite;
-	position: absolute;
+	position: relative;
 }
 
 @keyframes pulse {
