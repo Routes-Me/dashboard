@@ -33,25 +33,21 @@ class AdvertisementsDetail extends React.Component {
         {
             if (props.UploadedMedia.Type !== state.mediaType) 
             {
-                return props.UploadedMedia.Type === 'mp4'? { videoUrl: props.UploadedMedia.Url, mediaType:'image', imageUrl:""} : { imageUrl: props.UploadedMedia.Url, mediaType:"video" , videoUrl:""};
+                 return props.UploadedMedia.Type === 'mp4'? { videoUrl: props.UploadedMedia.Url, mediaType:'mp4', imageUrl:""} : { imageUrl: props.UploadedMedia.Url, mediaType:"jpg" , videoUrl:""};
             }
         }
         if(!props.Loading && props.NewAdvertisement !=='')
         {
-            this.onTabClick(2)
+            return {tabIndex :2};
         }
         return null;
     }
 
     onTabClick = (index) => {
         this.setState({ tabIndex: index });
-        if(index===2)
-        {
-            this.setState({submitBasic:true});
-        }
     }
 
-    onCreate = (e) =>{
+    onCreate = (e) =>{                                                                                                                                                  
         this.setState({submitBasic:true});
     }
 
@@ -121,7 +117,8 @@ const mapStateToProps = (state) => {
         Title: state.AdvertisementStore.Title,
         SubTitle: state.AdvertisementStore.SubTitle,
         Loading : state.AdvertisementStore.loading,
-        NewAdvertisement : state.AdvertisementStore.Advertisement
+        NewAdvertisement : state.AdvertisementStore.Advertisement,
+        UploadedMedia : state.AdvertisementStore.Media
     }
 
 }
