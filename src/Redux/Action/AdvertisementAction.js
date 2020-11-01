@@ -88,6 +88,8 @@ export function uploadMedia(mediaFile, fileType) {
 
     const formData = new FormData();
     formData.append("media", file);
+    formData.append("MediaType",fileType);
+    formData.append("Size",file.size);
 
     return dispatch => {
         dispatch(requestUpload);

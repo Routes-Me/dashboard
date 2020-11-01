@@ -213,7 +213,7 @@ export function saveUser(user,action) {
           apiHandler.post('signup', user)
               .then(
                 users => {
-                    dispatch(saveUserDataSuccess);
+                    dispatch(saveUserDataSuccess());
                 },
                 error => {
                     alert(error.message.toString() );
@@ -223,7 +223,7 @@ export function saveUser(user,action) {
           apiHandler.put('users' , user)
               .then(
                 users => {
-                    dispatch(saveUserDataSuccess);
+                    dispatch(saveUserDataSuccess());
                 },
                 error => {
                     alert(error.toString());

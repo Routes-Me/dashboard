@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { userConstants } from '../../constants/userConstants';
 import * as VehicleAction from '../../Redux/Action';
 import '../Detail/Detail.css';
-import Pagination from "react-js-pagination";
 import { vehicleConstants } from '../../constants/vehicleConstants';
 
 class Vehicles extends Component {
@@ -63,10 +62,12 @@ class Vehicles extends Component {
     }
 
     static getDerivedStateFromProps (props, state){
-        if(props.ApplicationState === vehicleConstants.addVehicle_SUCCESS)
-        {
-            this.propsgetVehiclesForInstitution();
-            return {showDetails : false}
+        if(state.showDetails){
+            if(props.ApplicationState === vehicleConstants.addVehicle_SUCCESS)
+            {
+                props.getVehiclesForInstitution();
+                return {showDetails : false}
+            }
         }
         return null;
     }

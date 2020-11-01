@@ -53,10 +53,19 @@ class Users extends Component {
     //Delete user
     deleteUser = (e, userId) => {
         e.preventDefault();
-        this.props.deleteUser();
+        this.props.deleteUser(userId);
     }
 
-
+    static getDerivedStateFromProps (props, state){
+        if(state.showDetails){
+            if(props.ApplicationState === userConstants.saveUsers_SUCCESS)
+            {
+                props.getUsersList();
+                return {showDetails : false}
+            }
+        }
+        return null;
+    }
 
     //Load Institution in a table 
     showUsersList(usersList) {
@@ -150,10 +159,10 @@ class Users extends Component {
 
 const mapStateToProps = (state) => {
 
-    const Users = state.UserStore.Users;
 
     return {
-        UsersList: Users
+        UsersList: state.UserStore.Users,
+        ApplicationState: state.UserStore.ActionState
     }
 
 }

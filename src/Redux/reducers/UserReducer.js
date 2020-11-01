@@ -7,7 +7,9 @@ const INITIAL_STATE = {
     Page: "",
     Loading: true,
     hasError: false,
-    error: null
+    error: null,
+    ActionState: ''
+
 }
 
 const UserReducer = (state = INITIAL_STATE, action) => {
@@ -61,7 +63,9 @@ const UserReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 Loading: false,
-                hasError: false
+                hasError: false,
+                ActionState: userConstants.saveUsers_SUCCESS
+
             };
         case userConstants.deleteUser_Request:
             return {
