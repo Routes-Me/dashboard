@@ -7,7 +7,8 @@ const INITIAL_STATE = {
     Page: "",
     Loading: true,
     hasError: false,
-    error:null
+    error:null,
+    ActionState: ''
 }
 
 const VehicleReducer = (state = INITIAL_STATE, action) => {
@@ -61,7 +62,8 @@ const VehicleReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 Loading: false,
-                hasError: false
+                hasError: false,
+                ActionState: vehicleConstants.addVehicle_SUCCESS
             };
         case vehicleConstants.deleteVehicle_Request:
             return {

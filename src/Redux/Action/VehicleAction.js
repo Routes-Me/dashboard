@@ -105,7 +105,7 @@ export function saveVehicle(vehicle,action) {
           apiHandler.post('vehicles', vehicle)
               .then(
                   vehicle => {
-                      dispatch(updateVehicleSuccess(vehicle));
+                      dispatch(saveVehicleSuccess(vehicle));
                     },
                     error => {
                       alert(error.toString());
@@ -118,7 +118,6 @@ function saveVehicleRequest(vehicle) {return { type: vehicleConstants.addVehicle
 
 function saveVehicleSuccess(vehicle) {return { type: vehicleConstants.addVehicle_SUCCESS, payload: vehicle }}
 
-function updateVehicleSuccess(vehicle) {console.log('Update method called for existing vehicle')}
 
 
 

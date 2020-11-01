@@ -67,7 +67,7 @@ class VehicleDetail extends React.Component {
                 PlateNumber: this.state.plateNumber,
                 InstitutionId: this.state.institutionId,
                 modelYear: this.state.modelYear,
-                modelId: this.state.model.ModelId
+                modelId: this.state.model.modelId
             }
         }
         else{
@@ -77,7 +77,7 @@ class VehicleDetail extends React.Component {
                 PlateNumber: this.state.plateNumber,
                 InstitutionId: this.state.institutionId,
                 modelYear: this.state.modelYear,
-                modelId: this.state.model.ModelId
+                modelId: this.state.model.modelId
             }
         }
 

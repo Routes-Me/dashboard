@@ -5,6 +5,7 @@ import { userConstants } from '../../constants/userConstants';
 import * as VehicleAction from '../../Redux/Action';
 import '../Detail/Detail.css';
 import Pagination from "react-js-pagination";
+import { vehicleConstants } from '../../constants/vehicleConstants';
 
 class Vehicles extends Component {
 
@@ -59,6 +60,15 @@ class Vehicles extends Component {
     deleteVehicle = (e, vehicleId) => {
         e.preventDefault();
         this.props.deleteVehicle(vehicleId)
+    }
+
+    static getDerivedStateFromProps (props, state){
+        if(props.ApplicationState === vehicleConstants.addVehicle_SUCCESS)
+        {
+            this.propsgetVehiclesForInstitution();
+            return {showDetails : false}
+        }
+        return null;
     }
 
 
@@ -148,10 +158,10 @@ class Vehicles extends Component {
 
 const mapStateToProps = (state) => {
 
-    const vehicles = state.VehicleStore.Vehicles;
 
     return {
-        VehicleList: vehicles
+        VehicleList: state.VehicleStore.Vehicles,
+        ApplicationState: state.VehicleStore.ActionState
     }
 
 }
