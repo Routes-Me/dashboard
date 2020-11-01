@@ -62,6 +62,7 @@ class Institutions extends Component {
     static getDerivedStateFromProps (props, state){
         if(props.ApplicationState === institutionConstants.saveInstitutions_SUCCESS)
         {
+            this.props.getInstitutionsList();
             return {showDetails : false}
         }
         return null;
