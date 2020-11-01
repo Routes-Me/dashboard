@@ -94,7 +94,7 @@ export function saveInstitution(institution,action) {
       apiHandler.put("institutions", institution)
       .then(
         (institution) => {
-          dispatch(saveInstitutionSuccess(institution.data));
+          dispatch(saveInstitutionSuccess());
         },
         (error) => {
           alert(error.toString());
@@ -106,7 +106,7 @@ export function saveInstitution(institution,action) {
       apiHandler.post("institutions" , institution)
       .then(
         (institution) => {
-          dispatch(saveInstitutionSuccess);
+          dispatch(saveInstitutionSuccess());
         },
         (error) => {
           alert(error.toString());
@@ -117,7 +117,7 @@ export function saveInstitution(institution,action) {
 }
 
 function saveInstitutionRequest() {return { type: institutionConstants.saveInstitutions_REQUEST };}
-function saveInstitutionSuccess(institutions) { return { type: institutionConstants.saveInstitutions_SUCCESS, payload: institutions}; }
+function saveInstitutionSuccess() { return { type: institutionConstants.saveInstitutions_SUCCESS }; }
 
 
 

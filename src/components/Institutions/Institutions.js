@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { userConstants } from '../../constants/userConstants';
 import * as InstitutionAction from '../../Redux/Action';
 import '../Detail/Detail.css';
+import { institutionConstants } from '../../constants/institutionConstants';
 
 class Institutions extends Component {
 
@@ -55,6 +56,15 @@ class Institutions extends Component {
     deleteInstitution = (e, institutionId) => {
         e.preventDefault();
         this.props.deleteInstitution(institutionId)
+    }
+
+
+    static getDerivedStateFromProps (props, state){
+        if(props.ApplicationState === institutionConstants.saveInstitutions_SUCCESS)
+        {
+            return {showDetails : false}
+        }
+        return null;
     }
 
 
@@ -144,7 +154,8 @@ class Institutions extends Component {
 const mapStateToProps = (state) => {
 
         return {
-            InstitutionsList: state.InstitutionStore.Institutions
+            InstitutionsList: state.InstitutionStore.Institutions,
+            ApplicationState: state.InstitutionStore.ActionState
     }
 
 }

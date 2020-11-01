@@ -6,16 +6,17 @@ const INITIAL_STATE = {
     Page: "",
     Loading: true,
     hasError: false,
-    error: null
+    error: null,
+    ActionState: ''
 }
 
 const InstitutionReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case institutionConstants.getInstitutions_REQUEST:
             return {
-                        ...state,
-                        Loading: true,
-                        hasError: false,
+                ...state,
+                Loading: true,
+                hasError: false,
             };
         case institutionConstants.getInstitutions_SUCCESS:
             return {
@@ -24,6 +25,21 @@ const InstitutionReducer = (state = INITIAL_STATE, action) => {
                 hasError: false,
                 Institutions: action.payload
             };
+        case institutionConstants.saveInstitutions_REQUEST:
+            return {
+                ...state,
+                Loading: true,
+                hasError: false,
+                ActionState: institutionConstants.saveInstitutions_REQUEST
+            };
+        case institutionConstants.saveInstitutions_SUCCESS:
+            return {
+                ...state,
+                Loading: false,
+                hasError: false,
+                ActionState: institutionConstants.saveInstitutions_SUCCESS
+            };
+
         case institutionConstants.serviceList_UPDATED:
             return {
                 Services: action.payload
