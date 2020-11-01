@@ -17,10 +17,10 @@ class Extras extends React.Component {
             id: "",
             title: "",
             subtitle: "",
-            image: "",
-            video: "",
-            campaigns: [],
-            dayInterval: "",
+            startDate:"",
+            endDate:"",
+            useageLimit:"",
+            shareQR:false,
             advertisement: ""
         }
     }
@@ -56,7 +56,7 @@ class Extras extends React.Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        console.log('Users : getDerivedStateFromProps called with NewProps', props.advertisementToDisplay);
+
         if (props.advertisementToDisplay !== undefined) {
             if (props.advertisementToDisplay !== state.userToDisplay) {
                 return {
@@ -70,21 +70,35 @@ class Extras extends React.Component {
                 }
             }
         }
+
     }
 
     //Submit button action 
     handleSubmit = (event) => {
 
+    //     "PlaceId": "1",
+    // "Title": "30% off at place 1",
+    // "Subtitle": "Grab it now!",
+    // "StartAt": "2020-09-20T00:00:00",
+    // "EndAt": "2020-09-27T00:00:00",
+    // "QrCodeUrl": "https://routesme.blob.core.windows.net/advertisements/Test_637338534992927001.jpg",
+    // "UsageLimit": 100,
+    // "ExpieryDate": "2020-09-25T00:00:00",
+    // "AdvertisementId": "1",
+    // "InstitutionId": "2",
+    // "IsSharable": false,
+
         event.preventDefault();
 
         const vehicle = {
-            Email: this.state.email,
-            Phone: this.state.phone,
-            application: this.state.application,
-            name: this.state.name
+            Title: this.state.email,
+            Subtitle: this.state.phone,
+            StartAt: this.state.application,
+            EndAt: this.state.name
         }
 
         this.props.saveUser(vehicle);
+
     }
 
     render() {
