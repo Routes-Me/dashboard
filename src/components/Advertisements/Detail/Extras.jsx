@@ -4,7 +4,6 @@ import { Label } from 'reactstrap';
 import * as AdvertisementAction from '../../../Redux/Action';
 import * as InstitutionAction from '../../../Redux/Action';
 import Form from 'react-validation/build/form';
-import { onImageCompress } from '../../../util/Compress';
 import '../../Advertisements/Advertisement.css';
 
 
@@ -22,7 +21,10 @@ class Extras extends React.Component {
             useageLimit:"",
             shareQR:false,
             advertisement: "",
-            link:""
+            weblink:"",
+            iOSLink:"",
+            androidLink:"",
+            tabIndex:1
         }
     }
 
@@ -87,7 +89,7 @@ class Extras extends React.Component {
     }
 
     render() {
-        const advertisementObj = this.state.advertisement;
+        const tabIndex = this.state.tabIndex; 
         return (
             <Form onSubmit={e => this.handleSubmit(e)}>
                 <label>Routes enables you to add a promoted QR code connected to the advertisement</label>
@@ -121,11 +123,40 @@ class Extras extends React.Component {
 
                             <br/><hr/>
 
+                            <div className="headerTabStyle">
+                                <nav>
+                                    <div className="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                        <a className={`nav-item nav-link ${tabIndex === 1 && "active"}`}  id="nav-home-tab" data-toggle="tab" onClick={(e) => this.onTabClick(1)} role="tab" aria-controls="nav-home" aria-selected="true"> Links</a>
+                                        <a className={`nav-item nav-link ${tabIndex === 2 && "active"}`} id="nav-profile-tab" data-toggle="tab" onClick={(e) => this.onTabClick(2)} role="tab" aria-controls="nav-profile" aria-selected="false"> Cupons</a>
+                                    </div>
+                                </nav>
+                            </div>
+
                             <div className="row form-group">
                                 <div className="col-md-12">
-                                    <Label>Link</Label><br />
-                                <input type="text" name="title"
-                                    value={this.state.link}
+                                    <Label>Web Link</Label><br />
+                                <input type="text" name="weblink"
+                                    value={this.state.weblink}
+                                    onChange={this.onChange}
+                                    className="form-control" />
+                                </div>
+                            </div>
+
+                            <div className="row form-group">
+                                <div className="col-md-12">
+                                    <Label>Android Link</Label><br />
+                                <input type="text" name="androidLink"
+                                    value={this.state.androidLink}
+                                    onChange={this.onChange}
+                                    className="form-control" />
+                                </div>
+                            </div>
+
+                            <div className="row form-group">
+                                <div className="col-md-12">
+                                    <Label>iOS Link</Label><br />
+                                <input type="text" name="iOSLink"
+                                    value={this.state.iOSLink}
                                     onChange={this.onChange}
                                     className="form-control" />
                                 </div>
