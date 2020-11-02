@@ -112,7 +112,7 @@ class Basic extends React.Component {
             InstitutionId   : this.state.institutionId,
             MediaId         : this.props.UploadedMedia.Id,
             IntervalId      : this.state.dayInterval,
-            CampaignId      : this.state.campaigns[0]
+            CampaignId      : this.state.campaigns
 
         }
 

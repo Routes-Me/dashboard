@@ -33,13 +33,17 @@ class AdvertisementsDetail extends React.Component {
         {
             if (props.UploadedMedia.Type !== state.mediaType) 
             {
-                 return props.UploadedMedia.Type === 'mp4'? { videoUrl: props.UploadedMedia.Url, mediaType:'mp4', imageUrl:""} : { imageUrl: props.UploadedMedia.Url, mediaType:"jpg" , videoUrl:""};
+                return props.UploadedMedia.Type === 'mp4'? { videoUrl: props.UploadedMedia.Url, mediaType:'mp4', imageUrl:""} : { imageUrl: props.UploadedMedia.Url, mediaType:"jpg" , videoUrl:""};
             }
         }
-        if(!props.Loading && props.NewAdvertisement !=='')
+        if(state.submitBasic)
         {
-            return {tabIndex :2};
+            if(!props.Loading && props.NewAdvertisement !=='')
+            {
+                return {tabIndex :2};
+            }
         }
+        
         return null;
     }
 
@@ -48,7 +52,11 @@ class AdvertisementsDetail extends React.Component {
     }
 
     onCreate = (e) =>{                                                                                                                                                  
-        this.setState({submitBasic:true});
+        this.setState({submitBasic:true, submitExtra:false});
+    }
+
+    submitPromotion = (e) => {
+        this.setState({submitExtra:true, submitBasic:false})
     }
 
     
@@ -72,7 +80,7 @@ class AdvertisementsDetail extends React.Component {
                     </div>
                     <div className="row col-md-12 detail-form">
                         <div className="col-md-6">
-                            {this.state.tabIndex === 1 ? <Basic submitForm={this.state.submitBasic}/> : <Extras submitForm={this.state.submitExtra}/>}
+                            {this.state.tabIndex === 1 ? <Basic submitForm={this.state.submitBasic}/> : <Extras submitForm={this.state.submitExtra} addForPromotion={this.props.NewAdvertisement}/>}
                         </div>
                         <div className="col-md-6">
                             <div className="col-md-12 simulator">
@@ -100,7 +108,7 @@ class AdvertisementsDetail extends React.Component {
                     </div>
                 </div>
                     <div className="footerStyle">
-                        <button type="submit" style={{ float: 'left' }} onClick={(e) => this.onCreate(e)}> Create </button>
+                        <button type="submit" style={{ float: 'left' }} onClick={(e) => this.submitPromotion()}> Create </button>
                         <button className="btn btn-light" style={{ marginLeft: '107px' }} onClick={(e) => this.onTabClick(1)}> <span class="glyphicon glyphicon-menu-left" aria-hidden="true" /> Previous</button>
                         <button className="next" style={{ marginLeft: '7px' }} onClick={(e) => this.onCreate()}> Next: Extras <span class="glyphicon glyphicon-menu-right" aria-hidden="true" /> </button>
                     </div>

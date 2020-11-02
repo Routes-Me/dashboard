@@ -11,7 +11,8 @@ const INITIAL_STATE = {
     Title: "",
     SubTitle:"",
     Media: "",
-    Advertisement:''
+    Advertisement:'',
+    ActionState: ''
 }
 
 const AdvertisementReducer = (state = INITIAL_STATE, action) => {
@@ -30,6 +31,26 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 Advertisements: action.payload
             };
         case advertisementsConstants.getAdvertisements_ERROR:
+            return {
+                ...state,
+                loading: false,
+                hasError: true,
+                error: action.payload
+            };
+        case advertisementsConstants.deleteAdvertisements_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                hasError: false
+            };
+        case advertisementsConstants.deleteAdvertisements_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                hasError: false,
+                ActionState: advertisementsConstants.updateTheAdvertisementList
+            };
+        case advertisementsConstants.deleteAdvertisements_ERROR:
             return {
                 ...state,
                 loading: false,
@@ -115,6 +136,13 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 loading: false,
                 hasError: false,
                 SubTitle: action.payload
+            };
+        case advertisementsConstants.updateTheAdvertisementList:
+            return {
+                ...state,
+                loading:true,
+                hasError:false,
+                ActionState: advertisementsConstants.updateTheAdvertisementList
             };
         default:
             return state;

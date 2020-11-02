@@ -31,6 +31,12 @@
     onAdvertisment_MediaError: "ONADVERTISEMENTMEDIA_ERROR",
 
     onPromotions_TitleChange: "ONPROMOTIONS_TITLECHANGE",
-    onPromotions_SubTitleChange: "ONPROMOTIONS_TITLECHANGE"
+    onPromotions_SubTitleChange: "ONPROMOTIONS_TITLECHANGE",
+
+    savePromotions_REQUEST : "SAVEROMOTIONS_REQUEST",
+    savePromotions_SUCCESS : "SAVEROMOTIONS_SUCCESS",
+    savePromotions_ERROR   : "SAVEROMOTIONS_ERROR",
+
+    updateTheAdvertisementList : "UPDATE_THEADVERTISEMENTLIST"
 
 }

@@ -5,6 +5,7 @@ import { userConstants } from '../../constants/userConstants';
 import * as AdvertisementAction from '../../Redux/Action';
 import '../Detail/Detail.css';
 import Status from '../Advertisements/RowItem/Status';
+import { advertisementsConstants } from '../../constants/advertisementConstants';
 
 class Advertisements extends Component {
 
@@ -52,6 +53,36 @@ class Advertisements extends Component {
         });
     }
 
+    deleteAdvertisement = (e, advertisementId) => {
+        e.preventDefault();
+        this.props.deleteAdvertisements(advertisementId)
+    }
+
+
+    static getDerivedStateFromProps (props, state){
+        
+            if(props.ApplicationState === advertisementsConstants.updateTheAdvertisementList)
+            {
+                props.getAdvertisements();
+                if(state.showDetails){
+                    return {showDetails : false};
+                }
+            }
+        
+        return null;
+    }
+
+    // componentDidUpdate(prevProps, prevState) {
+    //     if (this.props.ApplicationState !== prevProps.ApplicationState) {
+    //         if(this.props.ApplicationState === advertisementsConstants.updateTheAdvertisementList)
+    //         {
+    //             this.props.getAdvertisements();
+    //             if(prevState.showDetails){
+    //                 this.setState({showDetails : false});
+    //             }
+    //         }
+    //     }
+    //   }
 
     //Delete Vehicle function
 
@@ -88,7 +119,7 @@ class Advertisements extends Component {
                                                 </div>
                                                 <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === Advertisement.id ? 'inline-block' : 'none' }}>
                                                     <li><a onClick={e => this.showDetailScreen(e, Advertisement)}>Edit</a></li>
-                                                    <li><a>Delete</a></li>
+                                                    <li><a  onClick={e => this.deleteAdvertisement(e, Advertisement.id)}>Delete</a></li>
                                                 </ul>
                                             </div>
                                         </td>
@@ -140,21 +171,7 @@ class Advertisements extends Component {
                             </div>
                         </div>
                         {content}
-                        {/*<div className="left page-nav padding-lr-80">
-                            <span className="page-count">Page 15 of 20</span>
-                            <Pagination
-                                hideDisabled
-                                firstPageText={'<<<<'}
-                                lastPageText={'>>>>'}
-                                prevPageText={'<<'}
-                                nextPageText={'>>'}
-                                activePage={this.state.activePage}
-                                itemsCountPerPage={10}
-                                totalItemsCount={450}
-                                pageRangeDisplayed={5}
-                                onChange={this.handlePageChange.bind(this)} />
-                        </div>*/}
-                    </div>}
+                </div>}
             </div>
         );
     }
@@ -166,7 +183,8 @@ const mapStateToProps = (state) => {
     const advertisements = state.AdvertisementStore.Advertisements;
 
     return {
-        AdvertisementList: state.AdvertisementStore.Advertisements
+        AdvertisementList: state.AdvertisementStore.Advertisements,
+        ApplicationState: state.InstitutionStore.ActionState
     }
 
 }

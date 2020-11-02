@@ -39,7 +39,6 @@ const InstitutionReducer = (state = INITIAL_STATE, action) => {
                 hasError: false,
                 ActionState: institutionConstants.saveInstitutions_SUCCESS
             };
-
         case institutionConstants.serviceList_UPDATED:
             return {
                 Services: action.payload

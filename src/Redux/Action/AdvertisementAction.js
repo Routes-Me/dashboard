@@ -243,6 +243,21 @@ export function addAdvertisement(advertisement) {
     function saveAdvertisementFailure(error) { return { type: advertisementsConstants.saveAdvertisements_ERROR, payload:error }; }
 }
 
+
+export function addPromotions(promotion){
+    return dispatch => {
+        dispatch(addPromotionsRequest())
+        apiHandler.post('promotions',promotion)
+        .then(
+            response => { dispatch(savePromotions(response.data))},
+            error => { dispatch(savePromotionsError(error))}
+        )
+    }
+    function addPromotionsRequest()     { return { type: advertisementsConstants.savePromotions_REQUEST }; }
+    function savePromotions(promotion)  { return { type: advertisementsConstants.savePromotions_SUCCESS, payload:promotion }; }
+    function savePromotionsError(error) { return { type: advertisementsConstants.savePromotions_ERROR, payload:error }; }
+}
+
 export function deleteAdvertisement(id) {
     return dispatch => {
         dispatch(deleteAdvertisementRequest())
@@ -256,5 +271,7 @@ export function deleteAdvertisement(id) {
     function deletedAdvertisement(response) { return { type: advertisementsConstants.deleteAdvertisements_SUCCESS, payload: response }; }
     function deleteAdvertisementFailure(error) { return { type: advertisementsConstants.deleteAdvertisements_ERROR, payload: error }; }
 }
+
+function updateAdvertisementList() { return {type: advertisementsConstants.updateTheAdvertisementList}}
 
 

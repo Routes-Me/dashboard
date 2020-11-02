@@ -21,15 +21,15 @@ class Extras extends React.Component {
             endDate:"",
             useageLimit:"",
             shareQR:false,
-            advertisement: ""
+            advertisement: "",
+            link:""
         }
     }
 
-    componentDidMount() {
-        this.props.getCampaigns();
-        this.props.getDayIntervals();
-        //this.props.getInstitutions();
-    }
+    onChangeRadioButton = (event) => {
+        const share = event.target.value === 'on' ? true: false;
+        this.setState({ shareQR : share });
+      }
 
     onChange = (event) => {
         this.setState({ [event.target.name]: event.target.value })
@@ -38,22 +38,16 @@ class Extras extends React.Component {
         }
     }
 
-    fileChangedHandler = (event) => {
-        const file = event.target.files[0];
-        this.compressImage(file);
-
-    }
 
   
-
-
-
-    compressImage = async (image) => {
-        const compressedImage = await onImageCompress(image);
-        //console.log(`The compressed image size ==> ${this.calculateImageSize(compressedImage)}`);
-        this.setState({ image: compressedImage });
-        //this.props.uploadMedia(compressedImage);
-    }
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.submitForm !== prevProps.submitForm) {
+            if(this.props.submitForm)
+            {
+                this.handleSubmit(this.props.addForPromotion.advertisementId);
+            }
+        }
+      }
 
     static getDerivedStateFromProps(props, state) {
 
@@ -74,30 +68,21 @@ class Extras extends React.Component {
     }
 
     //Submit button action 
-    handleSubmit = (event) => {
+    handleSubmit = (advertisementIdForPromotion) => {
 
-    //     "PlaceId": "1",
-    // "Title": "30% off at place 1",
-    // "Subtitle": "Grab it now!",
-    // "StartAt": "2020-09-20T00:00:00",
-    // "EndAt": "2020-09-27T00:00:00",
-    // "QrCodeUrl": "https://routesme.blob.core.windows.net/advertisements/Test_637338534992927001.jpg",
-    // "UsageLimit": 100,
-    // "ExpieryDate": "2020-09-25T00:00:00",
-    // "AdvertisementId": "1",
-    // "InstitutionId": "2",
-    // "IsSharable": false,
+        const promotion = {
+            Title: this.state.title,
+            Subtitle: this.state.subtitle,
+            StartAt: this.state.startDate,
+            EndAt: this.state.endDate,
+            UsageLimit: this.state.useageLimit,
+            IsSharable: this.state.shareQR,
+            AdvertisementId: advertisementIdForPromotion,
+            InstitutionId: this.props.InstitutionId
 
-        event.preventDefault();
-
-        const vehicle = {
-            Title: this.state.email,
-            Subtitle: this.state.phone,
-            StartAt: this.state.application,
-            EndAt: this.state.name
         }
 
-        this.props.saveUser(vehicle);
+        this.props.savePromotion(promotion);
 
     }
 
@@ -110,14 +95,16 @@ class Extras extends React.Component {
                     <div className="row">
                     <div className="col-md-12">
 
+
+                            
+
                             <div className="row form-group">
                                 <div className="col-md-12">
                                     <Label>Title</Label><br />
                                 <input type="text" name="title"
-                                    placeholder={advertisementObj === undefined ? "" : advertisementObj.title}
-                                        value={advertisementObj.name}
-                                        onChange={this.onChange}
-                                        className="form-control" />
+                                    value={this.state.title}
+                                    onChange={this.onChange}
+                                    className="form-control" />
                                 </div>
                             </div>
 
@@ -126,20 +113,33 @@ class Extras extends React.Component {
                                 <div className="col-md-12">
                                     <Label>Subtitle</Label><br />
                                 <input type="text" name="subtitle"
-                                    placeholder={advertisementObj === undefined ? "" : advertisementObj.subtitle}
-                                        value={advertisementObj.name}
-                                        onChange={this.onChange}
-                                        className="form-control" />
+                                    value={this.state.subtitle}
+                                    onChange={this.onChange}
+                                    className="form-control" />
                                 </div>
                             </div>
 
+                            <br/><hr/>
+
+                            <div className="row form-group">
+                                <div className="col-md-12">
+                                    <Label>Link</Label><br />
+                                <input type="text" name="title"
+                                    value={this.state.link}
+                                    onChange={this.onChange}
+                                    className="form-control" />
+                                </div>
+                            </div>
+
+                            <div className="col-md-12">
+                            <label style={{width:"100%", textAlign:"center"}}>-- OR --</label>
+                            </div>
 
                             <div className="row form-group">
                                 <div className="col-md-12">
                                     <Label>Starts At</Label><br />
-                                <input type="date" name="email"
-                                    placeholder={advertisementObj === undefined ? "" : advertisementObj.name}
-                                    value={advertisementObj.name}
+                                <input type="date" name="startDate"
+                                    value={this.state.startDate}
                                     onChange={this.onChange}
                                     className="form-control" />
                                 </div>
@@ -148,9 +148,8 @@ class Extras extends React.Component {
                             <div className="row form-group">
                                 <div className="col-md-12">
                                     <Label>Ends At</Label><br />
-                                <input type="date" name="email"
-                                    placeholder={advertisementObj === undefined ? "" : advertisementObj.name}
-                                    value={advertisementObj.name}
+                                <input type="date" name="endDate"
+                                    value={this.state.endDate}
                                     onChange={this.onChange}
                                     className="form-control" />
                                 </div>
@@ -159,9 +158,8 @@ class Extras extends React.Component {
                             <div className="row form-group">
                                 <div className="col-md-12">
                                     <Label>Useage Limit</Label><br />
-                                <input type="number" name="email"
-                                    placeholder={advertisementObj === undefined ? "" : advertisementObj.name}
-                                    value={advertisementObj.name}
+                                <input type="number" name="useageLimit"
+                                    value={this.state.useageLimit}
                                     onChange={this.onChange}
                                     className="form-control" />
                                 </div>
@@ -170,8 +168,8 @@ class Extras extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-12">
                                 <Label>Enable Share QR Code</Label>
-                                <label class="radio-inline"><input type="radio" name="optradio" checked/> Yes</label>
-                                <label class="radio-inline"><input type="radio" name="optradio"/> No</label>
+                                <label class="radio-inline"><input type="radio" name="shareQR" onChange={this.onChangeRadioButton} checked={this.state.shareQR}/> Yes</label>
+                                <label class="radio-inline"><input type="radio" name="shareQR" onChange={this.onChangeRadioButton} checked={!this.state.shareQR}/> No</label>
                             </div>
                         </div>
                             
@@ -190,24 +188,21 @@ class Extras extends React.Component {
 //connect redux
 const mapStateToProps = (state) => {
 
-    const intervals = state.AdvertisementStore.DayIntervals;
 
     return {
         DayInterval: state.AdvertisementStore.DayIntervals,
-        Campaigns: state.AdvertisementStore.Campaigns
+        Campaigns: state.AdvertisementStore.Campaigns,
+        InstitutionId : state.Login.user.InstitutionId
     }
 
 }
 
 const actionCreators = {
 
-    getCampaigns: AdvertisementAction.getCampaigns,
-    getDayIntervals: AdvertisementAction.getDayIntervals,
     getInstitutions: InstitutionAction.getInstitutions,
     updateTitle: AdvertisementAction.onTitleChange,
     updateSubtitle: AdvertisementAction.onSubTitleChange,
-    uploadMedia: AdvertisementAction.uploadMedia,
-    saveAdvertisement: AdvertisementAction.addAdvertisement
+    savePromotion: AdvertisementAction.addPromotions
 
 }
 
