@@ -24,7 +24,8 @@ const VehicleReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 Loading: false,
                 hasError: false,
-                Vehicles: action.payload
+                Vehicles: action.payload,
+                ActionState: vehicleConstants.getVehicles_SUCCESS
             };
         case vehicleConstants.getModels_REQUEST:
             return {
@@ -75,7 +76,8 @@ const VehicleReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 Loading: false,
-                hasError: false
+                hasError: false,
+                ActionState: vehicleConstants.addVehicle_SUCCESS
             };
         case vehicleConstants.updatePage:
             return {

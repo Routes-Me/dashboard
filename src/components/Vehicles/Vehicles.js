@@ -65,11 +65,15 @@ class Vehicles extends Component {
         if(state.showDetails){
             if(props.ApplicationState === vehicleConstants.addVehicle_SUCCESS)
             {
-                props.getVehiclesForInstitution();
-                return {showDetails : false}
+                return {showDetails : false};
             }
         }
         return null;
+    }
+
+    showUpdatedList = () =>{
+        this.props.getVehiclesForInstitution();
+        this.setState({showDetails : false});
     }
 
 
@@ -126,7 +130,7 @@ class Vehicles extends Component {
     render() {
 
         let content = this.renderAllVehicleTable(this.props.VehicleList);
-
+        {this.props.ApplicationState === vehicleConstants.addVehicle_SUCCESS && this.props.getVehiclesForInstitution()}
         return (
             <div className="vehicles-page" style={{ height: "100vh", width: "100%" }}>
                 {this.state.showDetails ?
