@@ -40,7 +40,9 @@ class Extras extends React.Component {
         }
     }
 
-
+    onTabClick = (index) => {
+        this.setState({ tabIndex: index });
+    }
   
     componentDidUpdate(prevProps, prevState) {
         if (this.props.submitForm !== prevProps.submitForm) {
@@ -83,7 +85,8 @@ class Extras extends React.Component {
                 UsageLimit: this.state.useageLimit,
                 IsSharable: this.state.shareQR,
                 AdvertisementId: advertisementIdForPromotion,
-                InstitutionId: this.props.InstitutionId
+                InstitutionId: this.props.InstitutionId,
+                type:"coupons"
             }
         }
         else {
@@ -95,6 +98,7 @@ class Extras extends React.Component {
                     Ios: this.state.androidLink,
                     Android: this.state.iOSLink
                 },
+                type: "links",
                 AdvertisementId: advertisementIdForPromotion,
                 InstitutionId: this.props.InstitutionId
             }
@@ -137,8 +141,6 @@ class Extras extends React.Component {
                                     className="form-control" />
                                 </div>
                             </div>
-
-                            <br/><hr/>
 
                             <div className="headerTabStyle">
                                 <nav>
