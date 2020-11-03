@@ -63,14 +63,13 @@ class Advertisements extends Component {
         
             if(props.ApplicationState === advertisementsConstants.updateTheAdvertisementList)
             {
-                props.getAdvertisements();
                 if(state.showDetails){
                     return {showDetails : false};
                 }
             }
         
-        return null;
     }
+
 
     // componentDidUpdate(prevProps, prevState) {
     //     if (this.props.ApplicationState !== prevProps.ApplicationState) {
@@ -148,6 +147,8 @@ class Advertisements extends Component {
 
         let content = this.renderAllAdvertisementTable(this.props.AdvertisementList);
 
+        {this.props.ApplicationState === advertisementsConstants.updateTheAdvertisementList && this.props.getAdvertisements()}
+
         return (
             <div className="vehicles-page" style={{ height: "100vh", width: "100%" }}>
                 {this.state.showDetails ?
@@ -180,11 +181,10 @@ class Advertisements extends Component {
 
 const mapStateToProps = (state) => {
 
-    const advertisements = state.AdvertisementStore.Advertisements;
 
     return {
         AdvertisementList: state.AdvertisementStore.Advertisements,
-        ApplicationState: state.InstitutionStore.ActionState
+        ApplicationState: state.AdvertisementStore.ActionState
     }
 
 }

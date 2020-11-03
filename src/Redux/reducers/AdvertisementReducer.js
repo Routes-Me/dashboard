@@ -22,14 +22,12 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 loading: true,
                 hasError: false,
-                ActionState: advertisementsConstants.getAdvertisements_REQUEST
             };
         case advertisementsConstants.getAdvertisements_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 hasError: false,
-                ActionState: advertisementsConstants.updateTheAdvertisementList,
                 Advertisements: action.payload
             };
         case advertisementsConstants.getAdvertisements_ERROR:
