@@ -59,16 +59,16 @@ class Advertisements extends Component {
     }
 
 
-    static getDerivedStateFromProps (props, state){
+    // static getDerivedStateFromProps (props, state){
         
-            if(props.ApplicationState === advertisementsConstants.updateTheAdvertisementList)
-            {
-                if(state.showDetails){
-                    return {showDetails : false};
-                }
-            }
+    //         if(props.ApplicationState === advertisementsConstants.updateTheAdvertisementList)
+    //         {
+    //             if(state.showDetails){
+    //                 return {showDetails : false};
+    //             }
+    //         }
         
-    }
+    // }
 
 
     // componentDidUpdate(prevProps, prevState) {
