@@ -72,17 +72,34 @@ class Extras extends React.Component {
     //Submit button action 
     handleSubmit = (advertisementIdForPromotion) => {
 
-        const promotion = {
-            Title: this.state.title,
-            Subtitle: this.state.subtitle,
-            StartAt: this.state.startDate,
-            EndAt: this.state.endDate,
-            UsageLimit: this.state.useageLimit,
-            IsSharable: this.state.shareQR,
-            AdvertisementId: advertisementIdForPromotion,
-            InstitutionId: this.props.InstitutionId
-
+        let promotion ='';
+        if(this.state.weblink === '')
+        {
+            promotion = {
+                Title: this.state.title,
+                Subtitle: this.state.subtitle,
+                StartAt: this.state.startDate,
+                EndAt: this.state.endDate,
+                UsageLimit: this.state.useageLimit,
+                IsSharable: this.state.shareQR,
+                AdvertisementId: advertisementIdForPromotion,
+                InstitutionId: this.props.InstitutionId
+            }
         }
+        else {
+            promotion = {
+                Title: this.state.title,
+                Subtitle: this.state.subtitle,
+                links :{
+                    Web: this.state.weblink,
+                    Ios: this.state.androidLink,
+                    Android: this.state.iOSLink
+                },
+                AdvertisementId: advertisementIdForPromotion,
+                InstitutionId: this.props.InstitutionId
+            }
+        }
+        
 
         this.props.savePromotion(promotion);
 

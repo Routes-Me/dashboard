@@ -43,7 +43,6 @@ class AdvertisementsDetail extends React.Component {
                 return {tabIndex :2};
             }
         }
-        
         return null;
     }
 

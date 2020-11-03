@@ -21,13 +21,15 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 loading: true,
-                hasError: false
+                hasError: false,
+                ActionState: advertisementsConstants.getAdvertisements_REQUEST
             };
         case advertisementsConstants.getAdvertisements_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 hasError: false,
+                ActionState: advertisementsConstants.updateTheAdvertisementList,
                 Advertisements: action.payload
             };
         case advertisementsConstants.getAdvertisements_ERROR:
@@ -103,6 +105,31 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 hasError: true,
                 error: action.payload
             };
+            case advertisementsConstants.savePromotions_REQUEST:
+                return {
+                    ...state,
+                    loading: true,
+                    hasError: false
+                };
+            case advertisementsConstants.savePromotions_SUCCESS:
+                return {
+                    ...state,
+                    loading: false,
+                    hasError: false,
+                    Title: "",
+                    SubTitle:"",
+                    Media: "",
+                    Advertisement:'',
+                    ActionState: advertisementsConstants.updateTheAdvertisementList,
+                    Advertisement: action.payload
+                };
+            case advertisementsConstants.savePromotions_ERROR:
+                return {
+                    ...state,
+                    loading: false,
+                    hasError: true,
+                    error: action.payload
+                };
         case advertisementsConstants.uploadMedia_REQUEST:
             return {
                 ...state,
