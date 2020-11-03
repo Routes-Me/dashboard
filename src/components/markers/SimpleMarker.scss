@@ -6,10 +6,10 @@ $originY: ($markerHeight * -1) + 4;
 $selectMarkerWidth: 30px;
 $selectMarkerHeight: 30px;
 
-$carWidth:180px;
-$carHeight:190px;
-$originCarX: ($carWidth * -3) ;
-$originCarY: ($carHeight * -3) ;
+$carWidth:80px;
+$carHeight:80px;
+$originCarX: ($carWidth * -1) +6;
+$originCarY: ($carHeight * -1) +6;
 
 .car{
 	background-repeat: no-repeat;
