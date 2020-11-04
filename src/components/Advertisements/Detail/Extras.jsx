@@ -95,8 +95,8 @@ class Extras extends React.Component {
                 Subtitle: this.state.subtitle,
                 links :{
                     Web: this.state.weblink,
-                    Ios: this.state.androidLink,
-                    Android: this.state.iOSLink
+                    Ios: this.state.iOSLink,
+                    Android: this.state.androidLink
                 },
                 type: "links",
                 AdvertisementId: advertisementIdForPromotion,

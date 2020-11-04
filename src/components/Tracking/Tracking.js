@@ -288,7 +288,7 @@ class Tracking extends Component {
         return (
             <div className="mpas-tracking" style={{ height: "100vh", width: "100%" }}>
 
-                 <IdleTimer
+                <IdleTimer
                     ref={ref => { this.idleTimer = ref }}
                     element={document}
                     onActive={this.onActive}
