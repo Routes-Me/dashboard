@@ -12,10 +12,10 @@ import IdleTimer from 'react-idle-timer';
 import { trackingConstants } from '../../constants/trackingConstants';
 
 const MAP = {
-    defaultZoom: 7,
+    defaultZoom: 9,
     defaultCenter: susolvkaCoords,
     options: {
-        minZoom: 7,
+        minZoom: 8,
         maxZoom: 25,
         style: {
             position: 'relative',
@@ -52,7 +52,7 @@ class Tracking extends Component {
             selectedId:'',
             currentPosition: false,
             mapOptions: {
-                //center: MAP.defaultCenter,
+                center: MAP.defaultCenter,
                 zoom: MAP.defaultZoom
             },
             clusters: [],

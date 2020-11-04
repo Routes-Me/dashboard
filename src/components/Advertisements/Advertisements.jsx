@@ -59,16 +59,15 @@ class Advertisements extends Component {
     }
 
 
-    // static getDerivedStateFromProps (props, state){
+    static getDerivedStateFromProps (props, state){
         
-    //         if(props.ApplicationState === advertisementsConstants.updateTheAdvertisementList)
-    //         {
-    //             if(state.showDetails){
-    //                 return {showDetails : false};
-    //             }
-    //         }
-        
-    // }
+            if(props.ApplicationState === advertisementsConstants.updateTheAdvertisementList)
+            {
+                if(state.showDetails){
+                    return {showDetails : false};
+                }
+            }
+    }
 
 
     // componentDidUpdate(prevProps, prevState) {
@@ -150,6 +149,7 @@ class Advertisements extends Component {
         {this.props.ApplicationState === advertisementsConstants.updateTheAdvertisementList && this.props.getAdvertisements()}
 
         return (
+
             <div className="vehicles-page" style={{ height: "100vh", width: "100%" }}>
                 {this.state.showDetails ?
                      <Detail className={this.props.show ? 'slide-in' : 'slide-out'}
@@ -172,8 +172,9 @@ class Advertisements extends Component {
                             </div>
                         </div>
                         {content}
-                </div>}
+                    </div>}
             </div>
+
         );
     }
 

@@ -31,7 +31,7 @@ class Extras extends React.Component {
     onChangeRadioButton = (event) => {
         const share = event.target.value === 'on' ? true: false;
         this.setState({ shareQR : share });
-      }
+    }
 
     onChange = (event) => {
         this.setState({ [event.target.name]: event.target.value })
@@ -146,10 +146,12 @@ class Extras extends React.Component {
                                 <nav>
                                     <div className="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
                                         <a className={`nav-item nav-link ${tabIndex === 1 && "active"}`}  id="nav-home-tab" data-toggle="tab" onClick={(e) => this.onTabClick(1)} role="tab" aria-controls="nav-home" aria-selected="true"> Links</a>
-                                        <a className={`nav-item nav-link ${tabIndex === 2 && "active"}`} id="nav-profile-tab" data-toggle="tab" onClick={(e) => this.onTabClick(2)} role="tab" aria-controls="nav-profile" aria-selected="false"> Cupons</a>
+                                        <a className={`nav-item nav-link ${tabIndex === 2 && "active"}`} id="nav-profile-tab" data-toggle="tab" onClick={(e) => this.onTabClick(2)} role="tab" aria-controls="nav-profile" aria-selected="false"> Coupons</a>
                                     </div>
                                 </nav>
                             </div>
+
+                            <div style={{display: this.state.tabIndex === 1? 'block':'none'}}>
 
                             <div className="row form-group">
                                 <div className="col-md-12">
@@ -181,9 +183,9 @@ class Extras extends React.Component {
                                 </div>
                             </div>
 
-                            <div className="col-md-12">
-                            <label style={{width:"100%", textAlign:"center"}}>-- OR --</label>
                             </div>
+
+                            <div style={{display: this.state.tabIndex === 2? 'block':'none'}}>
 
                             <div className="row form-group">
                                 <div className="col-md-12">
@@ -222,6 +224,10 @@ class Extras extends React.Component {
                                 <label class="radio-inline"><input type="radio" name="shareQR" onChange={this.onChangeRadioButton} checked={!this.state.shareQR}/> No</label>
                             </div>
                         </div>
+
+                        </div>
+
+
                             
                             <br /><br />
 

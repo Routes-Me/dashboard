@@ -35,7 +35,9 @@ export const config = {
         title:"Please select a interval"
     },
 
-    Domain:'http://stage.api.routesme.com/api/',
+    //Domain:'http://stage.api.routesme.com/api/',
+
+    Domain:'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/',
 
     Pagelimit : 20
 

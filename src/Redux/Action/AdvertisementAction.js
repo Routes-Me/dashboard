@@ -122,6 +122,7 @@ export function uploadMedia(mediaFile, fileType) {
     function requestUpload() { return { type: advertisementsConstants.uploadMedia_REQUEST }; }
     function uploadSuccessful(response) { return { type: advertisementsConstants.uploadMedia_SUCCESS, payload: response }; }
     function uploadError(error) { return { type: advertisementsConstants.uploadMedia_ERROR, payload: error }; }
+
 }
 
 
@@ -192,6 +193,7 @@ function buildURL(entity, offset, include) {
 
 
 function returnFormatedAdvertisements(response) {
+
     const AdvertisementList = response.data.data;
     const InstitutionList   = response.data.included.institution;
     const MediaList         = response.data.included.media;

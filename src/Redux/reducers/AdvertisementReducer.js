@@ -12,7 +12,10 @@ const INITIAL_STATE = {
     SubTitle:"",
     Media: "",
     Advertisement:'',
-    ActionState: ''
+    ActionState: '',
+    offset:'',
+    limit:'',
+    total:''
 }
 
 const AdvertisementReducer = (state = INITIAL_STATE, action) => {
@@ -28,7 +31,8 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 loading: false,
                 hasError: false,
-                Advertisements: action.payload
+                Advertisements: action.payload,
+                ActionState: advertisementsConstants.getAdvertisements_SUCCESS,
             };
         case advertisementsConstants.getAdvertisements_ERROR:
             return {
