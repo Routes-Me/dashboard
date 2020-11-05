@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Form from 'react-validation/build/form';
 
 export default class RowItem extends Component {
 
@@ -34,7 +35,7 @@ export default class RowItem extends Component {
         return (
             <Form onSubmit={this.handleSubmit}>
 						<div className="form-group">
-							<Input placeholder="" className="form-control email" type="string" value={this.state.Text} onChange={this.onChange} name="text"/>
+							<input placeholder="" className="form-control" type="string" value={this.state.text} onChange={this.onChange} name="text"/>
 							<span className="form-error is-visible">{this.state.usernameError}</span>
 						</div>		
 			</Form>

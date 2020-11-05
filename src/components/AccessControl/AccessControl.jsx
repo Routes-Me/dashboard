@@ -4,6 +4,7 @@ import { accessControlConstant } from '../../constants/accessControlConstant';
 import * as accessControlAction from '../../Redux/Action/accessControlAction';
 import { connect } from 'react-redux';
 import './AccessControl.css';
+import RowItem from './Row/RowItem';
 
 class AccessControl extends Component {
 
@@ -35,14 +36,12 @@ class AccessControl extends Component {
                                 <th className=''>Name</th>
                                 <th className=''>Created at</th>
                             </tr>
-                            {
-                                list.map((Role, index) => 
-                                    <tr  key={Role.id}>
-                                        <td>{Role.name}</td>
+                            {list.map((Role, index) => 
+                                    {<tr  key={Role.id} onClick={e => this.rowSelect(e, index)}>
+                                        <td>{this.state.rowIndex === index? <RowItem Text={index}/> : Role.name}</td>
                                         <td>--</td>
-                                    </tr>
-                                )
-                            }
+                                    </tr>}
+                                )}
                     </table>
                 </div>
             </div>
@@ -53,6 +52,11 @@ class AccessControl extends Component {
     updateTheList = (tabIndex) => {
         tabIndex === 1 ? this.props.getPrivileges() : this.props.getApplications();
     }
+
+    rowSelect = (e, index) =>({ rowIndex: index })
+
+
+    
 
 
     render() {
