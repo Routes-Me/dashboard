@@ -50,8 +50,8 @@ export const config = {
     },
 
     //Domain:'http://stage.api.routesme.com/api/',
-
-    Domain:'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/',
+    Domain:'http://vmtproject.uaenorth.cloudapp.azure.com:5000/api/',
+    // Domain:'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/',
 
     Pagelimit : 20
 
