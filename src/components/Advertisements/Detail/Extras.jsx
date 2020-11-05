@@ -228,11 +228,6 @@ class Extras extends React.Component {
                         </div>
 
 
-                            
-                            <br /><br />
-
-                            {/*<div className="align-self-end ml-auto" style={{ textAlign: "end" }}><button type="submit" className="btn btn-primary"> {buttonText} </button></div>*/}
-
                         </div>
                     </div>
                 </Form>

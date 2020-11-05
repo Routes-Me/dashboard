@@ -122,8 +122,7 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                     SubTitle:"",
                     Media: "",
                     Advertisement:'',
-                    ActionState: advertisementsConstants.updateTheAdvertisementList,
-                    Advertisement: action.payload
+                    ActionState: advertisementsConstants.updateTheAdvertisementList
                 };
             case advertisementsConstants.savePromotions_ERROR:
                 return {
