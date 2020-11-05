@@ -163,7 +163,6 @@ class Vehicles extends Component {
 
 const mapStateToProps = (state) => {
 
-
     return {
         VehicleList: state.VehicleStore.Vehicles,
         ApplicationState: state.VehicleStore.ActionState

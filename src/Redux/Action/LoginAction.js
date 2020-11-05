@@ -1,6 +1,5 @@
 ﻿import axios from "axios";
 import { history } from "../../helper/history";
-import { MockServerData } from '../../constants/MockServerData';
 import { config } from "../../constants/config";
 import {userConstants} from '../../constants/userConstants';
 import jwt from "jsonwebtoken";
@@ -58,7 +57,7 @@ function parseJwt (token) {
 //Autherize the logged in user with the userRole
 export function getAutherization(roleId) {
 
-  let navList = MockServerData.NavMenuItems.data;
+  let navList = config.NavMenuItems.data;
   let navObj = navList.filter(x=>x.roleId===roleId);
 
   return dispatch => {

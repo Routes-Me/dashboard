@@ -1,5 +1,4 @@
-﻿import { MockServerData } from '../../constants/MockServerData';
-import { userConstants } from '../../constants/userConstants';
+﻿import { userConstants } from '../../constants/userConstants';
 import { config } from '../../constants/config';
 import apiHandler from '../../util/request';
 
@@ -45,7 +44,6 @@ export function getPriviledges() {
                     alert(error.toString());
                 }
             );
-    //dispatch(storeUserRoles(MockServerData.Priviledges.data))
   }
   function storeUserRoles(roles) { return { type: userConstants.update_PRIVILEGES, payload: roles } };
 
@@ -64,25 +62,11 @@ export function getApplications(){
                     alert(error.toString());
                 }
         );
-    //dispatch(storeApplications(MockServerData.Applications.data)) 
   }
   function storeApplications(apps){ return {type:userConstants.update_APPLICATIONS, payload:apps }};
 
 }
 
-//Autherize the logged in user with the userRole
-export function getAutherization(roleId) {
-
-  let navList = MockServerData.NavMenuItems.data;
-  let navObj = navList.filter(x=>x.roleId===roleId);
-
-  return dispatch => {
-      dispatch(storeNavItems(navObj[0].navItems));
-  }
-
-  function storeNavItems(navItems) { return { type: userConstants.getNavItems_SUCCESS, payload: navItems } } ;
-
-}
 
 
 // delete user

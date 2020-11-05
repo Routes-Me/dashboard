@@ -35,6 +35,20 @@ export const config = {
         title:"Please select a interval"
     },
 
+    NavMenuItems : {
+
+        "data":[
+            {
+                "roleId":1,
+                "navItems":["Tracking","Users","Vehicles","Advertisements","Institutions","Access Control"]
+            },
+            {
+                "roleId":2,
+                "navItems":["Tracking","Users","Vehicles","Advertisements"]
+            }
+        ]
+    },
+
     //Domain:'http://stage.api.routesme.com/api/',
 
     Domain:'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/',

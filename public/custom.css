@@ -586,7 +586,7 @@ header nav {
 td {
     text-align: center;
     padding: 0px 0 !important;
-    height: 51px;
+    height: 43px;
     line-height: 51px !important;
 }
 
@@ -604,7 +604,7 @@ td {
     font-weight: 500;
     line-height: normal;
     letter-spacing: normal;
-    color: #3a5ea0;
+    color: black;
     text-transform: uppercase;
     text-align: center;
     border-bottom: 1px solid #dee2e6;

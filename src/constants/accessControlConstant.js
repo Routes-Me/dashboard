@@ -1,4 +1,4 @@
-export const accessControlConstants = {
+export const accessControlConstant = {
 
     getApplications_REQUEST : 'GETAPPLICATIONS_REQUEST',
     getApplications_SUCCESS : 'GETAPPLICATIONS_SUCCESS',

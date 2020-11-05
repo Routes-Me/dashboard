@@ -23,6 +23,7 @@
     NavItem_Institutions: 'Institutions',
     NavItem_Users: 'Users',
     NavItem_Advertisements:'Advertisements',
+    NavItem_AccessControl : 'Access Control',
 
     getUsers_REQUEST: "GETUSERS_REQUEST",
     getUsers_SUCCESS: "GETUSERS_SUCCESS",

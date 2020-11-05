@@ -5,6 +5,7 @@ import VehicleReducer from './VehicleReducer';
 import InstitutionReducer from './InstitutionReducer';
 import UserReducer from './UserReducer';
 import AdvertisementReducer from './AdvertisementReducer';
+import accessControlReducer from './accessControlReducer';
 
 export default combineReducers({
     Login: LoginReducer,
@@ -12,5 +13,6 @@ export default combineReducers({
     VehicleStore: VehicleReducer,
     InstitutionStore: InstitutionReducer,
     UserStore: UserReducer,
-    AdvertisementStore: AdvertisementReducer
+    AdvertisementStore: AdvertisementReducer,
+    AccessControlStore : accessControlReducer
 });

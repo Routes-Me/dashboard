@@ -1,4 +1,4 @@
-import { accessControlConstants } from '../../constants/accessControlConstant';
+import { accessControlConstant } from '../../constants/accessControlConstant';
 import { config } from "../../constants/config";
 import apiHandler from '../../util/request';
 
@@ -16,13 +16,37 @@ function buildURL(entity, offset, include) {
 
 }
 
+function returnFormatedResponse(type, response){
+
+    let formatedList =[]
+    if(type === 'privileges')
+    {
+        formatedList = response.map(
+            items => 
+            ({
+                id : items.privilegeId,
+                name : items.name
+             }));
+    }
+    else{
+        formatedList = response.map(
+            items => 
+            ({
+                id : items.applicationId,
+                name : items.name
+             }));
+    }
+     
+        return formatedList;
+}
+
 
 export function getApplications(){
     return dispatch =>{
         dispatch(request('Applications'))
         apiHandler.get(buildURL('applications',1,false))
             .then(
-                response => { dispatch(success(response.data.data))},
+                response => { dispatch(success('applications',returnFormatedResponse('applications', response.data.data)))},
                 error => {dispatch(failure(error))}
             )
     }
@@ -34,7 +58,7 @@ export function getPrivileges(){
         dispatch(request('privileges'))
         apiHandler.get(buildURL('privileges',1,false))
             .then(
-                response => { dispatch(success(response.data.data))},
+                response => { dispatch(success('privileges',returnFormatedResponse('privileges' , response.data.data)))},
                 error => {dispatch(failure(error))}
             )
     }
@@ -44,7 +68,7 @@ export function getPrivileges(){
 
 export function saveApplications(application, action){
     return dispatch =>{
-        dispatch(request('Applications'))
+        dispatch(request('applications'))
         apiHandler.post(buildURL('applications',1,false))
             .then(
                 response => { dispatch(success(response.data.data))},
@@ -67,27 +91,27 @@ export function savePrivileges(privilege, action){
 
 function request(action){
 
-    if(action === 'Applications')
-    return { type : accessControlConstants.getApplications_REQUEST }
+    if(action === 'applications')
+    return { type : accessControlConstant.getApplications_REQUEST }
     else
-    return { type : accessControlConstants.getPrivilidges_REQUEST }
+    return { type : accessControlConstant.getPrivilidges_REQUEST }
 
 }
 
 function success(action, payload) {
 
-    if(action ==='Applications')
-    return { type : accessControlConstants.getApplications_SUCCESS, payload: payload}
+    if(action ==='applications')
+    return { type : accessControlConstant.getApplications_SUCCESS, payload: payload}
     else
-    return { type : accessControlConstants.getPrivilidges_SUCCESS, payload: payload}
+    return { type : accessControlConstant.getPrivilidges_SUCCESS, payload: payload}
 
 }
 
-function error(action, payload) {
+function failure(action, payload) {
 
-    if(action === 'Applications')
-    return { type : accessControlConstants.getApplications_ERROR, payload: payload }
+    if(action === 'applications')
+    return { type : accessControlConstant.getApplications_ERROR, payload: payload }
     else
-    return { type : accessControlConstants.getPrivilidges_ERROR, payload: payload }
+    return { type : accessControlConstant.getPrivilidges_ERROR, payload: payload }
 
 }

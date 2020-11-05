@@ -1,8 +1,8 @@
-import { accessControlConstant, accessControlConstants } from '../../constants/accessControlConstant';
+import { accessControlConstant } from '../../constants/accessControlConstant';
 
 const INITIAL_STATE ={
     Applications : [],
-    Priviledges  : [],
+    Privileges  : [],
     Loading      : false,
     Error        : '',
     ActionState  : ''
@@ -17,64 +17,63 @@ const accessControlReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 Loading : true
             };
-        case accessControlConstants.getApplications_SUCCESS:
+        case accessControlConstant.getApplications_SUCCESS:
             return {
                 ...state,
                 Loading : false,
                 Applications :action.payload
             };
-        case accessControlConstants.getApplications_ERROR:
+        case accessControlConstant.getApplications_ERROR:
             return {
                 ...state,
                 Loading : false,
                 Error   : action.payload
             };
-        case accessControlConstants.getPrivilidges_REQUEST:
+        case accessControlConstant.getPrivilidges_REQUEST:
             return {
                 ...state,
                 Loading : true,
             };
-        case accessControlConstants.getPrivilidges_SUCCESS:
+        case accessControlConstant.getPrivilidges_SUCCESS:
             return {
                 ...state,
                 Loading  : false,
-                Priviledges : action.payload
+                Privileges : action.payload
             };
-        case accessControlConstants.getApplications_ERROR:
+        case accessControlConstant.getApplications_ERROR:
             return {
                 ...state,
                 Loading : false,
                 Error   : action.payload
             };
-        case accessControlConstants.saveApplications_REQUEST:
+        case accessControlConstant.saveApplications_REQUEST:
             return {
                 ...state,
                 Loading : true
             };
-        case accessControlConstants.saveApplications_SUCCESS:
+        case accessControlConstant.saveApplications_SUCCESS:
             return {
                 ...state,
-                Loading : false,
-                Applications :action.payload
+                Loading : false
             };
-        case accessControlConstants.saveApplications_ERROR:
+        case accessControlConstant.saveApplications_ERROR:
             return {
                 ...state,
                 Loading : false,
                 Error   : action.payload
             };
-        case accessControlConstants.savePrivilidges_REQUEST:
+        case accessControlConstant.savePrivilidges_REQUEST:
             return {
                 ...state,
                 Loading : true,
             };
-        case accessControlConstants.savePrivilidges_SUCCESS:
+        case accessControlConstant.savePrivilidges_SUCCESS:
             return {
                 ...state,
                 Loading  : false,
                 Priviledges : action.payload
             };
-        case accessControlConstants.savePrivilidges_ERROR:
+        case accessControlConstant.savePrivilidges_ERROR:
             return {
                 ...state,
                 Loading : false,

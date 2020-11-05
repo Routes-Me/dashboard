@@ -6,6 +6,7 @@ import { Vehicles } from './Vehicles/Vehicles';
 import { Institutions } from './Institutions/Institutions';
 import { Users } from './Users/Users';
 import { Advertisements } from './Advertisements/Advertisements';
+import { AccessControl } from "./AccessControl/AccessControl";
 
 class Child extends Component {
     render() {
@@ -17,6 +18,7 @@ class Child extends Component {
                 {this.props.selectedNavItem === userConstants.NavItem_Institutions && <Institutions />}
                 {this.props.selectedNavItem === userConstants.NavItem_Users && <Users />}
                 {this.props.selectedNavItem === userConstants.NavItem_Advertisements && <Advertisements/>}
+                {this.props.selectedNavItem === userConstants.NavItem_AccessControl && <AccessControl/>}
             </div>
 
             );
