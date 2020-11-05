@@ -146,8 +146,7 @@ class VehicleDetail extends React.Component {
                                     <input type="text" name="plateNumber"
                                     value={this.state.plateNumber}
                                     onChange={this.onChange}
-                                    className="form-control"
-                                    readOnly />
+                                    className="form-control"/>
                                 </div>
                         </div><br /><br />
 
