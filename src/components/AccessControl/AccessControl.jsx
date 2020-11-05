@@ -3,6 +3,7 @@ import { Button } from 'reactstrap';
 import { accessControlConstant } from '../../constants/accessControlConstant';
 import * as accessControlAction from '../../Redux/Action/accessControlAction';
 import { connect } from 'react-redux';
+import './AccessControl.css';
 
 class AccessControl extends Component {
 
@@ -28,23 +29,23 @@ class AccessControl extends Component {
     renderList= (list) => {
         return(
             <div className="table-list-vehicles">
-            <div className="table">
-            <table>
-                    <tr>
-                        <th>Name</th>
-                        <th>Created at</th>
-                    </tr>
-                    {
-                        list.map((Role, index) => 
-                            <tr  key={Role.id}>
-                                <td>{Role.name}</td>
-                                <td>--</td>
+                <div className="table">
+                    <table>
+                            <tr>
+                                <th className=''>Name</th>
+                                <th className=''>Created at</th>
                             </tr>
-                        )
-                    }
-            </table>
-        </div>
-         </div>
+                            {
+                                list.map((Role, index) => 
+                                    <tr  key={Role.id}>
+                                        <td>{Role.name}</td>
+                                        <td>--</td>
+                                    </tr>
+                                )
+                            }
+                    </table>
+                </div>
+            </div>
         )
     }
 
@@ -70,19 +71,19 @@ class AccessControl extends Component {
                         <h3>Access Control</h3>
                     </div>
                 </div>
-                <div className='row' style={{marginTop:'80px', marginLeft:'40px'}}>
-                <div className='col-md-4'>
-                    <div className="headerTabStyle">
-                        <nav>
-                            <div className="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
-                                <a className={`nav-item nav-link ${tabIndex === 1 && "active"}`}  data-toggle="tab" onClick={(e) => this.onTabClick(1)} role="tab" aria-controls="nav-home" aria-selected="true"> Privileges</a>
-                                <a className={`nav-item nav-link ${tabIndex === 2 && "active"}`}  data-toggle="tab" onClick={(e) => this.onTabClick(2)} role="tab" aria-controls="nav-profile" aria-selected="false"> Applications</a>
-                            </div>
-                        </nav>
+                <div className='row' style={{marginTop:'4%', marginLeft:'40px'}}>
+                    <div className='col-md-4'>
+                        <div className="row headerTabStyle">
+                            <nav>
+                                <div className="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                    <a className={`nav-item nav-link ${tabIndex === 1 && "active"}`}  data-toggle="tab" onClick={(e) => this.onTabClick(1)} role="tab" aria-controls="nav-home" aria-selected="true"> Privileges</a>
+                                    <a className={`nav-item nav-link ${tabIndex === 2 && "active"}`}  data-toggle="tab" onClick={(e) => this.onTabClick(2)} role="tab" aria-controls="nav-profile" aria-selected="false"> Applications</a>
+                                </div>
+                            </nav>
+                        </div>
                     </div>
-                </div>
                 <div className="row col-md-12">
-                        <Button> Save </Button>
+                        <i className='btnSave'> Save </i>
                 </div>
                 </div>
                 {content}

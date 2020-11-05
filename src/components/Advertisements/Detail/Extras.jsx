@@ -16,6 +16,7 @@ class Extras extends React.Component {
             id: "",
             title: "",
             subtitle: "",
+            code:'',
             startDate:"",
             endDate:"",
             useageLimit:"",
@@ -80,6 +81,7 @@ class Extras extends React.Component {
             promotion = {
                 Title: this.state.title,
                 Subtitle: this.state.subtitle,
+                code: this.state.code,
                 StartAt: this.state.startDate,
                 EndAt: this.state.endDate,
                 UsageLimit: this.state.useageLimit,
@@ -93,6 +95,7 @@ class Extras extends React.Component {
             promotion = {
                 Title: this.state.title,
                 Subtitle: this.state.subtitle,
+                code:this.state.code,
                 links :{
                     Web: this.state.weblink,
                     Ios: this.state.iOSLink,
@@ -137,6 +140,16 @@ class Extras extends React.Component {
                                     <Label>Subtitle</Label><br />
                                 <input type="text" name="subtitle"
                                     value={this.state.subtitle}
+                                    onChange={this.onChange}
+                                    className="form-control" />
+                                </div>
+                            </div>
+
+                            <div className="row form-group">
+                                <div className="col-md-12">
+                                    <Label>Promotion Code</Label><br />
+                                <input type="text" name="code"
+                                    value={this.state.code}
                                     onChange={this.onChange}
                                     className="form-control" />
                                 </div>

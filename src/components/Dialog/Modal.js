@@ -97,7 +97,6 @@ class Modal extends React.Component {
                             <div className="search-relative">
                                 <input type="text" name="search" placeholder="Search" className="search" />
                                 <i className="fa fa-search" aria-hidden="true" />
-                                {/*<span className="cross-icon"><img src="../cross-image.png" /></span>*/}
                             </div>
                         </div>
                     </div>
