@@ -37,10 +37,10 @@ class AccessControl extends Component {
                                 <th className=''>Created at</th>
                             </tr>
                             {list.map((Role, index) => 
-                                    {<tr  key={Role.id} onClick={e => this.rowSelect(e, index)}>
+                                    <tr  key={Role.id}>
                                         <td>{this.state.rowIndex === index? <RowItem Text={index}/> : Role.name}</td>
                                         <td>--</td>
-                                    </tr>}
+                                    </tr>
                                 )}
                     </table>
                 </div>
@@ -53,7 +53,7 @@ class AccessControl extends Component {
         tabIndex === 1 ? this.props.getPrivileges() : this.props.getApplications();
     }
 
-    rowSelect = (e, index) =>({ rowIndex: index })
+    // rowSelect = (e, index) =>({ rowIndex: index })    onClick={e => this.rowSelect(e, index)}
 
 
     
