@@ -103,7 +103,7 @@ class Advertisements extends Component {
                         <tbody>
                             {
                                 Advertisements?.map(Advertisement => (
-                                    <tr key={Advertisement.id}>
+                                    <tr key={Advertisement.id} style={{textAlign:'center'}}>
                                         <td>{Advertisement.id}</td>
                                         <td>{Advertisement.resourceName}</td>
                                         <td>{Advertisement.createdAt}</td>

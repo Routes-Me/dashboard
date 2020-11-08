@@ -89,7 +89,7 @@ class Institutions extends Component {
                         <tbody>
                             {
                                 institutionsList.map(institution => (
-                                    <tr key={institution.institutionId}>
+                                    <tr key={institution.institutionId} style={{textAlign:'center'}}>
                                         <td>{institution.institutionId}</td>
                                         <td>{institution.name}</td>
                                         <td>{institution.phoneNumber}</td>

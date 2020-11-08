@@ -96,7 +96,7 @@ class Vehicles extends Component {
                         <tbody>
                             {
                                 Vehicles.map(Vehicle => (
-                                    <tr  key={Vehicle.id}>
+                                    <tr  key={Vehicle.id} style={{textAlign:'center'}}>
                                         <td>{Vehicle.id}</td>
                                         <td>{Vehicle.plateNumber}</td>
                                         <td>{Vehicle.model?.Name}</td>
