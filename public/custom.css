@@ -534,9 +534,10 @@ header nav {
 }
 
 .top-part-vehicles-search {
+    top:0px;
     padding-bottom: 30px;
     position: sticky;
-    top: 68px;
+    padding-top: 68px;
     background-color: #fff;
     border-bottom: 1px solid #dee2e6;
     z-index: 0;
@@ -561,7 +562,7 @@ header nav {
 }
 
 .table-list-vehicles {
-    margin-top: 68px;
+    padding-top: 68px;
 }
 
 .vehicles-page {
@@ -576,25 +577,21 @@ header nav {
         position: relative;
     }
 
-.table-list-vehicles .table table thead tr th {
+.table-list-vehicles > .table table thead tr th {
     position: sticky;
-    top: 219px;
+    top: 0px;
     background-color: #fff;
-}
-
-.table-list-vehicles .table-list-vehicles table th
-td {
     text-align: center;
     padding: 0px 0 !important;
-    height: 43px;
-    line-height: 51px !important;
+    line-height: 50px !important
 }
 
-.table-list-vehicles table td {
-    
+
+.table-list-vehicles table tr {
     font-size: 18px;
     font-weight: normal;
-    line-height: normal;
+    max-height: 50px;
+    vertical-align:middle;
     letter-spacing: normal;
 }
 

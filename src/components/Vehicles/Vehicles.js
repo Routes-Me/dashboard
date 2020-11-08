@@ -84,7 +84,7 @@ class Vehicles extends Component {
                 <div className="table">
                     <table>
                         <thead>
-                            <tr>
+                            <tr style={{height:'51px'}}>
                                 <th>Id</th>
                                 <th>Plate</th>
                                 <th>Model</th>
@@ -96,7 +96,7 @@ class Vehicles extends Component {
                         <tbody>
                             {
                                 Vehicles.map(Vehicle => (
-                                    <tr  key={Vehicle.id} style={{textAlign:'center'}}>
+                                    <tr  key={Vehicle.id} style={{textAlign:'center',height:'51px'}}>
                                         <td>{Vehicle.id}</td>
                                         <td>{Vehicle.plateNumber}</td>
                                         <td>{Vehicle.model?.Name}</td>
