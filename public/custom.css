@@ -582,7 +582,7 @@ header nav {
     background-color: #fff;
 }
 
-.table-list-vehicles .table-list-vehicles table th,
+.table-list-vehicles .table-list-vehicles table th
 td {
     text-align: center;
     padding: 0px 0 !important;
@@ -605,7 +605,6 @@ td {
     line-height: normal;
     letter-spacing: normal;
     color: black;
-    text-transform: uppercase;
     text-align: center;
     border-bottom: 1px solid #dee2e6;
 }
@@ -706,53 +705,7 @@ td {
 }
 
 
-/*vehicles*/
-.page-nav {
-    position: sticky;
-    bottom: 0px;
-    background-color: #fff;
-    border-top: 1px solid #dee2e6;
-}
 
-.page-count {
-    font-size: 16px;
-    font-weight: 600;
-    display: inline-block;
-    text-align: left;
-    width: 690px;
-    margin: 10px auto 0
-}
-
-.page-nav .pagination {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-.pagination > li {
-   font-weight: 400;
-    font-size: 16px;
-    line-height: normal;
-}
-
-    .pagination > li > a {
-        color: #18428f !important;
-        padding: 9px 17px !important;
-    }
-
-        .pagination > li > a:hover {
-            background-color: rgba(24, 66, 143, 0.2);
-            border: 1px solid #ddd;
-        }
-
-    .pagination > li.active > a {
-        background-color: rgba(24, 66, 143, 0.2) !important;
-        border: 1px solid #ddd !important;
-    }
-
-        .pagination > li.active > a:hover {
-            background-color: rgba(24, 66, 143, 0.2);
-            border: 1px solid #ddd;
-        }
 
 
 img {
