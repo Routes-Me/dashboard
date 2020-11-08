@@ -1,10 +1,11 @@
 ﻿
 import {setAuthorizationToken} from '../util/request';
-
+import cookie from 'react-cookies';
 
 
     export async function setToken(token) {
         localStorage.setItem('token', token);
+        cookie.save('token',token)
         setAuthorizationToken(token);
     }
 
@@ -14,12 +15,21 @@ import {setAuthorizationToken} from '../util/request';
     }
 
     export async function getToken(){
-          if(localStorage.getItem('token')==null){
-              return undefined;
-          }
-          else{
-              return localStorage.getItem('token');
-          }
+
+        if(cookie.load('token')!==null)
+        {
+            let token =  cookie.load('token')
+            return token;
+        }
+        else{
+            return undefined;
+        }
+        //   if(localStorage.getItem('token')==null){
+        //       return undefined;
+        //   }
+        //   else{
+        //       return localStorage.getItem('token');
+        //   }
     }
 
     export async function loadState() {

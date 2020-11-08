@@ -12,7 +12,7 @@ export async function setAuthorizationToken(token) {
   instance.interceptors.request.use(
 
     function (config) {
-      if (token) 
+      if (token!=null) 
       {
           config.headers["Authorization"] = "Bearer " + token;
       } 
@@ -36,45 +36,29 @@ export async function setAuthorizationToken(token) {
     }
 
   );
+
 }
 
-// instance.interceptors.request.use(
-//     function (config) {
-//       if (token) 
-//       {
-//           config.headers["Authorization"] = "Bearer " + token;
-//       } 
-//       else if (getToken() != null) 
-//       {
-//         config.headers["Authorization"] = "Bearer " + getToken();
-//       }
-//       else
-//       {
-//         history.push('/');
-//       }
 
-//       config.headers["Content-Type"] = (config.url ==='medias' && config.method ==='post')? "multipart/form-data" :  "application/json; charset=utf-8";      
 
-//       return config;
-
-//     },
-//     function (error) {
-//       history.push('/');
-//       return Promise.reject(error);
-//     }
-// );
 
 
 instance.interceptors.response.use(
   function success(param) {
-    console.log(`${param.method} response send from ${param.url} at ${new Date().getTime()}`);
+    //console.log(`${param.method} response send from ${param.url} at ${new Date().getTime()}`);
     return param;
   },
   function failure(error) {
-    if((error.response.status === 401) )
+    if((error.response.status === 403 ))
     {
       clearStorage();
       history.push('/');
+    }
+    if(error.response.status === 401)
+    {
+      let token = Promise.getToken();
+      instance.defaults.headers.common['Authorization'] = "Bearer " + getToken();
+      //setAuthorizationToken(token);
     }
     return Promise.reject(error);
   }
