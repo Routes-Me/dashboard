@@ -24,6 +24,7 @@
     NavItem_Users: 'Users',
     NavItem_Advertisements:'Advertisements',
     NavItem_AccessControl : 'Access Control',
+    NavItem_Campaigns : 'Campaigns',
 
     getUsers_REQUEST: "GETUSERS_REQUEST",
     getUsers_SUCCESS: "GETUSERS_SUCCESS",

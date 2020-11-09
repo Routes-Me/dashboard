@@ -1,25 +1,27 @@
 import React, { Component } from 'react';
 import Detail from '../Detail/Detail';
 import { connect } from 'react-redux';
-import { userConstants } from '../../constants/advertisementConstants';
-import * as InstitutionAction from '../../Redux/Action';
+import { userConstants } from '../../constants/userConstants';
+import * as AdvertisementAction from '../../Redux/Action';
 import '../Detail/Detail.css';
-import { institutionConstants } from '../../constants/institutionConstants';
+import { advertisementsConstants } from '../../constants/advertisementConstants';
 
-export default class Campaigns extends Component {
+class Campaigns extends Component {
 
     constructor(props){
         super(props)
 
         this.state = {
             camapignsList :[],
-            showDetails: false
+            showDetails: false,
+            optionsIndex:0,
+            campaign:''
         }
     }
 
         //Load Data
         componentDidMount() {
-            this.props.getInstitutionsList();
+            this.props.getCampaignsList();
         }
     
         //Handle Page selection
@@ -28,34 +30,33 @@ export default class Campaigns extends Component {
         }
     
         //Handle SubMenu Toggle for the Table
-        openSubMenuForInstitutionId = (e, institutionId) => {
+        openSubMenuForCampaignId = (e, campaignId) => {
             e.preventDefault();
-            this.setState({ optionsIndex: this.state.optionsIndex === institutionId ? 0 : institutionId });
+            this.setState({ optionsIndex: this.state.optionsIndex === campaignId ? 0 : campaignId });
         }
     
     
         //Show Detail Screen
-        showDetailScreen = (e, institution) => {
+        showDetailScreen = (e, campaign) => {
             e.preventDefault();
             this.setState({
-                showDetails: !this.state.showDetails,
-                institution: institution,
-                optionsIndex: 0
+                showDetails  : !this.state.showDetails,
+                campaign     : campaign,
+                optionsIndex : 0
             })
         }
     
         //Delete Institution
-        deleteInstitution = (e, institutionId) => {
+        deleteCampaign = (e, campaignId) => {
             e.preventDefault();
-            this.props.deleteInstitution(institutionId)
+            this.props.deleteCampaign(campaignId)
         }
     
     
         static getDerivedStateFromProps (props, state){
             if(state.showDetails){
-                if(props.ApplicationState === institutionConstants.saveInstitutions_SUCCESS)
+                if(props.ApplicationState === advertisementsConstants.updateTheCampaignsList)
                 {
-                    props.getInstitutionsList();
                     return {showDetails : false}
                 }
             }
@@ -89,14 +90,14 @@ export default class Campaigns extends Component {
                                             <td>{campaign.createdAt}</td>
                                             <td className="width44" >
                                                 <div className="edit-popup">
-                                                    <div className="edit-delet-butt" onClick={e => this.openSubMenuForInstitutionId(e, institution.institutionId)}>
+                                                    <div className="edit-delet-butt" onClick={e => this.openSubMenuForCampaignId(e,campaign.campaignId)}>
                                                         <span />
                                                         <span />
                                                         <span />
                                                     </div>
-                                                    <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === institution.institutionId ? 'inline-block' : 'none' }}>
-                                                        <li><a onClick={e => this.showDetailScreen(e, institution)}>Edit</a></li>
-                                                        <li><a onClick={e => this.deleteInstitution(e, institution.institutionId)}>Delete</a></li>
+                                                    <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === campaign.campaignId ? 'inline-block' : 'none' }}>
+                                                        <li><a onClick={e => this.showDetailScreen(e, campaign)}>Edit</a></li>
+                                                        <li><a onClick={e => this.deleteCampaign(e, campaign.campaignId)}>Delete</a></li>
                                                     </ul>
                                                 </div>
                                             </td>
@@ -112,8 +113,8 @@ export default class Campaigns extends Component {
 
     render() {
 
-        let content = this.showCampaignsList(this.props.CampaignsList);
-        {this.props.ApplicationState === institutionConstants.saveInstitutions_SUCCESS && this.props.GetCampaignsList()}
+        let content = this.showCampaignsList(this.props.campaignsList);
+        {this.props.ApplicationState === advertisementsConstants.updateTheCampaignsList && this.props.getCampaignsList()}
 
 
         return (
@@ -121,8 +122,8 @@ export default class Campaigns extends Component {
                 {this.state.showDetails ?
                     <Detail className={this.props.show ? 'slide-in' : 'slide-out'}
                         show={this.showDetailScreen}
-                        objectType={userConstants.NavItem_Institutions}
-                        object={this.state.institution} /> :
+                        objectType={userConstants.NavItem_Campaigns}
+                        object={this.state.campaign} /> :
                     <div>
                         <div className="top-part-vehicles-search padding-lr-80">
                             <div className="hehading-add-butt">
@@ -148,8 +149,8 @@ export default class Campaigns extends Component {
 const mapStateToProps = (state) => {
 
     return {
-        CampaignsList: state.InstitutionStore.Institutions,
-        ApplicationState: state.InstitutionStore.ActionState
+        campaignsList: state.AdvertisementStore.Campaigns,
+        ApplicationState: state.AdvertisementStore.ActionState
     }
 
 }
@@ -157,9 +158,9 @@ const mapStateToProps = (state) => {
 
 //Create Redux for Users
 const actionCreators = {
-GetCampaignsList: InstitutionAction.getInstitutions,
-DeleteCampaign : InstitutionAction.DeleteInstitution
+    getCampaignsList: AdvertisementAction.getCampaigns,
+    deleteCampaign : AdvertisementAction.deleteCampaign
 };
 
-const connectedInstitutions = connect(mapStateToProps, actionCreators)(Institutions);
-export { connectedInstitutions as Institutions };
+const connectedCampaigns = connect(mapStateToProps, actionCreators)(Campaigns);
+export { connectedCampaigns as Campaigns };

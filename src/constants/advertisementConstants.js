@@ -8,9 +8,17 @@
     saveAdvertisements_SUCCESS : "SAVEADVERTISEMENTS_SUCCESS",
     saveAdvertisements_ERROR   : "SAVEADVERTISEMENTS_ERROR",
 
+    saveCampaigns_REQUEST : "SAVECAMPAIGNS_REQUEST",
+    saveCampaigns_SUCCESS : "SAVECAMPAIGNS_SUCCESS",
+    saveCampaigns_ERROR   : "SAVECAMPAIGNS_ERROR",
+
     deleteAdvertisements_REQUEST: "DELETEADVERTISEMENTS_REQUEST",
     deleteAdvertisements_SUCCESS: "DELETEADVERTISEMENTS_SUCCESS",
     deleteAdvertisements_ERROR: "DELETEADVERTISEMENTS_ERROR",
+
+    deleteCampaigns_REQUEST: "DELETECAMPAIGNS_REQUEST",
+    deleteCampaigns_SUCCESS: "DELETECAMPAIGNS_SUCCESS",
+    deleteCampaigns_ERROR:   "DELETECAMPAIGNS_ERROR",
 
     getCampaigns_REQUEST: "GETCAMPAIGNS_REQUEST",
     getCampaigns_SUCCESS: "GETCAMPAIGNS_SUCCESS",
@@ -37,6 +45,7 @@
     savePromotions_SUCCESS : "SAVEROMOTIONS_SUCCESS",
     savePromotions_ERROR   : "SAVEROMOTIONS_ERROR",
 
-    updateTheAdvertisementList : "UPDATE_THEADVERTISEMENTLIST"
+    updateTheAdvertisementList : "UPDATE_THEADVERTISEMENTLIST",
+    updateTheCampaignsList : 'UPDATE_THECAMPAIGNSLIST'
 
 }

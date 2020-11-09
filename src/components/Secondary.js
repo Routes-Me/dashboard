@@ -9,6 +9,7 @@ import { InstitutionsSecondary } from '../components/Institutions/InstitutionsSe
 import { UsersSecondary } from '../components/Users/UsersSecondary';
 import { AdvertisementsSecondary } from '../components/Advertisements/AdvertisementsSecondary';
 import { AccessControlSecondary } from "../components/AccessControl/AccessControlSecondary";
+import { CampaignsSecondary } from './Campaigns/CampaignsSecondary';
 
 import { userConstants } from '../constants/userConstants';
 
@@ -83,7 +84,7 @@ class Secondary extends Component {
                 {this.props.selectedNavItem === userConstants.NavItem_Advertisements && <AdvertisementsSecondary/>}
                 {this.props.selectedNavItem === userConstants.NavItem_Users && <UsersSecondary />}
                 {this.props.selectedNavItem === userConstants.NavItem_AccessControl && <AccessControlSecondary/>}
-
+                {this.props.selectedNavItem === userConstants.NavItem_Campaigns && <CampaignsSecondary/>}
             </div >
             );
     }

@@ -260,6 +260,34 @@ export function addPromotions(promotion){
     function savePromotionsError(error) { return { type: advertisementsConstants.savePromotions_ERROR, payload:error }; }
 }
 
+
+export function saveCampaign(Campaign, action) {
+
+    return dispatch => {
+        dispatch(saveCampaignRequest())
+        if(action === 'save')
+        {
+            apiHandler.put('campaigns', Campaign)
+            .then(
+                response => { dispatch(saveCampaignSuccess(response.data)) },
+                error => { dispatch(saveCampaignFailure(error)) }
+            )
+        }
+        else
+        {
+            apiHandler.post('campaigns', Campaign)
+            .then(
+                response => { dispatch(saveCampaignSuccess(response.data)) },
+                error => { dispatch(saveCampaignFailure(error)) }
+            )
+        }
+    }
+
+    function saveCampaignRequest() { return { type: advertisementsConstants.saveCampaigns_REQUEST }; }
+    function saveCampaignSuccess(campaign) { return { type: advertisementsConstants.saveCampaigns_SUCCESS, payload:campaign }; }
+    function saveCampaignFailure(error) { return { type: advertisementsConstants.saveCampaigns_ERROR, payload:error }; }
+}
+
 export function deleteAdvertisement(id) {
     return dispatch => {
         dispatch(deleteAdvertisementRequest())
@@ -272,6 +300,20 @@ export function deleteAdvertisement(id) {
     function deleteAdvertisementRequest() { return { type: advertisementsConstants.deleteAdvertisements_REQUEST }; }
     function deletedAdvertisement(response) { return { type: advertisementsConstants.deleteAdvertisements_SUCCESS, payload: response }; }
     function deleteAdvertisementFailure(error) { return { type: advertisementsConstants.deleteAdvertisements_ERROR, payload: error }; }
+}
+
+export function deleteCampaign(id) {
+    return dispatch => {
+        dispatch(deleteCampaignRequest())
+        apiHandler.delete('campaigns/' + id)
+            .then(
+                response => { dispatch(deleteCampaignSuccess(response)) },
+                error => { dispatch(deleteCampaignFailure(error)) }
+            )
+    }
+    function deleteCampaignRequest() { return { type: advertisementsConstants.deleteCampaigns_REQUEST }; }
+    function deleteCampaignSuccess(response) { return { type: advertisementsConstants.deleteCampaigns_SUCCESS, payload: response }; }
+    function deleteCampaignFailure(error) { return { type: advertisementsConstants.deleteCampaignFailure, payload: error }; }
 }
 
 function updateAdvertisementList() { return {type: advertisementsConstants.updateTheAdvertisementList}}

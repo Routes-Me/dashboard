@@ -62,7 +62,6 @@ class Institutions extends Component {
         if(state.showDetails){
             if(props.ApplicationState === institutionConstants.saveInstitutions_SUCCESS)
             {
-                props.getInstitutionsList();
                 return {showDetails : false}
             }
         }
