@@ -25,7 +25,6 @@ class Vehicles extends Component {
     }
 
     componentDidMount() {
-        console.log("vehicle list component did mount!")
         this.props.getVehiclesForInstitution();
 }
 
@@ -71,10 +70,10 @@ class Vehicles extends Component {
         return null;
     }
 
-    showUpdatedList = () =>{
-        this.props.getVehiclesForInstitution();
-        this.setState({showDetails : false});
-    }
+    // showUpdatedList = () =>{
+    //     this.props.getVehiclesForInstitution();
+    //     this.setState({showDetails : false});
+    // }
 
 
     //Load Vehicles in a table
@@ -102,7 +101,7 @@ class Vehicles extends Component {
                                         <td>{Vehicle.model?.Name}</td>
                                         <td>{Vehicle.modelYear}</td>
                                         <td>{Vehicle.institution?.Name}</td>
-                                        <td className="width44" >
+                                        <td className="width44" onClick={e => this.openSubMenuForVehicleId(e, Vehicle.id)}>
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Vehicle.id)}>
                                                     <span />

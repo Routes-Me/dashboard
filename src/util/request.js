@@ -49,17 +49,17 @@ instance.interceptors.response.use(
     return param;
   },
   function failure(error) {
-    if((error.response.status === 403 ))
+    if((error.response.status === 401 ))
     {
       clearStorage();
       history.push('/');
     }
-    if(error.response.status === 401)
-    {
-      let token = Promise.getToken();
-      instance.defaults.headers.common['Authorization'] = "Bearer " + getToken();
-      //setAuthorizationToken(token);
-    }
+    // if(error.response.status === 401)
+    // {
+    //   let token = Promise.getToken();
+    //   instance.defaults.headers.common['Authorization'] = "Bearer " + getToken();
+    //   //setAuthorizationToken(token);
+    // }
     return Promise.reject(error);
   }
 );

@@ -26,7 +26,6 @@ class Institutions extends Component {
 
     //Load Data
     componentDidMount() {
-        // get Institutions
         this.props.getInstitutionsList();
     }
 
@@ -89,7 +88,7 @@ class Institutions extends Component {
                         <tbody>
                             {
                                 institutionsList.map(institution => (
-                                    <tr key={institution.institutionId} style={{textAlign:'center'}}>
+                                    <tr key={institution.institutionId} style={{textAlign:'center'}} onClick={e => this.showDetailScreen(e, institution)}>
                                         <td>{institution.institutionId}</td>
                                         <td>{institution.name}</td>
                                         <td>{institution.phoneNumber}</td>
@@ -121,6 +120,7 @@ class Institutions extends Component {
     render() {
 
         let content = this.showInstitutionsList(this.props.InstitutionsList);
+        {this.props.ApplicationState === institutionConstants.saveInstitutions_SUCCESS && this.props.getInstitutionsList()}
 
         return (
             <div className="vehicles-page" style={{ height: "100vh", width: "100%" }}>

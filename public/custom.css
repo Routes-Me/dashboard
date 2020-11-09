@@ -561,9 +561,7 @@ header nav {
 
 }
 
-.table-list-vehicles {
-    padding-top: 68px;
-}
+
 
 .vehicles-page {
     position: relative;
@@ -573,12 +571,11 @@ header nav {
     width: 100%;
 }
 
-    .table-list-vehicles table thead {
-        position: relative;
+    .table-list-vehicles table th {
+        position: sticky;
     }
 
 .table-list-vehicles > .table table thead tr th {
-    position: sticky;
     top: 0px;
     background-color: #fff;
     text-align: center;
