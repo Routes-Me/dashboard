@@ -29,7 +29,7 @@ class UsersDetail extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getPriviledges();
+        this.props.getPrivileges();
         this.props.getApplications();
         this.props.getInstitutions();
     }
@@ -61,26 +61,45 @@ class UsersDetail extends React.Component {
 
         event.preventDefault();
 
-        const user = {
-            // userId:this.state.id,
-            Name: this.state.name,
-            Password: encryptAndEncode(this.state.password) ,
-            Email: this.state.email,
-            PhoneNumber: this.state.phone,
-            InstitutionId: this.state.institutionId,
-            Roles:[
-                {
-                    ApplicationId: this.state.application,
-                    PrivilegeId: this.state.privilege
-                }
-            ]                                                                                                                                                                                                                                                                                                             
-        }
-
         console.log('userObj',user )
 
-        let action ="";
+        let action ='', user ='';
 
-        {this.state.user.userId? action = "save": action = "add"}
+        {action =  this.state.user.userId? "save": "add"}
+
+        if(action === 'save')
+        {
+            user = {
+                userId       : this.state.id,
+                Name         : this.state.name,
+                Password     : encryptAndEncode(this.state.password) ,
+                Email        : this.state.email,
+                PhoneNumber  : this.state.phone,
+                InstitutionId: this.state.institutionId,
+                Roles:[
+                    {
+                        ApplicationId: this.state.application,
+                        PrivilegeId: this.state.privilege
+                    }
+                ]                                                                                                                                                                                                                                                                                                             
+            }
+        }
+        else
+        {
+            user = {
+                Name         : this.state.name,
+                Password     : encryptAndEncode(this.state.password) ,
+                Email        : this.state.email,
+                PhoneNumber  : this.state.phone,
+                InstitutionId: this.state.institutionId,
+                Roles:[
+                    {
+                        ApplicationId: this.state.application,
+                        PrivilegeId: this.state.privilege
+                    }
+                ]                                                                                                                                                                                                                                                                                                             
+            }
+        }
 
         this.props.saveUser(user,action);
 
@@ -150,7 +169,7 @@ class UsersDetail extends React.Component {
                             <div className="col-md-6">
                                 <Label>Applications</Label><br />
                                 <select defaultValue={userObj ? this.state.roles[0].applicationId : "Select a role"} className="custom-select my-1 mr-sm-2" name="application" onChange={this.onChange}>
-                                    {this.props.ApplicationsList.map(application => (<option key={application.applicationId} className="dropdown-item" value={application.applicationId}>{application.name}</option>))}
+                                    {this.props.ApplicationsList.map(application => (<option key={application.id} className="dropdown-item" value={application.applicationId}>{application.name}</option>))}
                                 </select>
                             </div>
                         </div>
@@ -159,7 +178,7 @@ class UsersDetail extends React.Component {
                             <div className="col-md-6">
                                 <Label>Privilege</Label><br />
                                 <select defaultValue={userObj ?this.state.roles[0].privilegeId : "Select a role"} className="custom-select my-1 mr-sm-2" name="privilege" onChange={this.onChange}>
-                                    {this.props.PrivilegeList.map(privilege => (<option key={privilege.privilegeId} className="dropdown-item" value={privilege.privilegeId}>{privilege.name}</option>))}
+                                    {this.props.PrivilegeList.map(privilege => (<option key={privilege.id} className="dropdown-item" value={privilege.privilegeId}>{privilege.name}</option>))}
                                 </select>
                             </div>
                         </div>
@@ -203,7 +222,7 @@ const mapStateToProps = (state) => {
 
 const actionCreators = {
 
-    getPriviledges  : UserAction.getPriviledges,
+    getPrivileges   : UserAction.getPrivileges,
     getApplications : UserAction.getApplications,
     getInstitutions : InstitutionAction.getInstitutions,
     saveUser        : UserAction.saveUser

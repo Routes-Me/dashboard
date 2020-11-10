@@ -162,7 +162,6 @@ const mapStateToProps = (state) => {
 
 }
 
-
 //Create Redux for Users
 const actionCreators = {
     getInstitutionsList: InstitutionAction.getInstitutions,

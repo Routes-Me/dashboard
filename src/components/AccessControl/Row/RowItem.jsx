@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Form from 'react-validation/build/form';
-import * as accessControlAction from '../../../Redux/Action/accessControlAction';
+import * as UserAction from '../../../Redux/Action/UserAction';
 import { connect } from 'react-redux';
 
 class RowItem extends Component {
@@ -16,7 +16,7 @@ class RowItem extends Component {
 	}
 
 	static getDerivedStateFromProps(props, state) {
-        if (props.Object !== undefined) {
+        if (props.Object.name !== undefined) {
             if (props.Object.id !== state.object.id) {
                 return {
                     object   : props.Object,
@@ -30,7 +30,7 @@ class RowItem extends Component {
 
     componentDidUpdate(prevProps, prevState)
     {
-        if(this.props.Save != prevProps.Save)
+        if(this.props.Save !== prevProps.Save)
         {
             this.handleSubmit(this.state.objectType)
         }
@@ -43,14 +43,43 @@ class RowItem extends Component {
 
     handleSubmit = (objectType) => {
 
-        let object = { Name: this.state.name}
+        let object = '', action = '';
+        
+        { action = this.state.object.id? 'save' : 'add' } 
         if(objectType===1)
         {
-            this.props.SavePrivileges(object);
+            if(action === 'save')
+            {
+                object ={
+                    privilegeId : this.state.object.id,
+                    name        : this.state.text
+                }
+            }
+            else
+            {
+                object ={
+                    name : this.state.text
+                }
+            }
+            this.props.savePrivilege(object,action);
+            
         }
         else
         {
-            this.props.SaveApplication(object);
+            if(action === 'save')
+            {
+                object ={
+                    applicationId : this.state.object.id,
+                    name          : this.state.text
+                }
+            }
+            else
+            {
+                object ={
+                    name : this.state.text
+                }
+            }
+            this.props.saveApplication(object,action);
         }
 		
 	}
@@ -59,7 +88,7 @@ class RowItem extends Component {
     render() {
         return (
             <Form onSubmit={this.handleSubmit}>
-				<input placeholder={`${this.state.object==='' && (this.state.objectType===1?'Privilege name' : 'Application name')}`} className="rowItem" type="string" value={this.state.text} onChange={this.onChange} name="text"/>
+				<input placeholder={`${this.state.object==='' && (this.state.objectType === 1 ? "Privilege name" : "Application name")}`} className="rowItem" type="string" value={this.state.text} onChange={this.onChange} name="text"/>
 				<span className="form-error is-visible">{this.state.error}</span>
 			</Form>
         )
@@ -69,12 +98,17 @@ class RowItem extends Component {
 }
 
 
+// const mapStateToProps = (state) => {
+//     return {
+
+//     }
+// }
+
 const actionCreators = {
-    SaveApplication: accessControlAction.saveApplications,
-    SavePrivileges: accessControlAction.savePrivileges
-};
+    saveApplication :  UserAction.saveApplications,
+    savePrivilege   :  UserAction.savePrivileges
+}
 
-const connectedAccessControl = connect(actionCreators)(RowItem);
-export { connectedAccessControl as RowItem };
+const connectedRowItem = connect(null, actionCreators)(RowItem);
+export { connectedRowItem as RowItem };
 
-export default RowItem;

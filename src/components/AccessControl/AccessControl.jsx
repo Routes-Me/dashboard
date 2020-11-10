@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { accessControlConstant } from '../../constants/accessControlConstant';
-import * as accessControlAction from '../../Redux/Action/accessControlAction';
+import { userConstants } from '../../constants/userConstants';
+import * as UserAction from '../../Redux/Action/UserAction';
 import { connect } from 'react-redux';
 import './AccessControl.css';
-import RowItem from './Row/RowItem';
+import { RowItem }  from './Row/RowItem';
 
 class AccessControl extends Component {
 
@@ -65,22 +65,32 @@ class AccessControl extends Component {
     }
 
     updateTheList = (tabIndex) => {
-        tabIndex === 1 ? this.props.getPrivileges() : this.props.getApplications()
+        if(tabIndex === 1)
+        {
+            this.props.getPrivileges();
+            this.setState({rowIndex:this.props.PrivilegesList.length}) 
+        }
+        else
+        {
+            this.props.getApplications();
+            this.setState({rowIndex:this.props.ApplicationsList.length})
+        }
     }
 
-    //rowIndex = {tabIndex === 1 ? this.props.getPrivileges().length : this.props.getApplications().length}
 
      rowSelect(e, index) { 
         this.setState({rowIndex: index}); 
     }
+
+
 
     render() {
 
         let list = this.state.tabIndex === 1 ? this.props.PrivilegesList : this.props.ApplicationsList
         let content = this.renderList(list);
         const tabIndex = this.state.tabIndex; 
-        {this.props.ApplicationState === accessControlConstant.saveApplications_SUCCESS && this.props.getApplications()}
-        {this.props.ApplicationState === accessControlConstant.savePrivilidges_SUCCESS && this.props.getPrivileges()}
+        {this.props.ApplicationState === userConstants.saveApplications_SUCCESS && this.props.getApplications()}
+        {this.props.ApplicationState === userConstants.savePrivilidges_SUCCESS && this.props.getPrivileges()}
 
         return (
             <div className="vehicles-page" style={{ height: "100vh", width: "100%" }}>
@@ -114,17 +124,15 @@ class AccessControl extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        ApplicationsList : [...state.AccessControlStore.Applications, {id:'', name:'Application Name'}],
-        PrivilegesList  : [...state.AccessControlStore.Privileges,  {id:'', name:'Priviledge Name'}]
+        ApplicationsList : [...state.UserStore.Applications, {id:'', name:''}],
+        PrivilegesList  : [...state.UserStore.Privileges,  {id:'', name:''}]
     }
 }
 
 const actionCreators = {
-    getApplications: accessControlAction.getApplications,
-    getPrivileges: accessControlAction.getPrivileges
+    getApplications: UserAction.getApplications,
+    getPrivileges: UserAction.getPrivileges
 };
 
 const connectedAccessControl = connect(mapStateToProps, actionCreators)(AccessControl);
 export { connectedAccessControl as AccessControl };
-
-export default AccessControl;
