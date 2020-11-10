@@ -4,12 +4,13 @@ import cookie from 'react-cookies';
 
 
     export async function setToken(token) {
-        localStorage.setItem('token', token);
+        //localStorage.setItem('token', token);
         cookie.save('token',token)
         setAuthorizationToken(token);
     }
 
     export async function clearStorage() {
+        cookie.remove('token');
         localStorage.removeItem('token');
         localStorage.removeItem('state');
     }
