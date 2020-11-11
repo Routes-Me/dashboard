@@ -10,6 +10,10 @@
     margin-bottom: 12px;
 }
 
+.btnSave:hover {
+ background-image: url('../../images/btn_Save_Active.svg');
+}
+
 .header {
     top: 0px;
     height: 110px;
@@ -36,13 +40,10 @@
     width: 20%;
 }
 
-.headerTab button:hover {
-    border-bottom: solid 2px #000;
 
-}
 
 .headerTab button:active {
-    border-bottom: solid 2px #000;
+    border-bottom: solid 2px #375a9b;
 }
 
 .saveDiv {
