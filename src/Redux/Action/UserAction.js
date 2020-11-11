@@ -134,7 +134,8 @@ function returnFormatedRoles(type, response){
           items => 
           ({
               id : items.privilegeId,
-              name : items.name
+              name : items.name,
+              date : items.createdAt===null? '--' : items.createdAt
            }));
   }
   else{
@@ -142,7 +143,8 @@ function returnFormatedRoles(type, response){
           items => 
           ({
               id : items.applicationId,
-              name : items.name
+              name : items.name,
+              date : items.createdAt===null? '--' : items.createdAt
            }));
   }
    
