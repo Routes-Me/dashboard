@@ -205,8 +205,8 @@ function returnFormatedAdvertisements(response) {
         resourceName: x.resourceName,
         createdAt: x.createdAt,
         campaigns: filterCampaignList(CampaignList, x.campaignId)[0],
-        institution: InstitutionList.filter(y => y.institutionId === x.institutionId)[0],
-        media: MediaList.filter(y => y.mediaId === x.mediaId)[0],
+        institution: InstitutionList.filter(y => y.InstitutionId === x.institutionId)[0],
+        media: MediaList.filter(y => y.MediaId === x.mediaId)[0],
         interval: IntervalList.filter(y=>y.IntervalId === x.intervalId)[0]
     }))
 

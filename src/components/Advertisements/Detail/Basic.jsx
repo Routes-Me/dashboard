@@ -86,9 +86,9 @@ class Basic extends React.Component {
                 return {
                     advertisement   : props.advertisementToDisplay,
                     id              : props.advertisementToDisplay.id,
-                    name            : props.advertisementToDisplay.name,
-                    dayInterval     : props.advertisementToDisplay.dayInterval,
-                    institution     : props.advertisementToDisplay.institution,
+                    name            : props.advertisementToDisplay.resourceName,
+                    dayInterval     : props.advertisementToDisplay.interval.IntervalId,
+                    institutionId     : props.advertisementToDisplay.institution.InstitutionId,
                     media           : props.advertisementToDisplay.media,
                     campaigns       : props.advertisementToDisplay.campaigns
                 }
@@ -106,17 +106,32 @@ class Basic extends React.Component {
     //Submit button action 
     handleSubmit = () => {
 
-        const advertisement = {
+        let advertisement = '';
 
-            ResourceName    : this.state.name,
-            InstitutionId   : this.state.institutionId,
-            MediaId         : this.props.UploadedMedia.Id,
-            IntervalId      : this.state.dayInterval,
-            CampaignId      : this.state.campaigns
+        let action = this.props.withPromotion? 'NoPromo' : this.state.advertisement === ''? 'save': 'add'
 
+        if(action === 'add')
+        {
+            advertisement = {
+                ResourceName    : this.state.name,
+                InstitutionId   : this.state.institutionId,
+                MediaId         : this.props.UploadedMedia.Id,
+                IntervalId      : this.state.dayInterval,
+                CampaignId      : this.state.campaigns
+            }
+        }
+        else
+        {
+            advertisement = {
+                ResourceName    : this.state.name,
+                InstitutionId   : this.state.institutionId,
+                MediaId         : this.state.media.Id,
+                IntervalId      : this.state.dayInterval,
+                CampaignId      : this.state.campaigns
+            }
         }
 
-        this.props.saveAdvertisement(advertisement);
+        this.props.saveAdvertisement( advertisement, action );
 
     }
 

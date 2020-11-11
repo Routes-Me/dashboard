@@ -18,7 +18,9 @@ class AdvertisementsDetail extends React.Component {
             mediaType:"",
             tabIndex:1,
             submitBasic:false,
-            submitExtra:false
+            submitExtra:false,
+            advertisement:'',
+            addPromotion:false
         }
     }
     
@@ -29,6 +31,17 @@ class AdvertisementsDetail extends React.Component {
 
     static getDerivedStateFromProps (props, state){
 
+        if(props.advertisementToDisplay !== undefined)
+        {
+            if(props.advertisementToDisplay !== state.advertisement)
+            {
+                return {
+                    advertisement : props.advertisementToDisplay,
+                    imageUrl: props.advertisementToDisplay.media.MediaType === 'image'? props.advertisementToDisplay.media.Url : '',
+                    videoUrl: props.advertisementToDisplay.media.MediaType === 'video'? props.advertisementToDisplay.media.Url : ''
+                }
+            }
+        }
         if (props.UploadedMedia!==undefined && (props.UploadedMedia !== ""))
         {
             if (props.UploadedMedia.Type !== state.mediaType) 
@@ -51,11 +64,18 @@ class AdvertisementsDetail extends React.Component {
     }
 
     onCreate = (e) =>{                                                                                                                                                  
-        this.setState({submitBasic:true, submitExtra:false});
+        this.setState({submitBasic:true, submitExtra:false, addPromotion:true});
     }
 
     submitPromotion = (e) => {
-        this.setState({submitExtra:true, submitBasic:false})
+        if(this.state.tabIndex === 1)
+        {
+            this.setState({submitExtra:true, submitBasic:false })
+        }
+        else
+        {
+            this.setState({submitExtra:false, submitBasic:true})
+        }
     }
 
     
@@ -79,7 +99,7 @@ class AdvertisementsDetail extends React.Component {
                     </div>
                     <div className="row col-md-12 detail-form">
                         <div className="col-md-6">
-                            {this.state.tabIndex === 1 ? <Basic submitForm={this.state.submitBasic}/> : <Extras submitForm={this.state.submitExtra} addForPromotion={this.props.NewAdvertisement}/>}
+                            {this.state.tabIndex === 1 ? <Basic submitForm={this.state.submitBasic} advertisementToDisplay={this.state.advertisement} withPromotion={this.state.addPromotion}/> : <Extras submitForm={this.state.submitExtra} addForPromotion={this.props.NewAdvertisement}/>}
                         </div>
                         <div className="col-md-6">
                             <div className="col-md-12 simulator">

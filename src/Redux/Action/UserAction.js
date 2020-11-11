@@ -210,7 +210,8 @@ function returnFormatedResponseForUsers(response) {
         email: x.email,
         phone: x.phone,
         createdAt: x.createdAt,
-        roles:x.roles
+        roles:x.roles,
+        institution: x.institutionId
     }));
 
     return formatedUsers;
