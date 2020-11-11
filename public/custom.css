@@ -34,15 +34,7 @@ code {
 }
 
 .buttonStyle:disabled {
-    color: #fff;
-    /*font-family: Roboto-Medium;*/
-    font-size: 16px;
-    background-color: #18428f;
-    border-color: #1861ac;
-    height: 48px;
-    width: 360px;
     opacity: 0.2;
-    border-radius: 4px;
 }
 
 

@@ -88,7 +88,7 @@ class RowItem extends Component {
     render() {
         return (
             <Form onSubmit={this.handleSubmit}>
-				<input placeholder={`${this.state.object==='' && (this.state.objectType === 1 ? "Privilege name" : "Application name")}`} className="rowItem" type="string" value={this.state.text} onChange={this.onChange} name="text"/>
+				<input placeholder={`this.state.objectType === 1 ? Privilege name : Application name`} className="rowItem" type="string" value={this.state.text} onChange={this.onChange} name="text"/>
 				<span className="form-error is-visible">{this.state.error}</span>
 			</Form>
         )
