@@ -98,12 +98,6 @@ class RowItem extends Component {
 }
 
 
-// const mapStateToProps = (state) => {
-//     return {
-
-//     }
-// }
-
 const actionCreators = {
     saveApplication :  UserAction.saveApplications,
     savePrivilege   :  UserAction.savePrivileges

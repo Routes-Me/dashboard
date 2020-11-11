@@ -258,7 +258,7 @@ export function saveApplications(application, action){
       {
         apiHandler.put('applications',application)
           .then(
-              response => { dispatch(saveSuccess('applications',response.data.data))},
+              response => { dispatch(saveSuccess('applications',response.data))},
               error => {dispatch(saveFailure('applications',error))}
           )
       }
@@ -266,7 +266,7 @@ export function saveApplications(application, action){
       {
         apiHandler.post('applications',application)
         .then(
-            response => { dispatch(saveSuccess('applications',response.data.data))},
+            response => { dispatch(saveSuccess('applications',response.data))},
             error => {dispatch(saveFailure('applications',error))}
         )
       }
@@ -281,7 +281,7 @@ export function savePrivileges(privilege, action){
       {
         apiHandler.put('privileges',privilege)
         .then(
-            response => { dispatch(saveSuccess('privileges',response.data.data))},
+            response => { dispatch(saveSuccess('privileges',response.data))},
             error => {dispatch(saveFailure('privileges',error))}
         )
       }
@@ -289,7 +289,7 @@ export function savePrivileges(privilege, action){
       {
         apiHandler.post('privileges',privilege)
         .then(
-            response => { dispatch(saveSuccess('privileges',response.data.data))},
+            response => { dispatch(saveSuccess('privileges',response.data))},
             error => {dispatch(saveFailure('privileges',error))}
         )
       }
