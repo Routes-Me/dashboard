@@ -311,9 +311,9 @@ function saveRequest(action){
 function saveSuccess(action, payload) {
 
   if(action ==='applications')
-  return { type : userConstants.saveApplications, payload: payload}
+  return { type : userConstants.saveApplications_SUCCESS, payload: payload}
   else
-  return { type : userConstants.savePrivileges, payload: payload}
+  return { type : userConstants.savePrivilidges_SUCCESS, payload: payload}
 
 }
 
