@@ -46,6 +46,8 @@
     savePromotions_ERROR   : "SAVEROMOTIONS_ERROR",
 
     updateTheAdvertisementList : "UPDATE_THEADVERTISEMENTLIST",
-    updateTheCampaignsList : 'UPDATE_THECAMPAIGNSLIST'
+    updateTheCampaignsList : 'UPDATE_THECAMPAIGNSLIST',
+
+    progressOnMediaUpload :  'PROGRESS_ONMEDIAUPLOAD'
 
 }

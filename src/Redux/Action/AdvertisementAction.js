@@ -98,7 +98,8 @@ export function uploadMedia(mediaFile, fileType) {
             onUploadProgress: (progressEvent) => {
                 const { loaded, total } = progressEvent;
                 let percent = Math.floor((loaded * 100) / total)
-                console.log(`${loaded}kb / ${total}kb | ${percent}`);
+                console.log(`${loaded}kb / ${total}kb | ${percent}%`);
+                dispatch(showProgress(percent))
             }
         };
 
@@ -118,7 +119,7 @@ export function uploadMedia(mediaFile, fileType) {
         }
         
     }
-
+    function showProgress(progress) {return {type: advertisementsConstants.progressOnMediaUpload, payload: progress}}
     function requestUpload() { return { type: advertisementsConstants.uploadMedia_REQUEST }; }
     function uploadSuccessful(response) { return { type: advertisementsConstants.uploadMedia_SUCCESS, payload: response }; }
     function uploadError(error) { return { type: advertisementsConstants.uploadMedia_ERROR, payload: error }; }

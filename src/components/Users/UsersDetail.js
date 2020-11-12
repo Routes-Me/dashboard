@@ -18,7 +18,7 @@ class UsersDetail extends React.Component {
             name: "",
             institutionId: "",
             email: "",
-            role: "",
+            roles: "",
             phone:"",
             user: '',
             privilege: '',
@@ -169,7 +169,7 @@ class UsersDetail extends React.Component {
                             <div className="col-md-6">
                                 <Label>Applications</Label><br />
                                 <select defaultValue={this.state.roles.applicationId} className="custom-select my-1 mr-sm-2" name="application" onChange={this.onChange}>
-                                    {this.props.ApplicationsList.map(application => (<option key={application.id} className="dropdown-item" value={application.applicationId}>{application.name}</option>))}
+                                    {this.props.ApplicationsList.map(application => (<option key={application.id} className="dropdown-item" value={application.id}>{application.name}</option>))}
                                 </select>
                             </div>
                         </div>
@@ -178,7 +178,7 @@ class UsersDetail extends React.Component {
                             <div className="col-md-6">
                                 <Label>Privilege</Label><br />
                                 <select defaultValue={this.state.roles.privilegeId} className="custom-select my-1 mr-sm-2" name="privilege" onChange={this.onChange}>
-                                    {this.props.PrivilegeList.map(privilege => (<option key={privilege.id} className="dropdown-item" value={privilege.privilegeId}>{privilege.name}</option>))}
+                                    {this.props.PrivilegeList.map(privilege => (<option key={privilege.id} className="dropdown-item" value={privilege.id}>{privilege.name}</option>))}
                                 </select>
                             </div>
                         </div>

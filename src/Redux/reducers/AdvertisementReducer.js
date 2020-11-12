@@ -15,7 +15,8 @@ const INITIAL_STATE = {
     ActionState: '',
     offset:'',
     limit:'',
-    total:''
+    total:'',
+    progress:''
 }
 
 const AdvertisementReducer = (state = INITIAL_STATE, action) => {
@@ -25,6 +26,9 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 loading: true,
                 hasError: false,
+                Media:'',
+                Advertisement:'',
+                progress:''
             };
         case advertisementsConstants.getAdvertisements_SUCCESS:
             return {
@@ -32,8 +36,6 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 loading: false,
                 hasError: false,
                 Advertisements: action.payload,
-                Media:'',
-                Advertisement:'',
                 ActionState: advertisementsConstants.getAdvertisements_SUCCESS,
             };
         case advertisementsConstants.getAdvertisements_ERROR:
@@ -201,12 +203,12 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 hasError: false,
                 Title: action.payload
             };
-        case advertisementsConstants.onPromotions_SubTitleChange:
+        case advertisementsConstants.progressOnMediaUpload:
             return {
                 ...state,
                 loading: false,
                 hasError: false,
-                SubTitle: action.payload
+                progress: action.payload
             };
         case advertisementsConstants.updateTheAdvertisementList:
             return {
