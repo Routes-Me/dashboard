@@ -65,7 +65,13 @@ class Basic extends React.Component {
             file = await onImageCompress(file);
         }
 
-        this.props.uploadMedia(file, fileType);
+        const account = process.env.REACT_APP_BLOB_ACCOUNTNAME;
+        const accountKey = process.env.REACT_APP_BLOB_ACCOUNTKEY;
+
+
+        uploadMedia(file,account,accountKey)
+
+        //this.props.uploadMedia(file, fileType);
         
     }
 
