@@ -49,7 +49,7 @@ export const config = {
         ]
     },
 
-    Domain:'http://stage.api.routesme.com/api/',
+    Domain:'http://api.routesme.com/api/',
 
     //Domain:'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/',
 
