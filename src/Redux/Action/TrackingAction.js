@@ -28,7 +28,6 @@ export function InitializeHub(token){
 
     return dispatch => {
     
-        //const Token = localStorage.getItem("jwtToken").toString();
         hubConnection = new signalR.HubConnectionBuilder()
         .withUrl("http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub",
         {

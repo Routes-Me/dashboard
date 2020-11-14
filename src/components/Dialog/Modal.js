@@ -26,18 +26,18 @@ class Modal extends React.Component {
     showSearchList =(searchList)=>{
         if (searchList !== "") {
             return (
-                <div className="table-responsive">
-                    <table className="table">
+                <div className="searchList">
+                    <table>
                             <tbody>
                             {
                                 searchList.map(obj => (
-                                    <tr style={{ paddingLeft: 39, textAlign: "left" }} key={obj.name} onClick={()=>{this.onselection(obj)}}>
+                                    <tr key={obj.name} onClick={()=>{this.onselection(obj)}}>
                                         <td>{obj.name}</td>
                                     </tr>
                                     ))
                                 }
                             </tbody>
-                        </table>
+                    </table>
                 </div>
             )
         }
@@ -73,8 +73,7 @@ class Modal extends React.Component {
             borderRadius: 5,
             maxWidth: 300,
             minHeight: 300,
-            margin: '0 auto',
-            padding: 20
+            margin: '0 auto'
         };
 
         
@@ -87,7 +86,7 @@ class Modal extends React.Component {
             <div className="modalNew">
                 <div class="modal-content" style={{ modalStyle }}>
                     
-                    <div className="top-part-vehicles-search padding-lr-80">
+                    <div className="top-part-vehicles-search model-header">
                         <span class="closeBtn" style={{ float: "right", display:"block" }} onClick={this.props.onClose} />
                         <div className="hehading-add-butt">
                             <h3>{title}</h3>

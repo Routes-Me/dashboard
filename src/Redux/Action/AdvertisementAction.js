@@ -98,7 +98,8 @@ export function uploadMedia(mediaFile, fileType) {
             onUploadProgress: (progressEvent) => {
                 const { loaded, total } = progressEvent;
                 let percent = Math.floor((loaded * 100) / total)
-                console.log(`${loaded}kb / ${total}kb | ${percent}`);
+                console.log(`${loaded}kb / ${total}kb | ${percent}%`);
+                dispatch(showProgress(percent))
             }
         };
 
@@ -118,7 +119,7 @@ export function uploadMedia(mediaFile, fileType) {
         }
         
     }
-
+    function showProgress(progress) {return {type: advertisementsConstants.progressOnMediaUpload, payload: progress}}
     function requestUpload() { return { type: advertisementsConstants.uploadMedia_REQUEST }; }
     function uploadSuccessful(response) { return { type: advertisementsConstants.uploadMedia_SUCCESS, payload: response }; }
     function uploadError(error) { return { type: advertisementsConstants.uploadMedia_ERROR, payload: error }; }
@@ -205,8 +206,8 @@ function returnFormatedAdvertisements(response) {
         resourceName: x.resourceName,
         createdAt: x.createdAt,
         campaigns: filterCampaignList(CampaignList, x.campaignId)[0],
-        institution: InstitutionList.filter(y => y.institutionId === x.institutionId)[0],
-        media: MediaList.filter(y => y.mediaId === x.mediaId)[0],
+        institution: InstitutionList.filter(y => y.InstitutionId === x.institutionId)[0],
+        media: MediaList.filter(y => y.MediaId === x.mediaId)[0],
         interval: IntervalList.filter(y=>y.IntervalId === x.intervalId)[0]
     }))
 
@@ -260,6 +261,34 @@ export function addPromotions(promotion){
     function savePromotionsError(error) { return { type: advertisementsConstants.savePromotions_ERROR, payload:error }; }
 }
 
+
+export function saveCampaign(Campaign, action) {
+
+    return dispatch => {
+        dispatch(saveCampaignRequest())
+        if(action === 'save')
+        {
+            apiHandler.put('campaigns', Campaign)
+            .then(
+                response => { dispatch(saveCampaignSuccess(response.data)) },
+                error => { dispatch(saveCampaignFailure(error)) }
+            )
+        }
+        else
+        {
+            apiHandler.post('campaigns', Campaign)
+            .then(
+                response => { dispatch(saveCampaignSuccess(response.data)) },
+                error => { dispatch(saveCampaignFailure(error)) }
+            )
+        }
+    }
+
+    function saveCampaignRequest() { return { type: advertisementsConstants.saveCampaigns_REQUEST }; }
+    function saveCampaignSuccess(campaign) { return { type: advertisementsConstants.saveCampaigns_SUCCESS, payload:campaign }; }
+    function saveCampaignFailure(error) { return { type: advertisementsConstants.saveCampaigns_ERROR, payload:error }; }
+}
+
 export function deleteAdvertisement(id) {
     return dispatch => {
         dispatch(deleteAdvertisementRequest())
@@ -272,6 +301,20 @@ export function deleteAdvertisement(id) {
     function deleteAdvertisementRequest() { return { type: advertisementsConstants.deleteAdvertisements_REQUEST }; }
     function deletedAdvertisement(response) { return { type: advertisementsConstants.deleteAdvertisements_SUCCESS, payload: response }; }
     function deleteAdvertisementFailure(error) { return { type: advertisementsConstants.deleteAdvertisements_ERROR, payload: error }; }
+}
+
+export function deleteCampaign(id) {
+    return dispatch => {
+        dispatch(deleteCampaignRequest())
+        apiHandler.delete('campaigns/' + id)
+            .then(
+                response => { dispatch(deleteCampaignSuccess(response)) },
+                error => { dispatch(deleteCampaignFailure(error)) }
+            )
+    }
+    function deleteCampaignRequest() { return { type: advertisementsConstants.deleteCampaigns_REQUEST }; }
+    function deleteCampaignSuccess(response) { return { type: advertisementsConstants.deleteCampaigns_SUCCESS, payload: response }; }
+    function deleteCampaignFailure(error) { return { type: advertisementsConstants.deleteCampaignFailure, payload: error }; }
 }
 
 function updateAdvertisementList() { return {type: advertisementsConstants.updateTheAdvertisementList}}

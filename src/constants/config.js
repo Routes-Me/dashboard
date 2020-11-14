@@ -40,7 +40,7 @@ export const config = {
         "data":[
             {
                 "roleId":1,
-                "navItems":["Tracking","Users","Vehicles","Advertisements","Institutions","Access Control"]
+                "navItems":["Tracking","Users","Vehicles","Advertisements","Institutions","Access Control",'Campaigns']
             },
             {
                 "roleId":2,
@@ -49,9 +49,9 @@ export const config = {
         ]
     },
 
-    //Domain:'http://stage.api.routesme.com/api/',
-    Domain:'http://vmtproject.uaenorth.cloudapp.azure.com:5000/api/',
-    // Domain:'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/',
+    Domain:'http://stage.api.routesme.com/api/',
+
+    //Domain:'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/',
 
     Pagelimit : 20
 

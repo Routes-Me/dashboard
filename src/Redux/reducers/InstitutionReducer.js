@@ -23,7 +23,8 @@ const InstitutionReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 Loading: false,
                 hasError: false,
-                Institutions: action.payload
+                Institutions: action.payload,
+                ActionState:institutionConstants.getInstitutions_SUCCESS
             };
         case institutionConstants.saveInstitutions_REQUEST:
             return {

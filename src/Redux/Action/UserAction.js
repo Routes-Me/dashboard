@@ -33,39 +33,43 @@ function updatePage(pages) { return { type: userConstants.UpdatePage, payload: p
 
 
 // get User Roles
-export function getPriviledges() {
-  return dispatch => {  
+export function getPrivileges() {
+  return dispatch => { 
+    getRequest('privileges') 
     apiHandler.get(buildURL('privileges',1,false))
         .then(
             priviledges => {
-                    dispatch(storeUserRoles(priviledges.data.data));
+                    dispatch(getSuccess('privileges',(returnFormatedRoles('privileges',priviledges.data.data))));
                 },
                 error => {
                     alert(error.toString());
                 }
             );
   }
-  function storeUserRoles(roles) { return { type: userConstants.update_PRIVILEGES, payload: roles } };
 
 }
 
 // get applications
 export function getApplications(){
 
-  return dispatch => { 
+  return dispatch => {
+    getRequest('applications');
     apiHandler.get(buildURL('applications',1,false))
         .then(
           applications =>{
-                    dispatch(storeApplications(applications.data.data));
+                    dispatch(getSuccess('applications',(returnFormatedRoles('applications',applications.data.data))));
                 },
                 error =>{
                     alert(error.toString());
                 }
         );
   }
-  function storeApplications(apps){ return {type:userConstants.update_APPLICATIONS, payload:apps }};
 
 }
+
+
+
+
 
 
 
@@ -118,6 +122,33 @@ function returnFormatedUsers(response) {
     }))
     return FormatedUsers;
 
+}
+
+
+function returnFormatedRoles(type, response){
+
+  let formatedList =[]
+  if(type === 'privileges')
+  {
+      formatedList = response.map(
+          items => 
+          ({
+              id : items.privilegeId,
+              name : items.name,
+              date : items.createdAt===null? '--' : items.createdAt
+           }));
+  }
+  else{
+      formatedList = response.map(
+          items => 
+          ({
+              id : items.applicationId,
+              name : items.name,
+              date : items.createdAt===null? '--' : items.createdAt
+           }));
+  }
+   
+      return formatedList;
 }
 
 
@@ -179,7 +210,8 @@ function returnFormatedResponseForUsers(response) {
         email: x.email,
         phone: x.phone,
         createdAt: x.createdAt,
-        roles:x.roles
+        roles:x.roles,
+        institution: x.institutionId
     }));
 
     return formatedUsers;
@@ -220,6 +252,108 @@ function saveUserDataRequest() { return { type: userConstants.saveUsers_REQUEST 
 function saveUserDataSuccess() { return { type: userConstants.saveUsers_SUCCESS } }
 
 
+export function saveApplications(application, action){
+  return dispatch =>{
+      dispatch(saveRequest('applications'))
+      if (action === "save")
+      {
+        apiHandler.put('applications',application)
+          .then(
+              response => { dispatch(saveSuccess('applications',response.data))},
+              error => {dispatch(saveFailure('applications',error))}
+          )
+      }
+      else
+      {
+        apiHandler.post('applications',application)
+        .then(
+            response => { dispatch(saveSuccess('applications',response.data))},
+            error => {dispatch(saveFailure('applications',error))}
+        )
+      }
+  }
+}
 
+
+export function savePrivileges(privilege, action){
+  return dispatch =>{
+      dispatch(saveRequest('privileges'))
+      if (action === "save")
+      {
+        apiHandler.put('privileges',privilege)
+        .then(
+            response => { dispatch(saveSuccess('privileges',response.data))},
+            error => {dispatch(saveFailure('privileges',error))}
+        )
+      }
+      else
+      {
+        apiHandler.post('privileges',privilege)
+        .then(
+            response => { dispatch(saveSuccess('privileges',response.data))},
+            error => {dispatch(saveFailure('privileges',error))}
+        )
+      }
+      
+  }
+}
+
+
+
+function saveRequest(action){
+
+  if(action === 'applications')
+  return { type : userConstants.getApplications_REQUEST }
+  else
+  return { type : userConstants.getPrivileges_REQUEST }
+
+}
+
+function saveSuccess(action, payload) {
+
+  if(action ==='applications')
+  return { type : userConstants.saveApplications_SUCCESS, payload: payload}
+  else
+  return { type : userConstants.savePrivilidges_SUCCESS, payload: payload}
+
+}
+
+function saveFailure(action, payload) {
+
+  if(action === 'applications')
+  return { type : userConstants.getApplications_ERROR, payload: payload }
+  else
+  return { type : userConstants.getPrivileges_ERROR, payload: payload }
+
+}
+
+
+
+function getRequest(action){
+
+  if(action === 'applications')
+  return { type : userConstants.getApplications_REQUEST }
+  else
+  return { type : userConstants.getPrivileges_REQUEST }
+
+}
+
+function getSuccess(action, payload) {
+
+  if(action ==='applications')
+  return { type : userConstants.update_APPLICATIONS, payload: payload}
+  else
+  return { type : userConstants.update_PRIVILEGES, payload: payload}
+
+}
+
+function getFailure(action, payload) {
+
+  if(action === 'applications')
+  return { type : userConstants.getApplications_ERROR, payload: payload }
+  else
+  return { type : userConstants.getPrivileges_ERROR, payload: payload }
+
+}
 
 
