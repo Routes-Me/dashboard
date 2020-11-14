@@ -5,6 +5,7 @@ import * as AdvertisementAction  from '../../../Redux/Action';
 import * as InstitutionAction  from '../../../Redux/Action';
 import Form from 'react-validation/build/form';
 import { onImageCompress } from '../../../util/Compress';
+import { uploadMedia } from '../../../util/blobStorage';
 import '../../Advertisements/Advertisement.css';
 import { config } from '../../../constants/config';
 
@@ -63,9 +64,31 @@ class Basic extends React.Component {
             fileType = 'image';
             file = await onImageCompress(file);
         }
-        this.props.uploadMedia(file, fileType);
+
+        const account = process.env.REACT_APP_BLOB_ACCOUNTNAME;
+        const accountKey = process.env.REACT_APP_BLOB_ACCOUNTKEY;
+
+
+        uploadMedia(file,account,accountKey)
+
+        //this.props.uploadMedia(file, fileType);
         
     }
+
+
+     hexToRgb = (hex) => {
+        var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+        hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+          return r + r + g + g + b + b;
+        });
+      
+        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16)
+        } : null;
+      }
 
 
 
@@ -86,9 +109,9 @@ class Basic extends React.Component {
                 return {
                     advertisement   : props.advertisementToDisplay,
                     id              : props.advertisementToDisplay.id,
-                    name            : props.advertisementToDisplay.name,
-                    dayInterval     : props.advertisementToDisplay.dayInterval,
-                    institution     : props.advertisementToDisplay.institution,
+                    name            : props.advertisementToDisplay.resourceName,
+                    dayInterval     : props.advertisementToDisplay.interval.IntervalId,
+                    institutionId     : props.advertisementToDisplay.institution.InstitutionId,
                     media           : props.advertisementToDisplay.media,
                     campaigns       : props.advertisementToDisplay.campaigns
                 }
@@ -106,17 +129,32 @@ class Basic extends React.Component {
     //Submit button action 
     handleSubmit = () => {
 
-        const advertisement = {
+        let advertisement = '';
 
-            ResourceName    : this.state.name,
-            InstitutionId   : this.state.institutionId,
-            MediaId         : this.props.UploadedMedia.Id,
-            IntervalId      : this.state.dayInterval,
-            CampaignId      : this.state.campaigns
+        let action = this.props.withPromotion? 'NoPromo' : this.state.advertisement === ''? 'save': 'add'
 
+        if(action === 'add')
+        {
+            advertisement = {
+                ResourceName    : this.state.name,
+                InstitutionId   : this.state.institutionId,
+                MediaId         : this.props.UploadedMedia.Id,
+                IntervalId      : this.state.dayInterval,
+                CampaignId      : this.state.campaigns
+            }
+        }
+        else
+        {
+            advertisement = {
+                ResourceName    : this.state.name,
+                InstitutionId   : this.state.institutionId,
+                MediaId         : this.state.media.Id,
+                IntervalId      : this.state.dayInterval,
+                CampaignId      : this.state.campaigns
+            }
         }
 
-        this.props.saveAdvertisement(advertisement);
+        this.props.saveAdvertisement( advertisement, action );
 
     }
 
@@ -151,9 +189,21 @@ class Basic extends React.Component {
                                 </div>
                             </div>
 
+                            
                             <div className="row form-group">
                                 <div className="col-md-12">
-                                    <Label>Media</Label><br />
+                                    <Label>Media</Label>
+                                    <div className="progress">
+                                    <div className="progress-bar progress-bar-striped progress-bar-animated"
+                                      role="progressbar"
+                                      aria-valuenow={this.props.onProgress}
+                                      aria-valuemin="0"
+                                      aria-valuemax="100"
+                                      style={{ width: this.props.onProgress + "%" }}
+                                    >
+                                      {this.props.onProgress}%
+                                    </div>
+                                    </div>
                                     <div className="form-group files">
                                         <input type="file" className="form-control" onChange={this.fileChangedHandler} />
                                     </div>
@@ -195,7 +245,8 @@ const mapStateToProps = (state) => {
         DayInterval      : [config.selectDayInterval, ...state.AdvertisementStore.DayIntervals],
         Campaigns        : state.AdvertisementStore.Campaigns,
         InstitutionList  : [config.selectInstitution, ...state.InstitutionStore.Institutions],
-        UploadedMedia    : state.AdvertisementStore.Media
+        UploadedMedia    : state.AdvertisementStore.Media,
+        onProgress       : state.AdvertisementStore.progress
     }
 
 }

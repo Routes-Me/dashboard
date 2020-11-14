@@ -30,7 +30,7 @@ export function userSignInRequest(username, password) {
               },
               error => {
                   dispatch(failure(error.message.toString()));
-                  console.log('error message', error.toString());
+                  console.log('error message', error.response.data.errors[0].detail.toString());
                   alert(error.toString());
               }
           );

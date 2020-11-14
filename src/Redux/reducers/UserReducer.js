@@ -38,7 +38,8 @@ const UserReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 Loading: true,
                 hasError: false,
-                Privileges: action.payload
+                Privileges: action.payload,
+                ActionState: userConstants.update_PRIVILEGES
             };
         case userConstants.getApplications_REQUEST:
             return {
@@ -51,7 +52,8 @@ const UserReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 Loading: true,
                 hasError: false,
-                Applications: action.payload
+                Applications: action.payload,
+                ActionState: userConstants.update_APPLICATIONS
             };
         case userConstants.saveUsers_REQUEST:
             return {
@@ -65,7 +67,6 @@ const UserReducer = (state = INITIAL_STATE, action) => {
                 Loading: false,
                 hasError: false,
                 ActionState: userConstants.saveUsers_SUCCESS
-
             };
         case userConstants.deleteUser_Request:
             return {
@@ -78,6 +79,32 @@ const UserReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 Loading: false,
                 hasError: false
+            };
+        case userConstants.saveApplications_REQUEST:
+            return {
+                ...state,
+                Loading: true,
+                hasError: false
+            };
+        case userConstants.saveApplications_SUCCESS:
+            return {
+                ...state,
+                Loading: false,
+                hasError: false,
+                ActionState: userConstants.saveApplications_SUCCESS
+            };
+        case userConstants.savePrivilidges_REQUEST:
+            return {
+                ...state,
+                Loading: true,
+                hasError: false
+            };
+        case userConstants.savePrivilidges_SUCCESS:
+            return {
+                ...state,
+                Loading: false,
+                hasError: false,
+                ActionState: userConstants.savePrivilidges_SUCCESS
             };
         case userConstants.UpdatePage:
             return {

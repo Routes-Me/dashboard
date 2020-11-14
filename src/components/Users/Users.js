@@ -86,7 +86,7 @@ class Users extends Component {
                         <tbody>
                             {
                                 usersList.map(user => (
-                                    <tr key={user.userId}>
+                                    <tr key={user.userId} style={{textAlign:'center'}}>
                                     <td>{user.userId}</td>
                                     <td>{user.name}</td>
                                     <td>{user.email}</td>

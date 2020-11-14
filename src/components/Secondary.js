@@ -9,6 +9,7 @@ import { InstitutionsSecondary } from '../components/Institutions/InstitutionsSe
 import { UsersSecondary } from '../components/Users/UsersSecondary';
 import { AdvertisementsSecondary } from '../components/Advertisements/AdvertisementsSecondary';
 import { AccessControlSecondary } from "../components/AccessControl/AccessControlSecondary";
+import { CampaignsSecondary } from './Campaigns/CampaignsSecondary';
 
 import { userConstants } from '../constants/userConstants';
 
@@ -24,8 +25,6 @@ class Secondary extends Component {
         };
 
         this.toggleFilter = this.toggleFilter.bind(this)
-        this.renderAllVehicles = this.renderAllVehicles.bind(this)
-        this.returnCountForFilterType = this.returnCountForFilterType.bind(this)
 
     }
 
@@ -51,22 +50,6 @@ class Secondary extends Component {
 
     
 
-    //Render the Acordian
-    renderAllVehicles(VehicleListToBeRendered) {
-        //console.log('renderAllVehicles(): Selected Index :', this.state.selectedIndex)
-        
-        return (
-            <div>{
-                VehicleListToBeRendered.filter(Vehicle => Vehicle.status === this.state.filter)
-                    .map(Vehicle => (
-                        <div key={Vehicle.vehicle_id} onClick={(e) => this.showVehicle(Vehicle.vehicle_id)}>
-                            <SecondaryList vehicle={Vehicle} index={Vehicle.vehicle_id} selectedIndex={this.props.idForidForSelectedVehicle} />
-                        </div>
-                    )) 
-            }</div>
-        )
-    }
-
     //Return count of Idle & Active
     returnCountForFilterType() {
 
@@ -78,15 +61,6 @@ class Secondary extends Component {
         }
     }
 
-    //Returns the count of the hidden tab
-    returnCountForOtherFilterType() {
-        if (this.state.filter === trackingConstants.IdleState) {
-            return <p><b> Active </b>has {this.props.activeVehiclesCount} result</p>;
-        }
-        else {
-            return <p><b> Idle </b>has {this.props.idleVehiclesCount} result</p>;
-        }
-    }
 
     //Applying toggle button style
     returnFilterStyle(BtnType) {
@@ -110,7 +84,7 @@ class Secondary extends Component {
                 {this.props.selectedNavItem === userConstants.NavItem_Advertisements && <AdvertisementsSecondary/>}
                 {this.props.selectedNavItem === userConstants.NavItem_Users && <UsersSecondary />}
                 {this.props.selectedNavItem === userConstants.NavItem_AccessControl && <AccessControlSecondary/>}
-
+                {this.props.selectedNavItem === userConstants.NavItem_Campaigns && <CampaignsSecondary/>}
             </div >
             );
     }
