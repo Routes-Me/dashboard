@@ -67,9 +67,9 @@ class Basic extends React.Component {
 
         const account = process.env.REACT_APP_BLOB_ACCOUNTNAME;
         const accountKey = process.env.REACT_APP_BLOB_ACCOUNTKEY;
+        const connectionString = process.env.REACT_APP_BLOB_CONNECTIONSTRING;
 
-
-        uploadMedia(file,account,accountKey)
+        uploadMedia(file,connectionString)
 
         //this.props.uploadMedia(file, fileType);
         
