@@ -5,9 +5,10 @@ import * as AdvertisementAction  from '../../../Redux/Action';
 import * as InstitutionAction  from '../../../Redux/Action';
 import Form from 'react-validation/build/form';
 import { onImageCompress } from '../../../util/Compress';
-import { uploadMedia } from '../../../util/blobStorage';
+import { uploadMedia ,uploadMediaWithDefaultCredetnials } from '../../../util/blobStorage';
 import '../../Advertisements/Advertisement.css';
 import { config } from '../../../constants/config';
+const { BlobServiceClient, StorageSharedKeyCredential, DefaultAzureCredential } = require("@azure/storage-blob");
 
 
 class Basic extends React.Component {
@@ -67,9 +68,11 @@ class Basic extends React.Component {
 
         const account = process.env.REACT_APP_BLOB_ACCOUNTNAME;
         const accountKey = process.env.REACT_APP_BLOB_ACCOUNTKEY;
-        const connectionString = process.env.REACT_APP_BLOB_CONNECTIONSTRING;
+        const sas = process.env.REACT_APP_BLOB_CONNECTIONSTRING;
 
-        uploadMedia(file,connectionString)
+        uploadMediaWithDefaultCredetnials(file, account)
+
+        //uploadMedia(file,connectionString)
 
         //this.props.uploadMedia(file, fileType);
         

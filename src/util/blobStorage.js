@@ -23,6 +23,38 @@ const { BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storag
 //     }
 // }
 
+
+export async function uploadMediaWithDefaultCredetnials(file, account){
+    //const blobServiceClient = new BlobServiceClient(`https://${account}.blob.core.windows.net${sas}`);
+
+    //Example using DefaultAzureCredential from @azure/identity:
+    const defaultAzureCredential = new DefaultAzureCredential();
+
+    const blobServiceClient = new BlobServiceClient(
+    `https://${account}.blob.core.windows.net`,
+    defaultAzureCredential
+    );
+
+    //Example using an account name/key:
+    // const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
+
+    // const blobServiceClient = new BlobServiceClient(
+    // `https://${account}.blob.core.windows.net`,
+    // sharedKeyCredential
+    // );
+        //StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
+
+
+        //const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
+        const filename = file.name.substring(0, file.name.lastIndexOf('.'))
+        const ext = file.name.substring(file.name.lastIndexOf('.'))
+        const blobName = filename + '_' + new Date().getTime() + ext
+        const containerClient = blobServiceClient.getContainerClient('advertisements');
+        const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+        const uploadBlobResponse = await blockBlobClient.upload(file, file.length);
+        console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
+}
+
 export async function uploadMedia(file,connectionString) {
 
 // Use StorageSharedKeyCredential with storage account and account key
@@ -33,10 +65,12 @@ export async function uploadMedia(file,connectionString) {
 //   sharedKeyCredential
 // );
 
-const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString)
+    const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString)
 
+    const filename = file.name.substring(0, file.name.lastIndexOf('.'))
+    const ext = file.name.substring(file.name.lastIndexOf('.'))
+    const blobName = filename + '_' + new Date().getTime() + ext
     const containerClient = blobServiceClient.getContainerClient('advertisements');
-    const blobName = "newblob" + new Date().getTime();
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
     const uploadBlobResponse = await blockBlobClient.upload(file, file.length);
     console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
