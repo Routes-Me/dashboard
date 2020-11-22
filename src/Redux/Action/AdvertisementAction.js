@@ -183,7 +183,7 @@ function buildURL(entity, offset, include) {
 
     let queryParameter =""
     if(include){
-      queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit+"&include=media,institution,campaign,interval";
+      queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit+"&include=media,institution,campaign";
     }
     else{
       queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit;
@@ -199,7 +199,7 @@ function returnFormatedAdvertisements(response) {
     const InstitutionList   = response.data.included.institution;
     const MediaList         = response.data.included.media;
     const CampaignList      = response.data.included.campaign;
-    const IntervalList      = response.data.included.interval;
+    //const IntervalList      = response.data.included.interval;
 
     const FormatedAdvertisements = AdvertisementList?.map(x => ({
         id: x.advertisementId,
@@ -208,7 +208,7 @@ function returnFormatedAdvertisements(response) {
         campaigns: filterCampaignList(CampaignList, x.campaignId)[0],
         institution: InstitutionList.filter(y => y.InstitutionId === x.institutionId)[0],
         media: MediaList.filter(y => y.MediaId === x.mediaId)[0],
-        interval: IntervalList.filter(y=>y.IntervalId === x.intervalId)[0]
+        interval:  x.intervalId
     }))
 
     return FormatedAdvertisements;

@@ -5,10 +5,9 @@ import * as AdvertisementAction  from '../../../Redux/Action';
 import * as InstitutionAction  from '../../../Redux/Action';
 import Form from 'react-validation/build/form';
 import { onImageCompress } from '../../../util/Compress';
-import { uploadMedia ,uploadMediaWithDefaultCredetnials } from '../../../util/blobStorage';
+import { uploadMediaIntoBlob } from '../../../util/blobStorage';
 import '../../Advertisements/Advertisement.css';
 import { config } from '../../../constants/config';
-const { BlobServiceClient, StorageSharedKeyCredential, DefaultAzureCredential } = require("@azure/storage-blob");
 
 
 class Basic extends React.Component {
@@ -66,15 +65,10 @@ class Basic extends React.Component {
             file = await onImageCompress(file);
         }
 
-        const account = process.env.REACT_APP_BLOB_ACCOUNTNAME;
-        const accountKey = process.env.REACT_APP_BLOB_ACCOUNTKEY;
-        const sas = process.env.REACT_APP_BLOB_CONNECTIONSTRING;
+        const accountName = process.env.REACT_APP_ACCOUNT_NAME;
+        const sasToken = process.env.REACT_APP_SASTOKEN;
+        uploadMediaIntoBlob(file, accountName, sasToken);
 
-        uploadMediaWithDefaultCredetnials(file, account)
-
-        //uploadMedia(file,connectionString)
-
-        //this.props.uploadMedia(file, fileType);
         
     }
 
@@ -192,7 +186,6 @@ class Basic extends React.Component {
                                 </div>
                             </div>
 
-                            
                             <div className="row form-group">
                                 <div className="col-md-12">
                                     <Label>Media</Label>
@@ -202,8 +195,7 @@ class Basic extends React.Component {
                                       aria-valuenow={this.props.onProgress}
                                       aria-valuemin="0"
                                       aria-valuemax="100"
-                                      style={{ width: this.props.onProgress + "%" }}
-                                    >
+                                      style={{ width: this.props.onProgress + "%" }}>
                                       {this.props.onProgress}%
                                     </div>
                                     </div>
