@@ -16,7 +16,8 @@ const INITIAL_STATE = {
     offset:'',
     limit:'',
     total:'',
-    progress:''
+    progress:'',
+    MediaURL:''
 }
 
 const AdvertisementReducer = (state = INITIAL_STATE, action) => {
@@ -147,7 +148,7 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 loading: false,
                 hasError: false,
-                Media: action.payload
+                MediaURL: action.payload
             };
         case advertisementsConstants.uploadMedia_ERROR:
             return {

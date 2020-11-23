@@ -2,12 +2,19 @@ const { BlobServiceClient } = require("@azure/storage-blob");
  
 
 
-export async function uploadMediaIntoBlob(file, storageAccountName, sasToken){
+export async function uploadMediaIntoBlob(file, fileType){
+
+    const storageAccountName = process.env.REACT_APP_ACCOUNT_NAME;
+    const sasToken           = process.env.REACT_APP_SASTOKEN;
+    const containerName      = process.env.REACT_APP_CONTAINER;
 
     const blobService = new BlobServiceClient(
         `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
       );
 
+      if (fileType==='image') {
+        file = dataURLtoFile(file, "compressedImageFile.jpg");
+      }
 
         //const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
         //const filename = file.name.substring(0, file.name.lastIndexOf('.'))
@@ -15,8 +22,8 @@ export async function uploadMediaIntoBlob(file, storageAccountName, sasToken){
         //const blobName = filename + '_' + new Date().getTime() + ext
         const blobName = generateUUIDNameForBlob() + ext ;
 
-        const containerClient = blobService.getContainerClient('advertisements');
-        await containerClient.createIfNotExists('advertisements');
+        const containerClient = blobService.getContainerClient(containerName);
+        await containerClient.createIfNotExists(containerName);
 
 
 
@@ -27,7 +34,30 @@ export async function uploadMediaIntoBlob(file, storageAccountName, sasToken){
 
         console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
+        const mediaURL = `https://${storageAccountName}.blob.core.windows.net/${containerName}/${blobName}`
+
+        return mediaURL;
+
 }
+
+
+
+export function dataURLtoFile(dataurl, filename) {
+
+  var urlStr = dataurl + "";
+  var arr = urlStr.split(',');
+  var mime = arr[0].match(/:(.*?);/)[1];
+  var bstr = atob(arr[1]);
+  var n = bstr.length;
+  var u8arr = new Uint8Array(n);
+
+  while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+  }
+
+  return new File([u8arr], filename, { type: mime });
+}
+
 
 
 function generateUUIDNameForBlob() {

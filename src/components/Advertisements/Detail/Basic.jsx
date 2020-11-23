@@ -5,9 +5,9 @@ import * as AdvertisementAction  from '../../../Redux/Action';
 import * as InstitutionAction  from '../../../Redux/Action';
 import Form from 'react-validation/build/form';
 import { onImageCompress } from '../../../util/Compress';
-import { uploadMediaIntoBlob } from '../../../util/blobStorage';
 import '../../Advertisements/Advertisement.css';
 import { config } from '../../../constants/config';
+import { uploadMediaIntoBlob } from '../../../util/blobStorage';
 
 
 class Basic extends React.Component {
@@ -57,7 +57,6 @@ class Basic extends React.Component {
             this.setState({ image: undefined })
             fileType = 'video';
             //this.props.uploadMedia(file);
-            //this.compressVideo()
         }
         else {
             this.setState({ video: undefined });
@@ -65,10 +64,9 @@ class Basic extends React.Component {
             file = await onImageCompress(file);
         }
 
-        const accountName = process.env.REACT_APP_ACCOUNT_NAME;
-        const sasToken = process.env.REACT_APP_SASTOKEN;
-        uploadMediaIntoBlob(file, accountName, sasToken);
+        const mediaURL = await uploadMediaIntoBlob(file, fileType);
 
+        this.props.uploadMedia(mediaURL);
         
     }
 
@@ -108,7 +106,7 @@ class Basic extends React.Component {
                     id              : props.advertisementToDisplay.id,
                     name            : props.advertisementToDisplay.resourceName,
                     dayInterval     : props.advertisementToDisplay.interval.IntervalId,
-                    institutionId     : props.advertisementToDisplay.institution.InstitutionId,
+                    institutionId   : props.advertisementToDisplay.institution.InstitutionId,
                     media           : props.advertisementToDisplay.media,
                     campaigns       : props.advertisementToDisplay.campaigns
                 }

@@ -1,7 +1,7 @@
 ﻿import { config } from '../../constants/config'
 import { advertisementsConstants } from '../../constants/advertisementConstants';
-import Resizer from 'react-image-file-resizer';
 import apiHandler from '../../util/request';
+import { uploadMediaIntoBlob, dataURLtoFile } from '../../util/blobStorage';
 
 
 export function getAdvertisements(institutionId, pageIndex) {
@@ -18,13 +18,7 @@ export function getAdvertisements(institutionId, pageIndex) {
     function failure(error) { return { type: advertisementsConstants.getAdvertisements_ERROR, payload:error };}
 }
 
-const resizeFile = (file) => new Promise(resolve => {
-    Resizer.imageFileResizer(file, 160, 600, 'JPEG', 100, 0,
-        uri => {
-            resolve(uri);
-        }
-    );
-});
+
 
 
 export function getCampaigns() {
@@ -58,64 +52,53 @@ export function getDayIntervals() {
 
 
 
-function dataURLtoFile(dataurl, filename) {
-
-    var urlStr = dataurl + "";
-    var arr = urlStr.split(',');
-    var mime = arr[0].match(/:(.*?);/)[1];
-    var bstr = atob(arr[1]);
-    var n = bstr.length;
-    var u8arr = new Uint8Array(n);
-
-    while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-    }
-
-    return new File([u8arr], filename, { type: mime });
-}
 
 
+export function uploadMedia(mediaURL) {
 
 
-export function uploadMedia(mediaFile, fileType) {
+    // let file = mediaFile;
+    // if (fileType==='image') {
+    //     file = dataURLtoFile(mediaFile, "compressedImageFile.jpg");
+    // }
 
 
-    let file = mediaFile;
-    if (fileType==='image') {
-        file = dataURLtoFile(mediaFile, "compressedImageFile.jpg");
-    }
-
-
-    const formData = new FormData();
-    formData.append("media", file);
-    formData.append("MediaType",fileType);
-    formData.append("Size",file.size);
+    // const formData = new FormData();
+    // formData.append("media", file);
+    // formData.append("MediaType",fileType);
+    // formData.append("Size",file.size);
 
     return dispatch => {
+
         dispatch(requestUpload);
-        
-        const options = {
-            onUploadProgress: (progressEvent) => {
-                const { loaded, total } = progressEvent;
-                let percent = Math.floor((loaded * 100) / total)
-                console.log(`${loaded}kb / ${total}kb | ${percent}%`);
-                dispatch(showProgress(percent))
-            }
-        };
+
+        // const options = {
+        //     onUploadProgress: (progressEvent) => {
+        //         const { loaded, total } = progressEvent;
+        //         let percent = Math.floor((loaded * 100) / total)
+        //         console.log(`${loaded}kb / ${total}kb | ${percent}%`);
+        //         dispatch(showProgress(percent))
+        //     }
+        // };
 
         try {
-            apiHandler.post('medias', formData, options).then(
-                response => {
-                    dispatch(uploadSuccessful(formatMediaResponse(response.data)));
-                    console.log(response);
-                },
-                error => {
-                    dispatch(uploadError(error));
-                }
-            )
+
+            // apiHandler.post('medias', formData, options).then(
+            //     response => {
+            //         dispatch(uploadSuccessful(formatMediaResponse(response.data)));
+            //         console.log(response);
+            //     },
+            //     error => {
+            //         dispatch(uploadError(error));
+            //     }
+            // )
+
+            //const mediaURL = await uploadMediaIntoBlob(file, fileType);
+            dispatch(uploadSuccessful(mediaURL));
         }
         catch (ex) {
             console.log(ex);
+            dispatch(uploadError(ex));
         }
         
     }
@@ -206,8 +189,8 @@ function returnFormatedAdvertisements(response) {
         resourceName: x.resourceName,
         createdAt: x.createdAt,
         campaigns: filterCampaignList(CampaignList, x.campaignId)[0],
-        institution: InstitutionList.filter(y => y.InstitutionId === x.institutionId)[0],
-        media: MediaList.filter(y => y.MediaId === x.mediaId)[0],
+        institution: InstitutionList.filter(y => y.institutionId === x.institutionId)[0],
+        media: MediaList.filter(y => y.mediaId === x.mediaId)[0],
         interval:  x.intervalId
     }))
 
@@ -221,7 +204,7 @@ function filterCampaignList(CampaignList, Campaigns)
   if( Campaigns !== null && CampaignList.length > 0)
   {
     for(var i=0; i<Campaigns.length; i++){
-        filteredList.push(CampaignList.filter(y => y.CampaignId===Campaigns[i]));
+        filteredList.push(CampaignList.filter(y => y.campaignId===Campaigns[i]));
     }
     return filteredList;
   }
