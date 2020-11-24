@@ -68,7 +68,7 @@ class AdvertisementsDetail extends React.Component {
     }
 
     submitPromotion = (e) => {
-        if(this.state.tabIndex === 1)
+        if(this.state.tabIndex === 2)
         {
             this.setState({submitExtra:true, submitBasic:false })
         }

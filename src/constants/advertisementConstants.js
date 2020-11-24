@@ -6,6 +6,7 @@
 
     saveAdvertisements_REQUEST : "SAVEADVERTISEMENTS_REQUEST",
     saveAdvertisements_SUCCESS : "SAVEADVERTISEMENTS_SUCCESS",
+    saveAdvertisementsWithoutPromotion_SUCCESS : "SAVEADVERTISEMENTWITHOUTPROMOTION_SUCCESS",
     saveAdvertisements_ERROR   : "SAVEADVERTISEMENTS_ERROR",
 
     saveCampaigns_REQUEST : "SAVECAMPAIGNS_REQUEST",

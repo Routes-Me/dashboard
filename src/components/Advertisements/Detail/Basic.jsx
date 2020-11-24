@@ -126,26 +126,30 @@ class Basic extends React.Component {
 
         let advertisement = '';
 
-        let action = this.props.withPromotion? 'NoPromo' : this.state.advertisement === ''? 'save': 'add'
+        let action = this.props.withPromotion? 'NoPromo' : this.state.advertisement === ''? 'add': 'save'
 
         if(action === 'add')
         {
             advertisement = {
-                ResourceName    : this.state.name,
-                InstitutionId   : this.state.institutionId,
-                MediaId         : this.props.UploadedMedia.Id,
-                IntervalId      : this.state.dayInterval,
-                CampaignId      : this.state.campaigns
+                ResourceName      : this.state.name,
+                InstitutionId     : this.state.institutionId,
+                MediaUrl          : this.props.UploadedMedia.Url,
+                IntervalId        : this.state.dayInterval,
+                CampaignId        : this.state.campaigns,
+                TintColor         : 10,
+                InvertedTintColor : 10
             }
         }
         else
         {
             advertisement = {
-                ResourceName    : this.state.name,
-                InstitutionId   : this.state.institutionId,
-                MediaId         : this.state.media.Id,
-                IntervalId      : this.state.dayInterval,
-                CampaignId      : this.state.campaigns
+                ResourceName      : this.state.name,
+                InstitutionId     : this.state.institutionId,
+                MediaUrl          : this.state.media.Url,
+                IntervalId        : this.state.dayInterval,
+                CampaignId        : this.state.campaigns,
+                TintColor         : 10,
+                InvertedTintColor : 10
             }
         }
 

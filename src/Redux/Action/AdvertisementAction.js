@@ -57,49 +57,30 @@ export function getDayIntervals() {
 export function uploadMedia(mediaURL) {
 
 
-    // let file = mediaFile;
-    // if (fileType==='image') {
-    //     file = dataURLtoFile(mediaFile, "compressedImageFile.jpg");
-    // }
-
-
-    // const formData = new FormData();
-    // formData.append("media", file);
-    // formData.append("MediaType",fileType);
-    // formData.append("Size",file.size);
 
     return dispatch => {
 
         dispatch(requestUpload);
 
-        // const options = {
-        //     onUploadProgress: (progressEvent) => {
-        //         const { loaded, total } = progressEvent;
-        //         let percent = Math.floor((loaded * 100) / total)
-        //         console.log(`${loaded}kb / ${total}kb | ${percent}%`);
-        //         dispatch(showProgress(percent))
-        //     }
-        // };
+        const ext = mediaURL.substring(mediaURL.lastIndexOf('.'))
+        let media = '';
 
-        try {
-
-            // apiHandler.post('medias', formData, options).then(
-            //     response => {
-            //         dispatch(uploadSuccessful(formatMediaResponse(response.data)));
-            //         console.log(response);
-            //     },
-            //     error => {
-            //         dispatch(uploadError(error));
-            //     }
-            // )
-
-            //const mediaURL = await uploadMediaIntoBlob(file, fileType);
-            dispatch(uploadSuccessful(mediaURL));
+        if(ext === '.mp4')
+        {
+            media ={
+                Type : 'mp4',
+                Url  : mediaURL
+            }
         }
-        catch (ex) {
-            console.log(ex);
-            dispatch(uploadError(ex));
+        else
+        {
+            media ={
+                Type : 'jpeg',
+                Url  : mediaURL
+            }
         }
+            dispatch(uploadSuccessful(media));
+        
         
     }
     function showProgress(progress) {return {type: advertisementsConstants.progressOnMediaUpload, payload: progress}}
@@ -215,7 +196,7 @@ function filterCampaignList(CampaignList, Campaigns)
   return filteredList;
 }
 
-export function addAdvertisement(advertisement) {
+export function addAdvertisement(advertisement, action) {
     return dispatch => {
         dispatch(addAdvertisementRequest())
         apiHandler.post('advertisements', advertisement)

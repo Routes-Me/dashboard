@@ -37,6 +37,7 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 loading: false,
                 hasError: false,
                 Advertisements: action.payload,
+                MediaURL: '',
                 ActionState: advertisementsConstants.getAdvertisements_SUCCESS,
             };
         case advertisementsConstants.getAdvertisements_ERROR:
@@ -106,6 +107,13 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 hasError: false,
                 Advertisement: action.payload
             };
+        case advertisementsConstants.saveAdvertisements_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                hasError: false,
+                Advertisement: action.payload
+            };
         case advertisementsConstants.saveAdvertisements_ERROR:
             return {
                 ...state,
@@ -148,7 +156,7 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 loading: false,
                 hasError: false,
-                MediaURL: action.payload
+                Media: action.payload
             };
         case advertisementsConstants.uploadMedia_ERROR:
             return {
