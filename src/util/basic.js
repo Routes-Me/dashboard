@@ -5,7 +5,7 @@ export function convertHexToRGBint(hex){
 }
 
 export function convertRGBintToHex(RGBint){
-    return '#'+pRGBint?.toString(16);
+    return '#'+RGBint?.toString(16);
 }
 
 export function returnCampaignIds(campaigns)
