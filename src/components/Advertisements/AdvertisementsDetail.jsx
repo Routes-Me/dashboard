@@ -37,17 +37,17 @@ class AdvertisementsDetail extends React.Component {
             {
                 return {
                     advertisement : props.advertisementToDisplay,
-                    imageUrl: props.advertisementToDisplay.media.MediaType === 'image'? props.advertisementToDisplay.media.Url : '',
-                    videoUrl: props.advertisementToDisplay.media.MediaType === 'video'? props.advertisementToDisplay.media.Url : ''
+                    imageUrl: props.advertisementToDisplay.media.mediaType === 'image'? props.advertisementToDisplay.media.url : '',
+                    videoUrl: props.advertisementToDisplay.media.mediaType === 'video'? props.advertisementToDisplay.media.url : ''
                 }
             }
         }
         if (props.UploadedMedia!==undefined && (props.UploadedMedia !== ""))
         {
-            if (props.UploadedMedia.Type !== state.mediaType) 
-            {
+            // if (props.UploadedMedia.Type !== state.mediaType) 
+            // {
                 return props.UploadedMedia.Type === 'mp4'? { videoUrl: props.UploadedMedia.Url, mediaType:'mp4', imageUrl:""} : { imageUrl: props.UploadedMedia.Url, mediaType:"jpg" , videoUrl:""};
-            }
+            // }
         }
         if(state.submitBasic)
         {
@@ -119,18 +119,20 @@ class AdvertisementsDetail extends React.Component {
                                     </div>
                                 </div>
                                 <div className="container row bottomPanel">
-                                    <div className="banner3"><p>{this.props.Title}</p><br /><p></p></div>
+                                    <div className="banner3"><p>{this.props.Title}</p><br/><p></p></div>
                                     <div className="banner4"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                    <div className="footerStyle">
-                        <button type="submit" style={{ float: 'left' }} onClick={(e) => this.submitPromotion()}> Create </button>
-                        <button className="btn btn-light" style={{ marginLeft: '107px' }} onClick={(e) => this.onTabClick(1)}> <span class="glyphicon glyphicon-menu-left" aria-hidden="true" /> Previous</button>
-                        <button className="next" style={{ marginLeft: '7px' }} onClick={(e) => this.onCreate()}> Next: Extras <span class="glyphicon glyphicon-menu-right" aria-hidden="true" /> </button>
-                    </div>
+
+                <div className="footerStyle">
+                    <button type="submit" style={{ float: 'left' }} onClick={(e) => this.submitPromotion()}> Create </button>
+                    <button className="btn btn-light" style={{ marginLeft: '107px' }} onClick={(e) => this.onTabClick(1)}> <span class="glyphicon glyphicon-menu-left" aria-hidden="true" /> Previous</button>
+                    <button className="next" style={{ marginLeft: '7px' }} onClick={(e) => this.onCreate()}> Next: Extras <span class="glyphicon glyphicon-menu-right" aria-hidden="true" /> </button>
+                </div>
+
             </div>
         )
     }

@@ -163,6 +163,8 @@ function returnFormatedAdvertisements(response) {
     const InstitutionList   = response.data.included.institution;
     const MediaList         = response.data.included.media;
     const CampaignList      = response.data.included.campaign;
+
+    
     //const IntervalList      = response.data.included.interval;
 
     const FormatedAdvertisements = AdvertisementList?.map(x => ({
@@ -172,7 +174,8 @@ function returnFormatedAdvertisements(response) {
         campaigns: filterCampaignList(CampaignList, x.campaignId)[0],
         institution: InstitutionList.filter(y => y.institutionId === x.institutionId)[0],
         media: MediaList.filter(y => y.mediaId === x.mediaId)[0],
-        interval:  x.intervalId
+        intervalId:  x.intervalId,
+        tintColor: x.tintColor
     }))
 
     return FormatedAdvertisements;

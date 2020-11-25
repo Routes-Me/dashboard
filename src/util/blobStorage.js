@@ -30,7 +30,7 @@ export async function uploadMediaIntoBlob(file, fileType){
 
         const blockBlobClient = containerClient.getBlockBlobClient(blobName);
         const options = { blobHTTPHeaders: { blobContentType: file.type } };
-        const uploadBlobResponse = await blockBlobClient.upload(file, options);
+        const uploadBlobResponse = await blockBlobClient.uploadData(file, options);
 
         console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
 

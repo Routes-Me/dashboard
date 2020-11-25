@@ -8,6 +8,7 @@ import { onImageCompress } from '../../../util/Compress';
 import '../../Advertisements/Advertisement.css';
 import { config } from '../../../constants/config';
 import { uploadMediaIntoBlob } from '../../../util/blobStorage';
+import { convertHexToRGBint, convertRGBintToHex, returnCampaignIds } from "../../../util/basic";
 
 
 class Basic extends React.Component {
@@ -24,6 +25,8 @@ class Basic extends React.Component {
             campaigns: [],
             dayInterval: 0,
             advertisement: "",
+            tintColor:"",
+            invertedTintColor:"",
             submit:false
         }
     }
@@ -71,30 +74,6 @@ class Basic extends React.Component {
     }
 
 
-     hexToRgb = (hex) => {
-        var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-        hex = hex.replace(shorthandRegex, function(m, r, g, b) {
-          return r + r + g + g + b + b;
-        });
-      
-        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-          r: parseInt(result[1], 16),
-          g: parseInt(result[2], 16),
-          b: parseInt(result[3], 16)
-        } : null;
-      }
-
-
-
-
-    compressImage = async (image) => {
-        const compressedImage = await onImageCompress(image);
-        //console.log(`The compressed image size ==> ${this.calculateImageSize(compressedImage)}`);
-        this.setState({ image: compressedImage });
-        return compressedImage;
-    }
-
 
 
     static getDerivedStateFromProps(props, state) {
@@ -105,15 +84,18 @@ class Basic extends React.Component {
                     advertisement   : props.advertisementToDisplay,
                     id              : props.advertisementToDisplay.id,
                     name            : props.advertisementToDisplay.resourceName,
-                    dayInterval     : props.advertisementToDisplay.interval.IntervalId,
-                    institutionId   : props.advertisementToDisplay.institution.InstitutionId,
+                    dayInterval     : props.advertisementToDisplay.intervalId,
+                    institutionId   : props.advertisementToDisplay.institution.institutionId,
                     media           : props.advertisementToDisplay.media,
-                    campaigns       : props.advertisementToDisplay.campaigns
+                    campaigns       : props.advertisementToDisplay.campaigns,
+                    tintColor       : '#'+props.advertisementToDisplay.tintColor?.toString(16)
                 }
             }
         }
         return null;
     }
+
+   
 
     componentDidUpdate(prevProps, prevState) {
         if (this.props.submitForm !== prevProps.submitForm) {
@@ -136,8 +118,7 @@ class Basic extends React.Component {
                 MediaUrl          : this.props.UploadedMedia.Url,
                 IntervalId        : this.state.dayInterval,
                 CampaignId        : this.state.campaigns,
-                TintColor         : 10,
-                InvertedTintColor : 10
+                TintColor         : parseInt(this.state.tintColor.replace('#',''),16)
             }
         }
         else
@@ -148,8 +129,7 @@ class Basic extends React.Component {
                 MediaUrl          : this.state.media.Url,
                 IntervalId        : this.state.dayInterval,
                 CampaignId        : this.state.campaigns,
-                TintColor         : 10,
-                InvertedTintColor : 10
+                TintColor         : parseInt(this.state.tintColor.replace('#',''),16)
             }
         }
 
@@ -217,6 +197,28 @@ class Basic extends React.Component {
                             </div>
 
                             <div className="row form-group">
+                                <div className="col-md-12">
+                                    <Label>Tint Color</Label><br />
+                                    <input type="color" name="tintColor"
+                                        value={this.state.tintColor}
+                                        onChange={this.onChange}
+                                        className="form-control"/>
+                                    <span className="form-error is-visible">{this.state.errorText}</span>
+                                </div>
+                            </div>
+
+                            {/* <div className="row form-group">
+                                <div className="col-md-12">
+                                    <Label>Inverted Tint Color</Label><br />
+                                    <input type="color" name="invertedTintColor"
+                                        value={this.state.invertedTintColor}
+                                        onChange={this.onChange}
+                                        className="form-control"/>
+                                    <span className="form-error is-visible">{this.state.errorText}</span>
+                                </div>
+                            </div> */}
+
+                            <div className="row form-group" style={{marginTop:'20px'}}>
                                 <div className="col-md-12">
                                     <Label>Institution</Label><br />
                                     <select defaultValue={this.state.institutionId } className="custom-select my-1 mr-sm-2" name="institutionId" onChange={this.onChange}>
