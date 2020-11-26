@@ -28,7 +28,6 @@ class Child extends Component {
 }
 
 const mapStateToProps = (state) => {
-
     return {
         selectedNavItem: state.Login.SelectedNavOption
     }

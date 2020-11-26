@@ -6,6 +6,7 @@ import * as AdvertisementAction from '../../Redux/Action';
 import '../Detail/Detail.css';
 import Status from '../Advertisements/RowItem/Status';
 import { advertisementsConstants } from '../../constants/advertisementConstants';
+import PageHandler from '../PageHandler';
 
 class Advertisements extends Component {
 
@@ -171,6 +172,8 @@ class Advertisements extends Component {
                                 </div>
                             </div>
                         </div>
+
+                        <PageHandler/>
                         {content}
                     </div>}
             </div>

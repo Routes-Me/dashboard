@@ -141,7 +141,7 @@ class Basic extends React.Component {
         
         // {this.state.submit && this.handleSubmit()} 
         return (
-            <div className="container-fluid">
+            <div className="container-fluid" style={{paddingLeft:"0px"}}>
                 <label>Create an advertisment that runs interactively on taxi screens, Complete the Basics tab then Create to add the advertisment or review each tab for full customization</label>
                 <br />
                 <Form onSubmit={e => this.handleSubmit(e)}>

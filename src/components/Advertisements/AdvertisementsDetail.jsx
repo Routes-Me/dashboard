@@ -87,7 +87,7 @@ class AdvertisementsDetail extends React.Component {
         const videoText = this.state.videoUrl === "" ? "1280 X 720" : this.state.videoUrl;
         const tabIndex = this.state.tabIndex; 
         return (
-            <div className="container-fluid">
+            <div className="container-fluid" style={{paddingLeft:'0px'}}>
                 <div className="row col-md-12 detail-form">
                     <div className="headerTabStyle">
                         <nav>
@@ -98,7 +98,7 @@ class AdvertisementsDetail extends React.Component {
                         </nav>
                     </div>
                     <div className="row col-md-12 detail-form">
-                        <div className="col-md-6">
+                        <div className="col-md-6" style={{paddingLeft:"0px"}}>
                             {this.state.tabIndex === 1 ? <Basic submitForm={this.state.submitBasic} advertisementToDisplay={this.state.advertisement} withPromotion={this.state.addPromotion}/> : <Extras submitForm={this.state.submitExtra} addForPromotion={this.props.NewAdvertisement}/>}
                         </div>
                         <div className="col-md-6">
