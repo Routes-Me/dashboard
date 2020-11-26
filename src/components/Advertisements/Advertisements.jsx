@@ -7,6 +7,7 @@ import '../Detail/Detail.css';
 import Status from '../Advertisements/RowItem/Status';
 import { advertisementsConstants } from '../../constants/advertisementConstants';
 import PageHandler from '../PageHandler';
+import { config } from '../../constants/config';
 
 class Advertisements extends Component {
 
@@ -26,7 +27,7 @@ class Advertisements extends Component {
     }
 
     componentDidMount() {
-        this.props.getAdvertisements();
+        this.props.getAdvertisements(1, config.Pagelimit);
     }
 
 
@@ -90,6 +91,7 @@ class Advertisements extends Component {
     renderAllAdvertisementTable(Advertisements) {
         return (
             <div className="table-list-vehicles">
+                <PageHandler page ={Advertisements.page}/>
                 <div className="table">
                     <table>
                         <thead>
@@ -103,7 +105,7 @@ class Advertisements extends Component {
                         </thead>
                         <tbody>
                             {
-                                Advertisements?.map(Advertisement => (
+                                Advertisements.data?.map(Advertisement => (
                                     <tr key={Advertisement.id} style={{textAlign:'center'}}>
                                         <td>{Advertisement.id}</td>
                                         <td>{Advertisement.resourceName}</td>
@@ -173,7 +175,6 @@ class Advertisements extends Component {
                             </div>
                         </div>
 
-                        <PageHandler/>
                         {content}
                     </div>}
             </div>

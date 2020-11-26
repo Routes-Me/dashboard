@@ -53,6 +53,6 @@ export const config = {
 
     Domain:'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/',
 
-    Pagelimit : 5000
+    Pagelimit : 10
 
 };

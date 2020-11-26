@@ -4,6 +4,8 @@
     getAdvertisements_SUCCESS : "GETADVERTISEMENTS_SUCCESS",
     getAdvertisements_ERROR   : "GETADVERTISEMENTS_ERROR",
 
+    update_PageHnadler : "UPDATE_PAGEHANDLER",
+
     saveAdvertisements_REQUEST : "SAVEADVERTISEMENTS_REQUEST",
     saveAdvertisements_SUCCESS : "SAVEADVERTISEMENTS_SUCCESS",
     saveAdvertisementsWithoutPromotion_SUCCESS : "SAVEADVERTISEMENTWITHOUTPROMOTION_SUCCESS",

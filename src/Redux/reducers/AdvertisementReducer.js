@@ -4,7 +4,6 @@ const INITIAL_STATE = {
     Advertisements: [],
     Campaigns: [],
     DayIntervals:[],
-    Page: "",
     loading: true,
     hasError: false,
     error: null,

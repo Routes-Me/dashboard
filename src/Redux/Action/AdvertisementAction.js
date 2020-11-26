@@ -4,10 +4,10 @@ import apiHandler from '../../util/request';
 import { uploadMediaIntoBlob, dataURLtoFile } from '../../util/blobStorage';
 
 
-export function getAdvertisements(institutionId, pageIndex) {
+export function getAdvertisements(institutionId, startIndex, endIndex) {
     return dispatch => {
         dispatch(request())
-        apiHandler.get(buildURL('advertisements',1,true))
+        apiHandler.get(buildURL('advertisements',startIndex,endIndex,true))
             .then(
                 response => { dispatch(success(returnFormatedAdvertisements(response))) },
                 error => { dispatch(failure(error)) }
@@ -143,14 +143,14 @@ export function onMediaInput(file) {
 
 
 
-function buildURL(entity, offset, include) {
+function buildURL(entity, startIndex, endIndex, include) {
 
     let queryParameter =""
     if(include){
-      queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit+"&include=media,institution,campaign";
+      queryParameter=entity+"?offset="+startIndex+"&limit="+endIndex+"&include=media,institution,campaign";
     }
     else{
-      queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit;
+      queryParameter=entity+"?offset="+startIndex+"&limit="+endIndex;
     }
     return queryParameter;
 
@@ -164,6 +164,7 @@ function returnFormatedAdvertisements(response) {
     const MediaList         = response.data.included.media;
     const CampaignList      = response.data.included.campaign;
 
+    let advertisments = '';
     
     //const IntervalList      = response.data.included.interval;
 
@@ -178,7 +179,12 @@ function returnFormatedAdvertisements(response) {
         tintColor: x.tintColor
     }))
 
-    return FormatedAdvertisements;
+    advertisments= {
+        data : FormatedAdvertisements,
+        page : response.data.pagination
+    }
+
+    return advertisments;
 }
 
 
