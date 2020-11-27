@@ -5,6 +5,7 @@ import { userConstants } from '../../constants/userConstants';
 import * as AdvertisementAction from '../../Redux/Action';
 import '../Detail/Detail.css';
 import { advertisementsConstants } from '../../constants/advertisementConstants';
+import PageHandler from '../PageHandler';
 
 class Campaigns extends Component {
 
@@ -67,6 +68,7 @@ class Campaigns extends Component {
         showCampaignsList(campaignsList) {
             return (
                 <div className="table-list-vehicles">
+                    <PageHandler page = {campaignsList.page} getList={this.props.getCampaignsList}/>
                     <div className="table">
                         <table>
                             <thead>
@@ -81,7 +83,7 @@ class Campaigns extends Component {
                             </thead>
                             <tbody>
                                 {
-                                    campaignsList.map(campaign => (
+                                    campaignsList.data?.map(campaign => (
                                         <tr key={campaign.campaignId} style={{textAlign:'center'}}>
                                             <td>{campaign.campaignId}</td>
                                             <td>{campaign.title}</td>

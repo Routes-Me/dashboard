@@ -5,6 +5,8 @@ import { userConstants } from '../../constants/userConstants';
 import * as InstitutionAction from '../../Redux/Action';
 import '../Detail/Detail.css';
 import { institutionConstants } from '../../constants/institutionConstants';
+import PageHandler from '../PageHandler';
+import { config } from '../../constants/config';
 
 class Institutions extends Component {
 
@@ -26,7 +28,7 @@ class Institutions extends Component {
 
     //Load Data
     componentDidMount() {
-        this.props.getInstitutionsList();
+        this.props.getInstitutionsList(1, config.Pagelimit);
     }
 
     //Handle Page selection
@@ -74,6 +76,7 @@ class Institutions extends Component {
     showInstitutionsList(institutionsList) {
         return (
             <div className="table-list-vehicles">
+            <PageHandler page = {institutionsList.page} getList={this.props.getInstitutionsList}/>
                 <div className="table">
                     <table>
                         <thead>
@@ -86,7 +89,7 @@ class Institutions extends Component {
                         </thead>
                         <tbody>
                             {
-                                institutionsList.map(institution => (
+                                institutionsList.data?.map(institution => (
                                     <tr key={institution.institutionId} style={{textAlign:'center'}} onClick={e => this.showDetailScreen(e, institution)}>
                                         <td>{institution.institutionId}</td>
                                         <td>{institution.name}</td>

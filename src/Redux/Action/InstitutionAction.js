@@ -3,12 +3,12 @@ import {config} from "../../constants/config";
 import apiHandler from '../../util/request';
 
 //Get Institution list
-export function getInstitutions(institutionId, offset) {
+export function getInstitutions(startIndex, endIndex) {
 
   return (dispatch) => {
     
     dispatch(IstitutionDataRequest());
-    apiHandler.get(buildURL('institutions',1,true))
+    apiHandler.get(buildURL('institutions',startIndex, endIndex,true))
       .then(
         (institutions) => {
           dispatch(
@@ -32,14 +32,14 @@ export function getInstitutions(institutionId, offset) {
 
 
 
-function buildURL(entity, offset, include) {
+function buildURL(entity, startIndex, endIndex, include) {
 
   let queryParameter =""
   if(include){
-    queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit+"&include=services";
+    queryParameter=entity+"?offset="+startIndex+"&limit="+endIndex+"&include=services";
   }
   else{
-    queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit;
+    queryParameter=entity+"?offset="+startIndex+"&limit="+endIndex;
   }
   return queryParameter;
 
@@ -59,7 +59,12 @@ function returnFormatedResponseForInstitutions(response) {
     services: filterServiceList(servicesList, x.services)
   }));
 
-  return formatedInstitutions;
+  let institutions= {
+    data : formatedInstitutions,
+    page : response.data.pagination
+  }
+
+  return institutions;
 
 }
 

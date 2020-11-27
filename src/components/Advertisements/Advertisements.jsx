@@ -91,7 +91,7 @@ class Advertisements extends Component {
     renderAllAdvertisementTable(Advertisements) {
         return (
             <div className="table-list-vehicles">
-                <PageHandler page ={Advertisements.page}/>
+                <PageHandler page = {Advertisements.page} getList={this.props.getAdvertisements}/>
                 <div className="table">
                     <table>
                         <thead>

@@ -3,7 +3,9 @@ import Detail from '../Detail/Detail';
 import { connect } from 'react-redux';
 import { userConstants } from '../../constants/userConstants';
 import * as UserAction from '../../Redux/Action';
+import PageHandler from '../PageHandler';
 import '../Detail/Detail.css';
+import { config } from '../../constants/config';
 
 class Users extends Component {
 
@@ -25,7 +27,7 @@ class Users extends Component {
 
     //Load Data
     componentDidMount() {
-        this.props.getUsersList();
+        this.props.getUsersList(1,1, config.Pagelimit);
     }
 
     //Handle Page selection
@@ -71,6 +73,7 @@ class Users extends Component {
     showUsersList(usersList) {
         return (
             <div className="table-list-vehicles">
+                <PageHandler page = {usersList.page} getList={this.props.getUsersList}/>
                 <div className="table">
                     <table>
                         <thead>
@@ -85,7 +88,7 @@ class Users extends Component {
                         </thead>
                         <tbody>
                             {
-                                usersList.map(user => (
+                                usersList.data?.map(user => (
                                     <tr key={user.userId} style={{textAlign:'center'}}>
                                     <td>{user.userId}</td>
                                     <td>{user.name}</td>

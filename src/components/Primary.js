@@ -7,7 +7,6 @@ import * as LoginAction from '../Redux/Action';
 
 class Primary extends Component
 {
-
     constructor(props) {
         super(props);
         this.state = {
@@ -22,7 +21,6 @@ class Primary extends Component
         this.props.getAutherization(1);
 
     }
-    
 
     toggleMenu = (event, type) => {
         event.stopPropagation();
@@ -67,7 +65,6 @@ class Primary extends Component
 
 }
 
-
 const mapStateToProps = (state) => {
 
     return {
@@ -75,6 +72,7 @@ const mapStateToProps = (state) => {
         user: state.Login.user,
         navItems: state.Login.navItems === undefined? []: state.Login.navItems
     }
+
 };
 
 const actionCreators = {

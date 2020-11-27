@@ -26,7 +26,7 @@ export function getCampaigns() {
         dispatch(getCampaignRequest())
         apiHandler.get('campaigns')
             .then(
-                response => { dispatch(getCampaignsSuccess(response.data.data)) },
+                response => { dispatch(getCampaignsSuccess(returnFormatedCampaigns(response))) },
                 error => { dispatch(getCampaignsFailure(error)) }
             )
     }
@@ -160,9 +160,9 @@ function buildURL(entity, startIndex, endIndex, include) {
 function returnFormatedAdvertisements(response) {
 
     const AdvertisementList = response.data.data;
-    const InstitutionList   = response.data.included.institution;
-    const MediaList         = response.data.included.media;
-    const CampaignList      = response.data.included.campaign;
+    const InstitutionList   = response.data.included?.institution !== undefined ? response.data.included.institution:[];
+    const MediaList         = response.data.included?.media !== undefined ? response.data.included.media:[];
+    const CampaignList      = response.data.included?.campaign !== undefined ? response.data.included.campaign:[];
 
     let advertisments = '';
     
@@ -186,6 +186,18 @@ function returnFormatedAdvertisements(response) {
 
     return advertisments;
 }
+
+function returnFormatedCampaigns(response) {
+
+    let campaigns= {
+        data : response.data.data,
+        page : response.data.pagination
+    }
+
+    return campaigns;
+}
+
+
 
 
 function filterCampaignList(CampaignList, Campaigns)
