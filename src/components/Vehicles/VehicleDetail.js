@@ -28,7 +28,7 @@ class VehicleDetail extends React.Component {
     }
 
     componentDidMount() { 
-        this.props.getInstitutions();
+        this.props.getInstitutions(1, config.Pagelimit);
     }
 
 
@@ -219,7 +219,7 @@ class VehicleDetail extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        InstitutionList: [config.selectInstitution, ...state.InstitutionStore.Institutions],
+        InstitutionList: [config.selectInstitution, ...state.InstitutionStore.Institutions?.data],
         MakersList: state.VehicleStore.Makes,
         ModelsList: state.VehicleStore.Models,
         DialogId : state.VehicleStore.selectedId,
