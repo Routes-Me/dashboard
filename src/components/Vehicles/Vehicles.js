@@ -5,6 +5,7 @@ import { userConstants } from '../../constants/userConstants';
 import * as VehicleAction from '../../Redux/Action';
 import '../Detail/Detail.css';
 import { vehicleConstants } from '../../constants/vehicleConstants';
+import PageHandler from '../PageHandler';
 
 class Vehicles extends Component {
 
@@ -25,7 +26,7 @@ class Vehicles extends Component {
     }
 
     componentDidMount() {
-        this.props.getVehiclesForInstitution();
+        this.props.getVehiclesForInstitution(1);
 }
 
 
@@ -80,6 +81,7 @@ class Vehicles extends Component {
     renderAllVehicleTable(Vehicles) {
         return (
             <div className="table-list-vehicles">
+                <PageHandler page = {Vehicles.page} getList={this.props.getVehiclesForInstitution(1)}/>
                 <div className="table">
                     <table>
                         <thead>
@@ -94,7 +96,7 @@ class Vehicles extends Component {
                         </thead>
                         <tbody>
                             {
-                                Vehicles.map(Vehicle => (
+                                Vehicles.data?.map(Vehicle => (
                                     <tr  key={Vehicle.id} style={{textAlign:'center',height:'51px'}}>
                                         <td>{Vehicle.id}</td>
                                         <td>{Vehicle.plateNumber}</td>
@@ -129,7 +131,7 @@ class Vehicles extends Component {
     render() {
 
         let content = this.renderAllVehicleTable(this.props.VehicleList);
-        {this.props.ApplicationState === vehicleConstants.addVehicle_SUCCESS && this.props.getVehiclesForInstitution()}
+        {this.props.ApplicationState === vehicleConstants.addVehicle_SUCCESS && this.props.getVehiclesForInstitution(1)}
         return (
             <div className="vehicles-page" style={{ height: "100vh", width: "100%" }}>
                 {this.state.showDetails ?

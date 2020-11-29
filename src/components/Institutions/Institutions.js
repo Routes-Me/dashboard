@@ -28,7 +28,7 @@ class Institutions extends Component {
 
     //Load Data
     componentDidMount() {
-        this.props.getInstitutionsList(1, config.Pagelimit);
+        this.props.getInstitutionsList(1);
     }
 
     //Handle Page selection

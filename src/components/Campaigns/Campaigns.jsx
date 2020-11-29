@@ -22,7 +22,7 @@ class Campaigns extends Component {
 
         //Load Data
         componentDidMount() {
-            this.props.getCampaignsList();
+            this.props.getCampaignsList(1);
         }
     
         //Handle Page selection

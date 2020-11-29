@@ -3,12 +3,12 @@ import {config} from "../../constants/config";
 import apiHandler from '../../util/request';
 
 //Get Institution list
-export function getInstitutions(startIndex, endIndex) {
+export function getInstitutions(pageIndex) {
 
   return (dispatch) => {
     
     dispatch(IstitutionDataRequest());
-    apiHandler.get(buildURL('institutions',startIndex, endIndex,true))
+    apiHandler.get(buildURL('institutions',pageIndex,true))
       .then(
         (institutions) => {
           dispatch(
@@ -32,14 +32,14 @@ export function getInstitutions(startIndex, endIndex) {
 
 
 
-function buildURL(entity, startIndex, endIndex, include) {
+function buildURL(entity, pageIndex, include) {
 
   let queryParameter =""
   if(include){
-    queryParameter=entity+"?offset="+startIndex+"&limit="+endIndex+"&include=services";
+    queryParameter=entity+"?offset="+pageIndex+"&limit="+config.Pagelimit+"&include=services";
   }
   else{
-    queryParameter=entity+"?offset="+startIndex+"&limit="+endIndex;
+    queryParameter=entity+"?offset="+pageIndex+"&limit="+config.Pagelimit;
   }
   return queryParameter;
 

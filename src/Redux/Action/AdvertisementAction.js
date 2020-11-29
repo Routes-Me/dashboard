@@ -4,10 +4,10 @@ import apiHandler from '../../util/request';
 import { uploadMediaIntoBlob, dataURLtoFile } from '../../util/blobStorage';
 
 
-export function getAdvertisements(institutionId, startIndex, endIndex) {
+export function getAdvertisements(pageIndex,institutionId) {
     return dispatch => {
         dispatch(request())
-        apiHandler.get(buildURL('advertisements',startIndex,endIndex,true))
+        apiHandler.get(buildURL('advertisements',pageIndex,true))
             .then(
                 response => { dispatch(success(returnFormatedAdvertisements(response))) },
                 error => { dispatch(failure(error)) }
@@ -21,10 +21,10 @@ export function getAdvertisements(institutionId, startIndex, endIndex) {
 
 
 
-export function getCampaigns() {
+export function getCampaigns(pageIndex) {
     return dispatch => {
         dispatch(getCampaignRequest())
-        apiHandler.get('campaigns')
+        apiHandler.get(buildURL('campaigns',pageIndex,false))
             .then(
                 response => { dispatch(getCampaignsSuccess(returnFormatedCampaigns(response))) },
                 error => { dispatch(getCampaignsFailure(error)) }
@@ -143,14 +143,14 @@ export function onMediaInput(file) {
 
 
 
-function buildURL(entity, startIndex, endIndex, include) {
+function buildURL(entity, pageIndex, include) {
 
     let queryParameter =""
     if(include){
-      queryParameter=entity+"?offset="+startIndex+"&limit="+endIndex+"&include=media,institution,campaign";
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+config.Pagelimit+"&include=media,institution,campaign";
     }
     else{
-      queryParameter=entity+"?offset="+startIndex+"&limit="+endIndex;
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+config.Pagelimit;
     }
     return queryParameter;
 

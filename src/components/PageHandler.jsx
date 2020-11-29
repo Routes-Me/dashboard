@@ -2,43 +2,50 @@ import React from 'react';
 import { config } from '../constants/config';
 
 function PageHandler({page, getList}) {
-
+    const totalPage = calculateTotalPage(page);
     return (
         <div className='col-md-12' style={{padding: '20px 80px'}}>
             <div className='d-flex justify-content-between' style={{float:"right", fontSize:"18px", color:"#979797"}}>
-                <p> {page?.offset} - {page?.limit} of {page?.total}</p>
-                <span class="glyphicon glyphicon-menu-left" aria-hidden="true" style={{paddingLeft:'20px', color:'black'}} onClick={() => page !== undefined && previousPage(page, getList)}/>
-                <span class="glyphicon glyphicon-menu-right" aria-hidden="true" style={{paddingLeft:'20px', color:'black'}} onClick={() => page !== undefined && nextPage(page, getList)}/>
+                <p> {page?.offset} - {totalPage} of {page?.total}</p>
+                <span class="glyphicon glyphicon-menu-left"  aria-hidden="true" style={{paddingLeft:'20px', color:'black', cursor:'pointer'}} onClick={() => {page !== undefined && previousPage(page, getList)}}/>
+                <span class="glyphicon glyphicon-menu-right" aria-hidden="true" style={{paddingLeft:'20px', color:'black', cursor:'pointer'}} onClick={() => {page !== undefined && nextPage(page, getList)}}/>
             </div>
         </div>
     )
-} 
+}
+
+function calculateTotalPage(page)
+{
+    if(page !== undefined)
+    {
+        var total = page.total / config.Pagelimit;
+        var add = page.total % config.Pagelimit > 0 ? 1 : 0;
+        var totalPage = Math.floor(total) + add
+        return totalPage;
+    }
+}
 
 function nextPage(page, getList){
     if(page !== undefined)
     {
-        const limit = page.limit + config.Pagelimit;
-        const offset = page.offset + config.Pagelimit;
-        const total = page.total;
+        const offset = page.offset + 1;
+        const totalPages = calculateTotalPage(page);
 
-        if(offset < total && limit < total)
+        if(offset <= totalPages)
         {
-          getList(1,offset,limit)
+          getList(offset)
         }
     }
 }
 
 
-function previousPage({page, getList}){
+function previousPage(page, getList){
     if(page !== undefined)
     {
-        const limit = page.limit - config.Pagelimit;
-        const offset = page.offset - config.Pagelimit;
-        const total = page.total;
-        
-        if(offset < total && limit < total)
+        const offset = page.offset - 1;
+        if(offset > 0)
         {
-          getList(1,offset,limit)
+          getList(offset)
         }
     }
 }

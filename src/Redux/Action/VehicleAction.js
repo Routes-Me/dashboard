@@ -4,25 +4,25 @@ import apiHandler from '../../util/request';
 
 //const SampleInsitutionsIdArgument = { "institutionIds": [{ "Id": 3 }] };
 
-function buildURL(entity, offset, include) {
+function buildURL(entity, pageIndex, include) {
 
     let queryParameter =""
     if(include){
-      queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit+"&include=institutions,models";
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+config.Pagelimit+"&include=institutions,models";
     }
     else{
-      queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit;
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+config.Pagelimit;
     }
     return queryParameter;
 
 }
 
 //Action to getVehicleList for Vehicles Component
-export function getVehiclesForInstitutionID(institutionId, pageIndex) {
+export function getVehiclesForInstitutionID(pageIndex, institutionId) {
 
     return dispatch => {
         dispatch(vehicleDataRequest());                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-        apiHandler.get(buildURL('vehicles',1,true))
+        apiHandler.get(buildURL('vehicles',pageIndex,true))
         .then(
         vehicles => {
                 dispatch(storeVehicleData(returnFormatedVehicles(vehicles)));
@@ -168,7 +168,12 @@ function returnFormatedVehicles(response){
         modelYear: x.modelYear
     }))
 
-    return FormatedVehicle;
+    let vehicles= {
+      data : FormatedVehicle,
+      page : response.data.pagination
+    }
+  
+    return vehicles;
 }
 
 function filterObjecteList(objectList, elements)

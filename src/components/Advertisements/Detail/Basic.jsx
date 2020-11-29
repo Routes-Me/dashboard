@@ -32,7 +32,7 @@ class Basic extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getCampaigns();
+        this.props.getCampaigns(1);
         this.props.getDayIntervals();
         this.props.getInstitutions();
     }
@@ -191,7 +191,7 @@ class Basic extends React.Component {
                                 <div className="col-md-12">
                                     <Label>Campaigns</Label><br/>
                                     <select className="custom-select" multiple size="5" defaultValue={this.state.campaigns} name="campaigns" onChange={this.onChange}>
-                                        {this.props.Campaigns.map(campaign => (<option value={campaign.campaignId}>{campaign.title}</option>))}
+                                        {this.props.Campaigns?.map(campaign => (<option value={campaign.campaignId}>{campaign.title}</option>))}
                                     </select>
                                 </div>
                             </div>
@@ -242,8 +242,8 @@ const mapStateToProps = (state) => {
 
     return {
         DayInterval      : [config.selectDayInterval, ...state.AdvertisementStore.DayIntervals],
-        Campaigns        : state.AdvertisementStore.Campaigns,
-        InstitutionList  : [config.selectInstitution, ...state.InstitutionStore.Institutions],
+        Campaigns        : state.AdvertisementStore.Campaigns?.data,
+        InstitutionList  : [config.selectInstitution, ...state.InstitutionStore.Institutions?.data],
         UploadedMedia    : state.AdvertisementStore.Media,
         onProgress       : state.AdvertisementStore.progress
     }

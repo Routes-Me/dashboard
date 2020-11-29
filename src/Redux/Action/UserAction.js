@@ -5,11 +5,11 @@ import apiHandler from '../../util/request';
 
 
 //Get UsersList
-export function getUsers(institutionId, startIndex, endIndex) {
+export function getUsers(pageIndex, institutionId) {
 
     return dispatch => {
         dispatch(UsersDataRequest());
-        apiHandler.get(buildURL('users',startIndex,endIndex,true))
+        apiHandler.get(buildURL('users',pageIndex,true))
         .then(
                 users => {
                     dispatch(storeUsersData(returnFormatedResponseForUsers(users)));
@@ -167,16 +167,16 @@ function filterUserRolesList(userRolesList, userRoles)
 }
 
 
-function buildURL(entity, startIndex, endIndex, include) 
+function buildURL(entity, pageIndex , include) 
 {
     let queryParameter =""
     if(include)
     {
-      queryParameter=entity+"?offset="+startIndex+"&limit="+endIndex+"&include=services";
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+config.Pagelimit+"&include=services";
     }
     else
     {
-      queryParameter=entity+"?offset="+startIndex+"&limit="+endIndex;
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+config.Pagelimit;
     }
     return queryParameter;
 }
