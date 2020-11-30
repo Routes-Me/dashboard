@@ -9,6 +9,7 @@ import '../../Advertisements/Advertisement.css';
 import { config } from '../../../constants/config';
 import { uploadMediaIntoBlob } from '../../../util/blobStorage';
 import { convertHexToRGBint, convertRGBintToHex, returnCampaignIds } from "../../../util/basic";
+import PageHandler from '../../PageHandler';
 
 
 class Basic extends React.Component {
@@ -19,7 +20,7 @@ class Basic extends React.Component {
         this.state = {
             id: "",
             name: "",
-            institution: "",
+            institutions: [],
             image: "",
             video: "",
             campaigns: [],
@@ -34,7 +35,7 @@ class Basic extends React.Component {
     componentDidMount() {
         this.props.getCampaigns(1);
         this.props.getDayIntervals();
-        this.props.getInstitutions();
+        this.props.getInstitutions(1);
     }
 
     onChange = (event) => {
@@ -90,6 +91,12 @@ class Basic extends React.Component {
                     campaigns       : props.advertisementToDisplay.campaigns,
                     tintColor       : '#'+props.advertisementToDisplay.tintColor?.toString(16)
                 }
+            }
+        }
+        if(props.InstitutionList.length!== state.institutions.length)
+        {
+            return {
+                institutions    : props.InstitutionList
             }
         }
         return null;
@@ -222,8 +229,9 @@ class Basic extends React.Component {
                                 <div className="col-md-12">
                                     <Label>Institution</Label><br />
                                     <select defaultValue={this.state.institutionId } className="custom-select my-1 mr-sm-2" name="institutionId" onChange={this.onChange}>
-                                        {this.props.InstitutionList.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
+                                        {this.state.institutions.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
                                     </select>
+                                    {/* <select><PageHandler page = {this.state.institutions.page} getList={this.props.getInstitutions(1)}/></select> */}
                                 </div>
                             </div>
 

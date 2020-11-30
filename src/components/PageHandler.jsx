@@ -4,11 +4,11 @@ import { config } from '../constants/config';
 function PageHandler({page, getList}) {
     const totalPage = calculateTotalPage(page);
     return (
-        <div className='col-md-12' style={{padding: '20px 80px'}}>
-            <div className='d-flex justify-content-between' style={{float:"right", fontSize:"18px", color:"#979797"}}>
+        <div className='col-md-12' style={{padding: '20px 80px', color:"#979797"}}>
+            <div className='d-flex justify-content-between' style={{float:"right", fontSize:"18px"}}>
                 <p> {page?.offset} - {totalPage} of {page?.total}</p>
-                <span class="glyphicon glyphicon-menu-left"  aria-hidden="true" style={{paddingLeft:'20px', color:'black', cursor:'pointer'}} onClick={() => {page !== undefined && previousPage(page, getList)}}/>
-                <span class="glyphicon glyphicon-menu-right" aria-hidden="true" style={{paddingLeft:'20px', color:'black', cursor:'pointer'}} onClick={() => {page !== undefined && nextPage(page, getList)}}/>
+                <span class="glyphicon glyphicon-menu-left"  aria-hidden="true" style={{padding:'5px 0px 0px 20px', cursor:'pointer', verticalAlign:"middle"}} onClick={(e) => {page !== undefined && previousPage(page, getList)}}/>
+                <span class="glyphicon glyphicon-menu-right" aria-hidden="true" style={{padding:'5px 0px 0px 20px', cursor:'pointer', verticalAlign:"middle"}} onClick={(e) => {page !== undefined && nextPage(page, getList)}}/>
             </div>
         </div>
     )

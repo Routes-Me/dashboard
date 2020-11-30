@@ -1,7 +1,7 @@
 ﻿import { institutionConstants } from '../../constants/institutionConstants';
 
 const INITIAL_STATE = {
-    Institutions: [],
+    Institutions: '',
     Services: [],
     Page: "",
     Loading: true,

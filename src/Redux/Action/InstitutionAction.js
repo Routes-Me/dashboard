@@ -60,7 +60,7 @@ function returnFormatedResponseForInstitutions(response) {
   }));
 
   let institutions= {
-    data : formatedInstitutions,
+    data : institutionsList.length > 0 ? formatedInstitutions : [],
     page : response.data.pagination
   }
 

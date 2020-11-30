@@ -314,9 +314,9 @@ header nav {
 }
 
 .search-part .search {
-    border-radius: 10px;
-    background-color: #edeeef;
-    border: 0;
+    border-radius: 4px;
+    border:  black 1px solid;
+    background-color: #ffffff;
     padding: 10px 40px;
     width: 100%;
     font-size: 20px;
@@ -326,7 +326,6 @@ header nav {
     line-height: normal;
     letter-spacing: normal;
     color: #0b0b0b;
-    outline: none !important;
 }
 
 .search-part .fa-search {
@@ -334,7 +333,7 @@ header nav {
     font-size: 20px;
     left: 13px;
     top: 11px;
-    color: #696969;
+    color: #18428f;
 }
 
 .search-part .cross-icon {
@@ -531,7 +530,7 @@ header nav {
     position: sticky;
     padding-top: 68px;
     background-color: #fff;
-    border-bottom: 1px solid #dee2e6;
+    border-bottom: 0px solid #dee2e6;
     z-index: 1;
 }
 
@@ -564,6 +563,7 @@ header nav {
 
     .table-list-vehicles table thead {
         position: relative;
+        border-top: 0px;
     }
 
 .table-list-vehicles > .table table thead tr th {
@@ -571,8 +571,8 @@ header nav {
     top: 0px;
     background-color: #fff;
     text-align: center;
-    padding: 0px 0 !important;
-    line-height: 50px !important
+    line-height: 50px;
+    border-top: 0px;
 }
 
 
@@ -587,12 +587,9 @@ header nav {
 .table-list-vehicles table th {
     
     font-size: 18px;
-    font-weight: 500;
-    line-height: normal;
     letter-spacing: normal;
     color: black;
     text-align: center;
-    border-bottom: 1px solid #dee2e6;
 }
 
 /* .table-list-vehicles table tbody tr:nth-child(odd) {

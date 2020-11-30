@@ -1,6 +1,7 @@
 ﻿import React from 'react';
 import { connect } from 'react-redux';
 import * as AdvertisementAction from '../../Redux/Action';
+import * as InstitutionAction from '../../Redux/Action';
 import { Basic } from './Detail/Basic';
 import { Extras } from './Detail/Extras';
 import ReactPlayer from 'react-player';
@@ -26,6 +27,12 @@ class AdvertisementsDetail extends React.Component {
     
     onChange = (event) => {
         this.setState({ [event.target.name]: event.target.value })
+    }
+
+    componentDidMount(){
+        this.props.getCampaigns(1);
+        this.props.getDayIntervals();
+        this.props.getInstitutions(1);
     }
 
 
@@ -98,11 +105,14 @@ class AdvertisementsDetail extends React.Component {
                         </nav>
                     </div>
                     <div className="row col-md-12 detail-form">
+
                         <div className="col-md-6" style={{paddingLeft:"0px"}}>
                             {this.state.tabIndex === 1 ? <Basic submitForm={this.state.submitBasic} advertisementToDisplay={this.state.advertisement} withPromotion={this.state.addPromotion}/> : <Extras submitForm={this.state.submitExtra} addForPromotion={this.props.NewAdvertisement}/>}
                         </div>
+
                         <div className="col-md-6">
                             <div className="col-md-12 simulator">
+
                                 <div className="container row topPanel">
                                     <div className="banner1">
                                     {
@@ -122,6 +132,7 @@ class AdvertisementsDetail extends React.Component {
                                     <div className="banner3"><p>{this.props.Title}</p><br/><p></p></div>
                                     <div className="banner4"></div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -154,8 +165,11 @@ const mapStateToProps = (state) => {
 
 const actionCreators = {
 
-    uploadMedia: AdvertisementAction.uploadMedia,
-    saveAdvertisement: AdvertisementAction.addAdvertisement
+    uploadMedia         : AdvertisementAction.uploadMedia,
+    saveAdvertisement   : AdvertisementAction.addAdvertisement,
+    getCampaigns        : AdvertisementAction.getCampaigns,
+    getDayIntervals     : AdvertisementAction.getDayIntervals,
+    getInstitutions     : InstitutionAction.getInstitutions,
 
 }
 
