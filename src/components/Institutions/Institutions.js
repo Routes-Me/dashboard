@@ -75,9 +75,9 @@ class Institutions extends Component {
     //Load Institution in a table 
     showInstitutionsList(institutionsList) {
         return (
-            <div className="table-list-vehicles">
+            <div className="table-list">
             <PageHandler page = {institutionsList.page} getList={this.props.getInstitutionsList}/>
-                <div className="table">
+                {/* <div className="table"> */}
                     <table>
                         <thead>
                             <tr>
@@ -112,7 +112,7 @@ class Institutions extends Component {
                             }
                         </tbody>
                     </table>
-                </div>
+                {/* </div> */}
             </div>
         )
     }

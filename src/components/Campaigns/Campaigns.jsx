@@ -67,9 +67,9 @@ class Campaigns extends Component {
         //Load campaigns in a table 
         showCampaignsList(campaignsList) {
             return (
-                <div className="table-list-vehicles">
+                <div className="table-list">
                     <PageHandler page = {campaignsList.page} getList={this.props.getCampaignsList}/>
-                    <div className="table">
+                    {/* <div className="table"> */}
                         <table>
                             <thead>
                                 <tr>
@@ -108,7 +108,7 @@ class Campaigns extends Component {
                                 }
                             </tbody>
                         </table>
-                    </div>
+                    {/* </div> */}
                 </div>
             )
         }

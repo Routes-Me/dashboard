@@ -80,9 +80,9 @@ class Vehicles extends Component {
     //Load Vehicles in a table
     renderAllVehicleTable(Vehicles) {
         return (
-            <div className="table-list-vehicles">
+            <div className="table-list">
                 <PageHandler page = {Vehicles.page} getList={this.props.getVehiclesForInstitution(1)}/>
-                <div className="table">
+                {/* <div className="table"> */}
                     <table>
                         <thead>
                             <tr style={{height:'51px'}}>
@@ -121,7 +121,7 @@ class Vehicles extends Component {
                             }
                         </tbody>
                     </table>
-                </div>
+                {/* </div> */}
             </div>
         );
     }

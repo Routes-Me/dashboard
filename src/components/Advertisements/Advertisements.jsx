@@ -90,9 +90,9 @@ class Advertisements extends Component {
     //Load Advertisements in a table
     renderAllAdvertisementTable(Advertisements) {
         return (
-            <div className="table-list-vehicles">
+            <div className="table-list">
                 <PageHandler page = {Advertisements.page} getList={this.props.getAdvertisements}/>
-                <div className="table">
+                {/* <div className="table"> */}
                     <table>
                         <thead>
                             <tr>
@@ -129,7 +129,7 @@ class Advertisements extends Component {
                             }
                         </tbody>
                     </table>
-                </div>
+                {/* </div> */}
             </div>
         );
     }

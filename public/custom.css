@@ -14,7 +14,6 @@ code {
     .btn-primary {
         color: #fff;
         background-color: #18428f;
-        /*background-color: #1b6ec2;*/
         border-color: #1861ac;
     }
 /*TODO:
@@ -349,13 +348,7 @@ header nav {
         max-width: 100%;
     }
 
-.search-part .fa-times-circle {
-    position: absolute;
-    font-size: 28px;
-    right: 9px;
-    top: 9px;
-    color: rgba(0, 0, 0, 0.44);
-}
+
 
 .search-result {
     height: 100%;
@@ -541,16 +534,35 @@ header nav {
         padding: 0;
     }
 
-.table {
+/* .table {
     margin-bottom: 0px !important;
-}
+} */
 
-
+/*testing*/
 .table-list {
-    margin-top: 68px;
     width: 100%;
-
 }
+
+.table-list table {
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    border: 0px;
+    background-color: white;
+}
+
+.table-list table thead tr, .table-list table tbody tr{
+    height: 50px;
+    box-shadow: 0px 0.3px rgba(0, 0, 0, 0.5);
+    border-top: 0px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.table-list table tr th {
+    text-align: center;
+} 
+/*testing*/
 
 
 .vehicles-page {
@@ -562,16 +574,15 @@ header nav {
 }
 
     .table-list-vehicles table thead {
-        position: relative;
+        position: sticky;
         border-top: 0px;
     }
 
-.table-list-vehicles > .table table thead tr th {
-    position: sticky;
+.table-list-vehicles > .table table thead tr th{
     top: 0px;
     background-color: #fff;
     text-align: center;
-    line-height: 50px;
+    max-height: 50px;
     border-top: 0px;
 }
 
@@ -584,13 +595,13 @@ header nav {
     letter-spacing: normal;
 }
 
-.table-list-vehicles table th {
+/* .table-list-vehicles table th,td {
     
     font-size: 18px;
     letter-spacing: normal;
     color: black;
     text-align: center;
-}
+} */
 
 /* .table-list-vehicles table tbody tr:nth-child(odd) {
     background-color: rgba(143, 101, 24, 0.15);

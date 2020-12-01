@@ -72,9 +72,9 @@ class Users extends Component {
     //Load Institution in a table 
     showUsersList(usersList) {
         return (
-            <div className="table-list-vehicles">
+            <div className="table-list">
                 <PageHandler page = {usersList.page} getList={this.props.getUsersList}/>
-                <div className="table">
+                {/* <div className="table"> */}
                     <table>
                         <thead>
                             <tr>
@@ -113,7 +113,7 @@ class Users extends Component {
                             }
                         </tbody>
                     </table>
-                </div>
+                {/* </div> */}
             </div>
         )
     }
