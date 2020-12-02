@@ -35,7 +35,7 @@ class Basic extends React.Component {
     componentDidMount() {
         this.props.getCampaigns(1);
         this.props.getDayIntervals();
-        this.props.getInstitutions(1);
+        this.props.getInstitutions(1,config.DropDownLimit);
     }
 
     onChange = (event) => {
@@ -198,8 +198,9 @@ class Basic extends React.Component {
                                 <div className="col-md-12">
                                     <Label>Campaigns</Label><br/>
                                     <select className="custom-select" multiple size="5" defaultValue={this.state.campaigns} name="campaigns" onChange={this.onChange}>
-                                        {this.props.Campaigns?.map(campaign => (<option value={campaign.campaignId}>{campaign.title}</option>))}
+                                        {this.props.Campaigns.data?.map(campaign => (<option value={campaign.campaignId}>{campaign.title}</option>))}
                                     </select>
+                                    <PageHandler page = {this.props.Campaigns?.page} getList={this.props.getCampaigns}/>
                                 </div>
                             </div>
 
@@ -250,7 +251,7 @@ const mapStateToProps = (state) => {
 
     return {
         DayInterval      : [config.selectDayInterval, ...state.AdvertisementStore.DayIntervals],
-        Campaigns        : state.AdvertisementStore.Campaigns?.data,
+        Campaigns        : state.AdvertisementStore.Campaigns,
         InstitutionList  : [config.selectInstitution, ...state.InstitutionStore.Institutions?.data],
         UploadedMedia    : state.AdvertisementStore.Media,
         onProgress       : state.AdvertisementStore.progress

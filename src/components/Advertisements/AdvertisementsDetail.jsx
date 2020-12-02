@@ -6,6 +6,7 @@ import { Basic } from './Detail/Basic';
 import { Extras } from './Detail/Extras';
 import ReactPlayer from 'react-player';
 import '../Advertisements/Advertisement.css';
+import { config } from '../../constants/config';
 
 
 class AdvertisementsDetail extends React.Component {
@@ -32,7 +33,7 @@ class AdvertisementsDetail extends React.Component {
     componentDidMount(){
         this.props.getCampaigns(1);
         this.props.getDayIntervals();
-        this.props.getInstitutions(1);
+        this.props.getInstitutions(1,config.DropDownLimit);
     }
 
 

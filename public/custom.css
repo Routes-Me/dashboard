@@ -545,13 +545,13 @@ header nav {
 
 .table-list table {
     width: 100%;
-    text-align: center;
     font-size: 18px;
     border: 0px;
     background-color: white;
+    table-layout: fixed;
 }
 
-.table-list table thead tr, .table-list table tbody tr{
+.table-list table thead,tbody tr{
     height: 50px;
     box-shadow: 0px 0.3px rgba(0, 0, 0, 0.5);
     border-top: 0px;
@@ -559,9 +559,21 @@ header nav {
     text-align: center;
 }
 
-.table-list table tr th {
-    text-align: center;
+.table-list > table > tr > th,td{
+    text-align: left;
+    align-content: space-around;
+    justify-content: space-between;
+
 } 
+
+.table-list > table > tbody > tr:hover{
+    background-color: rgba(24, 66, 143, 0.15);
+}
+
+.table-list table tr:hover .edit-delet-butt {
+    opacity: 1;
+}
+
 /*testing*/
 
 
@@ -595,17 +607,7 @@ header nav {
     letter-spacing: normal;
 }
 
-/* .table-list-vehicles table th,td {
-    
-    font-size: 18px;
-    letter-spacing: normal;
-    color: black;
-    text-align: center;
-} */
 
-/* .table-list-vehicles table tbody tr:nth-child(odd) {
-    background-color: rgba(143, 101, 24, 0.15);
-} */
 
 .table-list-vehicles table tr:hover {
     background-color: rgba(24, 66, 143, 0.15);

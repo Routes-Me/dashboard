@@ -1,6 +1,7 @@
 ﻿import { userConstants } from '../../constants/userConstants';
 import { config } from '../../constants/config';
 import apiHandler from '../../util/request';
+import { validate } from '../../util/basic';
 
 
 
@@ -208,8 +209,8 @@ function returnFormatedResponseForUsers(response) {
         userId: x.userId,
         name: x.name,
         email: x.email,
-        phone: x.phone,
-        createdAt: x.createdAt,
+        phone: validate(x.phone),
+        createdAt: validate(x.createdAt),
         roles:x.roles,
         institution: x.institutionId
     }));

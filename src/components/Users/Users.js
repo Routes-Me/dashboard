@@ -73,11 +73,12 @@ class Users extends Component {
     showUsersList(usersList) {
         return (
             <div className="table-list">
-                <PageHandler page = {usersList.page} getList={this.props.getUsersList}/>
+                <PageHandler page = {usersList.page} getList={this.props.getUsersList} style='header'/>
                 {/* <div className="table"> */}
                     <table>
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>ID</th>
                                 <th>NAME</th>
                                 <th>EMAIL</th>
@@ -90,6 +91,7 @@ class Users extends Component {
                             {
                                 usersList.data?.map(user => (
                                     <tr key={user.userId} style={{textAlign:'center'}}>
+                                    <td></td>
                                     <td>{user.userId}</td>
                                     <td>{user.name}</td>
                                     <td>{user.email}</td>

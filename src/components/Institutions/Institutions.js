@@ -28,7 +28,7 @@ class Institutions extends Component {
 
     //Load Data
     componentDidMount() {
-        this.props.getInstitutionsList(1);
+        this.props.getInstitutionsList(1,config.Pagelimit);
     }
 
     //Handle Page selection
@@ -76,11 +76,12 @@ class Institutions extends Component {
     showInstitutionsList(institutionsList) {
         return (
             <div className="table-list">
-            <PageHandler page = {institutionsList.page} getList={this.props.getInstitutionsList}/>
+            <PageHandler page = {institutionsList.page} getList={this.props.getInstitutionsList} style='header'/>
                 {/* <div className="table"> */}
                     <table>
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>ID</th>
                                 <th>NAME</th>
                                 <th>TELEPHONE</th>
@@ -91,6 +92,7 @@ class Institutions extends Component {
                             {
                                 institutionsList.data?.map(institution => (
                                     <tr key={institution.institutionId} style={{textAlign:'center'}} onClick={e => this.showDetailScreen(e, institution)}>
+                                        <td></td>
                                         <td>{institution.institutionId}</td>
                                         <td>{institution.name}</td>
                                         <td>{institution.phoneNumber}</td>
@@ -122,7 +124,7 @@ class Institutions extends Component {
     render() {
 
         let content = this.showInstitutionsList(this.props.InstitutionsList);
-        {this.props.ApplicationState === institutionConstants.saveInstitutions_SUCCESS && this.props.getInstitutionsList()}
+        {this.props.ApplicationState === institutionConstants.saveInstitutions_SUCCESS && this.props.getInstitutionsList(1,config.Pagelimit)}
 
         return (
             <div className="vehicles-page" style={{ height: "100vh", width: "100%" }}>

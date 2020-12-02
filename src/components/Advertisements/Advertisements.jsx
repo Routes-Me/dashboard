@@ -91,11 +91,12 @@ class Advertisements extends Component {
     renderAllAdvertisementTable(Advertisements) {
         return (
             <div className="table-list">
-                <PageHandler page = {Advertisements.page} getList={this.props.getAdvertisements}/>
+                <PageHandler page = {Advertisements.page} getList={this.props.getAdvertisements} style='header'/>
                 {/* <div className="table"> */}
                     <table>
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>ID</th>
                                 <th>NAME</th>
                                 <th>CREATED AT</th>
@@ -107,6 +108,7 @@ class Advertisements extends Component {
                             {
                                 Advertisements.data?.map(Advertisement => (
                                     <tr key={Advertisement.id} style={{textAlign:'center'}}>
+                                        <td></td>
                                         <td>{Advertisement.id}</td>
                                         <td>{Advertisement.resourceName}</td>
                                         <td>{Advertisement.createdAt}</td>

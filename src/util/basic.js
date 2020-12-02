@@ -14,3 +14,8 @@ export function returnCampaignIds(campaigns)
     campaigns.map(x => (campaignIDList.push(x.campaignId)));
     return campaignIDList;
 }
+
+export function validate(value)
+{
+    return value === null ? '--' : value;
+}

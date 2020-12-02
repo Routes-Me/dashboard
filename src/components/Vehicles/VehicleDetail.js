@@ -28,7 +28,7 @@ class VehicleDetail extends React.Component {
     }
 
     componentDidMount() { 
-        this.props.getInstitutions(1, config.Pagelimit);
+        this.props.getInstitutions(1, config.DropDownLimit);
     }
 
 

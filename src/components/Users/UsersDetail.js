@@ -31,7 +31,7 @@ class UsersDetail extends React.Component {
     componentDidMount() {
         this.props.getPrivileges();
         this.props.getApplications();
-        this.props.getInstitutions();
+        this.props.getInstitutions(1,config.DropDownLimit);
     }
 
     onChange = (event) => {

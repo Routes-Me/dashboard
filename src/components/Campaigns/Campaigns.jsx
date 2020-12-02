@@ -6,6 +6,7 @@ import * as AdvertisementAction from '../../Redux/Action';
 import '../Detail/Detail.css';
 import { advertisementsConstants } from '../../constants/advertisementConstants';
 import PageHandler from '../PageHandler';
+import { config } from '../../constants/config';
 
 class Campaigns extends Component {
 
@@ -22,7 +23,7 @@ class Campaigns extends Component {
 
         //Load Data
         componentDidMount() {
-            this.props.getCampaignsList(1);
+            this.props.getCampaignsList(1,config.Pagelimit);
         }
     
         //Handle Page selection
@@ -68,11 +69,12 @@ class Campaigns extends Component {
         showCampaignsList(campaignsList) {
             return (
                 <div className="table-list">
-                    <PageHandler page = {campaignsList.page} getList={this.props.getCampaignsList}/>
+                    <PageHandler page = {campaignsList.page} getList={this.props.getCampaignsList} style='header'/>
                     {/* <div className="table"> */}
                         <table>
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>ID</th>
                                     <th>Title</th>
                                     <th>Start At</th>
@@ -85,6 +87,7 @@ class Campaigns extends Component {
                                 {
                                     campaignsList.data?.map(campaign => (
                                         <tr key={campaign.campaignId} style={{textAlign:'center'}}>
+                                            <td></td>
                                             <td>{campaign.campaignId}</td>
                                             <td>{campaign.title}</td>
                                             <td>{campaign.startAt}</td>
