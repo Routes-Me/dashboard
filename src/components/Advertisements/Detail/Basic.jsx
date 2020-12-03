@@ -33,7 +33,7 @@ class Basic extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getCampaigns(1);
+        this.props.getCampaigns(1,config.DropDownLimit);
         this.props.getDayIntervals();
         this.props.getInstitutions(1,config.DropDownLimit);
     }
@@ -93,7 +93,7 @@ class Basic extends React.Component {
                 }
             }
         }
-        if(props.InstitutionList.length!== state.institutions.length)
+        if(props.InstitutionList.data.length!== state.institutions.length)
         {
             return {
                 institutions    : props.InstitutionList
@@ -198,7 +198,7 @@ class Basic extends React.Component {
                                 <div className="col-md-12">
                                     <Label>Campaigns</Label><br/>
                                     <select className="custom-select" multiple size="5" defaultValue={this.state.campaigns} name="campaigns" onChange={this.onChange}>
-                                        {this.props.Campaigns.data?.map(campaign => (<option value={campaign.campaignId}>{campaign.title}</option>))}
+                                        {this.props.Campaigns.data?.map(campaign => (<option className="dropdown-item" value={campaign.campaignId}>{campaign.title}</option>))}
                                     </select>
                                     <PageHandler page = {this.props.Campaigns?.page} getList={this.props.getCampaigns}/>
                                 </div>
@@ -229,11 +229,10 @@ class Basic extends React.Component {
                             <div className="row form-group" style={{marginTop:'20px'}}>
                                 <div className="col-md-12">
                                     <Label>Institution</Label><br />
-                                    <select defaultValue={this.state.institutionId } className="custom-select my-1 mr-sm-2" name="institutionId" onChange={this.onChange}>
-                                        {this.state.institutions.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
-                                        <span><PageHandler page = {this.state.institutions.page} getList={this.props.getInstitutions}/></span>
+                                    <select className="custom-select"  size='5' defaultValue={this.state.institutionId } name="institutionId" onChange={this.onChange}>
+                                        {this.state.institutions.data?.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
                                     </select>
-                                    
+                                    <PageHandler page = {this.state.institutions.page} getList={this.props.getInstitutions}/>
                                 </div>
                             </div>
 
@@ -253,7 +252,7 @@ const mapStateToProps = (state) => {
     return {
         DayInterval      : [config.selectDayInterval, ...state.AdvertisementStore.DayIntervals],
         Campaigns        : state.AdvertisementStore.Campaigns,
-        InstitutionList  : [config.selectInstitution, ...state.InstitutionStore.Institutions?.data],
+        InstitutionList  : state.InstitutionStore.Institutions,
         UploadedMedia    : state.AdvertisementStore.Media,
         onProgress       : state.AdvertisementStore.progress
     }

@@ -7,6 +7,7 @@ import '../Detail/Detail.css';
 import { advertisementsConstants } from '../../constants/advertisementConstants';
 import PageHandler from '../PageHandler';
 import { config } from '../../constants/config';
+import Status from '../Advertisements/RowItem/Status';
 
 class Campaigns extends Component {
 
@@ -76,10 +77,10 @@ class Campaigns extends Component {
                                 <tr>
                                     <th></th>
                                     <th>ID</th>
-                                    <th>Title</th>
-                                    <th>Start At</th>
-                                    <th>End At</th>
-                                    <th>Created At</th>
+                                    <th>TITLE</th>
+                                    <th>START AT</th>
+                                    <th>END AT</th>
+                                    <th>STATUS</th>
                                     <th className="width44" />
                                 </tr>
                             </thead>
@@ -92,7 +93,7 @@ class Campaigns extends Component {
                                             <td>{campaign.title}</td>
                                             <td>{campaign.startAt}</td>
                                             <td>{campaign.endAt}</td>
-                                            <td>{campaign.createdAt}</td>
+                                            <td><Status text={campaign.status}/></td>
                                             <td className="width44" >
                                                 <div className="edit-popup">
                                                     <div className="edit-delet-butt" onClick={e => this.openSubMenuForCampaignId(e,campaign.campaignId)}>

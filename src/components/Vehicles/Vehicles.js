@@ -87,11 +87,11 @@ class Vehicles extends Component {
                         <thead>
                             <tr style={{height:'51px'}}>
                                 <th></th>
-                                <th>Id</th>
-                                <th>Plate</th>
-                                <th>Model</th>
-                                <th>Year</th>
-                                <th>Office</th>
+                                <th>ID</th>
+                                <th>PLATE</th>
+                                <th>MODEL</th>
+                                <th>YEAR</th>
+                                <th>OFFICE</th>
                                 <th className="width44" />
                             </tr>
                         </thead>
