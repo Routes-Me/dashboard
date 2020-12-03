@@ -231,8 +231,9 @@ class Basic extends React.Component {
                                     <Label>Institution</Label><br />
                                     <select defaultValue={this.state.institutionId } className="custom-select my-1 mr-sm-2" name="institutionId" onChange={this.onChange}>
                                         {this.state.institutions.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
+                                        <span><PageHandler page = {this.state.institutions.page} getList={this.props.getInstitutions}/></span>
                                     </select>
-                                    {/* <select><PageHandler page = {this.state.institutions.page} getList={this.props.getInstitutions(1)}/></select> */}
+                                    
                                 </div>
                             </div>
 

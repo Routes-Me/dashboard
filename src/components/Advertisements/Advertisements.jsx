@@ -27,7 +27,7 @@ class Advertisements extends Component {
     }
 
     componentDidMount() {
-        this.props.getAdvertisements(1);
+        this.props.getAdvertisements(1,config.Pagelimit);
     }
 
 
