@@ -14,8 +14,6 @@ class Users extends Component {
 
         this.state = {
             usersList: [],
-            loading: true,
-            failed: false,
             error: '',
             activePage: 1,
             showDetails: false,
@@ -27,12 +25,7 @@ class Users extends Component {
 
     //Load Data
     componentDidMount() {
-        this.props.getUsersList(1,1, config.Pagelimit);
-    }
-
-    //Handle Page selection
-    handlePageChange(pageNumber) {
-        this.setState({ activePage: pageNumber });
+        this.props.getUsersList(1, config.Pagelimit);
     }
 
     //Handle SubMenu Toggle for the Table

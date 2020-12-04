@@ -6,11 +6,11 @@ import { validate } from '../../util/basic';
 
 
 //Get UsersList
-export function getUsers(pageIndex, institutionId) {
+export function getUsers(pageIndex,limit, institutionId) {
 
     return dispatch => {
         dispatch(UsersDataRequest());
-        apiHandler.get(buildURL('users',pageIndex,true))
+        apiHandler.get(buildURL('users',pageIndex,limit,true))
         .then(
                 users => {
                     dispatch(storeUsersData(returnFormatedResponseForUsers(users)));
@@ -34,10 +34,10 @@ function updatePage(pages) { return { type: userConstants.UpdatePage, payload: p
 
 
 // get User Roles
-export function getPrivileges() {
+export function getPrivileges(pageIndex,limit) {
   return dispatch => { 
     getRequest('privileges') 
-    apiHandler.get(buildURL('privileges',1,false))
+    apiHandler.get(buildURL('privileges',pageIndex,limit,false))
         .then(
             priviledges => {
                     dispatch(getSuccess('privileges',(returnFormatedRoles('privileges',priviledges.data.data))));
@@ -51,11 +51,11 @@ export function getPrivileges() {
 }
 
 // get applications
-export function getApplications(){
+export function getApplications(pageIndex,limit){
 
   return dispatch => {
     getRequest('applications');
-    apiHandler.get(buildURL('applications',1,false))
+    apiHandler.get(buildURL('applications',pageIndex,limit,false))
         .then(
           applications =>{
                     dispatch(getSuccess('applications',(returnFormatedRoles('applications',applications.data.data))));
@@ -168,16 +168,16 @@ function filterUserRolesList(userRolesList, userRoles)
 }
 
 
-function buildURL(entity, pageIndex , include) 
+function buildURL(entity, pageIndex, limit, include) 
 {
     let queryParameter =""
     if(include)
     {
-      queryParameter=entity+"?offset="+pageIndex+"&limit="+config.Pagelimit+"&include=services";
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit+"&include=services";
     }
     else
     {
-      queryParameter=entity+"?offset="+pageIndex+"&limit="+config.Pagelimit;
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit;
     }
     return queryParameter;
 }

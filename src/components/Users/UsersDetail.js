@@ -29,8 +29,8 @@ class UsersDetail extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getPrivileges();
-        this.props.getApplications();
+        this.props.getPrivileges(1,config.DropDownLimit);
+        this.props.getApplications(1,config.DropDownLimit);
         this.props.getInstitutions(1,config.DropDownLimit);
     }
 

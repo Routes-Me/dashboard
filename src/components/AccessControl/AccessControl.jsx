@@ -4,6 +4,7 @@ import * as UserAction from '../../Redux/Action/UserAction';
 import { connect } from 'react-redux';
 import './AccessControl.css';
 import { RowItem }  from './Row/RowItem';
+import { config } from '../../constants/config';
 
 class AccessControl extends Component {
 
@@ -66,12 +67,12 @@ class AccessControl extends Component {
     updateTheList = (tabIndex) => {
         if(tabIndex === 1)
         {
-            this.props.getPrivileges();
+            this.props.getPrivileges(1, config.Pagelimit);
             this.setState({rowIndex:this.props.PrivilegesList.length}) 
         }
         else
         {
-            this.props.getApplications();
+            this.props.getApplications(1, config.Pagelimit);
             this.setState({rowIndex:this.props.ApplicationsList.length})
         }
     }
