@@ -8,7 +8,7 @@ import { onImageCompress } from '../../../util/Compress';
 import '../../Advertisements/Advertisement.css';
 import { config } from '../../../constants/config';
 import { uploadMediaIntoBlob } from '../../../util/blobStorage';
-import { convertHexToRGBint, convertRGBintToHex, returnCampaignIds } from "../../../util/basic";
+import { convertHexToRGBint, convertRGBintToHex, returnCampaignIds, returnObjectForSelectedId } from "../../../util/basic";
 import PageHandler from '../../PageHandler';
 
 
@@ -28,7 +28,8 @@ class Basic extends React.Component {
             advertisement: "",
             tintColor:"",
             invertedTintColor:"",
-            submit:false
+            submit:false,
+            institution:''
         }
     }
 
@@ -48,6 +49,10 @@ class Basic extends React.Component {
                 selected.push(selectedOption.item(i).value)
             }
             this.setState({ [event.target.name]: selected})
+        }
+        if(event.target.name === 'institutionId')
+        {
+            this.setState({institution : returnObjectForSelectedId(this.state.institutions.data, event.target.value), [event.target.name]: event.target.value})
         }
         else
         this.setState({ [event.target.name]: event.target.value })
@@ -86,6 +91,7 @@ class Basic extends React.Component {
                     id              : props.advertisementToDisplay.id,
                     name            : props.advertisementToDisplay.resourceName,
                     dayInterval     : props.advertisementToDisplay.intervalId,
+                    institution     : props.advertisementToDisplay.institution,
                     institutionId   : props.advertisementToDisplay.institution.institutionId,
                     media           : props.advertisementToDisplay.media,
                     campaigns       : props.advertisementToDisplay.campaigns,
@@ -151,7 +157,7 @@ class Basic extends React.Component {
             <div className="container-fluid" style={{paddingLeft:"0px"}}>
                 <label>Create an advertisment that runs interactively on taxi screens, Complete the Basics tab then Create to add the advertisment or review each tab for full customization</label>
                 <br />
-                <Form onSubmit={e => this.handleSubmit(e)}>
+                <Form onSubmit={e => this.handleSubmit(e)} style={{marginBottom:'40px'}}>
                     <div className="row">
                         <div className="col-md-12">
 
@@ -229,7 +235,11 @@ class Basic extends React.Component {
                             <div className="row form-group" style={{marginTop:'20px'}}>
                                 <div className="col-md-12">
                                     <Label>Institution</Label><br />
-                                    <select className="custom-select"  size='5' defaultValue={this.state.institutionId } name="institutionId" onChange={this.onChange}>
+                            <input type="text" name="institution"
+                                    value={this.state.institution ? this.state.institution.name : 'Please select a institution'}
+                                    onChange={this.onChange}
+                                    className="form-control" />
+                                    <select className="custom-select"  size='5' value={this.state.institutionId } name="institutionId" onChange={this.onChange}>
                                         {this.state.institutions.data?.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
                                     </select>
                                     <PageHandler page = {this.state.institutions.page} getList={this.props.getInstitutions}/>

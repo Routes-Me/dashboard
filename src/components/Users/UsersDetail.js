@@ -61,7 +61,6 @@ class UsersDetail extends React.Component {
 
         event.preventDefault();
 
-        console.log('userObj',user )
 
         let action ='', user ='';
 
@@ -115,10 +114,9 @@ class UsersDetail extends React.Component {
         const buttonText = userObj ? "Update" : "Add";
 
         return (
-            <div className="container-fluid">
-            <div className="row col-md-12 detail-form" style={{padding:"0px"}}>
+            <div>
                 <Form onSubmit={e => this.handleSubmit(e)}>
-                    <div className="col-md-12">
+                    <div class="col-md-12" style={{padding:'0px'}}>
 
                         <div className="row form-group">
                             <div className="col-md-6">
@@ -187,22 +185,21 @@ class UsersDetail extends React.Component {
                             <div className="col-md-6">
                                 <Label>Institution</Label><br />
                                 <select defaultValue={this.state.institutionId} className="custom-select my-1 mr-sm-2" name="institutionId" onChange={this.onChange}>
-                                    {this.props.InstitutionList.map(institution => (<option key={institution.institutionId} className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
+                                    {this.props.InstitutionList.data?.map(institution => (<option key={institution.institutionId} className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
                                 </select>
                             </div>
                         </div>
 
+                    </div>
+                
 
+                    <div className="container-fluid">
+                        <div className="footerStyle"><div className="left-panel" style={{width:'330px'}}></div>
+                            <button type="submit" style={{ float: 'left' }} onClick={(e)=> this.handleSubmit(e)}> Create </button>
+                        </div>
                     </div>
                 </Form>
             </div>
-            <div className="container-fluid">
-                
-                <div className="footerStyle"><div className="left-panel" style={{width:'330px'}}></div>
-                    <button type="submit" style={{ float: 'left' }} onClick={(e)=> this.handleSubmit(e)}> Create </button>
-                </div>
-            </div>
-            </div >
         )
     }
 }
@@ -214,7 +211,7 @@ const mapStateToProps = (state) => {
     return {
         PrivilegeList       : [config.selectPrivilege,...state.UserStore.Privileges],
         ApplicationsList    : [config.selectApplication,...state.UserStore.Applications],
-        InstitutionList     : [config.selectInstitution,...state.InstitutionStore.Institutions],
+        InstitutionList     : state.InstitutionStore.Institutions,
         savedSuccessfully   : state.UserStore.Loading
     }
 
