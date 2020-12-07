@@ -69,32 +69,30 @@ class Campaigns extends Component {
         //Load campaigns in a table 
         showCampaignsList(campaignsList) {
             return (
-                <div className="table-list">
+                <div>
                     <PageHandler page = {campaignsList.page} getList={this.props.getCampaignsList} style='header'/>
-                    {/* <div className="table"> */}
+                    <div className="table-list padding-lr-80">
                         <table>
                             <thead>
                                 <tr>
-                                    <th></th>
                                     <th>ID</th>
                                     <th>TITLE</th>
                                     <th>START AT</th>
                                     <th>END AT</th>
                                     <th>STATUS</th>
-                                    <th className="width44" />
+                                    <th className="width44" style={{maxWidth:'10px'}}/>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
                                     campaignsList.data?.map(campaign => (
                                         <tr key={campaign.campaignId} style={{textAlign:'center'}}>
-                                            <td></td>
                                             <td>{campaign.campaignId}</td>
                                             <td>{campaign.title}</td>
                                             <td>{campaign.startAt}</td>
                                             <td>{campaign.endAt}</td>
                                             <td><Status text={campaign.status}/></td>
-                                            <td className="width44" >
+                                            <td className="width44" style={{maxWidth:'10px'}}>
                                                 <div className="edit-popup">
                                                     <div className="edit-delet-butt" onClick={e => this.openSubMenuForCampaignId(e,campaign.campaignId)}>
                                                         <span />
@@ -112,7 +110,7 @@ class Campaigns extends Component {
                                 }
                             </tbody>
                         </table>
-                    {/* </div> */}
+                    </div>
                 </div>
             )
         }

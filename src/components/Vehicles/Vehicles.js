@@ -81,13 +81,12 @@ class Vehicles extends Component {
     //Load Vehicles in a table
     renderAllVehicleTable(Vehicles) {
         return (
-            <div className="table-list">
-                <PageHandler page = {Vehicles.page} getList={this.props.getVehiclesForInstitution(1)} style='header'/>
-                {/* <div className="table"> */}
+            <div>
+            <PageHandler page = {Vehicles.page} getList={this.props.getVehiclesForInstitution(1)} style='header'/>
+            <div className="table-list padding-lr-80">
                     <table>
                         <thead>
                             <tr style={{height:'51px'}}>
-                                <th></th>
                                 <th>ID</th>
                                 <th>PLATE</th>
                                 <th>MODEL</th>
@@ -100,7 +99,6 @@ class Vehicles extends Component {
                             {
                                 Vehicles.data?.map(Vehicle => (
                                     <tr  key={Vehicle.id}>
-                                        <td></td>
                                         <td>{Vehicle.id}</td>
                                         <td>{Vehicle.plateNumber}</td>
                                         <td>{Vehicle.model?.Name}</td>
@@ -124,7 +122,7 @@ class Vehicles extends Component {
                             }
                         </tbody>
                     </table>
-                {/* </div> */}
+                </div>
             </div>
         );
     }

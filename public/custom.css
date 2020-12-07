@@ -563,7 +563,6 @@ header nav {
     text-align: left;
     align-content: space-around;
     justify-content: space-between;
-
 } 
 
 .table-list > table > tbody > tr:hover{
@@ -572,6 +571,10 @@ header nav {
 
 .table-list table tr:hover .edit-delet-butt {
     opacity: 1;
+}
+
+.width20 {
+    max-width: 20px;
 }
 
 /*testing*/

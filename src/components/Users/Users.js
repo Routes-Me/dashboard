@@ -65,32 +65,30 @@ class Users extends Component {
     //Load Institution in a table 
     showUsersList(usersList) {
         return (
-            <div className="table-list">
-                <PageHandler page = {usersList.page} getList={this.props.getUsersList} style='header'/>
-                {/* <div className="table"> */}
+            <div>
+            <PageHandler page = {usersList.page} getList={this.props.getUsersList} style='header'/>
+            <div className="table-list padding-lr-80">
                     <table>
                         <thead>
                             <tr>
-                                <th></th>
                                 <th>ID</th>
                                 <th>NAME</th>
                                 <th>EMAIL</th>
                                 <th>PHONE</th>
                                 <th>CREATED AT</th>
-                                <th className="width44" />
+                                <th className="width20"/>
                             </tr>
                         </thead>
                         <tbody>
                             {
                                 usersList.data?.map(user => (
                                     <tr key={user.userId} style={{textAlign:'center'}}>
-                                    <td></td>
                                     <td>{user.userId}</td>
                                     <td>{user.name}</td>
                                     <td>{user.email}</td>
                                     <td>{user.phone}</td>
                                     <td>{user.createdAt}</td>
-                                    <td className="width44" >
+                                    <td className="width20" >
                                         <div className="edit-popup">
                                             <div className="edit-delet-butt" onClick={e => this.openSubMenuForUserId(e, user.userId)}>
                                                 <span />
@@ -108,7 +106,7 @@ class Users extends Component {
                             }
                         </tbody>
                     </table>
-                {/* </div> */}
+            </div>
             </div>
         )
     }

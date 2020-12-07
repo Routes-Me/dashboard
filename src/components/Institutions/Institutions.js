@@ -75,13 +75,13 @@ class Institutions extends Component {
     //Load Institution in a table 
     showInstitutionsList(institutionsList) {
         return (
-            <div className="table-list">
+            <div>
             <PageHandler page = {institutionsList.page} getList={this.props.getInstitutionsList} style='header'/>
+            <div className="table-list padding-lr-80">
                 {/* <div className="table"> */}
                     <table>
                         <thead>
                             <tr>
-                                <th></th>
                                 <th>ID</th>
                                 <th>NAME</th>
                                 <th>TELEPHONE</th>
@@ -92,7 +92,6 @@ class Institutions extends Component {
                             {
                                 institutionsList.data?.map(institution => (
                                     <tr key={institution.institutionId} style={{textAlign:'center'}} onClick={e => this.showDetailScreen(e, institution)}>
-                                        <td></td>
                                         <td>{institution.institutionId}</td>
                                         <td>{institution.name}</td>
                                         <td>{institution.phoneNumber}</td>
@@ -114,7 +113,7 @@ class Institutions extends Component {
                             }
                         </tbody>
                     </table>
-                {/* </div> */}
+                </div>
             </div>
         )
     }
