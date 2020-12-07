@@ -130,7 +130,6 @@ class VehicleDetail extends React.Component {
         return (
             <div>
             <Form onSubmit={e => this.handleSubmit(e)}>
-            <div className="row col-md-12 detail-form" style={{padding:"0px"}}>
 
                 <Modal
                     show={this.state.searchModel}
@@ -139,7 +138,8 @@ class VehicleDetail extends React.Component {
                     objectList={searchList} 
                     onSelect={this.updateSelectedId} />
 
-                        <div class="col-md-12">             
+                        <div class="col-md-12" style={{padding:'0px'}}>
+
                             <div className="row form-group">
                                 <div className="col-md-6">
                                     <Label>Plate Number</Label><br />
@@ -148,49 +148,49 @@ class VehicleDetail extends React.Component {
                                     onChange={this.onChange}
                                     className="form-control"/>
                                 </div>
-                        </div><br /><br />
+                            </div><br />
 
-                        <div className="row form-group">
-                            <div className="col-md-6">
-                                <Label>Year</Label><br />
-                                    <input type="date" min="2000" max="2020" step="1" name="modelYear"
-                                        value={this.state.modelYear}
-                                        onChange={this.onChange}
-                                        className="form-control" />
-                            </div>
-                        </div>
-
-                        <div className="row form-group">
-                            <div className="col-md-6">
-                                <Label>Make</Label><br />
-                                <div class="btn-grp">
-                                    <button type="button" class="btn btn-block btn-light text-left" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Makers)}>
-                                        {this.state.make ? this.state.make.name : "Select a Manufacturer"}<span className="glyphicon glyphicon-play"/>
-                                    </button>
+                            <div className="row form-group">
+                                <div className="col-md-6">
+                                    <Label>Year</Label><br />
+                                        <input type="date" min="2000" max="2020" step="1" name="modelYear"
+                                            value={this.state.modelYear}
+                                            onChange={this.onChange}
+                                            className="form-control" />
                                 </div>
                             </div>
-                        </div>
 
-                        <div className="row form-group">
-                            <div className="col-md-6">
-                                <Label>Model</Label><br />
-                                <div class="btn-grp">
-                                    <button type="button" class="btn btn-block btn-light text-left" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Models)}>
-                                        {this.state.model ? this.state.model.name : "Select a Model"}<span className="glyphicon glyphicon-play"/>
-                                    </button>
+                            <div className="row form-group">
+                                <div className="col-md-6">
+                                    <Label>Make</Label><br />
+                                    <div class="btn-grp">
+                                        <button type="button" class="btn btn-block btn-light text-left" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Makers)}>
+                                            {this.state.make ? this.state.make.name : "Select a Manufacturer"}<span className="glyphicon glyphicon-play"/>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div className="row form-group">
-                            <div className="col-md-6">
-                                <Label>Institution</Label><br />
-                                <select defaultValue={this.state.institutionId? this.state.institutionId : "Select a model"} className="custom-select my-1 mr-sm-2" name="institutionId" onChange={this.onChange}>
-                                    {this.props.InstitutionList.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
-                                </select>
-                                
+                            <div className="row form-group">
+                                <div className="col-md-6">
+                                    <Label>Model</Label><br />
+                                    <div class="btn-grp">
+                                        <button type="button" class="btn btn-block btn-light text-left" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Models)}>
+                                            {this.state.model ? this.state.model.name : "Select a Model"}<span className="glyphicon glyphicon-play"/>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+
+                            <div className="row form-group">
+                                <div className="col-md-6">
+                                    <Label>Institution</Label><br />
+                                    <select defaultValue={this.state.institutionId? this.state.institutionId : "Select a model"} className="custom-select my-1 mr-sm-2" name="institutionId" onChange={this.onChange}>
+                                        {this.props.InstitutionList.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
+                                    </select>
+
+                                </div>
+                            </div>
 
                             {/*<div className="row">
                                 <div className="col-md-6">
@@ -205,7 +205,6 @@ class VehicleDetail extends React.Component {
 
                         </div>
 
-            </div>
             <div className="container-fluid">
                 <div className="footerStyle">
                     <button type="submit" style={{ float: 'left' }}> {buttonText} </button>

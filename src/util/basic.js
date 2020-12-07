@@ -19,3 +19,11 @@ export function validate(value)
 {
     return value === null ? '--' : value;
 }
+
+export function returnObjectForSelectedId(list, id){
+    let obj = '';
+    if(list !== undefined){
+        obj = list.filter(x => x.institutionId === id)[0];
+    }
+    return obj;
+}

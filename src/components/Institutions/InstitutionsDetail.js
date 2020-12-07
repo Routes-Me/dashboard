@@ -97,11 +97,10 @@ class InstitutionsDetail extends React.Component {
         const buttonText = institutionObj ? "Update" : "Add";
 
         return (
-            <div className="container-fluid">
+            <div>
                 <Form onSubmit={e => this.handleSubmit(e)}>
-            <div className="row col-md-12 detail-form" style={{padding:"0px"}}>
                 
-                    <div class="col-md-12">
+                    <div class="col-md-12" style={{padding:'0px'}}>
 
                         <div className="row form-group">
                             <div className="col-md-6">
@@ -133,11 +132,8 @@ class InstitutionsDetail extends React.Component {
                             </div>
                         </div>
 
-                        <br /><br />
 
                     </div>
-                
-            </div>
             <div className="container-fluid">
                     <div className="footerStyle">
                         <button type="submit" style={{ float: 'left' }}> {buttonText} </button>
