@@ -232,10 +232,10 @@ class Basic extends React.Component {
                                 </div>
                             </div> */}
 
-                            <div className="row form-group" style={{marginTop:'20px'}}>
+                            <div className="row form-group" style={{marginBottom:'40px'}}>
                                 <div className="col-md-12">
                                     <Label>Institution</Label><br />
-                            <input type="text" name="institution"
+                                    <input type="text" name="institution"
                                     value={this.state.institution ? this.state.institution.name : 'Please select a institution'}
                                     onChange={this.onChange}
                                     className="form-control" />

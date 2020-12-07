@@ -6,7 +6,7 @@ import { validate } from '../../util/basic';
 
 
 //Get UsersList
-export function getUsers(pageIndex,limit, institutionId) {
+export function getUsers(pageIndex,limit,institutionId) {
 
     return dispatch => {
         dispatch(UsersDataRequest());
@@ -173,11 +173,11 @@ function buildURL(entity, pageIndex, limit, include)
     let queryParameter =""
     if(include)
     {
-      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit+"&include=services";
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+config.Pagelimit+"&include=services,institution";
     }
     else
     {
-      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit;
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+config.Pagelimit;
     }
     return queryParameter;
 }
@@ -203,7 +203,9 @@ function returnQueryParamters(offset, include) {
 }
 
 function returnFormatedResponseForUsers(response) {
+
     const usersList = response.data.data;
+    const institutionList = response.data.included?.institution !== undefined ? response.data.included.institution:[];
   
         const formatedUsers = usersList.map((x) => ({
         userId: x.userId,
@@ -212,7 +214,7 @@ function returnFormatedResponseForUsers(response) {
         phone: validate(x.phone),
         createdAt: validate(x.createdAt),
         roles:x.roles,
-        institution: x.institutionId
+        institution: institutionList.filter(y => y.institutionId === x.institutionId)[0]
     }));
 
     let users= {

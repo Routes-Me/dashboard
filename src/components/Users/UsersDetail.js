@@ -6,6 +6,8 @@ import * as InstitutionAction from '../../Redux/Action';
 import Form from 'react-validation/build/form';
 import { encryptAndEncode } from '../../util/encrypt';
 import {config} from "../../constants/config";
+import PageHandler from '../PageHandler';
+import { returnObjectForSelectedId } from '../../util/basic';
 
 
 class UsersDetail extends React.Component {
@@ -24,7 +26,8 @@ class UsersDetail extends React.Component {
             privilege: '',
             application: '',
             errorText:"",
-            password:""
+            password:"",
+            institution: ''
         }
     }
 
@@ -35,6 +38,10 @@ class UsersDetail extends React.Component {
     }
 
     onChange = (event) => {
+        if(event.target.name === 'institutionId')
+        {
+            this.setState({institution : returnObjectForSelectedId(this.props.InstitutionList.data, event.target.value), [event.target.name]: event.target.value})
+        }
         this.setState({ [event.target.name]: event.target.value })
     }
 
@@ -49,8 +56,8 @@ class UsersDetail extends React.Component {
                     email: props.userToDisplay.email,
                     phone: props.userToDisplay.phone,
                     roles: props.userToDisplay.roles[0],
-                    institutionId: props.userToDisplay.institution
-
+                    institutionId: props.userToDisplay.institution.institutionId,
+                    institution : props.userToDisplay.institution
                 }
             }
         }
@@ -184,9 +191,14 @@ class UsersDetail extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-6">
                                 <Label>Institution</Label><br />
-                                <select defaultValue={this.state.institutionId} className="custom-select my-1 mr-sm-2" name="institutionId" onChange={this.onChange}>
+                                <input type="text" name="institution"
+                                    value={this.state.institution ? this.state.institution.name : 'Please select a institution'}
+                                    onChange={this.onChange}
+                                    className="form-control" />
+                                <select value={this.state.institutionId} className="custom-select" size='5' name="institutionId" onChange={this.onChange}>
                                     {this.props.InstitutionList.data?.map(institution => (<option key={institution.institutionId} className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
                                 </select>
+                                <PageHandler page = {this.props.InstitutionList.page} getList={this.props.getInstitutions}/>
                             </div>
                         </div>
 
