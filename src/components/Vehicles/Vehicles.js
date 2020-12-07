@@ -6,6 +6,7 @@ import * as VehicleAction from '../../Redux/Action';
 import '../Detail/Detail.css';
 import { vehicleConstants } from '../../constants/vehicleConstants';
 import PageHandler from '../PageHandler';
+import { config } from '../../constants/config';
 
 class Vehicles extends Component {
 
@@ -26,8 +27,8 @@ class Vehicles extends Component {
     }
 
     componentDidMount() {
-        this.props.getVehiclesForInstitution(1);
-}
+        this.props.getVehiclesForInstitution(1,config.Pagelimit);
+    }
 
 
  
@@ -98,7 +99,7 @@ class Vehicles extends Component {
                         <tbody>
                             {
                                 Vehicles.data?.map(Vehicle => (
-                                    <tr  key={Vehicle.id} style={{textAlign:'center',height:'51px'}}>
+                                    <tr  key={Vehicle.id}>
                                         <td></td>
                                         <td>{Vehicle.id}</td>
                                         <td>{Vehicle.plateNumber}</td>

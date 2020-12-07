@@ -7,6 +7,8 @@ import Form from 'react-validation/build/form';
 import Modal from '../Dialog/Modal';
 import { vehicleConstants } from "../../constants/vehicleConstants";
 import {config} from "../../constants/config";
+import PageHandler from '../PageHandler';
+import { returnObjectForSelectedId } from '../../util/basic';
 
 class VehicleDetail extends React.Component {
 
@@ -32,7 +34,13 @@ class VehicleDetail extends React.Component {
     }
 
 
-    onChange = event => this.setState({ [event.target.name] : event.target.value })
+    onChange = (event) => {
+        if(event.target.name === 'institutionId')
+        {
+            this.setState({institution : returnObjectForSelectedId(this.props.InstitutionList.data, event.target.value), [event.target.name]: event.target.value})
+        }
+        this.setState({ [event.target.name]: event.target.value })
+    }
 
     static getDerivedStateFromProps(props, state) {
 
@@ -42,6 +50,7 @@ class VehicleDetail extends React.Component {
                     vehicleToDisplay: props.vehicleToDisplay,
                     vehicleId: props.vehicleToDisplay.id,
                     institutionId: props.vehicleToDisplay.institution?.InstitutionId,
+                    institution: props.vehicleToDisplay.institution,
                     modelYear: props.vehicleToDisplay.modelYear,
                     model: props.vehicleToDisplay.model,
                     make: props.vehicleToDisplay.model?.Manufacturers[0],
@@ -185,10 +194,14 @@ class VehicleDetail extends React.Component {
                             <div className="row form-group">
                                 <div className="col-md-6">
                                     <Label>Institution</Label><br />
-                                    <select defaultValue={this.state.institutionId? this.state.institutionId : "Select a model"} className="custom-select my-1 mr-sm-2" name="institutionId" onChange={this.onChange}>
-                                        {this.props.InstitutionList.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
+                                    <input type="text" name="institution"
+                                    value={this.state.institution ? this.state.institution.name : 'Please select a institution'}
+                                    onChange={this.onChange}
+                                    className="form-control" />
+                                    <select value={this.state.institutionId} className="custom-select" size='5' name="institutionId" onChange={this.onChange}>
+                                    {this.props.InstitutionList.data?.map(institution => (<option key={institution.institutionId} className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
                                     </select>
-
+                                    <PageHandler page = {this.props.InstitutionList.page} getList={this.props.getInstitutions}/>
                                 </div>
                             </div>
 
@@ -218,7 +231,7 @@ class VehicleDetail extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        InstitutionList: [config.selectInstitution, ...state.InstitutionStore.Institutions?.data],
+        InstitutionList: state.InstitutionStore.Institutions,
         MakersList: state.VehicleStore.Makes,
         ModelsList: state.VehicleStore.Models,
         DialogId : state.VehicleStore.selectedId,

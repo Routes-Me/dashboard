@@ -173,11 +173,11 @@ function buildURL(entity, pageIndex, limit, include)
     let queryParameter =""
     if(include)
     {
-      queryParameter=entity+"?offset="+pageIndex+"&limit="+config.Pagelimit+"&include=services,institution";
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit+"&include=institutions";
     }
     else
     {
-      queryParameter=entity+"?offset="+pageIndex+"&limit="+config.Pagelimit;
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit;
     }
     return queryParameter;
 }
