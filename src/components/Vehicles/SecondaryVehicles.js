@@ -13,7 +13,13 @@ export class SecondaryVehicles extends Component {
         
         return (
             <div className="search-main">
-                <p>Select a Vehicle <br /> to display <b>Driver info</b> related</p>
+                {/* <p>Select a Vehicle <br /> to display <b>Driver info</b> related</p> */}
+                <caption>Devices</caption>
+                <table>
+                    <tr>13312-311343-fkffkjg-343</tr>
+                    <tr>13312-311343-fkffkjg-343</tr>
+                    <tr>13312-311343-fkffkjg-343</tr>
+                </table>
             </div>
         );
     }

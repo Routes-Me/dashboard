@@ -80,6 +80,24 @@ function ModelDataRequest() { return { type: vehicleConstants.getModels_REQUEST 
 function storeModelData(models) { return { type: vehicleConstants.getModels_SUCCESS, payload: models } }
 
 
+export function getDevicesForVehicleId(vehicleId){
+  return dispatch => {
+    dispatch(StoreDevicesRequest());
+    apiHandler.get(`vehicles/${vehicleId}/devices`)
+    .then(
+      devices => { 
+        dispatch(storeDevicesForVehicleId(devices))
+      },
+      error => {
+        alert(`getDevices : ${error.toString()}`)
+      }
+    )
+  }
+}
+function StoreDevicesRequest(){ return { type: vehicleConstants.getDevices_REQUEST} }
+function storeDevicesForVehicleId(devices) { return { type: vehicleConstants.getDevices_SUCCESS, payload: devices } }
+
+
 
 
 

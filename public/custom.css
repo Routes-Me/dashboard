@@ -259,11 +259,15 @@ header nav {
     height: 100%;
     width: 100%;
     overflow: auto;
-    display: flex;
     align-items: center;
     justify-content: center;
     overflow: scroll;
     padding-right: 0px !important;
+}
+
+.search-main p {
+    top: 50%;
+    left: 50%;
 }
 
     .search-main::-webkit-scrollbar {

@@ -4,6 +4,7 @@ const INITIAL_STATE = {
     Vehicles: [],
     Makes:[],
     Models: [],
+    Devices:[],
     Page: "",
     Loading: true,
     hasError: false,
@@ -52,6 +53,19 @@ const VehicleReducer = (state = INITIAL_STATE, action) => {
                 Loading: true,
                 hasError: false,
                 Makes: action.payload
+            };
+        case vehicleConstants.getDevices_REQUEST:
+            return {
+                ...state,
+                Loading: true,
+                hasError: false
+            };
+        case vehicleConstants.getDevices_SUCCESS:
+            return {
+                ...state,
+                Loading: false,
+                hasError: false,
+                Devices: action.payload
             };
         case vehicleConstants.addVehicle_REQUEST:
             return {

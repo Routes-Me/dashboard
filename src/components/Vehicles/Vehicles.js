@@ -62,6 +62,12 @@ class Vehicles extends Component {
         this.props.deleteVehicle(vehicleId)
     }
 
+
+    showDevicesForSelectedVehicle = (e, vehicleId) =>{
+        e.preventDefault();
+        this.props.getDevicesForVehicleId(vehicleId);
+    }
+
     static getDerivedStateFromProps (props, state){
         if(state.showDetails){
             if(props.ApplicationState === vehicleConstants.addVehicle_SUCCESS)
@@ -99,7 +105,7 @@ class Vehicles extends Component {
                         <tbody>
                             {
                                 Vehicles.data?.map(Vehicle => (
-                                    <tr  key={Vehicle.id}>
+                                    <tr  key={Vehicle.id} onClick={e => this.showDevicesForSelectedVehicle(e, Vehicle.id)}>
                                         <td>{Vehicle.id}</td>
                                         <td>{Vehicle.plateNumber}</td>
                                         <td>{Vehicle.model?.Name}</td>
@@ -175,7 +181,8 @@ const mapStateToProps = (state) => {
 
 const actionCreators = {
     getVehiclesForInstitution: VehicleAction.getVehiclesForInstitutionID,
-    deleteVehicle: VehicleAction.deleteVehicle
+    deleteVehicle: VehicleAction.deleteVehicle,
+    getDevicesForVehicleId: VehicleAction.getDevicesForVehicleId
 };
 
 const connectedVehicles = connect(mapStateToProps, actionCreators)(Vehicles);

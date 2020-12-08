@@ -114,11 +114,9 @@ class SecondaryTracking extends Component {
                             </div>
                             :
                             <div className="search-result">
-                                <p>Free</p>
                                 {content}
                             </div>
                     }
-
 
                     <div className="search-part">
                         <div className="search-relative">
