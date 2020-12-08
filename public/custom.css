@@ -468,7 +468,6 @@ header nav {
     list-style-type: none;
 }
 
-
 .collapse {
     height: 0;
     transform: scaleY(0);
@@ -484,10 +483,6 @@ header nav {
 .padding-lr-80 {
     padding: 0 80px;
 }
-
-
-
-
 
 .top-part-vehicles-search .hehading-add-butt {
     display: flex;
@@ -565,6 +560,10 @@ header nav {
     justify-content: space-between;
 } 
 
+.table-list > table > tr > th,td:last-child{
+    max-width: 20px;
+}
+
 .table-list > table > tbody > tr:hover{
     background-color: rgba(24, 66, 143, 0.15);
 }
@@ -580,45 +579,6 @@ header nav {
 /*testing*/
 
 
-.vehicles-page {
-    position: relative;
-}
-
-.table-list-vehicles table {
-    width: 100%;
-}
-
-    .table-list-vehicles table thead {
-        position: sticky;
-        border-top: 0px;
-    }
-
-.table-list-vehicles > .table table thead tr th{
-    top: 0px;
-    background-color: #fff;
-    text-align: center;
-    max-height: 50px;
-    border-top: 0px;
-}
-
-
-.table-list-vehicles table tr {
-    font-size: 18px;
-    font-weight: normal;
-    max-height: 50px;
-    vertical-align:middle;
-    letter-spacing: normal;
-}
-
-
-
-.table-list-vehicles table tr:hover {
-    background-color: rgba(24, 66, 143, 0.15);
-}
-
-    .table-list-vehicles table tr:hover .edit-delet-butt {
-        opacity: 1;
-    }
 
 .edit-delet-butt {
     width: 44px;
@@ -704,9 +664,6 @@ header nav {
 }
 
 
-
-
-
 img {
     -webkit-user-drag: none;
     user-select: none;
@@ -715,8 +672,6 @@ img {
     -webkit-user-select: none;
     -ms-user-select: none;
 }
-
-
 
 
 @media (max-width: 1399px) {
