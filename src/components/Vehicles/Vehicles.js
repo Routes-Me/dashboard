@@ -66,6 +66,7 @@ class Vehicles extends Component {
         if(state.showDetails){
             if(props.ApplicationState === vehicleConstants.addVehicle_SUCCESS)
             {
+                props.getVehiclesForInstitution(1, config.Pagelimit)
                 return {showDetails : false};
             }
         }
@@ -82,7 +83,7 @@ class Vehicles extends Component {
     renderAllVehicleTable(Vehicles) {
         return (
             <div>
-            <PageHandler page = {Vehicles.page} getList={this.props.getVehiclesForInstitution(1)} style='header'/>
+            <PageHandler page = {Vehicles.page} getList={this.props.getVehiclesForInstitution} style='header'/>
             <div className="table-list padding-lr-80">
                     <table>
                         <thead>

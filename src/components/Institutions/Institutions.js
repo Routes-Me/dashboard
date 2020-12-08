@@ -91,7 +91,7 @@ class Institutions extends Component {
                         <tbody>
                             {
                                 institutionsList.data?.map(institution => (
-                                    <tr key={institution.institutionId} style={{textAlign:'center'}} onClick={e => this.showDetailScreen(e, institution)}>
+                                    <tr key={institution.institutionId} onClick={e => this.showDetailScreen(e, institution)}>
                                         <td>{institution.institutionId}</td>
                                         <td>{institution.name}</td>
                                         <td>{institution.phoneNumber}</td>

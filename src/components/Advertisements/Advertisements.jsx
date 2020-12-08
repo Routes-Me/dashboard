@@ -101,18 +101,18 @@ class Advertisements extends Component {
                                 <th>NAME</th>
                                 <th>CREATED AT</th>
                                 <th>STATUS</th>
-                                <th className="width44" />
+                                <th/>
                             </tr>
                         </thead>
                         <tbody>
                             {
                                 Advertisements.data?.map(Advertisement => (
-                                    <tr key={Advertisement.id} style={{textAlign:'center'}}>
+                                    <tr key={Advertisement.id}>
                                         <td>{Advertisement.id}</td>
                                         <td>{Advertisement.resourceName}</td>
                                         <td>{Advertisement.createdAt}</td>
                                         <td><Status text={Advertisement.campaigns[0]?.status}/></td>
-                                        <td className="width44" >
+                                        <td>
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Advertisement.id)}>
                                                     <span />

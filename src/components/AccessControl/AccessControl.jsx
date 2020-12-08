@@ -49,16 +49,20 @@ class AccessControl extends Component {
         return(
             <div className="list">
                     <table className='align-l-p40'>
+                        <thead>
                             <tr>
                                 <th>Name</th>
                                 <th>Created at</th>
                             </tr>
+                        </thead>
+                        <tbody>
                             {list.map((Role, index) => 
                                     <tr className={`${this.state.rowIndex === index && 'selected'}`} key={index} onClick={e => this.rowSelect(e, index)}>
                                         <td className={`${this.state.rowIndex === index? 'selected' : 'align-l-p40'}`}>{this.state.rowIndex === index? <RowItem Object={Role} ObjectType={this.state.tabIndex} Save={this.state.save}/> : Role.name}</td>
                                         <td className='align-l-p40'>{Role.date}</td>
                                     </tr>
-                                )}
+                            )}
+                        </tbody>
                     </table>
             </div>
         )

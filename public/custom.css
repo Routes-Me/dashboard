@@ -551,18 +551,21 @@ header nav {
     box-shadow: 0px 0.3px rgba(0, 0, 0, 0.5);
     border-top: 0px;
     vertical-align: middle;
-    text-align: center;
 }
 
-.table-list > table > tr > th,td{
+.table-list > table > tr th,td{
     text-align: left;
     align-content: space-around;
     justify-content: space-between;
 } 
 
-.table-list > table > tr > th,td:last-child{
-    max-width: 20px;
-}
+/* .table-list > table > th,td:last-child{
+    border: lightpink solid 1px;
+    width: 40px;
+}  */
+
+
+
 
 .table-list > table > tbody > tr:hover{
     background-color: rgba(24, 66, 143, 0.15);
@@ -572,9 +575,11 @@ header nav {
     opacity: 1;
 }
 
-.width20 {
-    max-width: 20px;
-}
+/* .width44 {
+    column-width:30px;
+    width: 30px;
+    text-align: center;
+} */
 
 /*testing*/
 
@@ -627,13 +632,12 @@ header nav {
     position: absolute;
     right: 0;
     top: 100%;
-    z-index: 9;
+    z-index: 10;
 }
 
 
     .edit-delet-link li {
         list-style: none;
-        display: inline-block;
         width: 100%;
         margin-bottom:0px;
         border-bottom: 1px solid rgba(24, 66, 143, 0.3);

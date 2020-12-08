@@ -55,7 +55,7 @@ class Users extends Component {
         if(state.showDetails){
             if(props.ApplicationState === userConstants.saveUsers_SUCCESS)
             {
-                props.getUsersList();
+                props.getUsersList(1,config.Pagelimit);
                 return {showDetails : false}
             }
         }
@@ -82,7 +82,7 @@ class Users extends Component {
                         <tbody>
                             {
                                 usersList.data?.map(user => (
-                                    <tr key={user.userId} style={{textAlign:'center'}}>
+                                    <tr key={user.userId}>
                                     <td>{user.userId}</td>
                                     <td>{user.name}</td>
                                     <td>{user.email}</td>

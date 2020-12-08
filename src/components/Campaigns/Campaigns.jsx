@@ -80,19 +80,19 @@ class Campaigns extends Component {
                                     <th>START AT</th>
                                     <th>END AT</th>
                                     <th>STATUS</th>
-                                    <th className="width44" style={{maxWidth:'10px'}}/>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
                                     campaignsList.data?.map(campaign => (
-                                        <tr key={campaign.campaignId} style={{textAlign:'center'}}>
+                                        <tr key={campaign.campaignId}>
                                             <td>{campaign.campaignId}</td>
                                             <td>{campaign.title}</td>
                                             <td>{campaign.startAt}</td>
                                             <td>{campaign.endAt}</td>
                                             <td><Status text={campaign.status}/></td>
-                                            <td className="width44" style={{maxWidth:'10px'}}>
+                                            <td>
                                                 <div className="edit-popup">
                                                     <div className="edit-delet-butt" onClick={e => this.openSubMenuForCampaignId(e,campaign.campaignId)}>
                                                         <span />
