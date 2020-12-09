@@ -26,6 +26,7 @@ const VehicleReducer = (state = INITIAL_STATE, action) => {
                 Loading: false,
                 hasError: false,
                 Vehicles: action.payload,
+                Devices:[],
                 ActionState: vehicleConstants.getVehicles_SUCCESS
             };
         case vehicleConstants.getModels_REQUEST:

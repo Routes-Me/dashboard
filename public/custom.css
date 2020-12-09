@@ -406,7 +406,6 @@ header nav {
 .slide-effect .location-button {
     background-color: rgba(55, 90, 155, 0.2);
     padding: 15px 15px;
-    
     font-size: 18px;
     font-weight: normal;
     line-height: normal;
@@ -579,11 +578,11 @@ header nav {
     opacity: 1;
 }
 
-/* .width44 {
+.width44 {
     column-width:30px;
     width: 30px;
     text-align: center;
-} */
+}
 
 /*testing*/
 

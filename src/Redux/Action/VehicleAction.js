@@ -86,7 +86,7 @@ export function getDevicesForVehicleId(vehicleId){
     apiHandler.get(`vehicles/${vehicleId}/devices`)
     .then(
       devices => { 
-        dispatch(storeDevicesForVehicleId(devices))
+        dispatch(storeDevicesForVehicleId(devices.data.data))
       },
       error => {
         alert(`getDevices : ${error.toString()}`)

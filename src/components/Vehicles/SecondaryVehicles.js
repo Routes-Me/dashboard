@@ -1,27 +1,64 @@
 ﻿import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-export class SecondaryVehicles extends Component {
+class SecondaryVehicles extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            Vehicles: []
+            Vehicles: [],
+            optionsIndex:0
         }
     }
 
+    openSubMenu = (e, deviceId) => {
+        e.preventDefault();
+        this.setState({ optionsIndex: this.state.optionsIndex === deviceId? 0:deviceId });
+    }
+
     render() {
-        
         return (
             <div className="search-main">
-                {/* <p>Select a Vehicle <br /> to display <b>Driver info</b> related</p> */}
-                <caption>Devices</caption>
+                <caption style={{fontSize:'16px', marginTop:'47px'}}>Devices</caption>
+                <div className="table-list">
                 <table>
-                    <tr>13312-311343-fkffkjg-343</tr>
-                    <tr>13312-311343-fkffkjg-343</tr>
-                    <tr>13312-311343-fkffkjg-343</tr>
+                    <tbody>
+                        {this.props.devices.map(device => 
+                        <tr style={{height:'51px'}}>
+                            <td>{device.deviceId}</td>
+                            <td className="width44" onClick={e => this.openSubMenu(e, device.deviceId)}>
+                                <div className="edit-popup">
+                                    <div className="edit-delet-butt" onClick={e => this.openSubMenu(e, device.deviceId)}>
+                                        <span />
+                                        <span />
+                                        <span />
+                                    </div>
+                                    {/* <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === device.deviceId ? 'inline-block' : 'none' }}>
+                                        <li><a onClick={e => this.showDetailScreen(e, device)}>Unlink</a></li>
+                                    </ul> */}
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#">Action</a>
+                                        <a class="dropdown-item" href="#">Another action</a>
+                                        <a class="dropdown-item" href="#">Something else here</a>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        )}
+                    </tbody>
                 </table>
+                </div>
             </div>
         );
     }
 
 }
+
+const mapStateToProps = (state) => {
+    return {
+        devices: state.VehicleStore.Devices
+    }
+}
+
+const connectSecondaryVehicles = connect(mapStateToProps, null)(SecondaryVehicles);
+export { connectSecondaryVehicles as SecondaryVehicles };
