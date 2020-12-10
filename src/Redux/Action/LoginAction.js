@@ -25,7 +25,7 @@ export function userSignInRequest(username, password) {
                   dispatch(getLoginSuccess(LoggedInUser));
                   setToken(token);
                   dispatch(onReceiveToken(token));
-                  getAutherization(1);
+                  //getAutherization(2);
                   history.push('/home');
               },
               error => {

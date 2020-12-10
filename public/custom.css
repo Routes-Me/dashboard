@@ -266,6 +266,18 @@ header nav {
     padding-right: 0px !important;
 }
 
+.search-mainVehicle {
+    background-color: #f1f2f6;
+    font-size: 16px;
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    align-items: center;
+    justify-content: center;
+    overflow: scroll;
+    padding-right: 0px !important;
+}
+
 .search-main p {
     top: 50%;
     left: 50%;
@@ -683,13 +695,13 @@ img {
 
 
 @media (max-width: 1399px) {
-    .search-main {
+    .search-main,.search-mainVehicle {
         height: 70vh;
     }
 }
 
 @media (min-width: 1440px) {
-    .search-main {
+    .search-main,.search-mainVehicle {
         height: 80vh;
     }
 }
@@ -701,13 +713,13 @@ img {
 }
 
 @media (min-width: 1720px) {
-    .search-main {
+    .search-main,.search-mainVehicle {
         height: 51vh;
     }
 }
 
 @media (min-width: 1920px) {
-    .search-main {
+    .search-main,.search-mainVehicle {
         height: 80vh;
     }
 }

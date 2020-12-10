@@ -18,7 +18,7 @@ class SecondaryVehicles extends Component {
 
     render() {
         return (
-            <div className="search-main">
+            <div className="search-mainVehicle">
                 <caption style={{fontSize:'16px', marginTop:'47px'}}>Devices</caption>
                 <div className="table-list">
                 <table>
