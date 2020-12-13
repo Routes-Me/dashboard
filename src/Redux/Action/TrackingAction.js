@@ -169,15 +169,15 @@ export function updateSelectedMarker(vehicleID) {
     }
 }
 
-export function updateVehicle(vehicle){
-    return dispatch => {
-        dispatch(updateVehicle(vehicle))
-    }
-}
+// export function updateVehicle(vehicle){
+//     return dispatch => {
+//         dispatch(updateVehicle(vehicle))
+//     }
+// }
 
-function updateVehicle(vehcile){
-//  return {type : }
-}
+// function updateVehicle(vehcile){
+// //  return {type : }
+// }
 
 
 function UpdatedMarkerId(vehicleID) {
