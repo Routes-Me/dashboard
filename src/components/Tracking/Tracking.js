@@ -131,7 +131,7 @@ class Tracking extends Component {
     componentDidMount(){
         
         this.props.connectTheHub(this.props.token);
-        this.props.SubscribeToHub();
+        this.props.SubscribeToHub(this.props.user);
         this.props.GetOfflineVehicles();
         //navigator.geolocation.getCurrentPosition(this.currentCoords);
         //console.log("Will Mount Center => :", this.state.center);
@@ -145,9 +145,9 @@ class Tracking extends Component {
 
     //Time out Functionality
     _onAction(e) {
-        //console.log('user did something', e)
+        
         if (this.state.isTimedOut) {
-            this.props.SubscribeToHub();
+            this.props.SubscribeToHub(this.props.user);
         }
         this.setState({ isTimedOut: false })
     }
@@ -155,9 +155,8 @@ class Tracking extends Component {
     //Time out Functionality
     _onActive(e) {
 
-        //console.log('user is active', e)
         if (this.state.isTimedOut) {
-            this.props.SubscribeToHub();
+            this.props.SubscribeToHub(this.props.user);
         }
         this.setState({ isTimedOut: false })
     }
@@ -165,7 +164,6 @@ class Tracking extends Component {
     //Time out Functionality
     _onIdle(e) {
 
-        //console.log('user is idle', e)
         const isTimedOut = this.state.isTimedOut
         if (isTimedOut) {
             console.log("Timed Out!!!")
@@ -374,7 +372,8 @@ const mapStateToProps = (state) => {
         VehicleList: state.VehicleStore.Vehicles,
         idForSelectedVehicle: state.Tracking.idForSelectedVehicle,
         movedVehicle : state.Tracking.MovedVehicle,
-        token : state.Login.token
+        token : state.Login.token,
+        user : state.Login.user
     }
     
 }

@@ -41,14 +41,15 @@ export function InitializeHub(token){
 
 }
 
-
 function getAccessToken(token){ return token }
 
 export const Subscribing = payload => ({ type: trackingConstants.Tracking_OnSubscribeRequest });
 
-export const Connected = payload => ({type: trackingConstants.Tracking_Connected});                                                                                                                                                      
+export const Connected = payload => ({type: trackingConstants.Tracking_Connected});    
 
-export function SubscribeToHub() {
+
+
+export function SubscribeToHub(user) {
 
     return dispatch => {
 
@@ -62,6 +63,10 @@ export function SubscribeToHub() {
                 })
                 .catch(err => console.error("Error while establishing connection : " + err));
         }
+
+        hubConnection.invoke('Subscribe',user.InstitutionId,null,null).catch(function(err) {
+            console.log('unable to subscribe to institution => '+err)
+        })
 
             setInterval(() => {
                 CheckConnectivity()
