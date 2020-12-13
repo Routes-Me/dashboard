@@ -126,7 +126,7 @@ export function getOfflineData(Token) {
 
     return dispatch => {
         dispatch(OfflineDataRequest());
-        apiHandler.get('vehicles?offset=1&limit=10&include=institutions,models')
+        apiHandler.get('vehicles?offset=1&limit=300&include=institutions,models')
         .then(
             idleVehicles => {
                 dispatch(OfflineUpdateReceived(returnFormatedVehicles(idleVehicles)));
@@ -167,6 +167,16 @@ export function updateSelectedMarker(vehicleID) {
     return dispatch => {
         dispatch(UpdatedMarkerId(vehicleID));
     }
+}
+
+export function updateVehicle(vehicle){
+    return dispatch => {
+        dispatch(updateVehicle(vehicle))
+    }
+}
+
+function updateVehicle(vehcile){
+//  return {type : }
 }
 
 

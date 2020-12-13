@@ -118,8 +118,8 @@ header nav {
     float: right;
 }
 
-    .right-part .mpas-tracking > div {
-        height: calc(100vh - 5px) !important;
+    .right-part .mpas-tracking {
+        height: calc(100vh - 5px);
     }
 
 .profile {
@@ -711,3 +711,6 @@ img {
         height: 80vh;
     }
 }
+
+
+

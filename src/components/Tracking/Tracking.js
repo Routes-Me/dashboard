@@ -58,9 +58,9 @@ class Tracking extends Component {
             clusters: [],
             timeout: 100000 * 30 * 1,  //10000 * 20 * 1,
             showModal: false,
-            userLoggedIn: false,
             isTimedOut: false,
-            timeOffUnmount:''
+            timeOffUnmount:'',
+            activeCount : 0
 
         };
 
@@ -76,7 +76,8 @@ class Tracking extends Component {
             let vehicleList = state.vehicles;
             console.log('Vehicle List Count', vehicleList.length);
             return{
-                vehicles: vehicleList
+                vehicles: vehicleList,
+                activeCount : vehicleList.length
             }
         }
     }
@@ -284,7 +285,7 @@ class Tracking extends Component {
         const vehicles = this.state.vehicles;
         //console.log("Render Body", clusters)
         //console.log("Rendered Count on result", results.length);
-
+        const idleVehicleCount = this.props.VehicleList.page?.total - this.state.activeCount
         return (
             <div className="mpas-tracking" style={{ height: "100vh", width: "100%" }}>
 
@@ -296,6 +297,13 @@ class Tracking extends Component {
                     onAction={this.onAction}
                     debounce={250}
                     timeout={this.state.timeout} />
+
+                <div className='activeCount'>
+                <h4 style={{margin:'10px'}}>{this.state.activeCount}</h4>
+                </div>
+                <div className='idleCount'>
+                <h4 style={{margin:'10px'}}>{idleVehicleCount > 0 ? idleVehicleCount : 0}</h4>
+                </div>
 
                 <GoogleMapReact
                     bootstrapURLKeys={{ key: 'AIzaSyAQQUPe-GBmzqn0f8sb_8xZNcseul1N0yU' }}
@@ -363,6 +371,7 @@ const mapStateToProps = (state) => {
     //console.log('Mapped State Array returned :', points);
     return {
         //result: points,
+        VehicleList: state.VehicleStore.Vehicles,
         idForSelectedVehicle: state.Tracking.idForSelectedVehicle,
         movedVehicle : state.Tracking.MovedVehicle,
         token : state.Login.token

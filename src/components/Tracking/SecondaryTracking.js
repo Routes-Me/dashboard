@@ -11,7 +11,7 @@ class SecondaryTracking extends Component {
     constructor(props) {
         super(props);
         this.state={
-            Vehicles: [],
+            vehicles: [],
             filter: 'idle',
             idleVehiclesCount: 0,
             activeVehiclesCount: 0
@@ -41,7 +41,20 @@ class SecondaryTracking extends Component {
     }
 
 
-
+    static getDerivedStateFromProps(props, state) {
+        
+        if (props.movedVehicle !== undefined && props.movedVehicle != "" && state.vehicles !== undefined)
+        {
+            let i = state.vehicles.findIndex(vehicle=> vehicle.id === props.movedVehicle.id);
+            state.vehicles[i] ? state.vehicles[i] = props.movedVehicle : state.vehicles.push(props.movedVehicle);
+            let vehicleList = state.vehicles;
+            console.log('Vehicle List Count', vehicleList.length);
+            return{
+                vehicles: vehicleList
+            }
+        }
+    }
+    
 
 
     //Render the Acordian
@@ -87,7 +100,7 @@ class SecondaryTracking extends Component {
 
     render() {
 
-        let content = this.renderAllVehicles(this.props.vehicles);
+        let content = this.renderAllVehicles(this.state.vehicles);
         //console.log(`              ---Rendered Details()--- 
         //             Selected Filter :      ${this.state.filter}
         //             Idle vehicle count :   ${this.state.idleVehiclesCount}
@@ -95,15 +108,15 @@ class SecondaryTracking extends Component {
         return (
 
             <div>
-                <div className="tab-button">
-                    <div className="button-back">
-                        {/*<div className="notification-duty-on"><span>1</span></div>*/}
-                        <button className={this.returnFilterStyle(trackingConstants.ActiveState)} onClick={() => this.toggleFilter(trackingConstants.ActiveState)} style={{ color: "black" }}>({this.props.activeVehiclesCount}) ACTIVE</button>
-                        <button className={this.returnFilterStyle(trackingConstants.IdleState)} onClick={() => this.toggleFilter(trackingConstants.IdleState)} style={{ color: "black" }}>IDLE ({this.props.idleVehiclesCount})</button>
-                        {/*<div className="notification-duty-off"><span>{this.state.filter === trackingConstants.IdleState ? this.state.idleVehiclesCount : this.state.activeVehiclesCount}</span></div>*/}
 
-                    </div>
-                </div>
+                {/* <div className="tab-button">
+                    <div className="button-back"> */}
+                        {/*<div className="notification-duty-on"><span>1</span></div>*/}
+                        {/* <button className={this.returnFilterStyle(trackingConstants.ActiveState)} onClick={() => this.toggleFilter(trackingConstants.ActiveState)} style={{ color: "black" }}>({this.props.activeVehiclesCount}) ACTIVE</button>
+                        <button className={this.returnFilterStyle(trackingConstants.IdleState)} onClick={() => this.toggleFilter(trackingConstants.IdleState)} style={{ color: "black" }}>IDLE ({this.props.idleVehiclesCount})</button> */}
+                        {/*<div className="notification-duty-off"><span>{this.state.filter === trackingConstants.IdleState ? this.state.idleVehiclesCount : this.state.activeVehiclesCount}</span></div>*/}
+                    {/* </div>
+                </div> */}
 
                 <div className="search-main">
                     {
@@ -118,13 +131,13 @@ class SecondaryTracking extends Component {
                             </div>
                     }
 
-                    <div className="search-part">
+                    {/* <div className="search-part">
                         <div className="search-relative">
                             <input type="text" autoComplete="off" name="search" placeholder="Filter" className="search"></input>
                             <i className="fa fa-search" aria-hidden="true"></i>
                             <span className="cross-icon"><img alt="close button" src="../cross-image.png" /></span>
                         </div>
-                    </div>
+                    </div> */}
 
                 </div>
 
@@ -148,7 +161,8 @@ const mapStateToProps = (state) => {
         //activeVehiclesCount: state.Tracking.ActiveVehicles.length,
         idForidForSelectedVehicle: state.Tracking.idForSelectedVehicle,
         selectedNavItem: state.Login.SelectedNavOption,
-        token : state.Login.token
+        token : state.Login.token,
+        movedVehicle : state.Tracking.MovedVehicle
     }
 
 }
