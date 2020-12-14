@@ -39,7 +39,7 @@ class SecondaryTracking extends Component {
             }
         }
         if (props.idForSelectedVehicle !== 0 && (props.idForSelectedVehicle !== state.selectedId)){
-            props.GetVehicleDetailForId(635322839);
+            props.GetVehicleDetailForId(props.idForSelectedVehicle);
             return {
                 selectedId : props.idForSelectedVehicle
             }
