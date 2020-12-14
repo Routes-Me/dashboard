@@ -22,7 +22,7 @@ class Child extends Component {
                 {this.props.selectedNavItem === userConstants.NavItem_Advertisements && <Advertisements/>}
                 {this.props.selectedNavItem === userConstants.NavItem_AccessControl && <AccessControl/>}
                 {this.props.selectedNavItem === userConstants.NavItem_Campaigns && <Campaigns/>}
-                {this.props.selectedNavItem === userConstants.NavItem_Analytics && <Analytics/>}
+                {this.props.selectedNavItem === userConstants.NavItem_Analytics && <Analytics advertisementList ={this.props.AdvertisementList} />}
             </div>
 
             );
@@ -31,7 +31,8 @@ class Child extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        selectedNavItem: state.Login.SelectedNavOption
+        selectedNavItem: state.Login.SelectedNavOption,
+        AdvertisementList: state.AdvertisementStore.Advertisements,
     }
 };
 

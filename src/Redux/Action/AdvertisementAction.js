@@ -228,7 +228,7 @@ export function addAdvertisement(advertisement, action) {
     }
     function addAdvertisementRequest() { return { type: advertisementsConstants.saveAdvertisements_REQUEST }; }
     function savedAdvertisement(advertisement) { return { type: advertisementsConstants.saveAdvertisements_SUCCESS, payload:advertisement }; }
-    function saveAdvertisementFailure(error) { return { type: advertisementsConstants.saveAdvertisements_ERROR, payload:error }; }
+    function saveAdvertisementFailure(error) { alert(error.response.data.title); return { type: advertisementsConstants.saveAdvertisements_ERROR, payload:error }; }
 }
 
 

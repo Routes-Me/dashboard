@@ -1,17 +1,19 @@
 import React from 'react'
 import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts'
 
-function Analytics() {
+function Analytics(advertisementList) {
 
-    const data = [
-        {name: 'Mcdonalds', iOS: 4000, Android: 2400, amt: 2400},
-        {name: 'KFC', iOS: 3000, Android: 1398, amt: 2210},
-        {name: 'Routes', iOS: 2000, Android: 9800, amt: 2290},
-        {name: 'CityCenter', iOS: 2780, Android: 3908, amt: 2000},
-        {name: 'XCite', iOS: 1890, Android: 4800, amt: 2181},
-        {name: 'NBK', iOS: 2390, Android: 3800, amt: 2500},
-        {name: 'Alghanim', iOS: 3490, Android: 4300, amt: 2100},
-  ];
+
+    const data =  advertisementList.advertisementList.data?.map( x => ({name: x.resourceName, iOS: 0, Android: 0, amt: 0}));
+//     [
+//         {name: 'Mcdonalds', iOS: 4000, Android: 2400, amt: 2400},
+//         {name: 'KFC', iOS: 3000, Android: 1398, amt: 2210},
+//         {name: 'Routes', iOS: 2000, Android: 9800, amt: 2290},
+//         {name: 'CityCenter', iOS: 2780, Android: 3908, amt: 2000},
+//         {name: 'XCite', iOS: 1890, Android: 4800, amt: 2181},
+//         {name: 'NBK', iOS: 2390, Android: 3800, amt: 2500},
+//         {name: 'Alghanim', iOS: 3490, Android: 4300, amt: 2100},
+//   ];
 
     return (
 

@@ -26,6 +26,7 @@
     deleteVehicle_Error   : "DELETEVEHICLE_ERROR",
 
     onDialogSelection : "ONDIALOG_SELECTION",
+    showVehicleDetail : 'SHOW_VEHICLE_DETAIL',
 
     updatePage: "UPDATE_PAGE"
 

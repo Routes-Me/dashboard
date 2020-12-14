@@ -9,7 +9,8 @@ const INITIAL_STATE = {
     Loading: true,
     hasError: false,
     error:null,
-    ActionState: ''
+    ActionState: '',
+    VehicleDetail: ''
 }
 
 const VehicleReducer = (state = INITIAL_STATE, action) => {
@@ -94,6 +95,11 @@ const VehicleReducer = (state = INITIAL_STATE, action) => {
                 hasError: false,
                 ActionState: vehicleConstants.addVehicle_SUCCESS
             };
+        case vehicleConstants.showVehicleDetail:
+            return {
+                ...state,
+                VehicleDetail : action.payload
+            }
         case vehicleConstants.updatePage:
             return {
                 ...state,

@@ -18,7 +18,7 @@ class Primary extends Component
 
     componentDidMount() {
 
-        this.props.getAutherization(2);
+        this.props.getAutherization(1);
 
     }
 

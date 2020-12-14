@@ -121,7 +121,7 @@ class Basic extends React.Component {
 
         let advertisement = '';
 
-        let action = this.props.withPromotion? 'NoPromo' : this.state.advertisement === ''? 'add': 'save'
+        let action =  this.state.advertisement === ''? 'add': 'save'; //this.props.withPromotion? 'NoPromo' :
 
         if(action === 'add')
         {

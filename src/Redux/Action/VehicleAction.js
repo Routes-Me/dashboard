@@ -17,6 +17,31 @@ function buildURL(entity, pageIndex, limit, include) {
 
 }
 
+export function getVehicleDetails(vehicleId){
+  return dispatch => {
+    dispatch(vehicleDataRequest())
+
+    apiHandler.get(`vehicles/${vehicleId}?offset=1&limit=1&include=institutions,models`)
+      .then(
+      vehicle => {
+              dispatch(showVehicleDetails(returnFormatedVehicles(vehicle).data[0]));
+      },
+      error => {
+          alert(`getVehicleDetails ${error.toString()}`);
+      });
+
+  }
+}
+
+
+function showVehicleDetails(vehicle){
+  return { type: vehicleConstants.showVehicleDetail, payload : vehicle }
+}
+
+function showerror(error){
+  alert(`getVehicleDetails error ${error}`)
+}
+
 //Action to getVehicleList for Vehicles Component
 export function getVehiclesForInstitutionID(pageIndex,limit,institutionId) {
 
@@ -26,7 +51,6 @@ export function getVehiclesForInstitutionID(pageIndex,limit,institutionId) {
       .then(
       vehicles => {
               dispatch(storeVehicleData(returnFormatedVehicles(vehicles)));
-              //dispatch(UpdatePage(vehicles.pagination));
       },
       error => {
           alert(`getVehicle ${error.toString()}`);
