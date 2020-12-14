@@ -12,6 +12,7 @@ class SecondaryTracking extends Component {
         super(props);
         this.state={
             vehicles: [],
+            selectedVehicle:'',
             filter: 'idle',
             idleVehiclesCount: 0,
             activeVehiclesCount: 0
@@ -41,19 +42,19 @@ class SecondaryTracking extends Component {
     }
 
 
-    static getDerivedStateFromProps(props, state) {
+    // static getDerivedStateFromProps(props, state) {
         
-        if (props.movedVehicle !== undefined && props.movedVehicle != "" && state.vehicles !== undefined)
-        {
-            let i = state.vehicles.findIndex(vehicle=> vehicle.id === props.movedVehicle.id);
-            state.vehicles[i] ? state.vehicles[i] = props.movedVehicle : state.vehicles.push(props.movedVehicle);
-            let vehicleList = state.vehicles;
-            console.log('Vehicle List Count', vehicleList.length);
-            return{
-                vehicles: vehicleList
-            }
-        }
-    }
+    //     if (props.movedVehicle !== undefined && props.movedVehicle != "" && state.vehicles !== undefined)
+    //     {
+    //         let i = state.vehicles.findIndex(vehicle=> vehicle.id === props.movedVehicle.id);
+    //         state.vehicles[i] ? state.vehicles[i] = props.movedVehicle : state.vehicles.push(props.movedVehicle);
+    //         let vehicleList = state.vehicles;
+    //         console.log('Vehicle List Count', vehicleList.length);
+    //         return{
+    //             vehicles: vehicleList
+    //         }
+    //     }
+    // }
     
 
 

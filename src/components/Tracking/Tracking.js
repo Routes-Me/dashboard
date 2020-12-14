@@ -227,12 +227,11 @@ class Tracking extends Component {
 
     //marker click
     onChildClick = (num, childProps) => {
-        console.log('Child Props ==>', childProps)
         console.log('Clicked Vehicle Id ==>', num)
         if (num === undefined) {
             return null
         } else {
-            let i = this.state.vehicles.findIndex(vehicle=> vehicle.id === this.props.movedVehicle.id);
+            let i = this.state.vehicles.findIndex(vehicle=> vehicle.id === num);
             if(i>0){
                 this.props.UpdateVehicle(this.state.vehicles[i])
             }
