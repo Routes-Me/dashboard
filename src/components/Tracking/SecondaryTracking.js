@@ -61,12 +61,15 @@ class SecondaryTracking extends Component {
     renderAllVehicles(VehicleListToBeRendered) {
         return (
             <div>{
-                VehicleListToBeRendered.filter(Vehicle => Vehicle.status === this.state.filter)
-                    .map(Vehicle => (
-                        <div key={Vehicle.vehicle_id} onClick={(e) => this.showVehicle(Vehicle.id)}>
-                            <SecondaryList vehicle={Vehicle} index={Vehicle.id} selectedIndex={this.props.idForidForSelectedVehicle} />
-                        </div>
-                    ))
+                // VehicleListToBeRendered.filter(Vehicle => Vehicle.status === this.state.filter)
+                //     .map(Vehicle => (
+                //         <div key={Vehicle.vehicle_id} onClick={(e) => this.showVehicle(Vehicle.id)}>
+                //             <SecondaryList vehicle={Vehicle} index={Vehicle.id} selectedIndex={this.props.idForidForSelectedVehicle} />
+                //         </div>
+                //     ))
+                this.props.idForidForSelectedVehicle !==0 &&
+                    <SecondaryList vehicle={VehicleListToBeRendered} index={VehicleListToBeRendered.id} selectedIndex={VehicleListToBeRendered.id} />
+                    
             }</div>
         )
     }
@@ -100,7 +103,7 @@ class SecondaryTracking extends Component {
 
     render() {
 
-        let content = this.renderAllVehicles(this.state.vehicles);
+        let content = this.renderAllVehicles(this.props.SelectedVehicle);
         //console.log(`              ---Rendered Details()--- 
         //             Selected Filter :      ${this.state.filter}
         //             Idle vehicle count :   ${this.state.idleVehiclesCount}
@@ -162,7 +165,8 @@ const mapStateToProps = (state) => {
         idForidForSelectedVehicle: state.Tracking.idForSelectedVehicle,
         selectedNavItem: state.Login.SelectedNavOption,
         token : state.Login.token,
-        movedVehicle : state.Tracking.MovedVehicle
+        movedVehicle : state.Tracking.MovedVehicle,
+        SelectedVehicle : state.Tracking.SelectedVehicle
     }
 
 }

@@ -174,15 +174,15 @@ export function updateSelectedMarker(vehicleID) {
     }
 }
 
-// export function updateVehicle(vehicle){
-//     return dispatch => {
-//         dispatch(updateVehicle(vehicle))
-//     }
-// }
+export function updateVehicle(vehicle){
+    return dispatch => {
+        dispatch(updateVehicleOnStore(vehicle))
+    }
+}
 
-// function updateVehicle(vehcile){
-// //  return {type : }
-// }
+function updateVehicleOnStore(vehcile){
+    return {type : trackingConstants.Tracking_SelectedVehicle, payload: vehcile}
+}
 
 
 function UpdatedMarkerId(vehicleID) {
@@ -191,7 +191,6 @@ function UpdatedMarkerId(vehicleID) {
 
 function OnUpdateReceived(result) {
 
-    //console.log("Result :" + result);
     return {
         type: trackingConstants.Tracking_OnUpdatesReceived,
         payload: result

@@ -12,12 +12,12 @@ export const SecondaryList = ({ vehicle, index, selectedIndex }) => {
 
     return (
        <div className="menu" key={parseInt(index)}>
-            <p className={parseInt(selectedIndex) === parseInt(index) ? "location-button-clicked" : "location-button"}>{vehicle.plateNumber}</p>
+            <p className={parseInt(selectedIndex) === parseInt(index) ? "location-button-clicked" : "location-button"}>{vehicle.driver}</p>
             <ul className={parseInt(selectedIndex) === parseInt(index) ? "list_x" : "list"}>
                 <li><a><img className="icon-30" alt="" src={alarem}/> {vehicle.id}</a></li>
-                <li><a><img className="icon-30" alt="" src={carnew} /> {vehicle.model?.Name}</a></li>
-                <li><a><img className="icon-30" alt="" src={phone} /> {vehicle.plateNumber}</a></li>
-                <li><a><img className="icon-30" alt="" src={bank} /> {vehicle.institution?.Name}</a></li>
+                <li><a><img className="icon-30" alt="" src={carnew} /> {vehicle.model}</a></li>
+                <li><a><img className="icon-30" alt="" src={phone} /> {vehicle.contact}</a></li>
+                <li><a><img className="icon-30" alt="" src={bank} /> {vehicle.company}</a></li>
             </ul>
         </div>
         )

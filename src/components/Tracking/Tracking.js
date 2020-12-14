@@ -228,10 +228,17 @@ class Tracking extends Component {
     //marker click
     onChildClick = (num, childProps) => {
         console.log('Child Props ==>', childProps)
-        console.log('Vehicle Id ==>', num)
+        console.log('Clicked Vehicle Id ==>', num)
         if (num === undefined) {
             return null
         } else {
+            let i = this.state.vehicles.findIndex(vehicle=> vehicle.id === this.props.movedVehicle.id);
+            if(i>0){
+                this.props.UpdateVehicle(this.state.vehicles[i])
+            }
+            else{
+                this.props.UpdateVehicle('')
+            }
             this.setState({
                 latitude: childProps.lat,
                 longitude: childProps.lng,
@@ -383,7 +390,8 @@ const actionCreators = {
     GetOfflineVehicles: TrackingAction.getOfflineData,
     SubscribeToHub: TrackingAction.SubscribeToHub,
     UnSubscribeToHub: TrackingAction.UnsubscribeFromHub,
-    UpdateTheSelectedMarker: TrackingAction.updateSelectedMarker
+    UpdateTheSelectedMarker: TrackingAction.updateSelectedMarker,
+    UpdateVehicle : TrackingAction.updateVehicle
 };
 
 const connectedTracking = connect(mapStateToProps, actionCreators)(Tracking);
