@@ -263,7 +263,6 @@ const mapStateToProps = (state) => {
 
 const actionCreators = {
 
-    getInstitutions: InstitutionAction.getInstitutions,
     updateTitle: AdvertisementAction.onTitleChange,
     updateSubtitle: AdvertisementAction.onSubTitleChange,
     savePromotion: AdvertisementAction.addPromotions

@@ -6,6 +6,8 @@ import * as InstitutionAction from '../../Redux/Action';
 import Form from 'react-validation/build/form';
 import { encryptAndEncode } from '../../util/encrypt';
 import {config} from "../../constants/config";
+import PageHandler from '../PageHandler';
+import { returnObjectForSelectedId } from '../../util/basic';
 
 
 class UsersDetail extends React.Component {
@@ -24,17 +26,22 @@ class UsersDetail extends React.Component {
             privilege: '',
             application: '',
             errorText:"",
-            password:""
+            password:"",
+            institution: ''
         }
     }
 
     componentDidMount() {
-        this.props.getPrivileges();
-        this.props.getApplications();
-        this.props.getInstitutions();
+        this.props.getPrivileges(1,config.DropDownLimit);
+        this.props.getApplications(1,config.DropDownLimit);
+        this.props.getInstitutions(1,config.DropDownLimit);
     }
 
     onChange = (event) => {
+        if(event.target.name === 'institutionId')
+        {
+            this.setState({institution : returnObjectForSelectedId(this.props.InstitutionList.data, event.target.value), [event.target.name]: event.target.value})
+        }
         this.setState({ [event.target.name]: event.target.value })
     }
 
@@ -49,8 +56,8 @@ class UsersDetail extends React.Component {
                     email: props.userToDisplay.email,
                     phone: props.userToDisplay.phone,
                     roles: props.userToDisplay.roles[0],
-                    institutionId: props.userToDisplay.institution
-
+                    institutionId: props.userToDisplay.institution.institutionId,
+                    institution : props.userToDisplay.institution
                 }
             }
         }
@@ -61,7 +68,6 @@ class UsersDetail extends React.Component {
 
         event.preventDefault();
 
-        console.log('userObj',user )
 
         let action ='', user ='';
 
@@ -115,10 +121,9 @@ class UsersDetail extends React.Component {
         const buttonText = userObj ? "Update" : "Add";
 
         return (
-            <div className="container-fluid">
-            <div className="row col-md-12 detail-form" style={{padding:"0px"}}>
+            <div>
                 <Form onSubmit={e => this.handleSubmit(e)}>
-                    <div className="col-md-12">
+                    <div class="col-md-12" style={{padding:'0px'}}>
 
                         <div className="row form-group">
                             <div className="col-md-6">
@@ -186,23 +191,27 @@ class UsersDetail extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-6">
                                 <Label>Institution</Label><br />
-                                <select defaultValue={this.state.institutionId} className="custom-select my-1 mr-sm-2" name="institutionId" onChange={this.onChange}>
-                                    {this.props.InstitutionList.map(institution => (<option key={institution.institutionId} className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
+                                <input type="text" name="institution"
+                                    value={this.state.institution ? this.state.institution.name : 'Please select a institution'}
+                                    onChange={this.onChange}
+                                    className="form-control" />
+                                <select value={this.state.institutionId} className="custom-select" size='5' name="institutionId" onChange={this.onChange}>
+                                    {this.props.InstitutionList.data?.map(institution => (<option key={institution.institutionId} className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
                                 </select>
+                                <PageHandler page = {this.props.InstitutionList.page} getList={this.props.getInstitutions}/>
                             </div>
                         </div>
 
+                    </div>
+                
 
+                    <div className="container-fluid">
+                        <div className="footerStyle"><div className="left-panel" style={{width:'330px'}}></div>
+                            <button type="submit" style={{ float: 'left' }} onClick={(e)=> this.handleSubmit(e)}> Create </button>
+                        </div>
                     </div>
                 </Form>
             </div>
-            <div className="container-fluid">
-                
-                <div className="footerStyle"><div className="left-panel" style={{width:'330px'}}></div>
-                    <button type="submit" style={{ float: 'left' }} onClick={(e)=> this.handleSubmit(e)}> Create </button>
-                </div>
-            </div>
-            </div >
         )
     }
 }
@@ -214,7 +223,7 @@ const mapStateToProps = (state) => {
     return {
         PrivilegeList       : [config.selectPrivilege,...state.UserStore.Privileges],
         ApplicationsList    : [config.selectApplication,...state.UserStore.Applications],
-        InstitutionList     : [config.selectInstitution,...state.InstitutionStore.Institutions],
+        InstitutionList     : state.InstitutionStore.Institutions,
         savedSuccessfully   : state.UserStore.Loading
     }
 

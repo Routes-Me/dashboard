@@ -10,6 +10,7 @@
     Tracking_OfflineDataSynced: 'TRACKING_OFFLINEDATASYNCED',
     Tracking_OfflineDataError: 'TRACKING_OFFLINEDATAERROR',
     Tracking_MarkerHighLighted: 'TRACKING_MAKERHIGHLIGHYED',
+    Tracking_SelectedVehicle: 'TRACKING_SELECTEDVEHICLE',
 
     IdleState: 'idle',
     ActiveState: 'active'

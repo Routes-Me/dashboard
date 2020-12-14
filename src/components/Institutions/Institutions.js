@@ -5,6 +5,8 @@ import { userConstants } from '../../constants/userConstants';
 import * as InstitutionAction from '../../Redux/Action';
 import '../Detail/Detail.css';
 import { institutionConstants } from '../../constants/institutionConstants';
+import PageHandler from '../PageHandler';
+import { config } from '../../constants/config';
 
 class Institutions extends Component {
 
@@ -26,7 +28,7 @@ class Institutions extends Component {
 
     //Load Data
     componentDidMount() {
-        this.props.getInstitutionsList();
+        this.props.getInstitutionsList(1,config.Pagelimit);
     }
 
     //Handle Page selection
@@ -73,8 +75,10 @@ class Institutions extends Component {
     //Load Institution in a table 
     showInstitutionsList(institutionsList) {
         return (
-            <div className="table-list-vehicles">
-                <div className="table">
+            <div>
+            <PageHandler page = {institutionsList.page} getList={this.props.getInstitutionsList} style='header'/>
+            <div className="table-list padding-lr-80">
+                {/* <div className="table"> */}
                     <table>
                         <thead>
                             <tr>
@@ -86,8 +90,8 @@ class Institutions extends Component {
                         </thead>
                         <tbody>
                             {
-                                institutionsList.map(institution => (
-                                    <tr key={institution.institutionId} style={{textAlign:'center'}} onClick={e => this.showDetailScreen(e, institution)}>
+                                institutionsList.data?.map(institution => (
+                                    <tr key={institution.institutionId} onClick={e => this.showDetailScreen(e, institution)}>
                                         <td>{institution.institutionId}</td>
                                         <td>{institution.name}</td>
                                         <td>{institution.phoneNumber}</td>
@@ -119,7 +123,7 @@ class Institutions extends Component {
     render() {
 
         let content = this.showInstitutionsList(this.props.InstitutionsList);
-        {this.props.ApplicationState === institutionConstants.saveInstitutions_SUCCESS && this.props.getInstitutionsList()}
+        {this.props.ApplicationState === institutionConstants.saveInstitutions_SUCCESS && this.props.getInstitutionsList(1,config.Pagelimit)}
 
         return (
             <div className="vehicles-page" style={{ height: "100vh", width: "100%" }}>

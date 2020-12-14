@@ -4,6 +4,7 @@ import * as UserAction from '../../Redux/Action/UserAction';
 import { connect } from 'react-redux';
 import './AccessControl.css';
 import { RowItem }  from './Row/RowItem';
+import { config } from '../../constants/config';
 
 class AccessControl extends Component {
 
@@ -48,16 +49,20 @@ class AccessControl extends Component {
         return(
             <div className="list">
                     <table className='align-l-p40'>
+                        <thead>
                             <tr>
                                 <th>Name</th>
                                 <th>Created at</th>
                             </tr>
+                        </thead>
+                        <tbody>
                             {list.map((Role, index) => 
                                     <tr className={`${this.state.rowIndex === index && 'selected'}`} key={index} onClick={e => this.rowSelect(e, index)}>
                                         <td className={`${this.state.rowIndex === index? 'selected' : 'align-l-p40'}`}>{this.state.rowIndex === index? <RowItem Object={Role} ObjectType={this.state.tabIndex} Save={this.state.save}/> : Role.name}</td>
                                         <td className='align-l-p40'>{Role.date}</td>
                                     </tr>
-                                )}
+                            )}
+                        </tbody>
                     </table>
             </div>
         )
@@ -66,12 +71,12 @@ class AccessControl extends Component {
     updateTheList = (tabIndex) => {
         if(tabIndex === 1)
         {
-            this.props.getPrivileges();
+            this.props.getPrivileges(1, config.Pagelimit);
             this.setState({rowIndex:this.props.PrivilegesList.length}) 
         }
         else
         {
-            this.props.getApplications();
+            this.props.getApplications(1, config.Pagelimit);
             this.setState({rowIndex:this.props.ApplicationsList.length})
         }
     }

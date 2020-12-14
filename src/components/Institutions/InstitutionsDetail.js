@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Label } from 'reactstrap';
 import * as InstitutionAction from '../../Redux/Action';
 import Form from 'react-validation/build/form';
+import PageHandler from '../PageHandler';
 
 class InstitutionsDetail extends React.Component {
 
@@ -19,7 +20,7 @@ class InstitutionsDetail extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getServiceList(this.props.token);
+        this.props.getServiceList(1,5);
     }
 
     onChange = (event) => {
@@ -96,11 +97,10 @@ class InstitutionsDetail extends React.Component {
         const buttonText = institutionObj ? "Update" : "Add";
 
         return (
-            <div className="container-fluid">
+            <div>
                 <Form onSubmit={e => this.handleSubmit(e)}>
-            <div className="row col-md-12 detail-form" style={{padding:"0px"}}>
                 
-                    <div class="col-md-12">
+                    <div class="col-md-12" style={{padding:'0px'}}>
 
                         <div className="row form-group">
                             <div className="col-md-6">
@@ -128,14 +128,12 @@ class InstitutionsDetail extends React.Component {
                                 <select class="custom-select" multiple size="5" defaultValue={this.state.services} name="services" onChange={this.onChange}>
                                     {this.props.servicesList.map(service => (<option value={service.serviceId}>{service.name}</option>))}
                                 </select>
+                                {/* <PageHandler page = {institutionsList.page} getList={this.props.getInstitutionsList}/> */}
                             </div>
                         </div>
 
-                        <br /><br />
 
                     </div>
-                
-            </div>
             <div className="container-fluid">
                     <div className="footerStyle">
                         <button type="submit" style={{ float: 'left' }}> {buttonText} </button>

@@ -1,15 +1,16 @@
 ﻿import { userConstants } from '../../constants/userConstants';
 import { config } from '../../constants/config';
 import apiHandler from '../../util/request';
+import { validate } from '../../util/basic';
 
 
 
 //Get UsersList
-export function getUsers(institutionId, pageIndex) {
+export function getUsers(pageIndex,limit,institutionId) {
 
     return dispatch => {
         dispatch(UsersDataRequest());
-        apiHandler.get(buildURL('users',1,true))
+        apiHandler.get(buildURL('users',pageIndex,limit,true))
         .then(
                 users => {
                     dispatch(storeUsersData(returnFormatedResponseForUsers(users)));
@@ -33,10 +34,10 @@ function updatePage(pages) { return { type: userConstants.UpdatePage, payload: p
 
 
 // get User Roles
-export function getPrivileges() {
+export function getPrivileges(pageIndex,limit) {
   return dispatch => { 
     getRequest('privileges') 
-    apiHandler.get(buildURL('privileges',1,false))
+    apiHandler.get(buildURL('privileges',pageIndex,limit,false))
         .then(
             priviledges => {
                     dispatch(getSuccess('privileges',(returnFormatedRoles('privileges',priviledges.data.data))));
@@ -50,11 +51,11 @@ export function getPrivileges() {
 }
 
 // get applications
-export function getApplications(){
+export function getApplications(pageIndex,limit){
 
   return dispatch => {
     getRequest('applications');
-    apiHandler.get(buildURL('applications',1,false))
+    apiHandler.get(buildURL('applications',pageIndex,limit,false))
         .then(
           applications =>{
                     dispatch(getSuccess('applications',(returnFormatedRoles('applications',applications.data.data))));
@@ -167,16 +168,16 @@ function filterUserRolesList(userRolesList, userRoles)
 }
 
 
-function buildURL(entity, offset, include) 
+function buildURL(entity, pageIndex, limit, include) 
 {
     let queryParameter =""
     if(include)
     {
-      queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit+"&include=services";
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit+"&include=institutions";
     }
     else
     {
-      queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit;
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit;
     }
     return queryParameter;
 }
@@ -202,19 +203,26 @@ function returnQueryParamters(offset, include) {
 }
 
 function returnFormatedResponseForUsers(response) {
+
     const usersList = response.data.data;
+    const institutionList = response.data.included?.institution !== undefined ? response.data.included.institution:[];
   
         const formatedUsers = usersList.map((x) => ({
         userId: x.userId,
         name: x.name,
         email: x.email,
-        phone: x.phone,
-        createdAt: x.createdAt,
+        phone: validate(x.phone),
+        createdAt: validate(x.createdAt),
         roles:x.roles,
-        institution: x.institutionId
+        institution: institutionList.filter(y => y.institutionId === x.institutionId)[0]
     }));
 
-    return formatedUsers;
+    let users= {
+      data : formatedUsers,
+      page : response.data.pagination
+    }
+  
+    return users;
 }
 
 

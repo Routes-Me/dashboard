@@ -5,6 +5,9 @@ import { userConstants } from '../../constants/userConstants';
 import * as AdvertisementAction from '../../Redux/Action';
 import '../Detail/Detail.css';
 import { advertisementsConstants } from '../../constants/advertisementConstants';
+import PageHandler from '../PageHandler';
+import { config } from '../../constants/config';
+import Status from '../Advertisements/RowItem/Status';
 
 class Campaigns extends Component {
 
@@ -21,7 +24,7 @@ class Campaigns extends Component {
 
         //Load Data
         componentDidMount() {
-            this.props.getCampaignsList();
+            this.props.getCampaignsList(1,config.Pagelimit);
         }
     
         //Handle Page selection
@@ -66,29 +69,30 @@ class Campaigns extends Component {
         //Load campaigns in a table 
         showCampaignsList(campaignsList) {
             return (
-                <div className="table-list-vehicles">
-                    <div className="table">
+                <div>
+                    <PageHandler page = {campaignsList.page} getList={this.props.getCampaignsList} style='header'/>
+                    <div className="table-list padding-lr-80">
                         <table>
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Title</th>
-                                    <th>Start At</th>
-                                    <th>End At</th>
-                                    <th>Created At</th>
-                                    <th className="width44" />
+                                    <th>TITLE</th>
+                                    <th>START AT</th>
+                                    <th>END AT</th>
+                                    <th>STATUS</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {
-                                    campaignsList.map(campaign => (
-                                        <tr key={campaign.campaignId} style={{textAlign:'center'}}>
+                                    campaignsList.data?.map(campaign => (
+                                        <tr key={campaign.campaignId}>
                                             <td>{campaign.campaignId}</td>
                                             <td>{campaign.title}</td>
                                             <td>{campaign.startAt}</td>
                                             <td>{campaign.endAt}</td>
-                                            <td>{campaign.createdAt}</td>
-                                            <td className="width44" >
+                                            <td><Status text={campaign.status}/></td>
+                                            <td>
                                                 <div className="edit-popup">
                                                     <div className="edit-delet-butt" onClick={e => this.openSubMenuForCampaignId(e,campaign.campaignId)}>
                                                         <span />

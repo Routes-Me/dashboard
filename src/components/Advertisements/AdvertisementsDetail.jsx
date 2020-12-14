@@ -1,10 +1,12 @@
 ﻿import React from 'react';
 import { connect } from 'react-redux';
 import * as AdvertisementAction from '../../Redux/Action';
+import * as InstitutionAction from '../../Redux/Action';
 import { Basic } from './Detail/Basic';
 import { Extras } from './Detail/Extras';
 import ReactPlayer from 'react-player';
 import '../Advertisements/Advertisement.css';
+import { config } from '../../constants/config';
 
 
 class AdvertisementsDetail extends React.Component {
@@ -28,6 +30,12 @@ class AdvertisementsDetail extends React.Component {
         this.setState({ [event.target.name]: event.target.value })
     }
 
+    componentDidMount(){
+        this.props.getCampaigns(1);
+        this.props.getDayIntervals();
+        this.props.getInstitutions(1,config.DropDownLimit);
+    }
+
 
     static getDerivedStateFromProps (props, state){
 
@@ -37,17 +45,17 @@ class AdvertisementsDetail extends React.Component {
             {
                 return {
                     advertisement : props.advertisementToDisplay,
-                    imageUrl: props.advertisementToDisplay.media.MediaType === 'image'? props.advertisementToDisplay.media.Url : '',
-                    videoUrl: props.advertisementToDisplay.media.MediaType === 'video'? props.advertisementToDisplay.media.Url : ''
+                    imageUrl: props.advertisementToDisplay.media.mediaType === 'image'? props.advertisementToDisplay.media.url : '',
+                    videoUrl: props.advertisementToDisplay.media.mediaType === 'video'? props.advertisementToDisplay.media.url : ''
                 }
             }
         }
         if (props.UploadedMedia!==undefined && (props.UploadedMedia !== ""))
         {
-            if (props.UploadedMedia.Type !== state.mediaType) 
-            {
+            // if (props.UploadedMedia.Type !== state.mediaType) 
+            // {
                 return props.UploadedMedia.Type === 'mp4'? { videoUrl: props.UploadedMedia.Url, mediaType:'mp4', imageUrl:""} : { imageUrl: props.UploadedMedia.Url, mediaType:"jpg" , videoUrl:""};
-            }
+            // }
         }
         if(state.submitBasic)
         {
@@ -68,7 +76,7 @@ class AdvertisementsDetail extends React.Component {
     }
 
     submitPromotion = (e) => {
-        if(this.state.tabIndex === 1)
+        if(this.state.tabIndex === 2)
         {
             this.setState({submitExtra:true, submitBasic:false })
         }
@@ -87,7 +95,7 @@ class AdvertisementsDetail extends React.Component {
         const videoText = this.state.videoUrl === "" ? "1280 X 720" : this.state.videoUrl;
         const tabIndex = this.state.tabIndex; 
         return (
-            <div className="container-fluid">
+            <div className="container-fluid" style={{paddingLeft:'0px'}}>
                 <div className="row col-md-12 detail-form">
                     <div className="headerTabStyle">
                         <nav>
@@ -98,11 +106,14 @@ class AdvertisementsDetail extends React.Component {
                         </nav>
                     </div>
                     <div className="row col-md-12 detail-form">
-                        <div className="col-md-6">
+
+                        <div className="col-md-6" style={{paddingLeft:"0px"}}>
                             {this.state.tabIndex === 1 ? <Basic submitForm={this.state.submitBasic} advertisementToDisplay={this.state.advertisement} withPromotion={this.state.addPromotion}/> : <Extras submitForm={this.state.submitExtra} addForPromotion={this.props.NewAdvertisement}/>}
                         </div>
+
                         <div className="col-md-6">
                             <div className="col-md-12 simulator">
+
                                 <div className="container row topPanel">
                                     <div className="banner1">
                                     {
@@ -119,18 +130,21 @@ class AdvertisementsDetail extends React.Component {
                                     </div>
                                 </div>
                                 <div className="container row bottomPanel">
-                                    <div className="banner3"><p>{this.props.Title}</p><br /><p></p></div>
+                                    <div className="banner3"><p>{this.props.Title}</p><br/><p></p></div>
                                     <div className="banner4"></div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
                 </div>
-                    <div className="footerStyle">
-                        <button type="submit" style={{ float: 'left' }} onClick={(e) => this.submitPromotion()}> Create </button>
-                        <button className="btn btn-light" style={{ marginLeft: '107px' }} onClick={(e) => this.onTabClick(1)}> <span class="glyphicon glyphicon-menu-left" aria-hidden="true" /> Previous</button>
-                        <button className="next" style={{ marginLeft: '7px' }} onClick={(e) => this.onCreate()}> Next: Extras <span class="glyphicon glyphicon-menu-right" aria-hidden="true" /> </button>
-                    </div>
+
+                <div className="footerStyle">
+                    <button type="submit" style={{ float: 'left' }} onClick={(e) => this.submitPromotion()}> Create </button>
+                    <button className="btn btn-light" style={{ marginLeft: '107px' }} onClick={(e) => this.onTabClick(1)}> <span class="glyphicon glyphicon-menu-left" aria-hidden="true" /> Previous</button>
+                    <button className="next" style={{ marginLeft: '7px' }} onClick={(e) => this.onCreate()}> Next: Extras <span class="glyphicon glyphicon-menu-right" aria-hidden="true" /> </button>
+                </div>
+
             </div>
         )
     }
@@ -152,8 +166,11 @@ const mapStateToProps = (state) => {
 
 const actionCreators = {
 
-    uploadMedia: AdvertisementAction.uploadMedia,
-    saveAdvertisement: AdvertisementAction.addAdvertisement
+    uploadMedia         : AdvertisementAction.uploadMedia,
+    saveAdvertisement   : AdvertisementAction.addAdvertisement,
+    getCampaigns        : AdvertisementAction.getCampaigns,
+    getDayIntervals     : AdvertisementAction.getDayIntervals,
+    getInstitutions     : InstitutionAction.getInstitutions,
 
 }
 

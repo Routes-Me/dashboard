@@ -4,11 +4,13 @@ const INITIAL_STATE = {
     Vehicles: [],
     Makes:[],
     Models: [],
+    Devices:[],
     Page: "",
     Loading: true,
     hasError: false,
     error:null,
-    ActionState: ''
+    ActionState: '',
+    VehicleDetail: ''
 }
 
 const VehicleReducer = (state = INITIAL_STATE, action) => {
@@ -25,6 +27,7 @@ const VehicleReducer = (state = INITIAL_STATE, action) => {
                 Loading: false,
                 hasError: false,
                 Vehicles: action.payload,
+                Devices:[],
                 ActionState: vehicleConstants.getVehicles_SUCCESS
             };
         case vehicleConstants.getModels_REQUEST:
@@ -53,6 +56,19 @@ const VehicleReducer = (state = INITIAL_STATE, action) => {
                 hasError: false,
                 Makes: action.payload
             };
+        case vehicleConstants.getDevices_REQUEST:
+            return {
+                ...state,
+                Loading: true,
+                hasError: false
+            };
+        case vehicleConstants.getDevices_SUCCESS:
+            return {
+                ...state,
+                Loading: false,
+                hasError: false,
+                Devices: action.payload
+            };
         case vehicleConstants.addVehicle_REQUEST:
             return {
                 ...state,
@@ -79,6 +95,11 @@ const VehicleReducer = (state = INITIAL_STATE, action) => {
                 hasError: false,
                 ActionState: vehicleConstants.addVehicle_SUCCESS
             };
+        case vehicleConstants.showVehicleDetail:
+            return {
+                ...state,
+                VehicleDetail : action.payload
+            }
         case vehicleConstants.updatePage:
             return {
                 ...state,

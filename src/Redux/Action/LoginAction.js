@@ -25,12 +25,12 @@ export function userSignInRequest(username, password) {
                   dispatch(getLoginSuccess(LoggedInUser));
                   setToken(token);
                   dispatch(onReceiveToken(token));
-                  getAutherization(1);
+                  // getAutherization(2);
                   history.push('/home');
               },
               error => {
                   dispatch(failure(error.message.toString()));
-                  console.log('error message', error.response.data.errors[0].detail.toString());
+                  console.log('error message', error.message.toString());
                   alert(error.toString());
               }
           );

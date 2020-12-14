@@ -3,7 +3,9 @@ import Detail from '../Detail/Detail';
 import { connect } from 'react-redux';
 import { userConstants } from '../../constants/userConstants';
 import * as UserAction from '../../Redux/Action';
+import PageHandler from '../PageHandler';
 import '../Detail/Detail.css';
+import { config } from '../../constants/config';
 
 class Users extends Component {
 
@@ -12,8 +14,6 @@ class Users extends Component {
 
         this.state = {
             usersList: [],
-            loading: true,
-            failed: false,
             error: '',
             activePage: 1,
             showDetails: false,
@@ -25,12 +25,7 @@ class Users extends Component {
 
     //Load Data
     componentDidMount() {
-        this.props.getUsersList();
-    }
-
-    //Handle Page selection
-    handlePageChange(pageNumber) {
-        this.setState({ activePage: pageNumber });
+        this.props.getUsersList(1, config.Pagelimit);
     }
 
     //Handle SubMenu Toggle for the Table
@@ -60,7 +55,7 @@ class Users extends Component {
         if(state.showDetails){
             if(props.ApplicationState === userConstants.saveUsers_SUCCESS)
             {
-                props.getUsersList();
+                props.getUsersList(1,config.Pagelimit);
                 return {showDetails : false}
             }
         }
@@ -70,8 +65,9 @@ class Users extends Component {
     //Load Institution in a table 
     showUsersList(usersList) {
         return (
-            <div className="table-list-vehicles">
-                <div className="table">
+            <div>
+            <PageHandler page = {usersList.page} getList={this.props.getUsersList} style='header'/>
+            <div className="table-list padding-lr-80">
                     <table>
                         <thead>
                             <tr>
@@ -80,19 +76,19 @@ class Users extends Component {
                                 <th>EMAIL</th>
                                 <th>PHONE</th>
                                 <th>CREATED AT</th>
-                                <th className="width44" />
+                                <th className="width20"/>
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                usersList.map(user => (
-                                    <tr key={user.userId} style={{textAlign:'center'}}>
+                                usersList.data?.map(user => (
+                                    <tr key={user.userId}>
                                     <td>{user.userId}</td>
                                     <td>{user.name}</td>
                                     <td>{user.email}</td>
                                     <td>{user.phone}</td>
                                     <td>{user.createdAt}</td>
-                                    <td className="width44" >
+                                    <td className="width20" >
                                         <div className="edit-popup">
                                             <div className="edit-delet-butt" onClick={e => this.openSubMenuForUserId(e, user.userId)}>
                                                 <span />
@@ -110,7 +106,7 @@ class Users extends Component {
                             }
                         </tbody>
                     </table>
-                </div>
+            </div>
             </div>
         )
     }

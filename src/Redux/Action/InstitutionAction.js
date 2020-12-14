@@ -3,12 +3,12 @@ import {config} from "../../constants/config";
 import apiHandler from '../../util/request';
 
 //Get Institution list
-export function getInstitutions(institutionId, offset) {
+export function getInstitutions(pageIndex,limit) {
 
   return (dispatch) => {
     
     dispatch(IstitutionDataRequest());
-    apiHandler.get(buildURL('institutions',1,true))
+    apiHandler.get(buildURL('institutions', pageIndex, limit,true))
       .then(
         (institutions) => {
           dispatch(
@@ -32,14 +32,14 @@ export function getInstitutions(institutionId, offset) {
 
 
 
-function buildURL(entity, offset, include) {
+function buildURL(entity, pageIndex, limit, include) {
 
   let queryParameter =""
   if(include){
-    queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit+"&include=services";
+    queryParameter=entity+"?offset="+pageIndex+"&limit="+limit+"&include=services";
   }
   else{
-    queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit;
+    queryParameter=entity+"?offset="+pageIndex+"&limit="+limit;
   }
   return queryParameter;
 
@@ -59,7 +59,12 @@ function returnFormatedResponseForInstitutions(response) {
     services: filterServiceList(servicesList, x.services)
   }));
 
-  return formatedInstitutions;
+  let institutions= {
+    data : institutionsList.length > 0 ? formatedInstitutions : [],
+    page : response.data.pagination
+  }
+
+  return institutions;
 
 }
 
@@ -131,7 +136,6 @@ export function DeleteInstitution(institutionId)
       apiHandler.delete("institutions/"+institutionId)
       .then(
         (institution) => {
-          getInstitutions();
           dispatch(deleteInstitutionSuccess(institution.data));
         },
         (error) => {
@@ -147,10 +151,10 @@ function deleteInstitutionSuccess(institution){ return {type: institutionConstan
 function deleteInstitutionError(message){ return {type: institutionConstants.deleteInstitutionError, payload: message}}
 
 //Get Services
-export function getServicesList() {
+export function getServicesList(pageIndex, limit) {
   return (dispatch) => {
     dispatch(ServicesDataRequest());
-    apiHandler.get(buildURL('services',1))
+    apiHandler.get(buildURL('services', pageIndex , limit))
     .then(
       (services) => {
         dispatch(storeServicesData([config.selectService, ...services.data.data]));

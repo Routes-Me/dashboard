@@ -40,11 +40,11 @@ export const config = {
         "data":[
             {
                 "roleId":1,
-                "navItems":["Tracking","Users","Vehicles","Advertisements","Institutions","Access Control",'Campaigns']
+                "navItems":["Tracking","Users","Vehicles","Advertisements","Institutions","Access Control",'Campaigns','Analytics']
             },
             {
                 "roleId":2,
-                "navItems":["Tracking","Users","Vehicles","Advertisements"]
+                "navItems":["Tracking","Users","Vehicles"]
             }
         ]
     },
@@ -53,6 +53,7 @@ export const config = {
 
     //Domain:'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/',
 
-    Pagelimit : 1000
+    Pagelimit : 20,
+    DropDownLimit : 5
 
 };
