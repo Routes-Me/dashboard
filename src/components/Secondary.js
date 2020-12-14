@@ -10,7 +10,6 @@ import { UsersSecondary } from '../components/Users/UsersSecondary';
 import { AdvertisementsSecondary } from '../components/Advertisements/AdvertisementsSecondary';
 import { AccessControlSecondary } from "../components/AccessControl/AccessControlSecondary";
 import { CampaignsSecondary } from './Campaigns/CampaignsSecondary';
-
 import { userConstants } from '../constants/userConstants';
 
 class Secondary extends Component {
@@ -70,11 +69,6 @@ class Secondary extends Component {
 
     render() {
 
-        //let content = this.renderAllVehicles(this.props.vehicles);
-        //console.log(`              ---Rendered Details()--- 
-        //             Selected Filter :      ${this.state.filter}
-        //             Idle vehicle count :   ${this.state.idleVehiclesCount}
-        //             Active vehicle count : ${this.state.activeVehiclesCount}`)
         return (
             < div >
 
@@ -85,6 +79,7 @@ class Secondary extends Component {
                 {this.props.selectedNavItem === userConstants.NavItem_Users && <UsersSecondary />}
                 {this.props.selectedNavItem === userConstants.NavItem_AccessControl && <AccessControlSecondary/>}
                 {this.props.selectedNavItem === userConstants.NavItem_Campaigns && <CampaignsSecondary/>}
+                {this.props.selectedNavItem === userConstants.NavItem_Analytics && <CampaignsSecondary/>}
             </div >
             );
     }

@@ -60,16 +60,21 @@
     width: 100%;
 }
 
-.list > table > tr {
+.list > table > thead,tbody > tr {
     border-bottom: 1px solid lightgray;
     height: 43px;
     font-size: 18px;
     padding-left: 40px;
 }
-.list > table > tr > th{
+.list > table > thead > tr > th {
     font-weight: bold;
     padding-left: 40px;
+    height: 52px;
 }
+
+.list > table > tr > thead, tbody > th,td {
+    width: 50%;
+} 
 
 .align-l-p40 {
     text-align: left;

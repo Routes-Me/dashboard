@@ -5,6 +5,8 @@ import { userConstants } from '../../constants/userConstants';
 import * as VehicleAction from '../../Redux/Action';
 import '../Detail/Detail.css';
 import { vehicleConstants } from '../../constants/vehicleConstants';
+import PageHandler from '../PageHandler';
+import { config } from '../../constants/config';
 
 class Vehicles extends Component {
 
@@ -25,8 +27,8 @@ class Vehicles extends Component {
     }
 
     componentDidMount() {
-        this.props.getVehiclesForInstitution();
-}
+        this.props.getVehiclesForInstitution(1,config.Pagelimit);
+    }
 
 
  
@@ -60,10 +62,17 @@ class Vehicles extends Component {
         this.props.deleteVehicle(vehicleId)
     }
 
+
+    showDevicesForSelectedVehicle = (e, vehicleId) =>{
+        e.preventDefault();
+        this.props.getDevicesForVehicleId(vehicleId);
+    }
+
     static getDerivedStateFromProps (props, state){
         if(state.showDetails){
             if(props.ApplicationState === vehicleConstants.addVehicle_SUCCESS)
             {
+                props.getVehiclesForInstitution(1, config.Pagelimit)
                 return {showDetails : false};
             }
         }
@@ -79,23 +88,24 @@ class Vehicles extends Component {
     //Load Vehicles in a table
     renderAllVehicleTable(Vehicles) {
         return (
-            <div className="table-list-vehicles">
-                <div className="table">
+            <div>
+            <PageHandler page = {Vehicles.page} getList={this.props.getVehiclesForInstitution} style='header'/>
+            <div className="table-list padding-lr-80">
                     <table>
                         <thead>
                             <tr style={{height:'51px'}}>
-                                <th>Id</th>
-                                <th>Plate</th>
-                                <th>Model</th>
-                                <th>Year</th>
-                                <th>Office</th>
+                                <th>ID</th>
+                                <th>PLATE</th>
+                                <th>MODEL</th>
+                                <th>YEAR</th>
+                                <th>OFFICE</th>
                                 <th className="width44" />
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                Vehicles.map(Vehicle => (
-                                    <tr  key={Vehicle.id} style={{textAlign:'center',height:'51px'}}>
+                                Vehicles.data?.map(Vehicle => (
+                                    <tr  key={Vehicle.id} onClick={e => this.showDevicesForSelectedVehicle(e, Vehicle.id)}>
                                         <td>{Vehicle.id}</td>
                                         <td>{Vehicle.plateNumber}</td>
                                         <td>{Vehicle.model?.Name}</td>
@@ -129,7 +139,7 @@ class Vehicles extends Component {
     render() {
 
         let content = this.renderAllVehicleTable(this.props.VehicleList);
-        {this.props.ApplicationState === vehicleConstants.addVehicle_SUCCESS && this.props.getVehiclesForInstitution()}
+        {this.props.ApplicationState === vehicleConstants.addVehicle_SUCCESS && this.props.getVehiclesForInstitution(1)}
         return (
             <div className="vehicles-page" style={{ height: "100vh", width: "100%" }}>
                 {this.state.showDetails ?
@@ -171,7 +181,8 @@ const mapStateToProps = (state) => {
 
 const actionCreators = {
     getVehiclesForInstitution: VehicleAction.getVehiclesForInstitutionID,
-    deleteVehicle: VehicleAction.deleteVehicle
+    deleteVehicle: VehicleAction.deleteVehicle,
+    getDevicesForVehicleId: VehicleAction.getDevicesForVehicleId
 };
 
 const connectedVehicles = connect(mapStateToProps, actionCreators)(Vehicles);

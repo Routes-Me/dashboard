@@ -20,7 +20,8 @@ const LoginReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 loading: true,
-                loggedIn: false
+                loggedIn: false,
+                navItems : []
             };
         case userConstants.Login_SUCCESS:
             return {

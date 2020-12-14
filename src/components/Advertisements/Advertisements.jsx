@@ -6,6 +6,8 @@ import * as AdvertisementAction from '../../Redux/Action';
 import '../Detail/Detail.css';
 import Status from '../Advertisements/RowItem/Status';
 import { advertisementsConstants } from '../../constants/advertisementConstants';
+import PageHandler from '../PageHandler';
+import { config } from '../../constants/config';
 
 class Advertisements extends Component {
 
@@ -25,7 +27,7 @@ class Advertisements extends Component {
     }
 
     componentDidMount() {
-        this.props.getAdvertisements();
+        this.props.getAdvertisements(1,config.Pagelimit);
     }
 
 
@@ -88,8 +90,10 @@ class Advertisements extends Component {
     //Load Advertisements in a table
     renderAllAdvertisementTable(Advertisements) {
         return (
-            <div className="table-list-vehicles">
-                <div className="table">
+            <div>
+            <PageHandler page = {Advertisements.page} getList={this.props.getAdvertisements} style='header'/>
+            <div className="table-list padding-lr-80">
+                {/* <div className="table"> */}
                     <table>
                         <thead>
                             <tr>
@@ -97,18 +101,18 @@ class Advertisements extends Component {
                                 <th>NAME</th>
                                 <th>CREATED AT</th>
                                 <th>STATUS</th>
-                                <th className="width44" />
+                                <th/>
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                Advertisements?.map(Advertisement => (
-                                    <tr key={Advertisement.id} style={{textAlign:'center'}}>
+                                Advertisements.data?.map(Advertisement => (
+                                    <tr key={Advertisement.id}>
                                         <td>{Advertisement.id}</td>
                                         <td>{Advertisement.resourceName}</td>
                                         <td>{Advertisement.createdAt}</td>
-                                        <td><Status text={Advertisement.campaigns[0].Status}/></td>
-                                        <td className="width44" >
+                                        <td><Status text={Advertisement.campaigns[0]?.status}/></td>
+                                        <td>
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Advertisement.id)}>
                                                     <span />
@@ -167,10 +171,11 @@ class Advertisements extends Component {
                                 <div className="search-relative">
                                     <input type="text" name="search" placeholder="Search" className="search" />
                                     <i className="fa fa-search" aria-hidden="true" />
-                                    <span className="cross-icon"><img src="../cross-image.png" /></span>
+                                    {/* <span className="cross-icon"><img src="../cross-image.png" /></span> */}
                                 </div>
                             </div>
                         </div>
+
                         {content}
                     </div>}
             </div>

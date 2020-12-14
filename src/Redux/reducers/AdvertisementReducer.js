@@ -4,7 +4,6 @@ const INITIAL_STATE = {
     Advertisements: [],
     Campaigns: [],
     DayIntervals:[],
-    Page: "",
     loading: true,
     hasError: false,
     error: null,
@@ -36,6 +35,7 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 loading: false,
                 hasError: false,
                 Advertisements: action.payload,
+                MediaURL: '',
                 ActionState: advertisementsConstants.getAdvertisements_SUCCESS,
             };
         case advertisementsConstants.getAdvertisements_ERROR:
@@ -140,7 +140,8 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 loading: true,
-                hasError: false
+                hasError: false,
+                Media:''
             };
         case advertisementsConstants.uploadMedia_SUCCESS:
             return {

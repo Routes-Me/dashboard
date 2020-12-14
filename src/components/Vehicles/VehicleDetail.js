@@ -7,6 +7,8 @@ import Form from 'react-validation/build/form';
 import Modal from '../Dialog/Modal';
 import { vehicleConstants } from "../../constants/vehicleConstants";
 import {config} from "../../constants/config";
+import PageHandler from '../PageHandler';
+import { returnObjectForSelectedId } from '../../util/basic';
 
 class VehicleDetail extends React.Component {
 
@@ -28,11 +30,17 @@ class VehicleDetail extends React.Component {
     }
 
     componentDidMount() { 
-        this.props.getInstitutions();
+        this.props.getInstitutions(1, config.DropDownLimit);
     }
 
 
-    onChange = event => this.setState({ [event.target.name] : event.target.value })
+    onChange = (event) => {
+        if(event.target.name === 'institutionId')
+        {
+            this.setState({institution : returnObjectForSelectedId(this.props.InstitutionList.data, event.target.value), [event.target.name]: event.target.value})
+        }
+        this.setState({ [event.target.name]: event.target.value })
+    }
 
     static getDerivedStateFromProps(props, state) {
 
@@ -42,6 +50,7 @@ class VehicleDetail extends React.Component {
                     vehicleToDisplay: props.vehicleToDisplay,
                     vehicleId: props.vehicleToDisplay.id,
                     institutionId: props.vehicleToDisplay.institution?.InstitutionId,
+                    institution: props.vehicleToDisplay.institution,
                     modelYear: props.vehicleToDisplay.modelYear,
                     model: props.vehicleToDisplay.model,
                     make: props.vehicleToDisplay.model?.Manufacturers[0],
@@ -130,7 +139,6 @@ class VehicleDetail extends React.Component {
         return (
             <div>
             <Form onSubmit={e => this.handleSubmit(e)}>
-            <div className="row col-md-12 detail-form" style={{padding:"0px"}}>
 
                 <Modal
                     show={this.state.searchModel}
@@ -139,7 +147,8 @@ class VehicleDetail extends React.Component {
                     objectList={searchList} 
                     onSelect={this.updateSelectedId} />
 
-                        <div class="col-md-12">             
+                        <div class="col-md-12" style={{padding:'0px'}}>
+
                             <div className="row form-group">
                                 <div className="col-md-6">
                                     <Label>Plate Number</Label><br />
@@ -148,49 +157,53 @@ class VehicleDetail extends React.Component {
                                     onChange={this.onChange}
                                     className="form-control"/>
                                 </div>
-                        </div><br /><br />
+                            </div><br />
 
-                        <div className="row form-group">
-                            <div className="col-md-6">
-                                <Label>Year</Label><br />
-                                    <input type="date" min="2000" max="2020" step="1" name="modelYear"
-                                        value={this.state.modelYear}
-                                        onChange={this.onChange}
-                                        className="form-control" />
-                            </div>
-                        </div>
-
-                        <div className="row form-group">
-                            <div className="col-md-6">
-                                <Label>Make</Label><br />
-                                <div class="btn-grp">
-                                    <button type="button" class="btn btn-block btn-light text-left" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Makers)}>
-                                        {this.state.make ? this.state.make.name : "Select a Manufacturer"}<span className="glyphicon glyphicon-play"/>
-                                    </button>
+                            <div className="row form-group">
+                                <div className="col-md-6">
+                                    <Label>Year</Label><br />
+                                        <input type="date" min="2000" max="2020" step="1" name="modelYear"
+                                            value={this.state.modelYear}
+                                            onChange={this.onChange}
+                                            className="form-control" />
                                 </div>
                             </div>
-                        </div>
 
-                        <div className="row form-group">
-                            <div className="col-md-6">
-                                <Label>Model</Label><br />
-                                <div class="btn-grp">
-                                    <button type="button" class="btn btn-block btn-light text-left" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Models)}>
-                                        {this.state.model ? this.state.model.name : "Select a Model"}<span className="glyphicon glyphicon-play"/>
-                                    </button>
+                            <div className="row form-group">
+                                <div className="col-md-6">
+                                    <Label>Make</Label><br />
+                                    <div class="btn-grp">
+                                        <button type="button" class="btn btn-block btn-light text-left" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Makers)}>
+                                            {this.state.make ? this.state.make.name : "Select a Manufacturer"}<span className="glyphicon glyphicon-play"/>
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div className="row form-group">
-                            <div className="col-md-6">
-                                <Label>Institution</Label><br />
-                                <select defaultValue={this.state.institutionId? this.state.institutionId : "Select a model"} className="custom-select my-1 mr-sm-2" name="institutionId" onChange={this.onChange}>
-                                    {this.props.InstitutionList.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
-                                </select>
-                                
+                            <div className="row form-group">
+                                <div className="col-md-6">
+                                    <Label>Model</Label><br />
+                                    <div class="btn-grp">
+                                        <button type="button" class="btn btn-block btn-light text-left" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Models)}>
+                                            {this.state.model ? this.state.model.name : "Select a Model"}<span className="glyphicon glyphicon-play"/>
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+
+                            <div className="row form-group">
+                                <div className="col-md-6">
+                                    <Label>Institution</Label><br />
+                                    <input type="text" name="institution"
+                                    value={this.state.institution ? this.state.institution.name : 'Please select a institution'}
+                                    onChange={this.onChange}
+                                    className="form-control" />
+                                    <select value={this.state.institutionId} className="custom-select" size='5' name="institutionId" onChange={this.onChange}>
+                                    {this.props.InstitutionList.data?.map(institution => (<option key={institution.institutionId} className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
+                                    </select>
+                                    <PageHandler page = {this.props.InstitutionList.page} getList={this.props.getInstitutions}/>
+                                </div>
+                            </div>
 
                             {/*<div className="row">
                                 <div className="col-md-6">
@@ -205,7 +218,6 @@ class VehicleDetail extends React.Component {
 
                         </div>
 
-            </div>
             <div className="container-fluid">
                 <div className="footerStyle">
                     <button type="submit" style={{ float: 'left' }}> {buttonText} </button>
@@ -219,7 +231,7 @@ class VehicleDetail extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        InstitutionList: [config.selectInstitution, ...state.InstitutionStore.Institutions],
+        InstitutionList: state.InstitutionStore.Institutions,
         MakersList: state.VehicleStore.Makes,
         ModelsList: state.VehicleStore.Models,
         DialogId : state.VehicleStore.selectedId,

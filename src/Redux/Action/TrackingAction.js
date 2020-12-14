@@ -41,14 +41,15 @@ export function InitializeHub(token){
 
 }
 
-
 function getAccessToken(token){ return token }
 
 export const Subscribing = payload => ({ type: trackingConstants.Tracking_OnSubscribeRequest });
 
-export const Connected = payload => ({type: trackingConstants.Tracking_Connected});                                                                                                                                                      
+export const Connected = payload => ({type: trackingConstants.Tracking_Connected});    
 
-export function SubscribeToHub() {
+
+
+export function SubscribeToHub(user) {
 
     return dispatch => {
 
@@ -62,6 +63,10 @@ export function SubscribeToHub() {
                 })
                 .catch(err => console.error("Error while establishing connection : " + err));
         }
+
+        hubConnection.invoke('Subscribe',user.InstitutionId,null,null).catch(function(err) {
+            console.log('unable to subscribe to institution => '+err)
+        })
 
             setInterval(() => {
                 CheckConnectivity()
@@ -126,7 +131,7 @@ export function getOfflineData(Token) {
 
     return dispatch => {
         dispatch(OfflineDataRequest());
-        apiHandler.get('vehicles?offset=1&limit=10&include=institutions,models')
+        apiHandler.get('vehicles?offset=1&limit=300&include=institutions,models')
         .then(
             idleVehicles => {
                 dispatch(OfflineUpdateReceived(returnFormatedVehicles(idleVehicles)));
@@ -169,6 +174,16 @@ export function updateSelectedMarker(vehicleID) {
     }
 }
 
+export function updateVehicle(vehicle){
+    return dispatch => {
+        dispatch(updateVehicleOnStore(vehicle))
+    }
+}
+
+function updateVehicleOnStore(vehcile){
+    return {type : trackingConstants.Tracking_SelectedVehicle, payload: vehcile}
+}
+
 
 function UpdatedMarkerId(vehicleID) {
     return { type: trackingConstants.Tracking_MarkerHighLighted, payload: vehicleID };
@@ -176,7 +191,6 @@ function UpdatedMarkerId(vehicleID) {
 
 function OnUpdateReceived(result) {
 
-    //console.log("Result :" + result);
     return {
         type: trackingConstants.Tracking_OnUpdatesReceived,
         payload: result

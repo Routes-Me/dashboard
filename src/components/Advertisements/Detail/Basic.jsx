@@ -5,9 +5,11 @@ import * as AdvertisementAction  from '../../../Redux/Action';
 import * as InstitutionAction  from '../../../Redux/Action';
 import Form from 'react-validation/build/form';
 import { onImageCompress } from '../../../util/Compress';
-import { uploadMedia } from '../../../util/blobStorage';
 import '../../Advertisements/Advertisement.css';
 import { config } from '../../../constants/config';
+import { uploadMediaIntoBlob } from '../../../util/blobStorage';
+import { convertHexToRGBint, convertRGBintToHex, returnCampaignIds, returnObjectForSelectedId } from "../../../util/basic";
+import PageHandler from '../../PageHandler';
 
 
 class Basic extends React.Component {
@@ -18,20 +20,23 @@ class Basic extends React.Component {
         this.state = {
             id: "",
             name: "",
-            institution: "",
+            institutions: [],
             image: "",
             video: "",
             campaigns: [],
             dayInterval: 0,
             advertisement: "",
-            submit:false
+            tintColor:"",
+            invertedTintColor:"",
+            submit:false,
+            institution:''
         }
     }
 
     componentDidMount() {
-        this.props.getCampaigns();
+        this.props.getCampaigns(1,config.DropDownLimit);
         this.props.getDayIntervals();
-        this.props.getInstitutions();
+        this.props.getInstitutions(1,config.DropDownLimit);
     }
 
     onChange = (event) => {
@@ -45,6 +50,10 @@ class Basic extends React.Component {
             }
             this.setState({ [event.target.name]: selected})
         }
+        if(event.target.name === 'institutionId')
+        {
+            this.setState({institution : returnObjectForSelectedId(this.state.institutions.data, event.target.value), [event.target.name]: event.target.value})
+        }
         else
         this.setState({ [event.target.name]: event.target.value })
     }
@@ -57,7 +66,6 @@ class Basic extends React.Component {
             this.setState({ image: undefined })
             fileType = 'video';
             //this.props.uploadMedia(file);
-            //this.compressVideo()
         }
         else {
             this.setState({ video: undefined });
@@ -65,40 +73,12 @@ class Basic extends React.Component {
             file = await onImageCompress(file);
         }
 
-        const account = process.env.REACT_APP_BLOB_ACCOUNTNAME;
-        const accountKey = process.env.REACT_APP_BLOB_ACCOUNTKEY;
+        const mediaURL = await uploadMediaIntoBlob(file, fileType);
 
-
-        uploadMedia(file,account,accountKey)
-
-        //this.props.uploadMedia(file, fileType);
+        this.props.uploadMedia(mediaURL);
         
     }
 
-
-     hexToRgb = (hex) => {
-        var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-        hex = hex.replace(shorthandRegex, function(m, r, g, b) {
-          return r + r + g + g + b + b;
-        });
-      
-        var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-          r: parseInt(result[1], 16),
-          g: parseInt(result[2], 16),
-          b: parseInt(result[3], 16)
-        } : null;
-      }
-
-
-
-
-    compressImage = async (image) => {
-        const compressedImage = await onImageCompress(image);
-        //console.log(`The compressed image size ==> ${this.calculateImageSize(compressedImage)}`);
-        this.setState({ image: compressedImage });
-        return compressedImage;
-    }
 
 
 
@@ -110,15 +90,25 @@ class Basic extends React.Component {
                     advertisement   : props.advertisementToDisplay,
                     id              : props.advertisementToDisplay.id,
                     name            : props.advertisementToDisplay.resourceName,
-                    dayInterval     : props.advertisementToDisplay.interval.IntervalId,
-                    institutionId     : props.advertisementToDisplay.institution.InstitutionId,
+                    dayInterval     : props.advertisementToDisplay.intervalId,
+                    institution     : props.advertisementToDisplay.institution,
+                    institutionId   : props.advertisementToDisplay.institution.institutionId,
                     media           : props.advertisementToDisplay.media,
-                    campaigns       : props.advertisementToDisplay.campaigns
+                    campaigns       : props.advertisementToDisplay.campaigns,
+                    tintColor       : '#'+props.advertisementToDisplay.tintColor?.toString(16)
                 }
+            }
+        }
+        if(props.InstitutionList.data.length!== state.institutions.length)
+        {
+            return {
+                institutions    : props.InstitutionList
             }
         }
         return null;
     }
+
+   
 
     componentDidUpdate(prevProps, prevState) {
         if (this.props.submitForm !== prevProps.submitForm) {
@@ -131,26 +121,28 @@ class Basic extends React.Component {
 
         let advertisement = '';
 
-        let action = this.props.withPromotion? 'NoPromo' : this.state.advertisement === ''? 'save': 'add'
+        let action =  this.state.advertisement === ''? 'add': 'save'; //this.props.withPromotion? 'NoPromo' :
 
         if(action === 'add')
         {
             advertisement = {
-                ResourceName    : this.state.name,
-                InstitutionId   : this.state.institutionId,
-                MediaId         : this.props.UploadedMedia.Id,
-                IntervalId      : this.state.dayInterval,
-                CampaignId      : this.state.campaigns
+                ResourceName      : this.state.name,
+                InstitutionId     : this.state.institutionId,
+                MediaUrl          : this.props.UploadedMedia.Url,
+                IntervalId        : this.state.dayInterval,
+                CampaignId        : this.state.campaigns,
+                TintColor         : parseInt(this.state.tintColor.replace('#',''),16)
             }
         }
         else
         {
             advertisement = {
-                ResourceName    : this.state.name,
-                InstitutionId   : this.state.institutionId,
-                MediaId         : this.state.media.Id,
-                IntervalId      : this.state.dayInterval,
-                CampaignId      : this.state.campaigns
+                ResourceName      : this.state.name,
+                InstitutionId     : this.state.institutionId,
+                MediaUrl          : this.state.media.Url,
+                IntervalId        : this.state.dayInterval,
+                CampaignId        : this.state.campaigns,
+                TintColor         : parseInt(this.state.tintColor.replace('#',''),16)
             }
         }
 
@@ -162,10 +154,10 @@ class Basic extends React.Component {
         
         // {this.state.submit && this.handleSubmit()} 
         return (
-            <div className="container-fluid">
+            <div className="container-fluid" style={{paddingLeft:"0px"}}>
                 <label>Create an advertisment that runs interactively on taxi screens, Complete the Basics tab then Create to add the advertisment or review each tab for full customization</label>
                 <br />
-                <Form onSubmit={e => this.handleSubmit(e)}>
+                <Form onSubmit={e => this.handleSubmit(e)} style={{marginBottom:'40px'}}>
                     <div className="row">
                         <div className="col-md-12">
 
@@ -189,7 +181,6 @@ class Basic extends React.Component {
                                 </div>
                             </div>
 
-                            
                             <div className="row form-group">
                                 <div className="col-md-12">
                                     <Label>Media</Label>
@@ -199,8 +190,7 @@ class Basic extends React.Component {
                                       aria-valuenow={this.props.onProgress}
                                       aria-valuemin="0"
                                       aria-valuemax="100"
-                                      style={{ width: this.props.onProgress + "%" }}
-                                    >
+                                      style={{ width: this.props.onProgress + "%" }}>
                                       {this.props.onProgress}%
                                     </div>
                                     </div>
@@ -214,17 +204,45 @@ class Basic extends React.Component {
                                 <div className="col-md-12">
                                     <Label>Campaigns</Label><br/>
                                     <select className="custom-select" multiple size="5" defaultValue={this.state.campaigns} name="campaigns" onChange={this.onChange}>
-                                        {this.props.Campaigns.map(campaign => (<option value={campaign.campaignId}>{campaign.title}</option>))}
+                                        {this.props.Campaigns.data?.map(campaign => (<option className="dropdown-item" value={campaign.campaignId}>{campaign.title}</option>))}
                                     </select>
+                                    <PageHandler page = {this.props.Campaigns?.page} getList={this.props.getCampaigns}/>
                                 </div>
                             </div>
 
                             <div className="row form-group">
                                 <div className="col-md-12">
+                                    <Label>Tint Color</Label><br />
+                                    <input type="color" name="tintColor"
+                                        value={this.state.tintColor}
+                                        onChange={this.onChange}
+                                        className="form-control"/>
+                                    <span className="form-error is-visible">{this.state.errorText}</span>
+                                </div>
+                            </div>
+
+                            {/* <div className="row form-group">
+                                <div className="col-md-12">
+                                    <Label>Inverted Tint Color</Label><br />
+                                    <input type="color" name="invertedTintColor"
+                                        value={this.state.invertedTintColor}
+                                        onChange={this.onChange}
+                                        className="form-control"/>
+                                    <span className="form-error is-visible">{this.state.errorText}</span>
+                                </div>
+                            </div> */}
+
+                            <div className="row form-group" style={{marginBottom:'40px'}}>
+                                <div className="col-md-12">
                                     <Label>Institution</Label><br />
-                                    <select defaultValue={this.state.institutionId } className="custom-select my-1 mr-sm-2" name="institutionId" onChange={this.onChange}>
-                                        {this.props.InstitutionList.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
+                                    <input type="text" name="institution"
+                                    value={this.state.institution ? this.state.institution.name : 'Please select a institution'}
+                                    onChange={this.onChange}
+                                    className="form-control" />
+                                    <select className="custom-select"  size='5' value={this.state.institutionId } name="institutionId" onChange={this.onChange}>
+                                        {this.state.institutions.data?.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
                                     </select>
+                                    <PageHandler page = {this.state.institutions.page} getList={this.props.getInstitutions}/>
                                 </div>
                             </div>
 
@@ -244,7 +262,7 @@ const mapStateToProps = (state) => {
     return {
         DayInterval      : [config.selectDayInterval, ...state.AdvertisementStore.DayIntervals],
         Campaigns        : state.AdvertisementStore.Campaigns,
-        InstitutionList  : [config.selectInstitution, ...state.InstitutionStore.Institutions],
+        InstitutionList  : state.InstitutionStore.Institutions,
         UploadedMedia    : state.AdvertisementStore.Media,
         onProgress       : state.AdvertisementStore.progress
     }

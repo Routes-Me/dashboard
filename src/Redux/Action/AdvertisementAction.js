@@ -1,13 +1,13 @@
 ﻿import { config } from '../../constants/config'
 import { advertisementsConstants } from '../../constants/advertisementConstants';
-import Resizer from 'react-image-file-resizer';
 import apiHandler from '../../util/request';
+import { uploadMediaIntoBlob, dataURLtoFile } from '../../util/blobStorage';
 
 
-export function getAdvertisements(institutionId, pageIndex) {
+export function getAdvertisements(pageIndex,limit,institutionId) {
     return dispatch => {
         dispatch(request())
-        apiHandler.get(buildURL('advertisements',1,true))
+        apiHandler.get(buildURL('advertisements',pageIndex,limit, true))
             .then(
                 response => { dispatch(success(returnFormatedAdvertisements(response))) },
                 error => { dispatch(failure(error)) }
@@ -18,21 +18,15 @@ export function getAdvertisements(institutionId, pageIndex) {
     function failure(error) { return { type: advertisementsConstants.getAdvertisements_ERROR, payload:error };}
 }
 
-const resizeFile = (file) => new Promise(resolve => {
-    Resizer.imageFileResizer(file, 160, 600, 'JPEG', 100, 0,
-        uri => {
-            resolve(uri);
-        }
-    );
-});
 
 
-export function getCampaigns() {
+
+export function getCampaigns(pageIndex,limit) {
     return dispatch => {
         dispatch(getCampaignRequest())
-        apiHandler.get('campaigns')
+        apiHandler.get(buildURL('campaigns',pageIndex,limit,false))
             .then(
-                response => { dispatch(getCampaignsSuccess(response.data.data)) },
+                response => { dispatch(getCampaignsSuccess(returnFormatedCampaigns(response))) },
                 error => { dispatch(getCampaignsFailure(error)) }
             )
     }
@@ -58,65 +52,35 @@ export function getDayIntervals() {
 
 
 
-function dataURLtoFile(dataurl, filename) {
-
-    var urlStr = dataurl + "";
-    var arr = urlStr.split(',');
-    var mime = arr[0].match(/:(.*?);/)[1];
-    var bstr = atob(arr[1]);
-    var n = bstr.length;
-    var u8arr = new Uint8Array(n);
-
-    while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
-    }
-
-    return new File([u8arr], filename, { type: mime });
-}
 
 
+export function uploadMedia(mediaURL) {
 
 
-export function uploadMedia(mediaFile, fileType) {
-
-
-    let file = mediaFile;
-    if (fileType==='image') {
-        file = dataURLtoFile(mediaFile, "compressedImageFile.jpg");
-    }
-
-
-    const formData = new FormData();
-    formData.append("media", file);
-    formData.append("MediaType",fileType);
-    formData.append("Size",file.size);
 
     return dispatch => {
-        dispatch(requestUpload);
-        
-        const options = {
-            onUploadProgress: (progressEvent) => {
-                const { loaded, total } = progressEvent;
-                let percent = Math.floor((loaded * 100) / total)
-                console.log(`${loaded}kb / ${total}kb | ${percent}%`);
-                dispatch(showProgress(percent))
-            }
-        };
 
-        try {
-            apiHandler.post('medias', formData, options).then(
-                response => {
-                    dispatch(uploadSuccessful(formatMediaResponse(response.data)));
-                    console.log(response);
-                },
-                error => {
-                    dispatch(uploadError(error));
-                }
-            )
+        dispatch(requestUpload);
+
+        const ext = mediaURL.substring(mediaURL.lastIndexOf('.'))
+        let media = '';
+
+        if(ext === '.mp4')
+        {
+            media ={
+                Type : 'mp4',
+                Url  : mediaURL
+            }
         }
-        catch (ex) {
-            console.log(ex);
+        else
+        {
+            media ={
+                Type : 'jpeg',
+                Url  : mediaURL
+            }
         }
+            dispatch(uploadSuccessful(media));
+        
         
     }
     function showProgress(progress) {return {type: advertisementsConstants.progressOnMediaUpload, payload: progress}}
@@ -179,14 +143,14 @@ export function onMediaInput(file) {
 
 
 
-function buildURL(entity, offset, include) {
+function buildURL(entity, pageIndex, limit, include) {
 
     let queryParameter =""
     if(include){
-      queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit+"&include=media,institution,campaign,interval";
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit+"&include=media,institution,campaign";
     }
     else{
-      queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit;
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit;
     }
     return queryParameter;
 
@@ -196,23 +160,44 @@ function buildURL(entity, offset, include) {
 function returnFormatedAdvertisements(response) {
 
     const AdvertisementList = response.data.data;
-    const InstitutionList   = response.data.included.institution;
-    const MediaList         = response.data.included.media;
-    const CampaignList      = response.data.included.campaign;
-    const IntervalList      = response.data.included.interval;
+    const InstitutionList   = response.data.included?.institution !== undefined ? response.data.included.institution:[];
+    const MediaList         = response.data.included?.media !== undefined ? response.data.included.media:[];
+    const CampaignList      = response.data.included?.campaign !== undefined ? response.data.included.campaign:[];
+
+    let advertisments = '';
+    
+    //const IntervalList      = response.data.included.interval;
 
     const FormatedAdvertisements = AdvertisementList?.map(x => ({
         id: x.advertisementId,
         resourceName: x.resourceName,
         createdAt: x.createdAt,
         campaigns: filterCampaignList(CampaignList, x.campaignId)[0],
-        institution: InstitutionList.filter(y => y.InstitutionId === x.institutionId)[0],
-        media: MediaList.filter(y => y.MediaId === x.mediaId)[0],
-        interval: IntervalList.filter(y=>y.IntervalId === x.intervalId)[0]
+        institution: InstitutionList.filter(y => y.institutionId === x.institutionId)[0],
+        media: MediaList.filter(y => y.mediaId === x.mediaId)[0],
+        intervalId:  x.intervalId,
+        tintColor: x.tintColor
     }))
 
-    return FormatedAdvertisements;
+    advertisments= {
+        data : FormatedAdvertisements,
+        page : response.data.pagination
+    }
+
+    return advertisments;
 }
+
+function returnFormatedCampaigns(response) {
+
+    let campaigns= {
+        data : response.data.data,
+        page : response.data.pagination
+    }
+
+    return campaigns;
+}
+
+
 
 
 function filterCampaignList(CampaignList, Campaigns)
@@ -221,7 +206,7 @@ function filterCampaignList(CampaignList, Campaigns)
   if( Campaigns !== null && CampaignList.length > 0)
   {
     for(var i=0; i<Campaigns.length; i++){
-        filteredList.push(CampaignList.filter(y => y.CampaignId===Campaigns[i]));
+        filteredList.push(CampaignList.filter(y => y.campaignId===Campaigns[i]));
     }
     return filteredList;
   }
@@ -232,7 +217,7 @@ function filterCampaignList(CampaignList, Campaigns)
   return filteredList;
 }
 
-export function addAdvertisement(advertisement) {
+export function addAdvertisement(advertisement, action) {
     return dispatch => {
         dispatch(addAdvertisementRequest())
         apiHandler.post('advertisements', advertisement)
@@ -243,7 +228,7 @@ export function addAdvertisement(advertisement) {
     }
     function addAdvertisementRequest() { return { type: advertisementsConstants.saveAdvertisements_REQUEST }; }
     function savedAdvertisement(advertisement) { return { type: advertisementsConstants.saveAdvertisements_SUCCESS, payload:advertisement }; }
-    function saveAdvertisementFailure(error) { return { type: advertisementsConstants.saveAdvertisements_ERROR, payload:error }; }
+    function saveAdvertisementFailure(error) { alert(error.response.data.title); return { type: advertisementsConstants.saveAdvertisements_ERROR, payload:error }; }
 }
 
 

@@ -4,35 +4,58 @@ import apiHandler from '../../util/request';
 
 //const SampleInsitutionsIdArgument = { "institutionIds": [{ "Id": 3 }] };
 
-function buildURL(entity, offset, include) {
+function buildURL(entity, pageIndex, limit, include) {
 
     let queryParameter =""
     if(include){
-      queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit+"&include=institutions,models";
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit+"&include=institutions,models";
     }
     else{
-      queryParameter=entity+"?offset="+offset+"&limit="+config.Pagelimit;
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit;
     }
     return queryParameter;
 
 }
 
+export function getVehicleDetails(vehicleId){
+  return dispatch => {
+    dispatch(vehicleDataRequest())
+
+    apiHandler.get(`vehicles/${vehicleId}?offset=1&limit=1&include=institutions,models`)
+      .then(
+      vehicle => {
+              dispatch(showVehicleDetails(returnFormatedVehicles(vehicle).data[0]));
+      },
+      error => {
+          alert(`getVehicleDetails ${error.toString()}`);
+      });
+
+  }
+}
+
+
+function showVehicleDetails(vehicle){
+  return { type: vehicleConstants.showVehicleDetail, payload : vehicle }
+}
+
+function showerror(error){
+  alert(`getVehicleDetails error ${error}`)
+}
+
 //Action to getVehicleList for Vehicles Component
-export function getVehiclesForInstitutionID(institutionId, pageIndex) {
+export function getVehiclesForInstitutionID(pageIndex,limit,institutionId) {
 
     return dispatch => {
-        dispatch(vehicleDataRequest());                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-        apiHandler.get(buildURL('vehicles',1,true))
-        .then(
-        vehicles => {
-                dispatch(storeVehicleData(returnFormatedVehicles(vehicles)));
-                //dispatch(UpdatePage(vehicles.pagination));
-        },
-        error => {
-            alert(`getVehicle ${error.toString()}`);
-        });
+      dispatch(vehicleDataRequest());                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+      apiHandler.get(buildURL('vehicles', pageIndex, limit, true))
+      .then(
+      vehicles => {
+              dispatch(storeVehicleData(returnFormatedVehicles(vehicles)));
+      },
+      error => {
+          alert(`getVehicle ${error.toString()}`);
+      });
     }
-
 }
 
 function vehicleDataRequest() { return { type: vehicleConstants.getInstitutions_REQUEST } }
@@ -44,7 +67,7 @@ export function getManufacturers(Token) {
     let pageIndex;
     return dispatch => {
         dispatch(MakesDataRequest());
-        apiHandler.get(buildURL('manufacturers',1,false))
+        apiHandler.get(buildURL('manufacturers',1, config.DropDownLimit, false))
         .then(
                 manufacturer =>{
                 dispatch(StoreMakesData([config.selectMake,...manufacturer.data.data]));
@@ -70,7 +93,6 @@ export function getModels(makeId) {
         .then(
                model => {
                         dispatch(storeModelData([config.selectModel,...model.data.data]));
-                        getVehiclesForInstitutionID();
                     },
                error => {
                         alert(`getModels ${error.toString()}`);
@@ -80,6 +102,24 @@ export function getModels(makeId) {
 
 function ModelDataRequest() { return { type: vehicleConstants.getModels_REQUEST } }
 function storeModelData(models) { return { type: vehicleConstants.getModels_SUCCESS, payload: models } }
+
+
+export function getDevicesForVehicleId(vehicleId){
+  return dispatch => {
+    dispatch(StoreDevicesRequest());
+    apiHandler.get(`vehicles/${vehicleId}/devices`)
+    .then(
+      devices => { 
+        dispatch(storeDevicesForVehicleId(devices.data.data))
+      },
+      error => {
+        alert(`getDevices : ${error.toString()}`)
+      }
+    )
+  }
+}
+function StoreDevicesRequest(){ return { type: vehicleConstants.getDevices_REQUEST} }
+function storeDevicesForVehicleId(devices) { return { type: vehicleConstants.getDevices_SUCCESS, payload: devices } }
 
 
 
@@ -131,7 +171,6 @@ export function deleteVehicle(vehicleId)
       apiHandler.delete(`vehicles/${vehicleId}`)
       .then(
         (vehicle) => {
-          getVehiclesForInstitutionID();
           dispatch(deleteVehicleSuccess(vehicle));
         },
         (error) => {
@@ -152,9 +191,7 @@ function deleteVehicleError(message) { return {type: vehicleConstants.deleteVehi
 
 function returnFormatedVehicles(response){
 
-    //const VehicleList = response.data.vehicles.filter(vehicle => vehicle.institutionId === 3);
     const VehicleList = response.data.data;
-    //console.log('Vehicle Action Array returned :', VehicleList);
     const InstitutionList = response.data.included.institutions;
     const ModelList = response.data.included.models;
 
@@ -168,7 +205,12 @@ function returnFormatedVehicles(response){
         modelYear: x.modelYear
     }))
 
-    return FormatedVehicle;
+    let vehicles= {
+      data : FormatedVehicle,
+      page : response.data.pagination
+    }
+  
+    return vehicles;
 }
 
 function filterObjecteList(objectList, elements)

@@ -7,7 +7,8 @@ const INITIAL_STATE = {
     error: null,
     MovedVehicle: "",
     IdleVehicles: [],
-    idForSelectedVehicle:0
+    idForSelectedVehicle:0,
+    SelectedVehicle:''
 };
 
 const TrackingReducer = (state = INITIAL_STATE, action ) => {
@@ -72,7 +73,11 @@ const TrackingReducer = (state = INITIAL_STATE, action ) => {
                 ...state,
                 idForSelectedVehicle: action.payload
             };
-
+        case trackingConstants.Tracking_SelectedVehicle:
+            return {
+                ...state,
+                SelectedVehicle: action.payload
+            };
         default:
             return state;
     }
