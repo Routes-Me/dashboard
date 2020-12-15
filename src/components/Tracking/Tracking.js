@@ -1,8 +1,11 @@
 ﻿import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as TrackingAction from '../../Redux/Action';
-import GoogleMapReact from 'google-map-react';
-//import GoogleMap from 'google-map-react';
+// import GoogleMapReact from 'google-map-react';
+
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 
 import ClusterMarker from '../markers/ClusterMarker';
 import SimpleMarker from '../markers/SimpleMarker';
@@ -283,6 +286,8 @@ class Tracking extends Component {
 
     render() {
 
+
+        const position = [29.378586, 47.990341]
         //const { results } = this.props;
         const { center } = this.state.center;
         const { clusters, selectedId } = this.state;
@@ -302,63 +307,41 @@ class Tracking extends Component {
                     debounce={250}
                     timeout={this.state.timeout} />
 
-                <div className='activeCount'>
-                <h4 style={{margin:'10px'}}>{this.state.activeCount}</h4>
-                </div>
-                <div className='idleCount'>
-                <h4 style={{margin:'10px'}}>{idleVehicleCount > 0 ? idleVehicleCount : 0}</h4>
-                </div>
-
-                <GoogleMapReact
-                    bootstrapURLKeys={{ key: 'AIzaSyAQQUPe-GBmzqn0f8sb_8xZNcseul1N0yU' }}
-                    defaultZoom={MAP.defaultZoom}
-                    defaultCenter={MAP.defaultCenter}
-                    options={MAP.options}
-                    onChange={this.handleMapChange}
-                    onChildClick={this.onChildClick}
-                    onCenterChanged={this._handleCenterChanged.bind(this)}
-                    onZoomChanged={this._handleZoomChanged.bind(this)}
-                    yesIWantToUseGoogleMapApiInternals>
-                    {
-                        vehicles.map(point =>(
-                            <SimpleMarker
-                                    style={this.markerStyleName(point.status, false, point.id === this.props.idForSelectedVehicle)}
-                                    key={point.id}
-                                    text={point.id}
-                                    lat={point.coordinates.lat}
-                                    lng={point.coordinates.lng} />
-                        ))
-                        
-                        
-                        // clusters.map((cluster, index) => {
-                        //     if (cluster.numPoints === 1)
-                        //     {
-                        //         const isSelected = cluster.points[0].id === parseInt(this.props.idForSelectedVehicle)
-                        //         return <SimpleMarker
-                        //             style={this.markerStyleName(cluster.points[0].status, false, isSelected )}
-                        //             key={cluster.points[0].id}
-                        //             text={cluster.points[0].id}
-                        //             lat={cluster.points[0].lat}
-                        //             lng={cluster.points[0].lng} />
-                        //     }
-                        //     else
-                        //     {
-                        //         const isIdle = cluster.points.filter(point => point.status === trackingConstants.IdleState).length >= cluster.points.filter(point => point.status === trackingConstants.ActiveState).length
-                        //         const status = isIdle ? trackingConstants.IdleState : trackingConstants.ActiveState
-                        //         return <ClusterMarker
-                        //             styles={this.markerStyleName(status, true, false)}
-                        //             key={cluster.id}
-                        //             lat={cluster.lat}
-                        //             lng={cluster.lng}
-                        //             text={cluster.numPoints}
-                        //             points={cluster.points} />
-                        //     }
-                        // })
-                        
-                    }
-                </GoogleMapReact>
                 
+
+                <MapContainer center={position} zoom={13} scrollWheelZoom={true} style={{width:'100%', height:'100%'}}>
+                    <div className='activeCount'>
+                    <h4 style={{margin:'10px'}}>{this.state.activeCount}</h4>
+                    </div>
+                    <div className='idleCount'>
+                    <h4 style={{margin:'10px'}}>{idleVehicleCount > 0 ? idleVehicleCount : 0}</h4>
+                    </div>
+                    <TileLayer
+                      attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+
+                    
+
+                    {vehicles.map(point =>(
+                            <Marker 
+                                key={point.id}
+                                position={[point.coordinates.lat,point.coordinates.lng]}
+                                onClick={() => {}}>
+                            <Popup>{point.id}</Popup>
+                            </Marker>
+                            // <SimpleMarker
+                            //         style={this.markerStyleName(point.status, false, point.id === this.props.idForSelectedVehicle)}
+                            //         key={point.id}
+                            //         text={point.id}
+                            //         lat={point.coordinates.lat}
+                            //         lng={point.coordinates.lng} />
+                            
+                        ))}
+                    
+                </MapContainer>
             </div>
+
+            
             )
        
     }

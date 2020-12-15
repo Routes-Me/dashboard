@@ -29,7 +29,7 @@ export function InitializeHub(token){
     return dispatch => {
     
         hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl("http://vmtproject.uaenorth.cloudapp.azure.com:5002/trackServiceHub",
+        .withUrl("http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub",
         {
             accessTokenFactory:() => getAccessToken(token)
         })
