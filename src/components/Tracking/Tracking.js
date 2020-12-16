@@ -1,8 +1,17 @@
 ﻿import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as TrackingAction from '../../Redux/Action';
-import GoogleMapReact from 'google-map-react';
-//import GoogleMap from 'google-map-react';
+// import GoogleMapReact from 'google-map-react';
+
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+import activeMarker from '../../images/active-marker.svg';
+import selectedMarker from '../../images/idle-marker.svg';
+
+
 
 import ClusterMarker from '../markers/ClusterMarker';
 import SimpleMarker from '../markers/SimpleMarker';
@@ -190,48 +199,13 @@ class Tracking extends Component {
 
     }
 
-    //marker Hovering 
-    onChildMouseEnter = (num, childProps) => {
-
-        if (childProps.vehicle_id === undefined) {
-            return null
-        } else {
-            this.setState({
-                Name: childProps.vehicle_id,
-                lat: childProps.coordinates.latitude,
-                lng: childProps.coordinates.longitude,
-                hover: true
-            })
-            this.props.UpdateTheSelectedMarker(num);
-            console.log('Hovered id :', this.state.selectedId)
-        }
-
-    }
-
-    //marker Hovering 
-    onChildMouseLeave = (num, childProps) => {
-
-        console.log("leaving")
-        if (childProps.vehicle_id === undefined) {
-            return null
-        } else {
-
-            this.setState({
-                lat: "",
-                lng: "",
-                hover: false
-            })
-        }
-
-    }
 
     //marker click
-    onChildClick = (num, childProps) => {
-        console.log('Clicked Vehicle Id ==>', num)
-        if (num === undefined) {
+    onChildClick = (point) => {
+        if (point.id === undefined) {
             return null
         } else {
-            let i = this.state.vehicles.findIndex(vehicle=> vehicle.id === num);
+            let i = this.state.vehicles.findIndex(vehicle=> vehicle.id === point.id);
             if(i>0){
                 this.props.UpdateVehicle(this.state.vehicles[i])
             }
@@ -239,30 +213,14 @@ class Tracking extends Component {
                 this.props.UpdateVehicle('')
             }
             this.setState({
-                latitude: childProps.lat,
-                longitude: childProps.lng,
+                latitude: point.coordinates.lat,
+                longitude: point.coordinates.lng,
                 hover: true,
-                selectedId: num
+                selectedId: point.id
             });
 
-            this.props.UpdateTheSelectedMarker(this.props.idForSelectedVehicle === num ? 0 : num);
-            //this.props.onCenterChange([childProps.lat, childProps.lng]);
-            //console.log('selected id :', this.state.selectedId);
+            this.props.UpdateTheSelectedMarker(this.props.idForSelectedVehicle === point.id ? 0 : point.id);
 
-        }
-    }
-
-    _handleZoomChanged() {
-        const zoomLevel = this.refs.map.getZoom();
-        if (zoomLevel !== this.state.zoomLevel) {
-            this.setState({ zoomLevel });
-        }
-    }
-
-    _handleCenterChanged() {
-        const center = this.refs.map.getCenter();
-        if (!center.equals(this.state.center)) {
-            this.setState({ center });
         }
     }
     
@@ -283,12 +241,38 @@ class Tracking extends Component {
 
     render() {
 
+
+        const position = [29.378586, 47.990341]
+        let activeIcon = L.icon({
+            iconUrl: activeMarker,
+            iconSize: [25,25]
+        });
+
+        let idleIcon = L.icon({
+            iconUrl :selectedMarker,
+            iconSize: [30,30]
+        })
+
+        function getIcon(id){
+
+            if(this.props.idForSelectedVehicle!== ''){
+                if(id===this.props.idForSelectedVehicle)
+                return idleIcon;
+                else
+                return activeIcon;
+            }
+            else{
+                return activeIcon;
+            }
+
+        }
+
+        //L.Marker.prototype.options.icon = activeIcon;
+
         //const { results } = this.props;
         const { center } = this.state.center;
         const { clusters, selectedId } = this.state;
         const vehicles = this.state.vehicles;
-        //console.log("Render Body", clusters)
-        //console.log("Rendered Count on result", results.length);
         const idleVehicleCount = this.props.VehicleList.page?.total - this.state.activeCount
         return (
             <div className="mpas-tracking" style={{ height: "100vh", width: "100%" }}>
@@ -302,63 +286,46 @@ class Tracking extends Component {
                     debounce={250}
                     timeout={this.state.timeout} />
 
-                <div className='activeCount'>
-                <h4 style={{margin:'10px'}}>{this.state.activeCount}</h4>
-                </div>
-                <div className='idleCount'>
-                <h4 style={{margin:'10px'}}>{idleVehicleCount > 0 ? idleVehicleCount : 0}</h4>
-                </div>
-
-                <GoogleMapReact
-                    bootstrapURLKeys={{ key: 'AIzaSyAQQUPe-GBmzqn0f8sb_8xZNcseul1N0yU' }}
-                    defaultZoom={MAP.defaultZoom}
-                    defaultCenter={MAP.defaultCenter}
-                    options={MAP.options}
-                    onChange={this.handleMapChange}
-                    onChildClick={this.onChildClick}
-                    onCenterChanged={this._handleCenterChanged.bind(this)}
-                    onZoomChanged={this._handleZoomChanged.bind(this)}
-                    yesIWantToUseGoogleMapApiInternals>
-                    {
-                        vehicles.map(point =>(
-                            <SimpleMarker
-                                    style={this.markerStyleName(point.status, false, point.id === this.props.idForSelectedVehicle)}
-                                    key={point.id}
-                                    text={point.id}
-                                    lat={point.coordinates.lat}
-                                    lng={point.coordinates.lng} />
-                        ))
-                        
-                        
-                        // clusters.map((cluster, index) => {
-                        //     if (cluster.numPoints === 1)
-                        //     {
-                        //         const isSelected = cluster.points[0].id === parseInt(this.props.idForSelectedVehicle)
-                        //         return <SimpleMarker
-                        //             style={this.markerStyleName(cluster.points[0].status, false, isSelected )}
-                        //             key={cluster.points[0].id}
-                        //             text={cluster.points[0].id}
-                        //             lat={cluster.points[0].lat}
-                        //             lng={cluster.points[0].lng} />
-                        //     }
-                        //     else
-                        //     {
-                        //         const isIdle = cluster.points.filter(point => point.status === trackingConstants.IdleState).length >= cluster.points.filter(point => point.status === trackingConstants.ActiveState).length
-                        //         const status = isIdle ? trackingConstants.IdleState : trackingConstants.ActiveState
-                        //         return <ClusterMarker
-                        //             styles={this.markerStyleName(status, true, false)}
-                        //             key={cluster.id}
-                        //             lat={cluster.lat}
-                        //             lng={cluster.lng}
-                        //             text={cluster.numPoints}
-                        //             points={cluster.points} />
-                        //     }
-                        // })
-                        
-                    }
-                </GoogleMapReact>
                 
+
+                <MapContainer center={position} zoom={13} scrollWheelZoom={true} style={{width:'100%', height:'100%'}}>
+                    <div className='activeCount'>
+                    <h4 style={{margin:'10px'}}>{this.state.activeCount}</h4>
+                    </div>
+                    <div className='idleCount'>
+                    <h4 style={{margin:'10px'}}>{idleVehicleCount > 0 ? idleVehicleCount : 0}</h4>
+                    </div>
+                    <TileLayer
+                      attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+
+                    
+
+                    {vehicles.map(point =>(
+
+                            <Marker 
+                                icon={activeIcon}
+                                key={point.id}
+                                position={[point.coordinates.lat,point.coordinates.lng]}
+                                eventHandlers={{
+                                    click: () => {
+                                      this.onChildClick(point)
+                                    },}}>
+                            </Marker>
+
+                            // <SimpleMarker
+                            //         style={this.markerStyleName(point.status, false, point.id === this.props.idForSelectedVehicle)}
+                            //         key={point.id}
+                            //         text={point.id}
+                            //         lat={point.coordinates.lat}
+                            //         lng={point.coordinates.lng} />
+
+                    ))}
+
+                </MapContainer>
             </div>
+
+            
             )
        
     }
@@ -375,7 +342,7 @@ const mapStateToProps = (state) => {
     //console.log('Mapped State Array returned :', points);
     return {
         //result: points,
-        VehicleList: state.VehicleStore.Vehicles,
+        VehicleList: state.Tracking.IdleVehicles,//state.VehicleStore.Vehicles,
         idForSelectedVehicle: state.Tracking.idForSelectedVehicle,
         movedVehicle : state.Tracking.MovedVehicle,
         token : state.Login.token,

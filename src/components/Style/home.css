@@ -176,17 +176,17 @@ form {
 
 .activeCount {
     position: absolute; 
-    z-index: 3;
+    z-index: 1000;
     float: right;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
     color: #375a9b;
     margin-top: 10px;
-    margin-right: 90px;
+    margin-right: 80px;
     padding: 0px;
     border-radius: 2px;
     height: 40px;
-    width: 40px;
+    width: 60px;
     top: 0px;
     right: 0px;
     text-align: center;
@@ -195,17 +195,17 @@ form {
 
 .idleCount {
     position: absolute; 
-    z-index: 3;
+    z-index: 1000;
     float: right;
     background-color: white;
     box-shadow: rgba(0, 0, 0, 0.3) 0px 1px 4px -1px;
     color: #6f737b;
     margin-top: 10px;
-    margin-right: 50px;
+    margin-right: 10px;
     padding: 0px;
     border-radius: 2px;
     height: 40px;
-    width: 40px;
+    width: 60px;
     top: 0px;
     right: 0px;
     text-align: center;
