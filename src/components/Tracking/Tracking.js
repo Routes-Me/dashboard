@@ -8,6 +8,8 @@ import L from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+import activeMarker from '../../images/active-marker.svg';
+import selectedMarker from '../../images/idle-marker.svg';
 
 
 
@@ -241,18 +243,36 @@ class Tracking extends Component {
 
 
         const position = [29.378586, 47.990341]
-        let DefaultIcon = L.icon({
-            iconUrl: icon,
-            shadowUrl: iconShadow
+        let activeIcon = L.icon({
+            iconUrl: activeMarker,
+            iconSize: [25,25]
         });
-        L.Marker.prototype.options.icon = DefaultIcon;
+
+        let idleIcon = L.icon({
+            iconUrl :selectedMarker,
+            iconSize: [30,30]
+        })
+
+        function getIcon(id){
+
+            if(this.props.idForSelectedVehicle!== ''){
+                if(id===this.props.idForSelectedVehicle)
+                return idleIcon;
+                else
+                return activeIcon;
+            }
+            else{
+                return activeIcon;
+            }
+
+        }
+
+        //L.Marker.prototype.options.icon = activeIcon;
 
         //const { results } = this.props;
         const { center } = this.state.center;
         const { clusters, selectedId } = this.state;
         const vehicles = this.state.vehicles;
-        //console.log("Render Body", clusters)
-        //console.log("Rendered Count on result", results.length);
         const idleVehicleCount = this.props.VehicleList.page?.total - this.state.activeCount
         return (
             <div className="mpas-tracking" style={{ height: "100vh", width: "100%" }}>
@@ -282,20 +302,25 @@ class Tracking extends Component {
                     
 
                     {vehicles.map(point =>(
+
                             <Marker 
+                                icon={activeIcon}
                                 key={point.id}
                                 position={[point.coordinates.lat,point.coordinates.lng]}
-                                onClick={() => {this.onChildClick(point)}}>
-                            <Popup>{point.id}</Popup>
+                                eventHandlers={{
+                                    click: () => {
+                                      this.onChildClick(point)
+                                    },}}>
                             </Marker>
+
                             // <SimpleMarker
                             //         style={this.markerStyleName(point.status, false, point.id === this.props.idForSelectedVehicle)}
                             //         key={point.id}
                             //         text={point.id}
                             //         lat={point.coordinates.lat}
                             //         lng={point.coordinates.lng} />
-                            
-                        ))}
+
+                    ))}
 
                 </MapContainer>
             </div>
@@ -317,7 +342,7 @@ const mapStateToProps = (state) => {
     //console.log('Mapped State Array returned :', points);
     return {
         //result: points,
-        VehicleList: state.VehicleStore.Vehicles,
+        VehicleList: state.Tracking.IdleVehicles,//state.VehicleStore.Vehicles,
         idForSelectedVehicle: state.Tracking.idForSelectedVehicle,
         movedVehicle : state.Tracking.MovedVehicle,
         token : state.Login.token,

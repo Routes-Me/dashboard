@@ -127,7 +127,7 @@ export function UnsubscribeFromHub() {
 }
 
 
-export function getOfflineData(Token) {
+export function getOfflineData() {
 
     return dispatch => {
         dispatch(OfflineDataRequest());
@@ -164,7 +164,12 @@ function returnFormatedVehicles(response){
         modelYear: x.modelYear
     }))
 
-    return FormatedVehicle;
+    let vehicles= {
+        data : FormatedVehicle,
+        page : response.data.pagination
+      }
+
+    return vehicles;
 }
 
 
