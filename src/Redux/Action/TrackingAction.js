@@ -29,7 +29,7 @@ export function InitializeHub(token){
     return dispatch => {
     
         hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl("http://vmtproject.uaenorth.cloudapp.azure.com:5002/trackServiceHub",
+        .withUrl("http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub",
         {
             accessTokenFactory:() => getAccessToken(token)
         })
@@ -64,9 +64,9 @@ export function SubscribeToHub(user) {
                 .catch(err => console.error("Error while establishing connection : " + err));
         }
 
-        hubConnection.invoke('Subscribe',user.InstitutionId,null,null).catch(function(err) {
-            console.log('unable to subscribe to institution => '+err)
-        })
+        // hubConnection.invoke('Subscribe',user.InstitutionId,null,null).catch(function(err) {
+        //     console.log('unable to subscribe to institution => '+err)
+        // })
 
             setInterval(() => {
                 CheckConnectivity()
@@ -127,7 +127,7 @@ export function UnsubscribeFromHub() {
 }
 
 
-export function getOfflineData(Token) {
+export function getOfflineData() {
 
     return dispatch => {
         dispatch(OfflineDataRequest());
@@ -164,7 +164,12 @@ function returnFormatedVehicles(response){
         modelYear: x.modelYear
     }))
 
-    return FormatedVehicle;
+    let vehicles= {
+        data : FormatedVehicle,
+        page : response.data.pagination
+      }
+
+    return vehicles;
 }
 
 
