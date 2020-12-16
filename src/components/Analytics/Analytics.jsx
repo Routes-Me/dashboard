@@ -4,16 +4,17 @@ import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recha
 function Analytics(advertisementList) {
 
 
-    const data =  advertisementList.advertisementList.data?.map( x => ({name: x.resourceName, iOS: 0, Android: 0, amt: 0}));
-//     [
-//         {name: 'Mcdonalds', iOS: 4000, Android: 2400, amt: 2400},
-//         {name: 'KFC', iOS: 3000, Android: 1398, amt: 2210},
-//         {name: 'Routes', iOS: 2000, Android: 9800, amt: 2290},
-//         {name: 'CityCenter', iOS: 2780, Android: 3908, amt: 2000},
-//         {name: 'XCite', iOS: 1890, Android: 4800, amt: 2181},
-//         {name: 'NBK', iOS: 2390, Android: 3800, amt: 2500},
-//         {name: 'Alghanim', iOS: 3490, Android: 4300, amt: 2100},
-//   ];
+    const data =  
+    [
+        {name: 'McDonalds',         iOS: 4,    Android: 0,    web: 2},
+        {name: 'Center Point',      iOS: 2,    Android: 1,    web: 0},
+        {name: 'Huawei',            iOS: 1,    Android: 0,    web: 0},
+        {name: 'KFC',               iOS: 1,    Android: 0,    web: 0},
+        {name: 'Xcite',             iOS: 1,    Android: 0,    web: 0},
+        {name: 'Zain',              iOS: 1,    Android: 2,    web: 0},
+        {name: 'Best',              iOS: 1,    Android: 0,    web: 0},
+        {name: 'City Center',       iOS: 1,    Android: 0,    web: 0},
+    ];
 
     return (
 
@@ -35,6 +36,7 @@ function Analytics(advertisementList) {
                          <Legend />
                          <Bar dataKey="Android" stackId="a" fill="#a4c639" barSize={30}/>
                          <Bar dataKey="iOS" stackId="a" fill="#a2aaad" barSize={30}/>
+                         <Bar dataKey='web' stackId='a' fill='#375a9b' barSize={30}/>
                         </BarChart>
                     </div>
                 </div>
