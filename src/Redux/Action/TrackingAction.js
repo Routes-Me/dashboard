@@ -64,9 +64,9 @@ export function SubscribeToHub(user) {
                 .catch(err => console.error("Error while establishing connection : " + err));
         }
 
-        hubConnection.invoke('Subscribe',user.InstitutionId,null,null).catch(function(err) {
-            console.log('unable to subscribe to institution => '+err)
-        })
+        // hubConnection.invoke('Subscribe',user.InstitutionId,null,null).catch(function(err) {
+        //     console.log('unable to subscribe to institution => '+err)
+        // })
 
             setInterval(() => {
                 CheckConnectivity()
