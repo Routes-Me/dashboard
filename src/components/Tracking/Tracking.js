@@ -6,6 +6,10 @@ import * as TrackingAction from '../../Redux/Action';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+
+
 
 import ClusterMarker from '../markers/ClusterMarker';
 import SimpleMarker from '../markers/SimpleMarker';
@@ -193,48 +197,13 @@ class Tracking extends Component {
 
     }
 
-    //marker Hovering 
-    onChildMouseEnter = (num, childProps) => {
-
-        if (childProps.vehicle_id === undefined) {
-            return null
-        } else {
-            this.setState({
-                Name: childProps.vehicle_id,
-                lat: childProps.coordinates.latitude,
-                lng: childProps.coordinates.longitude,
-                hover: true
-            })
-            this.props.UpdateTheSelectedMarker(num);
-            console.log('Hovered id :', this.state.selectedId)
-        }
-
-    }
-
-    //marker Hovering 
-    onChildMouseLeave = (num, childProps) => {
-
-        console.log("leaving")
-        if (childProps.vehicle_id === undefined) {
-            return null
-        } else {
-
-            this.setState({
-                lat: "",
-                lng: "",
-                hover: false
-            })
-        }
-
-    }
 
     //marker click
-    onChildClick = (num, childProps) => {
-        console.log('Clicked Vehicle Id ==>', num)
-        if (num === undefined) {
+    onChildClick = (point) => {
+        if (point.id === undefined) {
             return null
         } else {
-            let i = this.state.vehicles.findIndex(vehicle=> vehicle.id === num);
+            let i = this.state.vehicles.findIndex(vehicle=> vehicle.id === point.id);
             if(i>0){
                 this.props.UpdateVehicle(this.state.vehicles[i])
             }
@@ -242,30 +211,14 @@ class Tracking extends Component {
                 this.props.UpdateVehicle('')
             }
             this.setState({
-                latitude: childProps.lat,
-                longitude: childProps.lng,
+                latitude: point.coordinates.lat,
+                longitude: point.coordinates.lng,
                 hover: true,
-                selectedId: num
+                selectedId: point.id
             });
 
-            this.props.UpdateTheSelectedMarker(this.props.idForSelectedVehicle === num ? 0 : num);
-            //this.props.onCenterChange([childProps.lat, childProps.lng]);
-            //console.log('selected id :', this.state.selectedId);
+            this.props.UpdateTheSelectedMarker(this.props.idForSelectedVehicle === point.id ? 0 : point.id);
 
-        }
-    }
-
-    _handleZoomChanged() {
-        const zoomLevel = this.refs.map.getZoom();
-        if (zoomLevel !== this.state.zoomLevel) {
-            this.setState({ zoomLevel });
-        }
-    }
-
-    _handleCenterChanged() {
-        const center = this.refs.map.getCenter();
-        if (!center.equals(this.state.center)) {
-            this.setState({ center });
         }
     }
     
@@ -288,6 +241,12 @@ class Tracking extends Component {
 
 
         const position = [29.378586, 47.990341]
+        let DefaultIcon = L.icon({
+            iconUrl: icon,
+            shadowUrl: iconShadow
+        });
+        L.Marker.prototype.options.icon = DefaultIcon;
+
         //const { results } = this.props;
         const { center } = this.state.center;
         const { clusters, selectedId } = this.state;
@@ -326,7 +285,7 @@ class Tracking extends Component {
                             <Marker 
                                 key={point.id}
                                 position={[point.coordinates.lat,point.coordinates.lng]}
-                                onClick={() => {}}>
+                                onClick={() => {this.onChildClick(point)}}>
                             <Popup>{point.id}</Popup>
                             </Marker>
                             // <SimpleMarker
@@ -337,7 +296,7 @@ class Tracking extends Component {
                             //         lng={point.coordinates.lng} />
                             
                         ))}
-                    
+
                 </MapContainer>
             </div>
 
