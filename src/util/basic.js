@@ -27,3 +27,13 @@ export function returnObjectForSelectedId(list, id){
     }
     return obj;
 }
+
+export function returnEntityForInstitution(entity,institutionId)
+{
+    if(institutionId !== undefined)
+    {
+        return institutionId !== '' && institutionId === `1580030173`?  entity : `institutions/${institutionId}/${entity}`;
+    }
+    return entity;
+
+}

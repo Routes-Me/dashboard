@@ -27,7 +27,7 @@ class Vehicles extends Component {
     }
 
     componentDidMount() {
-        this.props.getVehiclesForInstitution(1,config.Pagelimit);
+        this.props.getVehiclesForInstitution(1,config.Pagelimit,this.props.user.InstitutionId,this.props.token);
     }
 
 
@@ -174,6 +174,8 @@ const mapStateToProps = (state) => {
 
     return {
         VehicleList: state.VehicleStore.Vehicles,
+        user: state.Login.user,
+        token : state.Login.token,
         ApplicationState: state.VehicleStore.ActionState
     }
 

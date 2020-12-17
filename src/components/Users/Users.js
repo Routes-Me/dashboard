@@ -25,7 +25,7 @@ class Users extends Component {
 
     //Load Data
     componentDidMount() {
-        this.props.getUsersList(1, config.Pagelimit);
+        this.props.getUsersList(1, config.Pagelimit,this.props.user.InstitutionId);
     }
 
     //Handle SubMenu Toggle for the Table
@@ -158,6 +158,7 @@ const mapStateToProps = (state) => {
 
     return {
         UsersList: state.UserStore.Users,
+        user: state.Login.user,
         ApplicationState: state.UserStore.ActionState
     }
 

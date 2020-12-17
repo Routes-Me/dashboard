@@ -44,7 +44,7 @@ export const config = {
             },
             {
                 "roleId":2,
-                "navItems":["Tracking","Users","Vehicles"]
+                "navItems":["Tracking","Vehicles"]
             }
         ]
     },
