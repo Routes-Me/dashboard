@@ -46,44 +46,22 @@ function showerror(error){
   alert(`getVehicleDetails error ${error}`)
 }
 
-export function getVehiclesForInstitutionID(pageIndex,limit,institutionId,token) {
 
-  let url = buildURL('vehicles', pageIndex, limit, false, institutionId);
 
-  let vehicleTempDomain = `http://vmtproject.uaenorth.cloudapp.azure.com:92/api/${url}`;
-
-  return dispatch => {
-    dispatch(vehicleDataRequest());                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-    axios.get(vehicleTempDomain,
-    {headers : {
-      'Authorization': 'Bearer ' + token,
-      'Content-Type' : 'application/json; charset=utf-8'
-    }})
-    .then(
+//Toggled for configuration issue
+export function getVehiclesForInstitutionID(pageIndex,limit,institutionId) {
+    return dispatch => {
+      dispatch(vehicleDataRequest());                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+      apiHandler.get(buildURL('vehicles', pageIndex, limit, true, institutionId))
+      .then(
       vehicles => {
               dispatch(storeVehicleData(returnFormatedVehicles(vehicles)));
       },
       error => {
           alert(`getVehicle ${error.toString()}`);
       });
-  }
+    }
 }
-
-//Toggled for configuration issue
-// export function getVehiclesForInstitutionID(pageIndex,limit,institutionId) {
-
-//     return dispatch => {
-//       dispatch(vehicleDataRequest());                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-//       apiHandler.get(buildURL('vehicles', pageIndex, limit, true, institutionId))
-//       .then(
-//       vehicles => {
-//               dispatch(storeVehicleData(returnFormatedVehicles(vehicles)));
-//       },
-//       error => {
-//           alert(`getVehicle ${error.toString()}`);
-//       });
-//     }
-// }
 
 function vehicleDataRequest() { return { type: vehicleConstants.getInstitutions_REQUEST } }
 function storeVehicleData(vehicles) { return { type: vehicleConstants.getVehicles_SUCCESS, payload: vehicles } }

@@ -44,14 +44,14 @@ export const config = {
             },
             {
                 "roleId":2,
-                "navItems":["Tracking","Vehicles"]
+                "navItems":["Tracking","Users","Vehicles"]
             }
         ]
     },
 
-    Domain:'http://api.routesme.com/api/',
+    //Domain:'http://api.routesme.com/api/',
 
-    //Domain:'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/',
+    Domain:'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/',
 
     Pagelimit : 20,
     DropDownLimit : 5
