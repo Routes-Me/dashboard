@@ -45,5 +45,6 @@
 
     limit: 10,
 
-    Domain:'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/' 
+    Domain: "http://api.routesme.com/api/"
+    // Domain:'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/' 
 };
