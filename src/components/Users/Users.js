@@ -3,7 +3,9 @@ import Detail from '../Detail/Detail';
 import { connect } from 'react-redux';
 import { userConstants } from '../../constants/userConstants';
 import * as UserAction from '../../Redux/Action';
+import PageHandler from '../PageHandler';
 import '../Detail/Detail.css';
+import { config } from '../../constants/config';
 
 class Users extends Component {
 
@@ -12,8 +14,6 @@ class Users extends Component {
 
         this.state = {
             usersList: [],
-            loading: true,
-            failed: false,
             error: '',
             activePage: 1,
             showDetails: false,
@@ -25,12 +25,7 @@ class Users extends Component {
 
     //Load Data
     componentDidMount() {
-        this.props.getUsersList();
-    }
-
-    //Handle Page selection
-    handlePageChange(pageNumber) {
-        this.setState({ activePage: pageNumber });
+        this.props.getUsersList(1, config.Pagelimit,this.props.user.InstitutionId);
     }
 
     //Handle SubMenu Toggle for the Table
@@ -50,15 +45,29 @@ class Users extends Component {
         })
     }
 
-    //Delete Institution
+    //Delete user
+    deleteUser = (e, userId) => {
+        e.preventDefault();
+        this.props.deleteUser(userId);
+    }
 
-
+    static getDerivedStateFromProps (props, state){
+        if(state.showDetails){
+            if(props.ApplicationState === userConstants.saveUsers_SUCCESS)
+            {
+                props.getUsersList(1,config.Pagelimit);
+                return {showDetails : false}
+            }
+        }
+        return null;
+    }
 
     //Load Institution in a table 
     showUsersList(usersList) {
         return (
-            <div className="table-list-vehicles">
-                <div className="table">
+            <div>
+            <PageHandler page = {usersList.page} getList={this.props.getUsersList} style='header'/>
+            <div className="table-list padding-lr-80">
                     <table>
                         <thead>
                             <tr>
@@ -66,29 +75,29 @@ class Users extends Component {
                                 <th>NAME</th>
                                 <th>EMAIL</th>
                                 <th>PHONE</th>
-                                <th>ROLE</th>
-                                <th className="width44" />
+                                <th>CREATED AT</th>
+                                <th className="width20"/>
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                usersList.map(user => (
+                                usersList.data?.map(user => (
                                     <tr key={user.userId}>
-                                        <td>{user.userId}</td>
-                                        <td>{user.name}</td>
-                                        <td>{user.email}</td>
-                                        <td>{user.phone}</td>
-                                        <td>{user.createdAt}</td>
-                                        <td className="width44" >
-                                            <div className="edit-popup">
-                                                <div className="edit-delet-butt" onClick={e => this.openSubMenuForUserId(e, user.userId)}>
-                                                    <span />
-                                                    <span />
-                                                    <span />
-                                                </div>
+                                    <td>{user.userId}</td>
+                                    <td>{user.name}</td>
+                                    <td>{user.email}</td>
+                                    <td>{user.phone}</td>
+                                    <td>{user.createdAt}</td>
+                                    <td className="width20" >
+                                        <div className="edit-popup">
+                                            <div className="edit-delet-butt" onClick={e => this.openSubMenuForUserId(e, user.userId)}>
+                                                <span />
+                                                <span />
+                                                <span />
+                                            </div>
                                                 <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === user.userId ? 'inline-block' : 'none' }}>
                                                     <li><a onClick={e => this.showDetailScreen(e, user)}>Edit</a></li>
-                                                    <li><a>Delete</a></li>
+                                                    <li><a onClick={e=> this.deleteUser(e, user.userId)}>Delete</a></li>
                                                 </ul>
                                             </div>
                                         </td>
@@ -97,7 +106,7 @@ class Users extends Component {
                             }
                         </tbody>
                     </table>
-                </div>
+            </div>
             </div>
         )
     }
@@ -146,10 +155,11 @@ class Users extends Component {
 
 const mapStateToProps = (state) => {
 
-    const Users = state.UserStore.Users;
 
     return {
-        UsersList: Users
+        UsersList: state.UserStore.Users,
+        user: state.Login.user,
+        ApplicationState: state.UserStore.ActionState
     }
 
 }
@@ -157,7 +167,8 @@ const mapStateToProps = (state) => {
 
 //Create Redux for Users
 const actionCreators = {
-    getUsersList: UserAction.getUsers
+    getUsersList: UserAction.getUsers,
+    deleteUser: UserAction.deleteUser
 };
 
 const connectedUsers = connect(mapStateToProps, actionCreators)(Users);

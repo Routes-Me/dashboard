@@ -1,28 +1,44 @@
 ﻿import { institutionConstants } from '../../constants/institutionConstants';
 
 const INITIAL_STATE = {
-    Institutions: [],
+    Institutions: '',
     Services: [],
     Page: "",
     Loading: true,
     hasError: false,
-    error: null
+    error: null,
+    ActionState: ''
 }
 
 const InstitutionReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case institutionConstants.getInstitutions_REQUEST:
             return {
-                        ...state,
-                        Loading: true,
-                        hasError: false,
+                ...state,
+                Loading: true,
+                hasError: false,
             };
         case institutionConstants.getInstitutions_SUCCESS:
             return {
                 ...state,
                 Loading: false,
                 hasError: false,
-                Institutions: action.payload
+                Institutions: action.payload,
+                ActionState:institutionConstants.getInstitutions_SUCCESS
+            };
+        case institutionConstants.saveInstitutions_REQUEST:
+            return {
+                ...state,
+                Loading: true,
+                hasError: false,
+                ActionState: institutionConstants.saveInstitutions_REQUEST
+            };
+        case institutionConstants.saveInstitutions_SUCCESS:
+            return {
+                ...state,
+                Loading: false,
+                hasError: false,
+                ActionState: institutionConstants.saveInstitutions_SUCCESS
             };
         case institutionConstants.serviceList_UPDATED:
             return {
@@ -41,13 +57,13 @@ const InstitutionReducer = (state = INITIAL_STATE, action) => {
                 hasError: false,
                 Services: action.payload
             };
-        case institutionConstants.saveInstitutions_REQUEST:
+        case institutionConstants.deleteInstitutionRequest:
             return {
                 ...state,
                 Loading: true,
                 hasError: false
             };
-        case institutionConstants.saveInstitutions_SUCCESS:
+        case institutionConstants.deleteInstitutionSuccess:
             return {
                 ...state,
                 Loading: false,
@@ -61,7 +77,7 @@ const InstitutionReducer = (state = INITIAL_STATE, action) => {
                 Page: action.payload
             };
         default:
-            return INITIAL_STATE;
+            return state;
     }
 }
 

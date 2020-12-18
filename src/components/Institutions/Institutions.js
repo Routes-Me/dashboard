@@ -4,6 +4,9 @@ import { connect } from 'react-redux';
 import { userConstants } from '../../constants/userConstants';
 import * as InstitutionAction from '../../Redux/Action';
 import '../Detail/Detail.css';
+import { institutionConstants } from '../../constants/institutionConstants';
+import PageHandler from '../PageHandler';
+import { config } from '../../constants/config';
 
 class Institutions extends Component {
 
@@ -25,8 +28,7 @@ class Institutions extends Component {
 
     //Load Data
     componentDidMount() {
-        // get Institutions
-        this.props.getInstitutionsList();
+        this.props.getInstitutionsList(1,config.Pagelimit);
     }
 
     //Handle Page selection
@@ -52,14 +54,31 @@ class Institutions extends Component {
     }
 
     //Delete Institution
+    deleteInstitution = (e, institutionId) => {
+        e.preventDefault();
+        this.props.deleteInstitution(institutionId)
+    }
+
+
+    static getDerivedStateFromProps (props, state){
+        if(state.showDetails){
+            if(props.ApplicationState === institutionConstants.saveInstitutions_SUCCESS)
+            {
+                return {showDetails : false}
+            }
+        }
+        return null;
+    }
 
 
 
     //Load Institution in a table 
     showInstitutionsList(institutionsList) {
         return (
-            <div className="table-list-vehicles">
-                <div className="table">
+            <div>
+            <PageHandler page = {institutionsList.page} getList={this.props.getInstitutionsList} style='header'/>
+            <div className="table-list padding-lr-80">
+                {/* <div className="table"> */}
                     <table>
                         <thead>
                             <tr>
@@ -71,8 +90,8 @@ class Institutions extends Component {
                         </thead>
                         <tbody>
                             {
-                                institutionsList.map(institution => (
-                                    <tr key={institution.institutionId}>
+                                institutionsList.data?.map(institution => (
+                                    <tr key={institution.institutionId} onClick={e => this.showDetailScreen(e, institution)}>
                                         <td>{institution.institutionId}</td>
                                         <td>{institution.name}</td>
                                         <td>{institution.phoneNumber}</td>
@@ -85,7 +104,7 @@ class Institutions extends Component {
                                                 </div>
                                                 <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === institution.institutionId ? 'inline-block' : 'none' }}>
                                                     <li><a onClick={e => this.showDetailScreen(e, institution)}>Edit</a></li>
-                                                    <li><a>Delete</a></li>
+                                                    <li><a onClick={e => this.deleteInstitution(e, institution.institutionId)}>Delete</a></li>
                                                 </ul>
                                             </div>
                                         </td>
@@ -96,7 +115,7 @@ class Institutions extends Component {
                     </table>
                 </div>
             </div>
-            )
+        )
     }
 
 
@@ -104,6 +123,7 @@ class Institutions extends Component {
     render() {
 
         let content = this.showInstitutionsList(this.props.InstitutionsList);
+        {this.props.ApplicationState === institutionConstants.saveInstitutions_SUCCESS && this.props.getInstitutionsList(1,config.Pagelimit)}
 
         return (
             <div className="vehicles-page" style={{ height: "100vh", width: "100%" }}>
@@ -139,17 +159,17 @@ class Institutions extends Component {
 
 const mapStateToProps = (state) => {
 
-    const Institutions = state.InstitutionStore.Institutions;
         return {
-            InstitutionsList: Institutions
+            InstitutionsList: state.InstitutionStore.Institutions,
+            ApplicationState: state.InstitutionStore.ActionState
     }
 
 }
 
-
 //Create Redux for Users
 const actionCreators = {
-    getInstitutionsList: InstitutionAction.getInstitutions
+    getInstitutionsList: InstitutionAction.getInstitutions,
+    deleteInstitution : InstitutionAction.DeleteInstitution
 };
 
 const connectedInstitutions = connect(mapStateToProps, actionCreators)(Institutions);

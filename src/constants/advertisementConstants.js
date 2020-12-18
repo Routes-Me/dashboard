@@ -4,13 +4,24 @@
     getAdvertisements_SUCCESS : "GETADVERTISEMENTS_SUCCESS",
     getAdvertisements_ERROR   : "GETADVERTISEMENTS_ERROR",
 
+    update_PageHnadler : "UPDATE_PAGEHANDLER",
+
     saveAdvertisements_REQUEST : "SAVEADVERTISEMENTS_REQUEST",
     saveAdvertisements_SUCCESS : "SAVEADVERTISEMENTS_SUCCESS",
+    saveAdvertisementsWithoutPromotion_SUCCESS : "SAVEADVERTISEMENTWITHOUTPROMOTION_SUCCESS",
     saveAdvertisements_ERROR   : "SAVEADVERTISEMENTS_ERROR",
+
+    saveCampaigns_REQUEST : "SAVECAMPAIGNS_REQUEST",
+    saveCampaigns_SUCCESS : "SAVECAMPAIGNS_SUCCESS",
+    saveCampaigns_ERROR   : "SAVECAMPAIGNS_ERROR",
 
     deleteAdvertisements_REQUEST: "DELETEADVERTISEMENTS_REQUEST",
     deleteAdvertisements_SUCCESS: "DELETEADVERTISEMENTS_SUCCESS",
     deleteAdvertisements_ERROR: "DELETEADVERTISEMENTS_ERROR",
+
+    deleteCampaigns_REQUEST: "DELETECAMPAIGNS_REQUEST",
+    deleteCampaigns_SUCCESS: "DELETECAMPAIGNS_SUCCESS",
+    deleteCampaigns_ERROR:   "DELETECAMPAIGNS_ERROR",
 
     getCampaigns_REQUEST: "GETCAMPAIGNS_REQUEST",
     getCampaigns_SUCCESS: "GETCAMPAIGNS_SUCCESS",
@@ -31,6 +42,15 @@
     onAdvertisment_MediaError: "ONADVERTISEMENTMEDIA_ERROR",
 
     onPromotions_TitleChange: "ONPROMOTIONS_TITLECHANGE",
-    onPromotions_SubTitleChange: "ONPROMOTIONS_TITLECHANGE"
+    onPromotions_SubTitleChange: "ONPROMOTIONS_TITLECHANGE",
+
+    savePromotions_REQUEST : "SAVEROMOTIONS_REQUEST",
+    savePromotions_SUCCESS : "SAVEROMOTIONS_SUCCESS",
+    savePromotions_ERROR   : "SAVEROMOTIONS_ERROR",
+
+    updateTheAdvertisementList : "UPDATE_THEADVERTISEMENTLIST",
+    updateTheCampaignsList : 'UPDATE_THECAMPAIGNSLIST',
+
+    progressOnMediaUpload :  'PROGRESS_ONMEDIAUPLOAD'
 
 }

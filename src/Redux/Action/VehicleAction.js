@@ -1,94 +1,85 @@
 ﻿import { vehicleConstants } from "../../constants/vehicleConstants";
-import { userConstants } from "../../constants/userConstants";
-import { MockServerData } from '../../constants/MockServerData';
-import axios from 'axios';
+import {config} from "../../constants/config";
+import apiHandler from '../../util/request';
+import { returnEntityForInstitution } from '../../util/basic';
+import axios from "axios";
 
 //const SampleInsitutionsIdArgument = { "institutionIds": [{ "Id": 3 }] };
 
-const Token = localStorage.getItem('jwtToken').toString();
+function buildURL(entity, pageIndex, limit, include, institutionId) {
 
-//Action to getVehicleList for Vehicles Component
-export function getVehiclesForInstitutionID(institutionId, pageIndex) {
-    institutionId = 1;
+    let queryParameter ="";
+    entity = returnEntityForInstitution(entity,institutionId);
     
-    return dispatch => {
-        dispatch(vehicleDataRequest());
-        axios.get(userConstants.Domain + 'vehicles?offset=1&limit=10', {
-            headers: { Authorization: "Bearer " + Token },
-            "Content-Type": "application/json; charset=utf-8",
-          })
-        .then(
-        vehicles => {
-                dispatch(storeVehicleData(vehicles));
-                dispatch(UpdatePage(vehicles.pagination));
-        },
-        error => {
-            alert(error.toString());
-        });
-
-        //const FormatedVehicle = MockAPICallForVehicles(institutionId, pageIndex)
-        //console.log('data formated ', FormatedVehicle);
-        //dispatch(storeVehicleData(FormatedVehicle));
-
+    if(include){
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit+"&include=institutions,models";
     }
+    else{
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit;
+    }
+    return queryParameter;
+
 }
 
+export function getVehicleDetails(vehicleId){
+  return dispatch => {
+    dispatch(vehicleDataRequest())
+
+    apiHandler.get(`vehicles/${vehicleId}?offset=1&limit=1&include=institutions,models`)
+      .then(
+      vehicle => {
+              dispatch(showVehicleDetails(returnFormatedVehicles(vehicle).data[0]));
+      },
+      error => {
+          alert(`getVehicleDetails ${error.toString()}`);
+      });
+
+  }
+}
+
+
+function showVehicleDetails(vehicle){
+  return { type: vehicleConstants.showVehicleDetail, payload : vehicle }
+}
+
+function showerror(error){
+  alert(`getVehicleDetails error ${error}`)
+}
+
+
+
+//Toggled for configuration issue
+export function getVehiclesForInstitutionID(pageIndex,limit,institutionId) {
+    return dispatch => {
+      dispatch(vehicleDataRequest());                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+      apiHandler.get(buildURL('vehicles', pageIndex, limit, true, institutionId))
+      .then(
+      vehicles => {
+              dispatch(storeVehicleData(returnFormatedVehicles(vehicles)));
+      },
+      error => {
+          alert(`getVehicle ${error.toString()}`);
+      });
+    }
+}
 
 function vehicleDataRequest() { return { type: vehicleConstants.getInstitutions_REQUEST } }
 function storeVehicleData(vehicles) { return { type: vehicleConstants.getVehicles_SUCCESS, payload: vehicles } }
 function UpdatePage(pages) { return { type: vehicleConstants.UpdatePage, payload:pages } }
 
 
-function returnQueryParamters(offset) {
-    const queryParameter = {
-        "offset": offset,
-        "limit": userConstants.limit,
-        "include": ["makes", "models"] 
-    }
-    return queryParameter;
-}
-
-//Action to getModels for dropdown in vehicles Component
-export function getModels(makeId) {
-    let pageIndex;
-    return dispatch => {
-
-        dispatch(ModelDataRequest());
-        axios.get(userConstants.Domain + 'vehicles/models?' + makeId, {
-                params: { queryParameter: returnQueryParamters(pageIndex) }
-        })
-        .then(
-               model => {
-                        dispatch(storeModelData(model.data.models));
-                    },
-               error => {
-                        //alert(error.toString());
-            });
-
-            dispatch(storeModelData(returnModelsByMockAPICallforModels().manuFacturersDetails.data.carModels))
-
-    }
-}
-
-function ModelDataRequest() { return { type: vehicleConstants.getModels_REQUEST } }
-function storeModelData(models) { return { type: vehicleConstants.getModels_SUCCESS, payload: models } }
-
-
-export function getManufacturers() {
+export function getManufacturers(Token) {
     let pageIndex;
     return dispatch => {
         dispatch(MakesDataRequest());
-        axios.get(userConstants.Domain + 'vehicles/manufacturers', {
-            params: { queryParameter: returnQueryParamters(pageIndex) }
-        })
+        apiHandler.get(buildURL('manufacturers',1, config.DropDownLimit, false))
         .then(
-                manufacturer => {
-                dispatch(StoreMakesData(manufacturer.data.manufacturers));
+                manufacturer =>{
+                dispatch(StoreMakesData([config.selectMake,...manufacturer.data.data]));
                 },
                 error => {
-                    //alert(error.toString());
+                    alert(`getManufacturers ${error.toString()}`);
                 });
-
     }
 }
 
@@ -96,139 +87,151 @@ export function getManufacturers() {
 function MakesDataRequest() { return { type: vehicleConstants.getMakes_REQUEST } }
 function StoreMakesData(makes) { return { type: vehicleConstants.getMakes_SUCCESS, payload: makes } }
 
-//get new models
-export function getNewModels(makeId) {
+
+
+export function getModels(makeId) {
+    let pageIndex;
     return dispatch => {
-        dispatch(ModelDataRequest);
-        const models = MockAPICallFormodels(makeId);
-        dispatch(storeModelData(models));
+
+        dispatch(ModelDataRequest());
+        apiHandler.get('manufacturers/'+makeId+'/model')
+        .then(
+               model => {
+                        dispatch(storeModelData([config.selectModel,...model.data.data]));
+                    },
+               error => {
+                        alert(`getModels ${error.toString()}`);
+            });
     }
 }
 
+function ModelDataRequest() { return { type: vehicleConstants.getModels_REQUEST } }
+function storeModelData(models) { return { type: vehicleConstants.getModels_SUCCESS, payload: models } }
 
-//get Makes
-export function getMakes() {
-    return dispatch => {
-        dispatch(MakesDataRequest);
-        const makes = MockAPICallForMakes();
-        dispatch(StoreMakesData(makes));
-    }
+
+export function getDevicesForVehicleId(vehicleId){
+  return dispatch => {
+    dispatch(StoreDevicesRequest());
+    apiHandler.get(`vehicles/${vehicleId}/devices`)
+    .then(
+      devices => { 
+        dispatch(storeDevicesForVehicleId(devices.data.data))
+      },
+      error => {
+        alert(`getDevices : ${error.toString()}`)
+      }
+    )
+  }
 }
+function StoreDevicesRequest(){ return { type: vehicleConstants.getDevices_REQUEST} }
+function storeDevicesForVehicleId(devices) { return { type: vehicleConstants.getDevices_SUCCESS, payload: devices } }
+
+
+
+
 
 
 //Action to Add or Update vehcile
-export function saveVehicle(vehicle) {
-
+export function saveVehicle(vehicle,action) {
     return dispatch => {
         dispatch(saveVehicleRequest(vehicle))
-        if (vehicle.id !== "" && vehicle.id !== undefined) {
-            dispatch(vehicleDataRequest());
-            axios.put(userConstants.Domain + 'vehicles?'+ vehicle, {
-                headers: { Authorization: "Bearer " + Token },
-                "Content-Type": "application/json; charset=utf-8",
-              })
-                .then(
-                    vehicle => {
-                        dispatch(saveVehicleSuccess(vehicle));
+        if (action== "save") {
+            apiHandler.put('vehicles',vehicle)
+              .then(
+                  vehicle => {
+                      dispatch(saveVehicleSuccess(vehicle));
                     },
                     error => {
-                        //alert(error.toString());
+                      alert(error.toString());
                     });
-        } else {
-            axios.post(userConstants.Domain + 'vehicles?' + vehicle, {
-                headers: { Authorization: "Bearer " + Token },
-                "Content-Type": "application/json; charset=utf-8",
-              })
-                .then(
-                    vehicle => {
-                        dispatch(updateVehicleSuccess(vehicle));
+        } 
+        else 
+        {
+          apiHandler.post('vehicles', vehicle)
+              .then(
+                  vehicle => {
+                      dispatch(saveVehicleSuccess(vehicle));
                     },
                     error => {
-                        alert(error.toString());
+                      alert(error.toString());
                     });
-            
         }
     }
 
 }
-
-//Action to Delete vehicle
-export function deleteVehicle(vehcileId) {
-    return dispatch => {
-        
-    }
-}
-
 function saveVehicleRequest(vehicle) {return { type: vehicleConstants.addVehicle_REQUEST, payload: vehicle }}
 
 function saveVehicleSuccess(vehicle) {return { type: vehicleConstants.addVehicle_SUCCESS, payload: vehicle }}
 
-function updateVehicleSuccess(vehicle) {console.log('Update method called for existing vehicle')}
 
 
 
-
-
-function returnModelsByMockAPICallforModels() {
-    return MockServerData.ModelMockServerData;
+// delete vehicle
+export function deleteVehicle(vehicleId)
+{
+  return (dispatch)=>{
+    dispatch(deleteVehicleRequest)
+    if(vehicleId!= null)
+    {
+      apiHandler.delete(`vehicles/${vehicleId}`)
+      .then(
+        (vehicle) => {
+          dispatch(deleteVehicleSuccess(vehicle));
+        },
+        (error) => {
+          alert(error.toString());
+        }
+      );
+    }
+  }
 }
 
+function deleteVehicleRequest() { return {type: vehicleConstants.deleteVehicle_Request} }
+
+function deleteVehicleSuccess(institution){ return {type: vehicleConstants.deleteVehicle_Success, payload: institution} }
+
+function deleteVehicleError(message) { return {type: vehicleConstants.deleteVehicle_Error, payload: message} }
 
 
-function FilterModelsforId(modelId) {
-    const ListofModel = returnModelsByMockAPICallforModels().manuFacturersDetails.data.carModels;
-    const ListofFilteredModel = ListofModel.filter(x => x.modelId === modelId);
-    return ListofFilteredModel[0];
-}
-
-
-
-function MockAPICallForVehicles(InstId,pageIndex) {
-
-    const res = MockServerData.VehicleDetails;
-    return returnFormatedVehicles(res);
-}
 
 function returnFormatedVehicles(response){
-    const VehicleList = response.data.vehicles.filter(vehicle => vehicle.institutionId === 3)
-    //console.log('Vehicle Action Array returned :', VehicleList);
-    const InstitutionList = response.include.institutions;
-    const ModelList = response.include.models;
-    const MakerList = response.include.makes;
+
+    const VehicleList = response.data.data;
+    const InstitutionList = response.data.included.institutions;
+    const ModelList = response.data.included.models;
 
     const FormatedVehicle = VehicleList.map(x => ({
         id: x.vehicleId,
-        institution: InstitutionList.filter(y => y.institutionId === x.institutionId)[0],
+        institution: InstitutionList.filter(y => y.InstitutionId === x.institutionId)[0],
         plateNumber: x.plateNumber,
-        model: ModelList.filter(y => y.modelId === x.modelId)[0],
-        make: MakerList.filter(y => y.makeId === x.makeId)[0],
-        deviceId: x.deviceId,
+        model: ModelList.filter(y => y.ModelId === x.modelId)[0],
+        //make: MakerList.filter(y => y.makeId === x.makeId)[0],
+        //deviceId: x.deviceId,
         modelYear: x.modelYear
     }))
 
-    return FormatedVehicle;
+    let vehicles= {
+      data : FormatedVehicle,
+      page : response.data.pagination
+    }
+  
+    return vehicles;
+}
+
+function filterObjecteList(objectList, elements)
+{
+  let Objects = "";
+  if( elements !== undefined && objectList.length > 0)
+  {
+    Objects = objectList.filter(y => y.include(elements));
+  }
+  else
+  {
+    Objects =[0];
+  }
+  return Objects
 }
 
 
-
-//Update with API
-function MockAPICallForMakes() {
-    return MockServerData.MakeDetails.data.makes;
-}
-
-function MockAPICallFormodels() {
-    return MockServerData.ModelDetails.data.models
-}
-
-
-
-//function filterModelIdFromModelArray() {
-
-//}
-
-
-function returnMockVehiclesForInstitutionIds() {
-    return MockServerData.VehicleMockServerData
-}
 
 

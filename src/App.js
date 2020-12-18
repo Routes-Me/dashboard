@@ -11,7 +11,7 @@ import { Login } from './components/Login/Login';
 
 import Home from './components/Home';
 import { UsersDetail } from './components/Users/UsersDetail';
-import { PrivateRoute } from './components/PrivateRoute';
+import { PrivateRoute } from './helper/PrivateRoute';
 
 //import { ForgotPassword } from './components/ForgotPassword';
 //import { savePassword } from './components/savePassword';
@@ -21,9 +21,9 @@ import { PrivateRoute } from './components/PrivateRoute';
 //React.lazy(async () => (await import('./foo/foo').MyComponent)
 //const PrivateRoute = lazy(() => import('./components/PrivateRoute'))
 //const Home = lazy(async () => (await import('./components/Home')));
-const ForgotPassword = lazy(() => import('./components/ForgotPassword'));
-const savePassword = lazy(() => import('./components/savePassword'));
-const ResetPassword = lazy(() => import('./components/ResetPassword'));
+const ForgotPassword = lazy(() => import('./components/Password/ForgotPassword'));
+const savePassword = lazy(() => import('./components/Password/savePassword'));
+const ResetPassword = lazy(() => import('./components/Password/ResetPassword'));
 
 
 export default class App extends Component {
@@ -36,7 +36,7 @@ export default class App extends Component {
                     <Switch>
                         <Route exact path='/' component={Login} />
                         <Route exact path='/AddAccount' component={UsersDetail}/>
-                        <Route exact path='/home' component={Home} />
+                        <PrivateRoute exact path='/home' component={Home} />
                         <Suspense fallback={<div>Loading...</div>}>
                         <Route path='/forgotpassword' component={ForgotPassword} />
                         <Route path='/newpassword' component={savePassword} />

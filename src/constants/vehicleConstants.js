@@ -9,6 +9,9 @@
     getModels_REQUEST: "GETMODELS_REQUEST",
     getModels_SUCCESS: "GETMODELS_SUCCESS",
 
+    getDevices_REQUEST: "GETDEVICES_REQUEST",
+    getDevices_SUCCESS: "GETDEVICES_SUCCESS",
+
     getMakes_REQUEST: "GETMAKES_REQUEST",
     getMakes_SUCCESS: "GETMAKES_SUCCESS",
 
@@ -17,6 +20,13 @@
 
     searchDialogFor_Makers: "Manufacturers",
     searchDialogFor_Models: "Models",
+
+    deleteVehicle_Request : "DELETEVEHICLE_REQUEST",
+    deleteVehicle_Success : "DELETEVEHICLE_SUCCESS",
+    deleteVehicle_Error   : "DELETEVEHICLE_ERROR",
+
+    onDialogSelection : "ONDIALOG_SELECTION",
+    showVehicleDetail : 'SHOW_VEHICLE_DETAIL',
 
     updatePage: "UPDATE_PAGE"
 

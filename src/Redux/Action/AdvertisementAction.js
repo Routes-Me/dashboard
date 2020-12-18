@@ -1,107 +1,112 @@
-﻿import axios from 'axios';
-import { userConstants } from '../../constants/userConstants';
+﻿import { config } from '../../constants/config'
 import { advertisementsConstants } from '../../constants/advertisementConstants';
-//import { resizeFile } from '../../util/Compress';
-import Resizer from 'react-image-file-resizer';
-import { onImageCompress } from '../../util/Compress';
+import apiHandler from '../../util/request';
+import { uploadMediaIntoBlob, dataURLtoFile } from '../../util/blobStorage';
 
 
-export function getAdvertisements(institutionId, pageIndex) {
+export function getAdvertisements(pageIndex,limit,institutionId) {
     return dispatch => {
         dispatch(request())
-        axios.get(userConstants.Domain + 'advertisements?institutionId' + institutionId, {
-            params: { queryParameter: returnQueryParamters(pageIndex, true) }
-        })
+        apiHandler.get(buildURL('advertisements',pageIndex,limit, true))
             .then(
                 response => { dispatch(success(returnFormatedAdvertisements(response))) },
                 error => { dispatch(failure(error)) }
             )
     }
     function request() { return { type: advertisementsConstants.getAdvertisements_REQUEST };}
-    function success() { return { type: advertisementsConstants.getAdvertisements_SUCCESS };}
+    function success(response) { return { type: advertisementsConstants.getAdvertisements_SUCCESS, payload:response };}
     function failure(error) { return { type: advertisementsConstants.getAdvertisements_ERROR, payload:error };}
 }
 
-const resizeFile = (file) => new Promise(resolve => {
-    Resizer.imageFileResizer(file, 160, 600, 'JPEG', 100, 0,
-        uri => {
-            resolve(uri);
-        }
-    );
-});
 
-function dataURLtoFile(dataurl, filename) {
 
-    var urlStr = dataurl + "";
-    var arr = urlStr.split(',');
-    var mime = arr[0].match(/:(.*?);/)[1];
-    var bstr = atob(arr[1]);
-    var n = bstr.length;
-    var u8arr = new Uint8Array(n);
 
-    while (n--) {
-        u8arr[n] = bstr.charCodeAt(n);
+export function getCampaigns(pageIndex,limit) {
+    return dispatch => {
+        dispatch(getCampaignRequest())
+        apiHandler.get(buildURL('campaigns',pageIndex,limit,false))
+            .then(
+                response => { dispatch(getCampaignsSuccess(returnFormatedCampaigns(response))) },
+                error => { dispatch(getCampaignsFailure(error)) }
+            )
     }
+    function getCampaignRequest() { return { type: advertisementsConstants.getCampaigns_REQUEST }; }
+    function getCampaignsSuccess(response) { return { type: advertisementsConstants.getCampaigns_SUCCESS, payload: response }; }
+    function getCampaignsFailure(error) { return { type: advertisementsConstants.getCampaigns_ERROR, payload: error }; }
 
-    return new File([u8arr], filename, { type: mime });
+}
+
+export function getDayIntervals() {
+    return dispatch => {
+        dispatch(getDayIntervalRequest())
+        apiHandler.get('intervals')
+            .then(
+                response => { dispatch(getDayIntervalSuccess(response.data.data)) },
+                error => { dispatch(getDayIntervalsFailure(error)) }
+            )
+    }
+    function getDayIntervalRequest() { return { type: advertisementsConstants.getDayIntervals_REQUEST }; }
+    function getDayIntervalSuccess(response) { return { type: advertisementsConstants.getDayIntervals_SUCCESS, payload: response }; }
+    function getDayIntervalsFailure(error) { return { type: advertisementsConstants.getDayIntervals_ERROR, payload: error }; }
 }
 
 
 
 
-export function uploadMedia(mediaFile, fileType) {
 
-    //const compressedImage = await resizeFile(mediaFile);
-
-    let file = mediaFile;
-    if (fileType==='image') {
-        //const compressedImage = await onImageCompress(mediaFile);
-        file = dataURLtoFile(mediaFile, "compressedImageFile.jpg");
-    }
+export function uploadMedia(mediaURL) {
 
 
-    const formData = new FormData();
-    formData.append("File", file);
 
     return dispatch => {
+
         dispatch(requestUpload);
-        const options = {
-            onUploadProgress: (progressEvent) => {
-                const { loaded, total } = progressEvent;
-                let percent = Math.floor((loaded * 100) / total)
-                console.log(`${loaded}kb / ${total}kb | ${percent}`);
+
+        const ext = mediaURL.substring(mediaURL.lastIndexOf('.'))
+        let media = '';
+
+        if(ext === '.mp4')
+        {
+            media ={
+                Type : 'mp4',
+                Url  : mediaURL
             }
-        };
-
-        var url = userConstants.Domain + 'advertisements/convert';
-        try {
-            axios.post(url, formData, options).then(
-                response => {
-                    dispatch(uploadSuccessful(response));
-                    console.log(response);
-                },
-                error => {
-                    dispatch(uploadError(error));
-                }
-            )
-
         }
-        catch (ex) {
-            console.log(ex);
+        else
+        {
+            media ={
+                Type : 'jpeg',
+                Url  : mediaURL
+            }
         }
+            dispatch(uploadSuccessful(media));
+        
         
     }
-
+    function showProgress(progress) {return {type: advertisementsConstants.progressOnMediaUpload, payload: progress}}
     function requestUpload() { return { type: advertisementsConstants.uploadMedia_REQUEST }; }
     function uploadSuccessful(response) { return { type: advertisementsConstants.uploadMedia_SUCCESS, payload: response }; }
     function uploadError(error) { return { type: advertisementsConstants.uploadMedia_ERROR, payload: error }; }
+
 }
 
 
 
-export function compressMedia(mediaFile) {
 
-    
+
+function formatMediaResponse(media){
+
+   const Media ={
+       Url  : media.url,
+       Type : returnFileType(media.url),
+       Id   : media.mediaId
+   }
+
+   return Media;
+}
+
+function returnFileType(url){
+    return url.substring(url.lastIndexOf('.')+1,url.length);
 }
 
 export function onTitleChange(text) {
@@ -136,21 +141,16 @@ export function onMediaInput(file) {
 
 
 
-function returnQueryParamters(offset, include) {
 
-    let queryParameter;
-    if (include) {
-        queryParameter = {
-            "offset": offset,
-            "limit": userConstants.limit,
-            "include": ["services"]
-        }
+
+function buildURL(entity, pageIndex, limit, include) {
+
+    let queryParameter =""
+    if(include){
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit+"&include=media,institution,campaign";
     }
-    else {
-        queryParameter = {
-            "offset": offset,
-            "limit": userConstants.limit
-        }
+    else{
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit;
     }
     return queryParameter;
 
@@ -158,38 +158,126 @@ function returnQueryParamters(offset, include) {
 
 
 function returnFormatedAdvertisements(response) {
-    const AdvertisementList = response.data;
-    const InstitutionList = response.included.institutions;
-    const MediaList = response.included.medias
 
-    const FormatedAdvertisements = AdvertisementList.map(x => ({
+    const AdvertisementList = response.data.data;
+    const InstitutionList   = response.data.included?.institution !== undefined ? response.data.included.institution:[];
+    const MediaList         = response.data.included?.media !== undefined ? response.data.included.media:[];
+    const CampaignList      = response.data.included?.campaign !== undefined ? response.data.included.campaign:[];
+
+    let advertisments = '';
+    
+    //const IntervalList      = response.data.included.interval;
+
+    const FormatedAdvertisements = AdvertisementList?.map(x => ({
         id: x.advertisementId,
+        resourceName: x.resourceName,
+        createdAt: x.createdAt,
+        campaigns: filterCampaignList(CampaignList, x.campaignId)[0],
         institution: InstitutionList.filter(y => y.institutionId === x.institutionId)[0],
         media: MediaList.filter(y => y.mediaId === x.mediaId)[0],
-        createdAt: x.createdAt
+        intervalId:  x.intervalId,
+        tintColor: x.tintColor
     }))
 
-    return FormatedAdvertisements;
+    advertisments= {
+        data : FormatedAdvertisements,
+        page : response.data.pagination
+    }
+
+    return advertisments;
 }
 
-export function addAdvertisement(advertisement) {
+function returnFormatedCampaigns(response) {
+
+    let campaigns= {
+        data : response.data.data,
+        page : response.data.pagination
+    }
+
+    return campaigns;
+}
+
+
+
+
+function filterCampaignList(CampaignList, Campaigns)
+{
+  let filteredList = [];
+  if( Campaigns !== null && CampaignList.length > 0)
+  {
+    for(var i=0; i<Campaigns.length; i++){
+        filteredList.push(CampaignList.filter(y => y.campaignId===Campaigns[i]));
+    }
+    return filteredList;
+  }
+  else
+  {
+    filteredList =[0];
+  }
+  return filteredList;
+}
+
+export function addAdvertisement(advertisement, action) {
     return dispatch => {
         dispatch(addAdvertisementRequest())
-        axios.post(userConstants.Domain + 'advertisements', advertisement)
+        apiHandler.post('advertisements', advertisement)
             .then(
-                response => { dispatch(savedAdvertisement(response)) },
+                response => { dispatch(savedAdvertisement(response.data)) },
                 error => { dispatch(saveAdvertisementFailure(error)) }
             )
     }
     function addAdvertisementRequest() { return { type: advertisementsConstants.saveAdvertisements_REQUEST }; }
-    function savedAdvertisement(response) { return { type: advertisementsConstants.saveAdvertisements_SUCCESS, payload:response }; }
-    function saveAdvertisementFailure(error) { return { type: advertisementsConstants.saveAdvertisements_ERROR, payload:error }; }
+    function savedAdvertisement(advertisement) { return { type: advertisementsConstants.saveAdvertisements_SUCCESS, payload:advertisement }; }
+    function saveAdvertisementFailure(error) { alert(error.response.data.title); return { type: advertisementsConstants.saveAdvertisements_ERROR, payload:error }; }
+}
+
+
+export function addPromotions(promotion){
+    return dispatch => {
+        dispatch(addPromotionsRequest())
+        apiHandler.post('promotions',promotion)
+        .then(
+            response => { dispatch(savePromotions(response.data))},
+            error => { dispatch(savePromotionsError(error))}
+        )
+    }
+    function addPromotionsRequest()     { return { type: advertisementsConstants.savePromotions_REQUEST }; }
+    function savePromotions(promotion)  { return { type: advertisementsConstants.savePromotions_SUCCESS, payload:promotion }; }
+    function savePromotionsError(error) { return { type: advertisementsConstants.savePromotions_ERROR, payload:error }; }
+}
+
+
+export function saveCampaign(Campaign, action) {
+
+    return dispatch => {
+        dispatch(saveCampaignRequest())
+        if(action === 'save')
+        {
+            apiHandler.put('campaigns', Campaign)
+            .then(
+                response => { dispatch(saveCampaignSuccess(response.data)) },
+                error => { dispatch(saveCampaignFailure(error)) }
+            )
+        }
+        else
+        {
+            apiHandler.post('campaigns', Campaign)
+            .then(
+                response => { dispatch(saveCampaignSuccess(response.data)) },
+                error => { dispatch(saveCampaignFailure(error)) }
+            )
+        }
+    }
+
+    function saveCampaignRequest() { return { type: advertisementsConstants.saveCampaigns_REQUEST }; }
+    function saveCampaignSuccess(campaign) { return { type: advertisementsConstants.saveCampaigns_SUCCESS, payload:campaign }; }
+    function saveCampaignFailure(error) { return { type: advertisementsConstants.saveCampaigns_ERROR, payload:error }; }
 }
 
 export function deleteAdvertisement(id) {
     return dispatch => {
         dispatch(deleteAdvertisementRequest())
-        axios.delete(userConstants.Domain + 'advertisements' + id)
+        apiHandler.delete('advertisements/' + id)
             .then(
                 response => { dispatch(deletedAdvertisement(response)) },
                 error => { dispatch(deleteAdvertisementFailure(error)) }
@@ -200,32 +288,20 @@ export function deleteAdvertisement(id) {
     function deleteAdvertisementFailure(error) { return { type: advertisementsConstants.deleteAdvertisements_ERROR, payload: error }; }
 }
 
-
-export function getCampaigns() {
+export function deleteCampaign(id) {
     return dispatch => {
-        dispatch(getCampaignRequest())
-        axios.get(userConstants.Domain + 'advertisements/campaigns')
+        dispatch(deleteCampaignRequest())
+        apiHandler.delete('campaigns/' + id)
             .then(
-                response => { dispatch(getCampaignsSuccess(response)) },
-                error => { dispatch(getCampaignsFailure(error)) }
+                response => { dispatch(deleteCampaignSuccess(response)) },
+                error => { dispatch(deleteCampaignFailure(error)) }
             )
     }
-    function getCampaignRequest() { return { type: advertisementsConstants.getCampaigns_REQUEST }; }
-    function getCampaignsSuccess(response) { return { type: advertisementsConstants.getCampaigns_SUCCESS, payload: response }; }
-    function getCampaignsFailure(error) { return { type: advertisementsConstants.getCampaigns_ERROR, payload: error }; }
-
+    function deleteCampaignRequest() { return { type: advertisementsConstants.deleteCampaigns_REQUEST }; }
+    function deleteCampaignSuccess(response) { return { type: advertisementsConstants.deleteCampaigns_SUCCESS, payload: response }; }
+    function deleteCampaignFailure(error) { return { type: advertisementsConstants.deleteCampaignFailure, payload: error }; }
 }
 
-export function getDayIntervals() {
-    return dispatch => {
-        dispatch(getDayIntervalRequest())
-        axios.get(userConstants.Domain + 'advertisements/dayintervales')
-            .then(
-                response => { dispatch(getDayIntervalSuccess(response)) },
-                error => { dispatch(getDayIntervalsFailure(error)) }
-            )
-    }
-    function getDayIntervalRequest() { return { type: advertisementsConstants.getDayIntervals_REQUEST }; }
-    function getDayIntervalSuccess(response) { return { type: advertisementsConstants.getDayIntervalSuccess, payload: response }; }
-    function getDayIntervalsFailure(error) { return { type: advertisementsConstants.getDayIntervals_ERROR, payload: error }; }
-}
+function updateAdvertisementList() { return {type: advertisementsConstants.updateTheAdvertisementList}}
+
+

@@ -8,7 +8,7 @@
     text-align: center !important;
     margin: 0;
     width: 100% !important;
-    filter: alpha(opacity: 0);
+    filter: alpha(opacity 0);
     height:124px;
 }
 
@@ -51,7 +51,7 @@
         right: 0;
         height: 20px;
         content: "";
-        background-image: url("../image/upload_icon.svg");
+        background-image: url("../../images/upload_icon.svg");
         display: block;
         margin: 0 auto;
         background-size: 100%;
@@ -80,11 +80,11 @@
 
 
 .form-group{
-    margin-top:30px;
+    margin-top:15px;
 }
 
 div.simulator {
-    background-image: url("../image/simulator.svg");
+    background-image: url("../../images/simulator.svg");
     float: right;
     width: 443px;
     height:343px;
@@ -160,7 +160,7 @@ div.banner4 {
 }
 
 .footerStyle {
-    margin-left: -120px;
+    left: 283px;
     background-color: #fff;
     box-shadow: 0 -0.3px 0 rgba(0, 0, 0, 0.5);
     font-size: 18px;
@@ -177,11 +177,13 @@ div.banner4 {
 .footerStyle button {
     width:183px;
     height:44px;
+    margin-left: 40px;
 }
 
 .btnExtra {
     border: 1px #000;
 }
+
 
 .headerTabStyle button:hover {
     border-bottom: solid 2px #000;
@@ -201,6 +203,8 @@ button {
     background-color: #18428f;
     color:white;
     border-radius:4px;
+    border-color: 18428f;
+    border: 0px;
 }
 
     .next {
@@ -214,12 +218,17 @@ button {
     color: #000;
     background-color: transparent;
     border:none;
-    border-bottom: 3px solid !important;
+    border-bottom: 3px solid #375a9b;
     font-size: 16px;
     font-weight: bold;
 }
 .nav-link {
     border: none;
+}
+
+
+.status {
+    display: flex;
 }
 
 

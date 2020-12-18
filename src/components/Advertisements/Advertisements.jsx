@@ -4,6 +4,10 @@ import { connect } from 'react-redux';
 import { userConstants } from '../../constants/userConstants';
 import * as AdvertisementAction from '../../Redux/Action';
 import '../Detail/Detail.css';
+import Status from '../Advertisements/RowItem/Status';
+import { advertisementsConstants } from '../../constants/advertisementConstants';
+import PageHandler from '../PageHandler';
+import { config } from '../../constants/config';
 
 class Advertisements extends Component {
 
@@ -23,7 +27,7 @@ class Advertisements extends Component {
     }
 
     componentDidMount() {
-        this.props.getAdvertisements();
+        this.props.getAdvertisements(1,config.Pagelimit);
     }
 
 
@@ -51,6 +55,34 @@ class Advertisements extends Component {
         });
     }
 
+    deleteAdvertisement = (e, advertisementId) => {
+        e.preventDefault();
+        this.props.deleteAdvertisements(advertisementId)
+    }
+
+
+    static getDerivedStateFromProps (props, state){
+        
+            if(props.ApplicationState === advertisementsConstants.updateTheAdvertisementList)
+            {
+                if(state.showDetails){
+                    return {showDetails : false};
+                }
+            }
+    }
+
+
+    // componentDidUpdate(prevProps, prevState) {
+    //     if (this.props.ApplicationState !== prevProps.ApplicationState) {
+    //         if(this.props.ApplicationState === advertisementsConstants.updateTheAdvertisementList)
+    //         {
+    //             this.props.getAdvertisements();
+    //             if(prevState.showDetails){
+    //                 this.setState({showDetails : false});
+    //             }
+    //         }
+    //     }
+    //   }
 
     //Delete Vehicle function
 
@@ -58,26 +90,29 @@ class Advertisements extends Component {
     //Load Advertisements in a table
     renderAllAdvertisementTable(Advertisements) {
         return (
-            <div className="table-list-vehicles">
-                <div className="table">
+            <div>
+            <PageHandler page = {Advertisements.page} getList={this.props.getAdvertisements} style='header'/>
+            <div className="table-list padding-lr-80">
+                {/* <div className="table"> */}
                     <table>
                         <thead>
                             <tr>
                                 <th>ID</th>
                                 <th>NAME</th>
-                                <th>CAMPING</th>
+                                <th>CREATED AT</th>
                                 <th>STATUS</th>
-                                <th className="width44" />
+                                <th/>
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                Advertisements.map(Advertisement => (
+                                Advertisements.data?.map(Advertisement => (
                                     <tr key={Advertisement.id}>
                                         <td>{Advertisement.id}</td>
-                                        <td>{Advertisement.id}</td>
-                                        <td>{Advertisement.id}</td>
-                                        <td className="width44" >
+                                        <td>{Advertisement.resourceName}</td>
+                                        <td>{Advertisement.createdAt}</td>
+                                        <td><Status text={Advertisement.campaigns[0]?.status}/></td>
+                                        <td>
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Advertisement.id)}>
                                                     <span />
@@ -86,7 +121,7 @@ class Advertisements extends Component {
                                                 </div>
                                                 <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === Advertisement.id ? 'inline-block' : 'none' }}>
                                                     <li><a onClick={e => this.showDetailScreen(e, Advertisement)}>Edit</a></li>
-                                                    <li><a>Delete</a></li>
+                                                    <li><a  onClick={e => this.deleteAdvertisement(e, Advertisement.id)}>Delete</a></li>
                                                 </ul>
                                             </div>
                                         </td>
@@ -115,7 +150,10 @@ class Advertisements extends Component {
 
         let content = this.renderAllAdvertisementTable(this.props.AdvertisementList);
 
+        {this.props.ApplicationState === advertisementsConstants.updateTheAdvertisementList && this.props.getAdvertisements()}
+
         return (
+
             <div className="vehicles-page" style={{ height: "100vh", width: "100%" }}>
                 {this.state.showDetails ?
                      <Detail className={this.props.show ? 'slide-in' : 'slide-out'}
@@ -133,27 +171,15 @@ class Advertisements extends Component {
                                 <div className="search-relative">
                                     <input type="text" name="search" placeholder="Search" className="search" />
                                     <i className="fa fa-search" aria-hidden="true" />
-                                    <span className="cross-icon"><img src="../cross-image.png" /></span>
+                                    {/* <span className="cross-icon"><img src="../cross-image.png" /></span> */}
                                 </div>
                             </div>
                         </div>
+
                         {content}
-                        {/*<div className="left page-nav padding-lr-80">
-                            <span className="page-count">Page 15 of 20</span>
-                            <Pagination
-                                hideDisabled
-                                firstPageText={'<<<<'}
-                                lastPageText={'>>>>'}
-                                prevPageText={'<<'}
-                                nextPageText={'>>'}
-                                activePage={this.state.activePage}
-                                itemsCountPerPage={10}
-                                totalItemsCount={450}
-                                pageRangeDisplayed={5}
-                                onChange={this.handlePageChange.bind(this)} />
-                        </div>*/}
                     </div>}
             </div>
+
         );
     }
 
@@ -161,10 +187,10 @@ class Advertisements extends Component {
 
 const mapStateToProps = (state) => {
 
-    const advertisements = state.AdvertisementStore.Advertisements;
 
     return {
-        AdvertisementList: advertisements
+        AdvertisementList: state.AdvertisementStore.Advertisements,
+        ApplicationState: state.AdvertisementStore.ActionState
     }
 
 }

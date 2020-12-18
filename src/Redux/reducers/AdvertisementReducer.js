@@ -4,13 +4,18 @@ const INITIAL_STATE = {
     Advertisements: [],
     Campaigns: [],
     DayIntervals:[],
-    Page: "",
     loading: true,
     hasError: false,
     error: null,
     Title: "",
     SubTitle:"",
-    MediaUrl: ""
+    Media: "",
+    Advertisement:'',
+    ActionState: '',
+    offset:'',
+    limit:'',
+    total:'',
+    progress:''
 }
 
 const AdvertisementReducer = (state = INITIAL_STATE, action) => {
@@ -19,16 +24,41 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 loading: true,
-                hasError: false
+                hasError: false,
+                Media:'',
+                Advertisement:'',
+                progress:''
             };
         case advertisementsConstants.getAdvertisements_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 hasError: false,
-                Advertisements: action.payload
+                Advertisements: action.payload,
+                MediaURL: '',
+                ActionState: advertisementsConstants.getAdvertisements_SUCCESS,
             };
         case advertisementsConstants.getAdvertisements_ERROR:
+            return {
+                ...state,
+                loading: false,
+                hasError: true,
+                error: action.payload
+            };
+        case advertisementsConstants.deleteAdvertisements_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                hasError: false
+            };
+        case advertisementsConstants.deleteAdvertisements_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                hasError: false,
+                ActionState: advertisementsConstants.updateTheAdvertisementList
+            };
+        case advertisementsConstants.deleteAdvertisements_ERROR:
             return {
                 ...state,
                 loading: false,
@@ -46,14 +76,8 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 loading: false,
                 hasError: false,
-                Campaigns: action.payload
-            };
-        case advertisementsConstants.getDayIntervals_ERROR:
-            return {
-                ...state,
-                loading: false,
-                hasError: true,
-                error: action.payload
+                Campaigns: action.payload,
+                ActionState: advertisementsConstants.getCampaigns_SUCCESS
             };
         case advertisementsConstants.getDayIntervals_REQUEST:
             return {
@@ -68,13 +92,6 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 hasError: false,
                 DayIntervals: action.payload
             };
-        case advertisementsConstants.getDayIntervals_SUCCESS:
-            return {
-                ...state,
-                loading: false,
-                hasError: true,
-                error: action.payload
-            };
         case advertisementsConstants.saveAdvertisements_REQUEST:
             return {
                 ...state,
@@ -85,7 +102,8 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 loading: false,
-                hasError: false
+                hasError: false,
+                Advertisement: action.payload
             };
         case advertisementsConstants.saveAdvertisements_ERROR:
             return {
@@ -94,20 +112,85 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 hasError: true,
                 error: action.payload
             };
-        case advertisementsConstants.onAdvertisment_MediaRequest:
+        case advertisementsConstants.savePromotions_REQUEST:
             return {
                 ...state,
                 loading: true,
                 hasError: false
             };
-        case advertisementsConstants.onAdvertisment_MediaUpdate:
+        case advertisementsConstants.savePromotions_SUCCESS:
             return {
                 ...state,
                 loading: false,
                 hasError: false,
-                MediaUrl: action.payload
+                Title: "",
+                SubTitle:"",
+                Media: "",
+                Advertisement:'',
+                ActionState: advertisementsConstants.updateTheAdvertisementList
             };
-        case advertisementsConstants.onAdvertisment_MediaError:
+        case advertisementsConstants.savePromotions_ERROR:
+            return {
+                ...state,
+                loading: false,
+                hasError: true,
+                error: action.payload
+            };
+        case advertisementsConstants.uploadMedia_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                hasError: false,
+                Media:''
+            };
+        case advertisementsConstants.uploadMedia_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                hasError: false,
+                Media: action.payload
+            };
+        case advertisementsConstants.uploadMedia_ERROR:
+            return {
+                ...state,
+                loading: false,
+                hasError: true,
+                error: action.payload
+            };
+        case advertisementsConstants.saveCampaigns_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                hasError: false
+            };
+        case advertisementsConstants.saveCampaigns_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                hasError: false,
+                ActionState: advertisementsConstants.updateTheCampaignsList
+            };
+        case advertisementsConstants.saveCampaigns_ERROR:
+            return {
+                ...state,
+                loading: false,
+                hasError: true,
+                error: action.payload
+            };
+        case advertisementsConstants.deleteCampaigns_REQUEST:
+            return {
+                ...state,
+                loading: true,
+                hasError: false
+            };
+        case advertisementsConstants.deleteCampaigns_SUCCESS:
+            return {
+                ...state,
+                loading: false,
+                hasError: false,
+                ActionState: advertisementsConstants.updateTheCampaignsList
+            };
+        case advertisementsConstants.deleteCampaigns_ERROR:
             return {
                 ...state,
                 loading: false,
@@ -121,12 +204,19 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 hasError: false,
                 Title: action.payload
             };
-        case advertisementsConstants.onPromotions_SubTitleChange:
+        case advertisementsConstants.progressOnMediaUpload:
             return {
                 ...state,
                 loading: false,
                 hasError: false,
-                SubTitle: action.payload
+                progress: action.payload
+            };
+        case advertisementsConstants.updateTheAdvertisementList:
+            return {
+                ...state,
+                loading:true,
+                hasError:false,
+                ActionState: advertisementsConstants.updateTheAdvertisementList
             };
         default:
             return state;

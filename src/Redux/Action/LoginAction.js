@@ -1,82 +1,71 @@
-﻿﻿import axios from "axios";
+﻿import axios from "axios";
 import { history } from "../../helper/history";
-import { userConstants } from "../../constants/userConstants";
+import { config } from "../../constants/config";
+import {userConstants} from '../../constants/userConstants';
 import jwt from "jsonwebtoken";
-import { encryptAndEncode, encryptAES } from "../encrypt";
-import setAuthorizationToken from "../../util/setAuthorizationToken";
+import { encryptAndEncode } from "../../util/encrypt";
+import {setToken, clearStorage} from '../../util/localStorage';
 
-const userObj = {};
-
-export const getLoginSuccess = (payload) => ({
-  type: userConstants.Login_SUCCESS,
-  payload,
-});
-
-export const getLoginFailure = (payload) => ({
-  type: userConstants.Login_FAILURE,
-  payload,
-});
-
-export function getUser() {
-  userObj = localStorage.getItem("user");
-  console.log("User Logged In is : ", userObj);
-  return userObj;
-}
 
 export function userSignInRequest(username, password) {
-  return (dispatch) => {
-    const tokenT =
-      "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJ2dGhhcmFrYUByb3V0ZXNtZS5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJzdXBlciIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvdXNlcmRhdGEiOiIzIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvbmFtZWlkZW50aWZpZXIiOiIzIiwiZXhwIjoxNjE3MDIwMjcwLCJpc3MiOiJUcmFja1NlcnZpY2UiLCJhdWQiOiJUcmFja1NlcnZpY2UifQ.5DH6aw8zP-KpzUXa0kW0X1tpwqN3hffaBkSquAy9ENA";
+  
+  return dispatch => {
+      dispatch(request({ username, password }));
+      let userObject = {
+          Username: username,
+          Password: encryptAndEncode(password)
+      };
 
-    const token = jwt.decode(tokenT);
-    const user = token.user;
-    localStorage.setItem("user", user);
-    var encryptedPasswordTotest = encryptAndEncode(password);
-    dispatch(getLoginSuccess(user));
-    history.push("/home");
-    localStorage.setItem("jwtToken", tokenT);
-    setAuthorizationToken(token);
+      axios.post(config.Domain + 'signin', userObject)
+          .then(
+              response => {
+                  const token = response.data.token;
+                  const testDecode = parseJwt(token)
+                  const LoggedInUser = jwt.decode(token);
+                  dispatch(getLoginSuccess(LoggedInUser));
+                  setToken(token);
+                  dispatch(onReceiveToken(token));
+                  getAutherization(2);
+                  history.push('/home');
+              },
+              error => {
+                  dispatch(failure(error.message.toString()));
+                  console.log('error message', error.message.toString());
+                  alert(error.toString());
+              }
+          );
   };
 
-  // return dispatch => {
-  //     dispatch(request({ username, password }));
-  //     var encryptedpassword = encryptAES(password);
-  //     let userObject = {
-  //         Username: username,
-  //         Password: encryptAndEncode(password)
-  //     };
+  function request(user) { return { type: userConstants.Login_REQUEST, user }; }
+  function onReceiveToken(token) { return  {type: userConstants.Login_TokenReceived, payload: token} }
+  function getLoginSuccess(payload) { return ({ type: userConstants.Login_SUCCESS, payload }); }
+  function failure(error) { return { type: userConstants.Login_FAILURE, error }; }
 
-  //     axios.post(userConstants.Domain + 'signin', userObject)
-  //         .then(
-  //             response => {
+}
 
-  //                 console.log("User Details : ", JSON.stringify(user));
-  //                 const tokenT = response.token;
-  //                 const token = jwt.decode(response.token);
-  //                 const user = response.data;
-  //                 localStorage.setItem('user', user);
-  //                 dispatch(getLoginSuccess(user));
-  //                 history.push('/home');
-  //                 localStorage.setItem('jwtToken', token);
-  //                 setAuthorizationToken(token);
-  //             },
-  //             error => {
-  //                 dispatch(getLoginFailure(error.message.toString()));
-  //                 alert(error.toString());
-  //                 //dispatch(alertActions.error(error.toString()));
-  //             }
-  //         );
-  // };
+function parseJwt (token) {
+  var base64Url = token.split('.')[1];
+  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
 
-  function request(user) {
-    return { type: userConstants.Login_REQUEST, user };
+  return JSON.parse(jsonPayload);
+};
+
+
+//Autherize the logged in user with the userRole
+export function getAutherization(roleId) {
+
+  let navList = config.NavMenuItems.data;
+  let navObj = navList.filter(x=>x.roleId===roleId);
+
+  return dispatch => {
+      dispatch(storeNavItems(navObj[0].navItems));
   }
-  function success(user) {
-    return { type: userConstants.Login_SUCCESS, user };
-  }
-  function failure(error) {
-    return { type: userConstants.Login_FAILURE, error };
-  }
+
+  function storeNavItems(navItems) { return { type: userConstants.getNavItems_SUCCESS, payload: navItems } } ;
+
 }
 
 export function forgotPassword(email) {
@@ -87,7 +76,7 @@ export function forgotPassword(email) {
     dispatch(requestForgotPassword(PasswordObject));
 
     axios
-      .post(userConstants.Domain + "api/Users/forgot_password", PasswordObject)
+      .post(config.Domain + "api/Users/forgot_password", PasswordObject)
       .then(
         (user) => {
           dispatch(ForgotPasswordsuccess(user));
@@ -120,8 +109,6 @@ export function forgotPassword(email) {
 export function ResetPassword(institutionObject) {
   return (dispatch) => {
     var email = institutionObject.Email;
-    // var encryptedpassword = encryptAES(institutionObject.Password);
-    // var encryptedconfirmpassword = encryptAES(institutionObject.ConfirmPassword);
     var encryptedpassword = encryptAndEncode(institutionObject.password);
     var encryptedconfirmpassword = encryptAndEncode(
       institutionObject.ConfirmPassword
@@ -137,7 +124,7 @@ export function ResetPassword(institutionObject) {
 
     axios
       .post(
-        userConstants.Domain + "api/Users/rest_password",
+        config.Domain + "api/Users/rest_password",
         ResetPasswordObject
       )
       .then(
@@ -185,8 +172,7 @@ export function logout() {
   //userService.logout();
   return (dispatch) => {
     dispatch(logOutRequest());
-    localStorage.clear();
-    setAuthorizationToken(false);
+    clearStorage();
     dispatch(loggedOut());
   };
 }

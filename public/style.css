@@ -231,7 +231,6 @@
      margin-bottom: 20px;
  }
 
- .test {}
 
  .c1 {
      margin-right: 30px;
@@ -291,7 +290,7 @@
  .call {
      text-align: right;
      width: 100%;
-     font-family: 'Roboto', sans-serif;
+     font-family: 'Roboto';
      height: auto;
      font-size: 16px;
      font-weight: 500;
@@ -302,6 +301,21 @@
      color: #18428f;
      padding-top: 115px;
      padding-right: 40px;
+ }
+
+ .footer {
+    position: fixed;
+    height: 85px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: white;
+    color: #18428f;
+    text-align: right;
+    font-size: 16px;
+    line-height: normal;
+    letter-spacing: normal;
+    padding: 40px;
  }
 
  /*forgot password*/
@@ -469,7 +483,6 @@
  }
 
  @media only screen and (min-width: 768px) {
-     .call {}
  }
 
  @media only screen and (min-width: 320px) {}

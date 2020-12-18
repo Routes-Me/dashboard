@@ -11,5 +11,9 @@
     getServices_REQUEST: "GETSERVICES_REQUEST",
     getServices_SUCCESS: "GETSERVICES_SUCCESS",
 
+    deleteInstitutionRequest : "DELETEINSTITUTION_REQUEST",
+    deleteInstitutionSuccess : "DELETEINSTITUTION_SUCCESS",
+    deleteInstitutionError   : "DELETEINSTITUTION_ERROR",
+
     updatePage: "UPDATE_PAGE"
 }

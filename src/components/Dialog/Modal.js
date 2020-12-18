@@ -1,8 +1,7 @@
 ﻿import React from 'react';
-import { DialogVehicles } from '../Vehicles/DialogVehicles';
-import '../Style/CustomStyle.css';
-import { userConstants } from '../../constants/userConstants';
-import { Label } from 'reactstrap';
+import '../Style/home.css';
+import '../Dialog/modal.scss';
+import { vehicleConstants } from '../../constants/vehicleConstants';
 
 class Modal extends React.Component {
 
@@ -27,27 +26,31 @@ class Modal extends React.Component {
     showSearchList =(searchList)=>{
         if (searchList !== "") {
             return (
-                <div className="table-responsive">
-                    <table className="table">
+                <div className="searchList">
+                    <table>
                             <tbody>
                             {
                                 searchList.map(obj => (
-                                    <tr key={obj.id} onClick>
-                                        <td style={{ textAlign: "center", paddingLeft: 39 }}>{obj.name}</td>
+                                    <tr key={obj.name} onClick={()=>{this.onselection(obj)}}>
+                                        <td>{obj.name}</td>
                                     </tr>
                                     ))
                                 }
                             </tbody>
-                        </table>
+                    </table>
                 </div>
             )
         }
     }
 
+    returnIdforObjectType = (object, objectType) => objectType === vehicleConstants.searchDialogFor_Makers ? object.manufacturerId : object.modelId;
+
+    onselection(obj){
+        this.props.onSelect(obj);
+    } 
 
     render() {
 
-        
         // Render nothing if the "show" prop is false
         if (!this.props.show) {
             return null;
@@ -64,16 +67,13 @@ class Modal extends React.Component {
             padding: 50
         };
 
-     
-
         // The modal "window"
         const modalStyle = {
             backgroundColor: '#fefefe',
             borderRadius: 5,
             maxWidth: 300,
             minHeight: 300,
-            margin: '0 auto',
-            padding: 20
+            margin: '0 auto'
         };
 
         
@@ -85,16 +85,8 @@ class Modal extends React.Component {
         return (
             <div className="modalNew">
                 <div class="modal-content" style={{ modalStyle }}>
-                    {/*<span class="close" onClick={this.props.onClose}>&times;</span>
-                    <div className="hehading-add-butt" style={{ textAlign: "center" }}>
-                        {VehicleObj === undefined ? <h3>Add New Vehicle </h3> : <h3>Vehicle Id {VehicleObj.id}</h3>}
-                    </div><br /><br />
-                    <div class="modal-header">
-                        {VehicleObj === undefined ? <h3>Add New Vehicle </h3> : <h3>Vehicle Id {VehicleObj.id}</h3>}
-                        <span class="close" style={{ float: "right" }} onClick={this.props.onClose}>&times;</span>
-                    </div><br /><br />*/}
                     
-                    <div className="top-part-vehicles-search padding-lr-80">
+                    <div className="top-part-vehicles-search model-header">
                         <span class="closeBtn" style={{ float: "right", display:"block" }} onClick={this.props.onClose} />
                         <div className="hehading-add-butt">
                             <h3>{title}</h3>
@@ -104,21 +96,16 @@ class Modal extends React.Component {
                             <div className="search-relative">
                                 <input type="text" name="search" placeholder="Search" className="search" />
                                 <i className="fa fa-search" aria-hidden="true" />
-                                {/*<span className="cross-icon"><img src="../cross-image.png" /></span>*/}
                             </div>
                         </div>
                     </div>
                     {content}
-                    {/*{this.props.objectType === userConstants.NavItem_Vehicles && <DialogVehicles vehicleToDisplay={VehicleObj}/>}*/}
-
-
 
                 </div>
             </div>
         );
     }
 }
-
 
 
 export default Modal;

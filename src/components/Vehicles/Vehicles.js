@@ -4,7 +4,9 @@ import { connect } from 'react-redux';
 import { userConstants } from '../../constants/userConstants';
 import * as VehicleAction from '../../Redux/Action';
 import '../Detail/Detail.css';
-import Pagination from "react-js-pagination";
+import { vehicleConstants } from '../../constants/vehicleConstants';
+import PageHandler from '../PageHandler';
+import { config } from '../../constants/config';
 
 class Vehicles extends Component {
 
@@ -25,9 +27,7 @@ class Vehicles extends Component {
     }
 
     componentDidMount() {
-        //this.populateVehicleData();
-        //this.props.getVehicleModels();
-        this.props.getVehiclesForInstitution();
+        this.props.getVehiclesForInstitution(1,config.Pagelimit,this.props.user.InstitutionId,this.props.token);
     }
 
 
@@ -56,35 +56,62 @@ class Vehicles extends Component {
     }
 
 
-    //Delete Vehicle function
+    //Delete Vehicle
+    deleteVehicle = (e, vehicleId) => {
+        e.preventDefault();
+        this.props.deleteVehicle(vehicleId)
+    }
+
+
+    showDevicesForSelectedVehicle = (e, vehicleId) =>{
+        e.preventDefault();
+        this.props.getDevicesForVehicleId(vehicleId);
+    }
+
+    static getDerivedStateFromProps (props, state){
+        if(state.showDetails){
+            if(props.ApplicationState === vehicleConstants.addVehicle_SUCCESS)
+            {
+                props.getVehiclesForInstitution(1, config.Pagelimit)
+                return {showDetails : false};
+            }
+        }
+        return null;
+    }
+
+    // showUpdatedList = () =>{
+    //     this.props.getVehiclesForInstitution();
+    //     this.setState({showDetails : false});
+    // }
 
 
     //Load Vehicles in a table
     renderAllVehicleTable(Vehicles) {
         return (
-            <div className="table-list-vehicles">
-                <div className="table">
+            <div>
+            <PageHandler page = {Vehicles.page} getList={this.props.getVehiclesForInstitution} style='header'/>
+            <div className="table-list padding-lr-80">
                     <table>
                         <thead>
-                            <tr>
-                                <th>Plate</th>
-                                <th>Make</th>
-                                <th>Model</th>
-                                <th>Office</th>
-                                <th>Year</th>
+                            <tr style={{height:'51px'}}>
+                                <th>ID</th>
+                                <th>PLATE</th>
+                                <th>MODEL</th>
+                                <th>YEAR</th>
+                                <th>OFFICE</th>
                                 <th className="width44" />
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                Vehicles.map(Vehicle => (
-                                    <tr  key={Vehicle.id}>
+                                Vehicles.data?.map(Vehicle => (
+                                    <tr  key={Vehicle.id} onClick={e => this.showDevicesForSelectedVehicle(e, Vehicle.id)}>
+                                        <td>{Vehicle.id}</td>
                                         <td>{Vehicle.plateNumber}</td>
-                                        <td>{Vehicle.model.name}</td>
-                                        <td>{Vehicle.model.name}</td>
-                                        <td>{Vehicle.institution.name}</td>
+                                        <td>{Vehicle.model?.Name}</td>
                                         <td>{Vehicle.modelYear}</td>
-                                        <td className="width44" >
+                                        <td>{Vehicle.institution?.Name}</td>
+                                        <td className="width44" onClick={e => this.openSubMenuForVehicleId(e, Vehicle.id)}>
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Vehicle.id)}>
                                                     <span />
@@ -93,7 +120,7 @@ class Vehicles extends Component {
                                                 </div>
                                                 <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === Vehicle.id ? 'inline-block' : 'none' }}>
                                                     <li><a onClick={e => this.showDetailScreen(e, Vehicle)}>Edit</a></li>
-                                                    <li><a>Delete</a></li>
+                                                    <li><a onClick={e => this.deleteVehicle(e, Vehicle.id)}>Delete</a></li>
                                                 </ul>
                                             </div>
                                         </td>
@@ -111,17 +138,8 @@ class Vehicles extends Component {
 
     render() {
 
-
-
-        //let content = this.state.loading ?
-        //    <div><br /><br /><p><em> Loading...</em> </p></div> :
-        //    this.state.failed ?
-        //        <div className="text-danger"><br /><br />
-        //            <em>{this.state.error}</em>
-        //        </div> : this.renderAllVehicleTable(this.state.VehicleList);
-
         let content = this.renderAllVehicleTable(this.props.VehicleList);
-
+        {this.props.ApplicationState === vehicleConstants.addVehicle_SUCCESS && this.props.getVehiclesForInstitution(1)}
         return (
             <div className="vehicles-page" style={{ height: "100vh", width: "100%" }}>
                 {this.state.showDetails ?
@@ -145,20 +163,6 @@ class Vehicles extends Component {
                             </div>
                         </div>
                         {content}
-                        {/*<div className="left page-nav padding-lr-80">
-                            <span className="page-count">Page 15 of 20</span>
-                            <Pagination
-                                hideDisabled
-                                firstPageText={'<<<<'}
-                                lastPageText={'>>>>'}
-                                prevPageText={'<<'}
-                                nextPageText={'>>'}
-                                activePage={this.state.activePage}
-                                itemsCountPerPage={10}
-                                totalItemsCount={450}
-                                pageRangeDisplayed={5}
-                                onChange={this.handlePageChange.bind(this)} />
-                        </div>*/}
                     </div>}
             </div>
         );
@@ -168,17 +172,19 @@ class Vehicles extends Component {
 
 const mapStateToProps = (state) => {
 
-    const vehicles = state.VehicleStore.Vehicles;
-
     return {
-        VehicleList: vehicles
+        VehicleList: state.VehicleStore.Vehicles,
+        user: state.Login.user,
+        token : state.Login.token,
+        ApplicationState: state.VehicleStore.ActionState
     }
 
 }
 
 const actionCreators = {
     getVehiclesForInstitution: VehicleAction.getVehiclesForInstitutionID,
-    deleteVehicle: VehicleAction.deleteVehicle
+    deleteVehicle: VehicleAction.deleteVehicle,
+    getDevicesForVehicleId: VehicleAction.getDevicesForVehicleId
 };
 
 const connectedVehicles = connect(mapStateToProps, actionCreators)(Vehicles);

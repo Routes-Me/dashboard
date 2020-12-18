@@ -1,48 +1,112 @@
-﻿import { MockServerData } from '../../constants/MockServerData';
-import { userConstants } from '../../constants/userConstants';
-import axios from 'axios';
-import { stripBasename } from 'history/PathUtils';
+﻿import { userConstants } from '../../constants/userConstants';
+import apiHandler from '../../util/request';
+import { validate, returnEntityForInstitution } from '../../util/basic';
 
-
-const Token = localStorage.getItem("jwtToken").toString();
 
 
 //Get UsersList
-export function getUsers(institutionId, pageIndex) {
+export function getUsers(pageIndex,limit,institutionId) {
 
     return dispatch => {
         dispatch(UsersDataRequest());
-        axios.get(userConstants.Domain + 'users?offset=1&limit=10', {
-            headers: { Authorization: "Bearer " + Token },
-            "Content-Type": "application/json; charset=utf-8",
-          })
+        apiHandler.get(buildURL('users',pageIndex,limit,true,institutionId))
         .then(
                 users => {
                     dispatch(storeUsersData(returnFormatedResponseForUsers(users)));
                     dispatch(updatePage(users.data.pagination));
                 },
+
                 error => {
                     alert(error.toString());
                 }
             );
-        //dispatch(UsersDataRequest());
-        //const Users = MockAPICallForUsers();
-        //dispatch(storeUserRoles(Users.include.userRoles));
-        //dispatch(storeApplications(Users.include.applications));
-        //dispatch(UsersDataReceived(Users.data.users));
-
     }
 
 }
 
 function UsersDataRequest() { return { type: userConstants.getUsers_REQUEST } }
+
 function storeUsersData(Users) { return { type: userConstants.getUsers_SUCCESS, payload: Users } }
+
 function updatePage(pages) { return { type: userConstants.UpdatePage, payload: pages } }
 
-//id in the response would be replaced by object in this function
+
+
+// get User Roles
+export function getPrivileges(pageIndex,limit) {
+  return dispatch => { 
+    getRequest('privileges') 
+    apiHandler.get(buildURL('privileges',pageIndex,limit,false))
+        .then(
+            priviledges => {
+                    dispatch(getSuccess('privileges',(returnFormatedRoles('privileges',priviledges.data.data))));
+                },
+                error => {
+                    alert(error.toString());
+                }
+            );
+  }
+
+}
+
+// get applications
+export function getApplications(pageIndex,limit){
+
+  return dispatch => {
+    getRequest('applications');
+    apiHandler.get(buildURL('applications',pageIndex,limit,false))
+        .then(
+          applications =>{
+                    dispatch(getSuccess('applications',(returnFormatedRoles('applications',applications.data.data))));
+                },
+                error =>{
+                    alert(error.toString());
+                }
+        );
+  }
+
+}
+
+
+
+
+
+
+
+// delete user
+export function deleteUser(userId)
+{
+  return (dispatch)=>{
+    dispatch(deleteUserRequest)
+    if(userId!= null)
+    {
+      apiHandler.delete("users/"+userId)
+      .then(
+        (user) => {
+          dispatch(deleteUserSuccess(user));
+          getUsers();
+        },
+        (error) => {
+          alert(error.toString());
+        }
+      );
+    }
+  }
+}
+
+function deleteUserRequest() { return {type: userConstants.deleteUser_Request} }
+
+function deleteUserSuccess(user){ return {type: userConstants.deleteUser_Success, payload: user} }
+
+function deleteUserError(message) { return {type: userConstants.deleteUser_Error, payload: message} }
+
+
+
+
+
 function returnFormatedUsers(response) {
+
     const usersList = response.data.users.filter(user => user.institutionId === 3)
-    //console.log('Vehicle Action Array returned :', VehicleList);
     const userRolesList = response.include.userRoles;
 
     const FormatedUsers = usersList.map(x => ({
@@ -52,12 +116,70 @@ function returnFormatedUsers(response) {
         createdDate: x.createdDate,
         isVerified: x.isVerified,
         lastLoginDate: x.lastLoginDate,
-        userRoles: userRolesList.filter(y => y.include(x.userRoles)),
+        userRoles: filterUserRolesList(userRolesList,x.userRoles),
         name: x.name,
         description: x.description
     }))
-
     return FormatedUsers;
+
+}
+
+
+function returnFormatedRoles(type, response){
+
+  let formatedList =[]
+  if(type === 'privileges')
+  {
+      formatedList = response.map(
+          items => 
+          ({
+              id : items.privilegeId,
+              name : items.name,
+              date : items.createdAt===null? '--' : items.createdAt
+           }));
+  }
+  else{
+      formatedList = response.map(
+          items => 
+          ({
+              id : items.applicationId,
+              name : items.name,
+              date : items.createdAt===null? '--' : items.createdAt
+           }));
+  }
+   
+      return formatedList;
+}
+
+
+function filterUserRolesList(userRolesList, userRoles)
+{
+  let roles = "";
+  if( userRoles !== undefined && userRolesList.length > 0)
+  {
+    roles = userRolesList.filter(y => y.include(userRoles));
+  }
+  else
+  {
+    roles =[0];
+  }
+  return roles
+}
+
+
+function buildURL(entity, pageIndex, limit, include, institutionId) 
+{
+    let queryParameter =""
+    entity = returnEntityForInstitution(entity,institutionId);
+    if(include)
+    {
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit+"&include=institutions";
+    }
+    else
+    {
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit;
+    }
+    return queryParameter;
 }
 
 function returnQueryParamters(offset, include) {
@@ -81,117 +203,165 @@ function returnQueryParamters(offset, include) {
 }
 
 function returnFormatedResponseForUsers(response) {
+
     const usersList = response.data.data;
-    // const servicesList = response.data.included.services;
+    const institutionList = response.data.included?.institution !== undefined ? response.data.included.institution:[];
   
         const formatedUsers = usersList.map((x) => ({
         userId: x.userId,
         name: x.name,
         email: x.email,
-        phone: x.phone,
-        createdAt: x.createdAt,
-        application:x.application
-      //services: servicesList.filter((y) => y.include(x.services))
+        phone: validate(x.phone),
+        createdAt: validate(x.createdAt),
+        roles:x.roles,
+        institution: institutionList.filter(y => y.institutionId === x.institutionId)[0]
     }));
+
+    let users= {
+      data : formatedUsers,
+      page : response.data.pagination
+    }
   
-    return formatedUsers;
-  }
-
-//Update on API
-function MockAPICallForUsers() {
-    const response = MockServerData.UsersMockServerData;
-    //const UsersList = res.data.users;
-    return response;
+    return users;
 }
 
 
-// get User Roles
-export function getPriviledges() {
-
-    return dispatch => {
-
-        dispatch(storeUserRoles(MockServerData.Priviledges.data));
-
-    }
-
-    function storeUserRoles(roles) { return { type: userConstants.update_USERROLES, payload: roles } };
-
-}
-
-// get applications
-export function getApplications(){
-
-    return dispatch => {
-
-        dispatch(storeApplications(MockServerData.Applications.data))
-
-    }
-    
-    function storeApplications(apps){ return {type:userConstants.update_APPLICATIONS, payload:apps}};
-
-}
-
-//Autherize the logged in user with the userRole
-export function getAutherization(roleId) {
-    
-    let navList = MockServerData.NavMenuItems.data;
-    let navObj = navList.filter(x=>x.roleId===roleId);
-        
-
-    return dispatch => {
-        dispatch(storeNavItems(navObj[0].navItems));
-    }
-
-    function storeNavItems(navItems) { return { type: userConstants.getNavItems_SUCCESS, payload: navItems } } ;
-
-}
 
 
 //Save User Detail
-export function saveUser(user) {
+export function saveUser(user,action) {
+
     return dispatch => {
         dispatch(saveUserDataRequest);
-        if (user.userId !== "" || user.userId !== undefined) {
-            axios.post(userConstants.Domain + 'signup' , user, {
-                headers: { Authorization: "Bearer " + Token },
-                "Content-Type": "application/json; charset=utf-8",
-              })
+        if (action === "add") {
+          apiHandler.post('signup', user)
               .then(
                 users => {
-                    dispatch(saveUserDataSuccess);
+                    dispatch(saveUserDataSuccess());
                 },
                 error => {
                     alert(error.message.toString() );
                 });
         }
         else {
-            axios.put(userConstants.Domain + 'users?' + user,{
-                headers: { Authorization: "Bearer " + Token },
-                "Content-Type": "application/json; charset=utf-8",
-              })
+          apiHandler.put('users' , user)
               .then(
                 users => {
-                    dispatch(saveUserDataSuccess);
+                    dispatch(saveUserDataSuccess());
                 },
                 error => {
                     alert(error.toString());
                 });
         }
-        
     }
+
 }
 function saveUserDataRequest() { return { type: userConstants.saveUsers_REQUEST } }
 function saveUserDataSuccess() { return { type: userConstants.saveUsers_SUCCESS } }
 
-//Update on API
-function MockAPICallForPutUser(user) {
-    console.log("Dictionary for the create PUT/user API", user);
+
+export function saveApplications(application, action){
+  return dispatch =>{
+      dispatch(saveRequest('applications'))
+      if (action === "save")
+      {
+        apiHandler.put('applications',application)
+          .then(
+              response => { dispatch(saveSuccess('applications',response.data))},
+              error => {dispatch(saveFailure('applications',error))}
+          )
+      }
+      else
+      {
+        apiHandler.post('applications',application)
+        .then(
+            response => { dispatch(saveSuccess('applications',response.data))},
+            error => {dispatch(saveFailure('applications',error))}
+        )
+      }
+  }
 }
 
-//Update on API
-function MockAPICallForPostUser(user) {
-    console.log("Dictionary for the create POST/user API", user);
+
+export function savePrivileges(privilege, action){
+  return dispatch =>{
+      dispatch(saveRequest('privileges'))
+      if (action === "save")
+      {
+        apiHandler.put('privileges',privilege)
+        .then(
+            response => { dispatch(saveSuccess('privileges',response.data))},
+            error => {dispatch(saveFailure('privileges',error))}
+        )
+      }
+      else
+      {
+        apiHandler.post('privileges',privilege)
+        .then(
+            response => { dispatch(saveSuccess('privileges',response.data))},
+            error => {dispatch(saveFailure('privileges',error))}
+        )
+      }
+      
+  }
 }
 
+
+
+function saveRequest(action){
+
+  if(action === 'applications')
+  return { type : userConstants.getApplications_REQUEST }
+  else
+  return { type : userConstants.getPrivileges_REQUEST }
+
+}
+
+function saveSuccess(action, payload) {
+
+  if(action ==='applications')
+  return { type : userConstants.saveApplications_SUCCESS, payload: payload}
+  else
+  return { type : userConstants.savePrivilidges_SUCCESS, payload: payload}
+
+}
+
+function saveFailure(action, payload) {
+
+  if(action === 'applications')
+  return { type : userConstants.getApplications_ERROR, payload: payload }
+  else
+  return { type : userConstants.getPrivileges_ERROR, payload: payload }
+
+}
+
+
+
+function getRequest(action){
+
+  if(action === 'applications')
+  return { type : userConstants.getApplications_REQUEST }
+  else
+  return { type : userConstants.getPrivileges_REQUEST }
+
+}
+
+function getSuccess(action, payload) {
+
+  if(action ==='applications')
+  return { type : userConstants.update_APPLICATIONS, payload: payload}
+  else
+  return { type : userConstants.update_PRIVILEGES, payload: payload}
+
+}
+
+function getFailure(action, payload) {
+
+  if(action === 'applications')
+  return { type : userConstants.getApplications_ERROR, payload: payload }
+  else
+  return { type : userConstants.getPrivileges_ERROR, payload: payload }
+
+}
 
 

@@ -4,10 +4,13 @@ const INITIAL_STATE = {
     Vehicles: [],
     Makes:[],
     Models: [],
+    Devices:[],
     Page: "",
-    loading: true,
+    Loading: true,
     hasError: false,
-    error:null
+    error:null,
+    ActionState: '',
+    VehicleDetail: ''
 }
 
 const VehicleReducer = (state = INITIAL_STATE, action) => {
@@ -15,58 +18,92 @@ const VehicleReducer = (state = INITIAL_STATE, action) => {
         case vehicleConstants.getVehicles_REQUEST:
             return {
                 ...state,
-                loading: true,
+                Loading: true,
                 hasError: false
             };
         case vehicleConstants.getVehicles_SUCCESS:
             return {
                 ...state,
-                loading: false,
+                Loading: false,
                 hasError: false,
-                Vehicles: action.payload
+                Vehicles: action.payload,
+                Devices:[],
+                ActionState: vehicleConstants.getVehicles_SUCCESS
             };
         case vehicleConstants.getModels_REQUEST:
             return {
                 ...state,
-                loading: false,
+                Loading: false,
                 hasError: false
             };
         case vehicleConstants.getModels_SUCCESS:
             return {
                 ...state,
-                loading: true,
+                Loading: true,
                 hasError: false,
                 Models: action.payload
             };
         case vehicleConstants.getMakes_REQUEST:
             return {
                 ...state,
-                loading: false,
+                Loading: false,
                 hasError: false
             };
         case vehicleConstants.getMakes_SUCCESS:
             return {
                 ...state,
-                loading: true,
+                Loading: true,
                 hasError: false,
                 Makes: action.payload
+            };
+        case vehicleConstants.getDevices_REQUEST:
+            return {
+                ...state,
+                Loading: true,
+                hasError: false
+            };
+        case vehicleConstants.getDevices_SUCCESS:
+            return {
+                ...state,
+                Loading: false,
+                hasError: false,
+                Devices: action.payload
             };
         case vehicleConstants.addVehicle_REQUEST:
             return {
                 ...state,
-                loading: true,
+                Loading: true,
                 hasError: false
             };
         case vehicleConstants.addVehicle_SUCCESS:
             return {
                 ...state,
-                loading: false,
+                Loading: false,
+                hasError: false,
+                ActionState: vehicleConstants.addVehicle_SUCCESS
+            };
+        case vehicleConstants.deleteVehicle_Request:
+            return {
+                ...state,
+                Loading: true,
                 hasError: false
             };
+        case vehicleConstants.deleteVehicle_Success:
+            return {
+                ...state,
+                Loading: false,
+                hasError: false,
+                ActionState: vehicleConstants.addVehicle_SUCCESS
+            };
+        case vehicleConstants.showVehicleDetail:
+            return {
+                ...state,
+                VehicleDetail : action.payload
+            }
         case vehicleConstants.updatePage:
             return {
                 ...state,
-                loading: false,
+                Loading: false,
                 hasError: false,
                 Page: action.payload
             };

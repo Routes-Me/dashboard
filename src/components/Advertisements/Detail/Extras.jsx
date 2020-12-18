@@ -1,10 +1,9 @@
-﻿import React, { Component } from 'react';
+﻿import React from 'react';
 import { connect } from 'react-redux';
 import { Label } from 'reactstrap';
 import * as AdvertisementAction from '../../../Redux/Action';
 import * as InstitutionAction from '../../../Redux/Action';
 import Form from 'react-validation/build/form';
-import { onImageCompress, onVideoCompress } from '../../../util/Compress';
 import '../../Advertisements/Advertisement.css';
 
 
@@ -17,18 +16,22 @@ class Extras extends React.Component {
             id: "",
             title: "",
             subtitle: "",
-            image: "",
-            video: "",
-            campaigns: [],
-            dayInterval: "",
-            advertisement: ""
+            code:'',
+            startDate:"",
+            endDate:"",
+            useageLimit:"",
+            shareQR:false,
+            advertisement: "",
+            weblink:"",
+            iOSLink:"",
+            androidLink:"",
+            tabIndex:1
         }
     }
 
-    componentDidMount() {
-        this.props.getCampaigns();
-        this.props.getDayIntervals();
-        //this.props.getInstitutions();
+    onChangeRadioButton = (event) => {
+        const share = event.target.value === 'on' ? true: false;
+        this.setState({ shareQR : share });
     }
 
     onChange = (event) => {
@@ -38,31 +41,21 @@ class Extras extends React.Component {
         }
     }
 
-    fileChangedHandler = (event) => {
-        const file = event.target.files[0];
-        //const filepath = file.mozFullPath;
-        var filePath = 'C:/Users/Hp/Downloads/Simulater Sample/sample.avi';
-        this.onVideoCompress(filePath);
-        //this.compressImage(file);
-
+    onTabClick = (index) => {
+        this.setState({ tabIndex: index });
     }
-
-    compressVideo = async (filePath) => {
-        const compressedVideo = await onVideoCompress(filePath);
-        this.setState({ video: compressedVideo });
-    }
-
-
-
-    compressImage = async (image) => {
-        const compressedImage = await onImageCompress(image);
-        //console.log(`The compressed image size ==> ${this.calculateImageSize(compressedImage)}`);
-        this.setState({ image: compressedImage });
-        //this.props.uploadMedia(compressedImage);
-    }
+  
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.submitForm !== prevProps.submitForm) {
+            if(this.props.submitForm)
+            {
+                this.handleSubmit(this.props.addForPromotion.advertisementId);
+            }
+        }
+      }
 
     static getDerivedStateFromProps(props, state) {
-        console.log('Users : getDerivedStateFromProps called with NewProps', props.advertisementToDisplay);
+
         if (props.advertisementToDisplay !== undefined) {
             if (props.advertisementToDisplay !== state.userToDisplay) {
                 return {
@@ -76,41 +69,68 @@ class Extras extends React.Component {
                 }
             }
         }
+
     }
 
     //Submit button action 
-    handleSubmit = (event) => {
+    handleSubmit = (advertisementIdForPromotion) => {
 
-        event.preventDefault();
-
-        const vehicle = {
-            Email: this.state.email,
-            Phone: this.state.phone,
-            application: this.state.application,
-            name: this.state.name
+        let promotion ='';
+        if(this.state.weblink === '')
+        {
+            promotion = {
+                Title: this.state.title,
+                Subtitle: this.state.subtitle,
+                code: this.state.code,
+                StartAt: this.state.startDate,
+                EndAt: this.state.endDate,
+                UsageLimit: this.state.useageLimit,
+                IsSharable: this.state.shareQR,
+                AdvertisementId: advertisementIdForPromotion,
+                InstitutionId: this.props.InstitutionId,
+                type:"coupons"
+            }
         }
+        else {
+            promotion = {
+                Title: this.state.title,
+                Subtitle: this.state.subtitle,
+                code:this.state.code,
+                links :{
+                    Web: this.state.weblink,
+                    Ios: this.state.iOSLink,
+                    Android: this.state.androidLink
+                },
+                type: "links",
+                AdvertisementId: advertisementIdForPromotion,
+                InstitutionId: this.props.InstitutionId
+            }
+        }
+        
 
-        this.props.saveUser(vehicle);
+        this.props.savePromotion(promotion);
+
     }
 
     render() {
-        const advertisementObj = this.state.advertisement;
+        const tabIndex = this.state.tabIndex; 
         return (
             <Form onSubmit={e => this.handleSubmit(e)}>
-                <br/>
                 <label>Routes enables you to add a promoted QR code connected to the advertisement</label>
                 <br />
                     <div className="row">
                     <div className="col-md-12">
 
+
+                            
+
                             <div className="row form-group">
                                 <div className="col-md-12">
                                     <Label>Title</Label><br />
                                 <input type="text" name="title"
-                                    placeholder={advertisementObj === undefined ? "" : advertisementObj.title}
-                                        value={advertisementObj.name}
-                                        onChange={this.onChange}
-                                        className="form-control" />
+                                    value={this.state.title}
+                                    onChange={this.onChange}
+                                    className="form-control" />
                                 </div>
                             </div>
 
@@ -119,20 +139,72 @@ class Extras extends React.Component {
                                 <div className="col-md-12">
                                     <Label>Subtitle</Label><br />
                                 <input type="text" name="subtitle"
-                                    placeholder={advertisementObj === undefined ? "" : advertisementObj.subtitle}
-                                        value={advertisementObj.name}
-                                        onChange={this.onChange}
-                                        className="form-control" />
+                                    value={this.state.subtitle}
+                                    onChange={this.onChange}
+                                    className="form-control" />
                                 </div>
                             </div>
 
+                            <div className="row form-group">
+                                <div className="col-md-12">
+                                    <Label>Promotion Code</Label><br />
+                                <input type="text" name="code"
+                                    value={this.state.code}
+                                    onChange={this.onChange}
+                                    className="form-control" />
+                                </div>
+                            </div>
+
+                            <div className="headerTabStyle">
+                                <nav>
+                                    <div className="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                        <a className={`nav-item nav-link ${tabIndex === 1 && "active"}`}  id="nav-home-tab" data-toggle="tab" onClick={(e) => this.onTabClick(1)} role="tab" aria-controls="nav-home" aria-selected="true"> Links</a>
+                                        <a className={`nav-item nav-link ${tabIndex === 2 && "active"}`} id="nav-profile-tab" data-toggle="tab" onClick={(e) => this.onTabClick(2)} role="tab" aria-controls="nav-profile" aria-selected="false"> Coupons</a>
+                                    </div>
+                                </nav>
+                            </div>
+
+                            <div style={{display: this.state.tabIndex === 1? 'block':'none'}}>
+
+                            <div className="row form-group">
+                                <div className="col-md-12">
+                                    <Label>Web Link</Label><br />
+                                <input type="text" name="weblink"
+                                    value={this.state.weblink}
+                                    onChange={this.onChange}
+                                    className="form-control" />
+                                </div>
+                            </div>
+
+                            <div className="row form-group">
+                                <div className="col-md-12">
+                                    <Label>Android Link</Label><br />
+                                <input type="text" name="androidLink"
+                                    value={this.state.androidLink}
+                                    onChange={this.onChange}
+                                    className="form-control" />
+                                </div>
+                            </div>
+
+                            <div className="row form-group">
+                                <div className="col-md-12">
+                                    <Label>iOS Link</Label><br />
+                                <input type="text" name="iOSLink"
+                                    value={this.state.iOSLink}
+                                    onChange={this.onChange}
+                                    className="form-control" />
+                                </div>
+                            </div>
+
+                            </div>
+
+                            <div style={{display: this.state.tabIndex === 2? 'block':'none'}}>
 
                             <div className="row form-group">
                                 <div className="col-md-12">
                                     <Label>Starts At</Label><br />
-                                <input type="date" name="email"
-                                    placeholder={advertisementObj === undefined ? "" : advertisementObj.name}
-                                    value={advertisementObj.name}
+                                <input type="date" name="startDate"
+                                    value={this.state.startDate}
                                     onChange={this.onChange}
                                     className="form-control" />
                                 </div>
@@ -141,9 +213,8 @@ class Extras extends React.Component {
                             <div className="row form-group">
                                 <div className="col-md-12">
                                     <Label>Ends At</Label><br />
-                                <input type="date" name="email"
-                                    placeholder={advertisementObj === undefined ? "" : advertisementObj.name}
-                                    value={advertisementObj.name}
+                                <input type="date" name="endDate"
+                                    value={this.state.endDate}
                                     onChange={this.onChange}
                                     className="form-control" />
                                 </div>
@@ -152,9 +223,8 @@ class Extras extends React.Component {
                             <div className="row form-group">
                                 <div className="col-md-12">
                                     <Label>Useage Limit</Label><br />
-                                <input type="number" name="email"
-                                    placeholder={advertisementObj === undefined ? "" : advertisementObj.name}
-                                    value={advertisementObj.name}
+                                <input type="number" name="useageLimit"
+                                    value={this.state.useageLimit}
                                     onChange={this.onChange}
                                     className="form-control" />
                                 </div>
@@ -163,14 +233,13 @@ class Extras extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-12">
                                 <Label>Enable Share QR Code</Label>
-                                <label class="radio-inline"><input type="radio" name="optradio" checked/> Yes</label>
-                                <label class="radio-inline"><input type="radio" name="optradio"/> No</label>
+                                <label class="radio-inline"><input type="radio" name="shareQR" onChange={this.onChangeRadioButton} checked={this.state.shareQR}/> Yes</label>
+                                <label class="radio-inline"><input type="radio" name="shareQR" onChange={this.onChangeRadioButton} checked={!this.state.shareQR}/> No</label>
                             </div>
                         </div>
-                            
-                            <br /><br />
 
-                            {/*<div className="align-self-end ml-auto" style={{ textAlign: "end" }}><button type="submit" className="btn btn-primary"> {buttonText} </button></div>*/}
+                        </div>
+
 
                         </div>
                     </div>
@@ -183,24 +252,20 @@ class Extras extends React.Component {
 //connect redux
 const mapStateToProps = (state) => {
 
-    const intervals = state.AdvertisementStore.DayIntervals;
 
     return {
         DayInterval: state.AdvertisementStore.DayIntervals,
-        Campaigns: state.AdvertisementStore.Campaigns
+        Campaigns: state.AdvertisementStore.Campaigns,
+        InstitutionId : state.Login.user.InstitutionId
     }
 
 }
 
 const actionCreators = {
 
-    getCampaigns: AdvertisementAction.getCampaigns,
-    getDayIntervals: AdvertisementAction.getDayIntervals,
-    getInstitutions: InstitutionAction.getInstitutions,
     updateTitle: AdvertisementAction.onTitleChange,
     updateSubtitle: AdvertisementAction.onSubTitleChange,
-    uploadMedia: AdvertisementAction.uploadMedia,
-    saveAdvertisement: AdvertisementAction.addAdvertisement
+    savePromotion: AdvertisementAction.addPromotions
 
 }
 

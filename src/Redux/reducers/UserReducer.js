@@ -1,15 +1,15 @@
 ﻿import { userConstants } from '../../constants/userConstants';
-import { stat } from 'fs';
 
 const INITIAL_STATE = {
     Users: [],
-    UserRoles: [],
+    Privileges: [],
     Applications: [],
-    navItems : [],
     Page: "",
     Loading: true,
     hasError: false,
-    error: null
+    error: null,
+    ActionState: ''
+
 }
 
 const UserReducer = (state = INITIAL_STATE, action) => {
@@ -33,25 +33,13 @@ const UserReducer = (state = INITIAL_STATE, action) => {
                 Laoding: true,
                 hasError: false
             };
-        case userConstants.update_USERROLES:
+        case userConstants.update_PRIVILEGES:
             return {
                 ...state,
                 Loading: true,
                 hasError: false,
-                UserRoles: action.payload
-            };
-        case userConstants.getNavItems_REQUEST:
-            return {
-                ...state,
-                Laoding: true,
-                hasError: false
-            };
-        case userConstants.getNavItems_SUCCESS:
-            return {
-                ...state,
-                Loading: false,
-                hasError: false,
-                navItems: action.payload
+                Privileges: action.payload,
+                ActionState: userConstants.update_PRIVILEGES
             };
         case userConstants.getApplications_REQUEST:
             return {
@@ -64,7 +52,8 @@ const UserReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 Loading: true,
                 hasError: false,
-                Applications: action.payload
+                Applications: action.payload,
+                ActionState: userConstants.update_APPLICATIONS
             };
         case userConstants.saveUsers_REQUEST:
             return {
@@ -76,7 +65,46 @@ const UserReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 Loading: false,
+                hasError: false,
+                ActionState: userConstants.saveUsers_SUCCESS
+            };
+        case userConstants.deleteUser_Request:
+            return {
+                ...state,
+                Loading: true,
                 hasError: false
+            };
+        case userConstants.deleteUser_Success:
+            return {
+                ...state,
+                Loading: false,
+                hasError: false
+            };
+        case userConstants.saveApplications_REQUEST:
+            return {
+                ...state,
+                Loading: true,
+                hasError: false
+            };
+        case userConstants.saveApplications_SUCCESS:
+            return {
+                ...state,
+                Loading: false,
+                hasError: false,
+                ActionState: userConstants.saveApplications_SUCCESS
+            };
+        case userConstants.savePrivilidges_REQUEST:
+            return {
+                ...state,
+                Loading: true,
+                hasError: false
+            };
+        case userConstants.savePrivilidges_SUCCESS:
+            return {
+                ...state,
+                Loading: false,
+                hasError: false,
+                ActionState: userConstants.savePrivilidges_SUCCESS
             };
         case userConstants.UpdatePage:
             return {

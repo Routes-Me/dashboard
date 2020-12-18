@@ -4,7 +4,10 @@ import { Label } from 'reactstrap';
 import * as UserAction from '../../Redux/Action';
 import * as InstitutionAction from '../../Redux/Action';
 import Form from 'react-validation/build/form';
-import { encryptAndEncode } from '../../Redux/encrypt';
+import { encryptAndEncode } from '../../util/encrypt';
+import {config} from "../../constants/config";
+import PageHandler from '../PageHandler';
+import { returnObjectForSelectedId } from '../../util/basic';
 
 
 class UsersDetail extends React.Component {
@@ -15,30 +18,36 @@ class UsersDetail extends React.Component {
         this.state = {
             id: "",
             name: "",
-            InstitutionId: "",
+            institutionId: "",
             email: "",
-            role: "",
+            roles: "",
             phone:"",
             user: '',
-            userRoles: '',
+            privilege: '',
             application: '',
-            errorText:""
+            errorText:"",
+            password:"",
+            institution: ''
         }
     }
 
     componentDidMount() {
-        this.props.getPriviledges();
-        this.props.getApplications();
-        this.props.getInstitutions();
+        this.props.getPrivileges(1,config.DropDownLimit);
+        this.props.getApplications(1,config.DropDownLimit);
+        this.props.getInstitutions(1,config.DropDownLimit);
     }
 
     onChange = (event) => {
+        if(event.target.name === 'institutionId')
+        {
+            this.setState({institution : returnObjectForSelectedId(this.props.InstitutionList.data, event.target.value), [event.target.name]: event.target.value})
+        }
         this.setState({ [event.target.name]: event.target.value })
     }
 
     static getDerivedStateFromProps(props, state) {
         if (props.userToDisplay !== undefined) {
-            if (props.userToDisplay !== state.userToDisplay) {
+            if (props.userToDisplay !== state.user) {
                 return {
                     
                     user: props.userToDisplay,
@@ -46,8 +55,9 @@ class UsersDetail extends React.Component {
                     name: props.userToDisplay.name,
                     email: props.userToDisplay.email,
                     phone: props.userToDisplay.phone,
-                    application: props.userToDisplay.application,
-
+                    roles: props.userToDisplay.roles[0],
+                    institutionId: props.userToDisplay.institution.institutionId,
+                    institution : props.userToDisplay.institution
                 }
             }
         }
@@ -58,40 +68,68 @@ class UsersDetail extends React.Component {
 
         event.preventDefault();
 
-        const user = {
-            userId:this.state.id,
-            Name: this.state.name,
-            Password: encryptAndEncode(this.state.password) ,
-            Email: this.state.email,
-            PhoneNumber: this.state.phone,
-            InstitutionId: this.state.InstitutionId,
-            Roles:[
-                {
-                     Application: this.state.application.toString(),
-                    Priviledges: this.state.userRoles.toString()
-               }
-            ]                                                                                                                                                                                                                                                                                                             
+
+        let action ='', user ='';
+
+        {action =  this.state.user.userId? "save": "add"}
+
+        if(action === 'save')
+        {
+            user = {
+                userId       : this.state.id,
+                Name         : this.state.name,
+                Password     : encryptAndEncode(this.state.password) ,
+                Email        : this.state.email,
+                PhoneNumber  : this.state.phone,
+                InstitutionId: this.state.institutionId,
+                Roles:[
+                    {
+                        ApplicationId: this.state.application,
+                        PrivilegeId: this.state.privilege
+                    }
+                ]                                                                                                                                                                                                                                                                                                             
+            }
         }
-        console.log('userObj',user )
-        this.props.saveUser(user);
+        else
+        {
+            user = {
+                Name         : this.state.name,
+                Password     : encryptAndEncode(this.state.password) ,
+                Email        : this.state.email,
+                PhoneNumber  : this.state.phone,
+                InstitutionId: this.state.institutionId,
+                Roles:[
+                    {
+                        ApplicationId: this.state.application,
+                        PrivilegeId: this.state.privilege
+                    }
+                ]                                                                                                                                                                                                                                                                                                             
+            }
+        }
+
+        this.props.saveUser(user,action);
+
     }
 
     render() {
+        // Render nothing if the "show" prop is false
+        // if (this.props.savedSuccessfully && !this.props.show) {
+        //     return null;
+        // }
+        
         const userObj = this.state.user;
         const buttonText = userObj ? "Update" : "Add";
 
         return (
-            <div className="container-fluid">
-            <div className="row col-md-12 detail-form">
+            <div>
                 <Form onSubmit={e => this.handleSubmit(e)}>
-                    <div className="col-md-10">
+                    <div class="col-md-12" style={{padding:'0px'}}>
 
                         <div className="row form-group">
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                                 <Label>Name</Label><br />
                                 <input type="text" name="name"
-                                    placeholder={userObj === undefined ? "" : userObj.email}
-                                    value={userObj.email}
+                                    value={this.state.name}
                                     onChange={this.onChange}
                                     className="form-control" />
                                 <span className="form-error is-visible">{this.state.errorText}</span>
@@ -99,11 +137,10 @@ class UsersDetail extends React.Component {
                         </div>
 
                         <div className="row form-group">
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                                 <Label>Password</Label><br />
                                 <input type="text" name="password"
-                                    placeholder={userObj === undefined ? "" : userObj.password}
-                                    value={userObj.password}
+                                    value={this.state.password}
                                     onChange={this.onChange}
                                     className="form-control" />
                                 <span className="form-error is-visible">{this.state.errorText}</span>
@@ -112,20 +149,10 @@ class UsersDetail extends React.Component {
                         
 
                         <div className="row form-group">
-                            <div className="col-md-4">
-                                <Label>Role</Label><br />
-                                <select defaultValue={userObj ? userObj.userRoleId : "Select a role"} className="custom-select my-1 mr-sm-2" name="userRoles" onChange={this.onChange}>
-                                    {this.props.UserRolesList.map(role => (<option key={role.id} className="dropdown-item" value={role.id}>{role.value}</option>))}
-                                </select>
-                            </div>
-                        </div>
-
-                        <div className="row form-group">
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                                 <Label>Email</Label><br />
                                 <input type="text" name="email"
-                                    placeholder={userObj === undefined ? "" : userObj.email}
-                                    value={userObj.email}
+                                    value={this.state.email}
                                     onChange={this.onChange}
                                     className="form-control" />
                                 <span className="form-error is-visible">{this.state.errorText}</span>
@@ -133,11 +160,10 @@ class UsersDetail extends React.Component {
                         </div>
 
                         <div className="row form-group">
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                                 <Label>Phone</Label><br />
                                 <input type="text" name="phone"
-                                    placeholder={userObj === undefined ? "" : userObj.phone}
-                                    defaultValue={userObj.phone}
+                                    defaultValue={this.state.phone}
                                     onChange={this.onChange}
                                     className="form-control" />
                                 <span className="form-error is-visible">{this.state.errorText}</span>
@@ -145,34 +171,47 @@ class UsersDetail extends React.Component {
                         </div>
 
                         <div className="row form-group">
-                            <div className="col-md-4">
+                            <div className="col-md-6">
                                 <Label>Applications</Label><br />
-                                <select defaultValue={userObj ? userObj.userRoleId : "Select a role"} className="custom-select my-1 mr-sm-2" name="application" onChange={this.onChange}>
-                                    {this.props.ApplicationsList.map(application => (<option key={application.id} className="dropdown-item" value={application.id}>{application.value}</option>))}
+                                <select defaultValue={this.state.roles.applicationId} className="custom-select my-1 mr-sm-2" name="application" onChange={this.onChange}>
+                                    {this.props.ApplicationsList.map(application => (<option key={application.id} className="dropdown-item" value={application.id}>{application.name}</option>))}
                                 </select>
                             </div>
                         </div>
 
                         <div className="row form-group">
-                            <div className="col-md-4">
-                                <Label>Institution</Label><br />
-                                <select defaultValue={userObj ? userObj.institutionId : "Select a institution"} className="custom-select my-1 mr-sm-2" name="InstitutionId" onChange={this.onChange}>
-                                    {this.props.InstitutionList.map(institution => (<option key={institution.id} className="dropdown-item" value={institution.id}>{institution.name}</option>))}
+                            <div className="col-md-6">
+                                <Label>Privilege</Label><br />
+                                <select defaultValue={this.state.roles.privilegeId} className="custom-select my-1 mr-sm-2" name="privilege" onChange={this.onChange}>
+                                    {this.props.PrivilegeList.map(privilege => (<option key={privilege.id} className="dropdown-item" value={privilege.id}>{privilege.name}</option>))}
                                 </select>
                             </div>
                         </div>
 
+                        <div className="row form-group">
+                            <div className="col-md-6">
+                                <Label>Institution</Label><br />
+                                <input type="text" name="institution"
+                                    value={this.state.institution ? this.state.institution.name : 'Please select a institution'}
+                                    onChange={this.onChange}
+                                    className="form-control" />
+                                <select value={this.state.institutionId} className="custom-select" size='5' name="institutionId" onChange={this.onChange}>
+                                    {this.props.InstitutionList.data?.map(institution => (<option key={institution.institutionId} className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
+                                </select>
+                                <PageHandler page = {this.props.InstitutionList.page} getList={this.props.getInstitutions}/>
+                            </div>
+                        </div>
 
+                    </div>
+                
+
+                    <div className="container-fluid">
+                        <div className="footerStyle"><div className="left-panel" style={{width:'330px'}}></div>
+                            <button type="submit" style={{ float: 'left' }} onClick={(e)=> this.handleSubmit(e)}> Create </button>
+                        </div>
                     </div>
                 </Form>
             </div>
-            <div className="container-fluid">
-                
-                <div className="footerStyle"><div className="left-panel" style={{width:'330px'}}></div>
-                    <button type="submit" style={{ float: 'left' }} onClick={(e)=> this.handleSubmit(e)}> Create </button>
-                </div>
-            </div>
-            </div >
         )
     }
 }
@@ -182,16 +221,17 @@ class UsersDetail extends React.Component {
 const mapStateToProps = (state) => {
     
     return {
-        UserRolesList       : state.UserStore.UserRoles,
-        ApplicationsList    : state.UserStore.Applications,
-        InstitutionList     : state.InstitutionStore.Institutions
+        PrivilegeList       : [config.selectPrivilege,...state.UserStore.Privileges],
+        ApplicationsList    : [config.selectApplication,...state.UserStore.Applications],
+        InstitutionList     : state.InstitutionStore.Institutions,
+        savedSuccessfully   : state.UserStore.Loading
     }
 
 }
 
 const actionCreators = {
 
-    getPriviledges  : UserAction.getPriviledges,
+    getPrivileges   : UserAction.getPrivileges,
     getApplications : UserAction.getApplications,
     getInstitutions : InstitutionAction.getInstitutions,
     saveUser        : UserAction.saveUser

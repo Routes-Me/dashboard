@@ -4,6 +4,7 @@ import { VehicleDetail } from '../Vehicles/VehicleDetail';
 import { UsersDetail } from '../Users/UsersDetail';
 import { InstitutionsDetail } from '../Institutions/InstitutionsDetail';
 import { AdvertisementsDetail } from '../Advertisements/AdvertisementsDetail';
+import { CampaignsDetail } from '../Campaigns/CampaignsDetail';
 
 
 export default class DetailBody extends Component {
@@ -19,10 +20,11 @@ export default class DetailBody extends Component {
     render() {
         return(
             <div className="container-fluid">
-                {this.props.objectType === userConstants.NavItem_Vehicles && <VehicleDetail vehicleToDisplay={this.props.object} />}
-                {this.props.objectType === userConstants.NavItem_Users && <UsersDetail userToDisplay={this.props.object} />}
-                {this.props.objectType === userConstants.NavItem_Institutions && <InstitutionsDetail institutionToDisplay={this.props.object} />}
-                {this.props.objectType === userConstants.NavItem_Advertisements && <AdvertisementsDetail advertisementToDisplay={this.props.object} />}
+                {this.props.objectType === userConstants.NavItem_Vehicles && <VehicleDetail vehicleToDisplay={this.props.object} onClose={this.props.onClose}/>}
+                {this.props.objectType === userConstants.NavItem_Users && <UsersDetail userToDisplay={this.props.object} onClose={this.props.onClose}/>}
+                {this.props.objectType === userConstants.NavItem_Institutions && <InstitutionsDetail institutionToDisplay={this.props.object} onClose={this.props.onClose}/>}
+                {this.props.objectType === userConstants.NavItem_Advertisements && <AdvertisementsDetail advertisementToDisplay={this.props.object} onClose={this.props.onClose}/>}
+                {this.props.objectType === userConstants.NavItem_Campaigns && <CampaignsDetail campaignToDisplay={this.props.object} onClose={this.props.onClose}/>}
             </div>
         )
     }

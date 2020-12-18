@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Banner } from './Banner';
 import { LoginForm } from './LoginForm';
+import {Footer} from './Footer';
 
 
 
@@ -30,7 +31,7 @@ export class Login extends Component {
 
 					<div className="row">
 
-						<div className="col-md-4">
+						<div className="col-sm-12 col-md-4">
 							<LoginForm />
 						</div>
 						<div className="test">
@@ -43,6 +44,7 @@ export class Login extends Component {
 					</div>
 
 				</div> 
+				<Footer/>
 
 			</div>
         );
