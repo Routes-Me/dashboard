@@ -88,6 +88,7 @@ class Users extends Component {
                                     <td>{user.email}</td>
                                     <td>{user.phone}</td>
                                     <td>{user.createdAt}</td>
+                                    {this.props.user.InstitutionId == `1580030173` &&
                                     <td className="width20" >
                                         <div className="edit-popup">
                                             <div className="edit-delet-butt" onClick={e => this.openSubMenuForUserId(e, user.userId)}>
@@ -100,7 +101,7 @@ class Users extends Component {
                                                     <li><a onClick={e=> this.deleteUser(e, user.userId)}>Delete</a></li>
                                                 </ul>
                                             </div>
-                                        </td>
+                                        </td>}
                                     </tr>
                                 ))
                             }

@@ -111,6 +111,7 @@ class Vehicles extends Component {
                                         <td>{Vehicle.model?.Name}</td>
                                         <td>{Vehicle.modelYear}</td>
                                         <td>{Vehicle.institution?.Name}</td>
+                                        {this.props.user.InstitutionId == `1580030173` &&
                                         <td className="width44" onClick={e => this.openSubMenuForVehicleId(e, Vehicle.id)}>
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Vehicle.id)}>
@@ -123,7 +124,7 @@ class Vehicles extends Component {
                                                     <li><a onClick={e => this.deleteVehicle(e, Vehicle.id)}>Delete</a></li>
                                                 </ul>
                                             </div>
-                                        </td>
+                                        </td>}
                                     </tr>
                                 ))
                             }
