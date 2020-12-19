@@ -89,7 +89,7 @@ class Vehicles extends Component {
     renderAllVehicleTable(Vehicles) {
         return (
             <div>
-            <PageHandler page = {Vehicles.page} getList={this.props.getVehiclesForInstitution} style='header'/>
+            <PageHandler page = {Vehicles.page} getList={this.props.getVehiclesForInstitution} institutionId={this.props.user.InstitutionId} style='header'/>
             <div className="table-list padding-lr-80">
                     <table>
                         <thead>
@@ -151,7 +151,8 @@ class Vehicles extends Component {
                         <div className="top-part-vehicles-search padding-lr-80">
                             <div className="hehading-add-butt">
                                 <h3>Vehicles</h3>
-                                <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Add Vehicle</a>
+                                {this.props.user.InstitutionId == `1580030173` &&
+                                <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Add Vehicle</a>}
                             </div>
 
                             <div className="search-part">

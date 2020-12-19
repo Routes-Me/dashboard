@@ -141,7 +141,7 @@ class Tracking extends Component {
         
         this.props.connectTheHub(this.props.token);
         this.props.SubscribeToHub(this.props.user);
-        this.props.GetOfflineVehicles();
+        this.props.GetOfflineVehicles(this.props.user);
         //navigator.geolocation.getCurrentPosition(this.currentCoords);
         //console.log("Will Mount Center => :", this.state.center);
     }

@@ -66,7 +66,7 @@ class Users extends Component {
     showUsersList(usersList) {
         return (
             <div>
-            <PageHandler page = {usersList.page} getList={this.props.getUsersList} style='header'/>
+            <PageHandler page = {usersList.page} getList={this.props.getUsersList} institutionId={this.props.user.InstitutionId} style='header'/>
             <div className="table-list padding-lr-80">
                     <table>
                         <thead>
@@ -129,7 +129,8 @@ class Users extends Component {
                         <div className="top-part-vehicles-search padding-lr-80">
                             <div className="hehading-add-butt">
                                 <h3>Users</h3>
-                                <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Invite User</a>
+                                {this.props.user.InstitutionId == `1580030173` &&
+                                <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Invite User</a>}
                             </div>
 
                             <div className="search-part">
