@@ -504,6 +504,7 @@ header nav {
     text-align: left;
     align-content: space-around;
     justify-content: space-between;
+    word-break: break-word;
 } 
 
 /* .table-list > table > th,td:last-child{

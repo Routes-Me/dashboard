@@ -18,7 +18,10 @@ class Primary extends Component
 
     componentDidMount() {
 
+        if(this.props.user.InstitutionId ===  '1580030173') //1580030173 78132467
         this.props.getAutherization(1);
+        else
+        this.props.getAutherization(2);
 
     }
 

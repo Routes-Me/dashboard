@@ -6,14 +6,14 @@ function Analytics(advertisementList) {
 
     const data =  
     [
-        {name: 'McDonalds',         iOS: 4,    Android: 0,    web: 2},
-        {name: 'Center Point',      iOS: 2,    Android: 1,    web: 0},
-        {name: 'Huawei',            iOS: 1,    Android: 0,    web: 0},
-        {name: 'KFC',               iOS: 1,    Android: 0,    web: 0},
-        {name: 'Xcite',             iOS: 1,    Android: 0,    web: 0},
-        {name: 'Zain',              iOS: 1,    Android: 2,    web: 0},
-        {name: 'Best',              iOS: 1,    Android: 0,    web: 0},
-        {name: 'City Center',       iOS: 1,    Android: 0,    web: 0},
+        {name: 'McDonalds',         iOS: 4,    Android: 0,    web: 2,   Windows: 0},
+        {name: 'Center Point',      iOS: 2,    Android: 2,    web: 0,   Windows: 0},
+        {name: 'Huawei',            iOS: 1,    Android: 0,    web: 0,   Windows: 0},
+        {name: 'KFC',               iOS: 1,    Android: 0,    web: 0,   Windows: 0},
+        {name: 'Xcite',             iOS: 1,    Android: 0,    web: 0,   Windows: 0},
+        {name: 'Zain',              iOS: 1,    Android: 2,    web: 0,   Windows: 0},
+        {name: 'Best',              iOS: 1,    Android: 1,    web: 0,   Windows: 0},
+        {name: 'City Center',       iOS: 2,    Android: 0,    web: 0,   Windows: 1},
     ];
 
     return (
@@ -37,6 +37,7 @@ function Analytics(advertisementList) {
                          <Bar dataKey="Android" stackId="a" fill="#a4c639" barSize={30}/>
                          <Bar dataKey="iOS" stackId="a" fill="#a2aaad" barSize={30}/>
                          <Bar dataKey='web' stackId='a' fill='#375a9b' barSize={30}/>
+                         <Bar dataKey='Windows' stackId='a' fill='#9b7837' barSize={30}/>
                         </BarChart>
                     </div>
                 </div>
