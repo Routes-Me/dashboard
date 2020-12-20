@@ -1,7 +1,6 @@
 ﻿import { userConstants } from '../../constants/userConstants';
-import { config } from '../../constants/config';
 import apiHandler from '../../util/request';
-import { validate } from '../../util/basic';
+import { validate, returnEntityForInstitution } from '../../util/basic';
 
 
 
@@ -10,7 +9,7 @@ export function getUsers(pageIndex,limit,institutionId) {
 
     return dispatch => {
         dispatch(UsersDataRequest());
-        apiHandler.get(buildURL('users',pageIndex,limit,true))
+        apiHandler.get(buildURL('users',pageIndex,limit,true,institutionId))
         .then(
                 users => {
                     dispatch(storeUsersData(returnFormatedResponseForUsers(users)));
@@ -168,9 +167,10 @@ function filterUserRolesList(userRolesList, userRoles)
 }
 
 
-function buildURL(entity, pageIndex, limit, include) 
+function buildURL(entity, pageIndex, limit, include, institutionId) 
 {
     let queryParameter =""
+    entity = returnEntityForInstitution(entity,institutionId);
     if(include)
     {
       queryParameter=entity+"?offset="+pageIndex+"&limit="+limit+"&include=institutions";

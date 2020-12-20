@@ -25,7 +25,7 @@ class Users extends Component {
 
     //Load Data
     componentDidMount() {
-        this.props.getUsersList(1, config.Pagelimit);
+        this.props.getUsersList(1, config.Pagelimit,this.props.user.InstitutionId);
     }
 
     //Handle SubMenu Toggle for the Table
@@ -66,7 +66,7 @@ class Users extends Component {
     showUsersList(usersList) {
         return (
             <div>
-            <PageHandler page = {usersList.page} getList={this.props.getUsersList} style='header'/>
+            <PageHandler page = {usersList.page} getList={this.props.getUsersList} institutionId={this.props.user.InstitutionId} style='header'/>
             <div className="table-list padding-lr-80">
                     <table>
                         <thead>
@@ -88,6 +88,7 @@ class Users extends Component {
                                     <td>{user.email}</td>
                                     <td>{user.phone}</td>
                                     <td>{user.createdAt}</td>
+                                    {this.props.user.InstitutionId == `1580030173` &&
                                     <td className="width20" >
                                         <div className="edit-popup">
                                             <div className="edit-delet-butt" onClick={e => this.openSubMenuForUserId(e, user.userId)}>
@@ -100,7 +101,7 @@ class Users extends Component {
                                                     <li><a onClick={e=> this.deleteUser(e, user.userId)}>Delete</a></li>
                                                 </ul>
                                             </div>
-                                        </td>
+                                        </td>}
                                     </tr>
                                 ))
                             }
@@ -129,7 +130,8 @@ class Users extends Component {
                         <div className="top-part-vehicles-search padding-lr-80">
                             <div className="hehading-add-butt">
                                 <h3>Users</h3>
-                                <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Invite User</a>
+                                {this.props.user.InstitutionId == `1580030173` &&
+                                <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Invite User</a>}
                             </div>
 
                             <div className="search-part">
@@ -158,6 +160,7 @@ const mapStateToProps = (state) => {
 
     return {
         UsersList: state.UserStore.Users,
+        user: state.Login.user,
         ApplicationState: state.UserStore.ActionState
     }
 

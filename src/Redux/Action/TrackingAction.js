@@ -1,6 +1,6 @@
 ﻿import { trackingConstants } from '../../constants/trackingConstants';
 import * as signalR from '@aspnet/signalr';
-import { userConstants } from '../../constants/userConstants';
+import { returnEntityForInstitution } from '../../util/basic';
 import apiHandler from '../../util/request';
 
 
@@ -59,14 +59,15 @@ export function SubscribeToHub(user) {
             hubConnection.start()
                 .then(() => {
                     console.log('Hub Connected!!');
+                    // hubConnection.invoke('Subscribe',user.InstitutionId,null,null).catch(function(err) {
+                    //     console.log('unable to subscribe to institution => '+err)
+                    // })
                     dispatch(Connected());
                 })
                 .catch(err => console.error("Error while establishing connection : " + err));
         }
 
-        // hubConnection.invoke('Subscribe',user.InstitutionId,null,null).catch(function(err) {
-        //     console.log('unable to subscribe to institution => '+err)
-        // })
+        
 
             setInterval(() => {
                 CheckConnectivity()
@@ -75,9 +76,20 @@ export function SubscribeToHub(user) {
         hubConnection.on("ReceiveAllData", (result) => {
             
             //sampleData.push(result)
+
             const res = JSON.parse(result);
             console.log("Response on SignalR ", res);
-            const FormatedRes = { id: res.vehicleId, institutionId: res.institutionId, deviceId: res.deviceId, status: "active", driver: "Abdullah", contact: "+965-55988028", model: "BMW X6 . 2017", company: "Routes", coordinates: { lat: parseFloat(res.coordinates.latitude), lng: parseFloat(res.coordinates.longitude), timestamp: res.coordinates.timestamp } }
+
+            let FormatedRes =[];
+            if (user.InstitutionId !== '1580030173')
+            {
+                if (res.institutionId === user.InstitutionId){
+                FormatedRes = { id: res.vehicleId, institutionId: res.institutionId, deviceId: res.deviceId, status: "active", coordinates: { lat: parseFloat(res.coordinates.latitude), lng: parseFloat(res.coordinates.longitude), timestamp: res.coordinates.timestamp } }
+                }
+            }
+            else{
+                FormatedRes = { id: res.vehicleId, institutionId: res.institutionId, deviceId: res.deviceId, status: "active", coordinates: { lat: parseFloat(res.coordinates.latitude), lng: parseFloat(res.coordinates.longitude), timestamp: res.coordinates.timestamp } }
+            }
             //console.log("const values : " + res.vehicle_id);
             // const vehicleId = res.vehicle_id;
             //dispatch(OnUpdateReceived([FormatedRes, ...sampleData]));
@@ -91,7 +103,7 @@ export function SubscribeToHub(user) {
 export function CheckConnectivity(){
     if(hubConnection.state === 0)
     {
-        console.log('Recoonecting the hub')
+        console.log('Reconnecting the hub')
             hubConnection.start()
             .then(() => {
                 console.log('Hub Connected!!');
@@ -127,11 +139,12 @@ export function UnsubscribeFromHub() {
 }
 
 
-export function getOfflineData() {
+export function getOfflineData(user) {
 
     return dispatch => {
         dispatch(OfflineDataRequest());
-        apiHandler.get('vehicles?offset=1&limit=300&include=institutions,models')
+        let domain = returnEntityForInstitution('vehicles',user.InstitutionId);
+        apiHandler.get(`${domain}?offset=1&limit=1000&include=institutions,models`)
         .then(
             idleVehicles => {
                 dispatch(OfflineUpdateReceived(returnFormatedVehicles(idleVehicles)));

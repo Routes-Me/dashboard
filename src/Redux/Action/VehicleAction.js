@@ -1,12 +1,16 @@
 ﻿import { vehicleConstants } from "../../constants/vehicleConstants";
 import {config} from "../../constants/config";
 import apiHandler from '../../util/request';
+import { returnEntityForInstitution } from '../../util/basic';
+import axios from "axios";
 
 //const SampleInsitutionsIdArgument = { "institutionIds": [{ "Id": 3 }] };
 
-function buildURL(entity, pageIndex, limit, include) {
+function buildURL(entity, pageIndex, limit, include, institutionId) {
 
-    let queryParameter =""
+    let queryParameter ="";
+    entity = returnEntityForInstitution(entity,institutionId);
+    
     if(include){
       queryParameter=entity+"?offset="+pageIndex+"&limit="+limit+"&include=institutions,models";
     }
@@ -42,12 +46,13 @@ function showerror(error){
   alert(`getVehicleDetails error ${error}`)
 }
 
-//Action to getVehicleList for Vehicles Component
-export function getVehiclesForInstitutionID(pageIndex,limit,institutionId) {
 
+
+//Toggled for configuration issue
+export function getVehiclesForInstitutionID(pageIndex,limit,institutionId) {
     return dispatch => {
       dispatch(vehicleDataRequest());                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-      apiHandler.get(buildURL('vehicles', pageIndex, limit, true))
+      apiHandler.get(buildURL('vehicles', pageIndex, limit, true, institutionId))
       .then(
       vehicles => {
               dispatch(storeVehicleData(returnFormatedVehicles(vehicles)));
