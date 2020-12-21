@@ -27,7 +27,6 @@ class Primary extends Component
 
     toggleMenu = (event, type) => {
         event.stopPropagation();
-       
         this.props.updateNavItem(type);
     };
 
@@ -41,6 +40,7 @@ class Primary extends Component
 
     render() {
 
+        // const user = this.props.user.InstitutionId ? this.props.restoreSession() : this.props.user;
 
         return (
 
@@ -80,7 +80,8 @@ const mapStateToProps = (state) => {
 
 const actionCreators = {
     getAutherization: LoginAction.getAutherization,
-    updateNavItem: LoginAction.UpdateNavSelection
+    updateNavItem: LoginAction.UpdateNavSelection,
+    // restoreSession : LoginAction.restoreUserFromSession
 };
 
 const connectLogin = connect(mapStateToProps, actionCreators)(Primary);

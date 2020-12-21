@@ -7,62 +7,89 @@ const instance = axios.create({
   baseURL: config.Domain,
 });
 
-export async function setAuthorizationToken(token) {
+// export async function setAuthorizationToken(token) {
 
-  instance.interceptors.request.use(
+//   instance.interceptors.request.use(
 
-    function (config) {
-      if (token!=null) 
-      {
-          config.headers["Authorization"] = "Bearer " + token;
-      } 
-      else if (getToken() != null) 
-      {
-        config.headers["Authorization"] = "Bearer " + getToken();
-      }
-      else
-      {
-        history.push('/');
-      }
+//     function (config) {
+//       if (token!=null) 
+//       {
+//           config.headers["Authorization"] = "Bearer " + token;
+//       } 
+//       else if (getToken() != null) 
+//       {
+//         config.headers["Authorization"] = "Bearer " + getToken();
+//       }
+//       else
+//       {
+//         history.push('/');
+//       }
 
-      config.headers["Content-Type"] = (config.url ==='medias' && config.method ==='post')? "multipart/form-data" :  "application/json; charset=utf-8";      
+//       config.headers["Content-Type"] = (config.url ==='medias' && config.method ==='post')? "multipart/form-data" :  "application/json; charset=utf-8";      
 
-      return config;
+//       return config;
 
-    },
-    function (error) {
-      history.push('/');
-      return Promise.reject(error);
-    }
+//     },
+//     function (error) {
+//       history.push('/');
+//       return Promise.reject(error);
+//     }
 
-  );
+//   );
 
-}
-
-
+// }
 
 
+instance.interceptors.request.use(
 
-instance.interceptors.response.use(
-  function success(param) {
-    //console.log(`${param.method} response send from ${param.url} at ${new Date().getTime()}`);
-    return param;
-  },
-  function failure(error) {
-    if((error.response.status === 401 ))
+  async function (config) {
+    const token = await getToken();
+    
+    if (token!=null) 
     {
-      clearStorage();
+        config.headers["Authorization"] = "Bearer " + token;
+    } 
+    // else if (getToken() != null) 
+    // {
+    //   config.headers["Authorization"] = "Bearer " + getToken();
+    // }
+    else
+    {
       history.push('/');
     }
-    // if(error.response.status === 401)
-    // {
-    //   let token = Promise.getToken();
-    //   instance.defaults.headers.common['Authorization'] = "Bearer " + getToken();
-    //   //setAuthorizationToken(token);
-    // }
+
+    config.headers["Content-Type"] = (config.url ==='medias' && config.method ==='post')? "multipart/form-data" :  "application/json; charset=utf-8";      
+    config.headers['application'] = 'dashboard';
+    return config;
+
+  },
+  function (error) {
+    history.push('/');
     return Promise.reject(error);
   }
+
 );
+
+// instance.interceptors.response.use(
+//   function success(param) {
+//     //console.log(`${param.method} response send from ${param.url} at ${new Date().getTime()}`);
+//     return param;
+//   },
+//   function failure(error) {
+//     // if((error.response.status === 401 ))
+//     // {
+//     //   clearStorage();
+//     //   history.push('/');
+//     // }
+//     if(error.response.status === 401)
+//     {
+//       let token = Promise.getToken();
+//       instance.defaults.headers.common['Authorization'] = "Bearer " + getToken();
+//       //setAuthorizationToken(token);
+//     }
+//     return Promise.reject(error);
+//   }
+// );
 
 
 export default instance;
