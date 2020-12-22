@@ -60,14 +60,13 @@ export function SubscribeToHub(user) {
                 .then(() => {
                     console.log('Hub Connected!!');
                     // hubConnection.invoke('Subscribe',user.InstitutionId,null,null).catch(function(err) {
-                    //     console.log('unable to subscribe to institution => '+err)
+                    // console.log('unable to subscribe to institution => '+err)
                     // })
                     dispatch(Connected());
                 })
                 .catch(err => console.error("Error while establishing connection : " + err));
         }
 
-        
 
             setInterval(() => {
                 CheckConnectivity()

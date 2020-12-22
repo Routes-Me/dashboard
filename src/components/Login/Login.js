@@ -31,15 +31,15 @@ export class Login extends Component {
 
 					<div className="row">
 
-						<div className="col-sm-12 col-md-4">
+						<div className="col-sm-12 col-md-12">
 							<LoginForm />
 						</div>
-						<div className="test">
+						{/* <div className="test">
 							<hr />
 						</div>
 						<div className="col-md-8">
 							<Banner />
-						</div>
+						</div> */}
 						
 					</div>
 

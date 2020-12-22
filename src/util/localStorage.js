@@ -6,7 +6,7 @@ import cookie from 'react-cookies';
     export async function setToken(token) {
         //localStorage.setItem('token', token);
         cookie.save('token',token)
-        setAuthorizationToken(token);
+        //setAuthorizationToken(token);
     }
 
     export async function clearStorage() {
@@ -31,6 +31,23 @@ import cookie from 'react-cookies';
         //   else{
         //       return localStorage.getItem('token');
         //   }
+    }
+
+
+
+
+
+
+    export function restoreToken(){
+        return new Promise((resolve,reject) => {
+            if(cookie.load('token')!==''){
+                const token = cookie.load('token')
+                resolve(token);
+            }
+            else{
+                reject();
+            }
+        })
     }
 
     export async function loadState() {

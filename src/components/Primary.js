@@ -1,6 +1,8 @@
 ﻿import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as LoginAction from '../Redux/Action';
+import { parseJwt } from "../util/encrypt";
+import { restoreToken } from '../util/localStorage';
 
 
 
@@ -11,23 +13,38 @@ class Primary extends Component
         super(props);
         this.state = {
             
-            selectedNavItem:this.props.navItems[0]
-
+            selectedNavItem:this.props.navItems[0],
+            institutionId :''
         };
     }
 
     componentDidMount() {
 
-        if(this.props.user.InstitutionId ===  '1580030173') //1580030173 78132467
-        this.props.getAutherization(1);
-        else
-        this.props.getAutherization(2);
+        if(this.props.user.InstitutionId!== undefined)
+        {
+            this.setAuthorization();
+        }
+        else{
+            this.restoreUserFromToken();
+        }
+        
 
     }
 
+    // static getDerivedStateFromProps(props, state) {
+    //     if (props.user.InstitutionId === undefined) {
+    //         if (props.user.InstitutionId !== state.institutionId) {
+                
+    //             return {
+    //                 institutionId   : props.user.InstitutionId
+    //             }
+    //         }
+    //     }
+    //     return null;
+    // }
+
     toggleMenu = (event, type) => {
         event.stopPropagation();
-       
         this.props.updateNavItem(type);
     };
 
@@ -38,12 +55,26 @@ class Primary extends Component
 
     }
 
+    restoreUserFromToken = async() => {
+        const token = await restoreToken();
+        this.props.restoreToken(token);
+        const user = parseJwt(token);
+        this.props.restoreUser(user);
+        this.setAuthorization();
+    }
+
+    setAuthorization = () => {
+        if(this.props.user.InstitutionId ===  '1580030173') //1580030173 78132467
+        this.props.getAutherization(1);
+        else
+        this.props.getAutherization(2);
+    }
+
 
     render() {
 
 
         return (
-
 
             <div className="overfollow-scroll" >
 
@@ -80,7 +111,9 @@ const mapStateToProps = (state) => {
 
 const actionCreators = {
     getAutherization: LoginAction.getAutherization,
-    updateNavItem: LoginAction.UpdateNavSelection
+    updateNavItem: LoginAction.UpdateNavSelection,
+    restoreUser : LoginAction.restoreUserFromSession,
+    restoreToken : LoginAction.restoreTokenFromSession
 };
 
 const connectLogin = connect(mapStateToProps, actionCreators)(Primary);
