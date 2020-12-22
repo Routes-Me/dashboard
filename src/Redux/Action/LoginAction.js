@@ -44,13 +44,17 @@ function getLoginSuccess(payload) { return ({ type: userConstants.Login_SUCCESS,
 function failure(error) { return { type: userConstants.Login_FAILURE, error }; }
 
 
-// export function restoreUserFromSession(){
-//   return async dispatch => {
-//     const token = restoreToken();
-//     const user = parseJwt(token);
-//     dispatch(getLoginSuccess(user));
-//   }
-// }
+export function restoreUserFromSession(user){
+  return dispatch => {
+    dispatch(getLoginSuccess(user));
+  }
+}
+
+export function restoreTokenFromSession(token){
+  return dispatch => {
+    dispatch(onReceiveToken(token));
+  }
+}
 
 
 

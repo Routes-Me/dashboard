@@ -48,11 +48,7 @@ instance.interceptors.request.use(
     if (token!=null) 
     {
         config.headers["Authorization"] = "Bearer " + token;
-    } 
-    // else if (getToken() != null) 
-    // {
-    //   config.headers["Authorization"] = "Bearer " + getToken();
-    // }
+    }
     else
     {
       history.push('/');
