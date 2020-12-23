@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as LoginAction from '../Redux/Action';
+import { isSuperUser } from '../util/basic';
 import { parseJwt } from "../util/encrypt";
 import { restoreToken } from '../util/localStorage';
 
@@ -64,7 +65,7 @@ class Primary extends Component
     }
 
     setAuthorization = () => {
-        if(this.props.user.InstitutionId ===  '1580030173') //1580030173 78132467
+        if(isSuperUser(this.props.user.InstitutionId)) //1580030173 78132467
         this.props.getAutherization(1);
         else
         this.props.getAutherization(2);
