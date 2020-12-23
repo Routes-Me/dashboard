@@ -3,23 +3,6 @@ import * as signalR from '@aspnet/signalr';
 import { isSuperUser, returnEntityForInstitution } from '../../util/basic';
 import apiHandler from '../../util/request';
 
-
-
-// const sampleOfflineData = [
-//     { vehicle_id: 8, institution_id: 1, status: trackingConstants.IdleState, driver: "Mohammad Ali", contact: "+965-55988028", model: "BMW X6 . 2018", company: "Afnan", coordinates: { latitude: 29.376383900000000, longitude: 47.9866178, timestamp: "7/1/2020 5:55:51 AM" } },
-//     { vehicle_id: 9, institution_id: 1, status: trackingConstants.IdleState, driver: "Saad Mua", contact: "+965-55988028", model: "JEEP X4 . 2019", company: "Afnan", coordinates: { latitude: 29.73, longitude: 47.3511, timestamp: "7/1/2020 5:55:51 AM" } },
-//     { vehicle_id: 10, institution_id: 1, status: trackingConstants.IdleState, driver: "Waseem Noor", contact: "+965-66104209", model: "KIA Y6 . 2020", company: "Afnan",coordinates: { latitude: 29.74, longitude: 46.8511, timestamp: "7/1/2020 5:55:51 AM" } },
-//     { vehicle_id: 11, institution_id: 1, status: trackingConstants.IdleState, driver: "Yahya Alahaar", contact: "+965-55988128", model: "AUDI A6 . 2020", company: "Afnan", coordinates: { latitude: 29.62, longitude: 46.9511, timestamp: "7/1/2020 5:55:51 AM" } },
-//     { vehicle_id: 12, institution_id: 1, status: trackingConstants.IdleState, driver: "Mohammad Waali", contact: "+965-55988328", model: "BMW X3 . 2017", company: "Afnan", coordinates: { latitude: 29.63, longitude: 46.5611, timestamp: "7/1/2020 5:55:51 AM" } }
-// ];
-
-// const sampleData = [
-//     { vehicle_id: 1, institution_id: 1, status: trackingConstants.ActiveState, driver: "Mohammad Ali", contact: "+965-55988028", model: "BMW X6 . 2017", company: "Afnan", coordinates: { latitude: 29.61, longitude: 47.5511, timestamp: "7/1/2020 5:55:51 AM" } },
-//     { vehicle_id: 2, institution_id: 1, status: trackingConstants.ActiveState, driver: "Mohammad Waali", contact: "+965-55988328", model: "BMW X3 .2016", company: "Afnan", coordinates: { latitude: 29.71, longitude: 47.1511, timestamp: "7/1/2020 5:55:51 AM" } },
-//     { vehicle_id: 3, institution_id: 1, status: trackingConstants.ActiveState, driver: "Waseem Noor", contact: "+965-66104209", model: "KIA Y6 . 2018", company: "Afnan", coordinates: { latitude: 29.81, longitude: 47.2511, timestamp: "7/1/2020 5:55:51 AM" } },
-//     { vehicle_id: 4, institution_id: 1, status: trackingConstants.ActiveState, driver: "Saad Mua", contact: "+965-55988028", model: "JEEP X4 . 2019", company: "Afnan", coordinates: { latitude: 29.82, longitude: 47.3511, timestamp: "7/1/2020 5:55:51 AM" } },
-//     { vehicle_id: 5, institution_id: 1, status: trackingConstants.ActiveState, driver: "Yahya Alahaar", contact: "+965-55988128", model: "AUDI A6 . 2020", company: "Afnan", coordinates: { latitude: 29.72, longitude: 47.4511, timestamp: "7/1/2020 5:55:51 AM" } }];
-
 let hubConnection = ""; 
 
 

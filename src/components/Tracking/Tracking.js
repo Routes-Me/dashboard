@@ -288,7 +288,7 @@ class Tracking extends Component {
 
                 
 
-                <MapContainer center={position} zoom={13} scrollWheelZoom={true} style={{width:'100%', height:'100%'}}>
+                <MapContainer center={position} zoom={10} maxZoom={20} minZoom={9} scrollWheelZoom={true} style={{width:'100%', height:'100%'}}>
                     <div className='activeCount'>
                     <h4 style={{margin:'10px'}}>{this.state.activeCount}</h4>
                     </div>
