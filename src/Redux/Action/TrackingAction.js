@@ -1,6 +1,6 @@
 ﻿import { trackingConstants } from '../../constants/trackingConstants';
 import * as signalR from '@aspnet/signalr';
-import { returnEntityForInstitution } from '../../util/basic';
+import { isSuperUser, returnEntityForInstitution } from '../../util/basic';
 import apiHandler from '../../util/request';
 
 
@@ -80,7 +80,7 @@ export function SubscribeToHub(user) {
             console.log("Response on SignalR ", res);
 
             let FormatedRes =[];
-            if (user.InstitutionId !== '1580030173')
+            if (isSuperUser(user.InstitutionId))
             {
                 if (res.institutionId === user.InstitutionId){
                 FormatedRes = { id: res.vehicleId, institutionId: res.institutionId, deviceId: res.deviceId, status: "active", coordinates: { lat: parseFloat(res.coordinates.latitude), lng: parseFloat(res.coordinates.longitude), timestamp: res.coordinates.timestamp } }
