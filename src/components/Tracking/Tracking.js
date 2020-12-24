@@ -19,6 +19,8 @@ import supercluster from 'points-cluster';
 import { susolvkaCoords, markersData } from '../data/fakeData';
 import IdleTimer from 'react-idle-timer';
 import { trackingConstants } from '../../constants/trackingConstants';
+import { parseJwt } from '../../util/encrypt';
+import { restoreToken } from '../../util/localStorage';
 
 const MAP = {
     defaultZoom: 9,
@@ -138,12 +140,23 @@ class Tracking extends Component {
     };
 
     componentDidMount(){
+
+        let token ='';
+        let user  =''; 
+        if(this.props.token === '')
+        {
+            token = await restoreToken();
+            user = parseJwt(token);
+        }
+        else{
+            token = this.props.token;
+            user = this.props.user;
+        }
         
-        this.props.connectTheHub(this.props.token);
-        this.props.SubscribeToHub(this.props.user);
-        this.props.GetOfflineVehicles(this.props.user);
-        //navigator.geolocation.getCurrentPosition(this.currentCoords);
-        //console.log("Will Mount Center => :", this.state.center);
+        this.props.connectTheHub(token);
+        this.props.SubscribeToHub(user);
+        this.props.GetOfflineVehicles(user);
+        
     }
 
     componentWillUnmount() {

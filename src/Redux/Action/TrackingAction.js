@@ -42,9 +42,9 @@ export function SubscribeToHub(user) {
             hubConnection.start()
                 .then(() => {
                     console.log('Hub Connected!!');
-                    hubConnection.invoke('Subscribe',user.InstitutionId,null,null).catch(function(err) {
-                    console.log('unable to subscribe to institution => '+err)
-                    })
+                    // hubConnection.invoke('Subscribe',user.InstitutionId,null).catch(function(err) {
+                    // console.log('unable to subscribe to institution => '+err)
+                    // })
                     dispatch(Connected());
                 })
                 .catch(err => console.error("Error while establishing connection : " + err));
@@ -72,9 +72,6 @@ export function SubscribeToHub(user) {
                     FormatedRes = { id: res.vehicleId, institutionId: res.institutionId, deviceId: res.deviceId, status: "active", coordinates: { lat: parseFloat(res.coordinates.latitude), lng: parseFloat(res.coordinates.longitude), timestamp: res.coordinates.timestamp } }
                 }
             }
-            //console.log("const values : " + res.vehicle_id);
-            // const vehicleId = res.vehicle_id;
-            //dispatch(OnUpdateReceived([FormatedRes, ...sampleData]));
             dispatch(OnUpdateReceived(FormatedRes));
         });
 
