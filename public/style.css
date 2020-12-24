@@ -7,9 +7,17 @@
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    text-align: center;
+    text-align: left;
     color: #000000;
     margin-bottom: 15px;
+}
+
+.shadowBox{
+    padding: 42px 69px;
+    border-radius: 6px;
+    width: 514px;
+    height: 478px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
 }
 
 .account {
@@ -21,7 +29,7 @@
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    text-align: center;
+    text-align: left;
     color: #000000;
     margin-bottom: 25px;
 }
@@ -50,7 +58,7 @@
  }
 
  .forgotpwd {
-     text-align: right;
+     text-align: left;
      margin-top: 30px;
      margin-bottom: 30px;
      color: #18428f;
@@ -109,53 +117,9 @@
      top: auto;
  }
 
- .text1 {
-     top: 0;
-     bottom: 0;
-     height: 128px;
-     text-align: left;
-     font-size: 14px;
-     margin-left: 20px;
- }
 
- .text2 {
-     top: 0;
-     bottom: 0;
-     height: 178px;
-     text-align: left;
-     font-size: 14px;
-     margin-left: 20px;
- }
 
- .text3 {
-     top: 0;
-     bottom: 0;
-     height: 178px;
-     text-align: left;
-     font-size: 14px;
-     margin-left: 20px;
- }
 
- .allh5 {
-     margin-left: 20px;
-     font-size: 18px;
-     margin-top: 50px;
-     color: #18428f;
- }
-
- .allh52 {
-     margin-left: 20px;
-     font-size: 18px;
-     margin-top: 20px;
-     color: #18428f;
- }
-
- .allh53 {
-     margin-left: 20px;
-     font-size: 18px;
-     margin-top: 20px;
-     color: #18428f;
- }
 
  .sign {
      margin-top: 103px;
@@ -229,78 +193,12 @@
 
  .bitmap {
      margin-bottom: 20px;
+     text-align: center;
  }
 
 
  .c1 {
      margin-right: 30px;
- }
-
- .c2 {
-     padding-right: 0px;
-     padding-bottom: 0px;
- }
-
- .c3 {
-     width: 267.3px;
-     height: 236.5px;
- }
-
- .c4 {
-     width: 267.3px;
-     height: 236.5px;
-     padding: 0px;
- }
-
- .c5 {
-     padding: 0px;
- }
-
- .c6 {
-     width: 267.3px;
-     height: 236.5px;
-     margin-left: -15px;
- }
-
- .c7 {
-     width: 263.3px;
-     height: 236.5px;
-     padding-top: 0px;
-     padding-right: 0px;
- }
-
- .c8 {
-     padding: 0px;
-     width: 267.3px;
- }
-
- .c9 {
-     width: 283.3px;
-     height: 236.5px;
-     margin-top: -31px;
-     margin-left: -16px;
- }
-
- .c10 {
-     width: 267.3px;
-     height: 236.5px;
-     padding: 0px;
- }
-
- .call {
-     text-align: right;
-     width: 100%;
-     font-family: 'Roboto';
-     height: auto;
-     font-size: 16px;
-     font-weight: 500;
-     font-stretch: normal;
-     font-style: normal;
-     line-height: normal;
-     letter-spacing: normal;
-     color: #18428f;
-     padding-top: 115px;
-     padding-right: 40px;
  }
 
  .footer {

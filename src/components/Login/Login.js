@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Banner } from './Banner';
 import { LoginForm } from './LoginForm';
 import {Footer} from './Footer';
 
@@ -34,12 +33,6 @@ export class Login extends Component {
 						<div className="col-sm-12 col-md-12">
 							<LoginForm />
 						</div>
-						{/* <div className="test">
-							<hr />
-						</div>
-						<div className="col-md-8">
-							<Banner />
-						</div> */}
 						
 					</div>
 
