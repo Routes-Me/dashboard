@@ -95,10 +95,9 @@ import {clearStorage} from '../../util/localStorage'
 		//const onSubmit = values => console.log(values);
 		return (
 
-			<div className="col-md-12">
-				<div className="sign c1">
+				<div className="loginForm">
 
-						<a href="/home"><img className="bitmap" alt="" src={logo} /></a>
+					<a href="/home" style={{alignContent:'center'}}><img className="bitmap" alt="" src={logo} /></a>
 
 					<div className='shadowBox'>
 						<h3 className="signin"> Sign in</h3>
@@ -116,17 +115,15 @@ import {clearStorage} from '../../util/localStorage'
 							<div className="forgotpwd">
 								<p><a href="/forgotpassword">Forgot Password?</a></p>
 							</div>
-								<button type="submit" className="buttonStyle">
-									{this.props.loggingIn && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />}
-									{this.props.loggingIn && <span>  Logging In...</span>}
-									{!this.props.loggingIn && <span>Login</span>}
-								</button>		
+							<button type="submit" className="buttonStyle">
+								{this.props.loggingIn && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />}
+								{this.props.loggingIn && <span>  Logging In...</span>}
+								{!this.props.loggingIn && <span>Login</span>}
+							</button>		
 						</Form>
 					</div>
 
 				</div>
-			</div>
-
 		);
 	}
 }

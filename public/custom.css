@@ -21,6 +21,7 @@ code {
     Should should use one style only and override yhe specific components
 */
 .buttonStyle:enabled {
+    position: relative;
     color: #fff;
     font-size: 16px;
     font-weight: 500;

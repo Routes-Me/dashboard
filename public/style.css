@@ -1,46 +1,45 @@
+.loginPage{
+    background-color: #fbfbfb;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+}
+
 .signin {
-    /*font-family: 'Roboto', sans-serif;*/
     font-family: 'Roboto-Regular';
-    font-size: 24px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
+    font-size: 44px;
     text-align: left;
     color: #000000;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
+
+
 
 .shadowBox{
     padding: 42px 69px;
     border-radius: 6px;
     width: 514px;
-    height: 478px;
+    background-color: white;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+    position: absolute;
+    margin: auto;
+    align-items: center;
 }
 
 .account {
-    /*font-family: 'Roboto', sans-serif;*/
-    font-family: 'Roboto';
+    display: flex;
+    vertical-align: middle;
+    font-family: 'Roboto-Regular';
     font-size: 18px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
     text-align: left;
     color: #000000;
-    margin-bottom: 25px;
+    margin-bottom: 42px;
 }
 
  .account a {
      color: #18428f;
      margin-left: 5px;
- }
-
- .center {
-     text-align: center;
+     display: inherit;
  }
 
  .email {
@@ -70,62 +69,12 @@
         font-size: 16px;
     }
 
-.login {
-    width: 360px;
-    height: 48px;
-    border-radius: 4px;
-    background-color: #18428f;
-    /*background-color: #18428f;*/
-}
 
- .col-md-8 {
-     border-left: 1px solid #c1c0c0;
-     height: 656px;
- }
 
- .imgsize {
-     width: 253px;
-     height: 223px;
+ .loginForm {
      position: absolute;
- }
-
- .left-arrow {
-     position: absolute;
-     width: 20px;
-     height: 30px;
-     top: 45%;
-     right: -2px;
-     left: auto;
- }
-
- .right-arrow {
-     position: absolute;
-     width: 20px;
-     height: 30px;
-     top: 45%;
-     right: auto;
-     left: -3px;
- }
-
- .up-arrow {
-     position: absolute;
-     width: 30px;
-     height: 30px;
-     right: 0;
-     left: 45%;
-     bottom: -8px;
-     top: auto;
- }
-
-
-
-
-
- .sign {
-     margin-top: 103px;
-     max-width: 360px;
-     margin-left: auto;
-     margin-right: auto !important;
+     top: 20%;
+     left: 40%;
  }
 
  .container-custom .row {
@@ -133,73 +82,20 @@
  }
 
 
- .box {
-     margin-top: 81px;
-     border: 1px solid #c1c0c0;
-     max-width: 885px;
-     border-radius: 5px;
-     /*height: 474px;*/
-     margin-left: auto;
-     margin-right: auto;
-
- }
-
- .box-row {
-     width: 100%;
-     display: flex;
-     flex-wrap: wrap;
- }
-
- .box .images-text-part p {
-     height: auto !important;
-     margin-left: auto;
- }
-
- .box .images-text-part h5 {
-     margin-left: 0;
-     margin-right: 0;
-     margin-top: 0;
-     text-align: left;
-     width: 100%;
- }
-
- .box .images-text-part {
-     flex: 0 0 33.333333%;
-     position: relative;
-     max-width: 295px;
-     width: 33.333333%;
-     padding: 0;
-     min-height: 264px;
- }
-
- .box .images-text-part.text-part {
-     display: flex;
-     flex-direction: column;
-     justify-content: center;
-     padding: 20px;
- }
-
- .box .imgsize {
-     width: 100% !important;
-     height: 100% !important;
-     object-fit: cover;
-     margin: 0;
- }
-
- .main {
-     margin-bottom: 80px;
-     padding-top: 100px;
- }
-
  .bitmap {
-     margin-bottom: 20px;
-     text-align: center;
+     position: relative;
+     margin-bottom: 28px;
+     height: 44px;
+     width: 44px;
+ }
+
+ .footerIcon {
+     width: 22px;
+     height: 22px;
+     margin-right: 9px;
  }
 
 
- .c1 {
-     margin-right: 30px;
- }
 
  .footer {
     position: fixed;
@@ -207,13 +103,14 @@
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color: white;
-    color: #18428f;
-    text-align: right;
-    font-size: 16px;
-    line-height: normal;
-    letter-spacing: normal;
+    background-color: #fbfbfb;
+    display: flex;
+    color: #404040;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 18px;
     padding: 40px;
+    justify-content: center;
  }
 
  /*forgot password*/
@@ -293,12 +190,6 @@
      padding-left: 20px;
  }
 
- @media screen and (max-width:1199px) {
-     .box .images-text-part {
-         min-height: 225px;
-     }
- }
-
  @media screen and (max-width:991px) {
      .container-custom .row {
          flex-direction: column;
@@ -313,20 +204,8 @@
          max-width: 100%;
      }
 
-     .col-md-8 {
-         border: 0;
-     }
-
-     .box .images-text-part {
-         max-width: 100%;
-     }
  }
 
- @media screen and (max-width:769px) {
-     .box .images-text-part {
-         min-height: 195px;
-     }
- }
 
 
 
@@ -353,10 +232,7 @@
          margin-bottom: 0px;
      }
 
-     .account a {
-         display: inherit;
-         padding-top: 3px;
-     }
+ 
 
      .call {
          width: auto !important;
@@ -367,9 +243,7 @@
          padding: 0 5px;
      }
 
-     .sign {
-         margin-top: 0;
-     }
+
 
      .forgot {
          padding: 0 5px;
