@@ -6,6 +6,7 @@ import * as UserAction from '../../Redux/Action';
 import PageHandler from '../PageHandler';
 import '../Detail/Detail.css';
 import { config } from '../../constants/config';
+import { isSuperUser } from '../../util/basic';
 
 class Users extends Component {
 
@@ -88,7 +89,7 @@ class Users extends Component {
                                     <td>{user.email}</td>
                                     <td>{user.phone}</td>
                                     <td>{user.createdAt}</td>
-                                    {this.props.user.InstitutionId == `1580030173` &&
+                                    {isSuperUser(this.props.user.InstitutionId) &&
                                     <td className="width20" >
                                         <div className="edit-popup">
                                             <div className="edit-delet-butt" onClick={e => this.openSubMenuForUserId(e, user.userId)}>
@@ -130,7 +131,7 @@ class Users extends Component {
                         <div className="top-part-vehicles-search padding-lr-80">
                             <div className="hehading-add-butt">
                                 <h3>Users</h3>
-                                {this.props.user.InstitutionId == `1580030173` &&
+                                {isSuperUser(this.props.user.InstitutionId) &&
                                 <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Invite User</a>}
                             </div>
 

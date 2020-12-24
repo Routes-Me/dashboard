@@ -1,6 +1,6 @@
 ﻿import { trackingConstants } from '../../constants/trackingConstants';
 import * as signalR from '@aspnet/signalr';
-import { returnEntityForInstitution } from '../../util/basic';
+import { isSuperUser, returnEntityForInstitution } from '../../util/basic';
 import apiHandler from '../../util/request';
 
 
@@ -59,15 +59,14 @@ export function SubscribeToHub(user) {
             hubConnection.start()
                 .then(() => {
                     console.log('Hub Connected!!');
-                    // hubConnection.invoke('Subscribe',user.InstitutionId,null,null).catch(function(err) {
-                    //     console.log('unable to subscribe to institution => '+err)
-                    // })
+                    hubConnection.invoke('Subscribe',user.InstitutionId,null,null).catch(function(err) {
+                    console.log('unable to subscribe to institution => '+err)
+                    })
                     dispatch(Connected());
                 })
                 .catch(err => console.error("Error while establishing connection : " + err));
         }
 
-        
 
             setInterval(() => {
                 CheckConnectivity()
@@ -81,14 +80,14 @@ export function SubscribeToHub(user) {
             console.log("Response on SignalR ", res);
 
             let FormatedRes =[];
-            if (user.InstitutionId !== '1580030173')
+            if (isSuperUser(user.InstitutionId))
             {
-                if (res.institutionId === user.InstitutionId){
                 FormatedRes = { id: res.vehicleId, institutionId: res.institutionId, deviceId: res.deviceId, status: "active", coordinates: { lat: parseFloat(res.coordinates.latitude), lng: parseFloat(res.coordinates.longitude), timestamp: res.coordinates.timestamp } }
-                }
             }
             else{
-                FormatedRes = { id: res.vehicleId, institutionId: res.institutionId, deviceId: res.deviceId, status: "active", coordinates: { lat: parseFloat(res.coordinates.latitude), lng: parseFloat(res.coordinates.longitude), timestamp: res.coordinates.timestamp } }
+                if (res.institutionId === user.InstitutionId){
+                    FormatedRes = { id: res.vehicleId, institutionId: res.institutionId, deviceId: res.deviceId, status: "active", coordinates: { lat: parseFloat(res.coordinates.latitude), lng: parseFloat(res.coordinates.longitude), timestamp: res.coordinates.timestamp } }
+                }
             }
             //console.log("const values : " + res.vehicle_id);
             // const vehicleId = res.vehicle_id;

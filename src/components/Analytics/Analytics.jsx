@@ -6,14 +6,14 @@ function Analytics(advertisementList) {
 
     const data =  
     [
-        {name: 'McDonalds',         iOS: 4,    Android: 0,    web: 2,   Windows: 0},
-        {name: 'Center Point',      iOS: 2,    Android: 2,    web: 0,   Windows: 0},
-        {name: 'Huawei',            iOS: 1,    Android: 0,    web: 0,   Windows: 0},
-        {name: 'KFC',               iOS: 1,    Android: 0,    web: 0,   Windows: 0},
-        {name: 'Xcite',             iOS: 1,    Android: 0,    web: 0,   Windows: 0},
-        {name: 'Zain',              iOS: 1,    Android: 2,    web: 0,   Windows: 0},
-        {name: 'Best',              iOS: 1,    Android: 1,    web: 0,   Windows: 0},
-        {name: 'City Center',       iOS: 2,    Android: 0,    web: 0,   Windows: 1},
+        {name: 'Center Point',      iOS: 2+6,    Android: 2+1,    web: 0,   Windows: 0+1},
+        {name: 'Zain',              iOS: 1+5,    Android: 2+1,    web: 0,   Windows: 0+2},
+        {name: 'McDonalds',         iOS: 4+3,    Android: 0+1,    web: 2,   Windows: 0+1},
+        {name: 'City Center',       iOS: 2+3,    Android: 0+2,    web: 0,   Windows: 1+1},
+        {name: 'Best',              iOS: 1+1,    Android: 1,      web: 0,   Windows: 0},
+        {name: 'Huawei',            iOS: 1+1,    Android: 0,      web: 0,   Windows: 0},
+        {name: 'Xcite',             iOS: 1+1,    Android: 0,      web: 0,   Windows: 0},
+        {name: 'KFC',               iOS: 1,      Android: 0,      web: 0,   Windows: 0},
     ];
 
     return (
@@ -39,6 +39,27 @@ function Analytics(advertisementList) {
                          <Bar dataKey='web' stackId='a' fill='#375a9b' barSize={30}/>
                          <Bar dataKey='Windows' stackId='a' fill='#9b7837' barSize={30}/>
                         </BarChart>
+                        <br/>
+                        <br/>
+                        <div className="table-list padding-lr-80" style={{width:'1000px'}}>
+                        <table>
+                        <thead>
+                            <tr style={{height:'51px'}}>
+                                <th>NAME</th>
+                                <th>TOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {data.map(x =>
+                            <tr> 
+                                <td>{x.name}</td>
+                                <td>{ parseInt(x.iOS) +  parseInt(x.Android) + parseInt(x.web) + parseInt(x.Windows)}</td>
+                            </tr>)} 
+                        </tbody>
+                        </table>
+                        <br/>
+                        <br/>
+                        </div>
                     </div>
                 </div>
             </div>

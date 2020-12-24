@@ -3,7 +3,7 @@ import { history } from "../../helper/history";
 import { config } from "../../constants/config";
 import {userConstants} from '../../constants/userConstants';
 import jwt from "jsonwebtoken";
-import { encryptAndEncode } from "../../util/encrypt";
+import { encryptAndEncode, parseJwt } from "../../util/encrypt";
 import {setToken, clearStorage} from '../../util/localStorage';
 
 
@@ -36,22 +36,26 @@ export function userSignInRequest(username, password) {
           );
   };
 
-  function request(user) { return { type: userConstants.Login_REQUEST, user }; }
-  function onReceiveToken(token) { return  {type: userConstants.Login_TokenReceived, payload: token} }
-  function getLoginSuccess(payload) { return ({ type: userConstants.Login_SUCCESS, payload }); }
-  function failure(error) { return { type: userConstants.Login_FAILURE, error }; }
-
 }
 
-function parseJwt (token) {
-  var base64Url = token.split('.')[1];
-  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-  var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-  }).join(''));
+function request(user) { return { type: userConstants.Login_REQUEST, user }; }
+function onReceiveToken(token) { return  {type: userConstants.Login_TokenReceived, payload: token} }
+function getLoginSuccess(payload) { return ({ type: userConstants.Login_SUCCESS, payload }); }
+function failure(error) { return { type: userConstants.Login_FAILURE, error }; }
 
-  return JSON.parse(jsonPayload);
-};
+
+export function restoreUserFromSession(user){
+  return dispatch => {
+    dispatch(getLoginSuccess(user));
+  }
+}
+
+export function restoreTokenFromSession(token){
+  return dispatch => {
+    dispatch(onReceiveToken(token));
+  }
+}
+
 
 
 //Autherize the logged in user with the userRole
