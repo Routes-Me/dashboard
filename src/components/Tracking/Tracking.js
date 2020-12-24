@@ -139,14 +139,14 @@ class Tracking extends Component {
         );
     };
 
-    componentDidMount(){
+    async componentDidMount(){
 
         let token ='';
         let user  =''; 
         if(this.props.token === '')
         {
             token = await restoreToken();
-            user = parseJwt(token);
+            user = token !== '' && parseJwt(token);
         }
         else{
             token = this.props.token;
@@ -158,6 +158,8 @@ class Tracking extends Component {
         this.props.GetOfflineVehicles(user);
         
     }
+
+    
 
     componentWillUnmount() {
         this.setState({ timeOffUnmount: new Date().toLocaleTimeString() });
