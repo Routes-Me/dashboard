@@ -97,8 +97,9 @@ import {clearStorage} from '../../util/localStorage'
 
 				<div className="loginForm">
 
-					<a href="/home" style={{alignContent:'center'}}><img className="bitmap" alt="" src={logo} /></a>
-
+					<div style={{textAlign:'center'}}>
+					<a href="/home"><img className="bitmap" alt="" src={logo} /></a>
+					</div>
 					<div className='shadowBox'>
 						<h3 className="signin"> Sign in</h3>
 						<p className="account">with your Routes Account<a href="http://routesme.com/" rel="noopener noreferrer" target="_blank">Learn more</a> </p>
