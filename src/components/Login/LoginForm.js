@@ -122,6 +122,7 @@ import {clearStorage} from '../../util/localStorage'
 								{!this.props.loggingIn && <span>Login</span>}
 							</button>		
 						</Form>
+
 					</div>
 
 				</div>
