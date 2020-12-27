@@ -9,6 +9,7 @@ import { Advertisements } from './Advertisements/Advertisements';
 import { AccessControl } from "./AccessControl/AccessControl";
 import { Campaigns } from './Campaigns/Campaigns';
 import Analytics from './Analytics/Analytics';
+import Launch from './Launch';
 
 class Child extends Component {
     render() {
@@ -16,7 +17,7 @@ class Child extends Component {
 
             <div className="right-part">
                 {this.props.selectedNavItem === userConstants.NavItem_Vehicles && <Vehicles />}
-                {this.props.selectedNavItem === userConstants.NavItem_Tracking && <Tracking />}
+                {this.props.selectedNavItem === userConstants.NavItem_Tracking && <Launch />}
                 {this.props.selectedNavItem === userConstants.NavItem_Institutions && <Institutions />}
                 {this.props.selectedNavItem === userConstants.NavItem_Users && <Users />}
                 {this.props.selectedNavItem === userConstants.NavItem_Advertisements && <Advertisements/>}
