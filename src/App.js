@@ -7,10 +7,6 @@ import { Layout } from './components/Layout';
 import { UsersDetail } from './components/Users/UsersDetail';
 import { PrivateRoute } from './helper/PrivateRoute';
 import Launch from './components/Launch';
-
-//import { ForgotPassword } from './components/ForgotPassword';
-//import { savePassword } from './components/savePassword';
-//import { ResetPassword } from './components/ResetPassword';
 const ForgotPassword = lazy(() => import('./components/Password/ForgotPassword'));
 const savePassword = lazy(() => import('./components/Password/savePassword'));
 const ResetPassword = lazy(() => import('./components/Password/ResetPassword'));
