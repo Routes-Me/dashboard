@@ -173,4 +173,4 @@ const actionCreators = {
 };
 
 const connectedInstitutions = connect(mapStateToProps, actionCreators)(Institutions);
-export { connectedInstitutions as Institutions };
+export { connectedInstitutions as default };

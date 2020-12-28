@@ -139,4 +139,4 @@ const actionCreators = {
 };
 
 const connectedAccessControl = connect(mapStateToProps, actionCreators)(AccessControl);
-export { connectedAccessControl as AccessControl };
+export { connectedAccessControl as default };

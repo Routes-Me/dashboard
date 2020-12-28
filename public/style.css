@@ -17,17 +17,30 @@
 
 .loginForm {
     position: absolute;
-    margin-left: auto;
-    margin-right: auto;
+    left: 50%;
+    top: 35%;
+    transform: translate(-50%, -35%);
     width: 50%;
+
 }
 
 .signin {
-    font-family: 'Roboto-Regular';
     font-size: 44px;
+    font-weight: 400;
     text-align: left;
     color: #000000;
-    margin-bottom: 10px;
+    margin: 0px;
+}
+
+.account {
+    display: flex;
+    font-weight: normal;
+    vertical-align: middle;
+    font-size: 18px;
+    text-align: left;
+    color: #000000;
+    margin-top: 10px;
+    margin-bottom: 42px;
 }
 
 
@@ -35,7 +48,7 @@
 .shadowBox{
     padding: 42px 69px;
     border-radius: 6px;
-    width: 514px;
+    max-width: 514px;
     background-color: white;
     box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
     position: relative;
@@ -43,15 +56,7 @@
     align-self: center;
 }
 
-.account {
-    display: flex;
-    vertical-align: middle;
-    font-family: 'Roboto-Regular';
-    font-size: 18px;
-    text-align: left;
-    color: #000000;
-    margin-bottom: 42px;
-}
+
 
  .account a {
      color: #18428f;
@@ -64,6 +69,7 @@
      height: 60px !important;
      border-radius: 4px;
      border: solid 0.5px rgb(95, 94, 94);
+     margin-bottom: 15px;
  }
 
  .password {
@@ -75,14 +81,31 @@
 
  .forgotpwd {
      text-align: left;
-     margin-top: 30px;
-     margin-bottom: 30px;
+     margin-top: 23px;
+     margin-bottom: 42px;
      color: #18428f;
  }
 
+ .buttonStyle:enabled {
+    position: relative;
+    align-self: center;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: #18428f;
+    border-color: #1861ac;
+    height: 48px;
+    width: 100%;
+    opacity: 1;
+    border-radius: 24px;
+}
+
+.buttonStyle:disabled {
+    opacity: 0.2;
+}
+
     .forgotpwd a {
         color: #18428f;
-        font-family: 'Roboto-Regular';
         font-size: 16px;
     }
 

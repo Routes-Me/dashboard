@@ -107,4 +107,4 @@ const actionCreators = {
 };
 
 const connectedForgotPasswordPage = connect(mapState, actionCreators)(ForgotPassword);
-export { connectedForgotPasswordPage as ForgotPassword };
+export { connectedForgotPasswordPage as default };
