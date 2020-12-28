@@ -175,4 +175,4 @@ const actionCreators = {
 };
 
 const connectedUsers = connect(mapStateToProps, actionCreators)(Users);
-export { connectedUsers as Users };
+export { connectedUsers as default };

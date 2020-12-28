@@ -88,13 +88,14 @@
 
  .buttonStyle:enabled {
     position: relative;
+    align-self: center;
     color: #fff;
     font-size: 16px;
     font-weight: 500;
     background-color: #18428f;
     border-color: #1861ac;
     height: 48px;
-    max-width: 360px;
+    width: 100%;
     opacity: 1;
     border-radius: 24px;
 }

@@ -191,4 +191,4 @@ const actionCreators = {
 };
 
 const connectedVehicles = connect(mapStateToProps, actionCreators)(Vehicles);
-export { connectedVehicles as Vehicles };
+export { connectedVehicles as default };

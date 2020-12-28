@@ -201,4 +201,4 @@ const actionCreators = {
 };
 
 const connectedAdvertisements = connect(mapStateToProps, actionCreators)(Advertisements);
-export { connectedAdvertisements as Advertisements };
+export { connectedAdvertisements as default };

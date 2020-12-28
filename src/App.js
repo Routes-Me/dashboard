@@ -1,15 +1,12 @@
 
 
-import React, { Component } from 'react';
+import React, { Component, Suspense, lazy } from 'react';
 
 //import { Route } from 'react-router';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { history } from '../src/helper/history';
 import { Layout } from './components/Layout';
-import { Suspense, lazy } from 'react';
 import { Login } from './components/Login/Login';
-
-import Home from './components/Home';
 import { UsersDetail } from './components/Users/UsersDetail';
 import { PrivateRoute } from './helper/PrivateRoute';
 import Launch from './components/Launch';
@@ -25,6 +22,7 @@ import Launch from './components/Launch';
 const ForgotPassword = lazy(() => import('./components/Password/ForgotPassword'));
 const savePassword = lazy(() => import('./components/Password/savePassword'));
 const ResetPassword = lazy(() => import('./components/Password/ResetPassword'));
+const Home = lazy(() => import('./components/Home'));
 
 
 export default class App extends Component {
@@ -37,8 +35,8 @@ export default class App extends Component {
                     <Switch>
                         <Route exact path='/' component={Login} />
                         <Route exact path='/AddAccount' component={UsersDetail}/>
-                        <PrivateRoute exact path='/home' component={Home} />
                         <Suspense fallback={<Launch/>}>
+                        <PrivateRoute exact path='/home' component={Home} />
                         <Route path='/forgotpassword' component={ForgotPassword} />
                         <Route path='/newpassword' component={savePassword} />
                         <Route path='/resetpassword/:email' component={ResetPassword}/>

@@ -376,4 +376,4 @@ const actionCreators = {
 };
 
 const connectedTracking = connect(mapStateToProps, actionCreators)(Tracking);
-export { connectedTracking as Tracking };
+export { connectedTracking as default };

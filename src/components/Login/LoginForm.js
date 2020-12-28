@@ -98,7 +98,7 @@ import {clearStorage} from '../../util/localStorage'
 				<div className="loginForm">
 
 					<div style={{textAlign:'center'}}>
-					<a href="/home"><img className="bitmap" alt="" src={logo} /></a>
+					<img className="bitmap" alt="" src={logo} />
 					</div>
 					<div className='shadowBox'>
 						<h3 className="signin"> Sign in</h3>

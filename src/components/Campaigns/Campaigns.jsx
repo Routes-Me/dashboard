@@ -167,4 +167,4 @@ const actionCreators = {
 };
 
 const connectedCampaigns = connect(mapStateToProps, actionCreators)(Campaigns);
-export { connectedCampaigns as Campaigns };
+export { connectedCampaigns as default };
