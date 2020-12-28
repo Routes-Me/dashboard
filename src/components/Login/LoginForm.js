@@ -105,16 +105,12 @@ import {clearStorage} from '../../util/localStorage'
 						<p className="account">with your Routes Account<a href="http://routesme.com/" rel="noopener noreferrer" target="_blank">Learn more</a> </p>
 
 						<Form onSubmit={this.handleSubmit}>
-							<div className="form-group">
 								<Input placeholder="Email" className="form-control email" type="string" value={this.state.username} onChange={this.onChange} name="username" validations={[email]} />
 								<span className="form-error is-visible">{this.state.usernameError}</span>
-							</div>
-							<div className="form-group">
 								<Input placeholder="Password" className="form-control password" type="password" value={this.state.password} onChange={this.onChange} name="password" validations={[required]} />
 								<span className="form-error is-visible">{this.state.passwordError}</span>
-							</div>
 							<div className="forgotpwd">
-								<p><a href="/forgotpassword">Forgot Password?</a></p>
+								<p style={{margin:'0px'}}><a href="/forgotpassword">Forgot Password?</a></p>
 							</div>
 							<button type="submit" className="buttonStyle">
 								{this.props.loggingIn && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />}
