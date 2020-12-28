@@ -55,7 +55,7 @@ instance.interceptors.request.use(
     }
 
     config.headers["Content-Type"] = (config.url ==='medias' && config.method ==='post')? "multipart/form-data" :  "application/json; charset=utf-8";      
-    config.headers['application'] = 'dashboard';
+    config.headers['Application'] = 'dashboard';
     return config;
 
   },

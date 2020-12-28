@@ -19,6 +19,8 @@ import supercluster from 'points-cluster';
 import { susolvkaCoords, markersData } from '../data/fakeData';
 import IdleTimer from 'react-idle-timer';
 import { trackingConstants } from '../../constants/trackingConstants';
+import { parseJwt } from '../../util/encrypt';
+import { restoreToken } from '../../util/localStorage';
 
 const MAP = {
     defaultZoom: 9,
@@ -137,14 +139,27 @@ class Tracking extends Component {
         );
     };
 
-    componentDidMount(){
+    async componentDidMount(){
+
+        let token ='';
+        let user  =''; 
+        if(this.props.token === '')
+        {
+            token = await restoreToken();
+            user = token !== '' && parseJwt(token);
+        }
+        else{
+            token = this.props.token;
+            user = this.props.user;
+        }
         
-        this.props.connectTheHub(this.props.token);
-        this.props.SubscribeToHub(this.props.user);
-        this.props.GetOfflineVehicles(this.props.user);
-        //navigator.geolocation.getCurrentPosition(this.currentCoords);
-        //console.log("Will Mount Center => :", this.state.center);
+        this.props.connectTheHub(token);
+        this.props.SubscribeToHub(user);
+        this.props.GetOfflineVehicles(user);
+        
     }
+
+    
 
     componentWillUnmount() {
         this.setState({ timeOffUnmount: new Date().toLocaleTimeString() });
@@ -288,7 +303,7 @@ class Tracking extends Component {
 
                 
 
-                <MapContainer center={position} zoom={13} scrollWheelZoom={true} style={{width:'100%', height:'100%'}}>
+                <MapContainer center={position} zoom={10} maxZoom={20} minZoom={9} scrollWheelZoom={true} style={{width:'100%', height:'100%'}}>
                     <div className='activeCount'>
                     <h4 style={{margin:'10px'}}>{this.state.activeCount}</h4>
                     </div>
@@ -361,4 +376,4 @@ const actionCreators = {
 };
 
 const connectedTracking = connect(mapStateToProps, actionCreators)(Tracking);
-export { connectedTracking as Tracking };
+export { connectedTracking as default };

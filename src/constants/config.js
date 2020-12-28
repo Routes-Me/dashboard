@@ -57,6 +57,7 @@ export const config = {
     // Domain:'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/',
 
     Pagelimit : 20,
-    DropDownLimit : 5
+    DropDownLimit : 5,
+    Version : 'VP28122020'
 
 };

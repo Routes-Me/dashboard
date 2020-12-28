@@ -20,21 +20,7 @@ code {
 
     Should should use one style only and override yhe specific components
 */
-.buttonStyle:enabled {
-    color: #fff;
-    font-size: 16px;
-    font-weight: 500;
-    background-color: #18428f;
-    border-color: #1861ac;
-    height: 48px;
-    width: 360px;
-    opacity: 1;
-    border-radius: 4px;
-}
 
-.buttonStyle:disabled {
-    opacity: 0.2;
-}
 
 
 
@@ -371,6 +357,7 @@ header nav {
     height: 100%;
     margin: 0px;
     width: 100%;
+    background-color: rgba(234,237,237,1);
 }
 
     .search-result p {

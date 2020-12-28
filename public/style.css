@@ -1,38 +1,67 @@
+.loginPage{
+    background-color: #fbfbfb;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.bitmap {
+    margin-top: 10%;
+    margin-bottom: 28px;
+    height: 44px;
+    width: 44px;
+}
+
+
+.loginForm {
+    position: absolute;
+    left: 50%;
+    top: 35%;
+    transform: translate(-50%, -35%);
+    width: 50%;
+
+}
+
 .signin {
-    /*font-family: 'Roboto', sans-serif;*/
-    font-family: 'Roboto-Regular';
-    font-size: 24px;
-    font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: center;
+    font-size: 44px;
+    font-weight: 400;
+    text-align: left;
     color: #000000;
-    margin-bottom: 15px;
+    margin: 0px;
 }
 
 .account {
-    /*font-family: 'Roboto', sans-serif;*/
-    font-family: 'Roboto';
-    font-size: 18px;
+    display: flex;
     font-weight: normal;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    text-align: center;
+    vertical-align: middle;
+    font-size: 18px;
+    text-align: left;
     color: #000000;
-    margin-bottom: 25px;
+    margin-top: 10px;
+    margin-bottom: 42px;
 }
+
+
+
+.shadowBox{
+    padding: 42px 69px;
+    border-radius: 6px;
+    max-width: 514px;
+    background-color: white;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+    position: relative;
+    margin: auto;
+    align-self: center;
+}
+
+
 
  .account a {
      color: #18428f;
      margin-left: 5px;
- }
-
- .center {
-     text-align: center;
+     display: inherit;
  }
 
  .email {
@@ -40,6 +69,7 @@
      height: 60px !important;
      border-radius: 4px;
      border: solid 0.5px rgb(95, 94, 94);
+     margin-bottom: 15px;
  }
 
  .password {
@@ -50,257 +80,37 @@
  }
 
  .forgotpwd {
-     text-align: right;
-     margin-top: 30px;
-     margin-bottom: 30px;
+     text-align: left;
+     margin-top: 23px;
+     margin-bottom: 42px;
      color: #18428f;
  }
+
+ .buttonStyle:enabled {
+    position: relative;
+    align-self: center;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    background-color: #18428f;
+    border-color: #1861ac;
+    height: 48px;
+    width: 100%;
+    opacity: 1;
+    border-radius: 24px;
+}
+
+.buttonStyle:disabled {
+    opacity: 0.2;
+}
 
     .forgotpwd a {
         color: #18428f;
-        font-family: 'Roboto-Regular';
         font-size: 16px;
     }
 
-.login {
-    width: 360px;
-    height: 48px;
-    border-radius: 4px;
-    background-color: #18428f;
-    /*background-color: #18428f;*/
-}
-
- .col-md-8 {
-     border-left: 1px solid #c1c0c0;
-     height: 656px;
- }
-
- .imgsize {
-     width: 253px;
-     height: 223px;
-     position: absolute;
- }
-
- .left-arrow {
-     position: absolute;
-     width: 20px;
-     height: 30px;
-     top: 45%;
-     right: -2px;
-     left: auto;
- }
-
- .right-arrow {
-     position: absolute;
-     width: 20px;
-     height: 30px;
-     top: 45%;
-     right: auto;
-     left: -3px;
- }
-
- .up-arrow {
-     position: absolute;
-     width: 30px;
-     height: 30px;
-     right: 0;
-     left: 45%;
-     bottom: -8px;
-     top: auto;
- }
-
- .text1 {
-     top: 0;
-     bottom: 0;
-     height: 128px;
-     text-align: left;
-     font-size: 14px;
-     margin-left: 20px;
- }
-
- .text2 {
-     top: 0;
-     bottom: 0;
-     height: 178px;
-     text-align: left;
-     font-size: 14px;
-     margin-left: 20px;
- }
-
- .text3 {
-     top: 0;
-     bottom: 0;
-     height: 178px;
-     text-align: left;
-     font-size: 14px;
-     margin-left: 20px;
- }
-
- .allh5 {
-     margin-left: 20px;
-     font-size: 18px;
-     margin-top: 50px;
-     color: #18428f;
- }
-
- .allh52 {
-     margin-left: 20px;
-     font-size: 18px;
-     margin-top: 20px;
-     color: #18428f;
- }
-
- .allh53 {
-     margin-left: 20px;
-     font-size: 18px;
-     margin-top: 20px;
-     color: #18428f;
- }
-
- .sign {
-     margin-top: 103px;
-     max-width: 360px;
-     margin-left: auto;
-     margin-right: auto !important;
- }
-
  .container-custom .row {
      margin: 0;
- }
-
-
- .box {
-     margin-top: 81px;
-     border: 1px solid #c1c0c0;
-     max-width: 885px;
-     border-radius: 5px;
-     /*height: 474px;*/
-     margin-left: auto;
-     margin-right: auto;
-
- }
-
- .box-row {
-     width: 100%;
-     display: flex;
-     flex-wrap: wrap;
- }
-
- .box .images-text-part p {
-     height: auto !important;
-     margin-left: auto;
- }
-
- .box .images-text-part h5 {
-     margin-left: 0;
-     margin-right: 0;
-     margin-top: 0;
-     text-align: left;
-     width: 100%;
- }
-
- .box .images-text-part {
-     flex: 0 0 33.333333%;
-     position: relative;
-     max-width: 295px;
-     width: 33.333333%;
-     padding: 0;
-     min-height: 264px;
- }
-
- .box .images-text-part.text-part {
-     display: flex;
-     flex-direction: column;
-     justify-content: center;
-     padding: 20px;
- }
-
- .box .imgsize {
-     width: 100% !important;
-     height: 100% !important;
-     object-fit: cover;
-     margin: 0;
- }
-
- .main {
-     margin-bottom: 80px;
-     padding-top: 100px;
- }
-
- .bitmap {
-     margin-bottom: 20px;
- }
-
-
- .c1 {
-     margin-right: 30px;
- }
-
- .c2 {
-     padding-right: 0px;
-     padding-bottom: 0px;
- }
-
- .c3 {
-     width: 267.3px;
-     height: 236.5px;
- }
-
- .c4 {
-     width: 267.3px;
-     height: 236.5px;
-     padding: 0px;
- }
-
- .c5 {
-     padding: 0px;
- }
-
- .c6 {
-     width: 267.3px;
-     height: 236.5px;
-     margin-left: -15px;
- }
-
- .c7 {
-     width: 263.3px;
-     height: 236.5px;
-     padding-top: 0px;
-     padding-right: 0px;
- }
-
- .c8 {
-     padding: 0px;
-     width: 267.3px;
- }
-
- .c9 {
-     width: 283.3px;
-     height: 236.5px;
-     margin-top: -31px;
-     margin-left: -16px;
- }
-
- .c10 {
-     width: 267.3px;
-     height: 236.5px;
-     padding: 0px;
- }
-
- .call {
-     text-align: right;
-     width: 100%;
-     font-family: 'Roboto';
-     height: auto;
-     font-size: 16px;
-     font-weight: 500;
-     font-stretch: normal;
-     font-style: normal;
-     line-height: normal;
-     letter-spacing: normal;
-     color: #18428f;
-     padding-top: 115px;
-     padding-right: 40px;
  }
 
  .footer {
@@ -309,13 +119,14 @@
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color: white;
-    color: #18428f;
-    text-align: right;
-    font-size: 16px;
-    line-height: normal;
-    letter-spacing: normal;
+    background-color: #fbfbfb;
+    display: flex;
+    color: #404040;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 18px;
     padding: 40px;
+    justify-content: center;
  }
 
  /*forgot password*/
@@ -395,12 +206,6 @@
      padding-left: 20px;
  }
 
- @media screen and (max-width:1199px) {
-     .box .images-text-part {
-         min-height: 225px;
-     }
- }
-
  @media screen and (max-width:991px) {
      .container-custom .row {
          flex-direction: column;
@@ -415,20 +220,8 @@
          max-width: 100%;
      }
 
-     .col-md-8 {
-         border: 0;
-     }
-
-     .box .images-text-part {
-         max-width: 100%;
-     }
  }
 
- @media screen and (max-width:769px) {
-     .box .images-text-part {
-         min-height: 195px;
-     }
- }
 
 
 
@@ -455,10 +248,7 @@
          margin-bottom: 0px;
      }
 
-     .account a {
-         display: inherit;
-         padding-top: 3px;
-     }
+ 
 
      .call {
          width: auto !important;
@@ -469,9 +259,7 @@
          padding: 0 5px;
      }
 
-     .sign {
-         margin-top: 0;
-     }
+
 
      .forgot {
          padding: 0 5px;

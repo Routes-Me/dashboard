@@ -6,14 +6,14 @@ function Analytics(advertisementList) {
 
     const data =  
     [
-        {name: 'Center Point',      iOS: 2+6,    Android: 2+1,    web: 0,   Windows: 0+1},
-        {name: 'Zain',              iOS: 1+5,    Android: 2+1,    web: 0,   Windows: 0+2},
-        {name: 'McDonalds',         iOS: 4+3,    Android: 0+1,    web: 2,   Windows: 0+1},
-        {name: 'City Center',       iOS: 2+3,    Android: 0+2,    web: 0,   Windows: 1+1},
-        {name: 'Best',              iOS: 1+1,    Android: 1,      web: 0,   Windows: 0},
-        {name: 'Huawei',            iOS: 1+1,    Android: 0,      web: 0,   Windows: 0},
-        {name: 'Xcite',             iOS: 1+1,    Android: 0,      web: 0,   Windows: 0},
-        {name: 'KFC',               iOS: 1,      Android: 0,      web: 0,   Windows: 0},
+        {name: 'Center Point',      iOS: 2+6+3,    Android: 2+1+2,    web: 0,   Windows: 0+1+1},
+        {name: 'Zain',              iOS: 1+5+5,    Android: 2+1,      web: 0,   Windows: 0+2+2},
+        {name: 'McDonalds',         iOS: 4+3+1,    Android: 0+1+3,    web: 2,   Windows: 0+1+1},
+        {name: 'City Center',       iOS: 2+3,      Android: 0+2+1,    web: 0,   Windows: 1+1},
+        {name: 'Best',              iOS: 1+1+2,    Android: 1+1,      web: 0,   Windows: 0+3},
+        {name: 'Xcite',             iOS: 1+1+2,    Android: 0+2,      web: 0,   Windows: 0+3},
+        {name: 'Huawei',            iOS: 1+1+1,    Android: 0,        web: 0,   Windows: 0},
+        {name: 'KFC',               iOS: 1,        Android: 0,        web: 0,   Windows: 0},
     ];
 
     return (
