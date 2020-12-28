@@ -12,6 +12,7 @@ import { Login } from './components/Login/Login';
 import Home from './components/Home';
 import { UsersDetail } from './components/Users/UsersDetail';
 import { PrivateRoute } from './helper/PrivateRoute';
+import Launch from './components/Launch';
 
 //import { ForgotPassword } from './components/ForgotPassword';
 //import { savePassword } from './components/savePassword';
@@ -37,11 +38,11 @@ export default class App extends Component {
                         <Route exact path='/' component={Login} />
                         <Route exact path='/AddAccount' component={UsersDetail}/>
                         <PrivateRoute exact path='/home' component={Home} />
-                        <Suspense fallback={<div>Loading...</div>}>
+                        <Suspense fallback={<Launch/>}>
                         <Route path='/forgotpassword' component={ForgotPassword} />
                         <Route path='/newpassword' component={savePassword} />
                         <Route path='/resetpassword/:email' component={ResetPassword}/>
-                        <Redirect from="*" to="/" component={Login}/>
+                        {/* <Redirect from="*" to="/" component={Login}/> */}
                         </Suspense>
                     </Switch>
                 </Router >

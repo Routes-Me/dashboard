@@ -95,43 +95,37 @@ import {clearStorage} from '../../util/localStorage'
 		//const onSubmit = values => console.log(values);
 		return (
 
-			<div className="col-md-12">
-				<div className="sign c1">
+				<div className="loginForm">
 
-					<center>
-						<a href="/home"><img className="bitmap" alt="" src={logo} /></a>
-					</center>
-					<center>
+					<div style={{textAlign:'center'}}>
+					<a href="/home"><img className="bitmap" alt="" src={logo} /></a>
+					</div>
+					<div className='shadowBox'>
 						<h3 className="signin"> Sign in</h3>
-					</center>
-					<center>
 						<p className="account">with your Routes Account<a href="http://routesme.com/" rel="noopener noreferrer" target="_blank">Learn more</a> </p>
-					</center>
 
-					<Form onSubmit={this.handleSubmit}>
-						<div className="form-group">
-							<Input placeholder="Email" className="form-control email" type="string" value={this.state.username} onChange={this.onChange} name="username" validations={[email]} />
-							<span className="form-error is-visible">{this.state.usernameError}</span>
-						</div>
-						<div className="form-group">
-							<Input placeholder="Password" className="form-control password" type="password" value={this.state.password} onChange={this.onChange} name="password" validations={[required]} />
-							<span className="form-error is-visible">{this.state.passwordError}</span>
-						</div>
-						<div className="forgotpwd">
-							<p><a href="/forgotpassword">Forgot Password?</a></p>
-						</div>
-						<div className="form-group">
+						<Form onSubmit={this.handleSubmit}>
+							<div className="form-group">
+								<Input placeholder="Email" className="form-control email" type="string" value={this.state.username} onChange={this.onChange} name="username" validations={[email]} />
+								<span className="form-error is-visible">{this.state.usernameError}</span>
+							</div>
+							<div className="form-group">
+								<Input placeholder="Password" className="form-control password" type="password" value={this.state.password} onChange={this.onChange} name="password" validations={[required]} />
+								<span className="form-error is-visible">{this.state.passwordError}</span>
+							</div>
+							<div className="forgotpwd">
+								<p><a href="/forgotpassword">Forgot Password?</a></p>
+							</div>
 							<button type="submit" className="buttonStyle">
 								{this.props.loggingIn && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />}
 								{this.props.loggingIn && <span>  Logging In...</span>}
 								{!this.props.loggingIn && <span>Login</span>}
 							</button>		
-						</div>			
-					</Form>
+						</Form>
+
+					</div>
 
 				</div>
-			</div>
-
 		);
 	}
 }
