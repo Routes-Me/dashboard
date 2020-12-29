@@ -2,7 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Label } from 'reactstrap';
 import * as InstitutionAction from '../../Redux/Action';
+import * as AdvertisementAction from '../../Redux/Action';
 import Form from 'react-validation/build/form';
+import { config } from '../../constants/config';
 
 class CampaignsDetail extends React.Component {
 
@@ -24,9 +26,10 @@ class CampaignsDetail extends React.Component {
     }
 
     static getDerivedStateFromProps(props, state) {
-        //console.log('Users : getDerivedStateFromProps called with NewProps', props.vehicleToDisplay);
+        
         if (props.campaignToDisplay !== undefined) {
-            if (props.campaignToDisplay !== state.campaign) {
+            if (props.campaignToDisplay.campaignId !== state.campaignId) {
+                
                 return {
                     campaign    : props.campaignToDisplay,
                     campaignId  : props.campaignToDisplay.campaignId,
@@ -36,9 +39,30 @@ class CampaignsDetail extends React.Component {
                 }
             }
         }
+
     }
 
+    componentDidUpdate() {
+        this.state.campaignId !=='' && this.props.getAdvertisementsForCampaign(1,config.Pagelimit,this.state.campaignId);
+    }
     
+
+        //Load Advertisements in a table
+        renderAllAdvertisementTable(Advertisements) {
+            return (
+                <div>
+                    <table>
+                            {
+                                Advertisements.data?.map(Advertisement => (
+                                    <tr key={Advertisement.id}>
+                                        <td>{Advertisement.resourceName}</td>
+                                    </tr>
+                                ))
+                            }
+                    </table>
+                </div>
+            );
+        }
 
     //Submit button action
     handleSubmit = (event) => {
@@ -72,11 +96,7 @@ class CampaignsDetail extends React.Component {
 
     render() {
 
-        // Render nothing if the "show" prop is false
-        // if (this.props.savedSuccessfully && !this.props.show) {
-        //     return null;
-        // }
-
+        let content = this.renderAllAdvertisementTable(this.props.AdvertisementList);
         const institutionObj = this.state.institution;
         const buttonText = institutionObj ? "Update" : "Add";
 
@@ -117,6 +137,10 @@ class CampaignsDetail extends React.Component {
 
                         <br /><br />
 
+                        <div className='col-md-6'>
+                        {content}
+                        </div>
+
                     </div>
 
             <div className="container-fluid">
@@ -135,8 +159,8 @@ class CampaignsDetail extends React.Component {
 const mapStateToProps = (state) => {
 
     return {
+        AdvertisementList: state.AdvertisementStore.Advertisements,
         servicesList: state.InstitutionStore.Services,
-        token : state.Login.token,
         savedSuccessfully : state.InstitutionStore.Loading
     }
 
@@ -144,7 +168,8 @@ const mapStateToProps = (state) => {
 
 const actionCreators = {
     getServiceList: InstitutionAction.getServicesList,
-    saveCampaign: InstitutionAction.saveCampaign
+    saveCampaign: InstitutionAction.saveCampaign,
+    getAdvertisementsForCampaign : AdvertisementAction.getAdvertisements
 };
 
 const connectCampaignsDetail = connect(mapStateToProps, actionCreators)(CampaignsDetail);
