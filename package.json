@@ -61,6 +61,7 @@
     "qrcode.react": "^1.0.0",
     "react": "^16.13.1",
     "react-app-polyfill": "^1.0.6",
+    "react-beautiful-dnd": "^13.0.0",
     "react-collapse-pane": "^1.4.2",
     "react-cookies": "^0.1.1",
     "react-dev-utils": "^10.2.1",

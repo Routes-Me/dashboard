@@ -5,6 +5,7 @@ import * as InstitutionAction from '../../Redux/Action';
 import * as AdvertisementAction from '../../Redux/Action';
 import Form from 'react-validation/build/form';
 import { config } from '../../constants/config';
+import { DragDropContext,Droppable,Draggable } from 'react-beautiful-dnd';
 
 class CampaignsDetail extends React.Component {
 
@@ -28,8 +29,8 @@ class CampaignsDetail extends React.Component {
     static getDerivedStateFromProps(props, state) {
         
         if (props.campaignToDisplay !== undefined) {
+
             if (props.campaignToDisplay.campaignId !== state.campaignId) {
-                
                 return {
                     campaign    : props.campaignToDisplay,
                     campaignId  : props.campaignToDisplay.campaignId,
@@ -50,16 +51,28 @@ class CampaignsDetail extends React.Component {
         //Load Advertisements in a table
         renderAllAdvertisementTable(Advertisements) {
             return (
-                <div>
-                    <table>
+                <div className="table-list" style={{border:'1px solid #ced4da', borderRadius:'4px'}}>
+                    <DragDropContext onDragEnd={(...props) => {console.log(props)}}>
+                        <Droppable droppableId="droppable-1">
+                            {(provided, snapshot) => (
+                            <table ref={provided.innerRef} style={{ backgroundColor: snapshot.isDraggingOver ? 'lightgray' : 'white' }} {...provided.droppableProps}>
                             {
-                                Advertisements.data?.map(Advertisement => (
-                                    <tr key={Advertisement.id}>
-                                        <td>{Advertisement.resourceName}</td>
-                                    </tr>
+                                Advertisements.data?.map((Advertisement,i) => (
+                                    <Draggable key={Advertisement.id} draggableId={"draggable-"+Advertisement.id} index={i}>
+                                        {(provided, snapshot) => (
+                                            <tbody>
+                                            <tr key={Advertisement.id} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={{...provided.draggableProps.style, boxShadow: snapshot.isDragging && "0 0 .4rem #666", backgroundColor:'white', padding:'10px'}}>
+                                            <td>{Advertisement.resourceName}</td>
+                                            </tr>
+                                            </tbody>
+                                        )}
+                                    </Draggable>
                                 ))
                             }
-                    </table>
+                            </table>
+                            )}
+                        </Droppable>
+                    </DragDropContext>
                 </div>
             );
         }
@@ -137,8 +150,10 @@ class CampaignsDetail extends React.Component {
 
                         <br /><br />
 
-                        <div className='col-md-6'>
-                        {content}
+                        <div className="row form-group">
+                            <div className='col-md-6'>
+                            {content}
+                            </div>
                         </div>
 
                     </div>
