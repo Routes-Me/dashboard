@@ -60,10 +60,10 @@ export class Prizes extends Component {
         {
             this.props.getCandidatesForDraw(1, config.Pagelimit);
         }
-        else
-        {
-            this.props.getDraws(1, config.Pagelimit);
-        }
+        // else
+        // {
+        //     this.props.getDraws(1, config.Pagelimit);
+        // }
     }
 
     render() {
@@ -85,7 +85,7 @@ export class Prizes extends Component {
                                 <div className="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
                                     <a className={`nav-item nav-link ${tabIndex === 1 && "active"}`}  id="nav-home-tab" data-toggle="tab" onClick={(e) => this.onTabClick(1)} role="tab" aria-controls="nav-home" aria-selected="true"> Candidates</a>
                                     <a className={`nav-item nav-link ${tabIndex === 2 && "active"}`} id="nav-profile-tab" data-toggle="tab" onClick={(e) => this.onTabClick(2)} role="tab" aria-controls="nav-profile" aria-selected="false">Draws</a>
-                                    {/* <a className={`nav-item nav-link ${tabIndex === 3 && "active"}`} id="nav-profile-tab" data-toggle="tab" onClick={(e) => this.onTabClick(3)} role="tab" aria-controls="nav-profile" aria-selected="false">Winners</a> */}
+                                    <a className={`nav-item nav-link ${tabIndex === 3 && "active"}`} id="nav-profile-tab" data-toggle="tab" onClick={(e) => this.onTabClick(3)} role="tab" aria-controls="nav-profile" aria-selected="false">Winners</a>
                                 </div>
                             </nav>
                     </div>
