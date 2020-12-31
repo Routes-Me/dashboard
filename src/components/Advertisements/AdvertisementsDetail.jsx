@@ -107,7 +107,7 @@ class AdvertisementsDetail extends React.Component {
                     </div>
                     <div className="row col-md-12 detail-form">
 
-                        <div className="col-md-6" style={{paddingLeft:"0px"}}>
+                        <div className="col-md-6 col-sm-12" style={{paddingLeft:"0px"}}>
                             {this.state.tabIndex === 1 ? 
                             <Basic  submitForm={this.state.submitBasic} advertisementToDisplay={this.state.advertisement} withPromotion={this.state.addPromotion}/> : 
                             <Extras submitForm={this.state.submitExtra} addForPromotion={this.props.NewAdvertisement}/>}

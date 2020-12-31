@@ -80,6 +80,7 @@ class Secondary extends Component {
                 {this.props.selectedNavItem === userConstants.NavItem_AccessControl && <AccessControlSecondary/>}
                 {this.props.selectedNavItem === userConstants.NavItem_Campaigns && <CampaignsSecondary/>}
                 {this.props.selectedNavItem === userConstants.NavItem_Analytics && <CampaignsSecondary/>}
+                {this.props.selectedNavItem === userConstants.NavItem_Prizes && <CampaignsSecondary/>}
             </div >
             );
     }

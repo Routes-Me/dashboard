@@ -162,8 +162,8 @@ class CampaignsDetail extends React.Component {
                     <div className="footerStyle">
                         <button type="submit" style={{ float: 'left' }}> {buttonText} </button>
                     </div>
-             </div>
-             </Form>
+            </div>
+            </Form>
             </div>
         )
     }
