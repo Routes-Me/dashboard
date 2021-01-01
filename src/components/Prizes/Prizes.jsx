@@ -25,11 +25,10 @@ class Prizes extends Component {
 
     renderList(Vehicles) {
         return (
-            <div>
-            {/* <PageHandler page = {Vehicles.page} getList={this.props.getVehiclesForInstitution} institutionId={this.props.user.InstitutionId} style='header'/> */}
-            
             <div className="table-list padding-lr-80">
             {this.state.tabIndex === 1 &&
+                    <div>
+                    <PageHandler page = {Vehicles.page} getList={this.props.getCandidatesForDraw} style='header'/>
                     <table>
                         <thead>
                             <tr style={{height:'51px'}}>
@@ -53,9 +52,12 @@ class Prizes extends Component {
                                 ))
                             }
                         </tbody>
-                    </table>}
+                    </table>
+                    </div>}
             {this.state.tabIndex === 2 &&
-                    <table>
+            <div>
+                    <PageHandler page = {Vehicles.page} getList={this.props.getCandidatesForDraw} style='header'/>
+                <table>
                         <thead>
                             <tr style={{height:'51px'}}>
                                 <th>Name</th>
@@ -78,9 +80,9 @@ class Prizes extends Component {
                                 ))
                             }
                         </tbody>
-                    </table>}
+                </table>
+            </div>}
                 </div>
-            </div>
         );
     }
 
@@ -123,6 +125,7 @@ class Prizes extends Component {
                                 </div>
                             </nav>
                     </div>
+
                     <div className="hehading-add-butt">
                     <div className="search-part" style={{maxWidth:'338px', marginTop:'69px'}}>
                         <div className="search-relative">
