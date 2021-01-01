@@ -28,7 +28,7 @@ export function getDraws(pageIndex,limit) {
 
     return dispatch => {
         dispatch(drawRequest());
-        apiHandler.get(buildURL('users',pageIndex,limit,false))
+        apiHandler.get(buildURL('draws',pageIndex,limit,false))
         .then(
                 users => {
                     dispatch(storeDrawsData(returnFormatedResponse(users)));
