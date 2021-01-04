@@ -36,11 +36,10 @@ export const config = {
     },
 
     NavMenuItems : {
-
         "data":[
             {
                 "roleId":1,
-                "navItems":["Tracking","Users","Vehicles","Advertisements","Institutions","Access Control",'Campaigns','Analytics']
+                "navItems":["Tracking","Users","Vehicles","Advertisements","Institutions","Access Control",'Campaigns','Analytics','Prizes']
             },
             {
                 "roleId":2,

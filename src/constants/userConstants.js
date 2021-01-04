@@ -26,6 +26,7 @@
     NavItem_AccessControl : 'Access Control',
     NavItem_Campaigns : 'Campaigns',
     NavItem_Analytics : 'Analytics',
+    NavItem_Prizes    : 'Prizes',
 
     getUsers_REQUEST: "GETUSERS_REQUEST",
     getUsers_SUCCESS: "GETUSERS_SUCCESS",

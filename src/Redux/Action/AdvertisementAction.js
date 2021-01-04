@@ -4,12 +4,13 @@ import apiHandler from '../../util/request';
 import { uploadMediaIntoBlob, dataURLtoFile } from '../../util/blobStorage';
 
 
-export function getAdvertisements(pageIndex,limit,institutionId) {
+export function getAdvertisements(pageIndex,limit,campaignId) {
+    let include = campaignId? false : true;
     return dispatch => {
         dispatch(request())
-        apiHandler.get(buildURL('advertisements',pageIndex,limit, true))
+        apiHandler.get(buildURL(returnFilterForCampaigns(campaignId),pageIndex,limit,include))
             .then(
-                response => { dispatch(success(returnFormatedAdvertisements(response))) },
+                response => { dispatch(success(returnFormatedAdvertisements(response,include))) },
                 error => { dispatch(failure(error)) }
             )
     }
@@ -18,6 +19,10 @@ export function getAdvertisements(pageIndex,limit,institutionId) {
     function failure(error) { return { type: advertisementsConstants.getAdvertisements_ERROR, payload:error };}
 }
 
+
+function returnFilterForCampaigns(campaignId){
+    return campaignId? `campaigns/${campaignId}/advertisements` : `advertisements` ;
+}
 
 
 
@@ -157,31 +162,38 @@ function buildURL(entity, pageIndex, limit, include) {
 }
 
 
-function returnFormatedAdvertisements(response) {
-
-    const AdvertisementList = response.data.data;
-    const InstitutionList   = response.data.included?.institution !== undefined ? response.data.included.institution:[];
-    const MediaList         = response.data.included?.media !== undefined ? response.data.included.media:[];
-    const CampaignList      = response.data.included?.campaign !== undefined ? response.data.included.campaign:[];
+function returnFormatedAdvertisements(response, include) {
 
     let advertisments = '';
+    const AdvertisementList = response.data.data;
+    if(include){
+        const InstitutionList   = response.data.included?.institution !== undefined ? response.data.included.institution:[];
+        const MediaList         = response.data.included?.media !== undefined ? response.data.included.media:[];
+        const CampaignList      = response.data.included?.campaign !== undefined ? response.data.included.campaign:[];
     
-    //const IntervalList      = response.data.included.interval;
-
-    const FormatedAdvertisements = AdvertisementList?.map(x => ({
-        id: x.advertisementId,
-        resourceName: x.resourceName,
-        createdAt: x.createdAt,
-        campaigns: filterCampaignList(CampaignList, x.campaignId)[0],
-        institution: InstitutionList.filter(y => y.institutionId === x.institutionId)[0],
-        media: MediaList.filter(y => y.mediaId === x.mediaId)[0],
-        intervalId:  x.intervalId,
-        tintColor: x.tintColor
-    }))
-
-    advertisments= {
-        data : FormatedAdvertisements,
-        page : response.data.pagination
+        //const IntervalList      = response.data.included.interval;
+    
+        const FormatedAdvertisements = AdvertisementList?.map(x => ({
+            id: x.advertisementId,
+            resourceName: x.resourceName,
+            createdAt: x.createdAt,
+            campaigns: filterCampaignList(CampaignList, x.campaignId)[0],
+            institution: InstitutionList.filter(y => y.institutionId === x.institutionId)[0],
+            media: MediaList.filter(y => y.mediaId === x.mediaId)[0],
+            intervalId:  x.intervalId,
+            tintColor: x.tintColor
+        }))
+    
+        advertisments= {
+            data : FormatedAdvertisements,
+            page : response.data.pagination
+        }
+    }
+    else{
+        advertisments= {
+            data : AdvertisementList,
+            page : response.data.pagination
+        }
     }
 
     return advertisments;

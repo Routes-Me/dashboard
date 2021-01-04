@@ -103,7 +103,8 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 loading: false,
                 hasError: false,
-                Advertisement: action.payload
+                Advertisement: action.payload,
+                ActionState: action
             };
         case advertisementsConstants.saveAdvertisements_ERROR:
             return {
