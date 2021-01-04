@@ -3,11 +3,11 @@ import Detail from '../Detail/Detail';
 import { connect } from 'react-redux';
 import { userConstants } from '../../constants/userConstants';
 import * as VehicleAction from '../../Redux/Action';
-import '../Detail/Detail.css';
 import { vehicleConstants } from '../../constants/vehicleConstants';
 import PageHandler from '../PageHandler';
 import { config } from '../../constants/config';
 import { isSuperUser } from '../../util/basic';
+import '../Detail/Detail.css';
 
 class Vehicles extends Component {
 

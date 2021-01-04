@@ -6,7 +6,7 @@ const Status = ({text}) => {
     return (
         <div style={{display:"inline-block"}}>
             <img style={{width:"18px", height:"18px", margin:"7px"}} alt="" src={text ==="active"? active:canceled} />
-            <label>{text}</label>
+            <label>{text ==="active"? 'Active':'Canceled'}</label>
         </div>
     );
 };

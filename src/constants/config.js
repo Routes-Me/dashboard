@@ -36,11 +36,10 @@ export const config = {
     },
 
     NavMenuItems : {
-
         "data":[
             {
                 "roleId":1,
-                "navItems":["Tracking","Users","Vehicles","Advertisements","Institutions","Access Control",'Campaigns','Analytics']
+                "navItems":["Tracking","Users","Vehicles","Advertisements","Institutions","Access Control",'Campaigns','Analytics','Prizes']
             },
             {
                 "roleId":2,
@@ -52,9 +51,9 @@ export const config = {
     StageSuperInstitution : '78132467',
     SuperInstitution      : '1580030173', // 1580030173 78132467
     
-    Domain:'http://api.routesme.com/api/',
+    //Domain:'http://api.routesme.com/api/',
 
-    //Domain:'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/',
+    Domain:'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/',
 
     Pagelimit : 20,
     DropDownLimit : 5,

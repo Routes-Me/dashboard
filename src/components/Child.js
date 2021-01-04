@@ -1,14 +1,6 @@
 ﻿import React, { Component, Suspense, lazy } from 'react';
 import { userConstants } from '../constants/userConstants';
 import { connect } from 'react-redux';
-// import { Tracking } from './Tracking/Tracking';
-// import { Vehicles } from './Vehicles/Vehicles';
-// import { Institutions } from './Institutions/Institutions';
-// import { Users } from './Users/Users';
-// import { Advertisements } from './Advertisements/Advertisements';
-// import { AccessControl } from "./AccessControl/AccessControl";
-// import { Campaigns } from './Campaigns/Campaigns';
-// import Analytics from './Analytics/Analytics';
 import Launch from './Launch';
 
 const Tracking = lazy(() => import('./Tracking/Tracking'));
@@ -19,6 +11,7 @@ const Advertisements = lazy(() => import('./Advertisements/Advertisements'));
 const AccessControl = lazy(() => import('./AccessControl/AccessControl'));
 const Campaigns = lazy(() => import('./Campaigns/Campaigns'));
 const Analytics = lazy(() => import('./Analytics/Analytics'));
+const Prizes = lazy(() => import('./Prizes/Prizes'));
 
 class Child extends Component {
     render() {
@@ -34,6 +27,7 @@ class Child extends Component {
                 {this.props.selectedNavItem === userConstants.NavItem_AccessControl && <AccessControl/>}
                 {this.props.selectedNavItem === userConstants.NavItem_Campaigns && <Campaigns/>}
                 {this.props.selectedNavItem === userConstants.NavItem_Analytics && <Analytics advertisementList ={this.props.AdvertisementList} />}
+                {this.props.selectedNavItem === userConstants.NavItem_Prizes && <Prizes/>}
                 </Suspense>
             </div>
 

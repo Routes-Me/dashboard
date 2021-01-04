@@ -50,7 +50,7 @@ function nextPage(page, getList, institutionId){
 
         if(offset <= totalPages)
         {
-          getList(offset, page.limit, institutionId)
+            institutionId !== undefined && getList(offset, page.limit, institutionId)
         }
     }
 }
@@ -62,7 +62,7 @@ function previousPage(page, getList, institutionId){
         const offset = page.offset - 1;
         if(offset > 0)
         {
-          getList(offset, page.limit, institutionId)
+            institutionId !== undefined && getList(offset, page.limit, institutionId)
         }
     }
 }
