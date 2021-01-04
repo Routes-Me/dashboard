@@ -6,7 +6,7 @@ function Analytics(advertisementList) {
 
     const data =  
     [
-        {name: 'Routes',            iOS: 18,         Android:4,           web: 8,   Windows:11,          Mac:16},
+        {name: 'Routes',            iOS: 18,         Android:4,           web: 8,   Windows: 11,         Mac:16},
         {name: 'Zain',              iOS: 1+5+5+2,    Android: 2+1+5,      web: 0,   Windows: 0+2+2+2,    Mac:0},
         {name: 'McDonalds',         iOS: 4+3+1+6,    Android: 0+1+3,      web: 2,   Windows: 0+1+1+5,    Mac:0},
         {name: 'Center Point',      iOS: 2+6+3+4,    Android: 2+1+2,      web: 0,   Windows: 0+1+1+4,    Mac:0},

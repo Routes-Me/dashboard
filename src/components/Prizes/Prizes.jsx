@@ -69,19 +69,19 @@ class Prizes extends Component {
                     </div>}
             {this.state.tabIndex === 2 &&
             <div>
-                <div className="hehading-add-butt" style={{marginTop:'69px'}}>
-                    <div className='col-md-6'>
-                        <div className="search-part" style={{maxWidth:'338px'}}>
-                            <div className="search-relative">
-                                <input type="text" name="search" placeholder="Search" className="search" />
-                                <i className="fa fa-search" aria-hidden="true" />
+                    <div className="hehading-add-butt" style={{marginTop:'69px'}}>
+                            <div className='col-md-6'>
+                            <div className="search-part" style={{maxWidth:'338px'}}>
+                                <div className="search-relative">
+                                    <input type="text" name="search" placeholder="Search" className="search" />
+                                    <i className="fa fa-search" aria-hidden="true" />
+                                </div>
                             </div>
-                        </div>
+                            </div>
+                            <div className='col-md-6'>
+                            <PageHandler page = {Vehicles.page} getList={this.props.getCandidatesForDraw} style='header'/>
+                            </div>
                     </div>
-                    <div className='col-md-6'>
-                        <PageHandler page = {Vehicles.page} getList={this.props.getCandidatesForDraw} style='header'/>
-                    </div>
-                </div>
                 <table>
                         <thead>
                             <tr style={{height:'51px'}}>
