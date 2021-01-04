@@ -28,7 +28,20 @@ class Prizes extends Component {
             <div className="table-list padding-lr-80">
             {this.state.tabIndex === 1 &&
                     <div>
-                    <PageHandler page = {Vehicles.page} getList={this.props.getCandidatesForDraw} style='header'/>
+                        <div className="hehading-add-butt" style={{marginTop:'69px'}}>
+                            <div className='col-md-6'>
+                            <div className="search-part" style={{maxWidth:'338px'}}>
+                                <div className="search-relative">
+                                    <input type="text" name="search" placeholder="Search" className="search" />
+                                    <i className="fa fa-search" aria-hidden="true" />
+                                </div>
+                            </div>
+                            </div>
+                            <div className='col-md-6'>
+                            <PageHandler page = {Vehicles.page} getList={this.props.getCandidatesForDraw} style='header'/>
+                            </div>
+                        </div>
+
                     <table>
                         <thead>
                             <tr style={{height:'51px'}}>
@@ -56,7 +69,19 @@ class Prizes extends Component {
                     </div>}
             {this.state.tabIndex === 2 &&
             <div>
-                    <PageHandler page = {Vehicles.page} getList={this.props.getCandidatesForDraw} style='header'/>
+                <div className="hehading-add-butt" style={{marginTop:'69px'}}>
+                    <div className='col-md-6'>
+                        <div className="search-part" style={{maxWidth:'338px'}}>
+                            <div className="search-relative">
+                                <input type="text" name="search" placeholder="Search" className="search" />
+                                <i className="fa fa-search" aria-hidden="true" />
+                            </div>
+                        </div>
+                    </div>
+                    <div className='col-md-6'>
+                        <PageHandler page = {Vehicles.page} getList={this.props.getCandidatesForDraw} style='header'/>
+                    </div>
+                </div>
                 <table>
                         <thead>
                             <tr style={{height:'51px'}}>
@@ -126,16 +151,7 @@ class Prizes extends Component {
                             </nav>
                     </div>
 
-                    <div className="hehading-add-butt">
-                    <div className="search-part" style={{maxWidth:'338px', marginTop:'69px'}}>
-                        <div className="search-relative">
-                            <input type="text" name="search" placeholder="Search" className="search" />
-                            <i className="fa fa-search" aria-hidden="true" />
-                            <span className="cross-icon"><img src="../cross-image.png" /></span>
-                        </div>
-                    </div>
-                    {/* <PageHandler page = {Vehicles.page} getList={this.props.getVehiclesForInstitution} institutionId={this.props.user.InstitutionId} style='header'/> */}
-                    </div>
+                    
                 </div>
                 {content}
             </div>
