@@ -40,6 +40,7 @@ function Analytics(advertisementList) {
                          <Bar dataKey="iOS" stackId="a" fill="#a2aaad" barSize={30}/>
                          <Bar dataKey='web' stackId='a' fill='#375a9b' barSize={30}/>
                          <Bar dataKey='Windows' stackId='a' fill='#9b7837' barSize={30}/>
+                         <Bar dataKey='Mac' stackId='a' fill='#90a3c4' barSize={30}/>
                         </BarChart>
                         <br/>
                         <br/>
