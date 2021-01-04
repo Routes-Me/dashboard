@@ -45,7 +45,7 @@ class Prizes extends Component {
                                     <tr  key={Vehicle.candidateId}>
                                         <td>{Vehicle.name}</td>
                                         <td>{Vehicle.email}</td>
-                                        <td>{Vehicle.dateOfBirth}</td>
+                                        <td>{Vehicle.dateOfBirth.substr(0, 10)}</td>
                                         <td>{Vehicle.phoneNumber}</td>
                                         <td>{Vehicle.createdAt}</td>
                                     </tr>

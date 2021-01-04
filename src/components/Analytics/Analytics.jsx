@@ -25,7 +25,7 @@ function Analytics(advertisementList) {
                         <div className="top-part-vehicles-search padding-lr-80">
                             <div className="hehading-add-butt">
                                 <h3>Analytics</h3>
-                                <label style={{float:'right', fontSize:'14px', fontFamily:'Roboto'}}>28-dec-2020 - 4-jan-2020</label>
+                                <label style={{float:'right', fontSize:'14px', fontFamily:'Roboto'}}>20-dec-2020 - 4-jan-2020</label>
                             </div>
                         </div>
                         <div style={{marginTop:'5%', marginLeft:'20%'}}>
