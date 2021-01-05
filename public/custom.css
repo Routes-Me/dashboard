@@ -11,6 +11,8 @@ code {
     font-family: Roboto;
 }
 
+
+
     .btn-primary {
         color: #fff;
         background-color: #18428f;
@@ -372,6 +374,25 @@ header nav {
         margin-bottom: 6px;
         padding: 0 15px;
     }
+
+.filter-icon {
+    width: 18px;
+    height: 18px;
+    background: url('../src/images/filter.svg');
+    position: absolute;
+    padding: 2px;
+}
+
+.filter-btn {
+    width: 117px;
+    height: 36px;
+    background-color: rgba(55, 90, 155, 0.15);
+    border-radius: 18px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+    margin-bottom: 20px;
+}
 
 
 

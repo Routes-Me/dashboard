@@ -29,8 +29,8 @@ class Prizes extends Component {
             {this.state.tabIndex === 1 &&
                     <div>
                         <div className="hehading-add-butt" style={{marginTop:'69px'}}>
-                            <div className='col-md-6'>
-                            <div className="search-part" style={{maxWidth:'338px'}}>
+                            <div className='col-md-6' style={{padding:'0px'}}>
+                            <div className="search-part" style={{maxWidth:'338px', padding:'0px'}}>
                                 <div className="search-relative">
                                     <input type="text" name="search" placeholder="Search" className="search" />
                                     <i className="fa fa-search" aria-hidden="true" />
@@ -40,8 +40,9 @@ class Prizes extends Component {
                             <div className='col-md-6'>
                             <PageHandler page = {Vehicles.page} getList={this.props.getCandidatesForDraw} style='header'/>
                             </div>
+                            <button className='filter-btn'><i className='filter-icon'/> Filter</button>
                         </div>
-
+                        
                     <table>
                         <thead>
                             <tr style={{height:'51px'}}>
@@ -58,7 +59,7 @@ class Prizes extends Component {
                                     <tr  key={Vehicle.candidateId}>
                                         <td>{Vehicle.name}</td>
                                         <td>{Vehicle.email}</td>
-                                        <td>{Vehicle.dateOfBirth.substr(0, 10)}</td>
+                                        <td>{Vehicle.dateOfBirth?.substr(0, 10)}</td>
                                         <td>{Vehicle.phoneNumber}</td>
                                         <td>{Vehicle.createdAt}</td>
                                     </tr>
@@ -69,19 +70,21 @@ class Prizes extends Component {
                     </div>}
             {this.state.tabIndex === 2 &&
             <div>
-                    <div className="hehading-add-butt" style={{marginTop:'69px'}}>
-                            <div className='col-md-6'>
-                            <div className="search-part" style={{maxWidth:'338px'}}>
-                                <div className="search-relative">
-                                    <input type="text" name="search" placeholder="Search" className="search" />
-                                    <i className="fa fa-search" aria-hidden="true" />
-                                </div>
+                <div className="hehading-add-butt" style={{marginTop:'69px'}}>
+                        <div className='col-md-6' style={{padding:'0px'}}>
+                        <div className="search-part" style={{maxWidth:'338px', padding:'0px'}}>
+                            <div className="search-relative">
+                                <input type="text" name="search" placeholder="Search" className="search" />
+                                <i className="fa fa-search" aria-hidden="true" />
                             </div>
-                            </div>
-                            <div className='col-md-6'>
-                            <PageHandler page = {Vehicles.page} getList={this.props.getCandidatesForDraw} style='header'/>
-                            </div>
-                    </div>
+                        </div>
+                        </div>
+                        <div className='col-md-6'>
+                        <PageHandler page = {Vehicles.page} getList={this.props.getCandidatesForDraw} style='header'/>
+                        </div>
+                        <button className='filter-btn'><i className='filter-icon'/> Filter</button>
+                </div>
+                
                 <table>
                         <thead>
                             <tr style={{height:'51px'}}>
@@ -107,7 +110,7 @@ class Prizes extends Component {
                         </tbody>
                 </table>
             </div>}
-                </div>
+            </div>
         );
     }
 
