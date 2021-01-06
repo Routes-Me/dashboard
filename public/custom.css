@@ -1,258 +1,5 @@
-/* Provide sufficient contrast against white background */
-a {
-    color: #0366d6;
-}
-
-code {
-    color: #E01A76;
-}
-
-* {
-    font-family: Roboto;
-}
 
 
-
-    .btn-primary {
-        color: #fff;
-        background-color: #18428f;
-        border-color: #1861ac;
-    }
-/*TODO:
-
-    Should should use one style only and override yhe specific components
-*/
-
-
-
-
-/*home*/
-.tracking-page {
-    display: inline-block;
-    width: 100%;
-    height: 100%;
-}
-
-header {
-    position: fixed;
-    width: 100%;
-    z-index: 99;
-    top: 0;
-}
-
-.mt-57 {
-    margin-top: 57px;
-}
-
-header nav {
-    background-color: #fff;
-}
-
-.navbar-expand-sm .navbar-collapse.collapse {
-    display: flex !important;
-}
-
-    .navbar-expand-sm .navbar-collapse.collapse .nav-item {
-        font-size: 18px;
-    }
-
-.profile p {
-    
-    font-size: 24px;
-    font-weight: 300;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    color: #0b0b0b;
-    width: calc(100% - 80px);
-    display: inline-block;
-    margin-bottom: 0px;
-    margin-left: 10px;
-}
-
-.left-panel {
-    top:0;
-    max-width: 283px;
-    width: 100%;
-    position: fixed !important;
-    background-color: #fff;
-    z-index: 2;
-    top: 56px;
-    overflow: auto;
-    border-right: 1px solid #0b0b0b;
-    padding-right: 0px !important;
-}
-
-    .left-panel .sb-content::-webkit-scrollbar {
-        width: 0px;
-    }
-
-    .left-panel .sb-scrollbar-container {
-        width: 0px;
-    }
-
-        .left-panel .sb-scrollbar-container .sb-scrollbar {
-            width: 0px;
-        }
-
-    .left-panel .sb-content {
-        padding-right: 0px !important;
-        width: 100%;
-    }
-
-.right-part {
-    width: calc(100% - 283px);
-    float: right;
-}
-
-    .right-part .mpas-tracking {
-        height: calc(100vh - 5px);
-    }
-
-.profile {
-    width: 100%;
-    padding: 30px 0px 20px 15px;
-}
-
-    .profile .bitmap {
-        width: 70px;
-        height: 70px;
-        object-fit: cover;
-        margin-bottom: 0px !important;
-        border-radius: 50%;
-        overflow: hidden;
-    }
-
-
-    .profile .title{
-        font-size: 20px;
-    }
-
-    .profile .subTitle{
-        font-size: 16px;
-        margin-top: 5px;
-    }
-
-.menu-part {
-    padding-bottom: 22px;
-    border-bottom: 1px solid black;
-}
-
-    .menu-part ul {
-        padding: 0;
-        margin: 0;
-    }
-
-    .menu-part li {
-        margin-bottom:0px;
-        list-style: none;
-        padding: 12px 37px;
-    }
-
-        .menu-part li.active,
-        .menu-part li:hover {
-            background-color: rgba(234,237,237,1);
-        }
-
-        .menu-part li a .menu-icon {
-            margin-right: 9px;
-            font-size: 20px;
-        }
-
-        .menu-part li a {
-            
-            font-size: 16px;
-            font-weight: bold;
-            font-stretch: normal;
-            font-style: normal;
-            line-height: normal;
-            letter-spacing: normal;
-            color: #0b0b0b;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-        }
-
-.icon-22 {
-    width: 22px;
-    height: 22px;
-    display: inline-block;
-    margin-right: 15px;
-    text-align: center;
-}
-
-    .icon-22 .menu-icon {
-        max-width: 22px;
-    }
-
-.tab-button {
-    padding: 20px 15px;
-}
-
-    .tab-button .custom-butt {
-        border-radius: 10px;
-        padding: 8px 10px;
-        max-width: 50%;
-        width: 100%;
-        border: 0;
-        background-color: transparent;
-        outline: none !important;
-    }
-
-    .tab-button .button-back {
-        border-radius: 10px;
-        background-color: #edeeef;
-        padding: 2px;
-        position: relative;
-    }
-
-.notification-duty-off {
-    width: 30px;
-    height: 30px;
-    box-shadow: 0 0 4px 0 rgba(105, 105, 105, 0.5);
-    border: solid 1px #18428f;
-    background-color: #feffff;
-    border-radius: 50%;
-    
-    font-size: 16px;
-    font-weight: normal;
-    font-style: inherit;
-    color: #18428f;
-    text-align: center;
-    line-height: 30px;
-    position: absolute;
-    right: -5px;
-    bottom: -6px;
-    cursor: pointer;
-}
-
-.tab-button .custom-butt.active {
-    box-shadow: 0 0 1px 0 rgba(99, 96, 96, 0.5);
-    background-color: #feffff;
-}
-
-.scroll-hide {
-    height: 100%;
-}
-
-.overfollow-scroll {
-    height: 100%;
-}
-
-.search-main {
-    background-color: #f1f2f6;
-    /*font-family: Roboto-Regular;*/
-    display: flex;
-    font-size: 16px;
-    height: 100%;
-    width: 100%;
-    overflow: auto;
-    align-items: center;
-    justify-content: center;
-    overflow: scroll;
-    padding-right: 0px !important;
-}
 
 .search-mainVehicle {
     background-color: #f1f2f6;
@@ -378,10 +125,14 @@ header nav {
 .filter-icon {
     width: 18px;
     height: 18px;
-    background: url('../src/images/filter.svg');
-    position: absolute;
-    padding: 2px;
+    background: url(../src/images/filter.png) no-repeat top left;
+    background-size: contain;
+    display: inline-block;
+    margin-right: 5px;
+    margin-top: -4px;
 }
+
+
 
 .filter-btn {
     width: 117px;
@@ -394,7 +145,9 @@ header nav {
     margin-bottom: 20px;
 }
 
-
+.filter-btn:focus{
+    outline: non;
+}
 
 
 .icon-30 {
@@ -410,18 +163,6 @@ header nav {
 
 /*home*/
 
-/*Custom*/
-.slide-effect .expand li a {
-   /* font-family: Roboto-Regular;*/
-    height: 100%;
-    transform-origin: top;
-    transition: transform 2s ease-out;
-    transform: scaleY(1);
-    display: block;
-    width: 100%;
-    display: flex;
-    list-style-type: none;
-}
 
 .collapse {
     height: 0;
@@ -430,10 +171,6 @@ header nav {
     list-style: none;
 }
 
-.slide-effect .collapse ul {
-    border-bottom: 5px solid red;
-}
-/*Custom*/
 /*vehicles*/
 .padding-lr-80 {
     padding: 0 80px;

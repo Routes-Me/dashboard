@@ -77,7 +77,7 @@ class Primary extends Component
 
         return (
 
-            <div className="overfollow-scroll" >
+            <div style={{height:'100%'}}>
 
                 <div className="profile">
                     <p className="title">{this.props.user.Name}</p>

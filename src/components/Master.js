@@ -12,12 +12,10 @@ export class Master extends Component {
 
             <div className="left-panel" style={{ top:0 }}>
                  <div className="relative">
-                    <div className="scroll-hide">
                         {/*<SplitPane split="horizontal">*/}
                             <Primary />
                             <Secondary />
                         {/*</SplitPane>*/}
-                    </div>
                 </div>
             </div>
                 

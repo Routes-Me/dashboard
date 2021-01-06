@@ -1,3 +1,37 @@
+a {
+    color: #0366d6;
+}
+
+
+* {
+    font-family: Roboto;
+}
+
+button:focus {
+ outline: none;
+}
+
+header nav {
+    background-color: #fff;
+}
+
+.navbar-expand-sm .navbar-collapse.collapse {
+    display: flex !important;
+}
+
+    .navbar-expand-sm .navbar-collapse.collapse .nav-item {
+        font-size: 18px;
+    }
+
+
+
+.btn-primary {
+    color: #fff;
+    background-color: #18428f;
+    border-color: #1861ac;
+}
+
+
 .loginPage{
     background-color: #fbfbfb;
     width: 100%;
@@ -300,3 +334,13 @@
          max-width: 1152px !important;
      }
  }
+
+
+
+ /* test */
+
+
+ 
+
+
+ /* test */

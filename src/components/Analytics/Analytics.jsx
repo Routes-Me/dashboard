@@ -56,7 +56,7 @@ function Analytics(advertisementList) {
                             {data.map(x =>
                             <tr> 
                                 <td>{x.name}</td>
-                                <td>{ parseInt(x.iOS) +  parseInt(x.Android) + parseInt(x.web) + parseInt(x.Windows)}</td>
+                                <td>{ parseInt(x.iOS) +  parseInt(x.Android) + parseInt(x.web) + parseInt(x.Windows) +parseInt(x.Mac)}</td>
                             </tr>)} 
                         </tbody>
                         </table>

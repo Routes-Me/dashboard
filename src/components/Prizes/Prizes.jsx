@@ -82,7 +82,7 @@ class Prizes extends Component {
                         <div className='col-md-6'>
                         <PageHandler page = {Vehicles.page} getList={this.props.getCandidatesForDraw} style='header'/>
                         </div>
-                        <button className='filter-btn'><i className='filter-icon'/> Filter</button>
+                        <button className='filter-btn'><image className='filter-icon'/> Filter</button>
                 </div>
                 
                 <table>
