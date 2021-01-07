@@ -88,15 +88,13 @@ class Modal extends React.Component {
                     
                     <div className="top-part-vehicles-search model-header">
                         <span class="closeBtn" style={{ float: "right", display:"block" }} onClick={this.props.onClose} />
-                        <div className="hehading-add-butt">
+                        <div className="header-add-butt">
                             <h3>{title}</h3>
                         </div>
 
                         <div className="search-part">
-                            <div className="search-relative">
                                 <input type="text" name="search" placeholder="Search" className="search" />
                                 <i className="fa fa-search" aria-hidden="true" />
-                            </div>
                         </div>
                     </div>
                     {content}
