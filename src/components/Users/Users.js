@@ -129,18 +129,16 @@ class Users extends Component {
                         object={this.state.user} /> :
                     <div>
                         <div className="top-part-vehicles-search padding-lr-80">
-                            <div className="hehading-add-butt">
+                            <div className="header-add-butt">
                                 <h3>Users</h3>
                                 {isSuperUser(this.props.user.InstitutionId) &&
                                 <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Invite User</a>}
                             </div>
 
                             <div className="search-part">
-                                <div className="search-relative">
                                     <input type="text" name="search" placeholder="Search" className="search" />
                                     <i className="fa fa-search" aria-hidden="true" />
                                     <span className="cross-icon"><img src="../cross-image.png" /></span>
-                                </div>
                             </div>
                         </div>
                         {content}

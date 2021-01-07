@@ -18,7 +18,7 @@ class SecondaryVehicles extends Component {
 
     render() {
         return (
-            <div className="search-mainVehicle">
+            <div className="search-main">
                 <caption style={{fontSize:'16px', marginTop:'47px'}}>Devices</caption>
                 <div className="table-list">
                 <table>
@@ -36,11 +36,6 @@ class SecondaryVehicles extends Component {
                                     <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === device.deviceId ? 'inline-block' : 'none' }}>
                                         <li><a onClick={e => this.showDetailScreen(e, device)}>Unlink</a></li>
                                     </ul>
-                                    {/* <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
-                                        <a class="dropdown-item" href="#">Something else here</a>
-                                    </div> */}
                                 </div>
                             </td>
                         </tr>

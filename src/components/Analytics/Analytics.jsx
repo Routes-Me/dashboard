@@ -23,7 +23,7 @@ function Analytics(advertisementList) {
             <div className="vehicles-page" style={{ height: "100vh", width: "100%" }}>
                     <div>
                         <div className="top-part-vehicles-search padding-lr-80">
-                            <div className="hehading-add-butt">
+                            <div className="header-add-butt">
                                 <h3>Analytics</h3>
                                 <label style={{float:'right', fontSize:'14px', fontFamily:'Roboto'}}>20-dec-2020 - 4-jan-2020</label>
                             </div>

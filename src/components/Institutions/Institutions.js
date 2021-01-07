@@ -134,17 +134,15 @@ class Institutions extends Component {
                         object={this.state.institution} /> :
                     <div>
                         <div className="top-part-vehicles-search padding-lr-80">
-                            <div className="hehading-add-butt">
+                            <div className="header-add-butt">
                                 <h3>Institutions</h3>
                                 <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Add Institution</a>
                             </div>
 
                             <div className="search-part">
-                                <div className="search-relative">
                                     <input type="text" name="search" placeholder="Search" className="search" />
                                     <i className="fa fa-search" aria-hidden="true" />
                                     <span className="cross-icon"><img src="../cross-image.png" /></span>
-                                </div>
                             </div>
                         </div>
                         {content}

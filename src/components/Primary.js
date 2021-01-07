@@ -77,7 +77,7 @@ class Primary extends Component
 
         return (
 
-            <div style={{height:'100%'}}>
+            <div>
 
                 <div className="profile">
                     <p className="title">{this.props.user.Name}</p>

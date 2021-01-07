@@ -1,6 +1,5 @@
 ﻿import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import * as TrackingAction from '../Redux/Action';
 import { SecondaryTracking } from '../components/Tracking/SecondaryTracking';
 import { SecondaryVehicles } from '../components/Vehicles/SecondaryVehicles';
 import { InstitutionsSecondary } from '../components/Institutions/InstitutionsSecondary';
@@ -19,7 +18,7 @@ class Secondary extends Component {
     render() {
 
         return (
-            < div >
+            <div>
                 {this.props.selectedNavItem === userConstants.NavItem_Tracking && <SecondaryTracking />}
                 {this.props.selectedNavItem === userConstants.NavItem_Vehicles && <SecondaryVehicles />}
                 {this.props.selectedNavItem === userConstants.NavItem_Institutions && <InstitutionsSecondary />}
@@ -29,7 +28,7 @@ class Secondary extends Component {
                 {this.props.selectedNavItem === userConstants.NavItem_Campaigns && <CampaignsSecondary/>}
                 {this.props.selectedNavItem === userConstants.NavItem_Analytics && <CampaignsSecondary/>}
                 {this.props.selectedNavItem === userConstants.NavItem_Prizes && <CampaignsSecondary/>}
-            </div >
+            </div>
             );
     }
 }

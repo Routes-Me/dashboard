@@ -28,19 +28,17 @@ class Prizes extends Component {
             <div className="table-list padding-lr-80">
             {this.state.tabIndex === 1 &&
                     <div>
-                        <div className="hehading-add-butt" style={{marginTop:'69px'}}>
+                        <div className="header-add-butt" style={{marginTop:'69px'}}>
                             <div className='col-md-6' style={{padding:'0px'}}>
                             <div className="search-part" style={{maxWidth:'338px', padding:'0px'}}>
-                                <div className="search-relative">
                                     <input type="text" name="search" placeholder="Search" className="search" />
                                     <i className="fa fa-search" aria-hidden="true" />
-                                </div>
                             </div>
                             </div>
                             <div className='col-md-6'>
                             <PageHandler page = {Vehicles.page} getList={this.props.getCandidatesForDraw} style='header'/>
                             </div>
-                            <button className='filter-btn'><i className='filter-icon'/> Filter</button>
+                            <button className='filter-btn'><i className='filter-icon'/> Add Filter</button>
                         </div>
                         
                     <table>
@@ -70,19 +68,17 @@ class Prizes extends Component {
                     </div>}
             {this.state.tabIndex === 2 &&
             <div>
-                <div className="hehading-add-butt" style={{marginTop:'69px'}}>
+                <div className="header-add-butt" style={{marginTop:'69px'}}>
                         <div className='col-md-6' style={{padding:'0px'}}>
                         <div className="search-part" style={{maxWidth:'338px', padding:'0px'}}>
-                            <div className="search-relative">
                                 <input type="text" name="search" placeholder="Search" className="search" />
                                 <i className="fa fa-search" aria-hidden="true" />
-                            </div>
                         </div>
                         </div>
                         <div className='col-md-6'>
                         <PageHandler page = {Vehicles.page} getList={this.props.getCandidatesForDraw} style='header'/>
                         </div>
-                        <button className='filter-btn'><image className='filter-icon'/> Filter</button>
+                        <button className='filter-btn'><image className='filter-icon'/> Add Filter</button>
                 </div>
                 
                 <table>
@@ -140,7 +136,7 @@ class Prizes extends Component {
         return (
             <div>
                 <div className="top-part-vehicles-search padding-lr-80">
-                    <div className="hehading-add-butt">
+                    <div className="header-add-butt">
                         <h3>Prizes</h3>
                         {/* <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Add Vehicle</a> */}
                     </div>
