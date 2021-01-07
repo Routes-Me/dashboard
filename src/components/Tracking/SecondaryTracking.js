@@ -1,9 +1,7 @@
 ﻿import React, { Component } from 'react';
 import SecondaryList from '../SecondaryList';
 import { connect } from 'react-redux';
-import * as TrackingAction from '../../Redux/Action';
 import * as VehicleAction from '../../Redux/Action';
-import { trackingConstants } from '../../constants/trackingConstants';
 
 class SecondaryTracking extends Component {
 
@@ -14,10 +12,6 @@ class SecondaryTracking extends Component {
             selectedId : undefined
         }
     }
-
-
-    
-
 
     //Render the Acordian
     renderAllVehicles(VehicleListToBeRendered) {
@@ -55,15 +49,11 @@ class SecondaryTracking extends Component {
         let content = this.state.selectedVehicle  !== '' && this.renderAllVehicles(this.state.selectedVehicle);
         return (
 
-            <div>
+            <div style={{height:'100%'}}>
 
                 <div className="search-main">
 
-                    {
-                        <div className="search-result">
                             {content}
-                        </div>
-                    }
 
                 </div>
 
@@ -85,8 +75,6 @@ const mapStateToProps = (state) => {
 }
 
 const actionCreators = {
-    GetOfflineVehicles: TrackingAction.getOfflineData,
-    UpdateTheSelectedMarker: TrackingAction.updateSelectedMarker,
     GetVehicleDetailForId : VehicleAction.getVehicleDetails
 };
 

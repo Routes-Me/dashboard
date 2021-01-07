@@ -290,7 +290,7 @@ class Tracking extends Component {
         const vehicles = this.state.vehicles;
         const idleVehicleCount = this.props.VehicleList.page?.total - this.state.activeCount
         return (
-            <div className="mpas-tracking" style={{ height: "100vh", width: "100%" }}>
+            <div style={{ height: "100vh", width: "100%" }}>
 
                 <IdleTimer
                     ref={ref => { this.idleTimer = ref }}

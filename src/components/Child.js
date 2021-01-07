@@ -17,7 +17,7 @@ class Child extends Component {
     render() {
         return (
 
-            <div className="right-part">
+            <div className="right-panel">
                 <Suspense fallback={<Launch/>}>
                 {this.props.selectedNavItem === userConstants.NavItem_Vehicles && <Vehicles />}
                 {this.props.selectedNavItem === userConstants.NavItem_Tracking && <Tracking />}
