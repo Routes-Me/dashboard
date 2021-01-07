@@ -60,59 +60,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" type="text/javascript" charset="utf-8" async defer></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js" type="text/javascript" charset="utf-8" async defer></script>
     <script src="%PUBLIC_URL%/scrollBar.js" type="text/javascript" charset="utf-8" async defer></script>
-    <script>
-    //search in tab part
-    $(document).ready(function() {
-        $(".location-button").click(function() {
-            $(".location-detail").slideToggle();
-        });
-    });
 
-    //active button
-    $(document).ready(function() {
-        $(".tab-button .custom-butt").click(function() {
-            $(".tab-button .custom-butt").removeClass("active");
-            $(this).toggleClass("active");
-        });
-    });
-
-    //menu
-    $(document).ready(function() {
-        $(".menu-part li").click(function() {
-            $(".menu-part li").removeClass("active");
-            $(this).toggleClass("active");
-        });
-    });
-
-    //togal menu table
-    $(document).ready(function() {
-        $(".edit-delet-butt").click(function(e) {
-            $(".edit-delet-link").slideUp();
-            $(".edit-delet-butt").removeClass("active");
-
-            e.stopPropagation();
-            $(this).addClass("active");
-            $(this).next().slideDown();
-        });
-        $("body").click(function() {
-            $(".edit-delet-link").slideUp();
-            $(".edit-delet-butt").removeClass("active");
-        });
-
-    });
-    
-    // $(document).ready(function() {
-    //     $(".search-main").scrollBox();
-    // });
-
-    // $(window).bind('scroll', function () {
-    //     if ($(window).scrollTop() > 0) {
-    //         $('.vehicles-page').addClass('fixed');
-    //     } else {
-    //         $('.vehicles-page').removeClass('fixed');
-    //     }
-    // });
-    </script>
 </body>
 
 </html>

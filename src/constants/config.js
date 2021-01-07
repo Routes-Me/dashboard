@@ -53,7 +53,7 @@ export const config = {
     
     //Domain:'http://api.routesme.com/api/',
 
-    Domain:'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/',
+    Domain:  'http://stage.api.routesme.com/api/', //'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/',
 
     Pagelimit : 20,
     DropDownLimit : 5,
