@@ -6,15 +6,15 @@ function Analytics(advertisementList) {
 
     const data =  
     [
-        {name: 'Routes',            iOS: 18+11+10,        Android:4+4+14,          web: 8+2+1,   Windows: 11+2+4,         Mac:16+4},
-        {name: 'McDonalds',         iOS: 4+3+1+6+2,       Android: 0+1+3+2+3,      web: 2,       Windows: 0+1+1+5+1,      Mac:0},
-        {name: 'Center Point',      iOS: 2+6+3+4+2+2,     Android: 2+1+2+1+1,      web: 0,       Windows: 0+1+1+4+2,      Mac:0},
-        {name: 'Zain',              iOS: 1+5+5+2+2,       Android: 2+1+5+1,        web: 0,       Windows: 0+2+2+2+1,      Mac:0},
-        {name: 'City Center',       iOS: 2+3+6+1,         Android: 0+2+1+2+1,      web: 0,       Windows: 1+1+4,          Mac:0},
-        {name: 'Xcite',             iOS: 1+1+2,           Android: 0+2+5,          web: 0,       Windows: 0+3+3,          Mac:0},
-        {name: 'Best',              iOS: 1+1+2+1+2,       Android: 1+1+3,          web: 0,       Windows: 0+3+1,          Mac:0},
-        {name: 'Huawei',            iOS: 1+1+1+2+1+1,     Android: 0+1+1,          web: 0,       Windows: 0+1+1+1,        Mac:0},
-        {name: 'KFC',               iOS: 1,               Android: 0,              web: 0,       Windows: 0,              Mac:0}
+        {name: 'Routes',            iOS: 18+11+10+4,        Android:4+4+14+3,          web: 8+2+1,   Windows: 11+2+4+1,         Mac:16+4},
+        {name: 'McDonalds',         iOS: 4+3+1+6+2,         Android: 0+1+3+2+3+2,      web: 2,       Windows: 0+1+1+5+1,        Mac:0},
+        {name: 'Center Point',      iOS: 2+6+3+4+2+2,       Android: 2+1+2+1+1+1,      web: 0,       Windows: 0+1+1+4+2,        Mac:0},
+        {name: 'Zain',              iOS: 1+5+5+2+2,         Android: 2+1+5+1,          web: 0,       Windows: 0+2+2+2+1,        Mac:0},
+        {name: 'City Center',       iOS: 2+3+6+1+1,         Android: 0+2+1+2+1,        web: 0,       Windows: 1+1+4,            Mac:0},
+        {name: 'Xcite',             iOS: 1+1+2,             Android: 0+2+5,            web: 0,       Windows: 0+3+3,            Mac:0},
+        {name: 'Best',              iOS: 1+1+2+1+2,         Android: 1+1+3,            web: 0,       Windows: 0+3+1,            Mac:0},
+        {name: 'Huawei',            iOS: 1+1+1+2+1+1+1,     Android: 0+1+1,            web: 0,       Windows: 0+1+1+1+1,        Mac:0},
+        {name: 'KFC',               iOS: 1,                 Android: 0,                web: 0,       Windows: 0,                Mac:0}
     ];
 
     return (
