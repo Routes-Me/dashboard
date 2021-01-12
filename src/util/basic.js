@@ -45,6 +45,21 @@ export function isSuperUser(institutionID){
     return institutionID === superInstitution ? true : false // 1580030173 78132467
 }
 
+
+export function getCurrentDate(){
+
+    let monthName = [ 'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, '0')-1;
+    //let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    let mm = monthName[today.getMonth()];
+    let yyyy = today.getFullYear();
+
+    today = dd + '-' + mm + '-' + yyyy;
+    return today;
+}
+
 function isProductionDomain(url){
     //let domain = url.substring(url.indexOf('//'), url.indexOf('/'))
     let hostname ='';

@@ -1,5 +1,6 @@
-import React from 'react'
-import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts'
+import React from 'react';
+import {BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend} from 'recharts';
+import { getCurrentDate } from '../../util/basic';
 
 function Analytics(advertisementList) {
 
@@ -17,6 +18,9 @@ function Analytics(advertisementList) {
         {name: 'KFC',               iOS: 1,                 Android: 0,                web: 0,       Windows: 0,                Mac:0}
     ];
 
+
+    
+
     return (
 
         
@@ -25,7 +29,7 @@ function Analytics(advertisementList) {
                         <div className="top-part-vehicles-search padding-lr-80">
                             <div className="header-add-butt">
                                 <h3>Analytics</h3>
-                                <label style={{float:'right', fontSize:'14px', fontFamily:'Roboto'}}>20-dec-2020 - 10-jan-2020</label>
+                                <label style={{float:'right', fontSize:'14px', fontFamily:'Roboto'}}>20-dec-2020 - {getCurrentDate()}</label>
                             </div>
                         </div>
                         <div style={{marginTop:'5%', marginLeft:'20%'}}>
