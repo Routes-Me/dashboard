@@ -206,7 +206,7 @@ class UsersDetail extends React.Component {
                 
 
                     <div className="container-fluid">
-                        <div className="footerStyle"><div className="left-panel" style={{width:'330px'}}></div>
+                        <div className="footerStyle">
                             <button type="submit" style={{ float: 'left' }} onClick={(e)=> this.handleSubmit(e)}> Create </button>
                         </div>
                     </div>
