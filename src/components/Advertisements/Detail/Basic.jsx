@@ -130,7 +130,7 @@ class Basic extends React.Component {
                 InstitutionId     : this.state.institutionId,
                 MediaUrl          : this.props.UploadedMedia.Url,
                 IntervalId        : this.state.dayInterval,
-                CampaignId        : this.state.campaigns,
+                CampaignId        : [this.state.campaigns],
                 TintColor         : parseInt(this.state.tintColor.replace('#',''),16)
             }
         }
@@ -141,7 +141,7 @@ class Basic extends React.Component {
                 InstitutionId     : this.state.institutionId,
                 MediaUrl          : this.state.media.Url,
                 IntervalId        : this.state.dayInterval,
-                CampaignId        : this.state.campaigns,
+                CampaignId        : [this.state.campaigns],
                 TintColor         : parseInt(this.state.tintColor.replace('#',''),16)
             }
         }
