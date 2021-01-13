@@ -15,7 +15,7 @@ function Analytics(advertisementList) {
         {name: 'Xcite',             iOS: 1+1+2+1,           Android: 0+2+5+1,          web: 0,       Windows: 0+3+3+1,          Mac:0},
         {name: 'Best',              iOS: 1+1+2+1+2+1,       Android: 1+1+3,            web: 0,       Windows: 0+3+1,            Mac:0},
         {name: 'Huawei',            iOS: 1+1+1+2+1+1+1+1,   Android: 0+1+1,            web: 0,       Windows: 0+1+1+1+1+1,      Mac:0},
-        {name: 'KFC',               iOS: 1,                 Android: 0,                web: 0,       Windows: 0,                Mac:0},
+        {name: 'Dominos',           iOS: 3,                 Android: 0,                web: 2,       Windows: 3,                Mac:0},
         {name: 'KFC',               iOS: 1,                 Android: 0,                web: 0,       Windows: 0,                Mac:0}
     ];
 
