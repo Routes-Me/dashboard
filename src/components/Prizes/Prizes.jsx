@@ -36,7 +36,7 @@ class Prizes extends Component {
                             </div>
                             </div>
                             <div className='col-md-6'>
-                            <PageHandler page = {Vehicles.page} getList={this.props.getCandidatesForDraw} style='header'/>
+                            <PageHandler page = {Vehicles.page} getList={this.props.getCandidatesForDraw} style='header' institutionId='1580030173'/>
                             </div>
                             <button className='filter-btn'><i className='filter-icon'/> Add Filter</button>
                         </div>
