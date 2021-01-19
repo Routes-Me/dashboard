@@ -11,7 +11,7 @@ export function InitializeHub(token){
 
     return dispatch => {
     
-        hubConnection = new signalR.HubConnectionBuilder()
+        hubConnection = new signalR.HubConnectionBuilder() //"http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub"
         .withUrl("http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub",
         {
             accessTokenFactory:() => getAccessToken(token)
@@ -42,9 +42,9 @@ export function SubscribeToHub(user) {
             hubConnection.start()
                 .then(() => {
                     console.log('Hub Connected!!');
-                    // hubConnection.invoke('Subscribe',user.InstitutionId,null).catch(function(err) {
-                    // console.log('unable to subscribe to institution => '+err)
-                    // })
+                    hubConnection.invoke('Subscribe',user.InstitutionId,null,null).catch(function(err) {
+                    console.log('unable to subscribe to institution => '+err)
+                    })
                     dispatch(Connected());
                 })
                 .catch(err => console.error("Error while establishing connection : " + err));
@@ -55,7 +55,7 @@ export function SubscribeToHub(user) {
                 CheckConnectivity()
             }, 60000);
 
-        hubConnection.on("ReceiveAllData", (result) => {
+        hubConnection.on("FeedsReceiver", (result) => {
             
             //sampleData.push(result)
 
