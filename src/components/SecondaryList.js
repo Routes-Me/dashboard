@@ -11,10 +11,10 @@ export const SecondaryList = ({ vehicle }) => {
     return (
        <div className="menu">
             <ul className="list_x">
-                <li><a><img className="icon-30" alt="" src={plateNumber}/> {vehicle.plateNumber}</a></li>
-                <li><a><img className="icon-30" alt="" src={car} /> {vehicle.model.Name}</a></li>
-                <li><a><img className="icon-30" alt="" src={time} /> {vehicle.institution.CreatedAt}</a></li>
-                <li><a><img className="icon-30" alt="" src={institution} /> {vehicle.institution.Name}</a></li>
+                <li><a><img className="icon-30" alt="" src={plateNumber}/> {vehicle?.plateNumber}</a></li>
+                <li><a><img className="icon-30" alt="" src={car} /> {vehicle.model?.Name}</a></li>
+                <li><a><img className="icon-30" alt="" src={time} /> {vehicle.institution?.CreatedAt}</a></li>
+                <li><a><img className="icon-30" alt="" src={institution} /> {vehicle.institution?.Name}</a></li>
             </ul>
         </div>
         )
