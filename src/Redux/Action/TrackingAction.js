@@ -2,6 +2,7 @@
 import * as signalR from '@aspnet/signalr';
 import { isSuperUser, returnEntityForInstitution } from '../../util/basic';
 import apiHandler from '../../util/request';
+import { config } from "../../constants/config";
 
 let hubConnection = ""; 
 
@@ -11,8 +12,8 @@ export function InitializeHub(token){
 
     return dispatch => {
     
-        hubConnection = new signalR.HubConnectionBuilder() //"http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub"
-        .withUrl("http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub",
+        hubConnection = new signalR.HubConnectionBuilder()
+        .withUrl(config.HubURL, 
         {
             accessTokenFactory:() => getAccessToken(token)
         })
