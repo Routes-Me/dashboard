@@ -52,16 +52,29 @@ class Users extends Component {
         this.props.deleteUser(userId);
     }
 
-    static getDerivedStateFromProps (props, state){
-        if(state.showDetails){
-            if(props.ApplicationState === userConstants.saveUsers_SUCCESS)
+    // static getDerivedStateFromProps (props, state){
+    //     if(props.ApplicationState === userConstants.saveUsers_SUCCESS)
+    //     {
+    //         props.getUsersList(1,config.Pagelimit);
+    //         if(state.showDetails){
+    //             return {showDetails : false}
+    //         }
+    //     }
+    // }
+
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.ApplicationState !== prevProps.ApplicationState) {
+            if(this.props.ApplicationState === userConstants.saveUsers_SUCCESS)
             {
-                props.getUsersList(1,config.Pagelimit);
-                return {showDetails : false}
+                this.props.getUsersList(1,config.Pagelimit);
+                if(prevState.showDetails){
+                    this.setState({showDetails : false});
+                }
             }
         }
-        return null;
-    }
+      }
+
 
     //Load Institution in a table 
     showUsersList(usersList) {

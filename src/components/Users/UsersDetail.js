@@ -56,7 +56,7 @@ class UsersDetail extends React.Component {
                     email: props.userToDisplay.email,
                     phone: props.userToDisplay.phone,
                     roles: props.userToDisplay.roles[0],
-                    institutionId: props.userToDisplay.institution.institutionId,
+                    institutionId: props.userToDisplay.institution?.institutionId,
                     institution : props.userToDisplay.institution
                 }
             }
