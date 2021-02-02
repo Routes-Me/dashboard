@@ -1,4 +1,3 @@
-import { stat } from 'fs-extra';
 import { GApiConstants } from '../../constants/GApiConstants';
 
 const INITIAL_STATE ={
