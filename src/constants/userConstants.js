@@ -27,7 +27,7 @@
     NavItem_Campaigns : 'Campaigns',
     NavItem_Analytics : 'Analytics',
     NavItem_Prizes    : 'Prizes',
-    NavItem_EMM    : 'Prizes',
+    NavItem_EMM    : 'EMM',
 
     getUsers_REQUEST: "GETUSERS_REQUEST",
     getUsers_SUCCESS: "GETUSERS_SUCCESS",

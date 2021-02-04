@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
-// import * GApiAction from '../../Redux/Action';
+import * as GApiAction from '../../Redux/Action';
+import { connect } from 'react-redux';
+import { isSuperUser } from '../../util/basic';
 
 class List extends Component {
 
+    constructor(props) {
+        super(props)
 
+        this.state = {
+
+        }
+    }
 
     componentDidMount() {
-        // this.props.getUsersList();
+        this.props.getUsersList();
     }
 
     showList(usersList) {
@@ -68,21 +76,15 @@ class List extends Component {
 }
 
 const mapStateToProps = (state) => {
-
     return {
         UsersList: state.UserStore.Users
     }
-
 }
 
-
-//Create Redux for Users
 const actionCreators = {
-    // getUsersList: GApiAction.initializeGApi
+    getUsersList: GApiAction.initializeGApi
 };
 
-const connectedUsers = connect(mapStateToProps, actionCreators)(Users);
-export { connectedUsers as default };
+const connectedEMM = connect(mapStateToProps, actionCreators)(List);
+export { connectedEMM as default };
 
-
-export default List;
