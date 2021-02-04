@@ -39,7 +39,7 @@ export const config = {
         "data":[
             {
                 "roleId":1,
-                "navItems":["Tracking","Users","Vehicles","Advertisements","Institutions","Access Control",'Campaigns','Analytics','Prizes']
+                "navItems":["Tracking","Users","Vehicles","Advertisements","Institutions","Access Control",'Campaigns','Analytics','Prizes','Prizes']
             },
             {
                 "roleId":2,

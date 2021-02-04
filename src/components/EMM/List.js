@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
+// import * GApiAction from '../../Redux/Action';
 
 class List extends Component {
 
 
 
     componentDidMount() {
-        this.props.getUsersList(1, config.Pagelimit,this.props.user.InstitutionId);
+        // this.props.getUsersList();
     }
 
     showList(usersList) {
         return (
             <div>
-            <PageHandler page = {usersList.page} getList={this.props.getUsersList} institutionId={this.props.user.InstitutionId} style='header'/>
-            <div className="table-list padding-lr-80">
+                <div className="table-list padding-lr-80">
                     <table>
                         <thead>
                             <tr>
@@ -66,5 +66,23 @@ class List extends Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+
+    return {
+        UsersList: state.UserStore.Users
+    }
+
+}
+
+
+//Create Redux for Users
+const actionCreators = {
+    // getUsersList: GApiAction.initializeGApi
+};
+
+const connectedUsers = connect(mapStateToProps, actionCreators)(Users);
+export { connectedUsers as default };
+
 
 export default List;

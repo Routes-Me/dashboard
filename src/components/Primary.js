@@ -32,17 +32,6 @@ class Primary extends Component
 
     }
 
-    // static getDerivedStateFromProps(props, state) {
-    //     if (props.user.InstitutionId === undefined) {
-    //         if (props.user.InstitutionId !== state.institutionId) {
-                
-    //             return {
-    //                 institutionId   : props.user.InstitutionId
-    //             }
-    //         }
-    //     }
-    //     return null;
-    // }
 
     toggleMenu = (event, type) => {
         event.stopPropagation();
