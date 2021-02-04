@@ -64,7 +64,7 @@ export function SubscribeToHub(user) {
             console.log("Response on SignalR ", res);
 
             let FormatedRes =[];
-            if (isSuperUser(user.InstitutionId))
+            if (isSuperUser(user))
             {
                 FormatedRes = { id: res.vehicleId, institutionId: res.institutionId, deviceId: res.deviceId, status: "active", coordinates: { lat: parseFloat(res.coordinates.latitude), lng: parseFloat(res.coordinates.longitude), timestamp: res.coordinates.timestamp } }
             }
@@ -123,7 +123,7 @@ export function getOfflineData(user) {
 
     return dispatch => {
         dispatch(OfflineDataRequest());
-        let domain = returnEntityForInstitution('vehicles',user.InstitutionId);
+        let domain = returnEntityForInstitution('vehicles',user);
         apiHandler.get(`${domain}?offset=1&limit=1000&include=institutions,models`)
         .then(
             idleVehicles => {

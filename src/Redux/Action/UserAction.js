@@ -5,11 +5,11 @@ import { validate, returnEntityForInstitution } from '../../util/basic';
 
 
 //Get UsersList
-export function getUsers(pageIndex,limit,institutionId) {
+export function getUsers(pageIndex,limit,user) {
 
     return dispatch => {
         dispatch(UsersDataRequest());
-        apiHandler.get(buildURL('users',pageIndex,limit,true,institutionId))
+        apiHandler.get(buildURL('users',pageIndex,limit,true,user))
         .then(
                 users => {
                     dispatch(storeUsersData(returnFormatedResponseForUsers(users)));
@@ -167,10 +167,10 @@ function filterUserRolesList(userRolesList, userRoles)
 }
 
 
-function buildURL(entity, pageIndex, limit, include, institutionId) 
+function buildURL(entity, pageIndex, limit, include, user) 
 {
     let queryParameter =""
-    entity = returnEntityForInstitution(entity,institutionId);
+    entity = returnEntityForInstitution(entity,user);
     if(include)
     {
       queryParameter=entity+"?offset="+pageIndex+"&limit="+limit+"&include=institutions";

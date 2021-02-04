@@ -28,7 +28,7 @@ class Vehicles extends Component {
     }
 
     componentDidMount() {
-        this.props.getVehiclesForInstitution(1,config.Pagelimit,this.props.user.InstitutionId,this.props.token);
+        this.props.getVehiclesForInstitution(1,config.Pagelimit,this.props.user,this.props.token);
     }
 
 
@@ -112,7 +112,7 @@ class Vehicles extends Component {
                                         <td>{Vehicle.model?.Name}</td>
                                         <td>{Vehicle.modelYear}</td>
                                         <td>{Vehicle.institution?.Name}</td>
-                                        {isSuperUser(this.props.user.InstitutionId) &&
+                                        {isSuperUser(this.props.user) &&
                                         <td className="width44" onClick={e => this.openSubMenuForVehicleId(e, Vehicle.id)}>
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Vehicle.id)}>
@@ -153,7 +153,7 @@ class Vehicles extends Component {
                         <div className="top-part-vehicles-search padding-lr-80">
                             <div className="header-add-butt">
                                 <h3>Vehicles</h3>
-                                {isSuperUser(this.props.user.InstitutionId) &&
+                                {isSuperUser(this.props.user) &&
                                 <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Add Vehicle</a>}
                             </div>
 
