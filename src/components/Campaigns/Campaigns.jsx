@@ -8,6 +8,7 @@ import { advertisementsConstants } from '../../constants/advertisementConstants'
 import PageHandler from '../PageHandler';
 import { config } from '../../constants/config';
 import Status from '../Advertisements/RowItem/Status';
+import { isReadOnlyMode } from '../../util/basic';
 
 class Campaigns extends Component {
 
@@ -92,6 +93,7 @@ class Campaigns extends Component {
                                             <td>{campaign.startAt}</td>
                                             <td>{campaign.endAt}</td>
                                             <td><Status text={campaign.status}/></td>
+                                        {!isReadOnlyMode(this.props.user) &&
                                             <td>
                                                 <div className="edit-popup">
                                                     <div className="edit-delet-butt" onClick={e => this.openSubMenuForCampaignId(e,campaign.campaignId)}>
@@ -104,7 +106,7 @@ class Campaigns extends Component {
                                                         <li><a onClick={e => this.deleteCampaign(e, campaign.campaignId)}>Delete</a></li>
                                                     </ul>
                                                 </div>
-                                            </td>
+                                            </td>}
                                         </tr>
                                     ))
                                 }
@@ -132,7 +134,8 @@ class Campaigns extends Component {
                         <div className="top-part-vehicles-search padding-lr-80">
                             <div className="header-add-butt">
                                 <h3>Campaigns</h3>
-                                <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Add Campaigns</a>
+                                {!isReadOnlyMode(this.props.user) &&
+                                <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Add Campaigns</a>}
                             </div>
 
                             <div className="search-part">
@@ -152,6 +155,7 @@ const mapStateToProps = (state) => {
 
     return {
         campaignsList: state.AdvertisementStore.Campaigns,
+        user: state.Login.user,
         ApplicationState: state.AdvertisementStore.ActionState
     }
 

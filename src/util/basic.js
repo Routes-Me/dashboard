@@ -43,11 +43,16 @@ export function isSuperUser(user){
 
     let role = user.Roles;
 
-    return role.includes('super') ? true : false;
+    return role.includes('super' || 'support') ? true : false;
 
     // let currentDomain = config.Domain;
     // let superInstitution = isProductionDomain(currentDomain)? config.SuperInstitution : config.StageSuperInstitution 
     // return user.InstitutionId === superInstitution ? true : false // 1580030173 78132467
+}
+
+export function isReadOnlyMode(user){
+    let role = user.Roles;
+    return !role.includes('support') ? true : false;
 }
 
 
