@@ -52,7 +52,7 @@ export function isSuperUser(user){
 
 export function isReadOnlyMode(user){
     let role = user.Roles;
-    return !role.includes('support') ? true : false;
+    return role.includes('support') ? true : false;
 }
 
 
