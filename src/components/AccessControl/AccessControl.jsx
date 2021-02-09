@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import './AccessControl.css';
 import { RowItem }  from './Row/RowItem';
 import { config } from '../../constants/config';
-import { isReadOnlyMode } from '../../util/basic';
+import { isROU } from '../../util/basic';
 
 class AccessControl extends Component {
 
@@ -60,7 +60,7 @@ class AccessControl extends Component {
                             {list.map((Role, index) => 
                                     <tr className={`${this.state.rowIndex === index && 'selected'}`} key={index} onClick={e => this.rowSelect(e, index)}>
                                         <td className={`${this.state.rowIndex === index? 'selected' : 'align-l-p40'}`}>
-                                            {!isReadOnlyMode(this.props.user) && this.state.rowIndex === index? <RowItem Object={Role} ObjectType={this.state.tabIndex} Save={this.state.save}/> : Role.name}
+                                            {!isROU(this.props.user) && this.state.rowIndex === index? <RowItem Object={Role} ObjectType={this.state.tabIndex} Save={this.state.save}/> : Role.name}
                                         </td>
                                         <td className='align-l-p40'>{Role.date}</td>
                                     </tr>
@@ -138,7 +138,7 @@ class AccessControl extends Component {
                     </div>
 
                     <div className="col-md-12">
-                    {!isReadOnlyMode(this.props.user) &&<div className="saveDiv">
+                    {!isROU(this.props.user) &&<div className="saveDiv">
                         <i className='btnSave' onClick={(e) => this.saveChanges()}> Save </i>
                     </div>}
                     </div>

@@ -7,7 +7,7 @@ import '../Detail/Detail.css';
 import { institutionConstants } from '../../constants/institutionConstants';
 import PageHandler from '../PageHandler';
 import { config } from '../../constants/config';
-import { isReadOnlyMode } from '../../util/basic';
+import { isROU } from '../../util/basic';
 
 class Institutions extends Component {
 
@@ -96,7 +96,7 @@ class Institutions extends Component {
                                         <td>{institution.institutionId}</td>
                                         <td>{institution.name}</td>
                                         <td>{institution.phoneNumber}</td>
-                                        {!isReadOnlyMode(this.props.user) &&
+                                        {!isROU(this.props.user) &&
                                         <td className="width44" >
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForInstitutionId(e, institution.institutionId)}>
@@ -138,7 +138,7 @@ class Institutions extends Component {
                         <div className="top-part-vehicles-search padding-lr-80">
                             <div className="header-add-butt">
                                 <h3>Institutions</h3>
-                                {!isReadOnlyMode(this.props.user) &&
+                                {!isROU(this.props.user) &&
                                 <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Add Institution</a>}
                             </div>
 

@@ -33,26 +33,26 @@ export function returnEntityForInstitution(entity,user)
 {
     if(user?.InstitutionId !== undefined)
     {
-        return user.InstitutionId !== '' && isSuperUser(user) ?  entity : `institutions/${user.InstitutionId}/${entity}`;  
+        return user.InstitutionId !== '' && isSU(user) ?  entity : `institutions/${user.InstitutionId}/${entity}`;  
     }
     return entity;
 
 }
 
-export function isSuperUser(user){
+export function isSU(user){
 
     let role = user.Roles;
 
-    return role.includes('super') || role.includes('support') ? true : false ;
+    return role.includes(process.env.REACT_APP_SUPERUSER) || role.includes(process.env.REACT_APP_SUPPORTUSER) ? true : false ;
 
     // let currentDomain = config.Domain;
     // let superInstitution = isProductionDomain(currentDomain)? config.SuperInstitution : config.StageSuperInstitution 
     // return user.InstitutionId === superInstitution ? true : false // 1580030173 78132467
 }
 
-export function isReadOnlyMode(user){
+export function isROU(user){
     let role = user.Roles;
-    return role.includes('support') ? true : false;
+    return role.includes(process.env.REACT_APP_SUPPORTUSER) ? true : false;
 }
 
 
