@@ -43,7 +43,7 @@ export function isSuperUser(user){
 
     let role = user.Roles;
 
-    return role.includes('super' || 'support') ? true : false;
+    return role.includes('super') || role.includes('support') ? true : false ;
 
     // let currentDomain = config.Domain;
     // let superInstitution = isProductionDomain(currentDomain)? config.SuperInstitution : config.StageSuperInstitution 
