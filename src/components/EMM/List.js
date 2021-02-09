@@ -82,7 +82,7 @@ const mapStateToProps = (state) => {
 }
 
 const actionCreators = {
-    getUsersList: GApiAction.initializeGApi
+    getUsersList: GApiAction.authenticate
 };
 
 const connectedEMM = connect(mapStateToProps, actionCreators)(List);

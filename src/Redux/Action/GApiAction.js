@@ -1,46 +1,32 @@
 import { gapi, loadAuth2  } from 'gapi-script';
 
-var GoogleAuth; // Google Auth object.
+export function authenticate() {
+  return gapi.auth2.getAuthInstance()
+      .signIn({scope: "https://www.googleapis.com/auth/androidmanagement"})
+      .then(function() { console.log("Sign-in successful"); },
+            function(err) { console.error("Error signing in", err); });
+}
 
-    export function initializeGApi() {
-         window.gapi.loadAuth2({
-            'apiKey': process.env.REACT_API_KEY,
-            'clientId': process.env.REACT_APP_CLIENT_ID,
-            'scope': 'https://www.googleapis.com/auth/androidmanagement',
-            'discoveryDocs': ['https://androidmanagement.googleapis.com/$discovery/rest?version=v1']
-        }).then(
-            function () {
-            GoogleAuth = gapi.auth2.getAuthInstance();
-            
-            // Listen for sign-in state changes.
-            GoogleAuth.isSignedIn.listen(updateSigninStatus);
-            },
-            function(err) { 
-                console.error("Error signing in", err); 
-            });
-    }
+function loadClient() {
+  gapi.client.setApiKey("AIzaSyBYsa7lx9_fPq0ydSxUt3rstnF_npYD1T4");
+  return gapi.client.load("https://androidmanagement.googleapis.com/$discovery/rest?version=v1")
+      .then(function() { console.log("GAPI client loaded for API"); },
+            function(err) { alert(`Client Load API => Google Server Response : ${err.error.message}`);  console.error("Error loading GAPI client for API", err); });
+}
 
-    function updateSigninStatus(){
-      
-    }
-
-  export function loadClient() {
-    gapi.client.setApiKey(process.env.REACT_API_KEY);
-    return gapi.client.load("https://androidmanagement.googleapis.com/$discovery/rest?version=v1")
-        .then(function() { console.log("GAPI client loaded for API"); },
-              function(err) { console.error("Error loading GAPI client for API", err); });
-  }
-  // Make sure the client is loaded and sign-in is complete before calling this method.
-  function execute() {
-    return gapi.client.androidmanagement.enterprises.policies.list({
-      "parent": "enterprises/LC02my9vtl"
-    })
-        .then(function(response) {
-                // Handle the results here (response.result has the parsed body).
-                console.log("Response", response);
-              },
-              function(err) { console.error("Execute error", err); });
-  }
-  gapi.load("client:auth2", function() {
-    gapi.auth2.init({client_id: "YOUR_CLIENT_ID"});
+// Make sure the client is loaded and sign-in is complete before calling this method.
+function execute() {
+  console.log("Execute clicked to get policies!!")
+  return gapi.client.androidmanagement.enterprises.policies.list({
+    "parent": "enterprises/LC02my9vtl"
   })
+      .then(function(response) {
+              // Handle the results here (response.result has the parsed body).
+              console.log("Response", response);
+            },
+            function(err) { alert(`Policies API => Google Server Response : ${err.error.message}`); console.error("Execute error", err); });
+}
+
+gapi.load("client:auth2", function() {
+  gapi.auth2.init({client_id: "845237097697-uhu8sj7u875okiv9jbk1s3trvm6qcr13.apps.googleusercontent.com"});
+});
