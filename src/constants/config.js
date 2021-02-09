@@ -1,3 +1,5 @@
+import { User } from "oidc-client";
+
 export const config = {
 
     selectService : {
@@ -47,6 +49,9 @@ export const config = {
             }
         ]
     },
+
+    SU : "super",
+    ROU : "support",
 
     StageSuperInstitution : '78132467',
     SuperInstitution      : '1580030173', // 1580030173 78132467

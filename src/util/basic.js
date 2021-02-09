@@ -42,8 +42,7 @@ export function returnEntityForInstitution(entity,user)
 export function isSU(user){
 
     let role = user.Roles;
-
-    return role.includes(process.env.REACT_APP_SUPERUSER) || role.includes(process.env.REACT_APP_SUPPORTUSER) ? true : false ;
+    return role.includes(config.SU) || role.includes(config.ROU) ? true : false ;
 
     // let currentDomain = config.Domain;
     // let superInstitution = isProductionDomain(currentDomain)? config.SuperInstitution : config.StageSuperInstitution 
@@ -52,7 +51,7 @@ export function isSU(user){
 
 export function isROU(user){
     let role = user.Roles;
-    return role.includes(process.env.REACT_APP_SUPPORTUSER) ? true : false;
+    return role.includes(config.ROU) ? true : false;
 }
 
 
