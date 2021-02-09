@@ -17,44 +17,27 @@ class List extends Component {
         this.props.getUsersList();
     }
 
-    showList(usersList) {
+    showList(list) {
         return (
             <div>
                 <div className="table-list padding-lr-80">
                     <table>
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>NAME</th>
-                                <th>EMAIL</th>
-                                <th>PHONE</th>
-                                <th>CREATED AT</th>
-                                <th className="width20"/>
+                                <th>version</th>
+                                <th>name</th>
+                                <th>package name</th>
+                                <th>install type</th>
                             </tr>
                         </thead>
                         <tbody>
                             {
-                                usersList.data?.map(user => (
-                                    <tr key={user.userId}>
-                                    <td>{user.userId}</td>
-                                    <td>{user.name}</td>
-                                    <td>{user.email}</td>
-                                    <td>{user.phone}</td>
-                                    <td>{user.createdAt}</td>
-                                    {isSuperUser(this.props.user.InstitutionId) &&
-                                    <td className="width20" >
-                                        <div className="edit-popup">
-                                            <div className="edit-delet-butt" onClick={e => this.openSubMenuForUserId(e, user.userId)}>
-                                                <span />
-                                                <span />
-                                                <span />
-                                            </div>
-                                                <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === user.userId ? 'inline-block' : 'none' }}>
-                                                    <li><a onClick={e => this.showDetailScreen(e, user)}>Edit</a></li>
-                                                    <li><a onClick={e=> this.deleteUser(e, user.userId)}>Delete</a></li>
-                                                </ul>
-                                            </div>
-                                        </td>}
+                                list?.map(policy => (
+                                    <tr key={policy.name}>
+                                    <td>{policy.version}</td>
+                                    <td>{policy.name}</td>
+                                    <td>{policy.applications[0].packageName}</td>
+                                    <td>{policy.applications[0].installType}</td>
                                     </tr>
                                 ))
                             }
@@ -67,9 +50,10 @@ class List extends Component {
 
 
     render() {
+        let content = this.showList(this.props.List)
         return (
             <div>
-                
+                {content}
             </div>
         );
     }
@@ -77,7 +61,7 @@ class List extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        UsersList: state.UserStore.Users
+        List: state.UserStore.Users
     }
 }
 
