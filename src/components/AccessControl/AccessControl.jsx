@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import './AccessControl.css';
 import { RowItem }  from './Row/RowItem';
 import { config } from '../../constants/config';
+import { isROU } from '../../util/basic';
 
 class AccessControl extends Component {
 
@@ -12,7 +13,7 @@ class AccessControl extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            name : '',
+            name     : '',
             tabIndex : 1,
             rowIndex : 0,
             save     : false
@@ -58,7 +59,9 @@ class AccessControl extends Component {
                         <tbody>
                             {list.map((Role, index) => 
                                     <tr className={`${this.state.rowIndex === index && 'selected'}`} key={index} onClick={e => this.rowSelect(e, index)}>
-                                        <td className={`${this.state.rowIndex === index? 'selected' : 'align-l-p40'}`}>{this.state.rowIndex === index? <RowItem Object={Role} ObjectType={this.state.tabIndex} Save={this.state.save}/> : Role.name}</td>
+                                        <td className={`${this.state.rowIndex === index? 'selected' : 'align-l-p40'}`}>
+                                            {!isROU(this.props.user) && this.state.rowIndex === index? <RowItem Object={Role} ObjectType={this.state.tabIndex} Save={this.state.save}/> : Role.name}
+                                        </td>
                                         <td className='align-l-p40'>{Role.date}</td>
                                     </tr>
                             )}
@@ -72,17 +75,37 @@ class AccessControl extends Component {
         if(tabIndex === 1)
         {
             this.props.getPrivileges(1, config.Pagelimit);
-            this.setState({rowIndex:this.props.PrivilegesList.length}) 
+            // this.setState({rowIndex:this.props.PrivilegesList.length})
         }
         else
         {
             this.props.getApplications(1, config.Pagelimit);
-            this.setState({rowIndex:this.props.ApplicationsList.length})
+            // this.setState({rowIndex:this.props.ApplicationsList.length})
         }
     }
 
+    static getDerivedStateFromProps (props, state){
+            
 
-     rowSelect(e, index) { 
+        return null;
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.ApplicationState !== prevProps.ApplicationState) {
+            
+            if(this.props.ApplicationState === userConstants.update_APPLICATIONS)
+            {
+                 this.setState({rowIndex : this.props.ApplicationsList.length});
+            }
+            if(this.props.ApplicationState === userConstants.update_PRIVILEGES)
+            {
+                this.setState({rowIndex: this.props.PrivilegesList.length});
+            }
+        }
+      }
+
+
+    rowSelect(e, index) { 
         this.setState({rowIndex: index}); 
     }
 
@@ -114,8 +137,10 @@ class AccessControl extends Component {
                         </nav>
                     </div>
 
-                    <div className="saveDiv">
-                            <i className='btnSave' onClick={(e) => this.saveChanges()}> Save </i>
+                    <div className="col-md-12">
+                    {!isROU(this.props.user) &&<div className="saveDiv">
+                        <i className='btnSave' onClick={(e) => this.saveChanges()}> Save </i>
+                    </div>}
                     </div>
 
                 </div>
@@ -129,6 +154,8 @@ class AccessControl extends Component {
 const mapStateToProps = (state) => {
     return {
         ApplicationsList : [...state.UserStore.Applications, {id:'', name:''}],
+        user: state.Login.user,
+        ApplicationState: state.UserStore.ActionState,
         PrivilegesList  : [...state.UserStore.Privileges,  {id:'', name:''}]
     }
 }
