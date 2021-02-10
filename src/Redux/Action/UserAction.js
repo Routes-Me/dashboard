@@ -240,7 +240,7 @@ export function saveUser(user,action) {
                     dispatch(saveUserDataSuccess());
                 },
                 error => {
-                    alert(error.message.toString() );
+                    alert(error.response.data.message.toString() );
                 });
         }
         else {
