@@ -12,12 +12,13 @@ function loadClient() {
   gapi.client.setApiKey("AIzaSyBYsa7lx9_fPq0ydSxUt3rstnF_npYD1T4");
   return gapi.client.load("https://androidmanagement.googleapis.com/$discovery/rest?version=v1")
       .then(function() { console.log("GAPI client loaded for API"); },
-            function(err) { alert(`Client Load API => Google Server Response : ${err.error.message}`);  console.error("Error loading GAPI client for API", err); });
+            function(err) { alert(`Client Load API => Google Server Response : ${err.error.message}`); 
+             console.error("Error loading GAPI client for API", err); });
 }
 
 // Make sure the client is loaded and sign-in is complete before calling this method.
-function execute() {
-  return dispatch =>{
+function execute(dispatch) {
+  
     dispatch(request());
     gapi.client.androidmanagement.enterprises.policies.list({
       "parent": "enterprises/LC02my9vtl"
@@ -30,8 +31,6 @@ function execute() {
                 alert(`Policies API => Google Server Response : ${err.error.message}`); 
                 console.error("Execute error", err); 
               });
-  }
-
 }
 
 gapi.load("client:auth2", function() {

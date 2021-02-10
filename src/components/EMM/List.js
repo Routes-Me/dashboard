@@ -13,8 +13,8 @@ class List extends Component {
         }
     }
 
-    componentDidMount() {
-        this.props.getUsersList();
+    async componentDidMount() {
+        // await this.props.getUsersList();
     }
 
     showList(list) {
@@ -24,10 +24,10 @@ class List extends Component {
                     <table>
                         <thead>
                             <tr>
-                                <th>version</th>
-                                <th>name</th>
-                                <th>package name</th>
-                                <th>install type</th>
+                                <th>Version</th>
+                                <th>Name</th>
+                                <th>Package Name</th>
+                                <th>Install Type</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -52,7 +52,22 @@ class List extends Component {
     render() {
         let content = this.showList(this.props.List)
         return (
+            
             <div>
+                <div className="top-part-vehicles-search padding-lr-80">
+                            <div className="header-add-butt">
+                                <h3>Users</h3>
+                                {/* <button className='filter-btn'><image className='filter-icon'/> AUthorize</button> */}
+                                <a className="vehicle-add-butt" onClick={e => this.props.getUsersList(e)}><image className='filter-icon'/> AUthorize</a>
+                            </div>
+
+                            <div className="search-part">
+                                    <input type="text" name="search" placeholder="Search" className="search" />
+                                    <i className="fa fa-search" aria-hidden="true" />
+                                    <span className="cross-icon"><img src="../cross-image.png" /></span>
+                            </div>
+                        </div>
+                
                 {content}
             </div>
         );
