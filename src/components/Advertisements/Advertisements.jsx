@@ -8,6 +8,7 @@ import Status from '../Advertisements/RowItem/Status';
 import { advertisementsConstants } from '../../constants/advertisementConstants';
 import PageHandler from '../PageHandler';
 import { config } from '../../constants/config';
+import { isROU } from '../../util/basic';
 
 class Advertisements extends Component {
 
@@ -112,6 +113,7 @@ class Advertisements extends Component {
                                         <td>{Advertisement.resourceName}</td>
                                         <td>{Advertisement.createdAt}</td>
                                         <td><Status text={Advertisement.campaigns[0]?.status}/></td>
+                                        {!isROU(this.props.user) &&
                                         <td>
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Advertisement.id)}>
@@ -124,7 +126,7 @@ class Advertisements extends Component {
                                                     <li><a  onClick={e => this.deleteAdvertisement(e, Advertisement.id)}>Delete</a></li>
                                                 </ul>
                                             </div>
-                                        </td>
+                                        </td>}
                                     </tr>
                                 ))
                             }
@@ -164,7 +166,8 @@ class Advertisements extends Component {
                         <div className="top-part-vehicles-search padding-lr-80">
                             <div className="header-add-butt">
                                 <h3>Advertisements</h3>
-                                <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Add Advertisement</a>
+                                {!isROU(this.props.user) &&
+                                <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Add Advertisement</a>}
                             </div>
 
                             <div className="search-part">
@@ -188,6 +191,7 @@ const mapStateToProps = (state) => {
 
     return {
         AdvertisementList: state.AdvertisementStore.Advertisements,
+        user: state.Login.user,
         ApplicationState: state.AdvertisementStore.ActionState
     }
 

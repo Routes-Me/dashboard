@@ -29,20 +29,29 @@ export function returnObjectForSelectedId(list, id){
     return obj;
 }
 
-export function returnEntityForInstitution(entity,institutionId)
+export function returnEntityForInstitution(entity,user)
 {
-    if(institutionId !== undefined)
+    if(user?.InstitutionId !== undefined)
     {
-        return institutionId !== '' && isSuperUser(institutionId) ?  entity : `institutions/${institutionId}/${entity}`;  
+        return user.InstitutionId !== '' && isSU(user) ?  entity : `institutions/${user.InstitutionId}/${entity}`;  
     }
     return entity;
 
 }
 
-export function isSuperUser(institutionID){
-    let currentDomain = config.Domain;
-    let superInstitution = isProductionDomain(currentDomain)? config.SuperInstitution : config.StageSuperInstitution 
-    return institutionID === superInstitution ? true : false // 1580030173 78132467
+export function isSU(user){
+
+    let role = user.Roles;
+    return role.includes(config.SU) || role.includes(config.ROU) ? true : false ;
+
+    // let currentDomain = config.Domain;
+    // let superInstitution = isProductionDomain(currentDomain)? config.SuperInstitution : config.StageSuperInstitution 
+    // return user.InstitutionId === superInstitution ? true : false // 1580030173 78132467
+}
+
+export function isROU(user){
+    let role = user.Roles;
+    return role.includes(config.ROU) ? true : false;
 }
 
 
