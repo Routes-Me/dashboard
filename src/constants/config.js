@@ -1,3 +1,5 @@
+import { User } from "oidc-client";
+
 export const config = {
 
     selectService : {
@@ -48,6 +50,9 @@ export const config = {
         ]
     },
 
+    SU : "super",
+    ROU : "support",
+
     StageSuperInstitution : '78132467',
     SuperInstitution      : '1580030173', // 1580030173 78132467
     
@@ -57,10 +62,11 @@ export const config = {
 
     HubURL: 'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub',
     
+    
     //HubURL: 'http://vmtproject.uaenorth.cloudapp.azure.com:5002/trackServiceHub',
 
     Pagelimit : 20,
     DropDownLimit : 5,
-    Version : 'DVS07022021'
+    Version : 'DVS08022021'
 
 };
