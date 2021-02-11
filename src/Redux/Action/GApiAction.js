@@ -5,7 +5,7 @@ export function authenticate() {
   return gapi.auth2.getAuthInstance()
       .signIn({scope: "https://www.googleapis.com/auth/androidmanagement"})
       .then(function() { console.log("Sign-in successful"); },
-            function(err) { console.error("Error signing in", err.error.message); alert("Seems like authentication failed!!" + err.error.message) });
+            function(err) { console.error("Error signing in", err); alert("Seems like authentication failed!!" + err.error.message) });
 }
 
 function loadClient() {
