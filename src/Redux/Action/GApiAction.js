@@ -5,7 +5,7 @@ export function authenticate() {
   return gapi.auth2.getAuthInstance()
       .signIn({scope: "https://www.googleapis.com/auth/androidmanagement"})
       .then(function() { console.log("Sign-in successful"); execute();},
-            function(err) { console.error("Error signing in", err); });
+            function(err) { console.error("Error signing in", err.error.message); alert("Seems like authentication failed!!" + err.error.message) });
 }
 
 function loadClient() {
@@ -13,7 +13,7 @@ function loadClient() {
   return gapi.client.load("https://androidmanagement.googleapis.com/$discovery/rest?version=v1")
       .then(function() { console.log("GAPI client loaded for API"); },
             function(err) { alert(`Client Load API => Google Server Response : ${err.error.message}`); 
-             console.error("Error loading GAPI client for API", err); });
+            console.error("Error loading GAPI client for API", err); });
 }
 
 // Make sure the client is loaded and sign-in is complete before calling this method.

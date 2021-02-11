@@ -58,7 +58,7 @@ class List extends Component {
                             <div className="header-add-butt">
                                 <h3>Users</h3>
                                 {/* <button className='filter-btn'><image className='filter-icon'/> AUthorize</button> */}
-                                <a className="vehicle-add-butt" onClick={e => this.props.getUsersList(e)}><image className='filter-icon'/> AUthorize</a>
+                                <a className="vehicle-add-butt" onClick={e => this.props.getUsersList()}><image className='filter-icon'/> AUthorize</a>
                             </div>
 
                             <div className="search-part">
