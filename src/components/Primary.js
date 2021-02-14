@@ -1,7 +1,7 @@
 ﻿import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as LoginAction from '../Redux/Action';
-import { isSuperUser } from '../util/basic';
+import { isSU } from '../util/basic';
 import { parseJwt } from "../util/encrypt";
 import { restoreToken } from '../util/localStorage';
 
@@ -32,17 +32,6 @@ class Primary extends Component
 
     }
 
-    // static getDerivedStateFromProps(props, state) {
-    //     if (props.user.InstitutionId === undefined) {
-    //         if (props.user.InstitutionId !== state.institutionId) {
-                
-    //             return {
-    //                 institutionId   : props.user.InstitutionId
-    //             }
-    //         }
-    //     }
-    //     return null;
-    // }
 
     toggleMenu = (event, type) => {
         event.stopPropagation();
@@ -65,7 +54,7 @@ class Primary extends Component
     }
 
     setAuthorization = () => {
-        if(isSuperUser(this.props.user)) //1580030173 78132467
+        if(isSU(this.props.user)) //1580030173 78132467
         this.props.getAutherization(1);
         else
         this.props.getAutherization(2);

@@ -7,15 +7,16 @@ function Analytics(advertisementList) {
 
     const data =  
     [
-        {name: 'Routes',            iOS: 94,  Android: 44,  web: 13, Windows: 48,  Mac:20},
+        {name: 'Routes',            iOS: 107, Android: 46,  web: 13, Windows: 53,  Mac:20},
         {name: 'McDonalds',         iOS: 33,  Android: 20,  web: 2,  Windows: 13,  Mac:0},
-        {name: 'Center Point',      iOS: 26,  Android: 20,  web: 0,  Windows: 13,  Mac:0},
-        {name: 'Zain',              iOS: 23,  Android: 17,  web: 0,  Windows: 10,  Mac:0},
-        {name: 'City Center',       iOS: 25,  Android: 8,   web: 0,  Windows: 9,   Mac:0},
+        {name: 'Center Point',      iOS: 27,  Android: 23,  web: 0,  Windows: 16,  Mac:0},
+        {name: 'Zain',              iOS: 25,  Android: 18,  web: 0,  Windows: 11,  Mac:0},
+        {name: 'City Center',       iOS: 26,  Android: 8,   web: 0,  Windows: 11,   Mac:2},
         {name: 'Xcite',             iOS: 14,  Android: 8,   web: 0,  Windows: 10,  Mac:0},
-        {name: 'Dominos',           iOS: 11,  Android: 4,   web: 2,  Windows: 7,   Mac:0},
+        {name: 'Dominos',           iOS: 12,  Android: 4,   web: 2,  Windows: 8,   Mac:0},
         {name: 'Best',              iOS: 10,  Android: 5,   web: 0,  Windows: 5,   Mac:0},
         {name: 'Huawei',            iOS: 9,   Android: 2,   web: 0,  Windows: 5,   Mac:0},
+        {name: 'ooredoo',           iOS: 6,   Android: 2,   web: 1,  Windows: 0,   Mac:5},
         {name: 'KFC',               iOS: 1,   Android: 0,   web: 0,  Windows: 0,   Mac:0}
     ];
 

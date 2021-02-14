@@ -6,6 +6,7 @@ import InstitutionReducer from './InstitutionReducer';
 import UserReducer from './UserReducer';
 import AdvertisementReducer from './AdvertisementReducer';
 import PrizeReducer from './PrizeReducer';
+import GApiReducer from './GApiReducer';
 
 export default combineReducers({
     Login: LoginReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
     InstitutionStore: InstitutionReducer,
     UserStore: UserReducer,
     AdvertisementStore: AdvertisementReducer,
-    PrizeStore : PrizeReducer
+    PrizeStore : PrizeReducer,
+    GApiStore : GApiReducer
 });
