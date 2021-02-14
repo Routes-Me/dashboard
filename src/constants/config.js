@@ -67,6 +67,6 @@ export const config = {
 
     Pagelimit : 20,
     DropDownLimit : 5,
-    Version : 'DVS08022021'
+    Version : 'DVS14022021'
 
 };
