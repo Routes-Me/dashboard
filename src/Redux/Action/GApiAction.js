@@ -17,7 +17,7 @@ function loadClient() {
 }
 
 // Make sure the client is loaded and sign-in is complete before calling this method.
-function execute(disatch) {
+function execute(dispatch) {
   
     gapi.client.androidmanagement.enterprises.policies.list({
       "parent": "enterprises/LC02my9vtl"
