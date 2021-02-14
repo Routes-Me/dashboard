@@ -41,7 +41,7 @@ export const config = {
         "data":[
             {
                 "roleId":1,
-                "navItems":["Tracking","Users","Vehicles","Advertisements","Institutions","Access Control",'Campaigns','Analytics','Prizes']
+                "navItems":["Tracking","Users","Vehicles","Advertisements","Institutions","Access Control",'Campaigns','Analytics','Prizes','EMM']
             },
             {
                 "roleId":2,
@@ -67,6 +67,6 @@ export const config = {
 
     Pagelimit : 20,
     DropDownLimit : 5,
-    Version : 'DVS08022021'
+    Version : 'DVS14022021'
 
 };
