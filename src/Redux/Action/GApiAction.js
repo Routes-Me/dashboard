@@ -17,19 +17,18 @@ function loadClient() {
 }
 
 // Make sure the client is loaded and sign-in is complete before calling this method.
-function execute() {
+function execute(dispatch) {
   
     gapi.client.androidmanagement.enterprises.policies.list({
       "parent": "enterprises/LC02my9vtl"
-    })
-        .then(function(response) {
-                dispatch(success(response.result.policies))
-                console.log("Response", response);
-              },
-              function(err) { 
-                alert(`Policies API => Google Server Response : ${err.error.message}`); 
-                console.error("Execute error", err); 
-              });
+    }).then(function(response) {
+            dispatch(success(response.result.policies))
+            console.log("Response", response);
+            },
+            function(err) { 
+            alert(`Policies API => Google Server Response : ${err.error.message}`); 
+            console.error("Execute error", err); 
+            });
 }
 
 gapi.load("client:auth2", function() {
