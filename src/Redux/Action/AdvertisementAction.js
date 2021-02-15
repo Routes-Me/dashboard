@@ -177,7 +177,7 @@ function returnFormatedAdvertisements(response, include) {
             id: x.advertisementId,
             resourceName: x.resourceName,
             createdAt: x.createdAt,
-            campaigns: filterCampaignList(CampaignList, x.campaignId)[0],
+            campaigns: x.campaignId.length > 0 && filterCampaignList(CampaignList, x.campaignId)[0],
             institution: InstitutionList.filter(y => y.institutionId === x.institutionId)[0],
             media: MediaList.filter(y => y.mediaId === x.mediaId)[0],
             intervalId:  x.intervalId,

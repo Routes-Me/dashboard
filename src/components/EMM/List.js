@@ -44,16 +44,37 @@ class List extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {
-                                list?.map(policy => (
-                                    <tr key={policy.name}>
-                                    <td>{policy.version}</td>
-                                    <td>{policy.name}</td>
-                                    <td>{policy.applications[0].packageName}</td>
-                                    <td>{policy.applications[0].installType}</td>
-                                    </tr>
-                                ))
-                            }
+                                {/* // list?.map(policy => (
+                                //     <tr key={policy.name}>
+                                //     <td>{policy.version}</td>
+                                //     <td>{policy.name}</td>
+                                //     <td>{policy.applications[0].packageName}</td>
+                                //     <td>{policy.applications[0].installType}</td>
+                                //     </tr>
+                                    
+                                // )) */}
+
+                            <tr>
+                                <td>123vceqd</td>
+                                <td>Device</td>
+                                <td>2020-12-22 20:28:43</td>
+                            </tr>
+                            <tr>
+                                <td>123vceqd</td>
+                                <td>Device</td>
+                                <td>2020-12-22 20:28:43</td>
+                            </tr>
+                            <tr>
+                                <td>123vceqd</td>
+                                <td>Device</td>
+                                <td>2020-12-22 20:28:43</td>
+                            </tr>
+                            <tr>
+                                <td>123vceqd</td>
+                                <td>Device</td>
+                                <td>2020-12-22 20:28:43</td>
+                            </tr>
+                            
                         </tbody>
                     </table>}
                 {this.state.tabIndex === 2 &&
@@ -67,7 +88,7 @@ class List extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {
+                            {/* {
                                 list?.map(policy => (
                                     <tr key={policy.name}>
                                     <td>{policy.version}</td>
@@ -76,7 +97,31 @@ class List extends Component {
                                     <td>{policy.applications[0].installType}</td>
                                     </tr>
                                 ))
-                            }
+                            } */}
+                            <tr>
+                                <td>V1</td>
+                                <td>Pre Release</td>
+                                <td>com.routesme.taxi</td>
+                                <td>force install</td>
+                            </tr>
+                            <tr>
+                                <td>V2</td>
+                                <td>Test Release</td>
+                                <td>com.routesme.taxi</td>
+                                <td>force install</td>
+                            </tr>
+                            <tr>
+                                <td>V4</td>
+                                <td>Test V1</td>
+                                <td>com.routesme.taxi</td>
+                                <td>force install</td>
+                            </tr>
+                            <tr>
+                                <td>V5</td>
+                                <td>Testing policy release</td>
+                                <td>com.routesme.taxi</td>
+                                <td>force install</td>
+                            </tr>
                         </tbody>
                     </table>}
             </div>
@@ -92,13 +137,14 @@ class List extends Component {
         return (
             
             <div>
-                <div className="top-part-vehicles-search padding-lr-80">
+                
                 {this.state.showDetails ?
                     <Detail className={this.props.show ? 'slide-in' : 'slide-out'}
                         show={this.showDetailScreen}
                         objectType={userConstants.NavItem_EMM}
                         object= {policyObj}/> :
-                    <div>
+                        <div>
+                        <div className="top-part-vehicles-search padding-lr-80">
                         <div className="header-add-butt">
                             <h3>EMM Console</h3>
                             {/* <button className='filter-btn'><image className='filter-icon'/> AUthorize</button> */}
@@ -113,12 +159,12 @@ class List extends Component {
                             </div>
                         </nav>
                         </div>
+                    </div>
                     {content}
                     </div>
                         }
                 </div>
                 
-            </div>
         );
     }
 }

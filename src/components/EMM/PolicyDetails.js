@@ -31,44 +31,79 @@ class PolicyDetails extends React.Component {
     handleSubmit = (event) => {
 
         event.preventDefault();
-        
-   
 
     }
 
+    
     render() {
 
+        const samplePolicy =`{
+    "name": string,
+    "version": string,
+    "applications": [
+                      {
+                        object (ApplicationPolicy)
+                      }
+                    ],
+    "maximumTimeToLock": string,
+    "screenCaptureDisabled": boolean,
+    "cameraDisabled": boolean,
+    "keyguardDisabledFeatures": [
+                                  enum (KeyguardDisabledFeature)
+                                ],
+    "defaultPermissionPolicy": enum (PermissionPolicy),
+    "persistentPreferredActivities": [
+                                       {
+                                         object (PersistentPreferredActivity)
+                                       }
+                                     ],
+    "openNetworkConfiguration": {
+                                  object
+                                },
+    "systemUpdate": {
+                      object (SystemUpdate)
+                    },
+    "accountTypesWithManagementDisabled": [
+                                            string
+                                          ],
+    "addUserDisabled": boolean,
+    "adjustVolumeDisabled": boolean,
+    "factoryResetDisabled": boolean,
+    "installAppsDisabled": boolean,
+    "mountPhysicalMediaDisabled": boolean,
+    "modifyAccountsDisabled": boolean,
+    "safeBootDisabled": boolean,
+}`;
+
+            const codeStyle = {
+                backgroundColor: "#eee",
+                display: "block",
+                padding: "20px",
+                width:"100%",
+                height: "60vh"
+              }
 
         return (
             <div>
                 <Form onSubmit={e => this.handleSubmit(e)}>
                 
-                    <div class="col-md-12">
-
                     <div className="row form-group">
                             <div className="col-md-6">
-                                <h4>Test Policy</h4><br />
+                                <h3>123vceqd</h3><br />
                             </div>
-                        </div>
-
-                        <div className="row form-group">
-                            <div className="col-md-12">
-                                <Label>Phone</Label><br />
-                                <input type="text" name="phoneNumber"
-                                    value={this.state.phoneNumber}
-                                    onChange={this.onChange}
-                                    className="form-control" />
+                    </div>
+                    <pre>
+                    <code style={codeStyle}>
+                        {samplePolicy}
+                    </code>
+                    </pre>
+                    <div className="container-fluid">
+                            <div className="footerStyle">
+                                <button type="submit" style={{ float: 'left' }}> Update </button>
                             </div>
-                        </div>
-
-
                     </div>
-            <div className="container-fluid">
-                    <div className="footerStyle">
-                        <button type="submit" style={{ float: 'left' }}> Add </button>
-                    </div>
-             </div>
-             </Form>
+
+                </Form>
             </div>
         )
     }
