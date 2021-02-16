@@ -12,7 +12,11 @@ class PolicyDetails extends React.Component {
         this.state = {
             id: "",
             name: "",
-            policy: ""
+            policy: "",
+            version: "",
+            name: "",
+            packageName: "",
+            installtype:""
         }
     }
 
@@ -24,9 +28,6 @@ class PolicyDetails extends React.Component {
         this.setState({ [event.target.name]: event.target.value})
     }
 
- 
-    
-
     //Submit button action
     handleSubmit = (event) => {
 
@@ -34,7 +35,6 @@ class PolicyDetails extends React.Component {
 
     }
 
-    
     render() {
 
         const samplePolicy =`{
@@ -83,27 +83,72 @@ class PolicyDetails extends React.Component {
                 height: "60vh"
               }
 
+              const tabIndex = this.props.tab.EMMTab;
+
         return (
             <div>
-                <Form onSubmit={e => this.handleSubmit(e)}>
-                
+                {tabIndex === 2 &&
+                    <Form onSubmit={e => this.handleSubmit(e)}>
+                        <div className="row form-group">
+                                <div className="col-md-6">
+                                    <h3>123vceqd</h3><br />
+                                </div>
+                        </div>
+                        <pre>
+                        <code style={codeStyle}>
+                            {samplePolicy}
+                        </code>
+                        </pre>
+                        <div className="container-fluid">
+                                <div className="footerStyle">
+                                    <button type="submit" style={{ float: 'left' }}> Update </button>
+                                </div>
+                        </div>
+                    </Form>
+                }
+                {tabIndex === 1 &&
+                    <Form onSubmit={e => this.handleSubmit(e)}>
                     <div className="row form-group">
-                            <div className="col-md-6">
-                                <h3>123vceqd</h3><br />
-                            </div>
-                    </div>
-                    <pre>
-                    <code style={codeStyle}>
-                        {samplePolicy}
-                    </code>
-                    </pre>
-                    <div className="container-fluid">
-                            <div className="footerStyle">
-                                <button type="submit" style={{ float: 'left' }}> Update </button>
-                            </div>
+                        <div className="col-md-6">
+                            <Label>Version</Label><br />
+                            <input type="text" name="name"
+                                value={this.state.name}
+                                onChange={this.onChange}
+                                className="form-control" />
+                        </div>
                     </div>
 
-                </Form>
+                    <div className="row form-group">
+                        <div className="col-md-6">
+                            <Label>Name</Label><br />
+                            <input type="text" name="phoneNumber"
+                                value={this.state.phoneNumber}
+                                onChange={this.onChange}
+                                className="form-control" />
+                        </div>
+                    </div>
+
+                    <div className="row form-group">
+                        <div className="col-md-6">
+                            <Label>Package Name</Label><br />
+                            <input type="text" name="phoneNumber"
+                                value={this.state.phoneNumber}
+                                onChange={this.onChange}
+                                className="form-control" />
+                        </div>
+                    </div>
+
+                    <div className="row form-group">
+                        <div className="col-md-6">
+                            <Label>Install Type</Label><br />
+                            <input type="text" name="phoneNumber"
+                                value={this.state.phoneNumber}
+                                onChange={this.onChange}
+                                className="form-control" />
+                        </div>
+                    </div>
+                    </Form>
+                }
             </div>
         )
     }

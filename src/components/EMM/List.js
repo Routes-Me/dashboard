@@ -44,6 +44,7 @@ class List extends Component {
                             </tr>
                         </thead>
                         <tbody>
+
                                 {/* // list?.map(policy => (
                                 //     <tr key={policy.name}>
                                 //     <td>{policy.version}</td>
@@ -102,25 +103,25 @@ class List extends Component {
                                 <td>V1</td>
                                 <td>Pre Release</td>
                                 <td>com.routesme.taxi</td>
-                                <td>force install</td>
+                                <td>FORCE_INSTALLED</td>
                             </tr>
                             <tr>
                                 <td>V2</td>
                                 <td>Test Release</td>
                                 <td>com.routesme.taxi</td>
-                                <td>force install</td>
+                                <td>FORCE_INSTALLED</td>
                             </tr>
                             <tr>
                                 <td>V4</td>
                                 <td>Test V1</td>
                                 <td>com.routesme.taxi</td>
-                                <td>force install</td>
+                                <td>FORCE_INSTALLED</td>
                             </tr>
                             <tr>
                                 <td>V5</td>
                                 <td>Testing policy release</td>
                                 <td>com.routesme.taxi</td>
-                                <td>force install</td>
+                                <td>FORCE_INSTALLED</td>
                             </tr>
                         </tbody>
                     </table>}
@@ -133,7 +134,7 @@ class List extends Component {
     render() {
         let content = this.showList(this.props.List);
         const tabIndex = this.state.tabIndex; 
-        const policyObj = {name : "policyTest", policy: ""}
+        const policyObj = {name : "policyTest", policy: "", EMMTab: tabIndex}
         return (
             
             <div>
@@ -148,7 +149,7 @@ class List extends Component {
                         <div className="header-add-butt">
                             <h3>EMM Console</h3>
                             {/* <button className='filter-btn'><image className='filter-icon'/> AUthorize</button> */}
-                            <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><image className='filter-icon'/> AUthorize</a>
+                            {tabIndex===2 && <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><image className='filter-icon'/> Add</a>}
                         </div>
                         <div className="headerTabStyle" style={{maxWidth:'25%',marginTop:'13px'}}>
                         <nav>
