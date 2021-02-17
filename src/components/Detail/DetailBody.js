@@ -1,10 +1,10 @@
 ﻿import React, { Component } from 'react';
 import { userConstants } from '../../constants/userConstants';
 import { VehicleDetail } from '../Vehicles/VehicleDetail';
-import { UsersDetail } from '../Users/UsersDetail';
-import { InstitutionsDetail } from '../Home/Institutions/InstitutionsDetail';
+import { UsersDetail } from '../Home/Child/Users/UsersDetail';
+import { InstitutionsDetail } from '../Home/Child/Institutions/InstitutionsDetail';
 import { AdvertisementsDetail } from '../Advertisements/AdvertisementsDetail';
-import { CampaignsDetail } from '../Campaigns/CampaignsDetail';
+import { CampaignsDetail } from '../Home/Child/Campaigns/CampaignsDetail';
 import { PolicyDetails } from '../EMM/PolicyDetails';
 
 

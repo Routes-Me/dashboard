@@ -1,15 +1,15 @@
-﻿import React, { Component, Suspense, lazy } from 'react';
+import React, { Component, Suspense, lazy } from 'react';
 import { userConstants } from '../constants/userConstants';
 import { connect } from 'react-redux';
 import Launch from './Launch';
 
 const Tracking = lazy(() => import('./Tracking/Tracking'));
 const Vehicles = lazy(() => import('./Vehicles/Vehicles'));
-const Institutions = lazy(() => import('./Home/Institutions/Institutions'));
-const Users = lazy(() => import('./Users/Users'));
+const Institutions = lazy(() => import('./Home/Child/Institutions/Institutions'));
+const Users = lazy(() => import('./Home/Child/Users/Users'));
 const Advertisements = lazy(() => import('./Advertisements/Advertisements'));
 const AccessControl = lazy(() => import('./AccessControl/AccessControl'));
-const Campaigns = lazy(() => import('./Campaigns/Campaigns'));
+const Campaigns = lazy(() => import('./Home/Child/Campaigns/Campaigns'));
 const Analytics = lazy(() => import('./Analytics/Analytics'));
 const Prizes = lazy(() => import('./Prizes/Prizes'));
 const List = lazy(() => import('./EMM/List'));

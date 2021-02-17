@@ -1,13 +1,13 @@
 ﻿import React from 'react';
 import { connect } from 'react-redux';
 import { Label } from 'reactstrap';
-import * as UserAction from '../../Redux/Action';
-import * as InstitutionAction from '../../Redux/Action';
+import * as UserAction from '../../../../Redux/Action';
+import * as InstitutionAction from '../../../../Redux/Action';
 import Form from 'react-validation/build/form';
-import { encryptAndEncode } from '../../util/encrypt';
-import {config} from "../../constants/config";
-import PageHandler from '../PageHandler';
-import { returnObjectForSelectedId } from '../../util/basic';
+import { encryptAndEncode } from '../../../../util/encrypt';
+import {config} from "../../../../constants/config";
+import PageHandler from '../../../PageHandler';
+import { returnObjectForSelectedId } from '../../../../util/basic';
 
 
 class UsersDetail extends React.Component {

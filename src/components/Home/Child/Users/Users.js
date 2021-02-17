@@ -1,12 +1,12 @@
 ﻿import React, { Component } from 'react';
-import Detail from '../Detail/Detail';
+import Detail from '../../../Detail/Detail';
 import { connect } from 'react-redux';
-import { userConstants } from '../../constants/userConstants';
-import * as UserAction from '../../Redux/Action';
-import PageHandler from '../PageHandler';
-import '../Detail/Detail.css';
-import { config } from '../../constants/config';
-import { isSuperUser } from '../../util/basic';
+import { userConstants } from '../../../../constants/userConstants';
+import * as UserAction from '../../../../Redux/Action';
+import PageHandler from '../../../PageHandler';
+import '../../../Detail/Detail.css';
+import { config } from '../../../../constants/config';
+import { isSuperUser } from '../../../../util/basic';
 
 class Users extends Component {
 

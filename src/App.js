@@ -4,7 +4,7 @@ import React, { Component, Suspense, lazy } from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import { history } from '../src/helper/history';
 import { Layout } from './components/Layout';
-import { UsersDetail } from './components/Users/UsersDetail';
+import { UsersDetail } from './components/Home/Child/Users/UsersDetail';
 import { PrivateRoute } from './helper/PrivateRoute';
 import Launch from './components/Launch';
 const ForgotPassword = lazy(() => import('./components/Password/ForgotPassword'));

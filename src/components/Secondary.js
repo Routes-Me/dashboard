@@ -2,11 +2,11 @@
 import { connect } from 'react-redux';
 import { SecondaryTracking } from '../components/Tracking/SecondaryTracking';
 import { SecondaryVehicles } from '../components/Vehicles/SecondaryVehicles';
-import { InstitutionsSecondary } from '../components/Home/Institutions/InstitutionsSecondary';
-import { UsersSecondary } from '../components/Users/UsersSecondary';
+import { InstitutionsSecondary } from './Home/Child/Institutions/InstitutionsSecondary';
+import { UsersSecondary } from './Home/Child/Users/UsersSecondary';
 import { AdvertisementsSecondary } from '../components/Advertisements/AdvertisementsSecondary';
 import { AccessControlSecondary } from "../components/AccessControl/AccessControlSecondary";
-import { CampaignsSecondary } from './Campaigns/CampaignsSecondary';
+import { CampaignsSecondary } from './Home/Child/Campaigns/CampaignsSecondary';
 import { userConstants } from '../constants/userConstants';
 
 class Secondary extends Component {

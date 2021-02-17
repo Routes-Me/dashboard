@@ -50,7 +50,7 @@ export const config = {
     
     Domain:  'http://stage.api.routesme.com/api/', 
 
-    HubURL: 'http://stage.api.routesme.com/trackServiceHub',
+    HubURL: 'http://stage.hub.routesme.com/trackServiceHub',
     
 
     Pagelimit : 20,

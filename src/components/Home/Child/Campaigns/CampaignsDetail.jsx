@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Label } from 'reactstrap';
-import * as InstitutionAction from '../../Redux/Action';
-import * as AdvertisementAction from '../../Redux/Action';
+import * as InstitutionAction from '../../../../Redux/Action';
+import * as AdvertisementAction from '../../../../Redux/Action';
 import Form from 'react-validation/build/form';
-import { config } from '../../constants/config';
+import { config } from '../../../../constants/config';
 import { DragDropContext,Droppable,Draggable } from 'react-beautiful-dnd';
 
 class CampaignsDetail extends React.Component {
