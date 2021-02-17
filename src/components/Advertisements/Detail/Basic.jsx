@@ -99,7 +99,7 @@ class Basic extends React.Component {
                 }
             }
         }
-        if(props.InstitutionList.data.length!== state.institutions.length)
+        if(props.InstitutionList.data?.length!== state.institutions.length)
         {
             return {
                 institutions    : props.InstitutionList

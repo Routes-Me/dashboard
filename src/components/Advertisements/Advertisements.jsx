@@ -107,7 +107,7 @@ class Advertisements extends Component {
                         </thead>
                         <tbody>
                             {
-                                Advertisements.data?.map(Advertisement => (
+                                Advertisements?.data?.map(Advertisement => (
                                     <tr key={Advertisement.id}>
                                         <td>{Advertisement.id}</td>
                                         <td>{Advertisement.resourceName}</td>
