@@ -1,12 +1,36 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="22" height="30" viewBox="0 0 22 30">
+<svg xmlns="http://www.w3.org/2000/svg" width="25" height="28" viewBox="0 0 25 28">
     <g fill="none" fill-rule="evenodd">
-        <g fill-rule="nonzero">
+        <g>
             <g>
                 <g>
+                    <path stroke="#EC008C" stroke-width="3" d="M12 12L12 24" transform="translate(-20 -518) translate(0 509) translate(20.582 9)"/>
                     <g>
-                        <path fill="#0B0B0B" d="M6.188 16.129c-.81.003-1.465.662-1.462 1.472v10.263c.001 1.305 1.576 1.96 2.501 1.04l3.367-3.356 3.357 3.356c.925.92 2.5.265 2.5-1.04V17.601c.004-.81-.65-1.47-1.461-1.472H6.188z" transform="translate(-30 -475) translate(0 467) translate(30.235 8)"/>
-                        <path fill="#90A3C4" d="M10.59 0C4.937 0 .323 4.614.323 10.266c0 5.653 4.614 10.267 10.267 10.267s10.267-4.614 10.267-10.267C20.857 4.614 16.243 0 10.59 0z" transform="translate(-30 -475) translate(0 467) translate(30.235 8)"/>
-                        <path fill="#FFE3B4" d="M4.723 10.266c0 3.223 2.644 5.867 5.867 5.867s5.867-2.644 5.867-5.867c0-3.222-2.644-5.866-5.867-5.866-3.274 0-5.867 2.69-5.867 5.866z" transform="translate(-30 -475) translate(0 467) translate(30.235 8)"/>
+                        <g fill-rule="nonzero">
+                            <path fill="#90A3C4" d="M20.251 8.266c-.102 0-.2.006-.3.015.004-.105.009-.21.009-.314 0-4.4-3.487-7.967-7.79-7.967C8.4 0 5.257 2.74 4.537 6.381 2.019 6.455 0 8.595 0 11.187 0 13.827 2.092 16 4.673 16h15.578C22.321 16 24 14.25 24 12.133c-.002-2.118-1.678-3.867-3.749-3.867z" transform="translate(-20 -518) translate(0 509) translate(20.582 9)"/>
+                            <path fill="#FFE3B4" d="M17 11.042V8.958h-1.185c-.09-.325-.217-.633-.382-.92l.838-.838-1.473-1.473-.838.838c-.285-.165-.595-.292-.92-.382V5h-2.082v1.185c-.325.09-.633.217-.92.382L9.2 5.729 7.727 7.202l.838.838c-.165.285-.292.595-.382.92H7v2.084h1.185c.09.325.217.633.382.92l-.838.838 1.473 1.473.838-.838c.285.165.595.292.92.382V15h2.084v-1.185c.325-.09.633-.217.92-.382l.838.838 1.473-1.473-.837-.838c.164-.285.291-.595.38-.92H17v.002zm-5 1.1c-1.183 0-2.143-.96-2.143-2.142 0-1.183.96-2.143 2.143-2.143 1.183 0 2.143.96 2.143 2.143 0 1.183-.96 2.143-2.143 2.143z" transform="translate(-20 -518) translate(0 509) translate(20.582 9)"/>
+                            <g>
+                                <g>
+                                    <path fill="#0B0B0B" d="M20 4.964c0 .39-.286.709-.635.709H.635c-.35 0-.635-.32-.635-.71V.71C0 .32.286 0 .635 0h18.73c.35 0 .635.32.635.71v4.254z" transform="translate(-20 -518) translate(0 509) translate(20.582 9) translate(2 10) translate(.003 .626)"/>
+                                    <g transform="translate(-20 -518) translate(0 509) translate(20.582 9) translate(2 10) translate(.003 .626) translate(3.083 1.883)">
+                                        <circle cx=".792" cy=".826" r="1" fill="#FFE3B4"/>
+                                        <circle cx="3.186" cy=".826" r="1" fill="#EC008C"/>
+                                        <path fill="#FFF" d="M10.56 0.246H14.846V1.664H10.56z"/>
+                                    </g>
+                                </g>
+                                <g>
+                                    <path fill="#0B0B0B" d="M20 4.964c0 .39-.286.709-.635.709H.635c-.35 0-.635-.32-.635-.71V.71C0 .32.286 0 .635 0h18.73c.35 0 .635.32.635.71v4.254z" transform="translate(-20 -518) translate(0 509) translate(20.582 9) translate(2 10) translate(.003 7.066)"/>
+                                    <g transform="translate(-20 -518) translate(0 509) translate(20.582 9) translate(2 10) translate(.003 7.066) translate(3.083 1.922)">
+                                        <circle cx=".792" cy=".791" r="1" fill="#EC008C"/>
+                                        <circle cx="3.186" cy=".791" r="1" fill="#90A3C4"/>
+                                        <path fill="#FFF" d="M10.694 0.206H14.98V1.6239999999999999H10.694z"/>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                        <g stroke="#EC008C" stroke-width="2" transform="translate(-20 -518) translate(0 509) translate(20.582 9) translate(2.5 24)">
+                            <path stroke-linecap="square" d="M12 1.5L18 1.5M0 1.5L7 1.5"/>
+                            <circle cx="9.5" cy="1.5" r="1.5"/>
+                        </g>
                     </g>
                 </g>
             </g>
