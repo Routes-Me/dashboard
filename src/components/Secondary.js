@@ -2,7 +2,7 @@
 import { connect } from 'react-redux';
 import { SecondaryTracking } from '../components/Tracking/SecondaryTracking';
 import { SecondaryVehicles } from '../components/Vehicles/SecondaryVehicles';
-import { InstitutionsSecondary } from '../components/Institutions/InstitutionsSecondary';
+import { InstitutionsSecondary } from '../components/Home/Institutions/InstitutionsSecondary';
 import { UsersSecondary } from '../components/Users/UsersSecondary';
 import { AdvertisementsSecondary } from '../components/Advertisements/AdvertisementsSecondary';
 import { AccessControlSecondary } from "../components/AccessControl/AccessControlSecondary";

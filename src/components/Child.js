@@ -5,7 +5,7 @@ import Launch from './Launch';
 
 const Tracking = lazy(() => import('./Tracking/Tracking'));
 const Vehicles = lazy(() => import('./Vehicles/Vehicles'));
-const Institutions = lazy(() => import('./Institutions/Institutions'));
+const Institutions = lazy(() => import('./Home/Institutions/Institutions'));
 const Users = lazy(() => import('./Users/Users'));
 const Advertisements = lazy(() => import('./Advertisements/Advertisements'));
 const AccessControl = lazy(() => import('./AccessControl/AccessControl'));

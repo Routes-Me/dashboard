@@ -10,7 +10,7 @@ import Launch from './components/Launch';
 const ForgotPassword = lazy(() => import('./components/Password/ForgotPassword'));
 const savePassword = lazy(() => import('./components/Password/savePassword'));
 const ResetPassword = lazy(() => import('./components/Password/ResetPassword'));
-const Home = lazy(() => import('./components/Home'));
+const Home = lazy(() => import('./components/Home/Home'));
 const Login = lazy(() => import('./components/Login/Login'));
 
 export default class App extends Component {

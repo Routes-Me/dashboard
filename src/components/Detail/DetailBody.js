@@ -2,7 +2,7 @@
 import { userConstants } from '../../constants/userConstants';
 import { VehicleDetail } from '../Vehicles/VehicleDetail';
 import { UsersDetail } from '../Users/UsersDetail';
-import { InstitutionsDetail } from '../Institutions/InstitutionsDetail';
+import { InstitutionsDetail } from '../Home/Institutions/InstitutionsDetail';
 import { AdvertisementsDetail } from '../Advertisements/AdvertisementsDetail';
 import { CampaignsDetail } from '../Campaigns/CampaignsDetail';
 import { PolicyDetails } from '../EMM/PolicyDetails';
