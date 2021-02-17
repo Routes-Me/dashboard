@@ -95,7 +95,7 @@ class PolicyDetails extends React.Component {
                                 </div>
                         </div>
                         <pre>
-                        <code style={codeStyle}>
+                        <code style={codeStyle}> 
                             {samplePolicy}
                         </code>
                         </pre>
