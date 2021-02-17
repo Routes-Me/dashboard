@@ -62,4 +62,6 @@
     UpdatePage: "UPDATE_PAGE",
 
 
+    Domain: "http://api.routesme.com/api/"
+    // Domain:'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/' 
 };
