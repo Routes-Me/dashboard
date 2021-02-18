@@ -13,7 +13,6 @@ import selectedMarker from '../../../../images/idle-marker.svg';
 import ClusterMarker from './markers/ClusterMarker';
 import SimpleMarker from './markers/SimpleMarker';
 import supercluster from 'points-cluster';
-import { susolvkaCoords } from '../../../data/fakeData';
 import IdleTimer from 'react-idle-timer';
 import { parseJwt } from '../../../../util/encrypt';
 import { restoreToken } from '../../../../util/localStorage';

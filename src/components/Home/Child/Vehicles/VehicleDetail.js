@@ -5,7 +5,7 @@ import Form from 'react-validation/build/form';
 import PageHandler from '../PageHandler';
 import * as VehicleAction from '../../../../Redux/Action';
 import * as InstitutionAction from '../../../../Redux/Action';
-import Modal from '../../../Dialog/Modal';
+import Modal from '../Dialog/Modal';
 import { vehicleConstants } from "../../../../constants/vehicleConstants";
 import {config} from "../../../../constants/config";
 import { returnObjectForSelectedId } from '../../../../util/basic';

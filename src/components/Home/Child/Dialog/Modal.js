@@ -1,7 +1,7 @@
 ﻿import React from 'react';
-import '../Style/home.css';
+import '../../../Style/home.css';
 import '../Dialog/modal.scss';
-import { vehicleConstants } from '../../constants/vehicleConstants';
+import { vehicleConstants } from '../../../../constants/vehicleConstants';
 
 class Modal extends React.Component {
 
