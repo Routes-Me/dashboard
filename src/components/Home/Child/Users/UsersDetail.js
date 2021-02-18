@@ -6,7 +6,7 @@ import * as InstitutionAction from '../../../../Redux/Action';
 import Form from 'react-validation/build/form';
 import { encryptAndEncode } from '../../../../util/encrypt';
 import {config} from "../../../../constants/config";
-import PageHandler from '../../../PageHandler';
+import PageHandler from '../PageHandler';
 import { returnObjectForSelectedId } from '../../../../util/basic';
 
 

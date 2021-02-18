@@ -1,12 +1,12 @@
 ﻿import React, { Component } from 'react';
-import Detail from '../../../Detail/Detail';
 import { connect } from 'react-redux';
-import { userConstants } from '../../../../constants/userConstants';
+import Detail from '../Detail/Detail';
 import * as InstitutionAction from '../../../../Redux/Action';
-import '../../../Detail/Detail.css';
-import { institutionConstants } from '../../../../constants/institutionConstants';
-import PageHandler from '../../../PageHandler';
+import '../Detail/Detail.css';
+import PageHandler from '../PageHandler';
 import { config } from '../../../../constants/config';
+import { userConstants } from '../../../../constants/userConstants';
+import { institutionConstants } from '../../../../constants/institutionConstants';
 
 class Institutions extends Component {
 

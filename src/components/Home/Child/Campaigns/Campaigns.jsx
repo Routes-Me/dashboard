@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import Detail from '../../../Detail/Detail';
 import { connect } from 'react-redux';
+import Detail from '../Detail/Detail';
 import { userConstants } from '../../../../constants/userConstants';
 import * as AdvertisementAction from '../../../../Redux/Action';
-import '../../../Detail/Detail.css';
+import '../Detail/Detail.css';
 import { advertisementsConstants } from '../../../../constants/advertisementConstants';
-import PageHandler from '../../../PageHandler';
+import PageHandler from '../PageHandler';
 import { config } from '../../../../constants/config';
-import Status from '../../../Advertisements/RowItem/Status';
+import Status from '../Advertisements/RowItem/Status';
 
 class Campaigns extends Component {
 
