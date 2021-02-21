@@ -20,9 +20,6 @@ function Analytics(advertisementList) {
         {name: 'KFC',               iOS: 1,   Android: 0,   web: 0,  Windows: 0,   Mac:0} 
     ];
 
-
-    
-
     return (
 
         

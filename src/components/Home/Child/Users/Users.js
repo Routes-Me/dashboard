@@ -4,9 +4,9 @@ import Detail from '../Detail/Detail';
 import * as UserAction from '../../../../Redux/Action';
 import PageHandler from '../PageHandler';
 import '../Detail/Detail.css';
-import { isSuperUser } from '../../../../util/basic';
 import { config } from '../../../../constants/config';
 import { userConstants } from '../../../../constants/userConstants';
+import { isSU, isROU } from '../../../../util/basic';
 
 class Users extends Component {
 
@@ -26,7 +26,7 @@ class Users extends Component {
 
     //Load Data
     componentDidMount() {
-        this.props.getUsersList(1, config.Pagelimit,this.props.user.InstitutionId);
+        this.props.getUsersList(1, config.Pagelimit,this.props.user);
     }
 
     //Handle SubMenu Toggle for the Table
@@ -102,7 +102,7 @@ class Users extends Component {
                                     <td>{user.email}</td>
                                     <td>{user.phone}</td>
                                     <td>{user.createdAt}</td>
-                                    {isSuperUser(this.props.user.InstitutionId) &&
+                                    {!isROU(this.props.user) &&
                                     <td className="width20" >
                                         <div className="edit-popup">
                                             <div className="edit-delet-butt" onClick={e => this.openSubMenuForUserId(e, user.userId)}>
@@ -144,7 +144,7 @@ class Users extends Component {
                         <div className="top-part-vehicles-search padding-lr-80">
                             <div className="header-add-butt">
                                 <h3>Users</h3>
-                                {isSuperUser(this.props.user.InstitutionId) &&
+                                {!isROU(this.props.user) &&
                                 <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Invite User</a>}
                             </div>
 

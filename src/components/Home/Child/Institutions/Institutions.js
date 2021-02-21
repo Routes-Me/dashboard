@@ -7,6 +7,7 @@ import PageHandler from '../PageHandler';
 import { config } from '../../../../constants/config';
 import { userConstants } from '../../../../constants/userConstants';
 import { institutionConstants } from '../../../../constants/institutionConstants';
+import { isROU } from '../../../../util/basic';
 
 class Institutions extends Component {
 
@@ -95,6 +96,7 @@ class Institutions extends Component {
                                         <td>{institution.institutionId}</td>
                                         <td>{institution.name}</td>
                                         <td>{institution.phoneNumber}</td>
+                                        {!isROU(this.props.user) &&
                                         <td className="width44" >
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForInstitutionId(e, institution.institutionId)}>
@@ -107,7 +109,7 @@ class Institutions extends Component {
                                                     <li><a onClick={e => this.deleteInstitution(e, institution.institutionId)}>Delete</a></li>
                                                 </ul>
                                             </div>
-                                        </td>
+                                        </td>}
                                     </tr>
                                 ))
                             }
@@ -136,7 +138,8 @@ class Institutions extends Component {
                         <div className="top-part-vehicles-search padding-lr-80">
                             <div className="header-add-butt">
                                 <h3>Institutions</h3>
-                                <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Add Institution</a>
+                                {!isROU(this.props.user) &&
+                                <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Add Institution</a>}
                             </div>
 
                             <div className="search-part">
@@ -159,6 +162,7 @@ const mapStateToProps = (state) => {
 
         return {
             InstitutionsList: state.InstitutionStore.Institutions,
+            user: state.Login.user,
             ApplicationState: state.InstitutionStore.ActionState
     }
 
