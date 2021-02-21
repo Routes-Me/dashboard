@@ -53,13 +53,13 @@ export const config = {
     SU : "super",
     ROU : "support",
     
-    Domain:'http://api.routesme.com/api/',
+    Domain:'http://stage.api.routesme.com/api/',
 
     HubURL: 'http://stage.hub.routesme.com/trackServiceHub',
     
 
     Pagelimit : 20,
     DropDownLimit : 5,
-    Version : 'DVS18022021'
+    Version : 'DVS21022021'
 
 };
