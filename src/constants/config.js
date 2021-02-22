@@ -52,11 +52,11 @@ export const config = {
 
     SU : "super",
     ROU : "support",
-    
-    Domain:'http://stage.api.routesme.com/api/',
+
+    Domain:'http://api.routesme.com/api/',
 
     HubURL: 'http://stage.hub.routesme.com/trackServiceHub',
-    
+
 
     Pagelimit : 20,
     DropDownLimit : 5,
