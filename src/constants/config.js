@@ -52,21 +52,14 @@ export const config = {
 
     SU : "super",
     ROU : "support",
-
-    StageSuperInstitution : '78132467',
-    SuperInstitution      : '1580030173', // 1580030173 78132467
     
-    Domain:'http://api.routesme.com/api/',
+    Domain:'http://stage.api.routesme.com/api/',
 
-    // Domain:  'http://stage.api.routesme.com/api/', //'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5000/api/',
-
-    HubURL: 'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub',
+    HubURL: 'http://stage.hub.routesme.com/trackServiceHub',
     
-    
-    //HubURL: 'http://vmtproject.uaenorth.cloudapp.azure.com:5002/trackServiceHub',
 
     Pagelimit : 20,
     DropDownLimit : 5,
-    Version : 'DVS14022021'
+    Version : 'DVS21022021'
 
 };
