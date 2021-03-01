@@ -55,11 +55,13 @@ export const config = {
     
     Domain:'http://stage.api.routesme.com/api/',
 
-    HubURL: 'http://stage.hub.routesme.com/trackServiceHub',
+    HubURL: 'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub',
     
 
     Pagelimit : 20,
     DropDownLimit : 5,
-    Version : 'DVS21022021'
+    Version : 'DVS01032021',
+
+    
 
 };

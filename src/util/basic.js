@@ -44,9 +44,6 @@ export function isSU(user){
     let role = user.Roles;
     return role.includes(config.SU) || role.includes(config.ROU) ? true : false ;
 
-    // let currentDomain = config.Domain;
-    // let superInstitution = isProductionDomain(currentDomain)? config.SuperInstitution : config.StageSuperInstitution 
-    // return user.InstitutionId === superInstitution ? true : false // 1580030173 78132467
 }
 
 export function isROU(user){
