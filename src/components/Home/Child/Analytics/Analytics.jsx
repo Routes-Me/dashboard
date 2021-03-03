@@ -8,12 +8,12 @@ function Analytics(advertisementList) {
     const data =  
     [
         {name: 'Routes',            iOS: 125, Android: 50,  web: 13, Windows: 61,  Mac:20},
-        {name: 'Center Point',      iOS: 29,  Android: 27,  web: 0,  Windows: 20,  Mac:0},
+        {name: 'Center Point',      iOS: 30,  Android: 28,  web: 0,  Windows: 20,  Mac:0},
         {name: 'McDonalds',         iOS: 35,  Android: 20,  web: 2,  Windows: 14,  Mac:0},
         {name: 'Zain',              iOS: 27,  Android: 19,  web: 0,  Windows: 12,  Mac:0},
         {name: 'City Center',       iOS: 28,  Android: 9,   web: 0,  Windows: 14,  Mac:4},
-        {name: 'ooredoo',           iOS: 19,  Android: 4,   web: 3,  Windows: 4,   Mac:11},
-        {name: 'Dominos',           iOS: 17,  Android: 4,   web: 2,  Windows: 12,   Mac:0},
+        {name: 'ooredoo',           iOS: 23,  Android: 4,   web: 3,  Windows: 6,   Mac:11},
+        {name: 'Dominos',           iOS: 18,  Android: 4,   web: 2,  Windows: 13,   Mac:0},
         {name: 'Xcite',             iOS: 14,  Android: 8,   web: 0,  Windows: 10,  Mac:0},
         {name: 'Best',              iOS: 10,  Android: 5,   web: 0,  Windows: 5,   Mac:0},
         {name: 'Huawei',            iOS: 9,   Android: 2,   web: 0,  Windows: 5,   Mac:0},
