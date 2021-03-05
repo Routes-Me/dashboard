@@ -8,7 +8,7 @@ import ReactPlayer from 'react-player';
 import '../Advertisements/Advertisement.css';
 import { config } from '../../../../constants/config';
 import Launch from '../../../Launch';
-import SolarSystemLoading from 'react-loadingg/lib/SolarSystemLoading';
+import LoopCircleLoading from 'react-loadingg/lib/LoopCircleLoading';
 import { advertisementsConstants } from '../../../../constants/advertisementConstants';
 
 
@@ -119,7 +119,7 @@ class AdvertisementsDetail extends React.Component {
                                 <div className="container row topPanel">
                                     <div className="banner1">
                                     {
-                                        this.state.videoUrl === "" ? videoText : this.state.videoUrl ===  advertisementsConstants.loading ?  <SolarSystemLoading color='#234391' style={{ width: '2px', height:'2px'}}/> :
+                                        this.state.videoUrl === "" ? videoText : videoText ===  advertisementsConstants.uploadProgress ?  <LoopCircleLoading color='#234391' style={{ width: '4em', height:'auto'}}/> :
                                             <ReactPlayer
                                                 width='100%'
                                                 height='100%'
@@ -129,7 +129,7 @@ class AdvertisementsDetail extends React.Component {
                                     </div>
                                     <div className="banner2">
                                             {this.state.imageUrl === "" ? imageText : 
-                                             ? <SolarSystemLoading color='#234391' style={{ width: '2px', height:'2px'}}/> : 
+                                             imageText ===  advertisementsConstants.uploadProgress ? <LoopCircleLoading color='#234391' style={{ width: '4em', height:'auto'}}/> : 
                                             <img className="img-fluid" alt="" src={imageText} />}
                                     </div>
                                 </div>
