@@ -103,7 +103,7 @@ class Campaigns extends Component {
                                                     </div>
                                                     <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === campaign.campaignId ? 'inline-block' : 'none' }}>
                                                         <li><a onClick={e => this.showDetailScreen(e, campaign)}>Edit</a></li>
-                                                        <li><a onClick={e => this.deleteCampaign(e, campaign.campaignId)}>Delete</a></li>
+                                                        {/* <li><a onClick={e => this.deleteCampaign(e, campaign.campaignId)}>Delete</a></li> */}
                                                     </ul>
                                                 </div>
                                             </td>}

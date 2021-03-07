@@ -142,7 +142,7 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 loading: true,
                 hasError: false,
-                Media:''
+                Media:action.payload
             };
         case advertisementsConstants.uploadMedia_SUCCESS:
             return {
