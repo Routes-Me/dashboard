@@ -123,7 +123,7 @@ class Advertisements extends Component {
                                                 </div>
                                                 <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === Advertisement.id ? 'inline-block' : 'none' }}>
                                                     <li><a onClick={e => this.showDetailScreen(e, Advertisement)}>Edit</a></li>
-                                                    <li><a  onClick={e => this.deleteAdvertisement(e, Advertisement.id)}>Delete</a></li>
+                                                    {/* <li><a  onClick={e => this.deleteAdvertisement(e, Advertisement.id)}>Delete</a></li> */}
                                                 </ul>
                                             </div>
                                         </td>}

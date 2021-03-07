@@ -122,7 +122,7 @@ class Vehicles extends Component {
                                                 </div>
                                                 <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === Vehicle.id ? 'inline-block' : 'none' }}>
                                                     <li><a onClick={e => this.showDetailScreen(e, Vehicle)}>Edit</a></li>
-                                                    <li><a onClick={e => this.deleteVehicle(e, Vehicle.id)}>Delete</a></li>
+                                                    {/* <li><a onClick={e => this.deleteVehicle(e, Vehicle.id)}>Delete</a></li> */}
                                                 </ul>
                                             </div>
                                         </td>}

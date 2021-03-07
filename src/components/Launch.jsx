@@ -5,13 +5,11 @@ import { SolarSystemLoading } from 'react-loadingg';
 function Launch() {
 
     return (
-        <div>
             <div style={{position:'relative', width:'100%', height:'100vh', backgroundColor:'#fbfbfb', justifyContent:'center'}}>
-					<a><img style={{position: 'relative', top:'50%', left:'50%', width: '150px', height:'150px', transform:'translate(-50%, -50%)'}} alt="" src={logo} /></a>
-                    <SolarSystemLoading color='#234391' style={{top:'50%', left:'50%', marginTop: '5%', transform:'translate(-50%, -50%)', width: '80px', height:'80px'}}/>
-                    <p style={{position: 'absolute', bottom:'0', width:'100%', textAlign:'center', fontSize:'20px'}}>Routes Company</p>
+					<img style={{position: 'relative', top:'50%', left:'50%', width: '10em', height:'10em', transform:'translate(-50%, -50%)'}} alt="" src={logo} />
+                    <SolarSystemLoading color='#234391' style={{ position:'realtive', top:'50%', left:'50%', marginTop: '5em', transform:'translate(-50%, -50%)', width: '80px', height:'auto'}}/>
+                    <p style={{position: 'absolute', bottom:'0', width:'100%', textAlign:'center', fontSize:'1vw'}}>Routes Company</p>
 		    </div>
-        </div>
     )
 }
 
