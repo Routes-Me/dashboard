@@ -22,7 +22,8 @@ export async function uploadMediaIntoBlob(file, fileType){
         //const blobName = filename + '_' + new Date().getTime() + ext
         const blobName = generateUUIDNameForBlob() + ext ;
 
-        const containerClient = blobService.getContainerClient(containerName);
+        const containerNameStage = containerName + '/Stage';
+        const containerClient = blobService.getContainerClient(containerNameStage);
         await containerClient.createIfNotExists(containerName);
 
 
