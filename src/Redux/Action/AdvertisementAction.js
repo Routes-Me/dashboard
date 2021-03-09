@@ -61,8 +61,6 @@ export function getDayIntervals() {
 
 export function uploadMedia(mediaURL) {
 
-
-
     return dispatch => {
 
         dispatch(requestUpload);
