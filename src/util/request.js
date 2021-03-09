@@ -4,7 +4,7 @@ import { history } from "../helper/history";
 import {getToken, clearStorage} from '../util/localStorage';
 
 const instance = axios.create({
-  baseURL: config.Domain,
+  baseURL: process.env.REACT_APP_DOMAIN,
 });
 
 // export async function setAuthorizationToken(token) {
