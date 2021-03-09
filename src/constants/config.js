@@ -53,7 +53,7 @@ export const config = {
     SU : "super",
     ROU : "support",
     
-    Domain:'http://stage.api.routesme.com/api/',
+    Domain:'https://stage.api.routesme.com/api/',
 
     HubURL: 'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub',
     
