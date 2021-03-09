@@ -9,8 +9,8 @@ export async function uploadMediaIntoBlob(file, fileType){
     const containerName      = process.env.REACT_APP_CONTAINER;
 
     const blobService = new BlobServiceClient(
-        `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
-      );
+      `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
+    );
 
       if (fileType==='image') {
         file = dataURLtoFile(file, "compressedImageFile.jpg");
