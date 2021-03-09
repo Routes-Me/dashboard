@@ -13,14 +13,18 @@ function Analytics(advertisementList) {
         {name: 'Zain',              iOS: 27,  Android: 19,  web: 0,  Windows: 12,  Mac:0},
         {name: 'City Center',       iOS: 28,  Android: 9,   web: 0,  Windows: 14,  Mac:4},
         {name: 'ooredoo',           iOS: 25,  Android: 7,   web: 3,  Windows: 8,   Mac:11},
-        {name: 'Dominos',           iOS: 19,  Android: 2,   web: 2,  Windows: 14,   Mac:0},
+        {name: 'Dominos',           iOS: 20,  Android: 2,   web: 2,  Windows: 14,   Mac:0},
         {name: 'Xcite',             iOS: 14,  Android: 8,   web: 0,  Windows: 10,  Mac:0},
         {name: 'Best',              iOS: 10,  Android: 5,   web: 0,  Windows: 5,   Mac:0},
         {name: 'Huawei',            iOS: 9,   Android: 2,   web: 0,  Windows: 5,   Mac:0},
+        {name: 'Turkish Grill',     iOS: 6,   Android: 2,   web: 0,  Windows: 2,   Mac:0}, 
+        {name: 'Vaccination',       iOS: 3,   Android: 0,   web: 0,  Windows: 2,   Mac:0},
         {name: 'I save',            iOS: 3,   Android: 0,   web: 0,  Windows: 0,   Mac:0},
         {name: 'Turkish Grill',     iOS: 5,   Android: 2,   web: 0,  Windows: 2,   Mac:0}, 
         {name: 'KFC',               iOS: 1,   Android: 0,   web: 0,  Windows: 0,   Mac:0} 
+
     ];
+
 
     return (
 
