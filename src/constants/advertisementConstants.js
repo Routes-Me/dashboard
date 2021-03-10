@@ -51,6 +51,10 @@
     updateTheAdvertisementList : "UPDATE_THEADVERTISEMENTLIST",
     updateTheCampaignsList : 'UPDATE_THECAMPAIGNSLIST',
 
-    progressOnMediaUpload :  'PROGRESS_ONMEDIAUPLOAD'
+    progressOnMediaUpload :  'PROGRESS_ONMEDIAUPLOAD',
+
+    video : 'mp4',
+    image : 'jpeg',
+    uploadProgress : 'Loading'
 
 }

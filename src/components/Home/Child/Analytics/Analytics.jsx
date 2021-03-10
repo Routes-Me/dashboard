@@ -20,7 +20,9 @@ function Analytics(advertisementList) {
         {name: 'Turkish Grill',     iOS: 6,   Android: 2,   web: 0,  Windows: 2,   Mac:0}, 
         {name: 'Vaccination',       iOS: 3,   Android: 0,   web: 0,  Windows: 2,   Mac:0},
         {name: 'I save',            iOS: 3,   Android: 0,   web: 0,  Windows: 0,   Mac:0},
-        {name: 'KFC',               iOS: 1,   Android: 0,   web: 0,  Windows: 0,   Mac:0}
+        {name: 'Turkish Grill',     iOS: 5,   Android: 2,   web: 0,  Windows: 2,   Mac:0}, 
+        {name: 'KFC',               iOS: 1,   Android: 0,   web: 0,  Windows: 0,   Mac:0} 
+
     ];
 
 
