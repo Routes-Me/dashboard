@@ -9,7 +9,7 @@ import {setToken, clearStorage} from '../../util/localStorage';
 
 export function userSignInRequest(username, password) {
   
-  console.log("ENvironment Mode :", process.env.NODE_ENV);
+  console.log("Path Mode :", process.env.REACT_APP_APIDOMAIN);
   return dispatch => {
       dispatch(request({ username, password }));
       let userObject = {
