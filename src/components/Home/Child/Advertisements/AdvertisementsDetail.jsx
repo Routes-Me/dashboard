@@ -7,6 +7,7 @@ import { Extras } from './Detail/Extras';
 import ReactPlayer from 'react-player';
 import '../Advertisements/Advertisement.css';
 import { config } from '../../../../constants/config';
+import { advertisementsConstants } from '../../../../constants/advertisementConstants';
 
 
 class AdvertisementsDetail extends React.Component {
@@ -39,31 +40,35 @@ class AdvertisementsDetail extends React.Component {
 
     static getDerivedStateFromProps (props, state){
 
-        if(props.advertisementToDisplay !== undefined)
-        {
-            if(props.advertisementToDisplay !== state.advertisement)
-            {
-                return {
-                    advertisement : props.advertisementToDisplay,
-                    imageUrl: props.advertisementToDisplay.media.mediaType === 'image'? props.advertisementToDisplay.media.url : '',
-                    videoUrl: props.advertisementToDisplay.media.mediaType === 'video'? props.advertisementToDisplay.media.url : ''
-                }
-            }
-        }
-        if (props.UploadedMedia!==undefined && (props.UploadedMedia !== ""))
-        {
-            // if (props.UploadedMedia.Type !== state.mediaType) 
-            // {
-                return props.UploadedMedia.Type === 'mp4'? { videoUrl: props.UploadedMedia.Url, mediaType:'mp4', imageUrl:""} : { imageUrl: props.UploadedMedia.Url, mediaType:"jpg" , videoUrl:""};
-            // }
-        }
         if(state.submitBasic)
         {
-            if(!props.Loading && props.NewAdvertisement !=='')
+            if(props.ApplicationState === advertisementsConstants.saveAdvertisements_SUCCESS && props.NewAdvertisement !=='')
             {
                 return {tabIndex :2};
             }
         }
+        else
+        {
+            if(props.advertisementToDisplay !== undefined)
+            {
+                if(props.advertisementToDisplay !== state.advertisement)
+                {
+                    return {
+                        advertisement : props.advertisementToDisplay,
+                        imageUrl: props.advertisementToDisplay.media.mediaType === 'image'? props.advertisementToDisplay.media.url : '',
+                        videoUrl: props.advertisementToDisplay.media.mediaType === 'video'? props.advertisementToDisplay.media.url : ''
+                    }
+                }
+            }
+            if (props.UploadedMedia!==undefined && (props.UploadedMedia !== ""))
+            {
+                // if (props.UploadedMedia.Type !== state.mediaType) 
+                // {
+                    return props.UploadedMedia.Type === 'mp4'? { videoUrl: props.UploadedMedia.Url, mediaType:'mp4', imageUrl:""} : { imageUrl: props.UploadedMedia.Url, mediaType:"jpg" , videoUrl:""};
+                // }
+            }
+        }
+
         return null;
     }
 

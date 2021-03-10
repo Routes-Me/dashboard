@@ -3,8 +3,13 @@ import { config } from "../constants/config";
 import { history } from "../helper/history";
 import {getToken, clearStorage} from '../util/localStorage';
 
+
+const apiURL = process.env.REACT_APP_APIDOMAIN;
+
+console.log('BASE URL in Axios', apiURL);
+
 const instance = axios.create({
-  baseURL: process.env.REACT_APP_APIDOMAIN,
+  baseURL: config.Domain
 });
 
 // export async function setAuthorizationToken(token) {
