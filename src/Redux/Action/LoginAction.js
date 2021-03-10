@@ -9,7 +9,7 @@ import {setToken, clearStorage} from '../../util/localStorage';
 
 export function userSignInRequest(username, password) {
   
-  console.log("ENvironment Mode :", process.env.NODE_ENV);
+  console.log("Environment :", process.env.NODE_ENV);
   return dispatch => {
       dispatch(request({ username, password }));
       let userObject = {

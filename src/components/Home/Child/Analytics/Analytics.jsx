@@ -9,7 +9,7 @@ function Analytics(advertisementList) {
     [
         {name: 'Routes',            iOS: 125, Android: 50,  web: 13, Windows: 61,  Mac:20},
         {name: 'Center Point',      iOS: 30,  Android: 31,  web: 0,  Windows: 20,  Mac:0},
-        {name: 'McDonalds',         iOS: 35,  Android: 22,  web: 2,  Windows: 16,  Mac:0},
+        {name: 'McDonalds',         iOS: 37,  Android: 22,  web: 2,  Windows: 17,  Mac:0},
         {name: 'Zain',              iOS: 27,  Android: 19,  web: 0,  Windows: 12,  Mac:0},
         {name: 'City Center',       iOS: 28,  Android: 9,   web: 0,  Windows: 14,  Mac:4},
         {name: 'ooredoo',           iOS: 25,  Android: 7,   web: 3,  Windows: 8,   Mac:11},
