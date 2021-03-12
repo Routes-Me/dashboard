@@ -228,16 +228,17 @@ function filterCampaignList(CampaignList, Campaigns)
 }
 
 export function addAdvertisement(advertisement, withPromotion) {
+    const addPromo = withPromotion ? advertisementsConstants.saveAdvertisements_SUCCESS:advertisementsConstants.updateTheAdvertisementList;
     return dispatch => {
         dispatch(addAdvertisementRequest())
         apiHandler.post('advertisements', advertisement)
             .then(
-                response => { dispatch(savedAdvertisement(response.data, withPromotion)) },
+                response => { dispatch(savedAdvertisement(response.data, addPromo)) },
                 error => { dispatch(saveAdvertisementFailure(error)) }
             )
     }
     function addAdvertisementRequest() { return { type: advertisementsConstants.saveAdvertisements_REQUEST }; }
-    function savedAdvertisement(advertisement, withPromotion) { return { type: withPromotion?advertisementsConstants.saveAdvertisements_SUCCESS:advertisementsConstants.updateTheAdvertisementList, payload:advertisement }; }
+    function savedAdvertisement(advertisement, withPromotion) { return { type: withPromotion, payload:advertisement }; }
     function saveAdvertisementFailure(error) { alert(error.response.data.title); return { type: advertisementsConstants.saveAdvertisements_ERROR, payload:error }; }
 }
 

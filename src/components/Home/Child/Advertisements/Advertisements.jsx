@@ -66,6 +66,7 @@ class Advertisements extends Component {
         
             if(props.ApplicationState === advertisementsConstants.updateTheAdvertisementList)
             {
+                this.props.getAdvertisements(1,config.Pagelimit);
                 if(state.showDetails){
                     return {showDetails : false};
                 }

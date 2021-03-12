@@ -69,7 +69,7 @@ class AdvertisementsDetail extends React.Component {
             }
         }
 
-        return null;
+        // return null;
     }
 
     onTabClick = (index) => {
@@ -166,7 +166,8 @@ const mapStateToProps = (state) => {
         SubTitle: state.AdvertisementStore.SubTitle,
         Loading : state.AdvertisementStore.loading,
         NewAdvertisement : state.AdvertisementStore.Advertisement,
-        UploadedMedia : state.AdvertisementStore.Media
+        UploadedMedia : state.AdvertisementStore.Media,
+        ApplicationState: state.AdvertisementStore.ActionState
     }
 
 }
