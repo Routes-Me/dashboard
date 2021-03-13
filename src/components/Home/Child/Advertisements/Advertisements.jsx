@@ -66,25 +66,12 @@ class Advertisements extends Component {
         
             if(props.ApplicationState === advertisementsConstants.updateTheAdvertisementList)
             {
-                this.props.getAdvertisements(1,config.Pagelimit);
+                props.getAdvertisements(1,config.Pagelimit);
                 if(state.showDetails){
                     return {showDetails : false};
                 }
             }
     }
-
-
-    // componentDidUpdate(prevProps, prevState) {
-    //     if (this.props.ApplicationState !== prevProps.ApplicationState) {
-    //         if(this.props.ApplicationState === advertisementsConstants.updateTheAdvertisementList)
-    //         {
-    //             this.props.getAdvertisements();
-    //             if(prevState.showDetails){
-    //                 this.setState({showDetails : false});
-    //             }
-    //         }
-    //     }
-    //   }
 
     //Delete Vehicle function
 
@@ -153,7 +140,7 @@ class Advertisements extends Component {
 
         let content = this.renderAllAdvertisementTable(this.props.AdvertisementList);
 
-        {this.props.ApplicationState === advertisementsConstants.updateTheAdvertisementList && this.props.getAdvertisements()}
+        // {this.props.ApplicationState === advertisementsConstants.updateTheAdvertisementList && this.props.getAdvertisements()}
 
         return (
 
