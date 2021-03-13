@@ -10,6 +10,7 @@ import { config } from '../../../../../constants/config';
 import { uploadMediaIntoBlob } from '../../../../../util/blobStorage';
 import { convertHexToRGBint, convertRGBintToHex, returnCampaignIds, returnObjectForSelectedId } from "../../../../../util/basic";
 import PageHandler from '../../PageHandler';
+import { advertisementsConstants } from '../../../../../constants/advertisementConstants';
 
 
 class Basic extends React.Component {
@@ -61,17 +62,29 @@ class Basic extends React.Component {
     fileChangedHandler = async(event) => {
 
         let fileType = undefined;
+        var fileExtension ='';
         let file = event.target.files[0];
         if (file.type.includes('video')) {
+            fileExtension = advertisementsConstants.video;
             this.setState({ image: undefined })
             fileType = 'video';
             //this.props.uploadMedia(file);
         }
         else {
+            fileExtension = advertisementsConstants.image;
             this.setState({ video: undefined });
             fileType = 'image';
             file = await onImageCompress(file);
         }
+
+        
+            var media ={
+                Type : fileExtension,
+                Url  : 'Loading'
+            }
+
+        this.props.uploadRequest(media)
+
 
         const mediaURL = await uploadMediaIntoBlob(file, fileType);
 
@@ -274,6 +287,7 @@ const actionCreators = {
     getCampaigns: AdvertisementAction.getCampaigns,
     getDayIntervals: AdvertisementAction.getDayIntervals,
     getInstitutions: InstitutionAction.getInstitutions,
+    uploadRequest: AdvertisementAction.uploadRequest,
     uploadMedia: AdvertisementAction.uploadMedia,
     saveAdvertisement: AdvertisementAction.addAdvertisement
 

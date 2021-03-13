@@ -56,14 +56,16 @@ export function getDayIntervals() {
 }
 
 
-
+export function uploadRequest(media){
+    return dispatch => {
+        dispatch(requestUpload(media));
+    }
+}
 
 
 export function uploadMedia(mediaURL) {
 
     return dispatch => {
-
-        dispatch(requestUpload);
 
         const ext = mediaURL.substring(mediaURL.lastIndexOf('.'))
         let media = '';
@@ -71,14 +73,14 @@ export function uploadMedia(mediaURL) {
         if(ext === '.mp4')
         {
             media ={
-                Type : 'mp4',
+                Type : advertisementsConstants.video,
                 Url  : mediaURL
             }
         }
         else
         {
             media ={
-                Type : 'jpeg',
+                Type : advertisementsConstants.image,
                 Url  : mediaURL
             }
         }
@@ -86,13 +88,13 @@ export function uploadMedia(mediaURL) {
         
         
     }
-    function showProgress(progress) {return {type: advertisementsConstants.progressOnMediaUpload, payload: progress}}
-    function requestUpload() { return { type: advertisementsConstants.uploadMedia_REQUEST }; }
-    function uploadSuccessful(response) { return { type: advertisementsConstants.uploadMedia_SUCCESS, payload: response }; }
-    function uploadError(error) { return { type: advertisementsConstants.uploadMedia_ERROR, payload: error }; }
 
 }
 
+function showProgress(progress) {return {type: advertisementsConstants.progressOnMediaUpload, payload: progress}}
+function requestUpload(media) { return {type: advertisementsConstants.uploadMedia_REQUEST , payload: media}}
+function uploadSuccessful(response) { return { type: advertisementsConstants.uploadMedia_SUCCESS, payload: response }; }
+function uploadError(error) { return { type: advertisementsConstants.uploadMedia_ERROR, payload: error }; }
 
 
 

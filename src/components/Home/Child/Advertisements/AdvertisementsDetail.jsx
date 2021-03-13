@@ -7,6 +7,7 @@ import { Extras } from './Detail/Extras';
 import ReactPlayer from 'react-player';
 import '../Advertisements/Advertisement.css';
 import { config } from '../../../../constants/config';
+import LoopCircleLoading from 'react-loadingg/lib/LoopCircleLoading';
 import { advertisementsConstants } from '../../../../constants/advertisementConstants';
 
 
@@ -62,10 +63,7 @@ class AdvertisementsDetail extends React.Component {
             }
             if (props.UploadedMedia!==undefined && (props.UploadedMedia !== ""))
             {
-                // if (props.UploadedMedia.Type !== state.mediaType) 
-                // {
-                    return props.UploadedMedia.Type === 'mp4'? { videoUrl: props.UploadedMedia.Url, mediaType:'mp4', imageUrl:""} : { imageUrl: props.UploadedMedia.Url, mediaType:"jpg" , videoUrl:""};
-                // }
+                    return props.UploadedMedia.Type === advertisementsConstants.video? { videoUrl: props.UploadedMedia.Url, mediaType:advertisementsConstants.video, imageUrl:""} : { imageUrl: props.UploadedMedia.Url, mediaType:"jpg" , videoUrl:""};
             }
         }
 
@@ -124,7 +122,7 @@ class AdvertisementsDetail extends React.Component {
                                 <div className="container row topPanel">
                                     <div className="banner1">
                                     {
-                                        this.state.videoUrl === "" ? videoText :
+                                        this.state.videoUrl === "" ? videoText : videoText ===  advertisementsConstants.uploadProgress ?  <LoopCircleLoading color='#234391' style={{ width: '4em', height:'auto'}}/> :
                                             <ReactPlayer
                                                 width='100%'
                                                 height='100%'
@@ -133,7 +131,9 @@ class AdvertisementsDetail extends React.Component {
                                     }
                                     </div>
                                     <div className="banner2">
-                                            {this.state.imageUrl === "" ? imageText : <img className="img-fluid" alt="" src={imageText} />}
+                                            {this.state.imageUrl === "" ? imageText : 
+                                             imageText ===  advertisementsConstants.uploadProgress ? <LoopCircleLoading color='#234391' style={{ width: '4em', height:'auto'}}/> : 
+                                            <img className="img-fluid" alt="" src={imageText} />}
                                     </div>
                                 </div>
                                 <div className="container row bottomPanel">
