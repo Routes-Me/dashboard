@@ -15,10 +15,12 @@ class List extends Component {
     }
 
     async componentDidMount() {
-        // await this.props.getUsersList();
+        await this.props.getAuthorization();
     }
 
     onTabClick = (index) => {
+
+        {index === 3 && this.loadDiv(this.props.webToken);}
         this.setState({ tabIndex: index });
         // this.updateTheList(index);
     }
@@ -28,6 +30,19 @@ class List extends Component {
         this.setState({
             showDetails: !this.state.showDetails
         })
+    }
+
+    
+    loadDiv = (webToken) => {
+        console.log("LoadDivFn Called with Passedtoken in component::: ", webToken);
+        this.props.gApiClient.load('gapi.iframes', function() {
+        var options = {
+          'url': "https://play.google.com/managed/browse?token="+webToken+"&mode=SELECT",
+          'where': document.getElementById('container'),
+          'attributes': { style: 'width: 100%; height:800px', scrolling: 'yes'}
+        }
+        var iframe = gapi.iframes.getContext().openChild(options);
+        });
     }
 
     showList(list) {
@@ -125,6 +140,9 @@ class List extends Component {
                             </tr>
                         </tbody>
                     </table>}
+                {this.state.tabIndex === 3 &&
+                    <div id="container" style="width: 100%; height: 200px;"></div>
+                }
             </div>
             </div>
         )
@@ -148,7 +166,7 @@ class List extends Component {
                         <div className="top-part-vehicles-search padding-lr-80">
                         <div className="header-add-butt">
                             <h3>EMM Console</h3>
-                            {/* <button className='filter-btn'><image className='filter-icon'/> AUthorize</button> */}
+                            <button className='filter-btn'><image className='filter-icon'/> AUthorize</button>
                             {tabIndex===2 && <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><image className='filter-icon'/> Add</a>}
                         </div>
                         <div className="headerTabStyle" style={{maxWidth:'25%',marginTop:'13px'}}>
@@ -172,12 +190,15 @@ class List extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        List: state.UserStore.Users
+        List: state.UserStore.Users,
+        gApiClient: state.GApiStore.GApiClient,
+        webToken: state.GApiStore.WebToken
     }
 }
 
 const actionCreators = {
-    getUsersList: GApiAction.authenticate
+    getAuthorization: GApiAction.authenticate,
+    createWebTokenForiFrame: GApiAction.createWebToken
 };
 
 const connectedEMM = connect(mapStateToProps, actionCreators)(List);
