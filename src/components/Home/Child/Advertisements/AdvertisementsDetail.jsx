@@ -7,7 +7,6 @@ import { Extras } from './Detail/Extras';
 import ReactPlayer from 'react-player';
 import '../Advertisements/Advertisement.css';
 import { config } from '../../../../constants/config';
-import Launch from '../../../Launch';
 import LoopCircleLoading from 'react-loadingg/lib/LoopCircleLoading';
 import { advertisementsConstants } from '../../../../constants/advertisementConstants';
 
@@ -42,29 +41,33 @@ class AdvertisementsDetail extends React.Component {
 
     static getDerivedStateFromProps (props, state){
 
-        if(props.advertisementToDisplay !== undefined)
-        {
-            if(props.advertisementToDisplay !== state.advertisement)
-            {
-                return {
-                    advertisement : props.advertisementToDisplay,
-                    imageUrl: props.advertisementToDisplay.media.mediaType === 'image'? props.advertisementToDisplay.media.url : '',
-                    videoUrl: props.advertisementToDisplay.media.mediaType === 'video'? props.advertisementToDisplay.media.url : ''
-                }
-            }
-        }
-        if (props.UploadedMedia!==undefined && (props.UploadedMedia !== ""))
-        {
-                return props.UploadedMedia.Type === advertisementsConstants.video? { videoUrl: props.UploadedMedia.Url, mediaType:advertisementsConstants.video, imageUrl:""} : { imageUrl: props.UploadedMedia.Url, mediaType:"jpg" , videoUrl:""};
-        }
         if(state.submitBasic)
         {
-            if(!props.Loading && props.NewAdvertisement !=='')
+            if(props.ApplicationState === advertisementsConstants.saveAdvertisements_SUCCESS && props.NewAdvertisement !=='')
             {
                 return {tabIndex :2};
             }
         }
-        return null;
+        else
+        {
+            if(props.advertisementToDisplay !== undefined)
+            {
+                if(props.advertisementToDisplay !== state.advertisement)
+                {
+                    return {
+                        advertisement : props.advertisementToDisplay,
+                        imageUrl: props.advertisementToDisplay.media.mediaType === 'image'? props.advertisementToDisplay.media.url : '',
+                        videoUrl: props.advertisementToDisplay.media.mediaType === 'video'? props.advertisementToDisplay.media.url : ''
+                    }
+                }
+            }
+            if (props.UploadedMedia!==undefined && (props.UploadedMedia !== ""))
+            {
+                    return props.UploadedMedia.Type === advertisementsConstants.video? { videoUrl: props.UploadedMedia.Url, mediaType:advertisementsConstants.video, imageUrl:""} : { imageUrl: props.UploadedMedia.Url, mediaType:"jpg" , videoUrl:""};
+            }
+        }
+
+        // return null;
     }
 
     onTabClick = (index) => {
@@ -144,7 +147,7 @@ class AdvertisementsDetail extends React.Component {
                 </div>
 
                 <div className="footerStyle">
-                    <button type="submit" style={{ float: 'left' }} onClick={(e) => this.submitPromotion()}> Create </button>
+                    <button type="submit" style={{ float: 'left' }} onClick={(e) => this.submitPromotion()}>{this.props.Loading && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />} <span>Create</span>  </button>
                     <button className="btn btn-light" style={{ marginLeft: '107px' }} onClick={(e) => this.onTabClick(1)}> <span class="glyphicon glyphicon-menu-left" aria-hidden="true" /> Previous</button>
                     <button className="next" style={{ marginLeft: '7px' }} onClick={(e) => this.onCreate()}> Next: Extras <span class="glyphicon glyphicon-menu-right" aria-hidden="true" /> </button>
                 </div>
@@ -163,7 +166,8 @@ const mapStateToProps = (state) => {
         SubTitle: state.AdvertisementStore.SubTitle,
         Loading : state.AdvertisementStore.loading,
         NewAdvertisement : state.AdvertisementStore.Advertisement,
-        UploadedMedia : state.AdvertisementStore.Media
+        UploadedMedia : state.AdvertisementStore.Media,
+        ApplicationState: state.AdvertisementStore.ActionState
     }
 
 }

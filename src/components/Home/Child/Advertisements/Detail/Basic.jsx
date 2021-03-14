@@ -159,7 +159,7 @@ class Basic extends React.Component {
             }
         }
 
-        this.props.saveAdvertisement( advertisement, action );
+        this.props.saveAdvertisement( advertisement, this.props.withPromotion );
 
     }
 

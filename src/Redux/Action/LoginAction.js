@@ -9,6 +9,8 @@ import {setToken, clearStorage} from '../../util/localStorage';
 
 export function userSignInRequest(username, password) {
   
+  console.log("Environment :", process.env.NODE_ENV);
+  console.log('API Domain :', process.env.REACT_APP_APIDOMAIN);
   return dispatch => {
       dispatch(request({ username, password }));
       let userObject = {
@@ -31,6 +33,7 @@ export function userSignInRequest(username, password) {
               error => {
                   dispatch(failure(error.message.toString()));
                   console.log('error message', error.message.toString());
+                  console.log('API Domain After error delegate:', process.env.REACT_APP_APIDOMAIN);
                   alert(error.toString());
               }
           );
