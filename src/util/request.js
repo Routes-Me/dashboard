@@ -6,7 +6,7 @@ import {getToken, clearStorage} from '../util/localStorage';
 
 const apiURL = process.env.REACT_APP_APIDOMAIN;
 
-console.log('BASE URL in Axios', apiURL);
+console.log('BASE URL in Axios', config.Domain);
 
 const instance = axios.create({
   baseURL: config.Domain
