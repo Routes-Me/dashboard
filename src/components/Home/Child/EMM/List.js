@@ -23,7 +23,6 @@ class List extends Component {
 
     onTabClick = (index) => {
 
-        {index === 1 && this.props}
 
         {index === 3 && this.loadDiv(this.props.webToken);}
         this.setState({ tabIndex: index });
