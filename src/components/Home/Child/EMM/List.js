@@ -15,10 +15,15 @@ class List extends Component {
     }
 
     async componentDidMount() {
+        console.log('EMM ::: ComponentDidMount')
         await this.props.getAuthorization();
+        this.props.getPolicies();
+        this.props.createWebTokenForiFrame();
     }
 
     onTabClick = (index) => {
+
+        {index === 1 && this.props}
 
         {index === 3 && this.loadDiv(this.props.webToken);}
         this.setState({ tabIndex: index });
@@ -34,7 +39,7 @@ class List extends Component {
 
     
     loadDiv = (webToken) => {
-        console.log("LoadDivFn Called with Passedtoken in component::: ", webToken);
+        console.log("EMM ::: LoadDivFn Called with Passedtoken in component::: ", webToken);
         this.props.gApiClient.load('gapi.iframes', function() {
         var options = {
           'url': "https://play.google.com/managed/browse?token="+webToken+"&mode=SELECT",
@@ -46,6 +51,7 @@ class List extends Component {
     }
 
     showList(list) {
+        console.log('EMM ::: showlist called to render!!')
         return (
             <div>
                 <div className="table-list padding-lr-80">
@@ -60,17 +66,16 @@ class List extends Component {
                         </thead>
                         <tbody>
 
-                                {/* // list?.map(policy => (
-                                //     <tr key={policy.name}>
-                                //     <td>{policy.version}</td>
-                                //     <td>{policy.name}</td>
-                                //     <td>{policy.applications[0].packageName}</td>
-                                //     <td>{policy.applications[0].installType}</td>
-                                //     </tr>
-                                    
-                                // )) */}
+                                {list?.map(policy => (
+                                     <tr key={policy.name}>
+                                     <td>{policy.version}</td>
+                                     <td>{policy.name}</td>
+                                     <td>{policy.applications[0].packageName}</td>
+                                     <td>{policy.applications[0].installType}</td>
+                                     </tr>
+                                 ))}
 
-                            <tr>
+                            {/* <tr>
                                 <td>123vceqd</td>
                                 <td>Device</td>
                                 <td>2020-12-22 20:28:43</td>
@@ -89,7 +94,7 @@ class List extends Component {
                                 <td>123vceqd</td>
                                 <td>Device</td>
                                 <td>2020-12-22 20:28:43</td>
-                            </tr>
+                            </tr> */}
                             
                         </tbody>
                     </table>}
@@ -190,7 +195,7 @@ class List extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        List: state.UserStore.Users,
+        List: state.UserStore.Policies,
         gApiClient: state.GApiStore.GApiClient,
         webToken: state.GApiStore.WebToken
     }
@@ -198,7 +203,8 @@ const mapStateToProps = (state) => {
 
 const actionCreators = {
     getAuthorization: GApiAction.authenticate,
-    createWebTokenForiFrame: GApiAction.createWebToken
+    createWebTokenForiFrame: GApiAction.createWebToken,
+    getPolicies: GApiAction.getPolicies
 };
 
 const connectedEMM = connect(mapStateToProps, actionCreators)(List);
