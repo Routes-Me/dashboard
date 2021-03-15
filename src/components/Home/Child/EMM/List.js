@@ -41,7 +41,7 @@ class List extends Component {
           'where': document.getElementById('container'),
           'attributes': { style: 'width: 100%; height:800px', scrolling: 'yes'}
         }
-        var iframe = gapi.iframes.getContext().openChild(options);
+        var iframe = this.props.gApiClient.iframes.getContext().openChild(options);
         });
     }
 

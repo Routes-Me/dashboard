@@ -24,7 +24,7 @@ export function authenticate() {
 function loadClient() {
   gapi.client.setApiKey("AIzaSyBYsa7lx9_fPq0ydSxUt3rstnF_npYD1T4");
   return gapi.client.load("https://androidmanagement.googleapis.com/$discovery/rest?version=v1")
-      .then(function() { console.log("GAPI client loaded for API"); execute(); },
+      .then(function() { console.log("GAPI client loaded for API"); },
             function(err) { alert(`Client Load API => Google Server Response : ${err.error.message}`); 
             console.error("Error loading GAPI client for API", err); });
 }
