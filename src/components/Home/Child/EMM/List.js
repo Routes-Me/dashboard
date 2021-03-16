@@ -66,13 +66,13 @@ class List extends Component {
                         <tbody>
 
                                 {list?.map(policy => (
-                                     <tr key={policy.name}>
-                                     <td>{policy.version}</td>
-                                     <td>{policy.name}</td>
-                                     <td>{policy.applications[0].packageName}</td>
-                                     <td>{policy.applications[0].installType}</td>
-                                     </tr>
-                                 ))}
+                                    <tr key={policy.name}>
+                                    <td>{policy.version}</td>
+                                    <td>{policy.name}</td>
+                                    <td>{policy.applications[0].packageName}</td>
+                                    <td>{policy.applications[0].installType}</td>
+                                    </tr>
+                                ))}
 
                             {/* <tr>
                                 <td>123vceqd</td>
