@@ -16,10 +16,14 @@ class List extends Component {
 
     async componentDidMount() {
         console.log('EMM ::: ComponentDidMount')
+
+
         await this.props.getAuthorization();
-        this.props.getPolicies();
-        this.props.createWebTokenForiFrame();
+        // this.props.getPolicies();
+        // this.props.createWebTokenForiFrame();
     }
+
+
 
     onTabClick = (index) => {
 
