@@ -131,7 +131,7 @@ export function ResetPassword(institutionObject) {
 
     axios
       .post(
-        config.Domain + "api/Users/rest_password",
+        process.env.REACT_APP_APIDOMAIN + "api/Users/rest_password",
         ResetPasswordObject
       )
       .then(
