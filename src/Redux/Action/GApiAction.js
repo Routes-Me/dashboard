@@ -2,19 +2,22 @@ import { gapi, loadAuth2  } from 'gapi-script';
 import { GApiConstants } from '../../constants/GApiConstants';
 
 export function authenticate() {
-  console.log('EMM ::: Authentication Request!!!!')
+  console.log('EMM ::: Authentication Request  <===')
+
   return dispatch => {
     dispatch(authorizationRequest());
-    gapi.auth2.getAuthInstance()
-    .signIn({scope: "https://www.googleapis.com/auth/androidmanagement"})
-    .then(function() { 
-        console.log("EMM ::: Sign-in successful :::");
-        dispatch(authorized(gapi)); 
-    },
-    function(err) { 
-        console.error("EMM ::: Error signing in ::: ", err); alert("Seems like authentication failed!!" + err.error.message);
-        dispatch(authorizationError()); 
-    });
+    
+      gapi.auth2.getAuthInstance()
+      .signIn({scope: "https://www.googleapis.com/auth/androidmanagement"})
+      .then(function() { 
+          console.log("EMM ::: Sign-in successful ===>");
+          createWebToken();
+          dispatch(authorized(gapi)); 
+      },
+      function(err) { 
+          console.error("EMM ::: Error signing in ===>", err); alert("Seems like authentication failed!!" + err.error.message);
+          dispatch(authorizationError()); 
+      });
   } 
 
   function authorizationRequest() { return { type: GApiConstants.authorization_REQUEST }; }
@@ -32,21 +35,22 @@ function loadClient() {
 
 export function createWebToken() {
 
-  console.log("EMM ::: <=== Web Token Creation Request ===>")
+  console.log("EMM ::: Web Token Creation Request <===")
   return dispatch => {
     dispatch(requestWebToken());
     gapi.client.androidmanagement.enterprises.webTokens.create({
       "parent": "enterprises/LC02my9vtl",
       "resource": {
-      "parentFrameUrl": "https://stage.dashboard.routesme.com"
+      "parentFrameUrl": "https://localhost:3000"
       }
     })
     .then(function(response) {
-            console.log("EMM ::: WebToken Response :::", response.result.value);
+            console.log("EMM ::: WebToken Response Success ===>", response.result.value);
+            getPolicies();
             dispatch(returnWebToken(response.result.value));
         },
           function(err) { 
-            console.error("EMM ::: WebToken Error :::", err);
+            console.error("EMM ::: WebToken Error ===>", err);
             dispatch(requestWebTokenError());
         });
   }
@@ -61,7 +65,7 @@ export function createWebToken() {
 // Make sure the client is loaded and sign-in is complete before calling this method.
 export function getPolicies() {
 
-  console.log('EMM ::: <=== List policies Request ===>')
+  console.log('EMM ::: List policies Request <===')
 
   return dispatch => {
     dispatch(requestPolicies());
@@ -70,11 +74,11 @@ export function getPolicies() {
     })
     .then(function(response) {
           dispatch(returnPolicies(response.result.policies))
-          console.log("EMM ::: Policies Response :::", response);
+          console.log("EMM ::: Policies Response Success >>", response);
         },
           function(err) { 
             alert(`Policies API => Google Server Response : ${err.error.message}`); 
-            console.error("EMM ::: Policies error :::", err); 
+            console.error("EMM ::: Policies error >>", err); 
             dispatch(requestPoliciesError());
         });
   }

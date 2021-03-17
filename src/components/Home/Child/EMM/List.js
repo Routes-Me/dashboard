@@ -16,10 +16,14 @@ class List extends Component {
 
     async componentDidMount() {
         console.log('EMM ::: ComponentDidMount')
+
+
         await this.props.getAuthorization();
-        this.props.getPolicies();
-        this.props.createWebTokenForiFrame();
+        // this.props.getPolicies();
+        // this.props.createWebTokenForiFrame();
     }
+
+
 
     onTabClick = (index) => {
 
@@ -66,13 +70,13 @@ class List extends Component {
                         <tbody>
 
                                 {list?.map(policy => (
-                                     <tr key={policy.name}>
-                                     <td>{policy.version}</td>
-                                     <td>{policy.name}</td>
-                                     <td>{policy.applications[0].packageName}</td>
-                                     <td>{policy.applications[0].installType}</td>
-                                     </tr>
-                                 ))}
+                                    <tr key={policy.name}>
+                                    <td>{policy.version}</td>
+                                    <td>{policy.name}</td>
+                                    <td>{policy.applications[0].packageName}</td>
+                                    <td>{policy.applications[0].installType}</td>
+                                    </tr>
+                                ))}
 
                             {/* <tr>
                                 <td>123vceqd</td>
