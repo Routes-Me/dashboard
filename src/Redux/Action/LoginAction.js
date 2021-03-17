@@ -18,7 +18,7 @@ export function userSignInRequest(username, password) {
           Password: encryptAndEncode(password)
       };
 
-      axios.post(config.Domain + 'signin', userObject)
+      axios.post(process.env.REACT_APP_APIDOMAIN + 'signin', userObject)
           .then(
               response => {
                   const token = response.data.token;
@@ -83,7 +83,7 @@ export function forgotPassword(email) {
     dispatch(requestForgotPassword(PasswordObject));
 
     axios
-      .post(config.Domain + "api/Users/forgot_password", PasswordObject)
+      .post(process.env.REACT_APP_APIDOMAIN + "api/Users/forgot_password", PasswordObject)
       .then(
         (user) => {
           dispatch(ForgotPasswordsuccess(user));
