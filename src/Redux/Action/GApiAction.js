@@ -6,20 +6,18 @@ export function authenticate() {
 
   return dispatch => {
     dispatch(authorizationRequest());
-    return new Promise((resolve,reject) => {
+    
       gapi.auth2.getAuthInstance()
       .signIn({scope: "https://www.googleapis.com/auth/androidmanagement"})
       .then(function() { 
-          console.log("EMM ::: Sign-in successful >>");
-          dispatch(authorized(gapi)); 
+          console.log("EMM ::: Sign-in successful ===>");
           createWebToken();
-          getPolicies();
+          dispatch(authorized(gapi)); 
       },
       function(err) { 
-          console.error("EMM ::: Error signing in >>", err); alert("Seems like authentication failed!!" + err.error.message);
+          console.error("EMM ::: Error signing in ===>", err); alert("Seems like authentication failed!!" + err.error.message);
           dispatch(authorizationError()); 
       });
-    })
   } 
 
   function authorizationRequest() { return { type: GApiConstants.authorization_REQUEST }; }
@@ -47,11 +45,12 @@ export function createWebToken() {
       }
     })
     .then(function(response) {
-            console.log("EMM ::: WebToken Response Success >>", response.result.value);
+            console.log("EMM ::: WebToken Response Success ===>", response.result.value);
+            getPolicies();
             dispatch(returnWebToken(response.result.value));
         },
           function(err) { 
-            console.error("EMM ::: WebToken Error >>", err);
+            console.error("EMM ::: WebToken Error ===>", err);
             dispatch(requestWebTokenError());
         });
   }
