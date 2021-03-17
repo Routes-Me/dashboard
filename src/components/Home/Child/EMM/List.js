@@ -27,7 +27,6 @@ class List extends Component {
 
     onTabClick = (index) => {
 
-
         {index === 3 && this.loadDiv(this.props.webToken);}
         this.setState({ tabIndex: index });
         // this.updateTheList(index);
@@ -43,14 +42,18 @@ class List extends Component {
     
     loadDiv = (webToken) => {
         console.log("EMM ::: LoadDivFn Called with Passedtoken in component::: ", webToken);
-        this.props.gApiClient.load('gapi.iframes', function() {
-        var options = {
-          'url': "https://play.google.com/managed/browse?token="+webToken+"&mode=SELECT",
-          'where': document.getElementById('container'),
-          'attributes': { style: 'width: 100%; height:800px', scrolling: 'yes'}
+        if(this.props.gApiClient !== undefined)
+        {
+            this.props.gApiClient.load('gapi.iframes', function() {
+                var options = {
+                  'url': "https://play.google.com/managed/browse?token="+webToken+"&mode=SELECT",
+                  'where': document.getElementById('container'),
+                  'attributes': { style: 'width: 100%; height:800px', scrolling: 'yes'}
+                }
+                var iframe = this.props.gApiClient.iframes.getContext().openChild(options);
+            });
         }
-        var iframe = this.props.gApiClient.iframes.getContext().openChild(options);
-        });
+        
     }
 
     showList(list) {
@@ -112,17 +115,15 @@ class List extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {/* {
-                                list?.map(policy => (
+                        {list?.map(policy => (
                                     <tr key={policy.name}>
                                     <td>{policy.version}</td>
                                     <td>{policy.name}</td>
                                     <td>{policy.applications[0].packageName}</td>
                                     <td>{policy.applications[0].installType}</td>
                                     </tr>
-                                ))
-                            } */}
-                            <tr>
+                                ))}
+                            {/* <tr>
                                 <td>V1</td>
                                 <td>Pre Release</td>
                                 <td>com.routesme.taxi</td>
@@ -145,7 +146,7 @@ class List extends Component {
                                 <td>Testing policy release</td>
                                 <td>com.routesme.taxi</td>
                                 <td>FORCE_INSTALLED</td>
-                            </tr>
+                            </tr> */}
                         </tbody>
                     </table>}
                 {this.state.tabIndex === 3 &&
