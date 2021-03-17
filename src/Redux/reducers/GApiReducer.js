@@ -54,6 +54,22 @@ const GApiReducer = ( state = INITIAL_STATE, action) => {
                 loading : false,
                 Policies : action.payload
             };
+        case GApiConstants.getDevices_REQUEST:
+            return{
+                ...state,
+                loading : true,
+            }
+        case GApiConstants.getDevices_REQUEST:
+            return{
+                ...state,
+                loading : false,
+                Devices : action.payload
+            }
+        case GApiConstants.getDevices_REQUEST:
+            return{
+                ...state,
+                loading : false,
+            }
         default:
             return state
     }

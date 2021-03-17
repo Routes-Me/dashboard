@@ -47,6 +47,7 @@ export function createWebToken() {
     .then(function(response) {
             console.log("EMM ::: WebToken Response Success ===>", response.result.value);
             getPolicies();
+            getDevices();
             dispatch(returnWebToken(response.result.value));
         },
           function(err) { 
@@ -86,6 +87,33 @@ export function getPolicies() {
   function requestPolicies() { return {type: GApiConstants.getPolicies_REQUEST};}
   function returnPolicies(policies) { return {type: GApiConstants.getPolicies_SUCCESS, payload:policies};}
   function requestPoliciesError() { return {type: GApiConstants.getPolicies_ERROR};}
+
+}
+
+
+export function getDevices() {
+
+  console.log('EMM ::: List Devices Request <===')
+
+  return dispatch => {
+    dispatch(requestDevices());
+    gapi.client.androidmanagement.enterprises.devices.list({
+      "parent": "enterprises/LC02my9vtl"
+    })
+    .then(function(response) {
+          dispatch(returnDevices(response.result.devices))
+          console.log("EMM ::: Devices Response Success >>", response);
+        },
+          function(err) { 
+            alert(`Policies API => Google Server Response : ${err.error.message}`); 
+            console.error("EMM ::: Devices error >>", err); 
+            dispatch(requestDevicesError());
+        });
+  }
+
+  function requestDevices() { return {type: GApiConstants.getDevices_REQUEST};}
+  function returnDevices(devices) { return {type: GApiConstants.getDevices_SUCCESS, payload:devices};}
+  function requestDevicesError() { return {type: GApiConstants.getDevices_ERROR};}
 
 }
 

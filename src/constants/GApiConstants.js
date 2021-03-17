@@ -12,6 +12,10 @@ export const GApiConstants = {
     getPolicies_SUCCESS : 'GETPOLICIES_SUCCESS',
     getPolicies_ERROR   : 'GETPOLICIES_ERROR',
 
+    getDevices_REQUEST : 'GETDEVICES_REQUEST',
+    getDevices_SUCCESS : 'GETDEVICES_SUCCESS',
+    getDevices_ERROR   : 'GETDEVICES_ERROR',
+
     getApplications_REQUEST : 'GETAPPLICATIONS_REQUEST',
     getApplications_SUCCESS : 'GETAPPLICATIONS_SUCCESS',
     getApplications_ERROR   : 'GETAPPLICATIONS_ERROR'
