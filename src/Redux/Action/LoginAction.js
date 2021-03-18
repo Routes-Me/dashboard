@@ -9,8 +9,8 @@ import {setToken, clearStorage} from '../../util/localStorage';
 
 export function userSignInRequest(username, password) {
   
-  console.log("Environment :", process.env.NODE_ENV);
-  console.log('API Domain :', process.env.REACT_APP_APIDOMAIN);
+  console.log("Login :: Environment :", process.env.NODE_ENV);
+  console.log('Login :: API Domain :', process.env.REACT_APP_APIDOMAIN);
   return dispatch => {
       dispatch(request({ username, password }));
       let userObject = {
@@ -83,7 +83,7 @@ export function forgotPassword(email) {
     dispatch(requestForgotPassword(PasswordObject));
 
     axios
-      .post(process.env.REACT_APP_APIDOMAIN + "api/Users/forgot_password", PasswordObject)
+      .post(process.env.REACT_APP_APIDOMAIN + "Users/forgot_password", PasswordObject)
       .then(
         (user) => {
           dispatch(ForgotPasswordsuccess(user));
@@ -131,7 +131,7 @@ export function ResetPassword(institutionObject) {
 
     axios
       .post(
-        process.env.REACT_APP_APIDOMAIN + "api/Users/rest_password",
+        process.env.REACT_APP_APIDOMAIN + "Users/rest_password",
         ResetPasswordObject
       )
       .then(

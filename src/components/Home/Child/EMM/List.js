@@ -15,10 +15,19 @@ class List extends Component {
     }
 
     async componentDidMount() {
-        // await this.props.getUsersList();
+        console.log('EMM ::: ComponentDidMount')
+
+
+        await this.props.getAuthorization();
+        // this.props.getPolicies();
+        // this.props.createWebTokenForiFrame();
     }
 
+
+
     onTabClick = (index) => {
+
+        {index === 3 && this.loadDiv(this.props.webToken);}
         this.setState({ tabIndex: index });
         // this.updateTheList(index);
     }
@@ -30,7 +39,25 @@ class List extends Component {
         })
     }
 
+    
+    loadDiv = (webToken) => {
+        console.log("EMM ::: LoadDivFn Called with Passedtoken in component::: ", webToken);
+        if(this.props.gApiClient !== undefined)
+        {
+            this.props.gApiClient.load('gapi.iframes', function() {
+                var options = {
+                  'url': "https://play.google.com/managed/browse?token="+webToken+"&mode=SELECT",
+                  'where': document.getElementById('container'),
+                  'attributes': { style: 'width: 100%; height:800px', scrolling: 'yes'}
+                }
+                var iframe = this.props.gApiClient.iframes.getContext().openChild(options);
+            });
+        }
+        
+    }
+
     showList(list) {
+        console.log('EMM ::: showlist called to render!!')
         return (
             <div>
                 <div className="table-list padding-lr-80">
@@ -45,17 +72,16 @@ class List extends Component {
                         </thead>
                         <tbody>
 
-                                {/* // list?.map(policy => (
-                                //     <tr key={policy.name}>
-                                //     <td>{policy.version}</td>
-                                //     <td>{policy.name}</td>
-                                //     <td>{policy.applications[0].packageName}</td>
-                                //     <td>{policy.applications[0].installType}</td>
-                                //     </tr>
-                                    
-                                // )) */}
+                                {list?.map(policy => (
+                                    <tr key={policy.name}>
+                                    <td>{policy.version}</td>
+                                    <td>{policy.name}</td>
+                                    <td>{policy.applications[0].packageName}</td>
+                                    <td>{policy.applications[0].installType}</td>
+                                    </tr>
+                                ))}
 
-                            <tr>
+                            {/* <tr>
                                 <td>123vceqd</td>
                                 <td>Device</td>
                                 <td>2020-12-22 20:28:43</td>
@@ -74,7 +100,7 @@ class List extends Component {
                                 <td>123vceqd</td>
                                 <td>Device</td>
                                 <td>2020-12-22 20:28:43</td>
-                            </tr>
+                            </tr> */}
                             
                         </tbody>
                     </table>}
@@ -89,17 +115,15 @@ class List extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {/* {
-                                list?.map(policy => (
+                        {list?.map(policy => (
                                     <tr key={policy.name}>
                                     <td>{policy.version}</td>
                                     <td>{policy.name}</td>
                                     <td>{policy.applications[0].packageName}</td>
                                     <td>{policy.applications[0].installType}</td>
                                     </tr>
-                                ))
-                            } */}
-                            <tr>
+                                ))}
+                            {/* <tr>
                                 <td>V1</td>
                                 <td>Pre Release</td>
                                 <td>com.routesme.taxi</td>
@@ -122,9 +146,12 @@ class List extends Component {
                                 <td>Testing policy release</td>
                                 <td>com.routesme.taxi</td>
                                 <td>FORCE_INSTALLED</td>
-                            </tr>
+                            </tr> */}
                         </tbody>
                     </table>}
+                {this.state.tabIndex === 3 &&
+                    <div id="container" style="width: 100%; height: 200px;"></div>
+                }
             </div>
             </div>
         )
@@ -148,7 +175,7 @@ class List extends Component {
                         <div className="top-part-vehicles-search padding-lr-80">
                         <div className="header-add-butt">
                             <h3>EMM Console</h3>
-                            {/* <button className='filter-btn'><image className='filter-icon'/> AUthorize</button> */}
+                            <button className='filter-btn'><image className='filter-icon'/> AUthorize</button>
                             {tabIndex===2 && <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><image className='filter-icon'/> Add</a>}
                         </div>
                         <div className="headerTabStyle" style={{maxWidth:'25%',marginTop:'13px'}}>
@@ -172,12 +199,16 @@ class List extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        List: state.UserStore.Users
+        List: state.UserStore.Policies,
+        gApiClient: state.GApiStore.GApiClient,
+        webToken: state.GApiStore.WebToken
     }
 }
 
 const actionCreators = {
-    getUsersList: GApiAction.authenticate
+    getAuthorization: GApiAction.authenticate,
+    createWebTokenForiFrame: GApiAction.createWebToken,
+    getPolicies: GApiAction.getPolicies
 };
 
 const connectedEMM = connect(mapStateToProps, actionCreators)(List);
