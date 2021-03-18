@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import * as GApiAction from '../../../../Redux/Action';
 import Detail from '../Detail/Detail';
 import { userConstants } from '../../../../constants/userConstants';
+import { gapi  } from 'gapi-script';
+import { createToken } from 'typescript';
 
 class List extends Component {
 
@@ -10,24 +12,92 @@ class List extends Component {
         super(props)
 
         this.state = {
-            tabIndex:1
+            tabIndex:1,
+            webtoken:'',
+            policies: []
         }
     }
 
     async componentDidMount() {
         console.log('EMM ::: ComponentDidMount')
-
-
-        await this.props.getAuthorization();
+        this.authorize();
+        // await this.props.getAuthorization();
         // this.props.getPolicies();
         // this.props.createWebTokenForiFrame();
     }
 
 
+    authorize = () => {
+        console.log('EMM ::: Authorize Request  <===')
+        return gapi.auth2.getAuthInstance()
+        .signIn({scope: "https://www.googleapis.com/auth/androidmanagement"})
+        .then(function() { 
+            console.log("EMM ::: Sign-in successful ===>");
+            this.createTokenForFrame();
+        },
+        function(err) { 
+            console.error("EMM ::: Error signing in ===>", err); alert("Seems like authentication failed!!" + err.error.message);
+        });
+    }
+
+
+    createTokenForFrame = () => {
+        console.log('EMM ::: WebToken Request <===')
+        return gapi.client.androidmanagement.enterprises.webTokens.create({
+            "parent": "enterprises/LC02my9vtl",
+            "resource": {
+            "parentFrameUrl": "https://stage.dahsboard.routesme.com"
+            }
+        })
+        .then(function(response) {
+                console.log("EMM ::: WebToken Response Success ===>", response.result.value);
+                this.loadFrameWithToken(response.result.value);
+                
+        },
+        function(err) { 
+            console.error("EMM ::: WebToken Error ===>", err);
+        });
+    }
+
+
+    loadFrameWithToken = (webToken) => {
+        console.log("EMM ::: LoadDiv Called with Passedtoken in component::: ", webToken);
+        this.setState({webtoken :response.result.value});
+        // if(this.props.gApiClient !== undefined)
+        // {
+            return gapi.load('gapi.iframes', function() {
+                var options = {
+                  'url': "https://play.google.com/managed/browse?token="+webToken+"&mode=SELECT",
+                  'where': document.getElementById('container'),
+                  'attributes': { style: 'width: 100%; height:800px', scrolling: 'yes'}
+                }
+                var iframe = gapi.iframes.getContext().openChild(options);
+            });
+        // }
+        
+    }
+
+
+    getPolicies =() => {
+
+        console.log('EMM ::: List policies Request <===')
+        return gapi.client.androidmanagement.enterprises.policies.list({
+          "parent": "enterprises/LC02my9vtl"
+        })
+        .then(function(response) {
+              this.showList(response.result.policies);
+              console.log("EMM ::: Policies Response Success >>", response);
+        },
+        function(err) { 
+          alert(`Policies API => Google Server Response : ${err.error.message}`); 
+          console.error("EMM ::: Policies error >>", err); 
+        });
+    }
+
 
     onTabClick = (index) => {
-
-        {index === 3 && this.loadDiv(this.props.webToken);}
+        console.log('WebToken ::: ', this.state.webToken)
+        {index === 3 && this.loadFrameWithToken(this.state.webtoken);}
         this.setState({ tabIndex: index });
         // this.updateTheList(index);
     }
@@ -39,22 +109,8 @@ class List extends Component {
         })
     }
 
-    
-    loadDiv = (webToken) => {
-        console.log("EMM ::: LoadDivFn Called with Passedtoken in component::: ", webToken);
-        if(this.props.gApiClient !== undefined)
-        {
-            this.props.gApiClient.load('gapi.iframes', function() {
-                var options = {
-                  'url': "https://play.google.com/managed/browse?token="+webToken+"&mode=SELECT",
-                  'where': document.getElementById('container'),
-                  'attributes': { style: 'width: 100%; height:800px', scrolling: 'yes'}
-                }
-                var iframe = this.props.gApiClient.iframes.getContext().openChild(options);
-            });
-        }
-        
-    }
+
+
 
     showList(list) {
         console.log('EMM ::: showlist called to render!!')
@@ -116,13 +172,13 @@ class List extends Component {
                         </thead>
                         <tbody>
                         {list?.map(policy => (
-                                    <tr key={policy.name}>
-                                    <td>{policy.version}</td>
-                                    <td>{policy.name}</td>
-                                    <td>{policy.applications[0].packageName}</td>
-                                    <td>{policy.applications[0].installType}</td>
-                                    </tr>
-                                ))}
+                            <tr key={policy.name}>
+                            <td>{policy.version}</td>
+                            <td>{policy.name}</td>
+                            <td>{policy.applications[0].packageName}</td>
+                            <td>{policy.applications[0].installType}</td>
+                            </tr>
+                        ))}
                             {/* <tr>
                                 <td>V1</td>
                                 <td>Pre Release</td>
