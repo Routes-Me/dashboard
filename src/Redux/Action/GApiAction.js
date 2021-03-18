@@ -41,7 +41,7 @@ export function createWebToken() {
     gapi.client.androidmanagement.enterprises.webTokens.create({
       "parent": "enterprises/LC02my9vtl",
       "resource": {
-      "parentFrameUrl": "https://localhost:3000"
+      "parentFrameUrl": "https://stage.dahsboard.routesme.com"
       }
     })
     .then(function(response) {
