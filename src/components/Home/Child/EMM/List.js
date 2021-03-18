@@ -62,7 +62,7 @@ class List extends Component {
 
     loadFrameWithToken = (webToken) => {
         console.log("EMM ::: LoadDiv Called with Passedtoken in component::: ", webToken);
-        this.setState({webtoken :response.result.value});
+        this.setState({webtoken :webToken});
         // if(this.props.gApiClient !== undefined)
         // {
             return gapi.load('gapi.iframes', function() {
