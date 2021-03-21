@@ -53,6 +53,7 @@ export const config = {
     SU : "super",
     ROU : "support",
 
+
     Domain : "http://api.routesme.com/api/",
 
     HubURL: 'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub',
@@ -60,7 +61,7 @@ export const config = {
 
     Pagelimit : 20,
     DropDownLimit : 5,
-    Version : 'DVS09032021',
+    Version : 'DVS17032021',
 
     
 
