@@ -43,7 +43,8 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 loading: false,
                 hasError: true,
-                error: action.payload
+                error: action.payload,
+                ActionState: action
             };
         case advertisementsConstants.deleteAdvertisements_REQUEST:
             return {
