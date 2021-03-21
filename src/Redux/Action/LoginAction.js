@@ -9,7 +9,8 @@ import {setToken, clearStorage} from '../../util/localStorage';
 
 export function userSignInRequest(username, password) {
   
-  console.log("Path Mode :", process.env.REACT_APP_APIDOMAIN);
+  console.log("Login :: Environment :", process.env.NODE_ENV);
+  console.log('Login :: API Domain :', process.env.REACT_APP_APIDOMAIN);
   return dispatch => {
       dispatch(request({ username, password }));
       let userObject = {
@@ -17,7 +18,7 @@ export function userSignInRequest(username, password) {
           Password: encryptAndEncode(password)
       };
 
-      axios.post(config.Domain + 'signin', userObject)
+      axios.post(process.env.REACT_APP_APIDOMAIN + 'signin', userObject)
           .then(
               response => {
                   const token = response.data.token;
@@ -32,6 +33,7 @@ export function userSignInRequest(username, password) {
               error => {
                   dispatch(failure(error.message.toString()));
                   console.log('error message', error.message.toString());
+                  console.log('API Domain After error delegate:', process.env.REACT_APP_APIDOMAIN);
                   alert(error.toString());
               }
           );
@@ -81,7 +83,7 @@ export function forgotPassword(email) {
     dispatch(requestForgotPassword(PasswordObject));
 
     axios
-      .post(config.Domain + "api/Users/forgot_password", PasswordObject)
+      .post(process.env.REACT_APP_APIDOMAIN + "Users/forgot_password", PasswordObject)
       .then(
         (user) => {
           dispatch(ForgotPasswordsuccess(user));
@@ -129,7 +131,7 @@ export function ResetPassword(institutionObject) {
 
     axios
       .post(
-        config.Domain + "api/Users/rest_password",
+        process.env.REACT_APP_APIDOMAIN + "Users/rest_password",
         ResetPasswordObject
       )
       .then(
