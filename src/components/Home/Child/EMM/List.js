@@ -33,12 +33,23 @@ class List extends Component {
         .signIn({scope: "https://www.googleapis.com/auth/androidmanagement"})
         .then(function() { 
             console.log("EMM ::: Sign-in successful ===>");
-            this.createTokenForFrame();
+            this.loadClient();
         },
         function(err) { 
             console.error("EMM ::: Error signing in ===>", err); alert("Seems like authentication failed!!" + err.error.message);
         });
     }
+
+    loadClient = () => {
+        gapi.client.setApiKey("AIzaSyBYsa7lx9_fPq0ydSxUt3rstnF_npYD1T4");
+        return gapi.client.load("https://androidmanagement.googleapis.com/$discovery/rest?version=v1")
+            .then(function() { 
+                console.log("GAPI client loaded for API"); 
+                this.createTokenForFrame();
+            },
+            function(err) { alert(`Client Load API => Google Server Response : ${err.error.message}`);  console.error("Error loading GAPI client for API", err); });
+      }
+
 
 
     createTokenForFrame = () => {
