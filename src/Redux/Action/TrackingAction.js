@@ -100,7 +100,7 @@ export const Disconnected = payload => ({ type: trackingConstants.Tracking_Disco
 
 export function UnsubscribeFromHub() {
 
-    clearInterval(reconnectingInterval);
+    clearInterval(reconnectingInterval); //removed interval check on unssubscribe
     return dispatch => {
         dispatch(Unsubscribe());
         if(hubConnection.state === 0)
