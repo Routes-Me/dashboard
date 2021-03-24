@@ -2,7 +2,6 @@
 import {config} from "../../constants/config";
 import apiHandler from '../../util/request';
 import { returnEntityForInstitution } from '../../util/basic';
-import axios from "axios";
 
 //const SampleInsitutionsIdArgument = { "institutionIds": [{ "Id": 3 }] };
 

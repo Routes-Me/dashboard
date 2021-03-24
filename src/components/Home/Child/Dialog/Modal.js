@@ -84,10 +84,10 @@ class Modal extends React.Component {
         
         return (
             <div className="modalNew">
-                <div class="modal-content" style={{ modalStyle }}>
+                <div className="modal-content" style={{ modalStyle }}>
                     
                     <div className="top-part-vehicles-search model-header">
-                        <span class="closeBtn" style={{ float: "right", display:"block" }} onClick={this.props.onClose} />
+                        <span className="closeBtn" style={{ float: "right", display:"block" }} onClick={this.props.onClose} />
                         <div className="header-add-butt">
                             <h3>{title}</h3>
                         </div>

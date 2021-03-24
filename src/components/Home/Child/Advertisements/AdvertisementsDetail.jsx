@@ -148,8 +148,8 @@ class AdvertisementsDetail extends React.Component {
 
                 <div className="footerStyle">
                     <button type="submit" style={{ float: 'left' }} onClick={(e) => this.submitPromotion()}>{this.props.Loading && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />} <span>Create</span>  </button>
-                    <button className="btn btn-light" style={{ marginLeft: '107px' }} onClick={(e) => this.onTabClick(1)}> <span class="glyphicon glyphicon-menu-left" aria-hidden="true" /> Previous</button>
-                    <button className="next" style={{ marginLeft: '7px' }} onClick={(e) => this.onCreate()}> Next: Extras <span class="glyphicon glyphicon-menu-right" aria-hidden="true" /> </button>
+                    <button className="btn btn-light" style={{ marginLeft: '107px' }} onClick={(e) => this.onTabClick(1)}> <span className="glyphicon glyphicon-menu-left" aria-hidden="true" /> Previous</button>
+                    <button className="next" style={{ marginLeft: '7px' }} onClick={(e) => this.onCreate()}> Next: Extras <span className="glyphicon glyphicon-menu-right" aria-hidden="true" /> </button>
                 </div>
 
             </div>

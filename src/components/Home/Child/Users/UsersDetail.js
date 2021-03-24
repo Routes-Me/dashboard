@@ -123,7 +123,7 @@ class UsersDetail extends React.Component {
         return (
             <div>
                 <Form onSubmit={e => this.handleSubmit(e)}>
-                    <div class="col-md-12" style={{padding:'0px'}}>
+                    <div className="col-md-12" style={{padding:'0px'}}>
 
                         <div className="row form-group">
                             <div className="col-md-6">
