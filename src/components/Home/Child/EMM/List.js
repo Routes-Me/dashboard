@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import * as GApiAction from '../../../../Redux/Action';
 import Detail from '../Detail/Detail';
 import { userConstants } from '../../../../constants/userConstants';
-import { gapi  } from 'gapi-script';
-import { createToken } from 'typescript';
+import { gapi } from 'gapi-script';
+import {inLog, outLog} from '../../../../util/CustomLogging';
 
 class List extends Component {
 
@@ -16,10 +16,13 @@ class List extends Component {
             webtoken:'',
             policies: []
         }
+        
     }
 
+    
+
     async componentDidMount() {
-        console.log('EMM ::: ComponentDidMount')
+        inLog('EMM','ComponentDidMount');
         this.authorize();
         // await this.props.getAuthorization();
         // this.props.getPolicies();
@@ -28,40 +31,50 @@ class List extends Component {
 
 
     authorize = () => {
-        console.log('EMM ::: Authorize Request  <===')
-        return gapi.auth2.getAuthInstance()
+        inLog('EMM','Authorize Request')
+        return window.gapi.auth2.getAuthInstance()
         .signIn({scope: "https://www.googleapis.com/auth/androidmanagement"})
         .then(function() { 
-            console.log("EMM ::: Sign-in successful ===>");
-            this.createTokenForFrame();
+            outLog('EMM', 'Sign-in successful');
+            this.loadClient();
         },
         function(err) { 
-            console.error("EMM ::: Error signing in ===>", err); alert("Seems like authentication failed!!" + err.error.message);
+            outLog('EMM',`Error signing in ${err}`); alert("Seems like authentication failed!!" + err.error.message);
         });
     }
 
+    loadClient = () => {
+        inLog('EMM','Loading Client....')
+        window.gapi.client.setApiKey(process.env.REACT_APP_GAPI_CLIENT_ID);
+        return gapi.client.load("https://androidmanagement.googleapis.com/$discovery/rest?version=v1")
+            .then(function() { 
+                outLog('EMM', 'GAPI client loaded for API'); 
+                this.createTokenForFrame();
+            },
+            function(err) { alert(`Client Load API ===> Google Server Response : ${err.error.message}`);  outLog('EMM', `Error loading GAPI client for API ${err}`); });
+    }
 
     createTokenForFrame = () => {
-        console.log('EMM ::: WebToken Request <===')
+        inLog('EMM', 'WebToken Request')
         return gapi.client.androidmanagement.enterprises.webTokens.create({
-            "parent": "enterprises/LC02my9vtl",
+            "parent": process.env.REACT_APP_GAPI_ENTERPRICE_ID,
             "resource": {
-            "parentFrameUrl": "https://stage.dahsboard.routesme.com"
+            "parentFrameUrl": "https://localhost:3000/home"
             }
         })
         .then(function(response) {
-                console.log("EMM ::: WebToken Response Success ===>", response.result.value);
-                this.loadFrameWithToken(response.result.value);
+            outLog('EMM',`WebToken Response Success ${response.result.value}`);
+            this.setState({webtoken:response.result.value})
+            this.loadFrameWithToken(response.result.value);
                 
         },
         function(err) { 
-            console.error("EMM ::: WebToken Error ===>", err);
+            outLog('EMM', `WebToken Error ${err}`);
         });
     }
 
-
     loadFrameWithToken = (webToken) => {
-        console.log("EMM ::: LoadDiv Called with Passedtoken in component::: ", webToken);
+        outLog('EMM', `LoadDiv Called with Passedtoken ${webToken}`);
         this.setState({webtoken :webToken});
         // if(this.props.gApiClient !== undefined)
         // {
@@ -80,23 +93,22 @@ class List extends Component {
 
     getPolicies =() => {
 
-        console.log('EMM ::: List policies Request <===')
+        inLog('EMM', 'List policies Request')
         return gapi.client.androidmanagement.enterprises.policies.list({
           "parent": "enterprises/LC02my9vtl"
         })
         .then(function(response) {
               this.showList(response.result.policies);
-              console.log("EMM ::: Policies Response Success >>", response);
+              outLog('EMM',`Policies Response Success ${response}`);
         },
         function(err) { 
-          alert(`Policies API => Google Server Response : ${err.error.message}`); 
-          console.error("EMM ::: Policies error >>", err); 
+            outLog('EMM', `Google Server Response ${err.error.message}`); 
         });
     }
 
 
     onTabClick = (index) => {
-        console.log('WebToken ::: ', this.state.webToken)
+        inLog('EMM',  `Tab clicked ${this.state.webToken}`)
         {index === 3 && this.loadFrameWithToken(this.state.webtoken);}
         this.setState({ tabIndex: index });
         // this.updateTheList(index);
@@ -113,7 +125,7 @@ class List extends Component {
 
 
     showList(list) {
-        console.log('EMM ::: showlist called to render!!')
+        inLog('EMM','showlist called to render!!')
         return (
             <div>
                 <div className="table-list padding-lr-80">
@@ -231,7 +243,7 @@ class List extends Component {
                         <div className="top-part-vehicles-search padding-lr-80">
                         <div className="header-add-butt">
                             <h3>EMM Console</h3>
-                            <button className='filter-btn'><image className='filter-icon'/> AUthorize</button>
+                            {/* <button className='filter-btn'><image className='filter-icon'/> AUthorize</button> */}
                             {tabIndex===2 && <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><image className='filter-icon'/> Add</a>}
                         </div>
                         <div className="headerTabStyle" style={{maxWidth:'25%',marginTop:'13px'}}>
