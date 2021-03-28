@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import * as GApiAction from '../../../../Redux/Action';
 import Detail from '../Detail/Detail';
 import { userConstants } from '../../../../constants/userConstants';
-import { gapi } from 'gapi-script';
+// import { gapi } from 'gapi-script';
 import {inLog, outLog} from '../../../../util/CustomLogging';
 
 class List extends Component {
@@ -19,24 +19,94 @@ class List extends Component {
         
     }
 
-    
-
     async componentDidMount() {
         inLog('EMM','ComponentDidMount');
-        this.authorize();
+        // this.authorize().then(this.loadClient());
         // await this.props.getAuthorization();
         // this.props.getPolicies();
         // this.props.createWebTokenForiFrame();
+        this.loadGapiScript();
     }
 
+    loadGapiScript() {
+        inLog('EMM',"Loading script!!");
+        const script = document.createElement("script");
+        script.src = "https://apis.google.com/js/api.js";
+        script.onload = () => {
+          outLog('EMM',"Script loaded!!!");
+          this.authorize().then(()=>this.loadClient().then(()=>this.getDevices()));
+        // this.initGApi();
+        };
+        document.body.appendChild(script);
+      }
 
-    authorize = () => {
+
+      initGApi() {
+        inLog('EMM','Init GApi request!!')
+        window.gapi.load("client:auth2", () => {
+            window.gapi.auth2.init({
+              "apiKey": process.env.REACT_APP_GAPI_APIKEY,
+              "client_id":process.env.REACT_APP_GAPI_CLIENTID,
+              "scope": "https://www.googleapis.com/auth/androidmanagement",
+              "discoveryDocs":"https://androidmanagement.googleapis.com/$discovery/rest?version=v1"
+            });
+            outLog('EMM',"GAPI inited!!!");
+            this.authenticate().then(() => this.getDevices());
+        });
+      }
+
+
+      authenticate() {
+        inLog('EMM',"Authenticate Request")
+        return window.gapi.auth2
+          .getAuthInstance()
+          .signIn({scope: "https://www.googleapis.com/auth/androidmanagement"})
+          .then(() => 
+            function () { outLog('EMM',"Sign-in successful");},
+            function (err) { outLog('EMM',"Error signing in", err);}
+          );
+      }
+
+
+
+      getDevices = () => {
+    
+        inLog('EMM',"Get Devices request");
+    
+        window.gapi.client.load("androidmanagement", "v1").then(() => {
+          return window.gapi.client.androidmanagement.enterprises.devices
+            .list({
+              parent: "enterprises/LC02my9vtl"
+            })
+            .then(
+              function (response) {
+                  console.log(response.result.devices);
+                outLog("Policies", response.result.devices[0]);
+              },
+              function (err) {
+                alert(
+                  `Policies API => Google Server Response : ${err.error.message}`
+                );
+                outLog("Execute error", err);
+              }
+            );
+        });
+      };
+
+
+      authorize = () => {
+        
         inLog('EMM','Authorize Request')
+
+        
+        window.gapi.load("client:auth2", function() {
+            window.gapi.auth2.init({client_id: process.env.REACT_APP_GAPI_CLIENTID});
+        });
+
         return window.gapi.auth2.getAuthInstance()
         .signIn({scope: "https://www.googleapis.com/auth/androidmanagement"})
         .then(function() { 
             outLog('EMM', 'Sign-in successful');
-            this.loadClient();
         },
         function(err) { 
             outLog('EMM',`Error signing in ${err}`); alert("Seems like authentication failed!!" + err.error.message);
@@ -45,66 +115,67 @@ class List extends Component {
 
     loadClient = () => {
         inLog('EMM','Loading Client....')
-        window.gapi.client.setApiKey(process.env.REACT_APP_GAPI_CLIENT_ID);
-        return gapi.client.load("https://androidmanagement.googleapis.com/$discovery/rest?version=v1")
+
+        // return window.gapi.client.setApiKey(process.env.REACT_APP_GAPI_APIKEY);
+        return window.gapi.client.load("https://androidmanagement.googleapis.com/$discovery/rest?version=v1")
             .then(function() { 
                 outLog('EMM', 'GAPI client loaded for API'); 
-                this.createTokenForFrame();
+                // this.createTokenForFrame();
             },
             function(err) { alert(`Client Load API ===> Google Server Response : ${err.error.message}`);  outLog('EMM', `Error loading GAPI client for API ${err}`); });
     }
 
-    createTokenForFrame = () => {
-        inLog('EMM', 'WebToken Request')
-        return gapi.client.androidmanagement.enterprises.webTokens.create({
-            "parent": process.env.REACT_APP_GAPI_ENTERPRICE_ID,
-            "resource": {
-            "parentFrameUrl": "https://localhost:3000/home"
-            }
-        })
-        .then(function(response) {
-            outLog('EMM',`WebToken Response Success ${response.result.value}`);
-            this.setState({webtoken:response.result.value})
-            this.loadFrameWithToken(response.result.value);
+
+
+    // createTokenForFrame = () => {
+    //     inLog('EMM', 'WebToken Request')
+    //     return gapi.client.androidmanagement.enterprises.webTokens.create({
+    //         "parent": process.env.REACT_APP_GAPI_ENTERPRICE_ID,
+    //         "resource": {
+    //         "parentFrameUrl": "https://localhost:3000/home"
+    //         }
+    //     })
+    //     .then(function(response) {
+    //         outLog('EMM',`WebToken Response Success ${response.result.value}`);
+    //         this.setState({webtoken:response.result.value})
+    //         this.loadFrameWithToken(response.result.value);
                 
-        },
-        function(err) { 
-            outLog('EMM', `WebToken Error ${err}`);
-        });
-    }
+    //     },
+    //     function(err) { 
+    //         outLog('EMM', `WebToken Error ${err}`);
+    //     });
+    // }
 
-    loadFrameWithToken = (webToken) => {
-        outLog('EMM', `LoadDiv Called with Passedtoken ${webToken}`);
-        this.setState({webtoken :webToken});
-        // if(this.props.gApiClient !== undefined)
-        // {
-            return gapi.load('gapi.iframes', function() {
-                var options = {
-                  'url': "https://play.google.com/managed/browse?token="+webToken+"&mode=SELECT",
-                  'where': document.getElementById('container'),
-                  'attributes': { style: 'width: 100%; height:800px', scrolling: 'yes'}
-                }
-                var iframe = gapi.iframes.getContext().openChild(options);
-            });
-        // }
+    // loadFrameWithToken = (webToken) => {
+    //     outLog('EMM', `LoadDiv Called with Passedtoken ${webToken}`);
+    //     this.setState({webtoken :webToken});
+    //     // if(this.props.gApiClient !== undefined)
+    //     // {
+    //         return gapi.load('gapi.iframes', function() {
+    //             var options = {
+    //               'url': "https://play.google.com/managed/browse?token="+webToken+"&mode=SELECT",
+    //               'where': document.getElementById('container'),
+    //               'attributes': { style: 'width: 100%; height:800px', scrolling: 'yes'}
+    //             }
+    //             var iframe = gapi.iframes.getContext().openChild(options);
+    //         });
+    //     // }
         
-    }
+    // }
 
-
-    getPolicies =() => {
-
-        inLog('EMM', 'List policies Request')
-        return gapi.client.androidmanagement.enterprises.policies.list({
-          "parent": "enterprises/LC02my9vtl"
-        })
-        .then(function(response) {
-              this.showList(response.result.policies);
-              outLog('EMM',`Policies Response Success ${response}`);
-        },
-        function(err) { 
-            outLog('EMM', `Google Server Response ${err.error.message}`); 
-        });
-    }
+    // getPolicies =() => {
+    //     inLog('EMM', 'List policies Request')
+    //     return gapi.client.androidmanagement.enterprises.policies.list({
+    //       "parent": "enterprises/LC02my9vtl"
+    //     })
+    //     .then(function(response) {
+    //           this.showList(response.result.policies);
+    //           outLog('EMM',`Policies Response Success ${response}`);
+    //     },
+    //     function(err) { 
+    //         outLog('EMM', `Google Server Response ${err.error.message}`); 
+    //     });
+    // }
 
 
     onTabClick = (index) => {
