@@ -34,10 +34,40 @@ class List extends Component {
         script.src = "https://apis.google.com/js/api.js";
         script.onload = () => {
           outLog('EMM',"Script loaded!!!");
-          this.authorize().then(()=>this.loadClient().then(()=>this.getDevices()));
+        //   this.authorize().then(()=>this.loadClient().then(()=>this.getDevices()));
         // this.initGApi();
+        this.authenticateJS()
+        .then(() => this.loadClientJS())
+        .then(() => this.getDevicesJS())
         };
         document.body.appendChild(script);
+      }
+
+
+      authenticateJS = () => {
+        inLog('EMM',"Authenticate Request")
+        return window.gapi.auth2.getAuthInstance()
+            .signIn({scope: "https://www.googleapis.com/auth/androidmanagement"})
+            .then(function() { outLog('EMM',"Sign-in successful"); },
+                  function(err) { outLog('EMM',"Error signing in", err); });
+      }
+      loadClientJS = () => {
+        inLog('EMM',"Loading script!!");
+        window.gapi.client.setApiKey(process.env.REACT_APP_GAPI_APIKEY);
+        return window.gapi.client.load("https://androidmanagement.googleapis.com/$discovery/rest?version=v1")
+            .then(function() { outLog('EMM',"GAPI client loaded for API"); },
+                  function(err) { outLog('EMM',`Error loading GAPI client for API ${err}`); });
+      }
+      getDevicesJS = () => {
+        inLog('EMM',"Get Devices request");
+        return window.gapi.client.androidmanagement.enterprises.devices.list({
+          "parent": "enterprises/LC02my9vtl"
+        })
+            .then(function(response) {
+                    // Handle the results here (response.result has the parsed body).
+                    outLog("Policies", response.result);
+                  },
+                  function(err) { outLog('EMM',`Error returning devices GAPI client for API ${err}`); });
       }
 
 
