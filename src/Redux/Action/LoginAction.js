@@ -18,7 +18,7 @@ export function userSignInRequest(username, password) {
           Password: encryptAndEncode(password)
       };
 
-      axios.post(process.env.REACT_APP_APIDOMAIN + 'signin', userObject)
+      axios.post(process.env.REACT_APP_APIDOMAIN + 'authentications', userObject)
           .then(
               response => {
                   const token = response.data.token;
