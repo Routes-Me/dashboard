@@ -20,11 +20,6 @@ class List extends Component {
     }
 
     async componentDidMount() {
-        // inLog('EMM','ComponentDidMount');
-        // this.authorize().then(this.loadClient());
-        // await this.props.getAuthorization();
-        // this.props.getPolicies();
-        // this.props.createWebTokenForiFrame();
         this.loadGapiScript();
     }
 
@@ -36,177 +31,16 @@ class List extends Component {
           outLog('EMM',"Script loaded!!!");
         this.authorize()
         .then(()=>this.loadClient()
-        .then(()=> this.createTokenForFrame()
-        .then((webToken) => this.loadFrameWithToken(webToken)
-        .then(() =>this.onTabClick(1)))));
+        .then(() =>this.onTabClick(1)));
         
+
         // this.createTokenForFrame().then((webToken) => this.loadFrameWithToken(webToken)););
         };
         document.body.appendChild(script);
       }
 
 
-      authenticateJS() {
-        inLog('EMM',"Authenticate Request");
-        return window.gapi.auth2
-          .getAuthInstance()
-          .signIn({ scope: "https://www.googleapis.com/auth/androidmanagement" })
-          .then(
-            function () {
-                outLog('EMM', 'Sign-in successful');
-            },
-            function (err) {
-                outLog('EMM',`Error signing in ${err}`);
-            }
-          );
-      }
-      loadClientJS() {
-        inLog('EMM','Load Client JS Request')
-        window.gapi.client.setApiKey(process.env.REACT_APP_GAPI_APIKEY);
-        return window.gapi.client
-          .load("https://androidmanagement.googleapis.com/$discovery/rest?version=v1")
-          .then(
-            function () {
-                outLog('EMM', "GAPI client loaded for API");
-            },
-            function (err) {
-                outLog('EMM', `Error loading GAPI client for API ${err}`);
-            }
-          );
-      }
-      // Make sure the client is loaded and sign-in is complete before calling this method.
-      executeJS() {
-        return window.gapi.client.androidmanagement.enterprises.devices
-          .list({
-            parent: "enterprises/LC02my9vtl"
-          })
-          .then(
-            function (response) {
-              // Handle the results here (response.result has the parsed body).
-              outLog('EMM', `Devices ${response}`);
-            },
-            function (err) {
-                outLog('EMM', `Devices error ${err}`);
-            }
-          );
-      }
-
-      initGApi() {
-        inLog('EMM','Init GApi request!!')
-        window.gapi.load("client:auth2", () => {
-            window.gapi.auth2.init({
-              "apiKey": process.env.REACT_APP_GAPI_APIKEY,
-              "client_id":process.env.REACT_APP_GAPI_CLIENTID,
-              "scope": "https://www.googleapis.com/auth/androidmanagement",
-              "discoveryDocs":"https://androidmanagement.googleapis.com/$discovery/rest?version=v1"
-            });
-            outLog('EMM',"GAPI inited!!!");
-            this.authenticate().then(() => this.getDevices());
-        });
-      }
-
-
-      authenticate() {
-        inLog('EMM',"Authenticate Request")
-        return window.gapi.auth2
-          .getAuthInstance()
-          .signIn({scope: "https://www.googleapis.com/auth/androidmanagement"})
-          .then(() => 
-            function () { outLog('EMM',"Sign-in successful");},
-            function (err) { outLog('EMM',"Error signing in", err);}
-          );
-      }
-
-
-
-    getDevices = () => {
-    
-        inLog('EMM',"Get Devices request");
-        // return window.gapi.client.load("androidmanagement", "v1").then(() => {
-        window.gapi.client.androidmanagement.enterprises.devices
-            .list({
-              parent: "enterprises/LC02my9vtl"
-            })
-            .then(
-              function (response) {
-                  const devicesList = response.result.devices;
-                  console.log("Devices :", devicesList);
-                  var list_Table =`<table>
-                  <thead>
-                      <tr>
-                          <th>Name</th>
-                          <th>Mode</th>
-                          <th>Enrollment Time</th>
-                      </tr>
-                  </thead>
-                  <tbody>`
-                  devicesList.forEach(device => {
-                    list_Table+=
-                        `<tr key=${device.name}>
-                        <td>${device.name}</td>
-                        <td>${device.managementMode}</td>
-                        <td>${device.enrollmentTime}</td>
-                        </tr>`
-                        
-                  });
-                  list_Table+=`</tbody>
-                  </table>`
-                  document.getElementById("list").innerHTML = list_Table;
-              },
-              function (err) {
-                alert(
-                  `Devices API => Google Server Response : ${err.error.message}`
-                );
-                outLog("Execute error", err);
-              }
-            );
-        // });
-      };
-
-
-
-    getPolicies = () => {
-        inLog('EMM', 'Get Policies request');
-        window.gapi.client.androidmanagement.enterprises.policies
-        .list({
-            parent: 'enterprises/LC02my9vtl'
-        })
-        .then(
-            function (response) {
-                
-                let policies = response.result.policies;
-                console.log('Policies :', policies);
-                var list_Table = `<table><thead>
-                <tr>
-                    <th>NAME</th>
-                    <th>Mode</th>
-                    <th>Package Name</th>
-                    <th>Install Type</th>
-                </tr>
-            </thead>
-            <tbody><tbody>`;
-                policies.forEach( policy =>{
-                    console.log('Each obj', policy);
-                    list_Table +=
-                    `<tr key=${policy.name}>
-                    <td>${policy.version}</td>
-                    <td>${policy.name}</td>
-                    <td>${policy.applications[0].packageName}</td>
-                    <td>${policy.applications[0].installType}</td>
-                    </tr>`
-                })
-                list_Table += "<tbody></table>";
-    
-                document.getElementById("list").innerHTML = list_Table;
-            },
-            function (err) {
-                outLog('EMM Policies Request Error', err);
-            }
-        )
-    }
-
-
-    authorize = () => {
+      authorize = () => {
 
         inLog('EMM','Authorize Request')
 
@@ -235,9 +69,55 @@ class List extends Component {
 
 
 
+    getDevices = () => {
+    
+        inLog('EMM',"Get Devices request");
+        // return window.gapi.client.load("androidmanagement", "v1").then(() => {
+            return this.GAPI.client.androidmanagement.enterprises.devices
+            .list({
+              parent: "enterprises/LC02my9vtl"
+            })
+            .then(
+              function (response) {
+                  return response.result.devices;
+              },
+              function (err) {
+                alert(
+                  `Devices API => Google Server Response : ${err.error.message}`
+                );
+                outLog("Execute error", err);
+              }
+            );
+        // });
+      };
+
+
+
+    getPolicies = () => {
+        inLog('EMM', 'Get Policies request');
+        // let responseObj = '';
+        return this.GAPI.client.androidmanagement.enterprises.policies
+        .list({
+            parent: 'enterprises/LC02my9vtl'
+        })
+        .then(
+            function (response) {
+                return response.result.policies;
+            },
+            function (err) {
+                outLog('EMM Policies Request Error', err);
+            }
+        )
+        // console.log('ResponseObj returned ', responseObj);
+    }
+
+
+
+
+
     createTokenForFrame = () => {
         inLog('EMM', 'WebToken Request')
-        return window.gapi.client.androidmanagement.enterprises.webTokens.create({
+        return this.GAPI.client.androidmanagement.enterprises.webTokens.create({
             "parent": process.env.REACT_APP_GAPI_ENTERPRICE_ID,
             "resource": {
             "parentFrameUrl": "https://localhost:3000/home"
@@ -255,40 +135,27 @@ class List extends Component {
     loadFrameWithToken = (webToken) => {
         outLog('EMM', `LoadDiv Called with Passedtoken ${webToken}`);
         // this.setState({webtoken :webToken});
-        // if(webToken !== undefined)
-        // {
-            window.gapi.load('gapi.iframes', function() {
+        if(webToken !== undefined)
+        {
+            this.GAPI.load('gapi.iframes', function() {
                 var options = {
-                  'url': "https://play.google.com/managed/browse?token=WAP_6YqoW7EmejXBdvfp7uoe7sHdVnRSa0oO7j8m1mjEyMBMijJUmU4ybNpZB5nCpHitXwBR5mBUGCYqkzy5ZKoVyYpvzmAPrJDqfhevwbEeuU_oZMWEdse24rmz-EiMF7eQYLoMtOLyBoOZrrQDYe36OM6UKN6IRqw&mode=SELECT",
+                  'url': `https://play.google.com/managed/browse?token=${webToken}&mode=SELECT`,
                   'where': document.getElementById('container'),
                   'attributes': { style: 'width: 100%; height:800px', scrolling: 'yes'}
                 }
                 var iframe = window.gapi.iframes.getContext().openChild(options);
             });
-        // }
+        }
         
     }
-
-    // getPolicies =() => {
-    //     inLog('EMM', 'List policies Request')
-    //     return gapi.client.androidmanagement.enterprises.policies.list({
-    //       "parent": "enterprises/LC02my9vtl"
-    //     })
-    //     .then(function(response) {
-    //           this.showList(response.result.policies);
-    //           outLog('EMM',`Policies Response Success ${response}`);
-    //     },
-    //     function(err) { 
-    //         outLog('EMM', `Google Server Response ${err.error.message}`); 
-    //     });
-    // }
 
 
     onTabClick = (index) => {
         inLog('EMM',  `Tab clicked for ${index}`)
-        {index === 1 && this.getPolicies(); 
-            this.createTokenForFrame().then((webToken) => this.loadFrameWithToken(webToken));}
-        {index === 2 && this.getDevices()}
+        {index === 1 && this.getPolicies().then((response) => {this.setState({listObj:response}); console.log('Tab fn call ', response);}); 
+        this.createTokenForFrame().then((webToken) => {this.setState({webtoken:webToken}); this.loadFrameWithToken(webToken);})}
+        {index === 2 && this.getDevices().then((response)=> this.setState({listObj:response}))};
+
         this.setState({ tabIndex: index });
         // this.updateTheList(index);
     }
@@ -304,7 +171,7 @@ class List extends Component {
 
 
     showList(list){
-        inLog('EMM','showlist called to render!!')
+        console.log('EMM render', list)
         return (
             <div>
                 <div className="table-list padding-lr-80">
@@ -312,10 +179,10 @@ class List extends Component {
                     <table id='list'>
                         <thead>
                             <tr>
-                                <th>NAME</th>
-                                <th>Mode</th>
-                                <th>Package Name</th>
-                                <th>Install Type</th>
+                            <th>NAME</th>
+                            <th>Mode</th>
+                            <th>Package Name</th>
+                            <th>Install Type</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -324,8 +191,8 @@ class List extends Component {
                                     <tr key={policy.name}>
                                     <td>{policy.version}</td>
                                     <td>{policy.name}</td>
-                                    <td>{policy.applications[0].packageName}</td>
-                                    <td>{policy.applications[0].installType}</td>
+                                    <td>{policy?.applications[0]?.packageName}</td>
+                                    <td>{policy?.applications[0]?.installType}</td>
                                     </tr>
                                 ))}
 
@@ -335,9 +202,11 @@ class List extends Component {
                     <table id='list'>
                         <thead>
                             <tr>
-                                <th>Name</th>
-                                <th>Mode</th>
-                                <th>Enrollment Time</th>
+                            <th>Name</th>
+                            <th>Management Mode</th>
+                            <th>Ownership</th>
+                            <th>Status</th>
+                            <th>Enrollment Time</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -345,14 +214,17 @@ class List extends Component {
                             <tr key={device.name}>
                             <td>{device.name}</td>
                             <td>{device.managementMode}</td>
-                            <td>{device.enrollmentTime}</td>
+                            <td>{device.ownership}</td>
+                            <td>{device.state}</td>
+                            <td>{device.enrollmentTime?.substr(0, 10)}</td>
                             </tr>
                         ))}
 
                         </tbody>
                     </table>}
                 {this.state.tabIndex === 3 &&
-                    <div id="container" style="width: 100%; height: 200px;"></div>
+                    <div id="container"></div>
+                    // <iframe src="https://play.google.com/managed/browse?token=WAP_6YqqodsIYbEM-ZFb7I5XbvB25qYJJsoUu072Z_n74NdBGyx5Hjbb6lX7M17YlV2ZQJLFixsK0rmvGiWtM4gkAVZmQPvSRS5WT_gLkKKqg2-UPOz4Eai87opy0nasSD6lzLqrxpEkXuyfI1PyyLQfeaHkcqVJBRQ&mode=SELECT" width="100%" height="450"></iframe>
                 }
             </div>
             </div>
@@ -361,8 +233,8 @@ class List extends Component {
 
 
     render() {
-        console.log('Render the list', this.state.policies);
-        let content = this.showList(this.state.policies);
+        console.log('Render the list', this.state.listObj);
+        let content = this.showList(this.state.listObj);
         const tabIndex = this.state.tabIndex; 
         const policyObj = {name : "policyTest", policy: "", EMMTab: tabIndex}
         return (
@@ -392,7 +264,7 @@ class List extends Component {
                         </div>
                     </div>
                     {content}
-                    <div id="container" style="width: 100%; height: 200px;"></div>
+                    
                     </div>
                         }
                 </div>
