@@ -41,13 +41,13 @@ export function returnEntityForInstitution(entity,user)
 
 export function isSU(user){
 
-    let role = user.Roles;
+    let role = user.rol;
     return role.includes(config.SU) || role.includes(config.ROU) ? true : false ;
 
 }
 
 export function isROU(user){
-    let role = user.Roles;
+    let role = user.rol;
     return role.includes(config.ROU) ? true : false;
 }
 
