@@ -15,7 +15,7 @@ export default class Detail extends Component {
             this.closeDetails(this.props.show);
         }
 
-        const action = this.props.object ? "Update" : "Add";
+        const action = this.props.object ? "Generate" : "Add";
         const objectType = this.props.objectType;
         const title = action + " " + objectType;
 
