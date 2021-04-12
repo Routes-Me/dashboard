@@ -62,6 +62,21 @@ export function createWebToken() {
 }
 
 
+export function policyPatched() {
+  return dispatch => {
+    dispatch(updatePolicyList())
+  }
+}
+
+function updatePolicyList() { return { type: GApiConstants.updatePolicyList } }
+
+export const listComponentUpdated = () =>{
+  return dispatch => {
+    dispatch(listUpdated());
+  }
+}
+
+function listUpdated(){ return {type: GApiConstants.emmComponentUpdated}}
 
 // Make sure the client is loaded and sign-in is complete before calling this method.
 export function getPolicies() {
@@ -70,7 +85,7 @@ export function getPolicies() {
 
   return dispatch => {
     dispatch(requestPolicies());
-    gapi.client.androidmanagement.enterprises.policies.list({
+    return window.gapi.client.androidmanagement.enterprises.policies.list({
       "parent": "enterprises/LC02my9vtl"
     })
     .then(function(response) {
@@ -88,6 +103,22 @@ export function getPolicies() {
   function returnPolicies(policies) { return {type: GApiConstants.getPolicies_SUCCESS, payload:policies};}
   function requestPoliciesError() { return {type: GApiConstants.getPolicies_ERROR};}
 
+}
+
+
+export const patchPolicy = (policy) =>{
+  console.log('Policy to patch ', policy)
+  return window.gapi.client.androidmanagement.enterprises.policies.patch({
+      "name":policy.name,
+      "resource":policy
+  })
+    .then(function (response) {
+        console.log('Successfull Path',response)
+        return response.result;
+    },
+    function(err) { 
+      console.log('EMM EnrollmentToken Error', err);
+    })
 }
 
 

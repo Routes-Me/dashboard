@@ -5,6 +5,9 @@ import Detail from '../Detail/Detail';
 import { userConstants } from '../../../../constants/userConstants';
 // import { gapi } from 'gapi-script';
 import {inLog, outLog} from '../../../../util/CustomLogging';
+import Modal from '../Dialog/Modal';
+import { GApiConstants } from '../../../../constants/GApiConstants';
+import { getPolicies } from '../../../../Redux/Action';
 
 class List extends Component {
 
@@ -13,8 +16,13 @@ class List extends Component {
 
         this.state = {
             tabIndex:1,
-            webtoken:'',
-            listObj: []
+            enrollmentToken:'',
+            name:'',
+            showModel: false,
+            listObj: [],
+            policyObj: '',
+            view:'',
+            mode:''
         }
         this.GAPI = window.gapi;
     }
@@ -28,7 +36,7 @@ class List extends Component {
         const script = document.createElement("script");
         script.src = "https://apis.google.com/js/api.js";
         script.onload = () => {
-          outLog('EMM',"Script loaded!!!");
+        outLog('EMM',"Script loaded!!!");
         this.authorize()
         .then(()=>this.loadClient()
         .then(() =>this.onTabClick(1)));
@@ -37,10 +45,10 @@ class List extends Component {
         // this.createTokenForFrame().then((webToken) => this.loadFrameWithToken(webToken)););
         };
         document.body.appendChild(script);
-      }
+    }
 
 
-      authorize = () => {
+    authorize = () => {
 
         inLog('EMM','Authorize Request')
 
@@ -70,7 +78,6 @@ class List extends Component {
 
 
     getDevices = () => {
-    
         inLog('EMM',"Get Devices request");
         // return window.gapi.client.load("androidmanagement", "v1").then(() => {
             return this.GAPI.client.androidmanagement.enterprises.devices
@@ -112,10 +119,62 @@ class List extends Component {
     }
 
 
+    deleteEntity = (e,name) => {
+
+        e.preventDefault();
+
+        if(this.state.tabIndex === 1)
+        this.deletePolicy(name).then(()=>this.props.updateList());
+
+        if(this.state.tabIndex === 2)
+        this.deleteDevice(name).then(()=> this.props.updateList());
 
 
+    }
 
-    createTokenForFrame = () => {
+    deletePolicy = (name) => {
+        return this.GAPI.client.androidmanagement.enterprises.policies
+        .delete({
+            "name":name
+        })
+        .then(function(response) {
+            console.log('Response ', response);
+        },
+        function (error) {
+            console.log('Error ', error);
+        });
+    }
+
+    deleteDevice = (name) => {
+        return this.GAPI.client.androidmanagement.enterprises.devices
+            .delete({
+                "name":name
+            })
+            .then(function(response) {
+                console.log('Response ', response);
+            },
+            function (error) {
+                console.log('Error ', error);
+            })
+    }
+
+    createEnrollmentToken = () =>{
+        return this.GAPI.client.androidmanagement.enterprises.enrollmentTokens.create({
+            "parent": "enterprises/LC02my9vtl",
+            "resource": {
+              "policyName": "enterprises/LC02my9vtl/policies/policyTest"
+            }
+          })
+          .then(function (response) {
+              return response.result
+          },
+          function(err) { 
+              outLog('EMM', `EnrollmentToken Error ${err}`);
+          })
+    }
+
+
+    createWebToken = () => {
         inLog('EMM', 'WebToken Request')
         return this.GAPI.client.androidmanagement.enterprises.webTokens.create({
             "parent": process.env.REACT_APP_GAPI_ENTERPRICE_ID,
@@ -141,7 +200,7 @@ class List extends Component {
                 var options = {
                   'url': `https://play.google.com/managed/browse?token=${webToken}&mode=SELECT`,
                   'where': document.getElementById('container'),
-                  'attributes': { style: 'width: 100%; height:800px', scrolling: 'yes'}
+                  'attributes': { style: 'width: 98%; height:800px; border-radius: 11px; border: .5px solid; padding: 10px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);', scrolling: 'yes'}
                 }
                 var iframe = window.gapi.iframes.getContext().openChild(options);
             });
@@ -149,52 +208,139 @@ class List extends Component {
         
     }
 
+    getPolicy = (policyName) => {
+        return this.GAPI.client.androidmanagement.enterprises.policies.get({
+            "name": policyName
+        })
+        .then(function (response) {
+            return response;
+        },
+        function(err) { 
+            outLog('EMM', `EnrollmentToken Error ${err}`);
+        })
+    }
+
+    showPolicyDetail = (e, policyName ) => {
+        e.preventDefault();
+        this.getPolicy(policyName).then(response => {this.setState({policyObj:response.result}); this.showDetailScreen(e,'Edit')})
+    }
+
 
     onTabClick = (index) => {
-        inLog('EMM',  `Tab clicked for ${index}`)
+        this.setState({showDetails:false});
         {index === 1 && this.getPolicies().then((response) => {this.setState({listObj:response}); console.log('Tab fn call ', response);}); 
-        this.createTokenForFrame().then((webToken) => {this.setState({webtoken:webToken}); this.loadFrameWithToken(webToken);})}
+        this.createWebToken().then((webToken) => {this.setState({webtoken:webToken}); this.loadFrameWithToken(webToken);})}
         {index === 2 && this.getDevices().then((response)=> this.setState({listObj:response}))};
+        {index === 3 && this.getPolicies().then((response)=> {this.setState({listObj:response})})}
 
         this.setState({ tabIndex: index });
         // this.updateTheList(index);
     }
 
-    showDetailScreen = (e, institution) => {
+    showDetailScreen = (e, action) => {
         e.preventDefault();
-        this.setState({
-            showDetails: !this.state.showDetails
-        })
+            
+        if(this.state.tabIndex === 2 && action === 'Add')
+        {
+            this.getPolicies()
+            .then(policyObj => 
+                this.setState({
+                    policyObj : policyObj
+                }));
+        }
+        this.setState({showDetails:!this.state.showDetails, mode: action});
+    }
+        
+
+    toggleModal = () =>{
+        this.setState({showModel : !this.state.showModel});
+    }
+
+    enlargeView = (view) => {
+        view === 'frame' && this.createWebToken().then(token => {this.setState({webToken: token, showModel: !this.state.showModel, view: view})});
+        view === 'application' && this.setState({ showModel: !this.state.showModel, view: view });
+    }
+
+    openSubMenu = (e, name) => {
+        e.preventDefault();
+        this.setState({ name: this.state.name === name? 0 : name });
     }
 
 
+    static getDerivedStateFromProps = (props, state) =>{
+        
+        if(props.ApplicationState === GApiConstants.updatePolicyList)
+        {
+            console.log('Initiate close details');
+            if(state.showDetails){
+                return {showDetails : false};
+            }
+        }
+    }
+
+    componentDidUpdate(){
+        if(this.props.ApplicationState === GApiConstants.updatePolicyList)
+        {
+            if(this.state.tabIndex === 1)
+            {
+                inLog('EMM','UpdateList');
+                this.getPolicies().then((response)=> {this.setState({listObj:response}); this.props.componentReloaded();});
+            }
+            if(this.state.tabIndex === 2){
+                this.getDevices().then((response)=> {this.setState({listObj:response}); this.props.componentReloaded()});
+            }
+        }
+    }
+    showDialogForObject = (obj) =>{
+        return(
+            <Modal
+            show={this.state.showModel}
+            onClose={this.toggleModal}
+            objectType={'Emm Console'}
+            objectList={obj} 
+            onSelect={''} />
+        );
+    }
 
 
     showList(list){
         console.log('EMM render', list)
         return (
-            <div>
                 <div className="table-list padding-lr-80">
                 {this.state.tabIndex === 1 &&
                     <table id='list'>
                         <thead>
                             <tr>
-                            <th>NAME</th>
-                            <th>Mode</th>
+                            <th>Version</th>
+                            <th>Name</th>
                             <th>Package Name</th>
                             <th>Install Type</th>
+                            <th className="width20"/>
                             </tr>
                         </thead>
                         <tbody>
 
-                                {list?.map(policy => (
-                                    <tr key={policy.name}>
-                                    <td>{policy.version}</td>
-                                    <td>{policy.name}</td>
-                                    <td>{policy?.applications[0]?.packageName}</td>
-                                    <td>{policy?.applications[0]?.installType}</td>
-                                    </tr>
-                                ))}
+                            {list?.map(policy => (
+                                <tr key={policy.name}>
+                                <td>{policy.version}</td>
+                                <td>{policy.name}</td>
+                                <td>{policy.applications && policy.applications[0].packageName}</td>
+                                <td>{policy.applications && policy.applications[0].installType}</td>
+                                <td className="width20" onClick={e => this.openSubMenu(e,policy.name)}>
+                                    <div className="edit-popup">
+                                        <div className="edit-delet-butt" onClick={e => this.openSubMenu(e, policy.name)}>
+                                            <span />
+                                            <span />
+                                            <span />
+                                        </div>
+                                        <ul className="edit-delet-link" style={{ display: this.state.name === policy.name ? 'inline-block' : 'none' }}>
+                                            <li><a onClick={(e) => this.showPolicyDetail(e, policy.name)}>Edit</a></li>
+                                            <li><a onClick={e => this.deleteEntity(e, policy.name)}>Delete</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                                </tr>
+                            ))}
 
                         </tbody>
                     </table>}
@@ -207,6 +353,7 @@ class List extends Component {
                             <th>Ownership</th>
                             <th>Status</th>
                             <th>Enrollment Time</th>
+                            <th className="width20"/>
                             </tr>
                         </thead>
                         <tbody>
@@ -217,41 +364,76 @@ class List extends Component {
                             <td>{device.ownership}</td>
                             <td>{device.state}</td>
                             <td>{device.enrollmentTime?.substr(0, 10)}</td>
+                            <td className="width20" onClick={e => this.openSubMenu(e,device.name)}>
+                                    <div className="edit-popup">
+                                        <div className="edit-delet-butt" onClick={e => this.openSubMenu(e, device.name)}>
+                                            <span />
+                                            <span />
+                                            <span />
+                                        </div>
+                                        <ul className="edit-delet-link" style={{ display: this.state.name === device.name ? 'inline-block' : 'none' }}>
+                                            <li><a onClick={e => this.deleteEntity(e, device.name)}>Delete</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
                             </tr>
                         ))}
 
                         </tbody>
                     </table>}
                 {this.state.tabIndex === 3 &&
-                    <div id="container"></div>
-                    // <iframe src="https://play.google.com/managed/browse?token=WAP_6YqqodsIYbEM-ZFb7I5XbvB25qYJJsoUu072Z_n74NdBGyx5Hjbb6lX7M17YlV2ZQJLFixsK0rmvGiWtM4gkAVZmQPvSRS5WT_gLkKKqg2-UPOz4Eai87opy0nasSD6lzLqrxpEkXuyfI1PyyLQfeaHkcqVJBRQ&mode=SELECT" width="100%" height="450"></iframe>
+                    <div className='row'>
+                    <div className='col-md-7'><div id="container"></div><image className='expand-icon' onClick={e=> {this.enlargeView('frame')}} style={{right:'5%', bottom:'4%'}}/></div>
+                    <div className='col-md-5 shadow-lg p-3 mb-8 rounded table-list applications'>
+                    <image className='expand-icon' onClick={e=> {this.enlargeView('application')}}/>
+                    <table id='list'>
+                        <h4> Application </h4>
+                        <tbody>
+
+                            {list?.map(policy => (
+                                <tr key={policy.name}>
+                                <td>{policy.applications && policy.applications[0].packageName}</td>
+                                </tr>
+                            ))}
+
+                        </tbody>
+                    </table>
+                    </div>
+                    </div>
                 }
-            </div>
             </div>
         )
     }
 
 
     render() {
+
         console.log('Render the list', this.state.listObj);
         let content = this.showList(this.state.listObj);
         const tabIndex = this.state.tabIndex; 
-        const policyObj = {name : "policyTest", policy: "", EMMTab: tabIndex}
+        const policyObj = {policy: this.state.policyObj, EMMTab: tabIndex, mode: this.state.mode}
+
         return (
             
             <div>
-                
+            <Modal
+                show={this.state.showModel}
+                onClose={this.toggleModal}
+                objectType={this.state.view === 'frame' ? 'Emm Console' : 'Applications'}
+                objectList={this.state.view === 'frame' ? this.state.webToken : this.state.listObj} 
+                onSelect={''} />
+
                 {this.state.showDetails ?
                     <Detail className={this.props.show ? 'slide-in' : 'slide-out'}
                         show={this.showDetailScreen}
-                        objectType={userConstants.NavItem_EMM}
+                        objectType={tabIndex === 2 ? 'Enrollment Token': `Policy`}
                         object= {policyObj}/> :
                         <div>
                         <div className="top-part-vehicles-search padding-lr-80">
                         <div className="header-add-butt">
                             <h3>EMM Console</h3>
-                            {/* <button className='filter-btn'><image className='filter-icon'/> AUthorize</button> */}
-                            {tabIndex===2 && <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><image className='filter-icon'/> Add</a>}
+                            {tabIndex===2 && <button className='filter-btn' onClick={e => this.showDetailScreen(e,'Add')}> Add Device</button> }
+                            {tabIndex===1 && <button className='filter-btn' onClick={e => this.showDetailScreen(e,'Aad')}> Add Policy</button>}
                         </div>
                         <div className="headerTabStyle" style={{maxWidth:'25%',marginTop:'13px'}}>
                         <nav>
@@ -266,7 +448,8 @@ class List extends Component {
                     {content}
                     
                     </div>
-                        }
+                }
+
                 </div>
                 
         );
@@ -277,7 +460,8 @@ const mapStateToProps = (state) => {
     return {
         List: state.UserStore.Policies,
         gApiClient: state.GApiStore.GApiClient,
-        webToken: state.GApiStore.WebToken
+        webToken: state.GApiStore.WebToken,
+        ApplicationState: state.GApiStore.Actionstate
     }
 }
 
@@ -285,7 +469,9 @@ const actionCreators = {
     getAuthorization: GApiAction.authenticate,
     createWebTokenForiFrame: GApiAction.createWebToken,
     getDevices: GApiAction.getDevices,
-    getPolicies: GApiAction.getPolicies
+    getPolicies: GApiAction.getPolicies,
+    updateList : GApiAction.policyPatched,
+    componentReloaded : GApiAction.listComponentUpdated
 };
 
 const connectedEMM = connect(mapStateToProps, actionCreators)(List);

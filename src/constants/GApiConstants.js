@@ -18,7 +18,10 @@ export const GApiConstants = {
 
     getApplications_REQUEST : 'GETAPPLICATIONS_REQUEST',
     getApplications_SUCCESS : 'GETAPPLICATIONS_SUCCESS',
-    getApplications_ERROR   : 'GETAPPLICATIONS_ERROR'
+    getApplications_ERROR   : 'GETAPPLICATIONS_ERROR',
+
+    updatePolicyList  : 'UPDATEPOLICYLIST',
+    emmComponentUpdated : 'EMMCOMPONENTUPDATED'
 
 
 }

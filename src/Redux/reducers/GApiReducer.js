@@ -6,7 +6,8 @@ const INITIAL_STATE ={
     Policies : [],
     loading : false,
     WebToken : '',
-    GApiClient : ''
+    GApiClient : '',
+    Actionstate : ''
 }
 
 const GApiReducer = ( state = INITIAL_STATE, action) => {
@@ -59,16 +60,26 @@ const GApiReducer = ( state = INITIAL_STATE, action) => {
                 ...state,
                 loading : true,
             }
-        case GApiConstants.getDevices_REQUEST:
+        case GApiConstants.getDevices_SUCCESS:
             return{
                 ...state,
                 loading : false,
                 Devices : action.payload
             }
-        case GApiConstants.getDevices_REQUEST:
+        case GApiConstants.getDevices_ERROR:
             return{
                 ...state,
                 loading : false,
+            }
+        case GApiConstants.updatePolicyList:
+            return{
+                ...state,
+                Actionstate: action.type
+            }
+        case GApiConstants.emmComponentUpdated:
+            return{
+                ...state,
+                Actionstate: action.type
             }
         default:
             return state

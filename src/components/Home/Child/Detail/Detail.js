@@ -34,7 +34,7 @@ export default class Detail extends Component {
                     </div>
                     <div className="col-md-6">
                         {/*< DetailHeader objectType={this.props.objectType} object={this.props.object} show={this.props.show} />*/}
-                        <button className="closeCrudBtn" onClick={this.props.show}/>
+                        <button className="closeCrudBtn" onClick={e => this.props.show(e)}/>
                     </div>
                  </div>
                 {/*< DetailHeader objectType={this.props.objectType} object={this.props.object} show={this.props.show} />*/}
