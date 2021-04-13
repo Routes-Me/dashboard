@@ -231,27 +231,6 @@ class PolicyDetails extends React.Component {
                         iconStyle={iconStyle}
                         />  
 
-                        {/* <ReactJson 
-                            name = {null}
-                            src={this.state.policy} 
-                            theme="bright:inverted" 
-                            enableClipboard='true'
-                            iconStyle='circle'
-                            onEdit={e => {
-                                          console.log(e);
-                                          this.setState({ policy: e.updated_src });
-                                      }
-                            }
-                            onDelete={ e => {
-                                          console.log(e);
-                                          this.setState({ policy: e.updated_src });
-                                      }
-                            }
-                            onAdd={e => {
-                                          console.log(e);
-                                          this.setState({ policy: e.updated_src });
-                                      }
-                            }/> */}
                         </pre>
                         </div>
                         </div>
