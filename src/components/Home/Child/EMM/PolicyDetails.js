@@ -53,7 +53,6 @@ class PolicyDetails extends React.Component {
 
 
     createEnrollmentToken = () =>{
-        
         const durationInSec = this.state.duration * 3600;
         console.log('Policy Name', durationInSec);
         return window.gapi.client.androidmanagement.enterprises.enrollmentTokens.create({
@@ -111,6 +110,15 @@ class PolicyDetails extends React.Component {
                     }
                 }
             }
+            if(props.tab.EMMTab === 2)
+            {
+                if(props.tab.mode ==='View')
+                {
+                    return {
+                        policy : props.tab.policy
+                    }
+                }
+            }
         }
     }
 
@@ -118,14 +126,15 @@ class PolicyDetails extends React.Component {
     returnPolicy = (tabindex) => {
         if(tabindex === 1)
         {
-            // this.setState({policy: this.props.tab.policy})
             return this.props.tab.policy;
         }
 
         if(tabindex === 2)
         {
-            console.log('Props passed :: ',this.props.tab)
+            if(this.props.tab.mode === 'Add')
             return [{name:'Please select a policy'},...this.props.tab.policy];
+
+            return this.props.tab.policy;
         }
         return {};
     }
@@ -150,7 +159,6 @@ class PolicyDetails extends React.Component {
 
               const tabIndex = this.props.tab.EMMTab;
               let policyObj = this.returnPolicy(tabIndex);
-
 
               const {
                 src,
@@ -194,7 +202,7 @@ class PolicyDetails extends React.Component {
                         <div className="col-md-12">
                         <pre>
 
-                        <ReactJson
+                    <ReactJson
                         name={false}
                         collapsed={collapsed}
                         style={style}
@@ -202,19 +210,19 @@ class PolicyDetails extends React.Component {
                         src={this.state.policy} 
                         collapseStringsAfterLength={collapseStringsAfter}
                         onEdit={e => {
-                                  console.log(e);
-                                  this.setState({ policy: e.updated_src });
-                              }
+                                console.log(e);
+                                this.setState({ policy: e.updated_src });
+                            }
                         }
                         onDelete={e => {
-                                      console.log(e);
-                                      this.setState({ policy: e.updated_src });
-                                  }
+                                console.log(e);
+                                this.setState({ policy: e.updated_src });
+                            }
                         }
                         onAdd={e => {
-                                      console.log(e);
-                                      this.setState({ policy: e.new_value });
-                                  }
+                                console.log(e);
+                                this.setState({ policy: e.new_value });
+                            }
                         }
                         displayObjectSize={displayObjectSize}
                         enableClipboard={enableClipboard}
@@ -222,7 +230,7 @@ class PolicyDetails extends React.Component {
                         displayDataTypes={displayDataTypes}
                         iconStyle={iconStyle}
                         />  
-                            
+
                         {/* <ReactJson 
                             name = {null}
                             src={this.state.policy} 
@@ -254,7 +262,7 @@ class PolicyDetails extends React.Component {
                         </div>
                     </Form>
                 }
-                {tabIndex === 2 &&
+                {tabIndex === 2 && this.props.tab.mode === 'Add' &&
                     <Form onSubmit={e => this.toggleModal(e)}>
 
                     <div className="row form-group">
@@ -291,6 +299,34 @@ class PolicyDetails extends React.Component {
                     </div>
 
                     </Form>
+                }
+                {tabIndex === 2 && this.props.tab.mode === 'View' &&
+                <div>
+                <div className="row form-group">
+                                    <div className="col-md-6">
+                                        <h2>{this.state.policy ? this.state.policy.name : 'New Police'}</h2>
+                                    </div>
+                                </div>
+                <div className="row form-group">
+                                    <div className="col-md-12">
+                    <pre>
+                        <ReactJson
+                            name={false}
+                            collapsed={collapsed}
+                            style={style}
+                            theme={theme}
+                            src={this.state.policy} 
+                            collapseStringsAfterLength={collapseStringsAfter}
+                            displayObjectSize={displayObjectSize}
+                            enableClipboard={enableClipboard}
+                            indentWidth={indentWidth}
+                            displayDataTypes={displayDataTypes}
+                            iconStyle={'circle'}
+                            />  
+                    </pre>
+                </div>
+                </div>
+                </div>
                 }
             </div>
         )

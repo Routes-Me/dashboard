@@ -59,10 +59,10 @@ class List extends Component {
         return window.gapi.auth2.getAuthInstance()
         .signIn({scope: "https://www.googleapis.com/auth/androidmanagement"})
         .then(function() { 
-            outLog('EMM', 'Sign-in successful');
+            outLog('EMM', 'Authorized!!');
         },
         function(err) { 
-            outLog('EMM',`Error signing in ${err}`); alert("Seems like authentication failed!!" + err.error.message);
+            outLog('EMM',`Authorization Error: ${err}`); alert("Seems like authentication failed!!" + err.error.message);
         });
     }
 
@@ -225,6 +225,12 @@ class List extends Component {
         this.getPolicy(policyName).then(response => {this.setState({policyObj:response.result}); this.showDetailScreen(e,'Edit')})
     }
 
+    showDeviceDetail = (e, device) => {
+        e.preventDefault();
+        this.setState({policyObj: device});
+        this.showDetailScreen(e,'View');
+    }
+
 
     onTabClick = (index) => {
         this.setState({showDetails:false});
@@ -372,6 +378,7 @@ class List extends Component {
                                             <span />
                                         </div>
                                         <ul className="edit-delet-link" style={{ display: this.state.name === device.name ? 'inline-block' : 'none' }}>
+                                            <li><a onClick={e => this.showDeviceDetail(e, device)}>Device Info</a></li>
                                             <li><a onClick={e => this.deleteEntity(e, device.name)}>Delete</a></li>
                                         </ul>
                                     </div>
