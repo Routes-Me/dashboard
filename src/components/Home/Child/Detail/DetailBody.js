@@ -28,6 +28,7 @@ export default class DetailBody extends Component {
                 {this.props.objectType === userConstants.NavItem_Campaigns && <CampaignsDetail campaignToDisplay={this.props.object} onClose={this.props.onClose}/>}
                 {this.props.objectType === 'Policy' && <PolicyDetails tab={this.props.object}/>}
                 {this.props.objectType === 'Enrollment Token' && <PolicyDetails tab={this.props.object}/>}
+                {this.props.objectType === 'Devices' && <PolicyDetails tab={this.props.object}/>}
             </div>
         )
     }
