@@ -2,276 +2,36 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as GApiAction from '../../../../Redux/Action';
 import Detail from '../Detail/Detail';
-import { userConstants } from '../../../../constants/userConstants';
-// import { gapi } from 'gapi-script';
 import {inLog, outLog} from '../../../../util/CustomLogging';
 import Modal from '../Dialog/Modal';
 import { GApiConstants } from '../../../../constants/GApiConstants';
-import { getPolicies } from '../../../../Redux/Action';
+import { gapi } from 'gapi-script';
+import GapiRequest from '../../../../util/gapi';
+import Launch from '../../../Launch';
+const gapiObj = new GapiRequest();
 
-class List extends Component {
+class Emm extends Component {
 
     constructor(props) {
         super(props)
 
         this.state = {
             tabIndex:1,
-            enrollmentToken:'',
             name:'',
             showModel: false,
             listObj: [],
             policyObj: '',
             view:'',
-            mode:''
+            mode:'',
+            loading:true
         }
-        this.GAPI = window.gapi;
+
+        // this.GAPI = window.gapi;
     }
 
     async componentDidMount() {
         this.loadGapiScript();
     }
-
-    loadGapiScript() {
-        inLog('EMM',"Loading script!!");
-        const script = document.createElement("script");
-        script.src = "https://apis.google.com/js/api.js";
-        script.onload = () => {
-        outLog('EMM',"Script loaded!!!");
-        this.authorize()
-        .then(()=>this.loadClient()
-        .then(() =>this.onTabClick(1)));
-        
-
-        // this.createTokenForFrame().then((webToken) => this.loadFrameWithToken(webToken)););
-        };
-        document.body.appendChild(script);
-    }
-
-
-    authorize = () => {
-
-        inLog('EMM','Authorize Request')
-
-        this.GAPI.load("client:auth2", function() {
-            window.gapi.auth2.init({client_id: process.env.REACT_APP_GAPI_CLIENTID});
-        });
-
-        return window.gapi.auth2.getAuthInstance()
-        .signIn({scope: "https://www.googleapis.com/auth/androidmanagement"})
-        .then(function() { 
-            outLog('EMM', 'Authorized!!');
-        },
-        function(err) { 
-            outLog('EMM',`Authorization Error: ${err}`); alert("Seems like authentication failed!!" + err.error.message);
-        });
-    }
-
-    loadClient = () => {
-        inLog('EMM','Loading Client....');
-        return this.GAPI.client.load("https://androidmanagement.googleapis.com/$discovery/rest?version=v1")
-            .then(function() { 
-                outLog('EMM', 'GAPI client loaded for API');
-            },
-            function(err) { alert(`Client Load API ===> Google Server Response : ${err.error.message}`);  outLog('EMM', `Error loading GAPI client for API ${err}`); });
-    }
-
-
-
-    getDevices = () => {
-        inLog('EMM',"Get Devices request");
-        // return window.gapi.client.load("androidmanagement", "v1").then(() => {
-            return this.GAPI.client.androidmanagement.enterprises.devices
-            .list({
-              parent: "enterprises/LC02my9vtl"
-            })
-            .then(
-              function (response) {
-                  return response.result.devices;
-              },
-              function (err) {
-                alert(
-                  `Devices API => Google Server Response : ${err.error.message}`
-                );
-                outLog("Execute error", err);
-              }
-            );
-        // });
-      };
-
-
-
-    getPolicies = () => {
-        inLog('EMM', 'Get Policies request');
-        // let responseObj = '';
-        return this.GAPI.client.androidmanagement.enterprises.policies
-        .list({
-            parent: 'enterprises/LC02my9vtl'
-        })
-        .then(
-            function (response) {
-                return response.result.policies;
-            },
-            function (err) {
-                outLog('EMM Policies Request Error', err);
-            }
-        )
-        // console.log('ResponseObj returned ', responseObj);
-    }
-
-
-    deleteEntity = (e,name) => {
-
-        e.preventDefault();
-
-        if(this.state.tabIndex === 1)
-        this.deletePolicy(name).then(()=>this.props.updateList());
-
-        if(this.state.tabIndex === 2)
-        this.deleteDevice(name).then(()=> this.props.updateList());
-
-
-    }
-
-    deletePolicy = (name) => {
-        return this.GAPI.client.androidmanagement.enterprises.policies
-        .delete({
-            "name":name
-        })
-        .then(function(response) {
-            console.log('Response ', response);
-        },
-        function (error) {
-            console.log('Error ', error);
-        });
-    }
-
-    deleteDevice = (name) => {
-        return this.GAPI.client.androidmanagement.enterprises.devices
-            .delete({
-                "name":name
-            })
-            .then(function(response) {
-                console.log('Response ', response);
-            },
-            function (error) {
-                console.log('Error ', error);
-            })
-    }
-
-    createEnrollmentToken = () =>{
-        return this.GAPI.client.androidmanagement.enterprises.enrollmentTokens.create({
-            "parent": "enterprises/LC02my9vtl",
-            "resource": {
-              "policyName": "enterprises/LC02my9vtl/policies/policyTest"
-            }
-          })
-          .then(function (response) {
-              return response.result
-          },
-          function(err) { 
-              outLog('EMM', `EnrollmentToken Error ${err}`);
-          })
-    }
-
-
-    createWebToken = () => {
-        inLog('EMM', 'WebToken Request')
-        return this.GAPI.client.androidmanagement.enterprises.webTokens.create({
-            "parent": process.env.REACT_APP_GAPI_ENTERPRICE_ID,
-            "resource": {
-            "parentFrameUrl": "https://localhost:3000/home"
-            }
-        })
-        .then(function(response) {
-            // outLog('EMM',`WebToken Response Success ${response.result.value}`);
-            return response.result.value;
-        },
-        function(err) { 
-            outLog('EMM', `WebToken Error ${err}`);
-        });
-    }
-
-    loadFrameWithToken = (webToken) => {
-        outLog('EMM', `LoadDiv Called with Passedtoken ${webToken}`);
-        // this.setState({webtoken :webToken});
-        if(webToken !== undefined)
-        {
-            this.GAPI.load('gapi.iframes', function() {
-                var options = {
-                  'url': `https://play.google.com/managed/browse?token=${webToken}&mode=SELECT`,
-                  'where': document.getElementById('container'),
-                  'attributes': { style: 'width: 98%; height:800px; border-radius: 11px; border: .5px solid; padding: 10px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);', scrolling: 'yes'}
-                }
-                var iframe = window.gapi.iframes.getContext().openChild(options);
-            });
-        }
-        
-    }
-
-    getPolicy = (policyName) => {
-        return this.GAPI.client.androidmanagement.enterprises.policies.get({
-            "name": policyName
-        })
-        .then(function (response) {
-            return response;
-        },
-        function(err) { 
-            outLog('EMM', `EnrollmentToken Error ${err}`);
-        })
-    }
-
-    showPolicyDetail = (e, policyName ) => {
-        e.preventDefault();
-        this.getPolicy(policyName).then(response => {this.setState({policyObj:response.result}); this.showDetailScreen(e,'Edit')})
-    }
-
-    showDeviceDetail = (e, device) => {
-        e.preventDefault();
-        this.setState({policyObj: device});
-        this.showDetailScreen(e,'View');
-    }
-
-
-    onTabClick = (index) => {
-        this.setState({showDetails:false});
-        {index === 1 && this.getPolicies().then((response) => {this.setState({listObj:response}); console.log('Tab fn call ', response);}); 
-        this.createWebToken().then((webToken) => {this.setState({webtoken:webToken}); this.loadFrameWithToken(webToken);})}
-        {index === 2 && this.getDevices().then((response)=> this.setState({listObj:response}))};
-        {index === 3 && this.getPolicies().then((response)=> {this.setState({listObj:response})})}
-
-        this.setState({ tabIndex: index });
-        // this.updateTheList(index);
-    }
-
-    showDetailScreen = (e, action) => {
-        e.preventDefault();
-            
-        if(this.state.tabIndex === 2 && action === 'Add')
-        {
-            this.getPolicies()
-            .then(policyObj => 
-                this.setState({
-                    policyObj : policyObj
-                }));
-        }
-        this.setState({showDetails:!this.state.showDetails, mode: action});
-    }
-        
-
-    toggleModal = () =>{
-        this.setState({showModel : !this.state.showModel});
-    }
-
-    enlargeView = (view) => {
-        view === 'frame' && this.createWebToken().then(token => {this.setState({webToken: token, showModel: !this.state.showModel, view: view})});
-        view === 'application' && this.setState({ showModel: !this.state.showModel, view: view });
-    }
-
-    openSubMenu = (e, name) => {
-        e.preventDefault();
-        this.setState({ name: this.state.name === name? 0 : name });
-    }
-
 
     static getDerivedStateFromProps = (props, state) =>{
         
@@ -290,13 +50,115 @@ class List extends Component {
             if(this.state.tabIndex === 1)
             {
                 inLog('EMM','UpdateList');
-                this.getPolicies().then((response)=> {this.setState({listObj:response}); this.props.componentReloaded();});
+                gapiObj.getPolicies().then((response)=> {this.setState({listObj:response}); this.props.componentReloaded();});
             }
             if(this.state.tabIndex === 2){
-                this.getDevices().then((response)=> {this.setState({listObj:response}); this.props.componentReloaded()});
+                gapiObj.getDevices().then((response)=> {this.setState({listObj:response}); this.props.componentReloaded()});
             }
         }
     }
+
+    loadGapiScript(){
+        inLog('EMM',"Loading script!!");
+        const script = document.createElement("script");
+        script.src = "https://apis.google.com/js/api.js";
+        
+        document.head.appendChild(script); 
+        
+        script.onload = () => {
+        outLog('EMM',"Script loaded!!!");
+        gapiObj.authorize()
+        .then(()=>gapiObj.loadClient()
+        .then(() =>this.onTabClick(1)));
+        };
+        
+    }
+
+
+    deleteEntity = (e,name) => {
+        e.preventDefault();
+
+        if(this.state.tabIndex === 1)
+        gapiObj.deletePolicy(name).then(()=>this.props.updateList());
+
+        if(this.state.tabIndex === 2)
+        gapiObj.deleteDevice(name).then(()=> this.props.updateList());
+
+
+    }
+
+
+    loadFrameWithToken = (webToken) => {
+        outLog('EMM', `LoadDiv Called with Passedtoken ${webToken}`);
+        // this.setState({webtoken :webToken});
+        if(webToken !== undefined)
+        {
+            window.gapi.load('gapi.iframes', function() {
+                var options = {
+                  'url': `https://play.google.com/managed/browse?token=${webToken}&mode=SELECT`,
+                  'where': document.getElementById('container'),
+                  'attributes': { style: 'width: 98%; height:800px; border-radius: 11px; border: .5px solid; padding: 10px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);', scrolling: 'yes'}
+                }
+                var iframe = window.gapi.iframes.getContext().openChild(options);
+            });
+        }
+        
+    }
+
+    showPolicyDetail = (e, policyName ) => {
+        e.preventDefault();
+        gapiObj.getPolicy(policyName).then(response => {this.setState({policyObj:response.result}); this.showDetailScreen(e,'Edit')})
+    }
+
+    showDeviceDetail = (e, device) => {
+        e.preventDefault();
+        this.setState({policyObj: device});
+        this.showDetailScreen(e,'View');
+    }
+
+
+    onTabClick = (index) => {
+        console.log('tab clicked to default')
+        this.setState({showDetails:false, loading:true});
+        {index === 1 && gapiObj.getPolicies().then((response) => {this.setState({listObj:response,loading:false});});}
+        {index === 2 && gapiObj.getDevices().then((response)=> this.setState({listObj:response,loading:false}))};
+        {index === 3 && gapiObj.getPolicies().then((response)=> {this.setState({listObj:response,loading:false})});
+        gapiObj.createWebToken().then((webToken) => {this.setState({webtoken:webToken}); this.loadFrameWithToken(webToken);})}
+
+        this.setState({ tabIndex: index });
+    }
+
+    showDetailScreen = (e, action) => {
+        e.preventDefault();
+            
+        if(this.state.tabIndex === 2 && action === 'Add')
+        {
+            return gapiObj.getPolicies()
+            .then(policyObj => 
+                {this.setState({
+                    policyObj : policyObj,
+                    showDetails:!this.state.showDetails,
+                    mode: action
+                });
+            console.log('Response from getPolicies', policyObj)});
+        }
+        this.setState({showDetails:!this.state.showDetails, mode: action});
+    }
+
+    toggleModal = () =>{
+        this.setState({showModel : !this.state.showModel});
+    }
+
+    enlargeView = (view) => {
+        view === 'frame' && gapiObj.createWebToken().then(token => {this.setState({webToken: token, showModel: !this.state.showModel, view: view})});
+        view === 'application' && this.setState({ showModel: !this.state.showModel, view: view });
+    }
+
+    openSubMenu = (e, name) => {
+        e.preventDefault();
+        this.setState({ name: this.state.name === name? 0 : name });
+    }
+
     showDialogForObject = (obj) =>{
         return(
             <Modal
@@ -308,13 +170,13 @@ class List extends Component {
         );
     }
 
-
     showList(list){
         console.log('EMM render', list)
         return (
                 <div className="table-list padding-lr-80">
                 {this.state.tabIndex === 1 &&
                     <table id='list'>
+
                         <thead>
                             <tr>
                             <th>Version</th>
@@ -326,27 +188,27 @@ class List extends Component {
                         </thead>
                         <tbody>
 
-                            {list?.map(policy => (
-                                <tr key={policy.name}>
-                                <td>{policy.version}</td>
-                                <td>{policy.name}</td>
-                                <td>{policy.applications && policy.applications[0].packageName}</td>
-                                <td>{policy.applications && policy.applications[0].installType}</td>
-                                <td className="width20" onClick={e => this.openSubMenu(e,policy.name)}>
-                                    <div className="edit-popup">
-                                        <div className="edit-delet-butt" onClick={e => this.openSubMenu(e, policy.name)}>
-                                            <span />
-                                            <span />
-                                            <span />
-                                        </div>
-                                        <ul className="edit-delet-link" style={{ display: this.state.name === policy.name ? 'inline-block' : 'none' }}>
-                                            <li><a onClick={(e) => this.showPolicyDetail(e, policy.name)}>Edit</a></li>
-                                            <li><a onClick={e => this.deleteEntity(e, policy.name)}>Delete</a></li>
-                                        </ul>
+                        {list?.map(policy => (
+                            <tr key={policy.name}>
+                            <td>{policy.version}</td>
+                            <td>{policy.name}</td>
+                            <td>{policy.applications && policy.applications[0].packageName}</td>
+                            <td>{policy.applications && policy.applications[0].installType}</td>
+                            <td className="width20" onClick={e => this.openSubMenu(e,policy.name)}>
+                                <div className="edit-popup">
+                                    <div className="edit-delet-butt" onClick={e => this.openSubMenu(e, policy.name)}>
+                                        <span />
+                                        <span />
+                                        <span />
                                     </div>
-                                </td>
-                                </tr>
-                            ))}
+                                    <ul className="edit-delet-link" style={{ display: this.state.name === policy.name ? 'inline-block' : 'none' }}>
+                                        <li><a onClick={(e) => this.showPolicyDetail(e, policy.name)}>Edit</a></li>
+                                        <li><a onClick={e => this.deleteEntity(e, policy.name)}>Delete</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                            </tr>
+                        ))}
 
                         </tbody>
                     </table>}
@@ -412,7 +274,6 @@ class List extends Component {
         )
     }
 
-
     render() {
 
         console.log('Render the list', this.state.listObj);
@@ -423,17 +284,19 @@ class List extends Component {
         return (
             
             <div>
-            <Modal
-                show={this.state.showModel}
-                onClose={this.toggleModal}
-                objectType={this.state.view === 'frame' ? 'Emm Console' : 'Applications'}
-                objectList={this.state.view === 'frame' ? this.state.webToken : this.state.listObj} 
-                onSelect={''} />
+            {this.state.loading ? <Launch /> :
+            <>
+                <Modal
+                    show={this.state.showModel}
+                    onClose={this.toggleModal}
+                    objectType={this.state.view === 'frame' ? 'Emm Console' : 'Applications'}
+                    objectList={this.state.view === 'frame' ? this.state.webToken : this.state.listObj} 
+                    onSelect={''} />
 
                 {this.state.showDetails ?
-                    <Detail className={this.props.show ? 'slide-in' : 'slide-out'}
+                    <Detail className={this.state.showDetail ? 'slide-in' : 'slide-out'}
                         show={this.showDetailScreen}
-                        objectType={tabIndex === 2 ? 'Enrollment Token': `Policy`}
+                        objectType={tabIndex === 2 ? this.state.mode ==='Add'? 'Devices' : 'Enrollment Token': `Policy`}
                         object= {policyObj}/> :
                         <div>
                         <div className="top-part-vehicles-search padding-lr-80">
@@ -456,6 +319,7 @@ class List extends Component {
                     
                     </div>
                 }
+            </>}
 
                 </div>
                 
@@ -465,22 +329,15 @@ class List extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        List: state.UserStore.Policies,
-        gApiClient: state.GApiStore.GApiClient,
-        webToken: state.GApiStore.WebToken,
         ApplicationState: state.GApiStore.Actionstate
     }
 }
 
 const actionCreators = {
-    getAuthorization: GApiAction.authenticate,
-    createWebTokenForiFrame: GApiAction.createWebToken,
-    getDevices: GApiAction.getDevices,
-    getPolicies: GApiAction.getPolicies,
     updateList : GApiAction.policyPatched,
     componentReloaded : GApiAction.listComponentUpdated
 };
 
-const connectedEMM = connect(mapStateToProps, actionCreators)(List);
+const connectedEMM = connect(mapStateToProps, actionCreators)(Emm);
 export { connectedEMM as default };
 

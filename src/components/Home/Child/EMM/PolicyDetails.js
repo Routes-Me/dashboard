@@ -58,17 +58,17 @@ class PolicyDetails extends React.Component {
         return window.gapi.client.androidmanagement.enterprises.enrollmentTokens.create({
             "parent": "enterprises/LC02my9vtl",
             "resource": {
-              "policyName": this.state.policyName,
-              "duration": `${durationInSec}s`
+                "policyName": this.state.policyName,
+                "duration": `${durationInSec}s`
             }
-          })
-          .then(function (response) {
-              console.log('EMM', `Enrollment Token ${response.result.value}`)
-              return response.result;
-          },
-          function(err) { 
+        }).then(
+        function (response) {
+            console.log('EMM', `Enrollment Token ${response.result.value}`)
+            return response.result;
+        },
+        function(err) { 
             console.log('EMM EnrollmentToken Error', err);
-          })
+        })
     }
 
     patchPolicy = () =>{
@@ -86,7 +86,7 @@ class PolicyDetails extends React.Component {
             return response.result;
         },
         function(err) { 
-          console.log('EMM EnrollmentToken Error', err);
+            console.log('EMM EnrollmentToken Error', err);
         })
     }
 
@@ -131,7 +131,8 @@ class PolicyDetails extends React.Component {
 
         if(tabindex === 2)
         {
-            if(this.props.tab.mode === 'Add')
+            console.log('Tab policy', this.props.tab.policy);
+            if((this.props.tab.mode === 'Add') && (this.props.tab.policy))
             return [{name:'Please select a policy'},...this.props.tab.policy];
 
             return this.props.tab.policy;
@@ -157,10 +158,10 @@ class PolicyDetails extends React.Component {
 
     render() {
 
-              const tabIndex = this.props.tab.EMMTab;
-              let policyObj = this.returnPolicy(tabIndex);
+            const tabIndex = this.props.tab.EMMTab;
+            let policyObj = this.returnPolicy(tabIndex);
 
-              const {
+            const {
                 src,
                 collapseStringsAfter,
                 onAdd,
@@ -202,43 +203,43 @@ class PolicyDetails extends React.Component {
                         <div className="col-md-12">
                         <pre>
 
-                    <ReactJson
-                        name={false}
-                        collapsed={collapsed}
-                        style={style}
-                        theme={theme}
-                        src={this.state.policy} 
-                        collapseStringsAfterLength={collapseStringsAfter}
-                        onEdit={e => {
-                                console.log(e);
-                                this.setState({ policy: e.updated_src });
-                            }
-                        }
-                        onDelete={e => {
-                                console.log(e);
-                                this.setState({ policy: e.updated_src });
-                            }
-                        }
-                        onAdd={e => {
-                                console.log(e);
-                                this.setState({ policy: e.new_value });
-                            }
-                        }
-                        displayObjectSize={displayObjectSize}
-                        enableClipboard={enableClipboard}
-                        indentWidth={indentWidth}
-                        displayDataTypes={displayDataTypes}
-                        iconStyle={iconStyle}
-                        />  
+                            <ReactJson
+                                name={false}
+                                collapsed={collapsed}
+                                style={style}
+                                theme={theme}
+                                src={this.state.policy} 
+                                collapseStringsAfterLength={collapseStringsAfter}
+                                onEdit={e => {
+                                        console.log(e);
+                                        this.setState({ policy: e.updated_src });
+                                    }
+                                }
+                                onDelete={e => {
+                                        console.log(e);
+                                        this.setState({ policy: e.updated_src });
+                                    }
+                                }
+                                onAdd={e => {
+                                        console.log(e);
+                                        this.setState({ policy: e.new_value });
+                                    }
+                                }
+                                displayObjectSize={displayObjectSize}
+                                enableClipboard={enableClipboard}
+                                indentWidth={indentWidth}
+                                displayDataTypes={displayDataTypes}
+                                iconStyle={iconStyle}
+                                />  
 
                         </pre>
                         </div>
-                        </div>
-                        <div className="container-fluid">
-                                <div className="footerStyle">
-                                    <button type="submit" onClick={e => this.patchPolicy()} style={{ float: 'left' }}> Update </button>
-                                </div>
-                        </div>
+                    </div>
+                    <div className="container-fluid">
+                            <div className="footerStyle">
+                                <button type="submit" onClick={e => this.patchPolicy()} style={{ float: 'left' }}> Update </button>
+                            </div>
+                    </div>
                     </Form>
                 }
                 {tabIndex === 2 && this.props.tab.mode === 'Add' &&
@@ -264,17 +265,17 @@ class PolicyDetails extends React.Component {
                     </div>
 
                     <div className="row form-group">
-                            <div className="col-md-6">
-                                <Label>One Time Use</Label>
-                                <label className="radio-inline"><input type="radio" name="oneTimeUse" onChange={this.onChangeRadioButton} checked={this.state.oneTimeUse}/> Yes</label>
-                                <label className="radio-inline"><input type="radio" name="oneTimeUse" onChange={this.onChangeRadioButton} checked={!this.state.oneTimeUse}/> No</label>
-                            </div>
+                        <div className="col-md-6">
+                            <Label>One Time Use</Label>
+                            <label className="radio-inline"><input type="radio" name="oneTimeUse" onChange={this.onChangeRadioButton} checked={this.state.oneTimeUse}/> Yes</label>
+                            <label className="radio-inline"><input type="radio" name="oneTimeUse" onChange={this.onChangeRadioButton} checked={!this.state.oneTimeUse}/> No</label>
                         </div>
+                    </div>
 
                     <div className="container-fluid">
-                                <div className="footerStyle">
-                                    <button type="submit" style={{ float: 'left' }}> Generate </button>
-                                </div>
+                        <div className="footerStyle">
+                            <button type="submit" style={{ float: 'left' }}> Generate </button>
+                        </div>
                     </div>
 
                     </Form>
@@ -282,12 +283,12 @@ class PolicyDetails extends React.Component {
                 {tabIndex === 2 && this.props.tab.mode === 'View' &&
                 <div>
                 <div className="row form-group">
-                                    <div className="col-md-6">
-                                        <h2>{this.state.policy ? this.state.policy.name : 'New Police'}</h2>
-                                    </div>
-                                </div>
+                        <div className="col-md-6">
+                            <h2>{this.state.policy ? this.state.policy.name : 'New Police'}</h2>
+                        </div>
+                </div>
                 <div className="row form-group">
-                                    <div className="col-md-12">
+                <div className="col-md-12">
                     <pre>
                         <ReactJson
                             name={false}
