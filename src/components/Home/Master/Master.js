@@ -53,7 +53,7 @@ export class Master extends Component {
                                 collapseDirection:'down',
                                 timeout: 300,
                                 transition: 'none',
-                                collapseSize: 160,
+                                collapseSize: 390,
                                 buttonPositionOffset:'4px'
                             }}>
                             <Primary />
