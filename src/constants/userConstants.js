@@ -28,6 +28,7 @@
     NavItem_Analytics : 'Analytics',
     NavItem_Prizes    : 'Prizes',
     NavItem_EMM    : 'EMM',
+    NavItem_Bus    : 'Bus Routes',
 
     getUsers_REQUEST: "GETUSERS_REQUEST",
     getUsers_SUCCESS: "GETUSERS_SUCCESS",

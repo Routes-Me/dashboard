@@ -3,6 +3,10 @@
   padding-top: 76px;
 }
 
+.padding-lr-80-top-0 {
+  padding: 0 80px;
+}
+
 .left-panel {
   max-width: 283px;
   width: 100%;
@@ -39,7 +43,6 @@
 
 .menu-part {
   padding-bottom: 22px;
-  border-bottom: 1px solid black;
 }
 
 .menu-part ul {
@@ -379,6 +382,11 @@ form {
   top: 0px;
   right: 0px;
   text-align: center;
+}
+
+.headerTabStyle {
+  display: flex;
+  flex-direction: row;
 }
 
 .headerTabStyle button:hover {

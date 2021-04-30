@@ -6,6 +6,7 @@ import { AdvertisementsDetail } from './../Advertisements/AdvertisementsDetail';
 import { CampaignsDetail } from './../Campaigns/CampaignsDetail';
 import { PolicyDetails } from './../EMM/PolicyDetails';
 import { userConstants } from '../../../../constants/userConstants';
+import { RoutesDetails } from '../Routes/RoutesDetails';
 
 
 export default class DetailBody extends Component {
@@ -29,6 +30,7 @@ export default class DetailBody extends Component {
                 {this.props.objectType === 'Policy' && <PolicyDetails tab={this.props.object}/>}
                 {this.props.objectType === 'Enrollment Token' && <PolicyDetails tab={this.props.object}/>}
                 {this.props.objectType === 'Devices' && <PolicyDetails tab={this.props.object}/>}
+                {this.props.objectType === userConstants.NavItem_Bus && <RoutesDetails entity={this.props.object} />}
             </div>
         )
     }

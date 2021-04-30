@@ -16,6 +16,23 @@
   margin-bottom: 15px;
 }
 
+.flex-row {
+  display: flex;
+}
+
+.flex-collumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-add-butt .logo {
+  width: 50px;
+  height: 61px;
+  object-fit: contain;
+  margin: 30px;
+  margin-left: 0px;
+}
+
 .header-add-butt h3 {
   font-size: 35px;
   font-weight: bold;

@@ -13,6 +13,7 @@ const Campaigns = lazy(() => import('./Campaigns/Campaigns'));
 const Analytics = lazy(() => import('./Analytics/Analytics'));
 const Prizes = lazy(() => import('./Prizes/Prizes'));
 const List = lazy(() => import('./EMM/List'));
+const RoutesList = lazy(() => import('./Routes/RoutesList'));
 
 class Child extends Component {
     render() {
@@ -30,6 +31,7 @@ class Child extends Component {
                 {this.props.selectedNavItem === userConstants.NavItem_Analytics && <Analytics advertisementList ={this.props.AdvertisementList} />}
                 {this.props.selectedNavItem === userConstants.NavItem_Prizes && <Prizes />}
                 {this.props.selectedNavItem === userConstants.NavItem_EMM && <List />}
+                {this.props.selectedNavItem === userConstants.NavItem_Bus && <RoutesList/>}
                 </Suspense>
             </div>
 
