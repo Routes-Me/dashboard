@@ -1,5 +1,4 @@
 import apiHandler from '../../util/request';
-import { prizeConstants }  from '../../constants/prizeConstants'; 
 import { routesConstants } from '../../constants/routesConstants';
 
 
@@ -154,7 +153,7 @@ export function deleteTicket(id){
 }
 
 function deleteTicketRequest() {
-    return { type : routesConstants.deleteTickets_REQUEST }
+    return { type : routesConstants.deleteTickets_REQUEST } 
 }
 
 function deleteTicketSucces() {
@@ -162,10 +161,29 @@ function deleteTicketSucces() {
 }
 
 
+export function getCurrency() {
+    return dispatch => {
+        apiHandler.get('currency')
+        .then(
+            response => {
+                dispatch(updateCurrencyList(response))
+            },
+            error => {
+                console.log('Error in get currency :: ', error);
+            }
+        )
+    }
+}
+
+function updateCurrencyList(list) {
+    return { type: routesConstants.updateCurrencyList, payload:list }
+}
+
+
 function returnFormatedResponse(response) {
     let formatedResponse= {
-      data : response.data.data,
-      page : response.data.pagination
+        data : response.data.data,
+        page : response.data.pagination
     }
     return formatedResponse;
 }
