@@ -14,7 +14,8 @@ export class RoutesList extends Component {
             lsit : [],
             tabIndex: 1,
             showDetails:false,
-            objectToDisplay:''
+            objectToDisplay:'',
+            optionsIndex:0
         }
     }
 
@@ -31,7 +32,6 @@ export class RoutesList extends Component {
         }
     }
 
-
     componentDidUpdate(){
         if(this.props.ApplicationState === routesConstants.updateList)
         {
@@ -41,7 +41,13 @@ export class RoutesList extends Component {
     }
 
     onTabClick = (index) => {
-        this.setState({ tabIndex: index });
+        this.setState({ tabIndex: index, optionsIndex:0 });
+    }
+
+    //Handle submenu for the table row
+    openSubMenu = (e, index) => {
+        e.preventDefault();
+        this.setState({ optionsIndex: this.state.optionsIndex === index ? 0 :index });
     }
 
     //Show Detail Screen
@@ -54,8 +60,12 @@ export class RoutesList extends Component {
         })
     }
 
+    returnFormatedtextForTickets = (tickets) =>{
+        return tickets.count > 0 ? tickets.count > 1 ? tickets.join(',') : tickets[0] : '--';
+    }
 
-    renderList(Vehicles) {
+
+    renderList(list) {
         return (
             <div className="table-list padding-lr-80-top-0">
                 {this.state.tabIndex === 1 &&
@@ -68,7 +78,7 @@ export class RoutesList extends Component {
                             </div>
                             </div>
                             <div className='col-md-6'>
-                            <PageHandler page = {Vehicles.page} getList={this.props.getCandidatesForDraw} style='header' institutionId='1580030173'/>
+                            <PageHandler page = {list.page} getList={this.props.getCandidatesForDraw} style='header' institutionId='1580030173'/>
                             </div>
                         </div>
                         
@@ -96,17 +106,27 @@ export class RoutesList extends Component {
                                 <td>test 2</td>
                                 <td>test 3</td>
                             </tr>
-                            {
-                                // Vehicles.data?.map(Vehicle =>(
-                                //     <tr  key={Vehicle.candidateId}>
-                                //         <td>{Vehicle.name}</td>
-                                //         <td>{Vehicle.email}</td>
-                                //         <td>{Vehicle.dateOfBirth?.substr(0, 10)}</td>
-                                //         <td>{Vehicle.phoneNumber}</td>
-                                //         <td>{Vehicle.createdAt}</td>
-                                //     </tr>
-                                // ))
-                            }
+                            {/* {
+                                list.data?.map((item, index) =>(
+                                    <tr  key={item.RouteId}>
+                                        <td>{item.Title}</td>
+                                        <td>{item.Subtitle}</td>
+                                        <td>{returnFormatedtextForTickets(item.Tarrifs)}</td>
+                                        <td className="width44" onClick={e => this.openSubMenu(e, index)}>
+                                            <div className="edit-popup">
+                                                <div className="edit-delet-butt" onClick={e => this.openSubMenu(e, index)}>
+                                                    <span />
+                                                    <span />
+                                                    <span />
+                                                </div>
+                                                <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === index ? 'inline-block' : 'none' }}>
+                                                    <li><a onClick={e => this.showDetailScreen(e, item)}>Edit</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                ))
+                            } */}
                         </tbody>
                     </table>
                     </div>}
@@ -120,7 +140,7 @@ export class RoutesList extends Component {
                         </div>
                         </div>
                         <div className='col-md-6'>
-                        <PageHandler page = {Vehicles.page} getList={this.props.getCandidatesForDraw} style='header'/>
+                        <PageHandler page = {list.page} getList={this.props.getCandidatesForDraw} style='header'/>
                         </div>
                 </div>
                 <table>
@@ -148,13 +168,23 @@ export class RoutesList extends Component {
                                 <td>test 3</td>
                             </tr>
                             {/* {
-                                Vehicles.data?.map(Vehicle => (
-                                    <tr key={Vehicle.drawId}>
-                                        <td>{Vehicle.name}</td>
-                                        <td>{Vehicle.startAt}</td>
-                                        <td>{Vehicle.endAt}</td>
-                                        <td><Status text={Vehicle.status}/></td>
-                                        <td>{Vehicle.createdAt}</td>
+                                list.data?.map((item, index) => (
+                                    <tr key={item.CreatedAt}>
+                                        <td>{item.Price}</td>
+                                        <td>{item.Validity}</td>
+                                        <td>{item.CreatedAt}</td>
+                                        <td className="width44" onClick={e => this.openSubMenu(e, index)}>
+                                            <div className="edit-popup">
+                                                <div className="edit-delet-butt" onClick={e => this.openSubMenu(e, index)}>
+                                                    <span />
+                                                    <span />
+                                                    <span />
+                                                </div>
+                                                <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === index ? 'inline-block' : 'none' }}>
+                                                    <li><a onClick={e => this.showDetailScreen(e, item)}>Edit</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
                                     </tr>
                                 ))
                             } */}

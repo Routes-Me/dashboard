@@ -24,6 +24,8 @@ export const routesConstants = {
     deleteTickets_SUCCESS       : 'DELETETICKETS_SUCCESS',
     deleteTickets_FAILURE       : 'DELETETICKETS_FAILURE',
 
+    updateCurrencyList          : 'UPDATECURRENCY_LIST',
+
     updateList     :    'UPDATE_LIST'
 
 }
