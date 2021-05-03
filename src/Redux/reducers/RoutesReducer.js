@@ -7,6 +7,7 @@ const INITIAL_STATE = {
     error   : '',
     routes : [],
     fares : [],
+    currency : [],
     actionState :''
 }
 
@@ -120,6 +121,13 @@ const RoutesReducer = (state = INITIAL_STATE, action) => {
             return{
                 ...state,
                 loading:false,
+                actionState: action.type
+            }
+        case routesConstants.updateCurrencyList:
+            return{
+                ...state,
+                loading:false,
+                currency:action.payload,
                 actionState: action.type
             }
         default:
