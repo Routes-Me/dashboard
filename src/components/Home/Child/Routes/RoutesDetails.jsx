@@ -1,19 +1,16 @@
-import { event } from 'jquery';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Form, Label } from 'reactstrap';
 import * as RoutesAction from '../../../../Redux/Action/RoutesAction';
 
-export class RoutesDetails extends Component {
+class RoutesDetails extends Component {
 
     constructor(props){
         super(props)
         this.state = {
-            route:'',
-            destination:'',
+            title:'',
+            subtitle:'',
             objectToDisplay :'',
-            route :'',
-            destination :'',
             price:'',
             currency:'',
             validity:''
@@ -26,31 +23,57 @@ export class RoutesDetails extends Component {
 
 
     static getDerivedStateFromProps(props, state) {
-        if(props.entity.objectToDisplay !== undefined){
+        if(props.entity !== undefined){
             if(props.entity !== state.objectToDisplay){
                 if(props.entity.tabIndex === 1)
                 return {
-                    objectToDisplay : props.entity.objectToDisplay,
-                    route : props.entity.objectToDisplay.route,
-                    destination : props.entity.objectToDisplay.destination
+                    objectToDisplay : props.entity,
+                    title : props.entity.Title,
+                    subtitle : props.entity.Subtitle
                 }
                 if(props.entity.tabIndex === 2)
                 return {
-                    objectToDisplay : props.entity.objectToDisplay,
-                    price : props.entity.objectToDisplay.price,
-                    currency : props.entity.objectToDisplay.currency,
-                    validity : props.entity.objectToDisplay.validity
+                    objectToDisplay : props.entity,
+                    price : props.entity.price,
+                    currency : props.entity.currency,
+                    validity : props.entity.validity
                 }
             }
         }
     }
 
+    onChange = (event) => {
+        this.setState({ [event.target.name]: event.target.value })
+    }
+
     handleSubmit = (event) => {
+
         event.preventDefault();
         let route = '';
         let ticket = '';
 
-        // {this.state.}
+        let action ='';
+
+        {action =  this.state.objectToDisplay.RouteId? "save": "add"}
+
+        if(action === 'add')
+        {
+            route = {
+                Title       : this.state.title,
+                Subtitle    : this.state.subtitle                                                                                                                                                                                                                                                                                                         
+            }
+        }
+        else
+        {
+            route = {
+                RouteId   : this.state.objectToDisplay.RouteId,
+                Title     : this.state.title,
+                Subtitle  : this.state.subtitle                                                                                                                                                                                                                                                                                                  
+            }
+        }
+
+        console.log('Save Route ',route);
+        this.props.saveRoute(route,action);
     }
 
 render() {
@@ -66,8 +89,8 @@ render() {
             <div className="row form-group">
                 <div className="col-md-6">
                     <Label>Route</Label><br />
-                    <input type="text" name="route"
-                    value={this.state.route}
+                    <input type="text" name="title"
+                    value={this.state.title}
                     onChange={this.onChange}
                     placeholder='eg 999'
                     className="form-control"/>
@@ -76,8 +99,8 @@ render() {
             <div className="row form-group">
                 <div className="col-md-6">
                     <Label>Destination</Label><br />
-                    <input type="text" name="plateNumber"
-                    value={this.state.destination}
+                    <input type="text" name="subtitle"
+                    value={this.state.subtitle}
                     onChange={this.onChange}
                     placeholder='e.g Malyia to Salmiya'
                     className="form-control"/>
@@ -98,7 +121,7 @@ render() {
                 <div className="col-md-6">
                     <Label>Price</Label><br />
                     <input type="text" name="price"
-                    value={this.state.route}
+                    value={this.state.title}
                     onChange={this.onChange}
                     placeholder='e.g 0.250'
                     className="form-control"/>
@@ -132,14 +155,17 @@ render() {
     }
 }
 
-const mapStateToProps = (state) => ({
-    CurrencyList : state.RoutesStore.currency
-})
+const mapStateToProps = (state) => {
+    return{
+        CurrencyList : state.RoutesStore.currency
+    }
+}
 
 const actionCreators = {
     saveRoute : RoutesAction.saveRoute,
     saveTicket : RoutesAction.saveTicket,
     getCurrency : RoutesAction.getCurrency
-}
+};
 
-export default connect(mapStateToProps, actionCreators)(RoutesDetails)
+const connectRoutesDetail = connect(mapStateToProps, actionCreators)(RoutesDetails);
+export { connectRoutesDetail as RoutesDetails };

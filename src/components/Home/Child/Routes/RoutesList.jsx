@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { config } from '../../../../constants/config';
 import { routesConstants } from '../../../../constants/routesConstants';
 import { userConstants } from '../../../../constants/userConstants';
 import * as RoutesAction from '../../../../Redux/Action/RoutesAction';
@@ -20,7 +21,14 @@ export class RoutesList extends Component {
     }
 
     componentDidMount() {
-        this.renderList(this.state.tabIndex)
+        this.fetchList(this.state.tabIndex)
+    }
+
+    fetchList(index){
+        if(index === 1)
+        this.props.getRoutes(1,config.Pagelimit);
+        if(index === 2)
+        this.props.getTickets(1,config.Pagelimit);
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -35,8 +43,7 @@ export class RoutesList extends Component {
     componentDidUpdate(){
         if(this.props.ApplicationState === routesConstants.updateList)
         {
-            this.state.tabIndex === 1 && this.props.getRoutes();
-            this.state.tabIndex === 2 && this.props.getTickets();
+            this.fetchList(this.state.tabIndex);
         }
     }
 
@@ -66,6 +73,7 @@ export class RoutesList extends Component {
 
 
     renderList(list) {
+
         return (
             <div className="table-list padding-lr-80-top-0">
                 {this.state.tabIndex === 1 &&
@@ -78,7 +86,7 @@ export class RoutesList extends Component {
                             </div>
                             </div>
                             <div className='col-md-6'>
-                            <PageHandler page = {list.page} getList={this.props.getCandidatesForDraw} style='header' institutionId='1580030173'/>
+                            <PageHandler page = {list.page} getList={this.props.getRoutes} style='header' institutionId='1580030173'/>
                             </div>
                         </div>
                         
@@ -91,7 +99,7 @@ export class RoutesList extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            {/* <tr>
                                 <td>test 1</td>
                                 <td>test 2</td>
                                 <td>test 3</td>
@@ -105,28 +113,29 @@ export class RoutesList extends Component {
                                 <td>test 1</td>
                                 <td>test 2</td>
                                 <td>test 3</td>
-                            </tr>
-                            {/* {
+                            </tr> */}
+                            {
                                 list.data?.map((item, index) =>(
                                     <tr  key={item.RouteId}>
                                         <td>{item.Title}</td>
                                         <td>{item.Subtitle}</td>
-                                        <td>{returnFormatedtextForTickets(item.Tarrifs)}</td>
-                                        <td className="width44" onClick={e => this.openSubMenu(e, index)}>
+                                        <td>{this.returnFormatedtextForTickets(item.Tarrifs)}</td>
+                                        <td className="width20" onClick={e => this.openSubMenu(e, index+1)}>
                                             <div className="edit-popup">
-                                                <div className="edit-delet-butt" onClick={e => this.openSubMenu(e, index)}>
+                                                <div className="edit-delet-butt" onClick={e => this.openSubMenu(e, index+1)}>
                                                     <span />
                                                     <span />
                                                     <span />
                                                 </div>
-                                                <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === index ? 'inline-block' : 'none' }}>
+                                                <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === index+1 ? 'inline-block' : 'none' }}>
                                                     <li><a onClick={e => this.showDetailScreen(e, item)}>Edit</a></li>
+                                                    <li><a onClick={e => this.props.deleteRoute(e, item.RouteId)}>Delete</a></li>
                                                 </ul>
                                             </div>
                                         </td>
                                     </tr>
                                 ))
-                            } */}
+                            }
                         </tbody>
                     </table>
                     </div>}
@@ -140,7 +149,7 @@ export class RoutesList extends Component {
                         </div>
                         </div>
                         <div className='col-md-6'>
-                        <PageHandler page = {list.page} getList={this.props.getCandidatesForDraw} style='header'/>
+                        {/* <PageHandler page = {list.page} getList={this.props.getTickets} style='header'/> */}
                         </div>
                 </div>
                 <table>
@@ -153,6 +162,9 @@ export class RoutesList extends Component {
                         </thead>
                         <tbody>
                             <tr>
+                                <td>Waiting For API to deploy....!!</td>
+                            </tr>
+                            {/* <tr>
                                 <td>test 1</td>
                                 <td>test 2</td>
                                 <td>test 3</td>
@@ -161,12 +173,7 @@ export class RoutesList extends Component {
                                 <td>test 1</td>
                                 <td>test 2</td>
                                 <td>test 3</td>
-                            </tr>
-                            <tr>
-                                <td>test 1</td>
-                                <td>test 2</td>
-                                <td>test 3</td>
-                            </tr>
+                            </tr> */}
                             {/* {
                                 list.data?.map((item, index) => (
                                     <tr key={item.CreatedAt}>
@@ -180,7 +187,7 @@ export class RoutesList extends Component {
                                                     <span />
                                                     <span />
                                                 </div>
-                                                <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === index ? 'inline-block' : 'none' }}>
+                                                <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === index+1 ? 'inline-block' : 'none' }}>
                                                     <li><a onClick={e => this.showDetailScreen(e, item)}>Edit</a></li>
                                                 </ul>
                                             </div>
@@ -201,7 +208,8 @@ export class RoutesList extends Component {
     render() {
 
         const tabIndex = this.state.tabIndex; 
-        let content = this.renderList([]);
+        const updatedList = tabIndex === 1 ? this.props.Routes : this.props.Tickets
+        let content = this.renderList(updatedList);
 
         return (
             <div className="vehicles-page" >

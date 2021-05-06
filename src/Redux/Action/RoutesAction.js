@@ -61,7 +61,7 @@ export function saveRoute(route, action) {
             );
         }
         if(action === 'save'){
-            apiHandler.put('routes',route)
+            apiHandler.put(`routes/${route.RouteId}`,route)
             .then(
                 routes => {
                     dispatch(saveRoutesSuccess(routes));
@@ -114,10 +114,11 @@ function saveTicketRequest() { return { type: routesConstants.saveTickets_REQUES
 function saveTicketSuccess(ticket) { return { type: routesConstants.saveTicketSuccess, payload: ticket } }
 
 
-export function deleteRoute(id){
+export function deleteRoute(e,id){
+    e.preventDefault();
     return dispatch => {
         dispatch(deleteRouteRequest())
-        apiHandler.delete('routes',id)
+        apiHandler.delete(`routes/${id}`)
         .then(
             response => {
                 dispatch(deleteRouteSucces())
