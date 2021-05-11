@@ -48,6 +48,7 @@ export class RoutesList extends Component {
     }
 
     onTabClick = (index) => {
+        this.fetchList(index);
         this.setState({ tabIndex: index, optionsIndex:0 });
     }
 
@@ -99,21 +100,6 @@ export class RoutesList extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {/* <tr>
-                                <td>test 1</td>
-                                <td>test 2</td>
-                                <td>test 3</td>
-                            </tr>
-                            <tr>
-                                <td>test 1</td>
-                                <td>test 2</td>
-                                <td>test 3</td>
-                            </tr>
-                            <tr>
-                                <td>test 1</td>
-                                <td>test 2</td>
-                                <td>test 3</td>
-                            </tr> */}
                             {
                                 list.data?.map((item, index) =>(
                                     <tr  key={item.RouteId}>
@@ -161,40 +147,28 @@ export class RoutesList extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Waiting For API to deploy....!!</td>
-                            </tr>
-                            {/* <tr>
-                                <td>test 1</td>
-                                <td>test 2</td>
-                                <td>test 3</td>
-                            </tr>
-                            <tr>
-                                <td>test 1</td>
-                                <td>test 2</td>
-                                <td>test 3</td>
-                            </tr> */}
-                            {/* {
+                            {
                                 list.data?.map((item, index) => (
-                                    <tr key={item.CreatedAt}>
+                                    <tr key={item.TicketId}>
                                         <td>{item.Price}</td>
                                         <td>{item.Validity}</td>
                                         <td>{item.CreatedAt}</td>
-                                        <td className="width44" onClick={e => this.openSubMenu(e, index)}>
+                                        <td className="width20" onClick={e => this.openSubMenu(e, index+1)}>
                                             <div className="edit-popup">
-                                                <div className="edit-delet-butt" onClick={e => this.openSubMenu(e, index)}>
+                                                <div className="edit-delet-butt" onClick={e => this.openSubMenu(e, index+1)}>
                                                     <span />
                                                     <span />
                                                     <span />
                                                 </div>
                                                 <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === index+1 ? 'inline-block' : 'none' }}>
                                                     <li><a onClick={e => this.showDetailScreen(e, item)}>Edit</a></li>
+                                                    <li><a onClick={e => this.props.deleteTickets(e, item.TicketId)}>Delete</a></li>
                                                 </ul>
                                             </div>
                                         </td>
                                     </tr>
                                 ))
-                            } */}
+                            }
                         </tbody>
                 </table>
             </div>}

@@ -6,6 +6,7 @@ const INITIAL_STATE = {
     loading : false,
     error   : '',
     routes : [],
+    tickets : [],
     fares : [],
     currency : [],
     actionState :''
@@ -78,7 +79,7 @@ const RoutesReducer = (state = INITIAL_STATE, action) => {
             return{
                 ...state,
                 loading: false,
-                routes: action.payload,
+                tickets: action.payload,
                 actionState: action.type
             }
         case routesConstants.getTickets_ERROR:

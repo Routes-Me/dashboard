@@ -87,7 +87,8 @@ export function saveTicket(ticket, action) {
         {
             apiHandler.post('tickets',ticket)
             .then(
-                routes => {
+                ticket => {
+                    console.log('Tickets Created  ', ticket);
                     dispatch(saveTicketSuccess(ticket));
                 },
                 error => {
@@ -96,9 +97,10 @@ export function saveTicket(ticket, action) {
             );
         }
         if(action === 'save'){
-            apiHandler.put('tickets',ticket)
+            apiHandler.put(`tickets/${ticket.TicketId}`,ticket)
             .then(
-                routes => {
+                ticket => {
+                    console.log('Tickets Updated  ', ticket);
                     dispatch(saveTicketSuccess(ticket));
                 },
                 error => {
@@ -111,7 +113,7 @@ export function saveTicket(ticket, action) {
 
 function saveTicketRequest() { return { type: routesConstants.saveTickets_REQUEST } }
 
-function saveTicketSuccess(ticket) { return { type: routesConstants.saveTicketSuccess, payload: ticket } }
+function saveTicketSuccess(ticket) { return { type: routesConstants.saveTickets_SUCCESS, payload: ticket } }
 
 
 export function deleteRoute(e,id){
@@ -138,13 +140,14 @@ function deleteRouteSucces() {
     return { type: routesConstants.deleteRoutes_SUCCESS }
 }
 
-export function deleteTicket(id){
+export function deleteTicket(e,id){
+    e.preventDefault();
     return dispatch => {
         dispatch(deleteTicketRequest())
-        apiHandler.delete('tickets',id)
+        apiHandler.delete(`tickets/${id}`)
         .then(
             response => {
-                dispatch(deleteTicketSucces())
+                dispatch(deleteTicketSucces(response))
             },
             error => {
                 dispatch(console.log(error))
@@ -164,10 +167,10 @@ function deleteTicketSucces() {
 
 export function getCurrency() {
     return dispatch => {
-        apiHandler.get('currency')
+        apiHandler.get('currencies')
         .then(
             response => {
-                dispatch(updateCurrencyList(response))
+                dispatch(updateCurrencyList(response.data.data))
             },
             error => {
                 console.log('Error in get currency :: ', error);

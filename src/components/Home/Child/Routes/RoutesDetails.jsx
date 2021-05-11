@@ -18,7 +18,7 @@ class RoutesDetails extends Component {
     }
 
     componentDidMount() {
-        
+        this.props.entity.tabIndex === 2 && this.props.getCurrency();
     }
 
 
@@ -34,9 +34,9 @@ class RoutesDetails extends Component {
                 if(props.entity.tabIndex === 2)
                 return {
                     objectToDisplay : props.entity,
-                    price : props.entity.price,
-                    currency : props.entity.currency,
-                    validity : props.entity.validity
+                    price : props.entity.Price,
+                    currency : props.entity.CurrencyId,
+                    validity : props.entity.Validity
                 }
             }
         }
@@ -49,31 +49,56 @@ class RoutesDetails extends Component {
     handleSubmit = (event) => {
 
         event.preventDefault();
-        let route = '';
-        let ticket = '';
 
-        let action ='';
+            let action ='';
 
-        {action =  this.state.objectToDisplay.RouteId? "save": "add"}
-
-        if(action === 'add')
-        {
-            route = {
-                Title       : this.state.title,
-                Subtitle    : this.state.subtitle                                                                                                                                                                                                                                                                                                         
+            if(this.props.entity.tabIndex === 1)
+            {
+                let route = '';
+                action =  this.state.objectToDisplay.RouteId? "save": "add";
+            
+                if(action === 'add')
+                {
+                    route = {
+                        Title       : this.state.title,
+                        Subtitle    : this.state.subtitle                                                                                                                                                                                                                                                                                                         
+                    }
+                }
+                else
+                {
+                    route = {
+                        RouteId   : this.state.objectToDisplay.RouteId,
+                        Title     : this.state.title,
+                        Subtitle  : this.state.subtitle                                                                                                                                                                                                                                                                                                  
+                    }
+                }
+                this.props.saveRoute(route,action);
             }
-        }
-        else
-        {
-            route = {
-                RouteId   : this.state.objectToDisplay.RouteId,
-                Title     : this.state.title,
-                Subtitle  : this.state.subtitle                                                                                                                                                                                                                                                                                                  
+            if( this.props.entity.tabIndex === 2)
+            {
+                let ticket = '';
+                action = this.state.objectToDisplay.TicketId? 'save':'add';
+                if(action === 'add')
+                {
+                    ticket = {
+                        Price: this.state.price,
+                        CurrencyId: this.state.currency,
+                        Validity: this.state.validity
+                    }
+                }
+                else 
+                {
+                    ticket = {
+                        TicketId : this.state.objectToDisplay.TicketId,
+                        Price: this.state.price,
+                        CurrencyId: this.state.currency,
+                        Validity: this.state.validity
+                    }
+                }
+                console.log(`tkt to add ${ticket}`,ticket)
+                this.props.saveTicket(ticket,action);
             }
-        }
-
-        console.log('Save Route ',route);
-        this.props.saveRoute(route,action);
+        
     }
 
 render() {
@@ -121,7 +146,7 @@ render() {
                 <div className="col-md-6">
                     <Label>Price</Label><br />
                     <input type="text" name="price"
-                    value={this.state.title}
+                    value={this.state.price}
                     onChange={this.onChange}
                     placeholder='e.g 0.250'
                     className="form-control"/>
@@ -130,16 +155,18 @@ render() {
             <div className="row form-group">
                 <div className="col-md-6">
                     <Label>Currency</Label><br />
-                    <select defaultValue={this.state.dayInterval} className="custom-select my-1 mr-sm-2" name="currency" onChange={this.onChange}>
-                        <option className="dropdown-item" value='kwd'>Kuwaiti Dinar (KWD)</option>
+                    <select defaultValue={this.state.currency} className="custom-select my-1 mr-sm-2" name="currency" onChange={this.onChange}>
+                        <option key='select'>Select</option>
+                        {this.props.CurrencyList.map(currency => (<option key={currency.CurrencyId} className="dropdown-item" value={currency.CurrencyId}>{currency.Name} ({currency.Code})</option>))}
                     </select>
                 </div>
             </div>
             <div className="row form-group">
                 <div className="col-md-6">
                     <Label>Validity</Label><br />
-                    <select defaultValue={this.state.dayInterval} className="custom-select my-1 mr-sm-2" name="validity" onChange={this.onChange}>
-                        <option className="dropdown-item" value={1}>1 Day</option>
+                    <select defaultValue={this.state.validity} className="custom-select my-1 mr-sm-2" name="validity" onChange={this.onChange}>
+                        <option key='select'>Select</option>
+                        <option className="dropdown-item" value="1">1 Day</option>
                     </select>
                 </div>
             </div>
