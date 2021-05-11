@@ -84,12 +84,6 @@ class AccessControl extends Component {
         }
     }
 
-    static getDerivedStateFromProps (props, state){
-            
-
-        return null;
-    }
-
     componentDidUpdate(prevProps, prevState) {
         if (this.props.ApplicationState !== prevProps.ApplicationState) {
             
