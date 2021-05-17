@@ -68,7 +68,7 @@ class VehicleDetail extends React.Component {
         let vehicle =""
         let action ="";
 
-        {this.state.vehicleId? action = "save": action="add"}
+        this.state.vehicleId? action = "save": action="add"
 
         if(action==="add"){
             vehicle = {
@@ -112,8 +112,8 @@ class VehicleDetail extends React.Component {
     //show model dialog 
     toggleModal = (e, objectType) => {
         e.preventDefault();
-        { objectType === vehicleConstants.searchDialogFor_Makers && this.props.getMakes() }
-        { objectType === vehicleConstants.searchDialogFor_Models && this.props.getModels(this.state.make.manufacturerId) }
+        objectType === vehicleConstants.searchDialogFor_Makers && this.props.getMakes() 
+        objectType === vehicleConstants.searchDialogFor_Models && this.props.getModels(this.state.make.manufacturerId) 
         this.setState({
             searchModel: !this.state.searchModel,
             searchObject: objectType
@@ -121,8 +121,8 @@ class VehicleDetail extends React.Component {
     }
 
     updateTheSelectedObject = (obj) => {
-        { this.state.searchObject === vehicleConstants.searchDialogFor_Makers && this.setState({ make: obj }) }
-        { this.state.searchObject === vehicleConstants.searchDialogFor_Models && this.setState({ model: obj }) }
+        this.state.searchObject === vehicleConstants.searchDialogFor_Makers && this.setState({ make: obj })
+        this.state.searchObject === vehicleConstants.searchDialogFor_Models && this.setState({ model: obj })
     }
 
     render() {
