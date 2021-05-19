@@ -73,11 +73,17 @@ class Vehicles extends Component {
         if(state.showDetails){
             if(props.ApplicationState === vehicleConstants.addVehicle_SUCCESS)
             {
-                props.getVehiclesForInstitution(1, config.Pagelimit)
                 return {showDetails : false};
             }
         }
         return null;
+    }
+
+    componentDidUpdate(){
+        if(this.props.ApplicationState ===  vehicleConstants.addVehicle_SUCCESS)
+        {
+            this.props.getCampaignsList(1,config.Pagelimit);
+        }
     }
 
     // showUpdatedList = () =>{
