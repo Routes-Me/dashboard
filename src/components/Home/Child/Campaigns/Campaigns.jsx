@@ -42,6 +42,7 @@ class Campaigns extends Component {
     
         //Show Detail Screen
         showDetailScreen = (e, campaign) => {
+            console.log('Edit Campaigns ', campaign);
             e.preventDefault();
             this.setState({
                 showDetails  : !this.state.showDetails,
@@ -65,6 +66,13 @@ class Campaigns extends Component {
                 }
             }
             return null;
+        }
+
+        componentDidUpdate(){
+            if(this.props.ApplicationState === advertisementsConstants.updateTheCampaignsList)
+            {
+                this.props.getCampaignsList(1,config.Pagelimit);
+            }
         }
 
         //Load campaigns in a table 
@@ -120,7 +128,7 @@ class Campaigns extends Component {
     render() {
 
         let content = this.showCampaignsList(this.props.campaignsList);
-        {this.props.ApplicationState === advertisementsConstants.updateTheCampaignsList && this.props.getCampaignsList()}
+        // {this.props.ApplicationState === advertisementsConstants.updateTheCampaignsList && this.props.getCampaignsList()}
 
 
         return (

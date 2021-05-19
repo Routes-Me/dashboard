@@ -88,18 +88,19 @@ class CampaignsDetail extends React.Component {
         {this.state.campaign.campaignId? action = "save": action = "add"}
 
         if(action==="add"){
-        campaign = {
-                title  : this.state.title,
-                startAt: this.state.startAt,
-                endAt  : this.state.endAt
+            campaign = {
+                Title  : this.state.title,
+                StartAt: this.state.startAt,
+                EndAt  : this.state.endAt,
+                Status : 'active'
             }
         }
         else{
-        campaign = {
-                campaignId :this.state.campaignId,
-                title      : this.state.title,
-                startAt    : this.state.startAt,
-                endAt      : this.state.endAt
+            campaign = {
+                CampaignId :this.state.campaignId,
+                Title      : this.state.title,
+                StartAt    : this.state.startAt,
+                EndAt      : this.state.endAt
             }
         }
         
@@ -109,7 +110,7 @@ class CampaignsDetail extends React.Component {
 
     render() {
 
-        let content = this.renderAllAdvertisementTable(this.props.AdvertisementList);
+        // let content = this.renderAllAdvertisementTable(this.props.AdvertisementList);
         const institutionObj = this.state.institution;
         const buttonText = institutionObj ? "Update" : "Add";
 
@@ -150,11 +151,11 @@ class CampaignsDetail extends React.Component {
 
                         <br /><br />
 
-                        <div className="row form-group">
+                        {/* <div className="row form-group">
                             <div className='col-md-6'>
                             {content}
                             </div>
-                        </div>
+                        </div> */}
 
                     </div>
 
