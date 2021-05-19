@@ -1,7 +1,7 @@
 
 
 import React, { Component, Suspense, lazy } from 'react';
-import { Router, Route, Switch, Redirect } from 'react-router-dom';
+import { Router, Route, Switch, useLocation } from 'react-router-dom';
 import { history } from '../src/helper/history';
 import { Layout } from './components/Layout';
 import { UsersDetail } from './components/Home/Child/Users/UsersDetail';
@@ -15,7 +15,9 @@ const Home = lazy(() => import('./components/Home/Home'));
 const Login = lazy(() => import('./components/Login/Login'));
 
 export default class App extends Component {
+
     static displayName = App.name;
+
 
     render() {
         return (
@@ -29,7 +31,7 @@ export default class App extends Component {
                         <Route path='/forgotpassword' component={ForgotPassword} />
                         <Route path='/newpassword' component={savePassword} />
                         <Route path='/resetpassword/:email' component={ResetPassword}/>
-                        <Route path='/register/:name' component={Registration}/>
+                        <Route path='/registeration' component={Registration}/>
                         {/* <Redirect from="*" to="/" component={Login}/> */}
                         </Suspense>
                     </Switch>
