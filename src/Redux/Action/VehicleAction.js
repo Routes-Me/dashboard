@@ -93,7 +93,7 @@ export function getModels(makeId) {
     return dispatch => {
 
         dispatch(ModelDataRequest());
-        apiHandler.get('manufacturers/'+makeId+'/model')
+        apiHandler.get('manufacturers/'+makeId+'/models')
         .then(
                model => {
                         dispatch(storeModelData([config.selectModel,...model.data.data]));
