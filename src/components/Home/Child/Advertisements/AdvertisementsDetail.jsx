@@ -56,8 +56,8 @@ class AdvertisementsDetail extends React.Component {
                 {
                     return {
                         advertisement : props.advertisementToDisplay,
-                        imageUrl: props.advertisementToDisplay.media.mediaType === 'image'? props.advertisementToDisplay.media.url : '',
-                        videoUrl: props.advertisementToDisplay.media.mediaType === 'video'? props.advertisementToDisplay.media.url : ''
+                        imageUrl: props.advertisementToDisplay.media?.mediaType === 'image'? props.advertisementToDisplay.media.url : '',
+                        videoUrl: props.advertisementToDisplay.media?.mediaType === 'video'? props.advertisementToDisplay.media.url : ''
                     }
                 }
             }
