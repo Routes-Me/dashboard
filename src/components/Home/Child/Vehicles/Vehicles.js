@@ -56,7 +56,6 @@ class Vehicles extends Component {
         });
     }
 
-
     //Delete Vehicle
     deleteVehicle = (e, vehicleId) => {
         e.preventDefault();
@@ -82,15 +81,9 @@ class Vehicles extends Component {
     componentDidUpdate(){
         if(this.props.ApplicationState ===  vehicleConstants.addVehicle_SUCCESS)
         {
-            this.props.getCampaignsList(1,config.Pagelimit);
+            this.props.getVehiclesForInstitution(1,config.Pagelimit);
         }
     }
-
-    // showUpdatedList = () =>{
-    //     this.props.getVehiclesForInstitution();
-    //     this.setState({showDetails : false});
-    // }
-
 
     //Load Vehicles in a table
     renderAllVehicleTable(Vehicles) {
@@ -106,7 +99,7 @@ class Vehicles extends Component {
                                 <th>MODEL</th>
                                 <th>YEAR</th>
                                 <th>OFFICE</th>
-                                <th className="width44" />
+                                <th className="width20" />
                             </tr>
                         </thead>
                         <tbody>
@@ -119,7 +112,7 @@ class Vehicles extends Component {
                                         <td>{Vehicle.modelYear}</td>
                                         <td>{Vehicle.institution?.Name}</td>
                                         {!isROU(this.props.user) &&
-                                        <td className="width44" onClick={e => this.openSubMenuForVehicleId(e, Vehicle.id)}>
+                                        <td className="width20" onClick={e => this.openSubMenuForVehicleId(e, Vehicle.id)}>
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Vehicle.id)}>
                                                     <span />
@@ -147,7 +140,6 @@ class Vehicles extends Component {
     render() {
 
         let content = this.renderAllVehicleTable(this.props.VehicleList);
-        {this.props.ApplicationState === vehicleConstants.addVehicle_SUCCESS && this.props.getVehiclesForInstitution(1)}
         return (
             <div className="vehicles-page" style={{ height: "100vh", width: "100%" }}>
                 {this.state.showDetails ?
