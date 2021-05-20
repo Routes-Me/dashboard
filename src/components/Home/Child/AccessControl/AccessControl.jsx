@@ -89,14 +89,16 @@ class AccessControl extends Component {
             
             if(this.props.ApplicationState === userConstants.update_APPLICATIONS)
             {
-                 this.setState({rowIndex : this.props.ApplicationsList.length});
+                this.setState({rowIndex : this.props.ApplicationsList.length});
+                
             }
             if(this.props.ApplicationState === userConstants.update_PRIVILEGES)
             {
                 this.setState({rowIndex: this.props.PrivilegesList.length});
             }
+            this.updateTheList(this.state.tabIndex);
         }
-      }
+    }
 
 
     rowSelect(e, index) { 
@@ -109,9 +111,7 @@ class AccessControl extends Component {
 
         let list = this.state.tabIndex === 1 ? this.props.PrivilegesList : this.props.ApplicationsList
         let content = this.renderList(list);
-        const tabIndex = this.state.tabIndex; 
-        {this.props.ApplicationState === userConstants.saveApplications_SUCCESS && this.props.getApplications()}
-        {this.props.ApplicationState === userConstants.savePrivilidges_SUCCESS && this.props.getPrivileges()}
+        const tabIndex = this.state.tabIndex;
 
         return (
             <div className="vehicles-page" style={{ height: "100vh", width: "100%" }}>
