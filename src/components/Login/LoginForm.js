@@ -138,7 +138,7 @@ function mapState(state) {
 }
 
 const actionCreators = {
-	login: LoginAction.userSignInRequest
+	login: LoginAction.userSignInRequestV1
 };
 
 const connectedLoginPage = connect(mapState, actionCreators)(LoginForm);

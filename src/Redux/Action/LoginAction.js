@@ -2,7 +2,7 @@
 import { history } from "../../helper/history";
 import { config } from "../../constants/config";
 import {userConstants} from '../../constants/userConstants';
-import jwt from "jsonwebtoken";
+import jwt, { decode } from "jsonwebtoken";
 import { encryptAndEncode, parseJwt } from "../../util/encrypt";
 import {setToken, setRefreshToken, clearStorage} from '../../util/localStorage';
 import apiHandler from '../../util/request';
@@ -20,44 +20,48 @@ export function userSignInRequest(username, password) {
   
   return dispatch => {
 
-    setToken(fakeToken2);
-    dispatch(getLoginSuccess(fakeUser));
-    dispatch(onReceiveToken(fakeUser));
-    history.push('/home');
+    // setToken(fakeToken2);
+    // dispatch(getLoginSuccess(fakeUser));
+    // dispatch(onReceiveToken(fakeUser));
+    // history.push('/home');
       dispatch(request({ username, password }));
       let userObject = {
           Username: username,
           Password: encryptAndEncode(password)
       };
 
-      // apiHandler.post('authentications', userObject)
-      //     .then(
-      //         response => {
-      //             const token = response.data.token;
-      //             const refreshToken = '';
-      //             const testDecode = parseJwt(token);
-      //             const LoggedInUser = jwt.decode(token);
-      //             dispatch(getLoginSuccess(LoggedInUser));
-      //             setToken(token);
-      //             setRefreshToken(refreshToken);
-      //             dispatch(onReceiveToken(token));
-      //             // getAutherization(2);
-      //             history.push('/home');
-      //         },
-      //         error => {
-      //             dispatch(failure(error.message.toString()));
-      //             console.log('error message', error);
-      //             console.log('API Domain After error delegate:', process.env.REACT_APP_APIDOMAIN);
-      //             alert(error.toString());
-      //         }
-      //     );
+      // let sampleUser = {
+      //   Username: "wael@gmail.com",
+      //   Password: "%JhujMD7MGVkL2pXpiD1ADYveiTDGXg8uh5hSeB2JU3Q=="
+      // }
+
+      apiHandler.post('authentications', userObject)
+          .then(
+              response => {
+                  console.log('response obj for login ', response.headers['Set-Cookie']);
+                  const token = response.data.token;
+                  const refreshToken = response.headers['Set-Cookie'];
+                  const testDecode = parseJwt(token);
+                  const LoggedInUser = jwt.decode(token);
+                  dispatch(getLoginSuccess(LoggedInUser));
+                  setToken(token);
+                  setRefreshToken(refreshToken);
+                  dispatch(onReceiveToken(token));
+                  // getAutherization(2);
+                  history.push('/home');
+              },
+              error => {
+                  dispatch(failure(error.message.toString()));
+                  console.log('error message', error);
+                  console.log('API Domain After error delegate:', process.env.REACT_APP_APIDOMAIN);
+                  alert(error.toString());
+              }
+          );
   };
 }
 
 export function userSignInRequestV1(username, password) {
-  
-  console.log("Login :: Environment :", process.env.NODE_ENV);
-  console.log('Login :: API Domain :', process.env.REACT_APP_APIDOMAIN);
+
   return dispatch => {
       dispatch(request({ username, password }));
       let userObject = {
@@ -65,11 +69,13 @@ export function userSignInRequestV1(username, password) {
           Password: encryptAndEncode(password)
       };
 
-      signIn(userObject)
-      .then(
-        (response) => {
+      apiHandler.post('authentications',userObject).then((response) => {
+          console.log('sign in response ', response.data.token);
           const token = response.data.token;
           const tokenPayLoad = parseJwt(token);
+          const decoded = atob('W3siQXBwbGljYXRpb24iOiJkYXNoYm9hcmQiLCJQcml2aWxlZ2UiOiJzdXBlciJ9XQ==');
+          console.log('decoded Base64 ', decoded);
+          // console.log('token payload after decode', JSON.parse(tokenPayLoad.ext).OfficerId);
           getOfficer(tokenPayLoad.ext)
           .then(
             (officer) => {
@@ -85,14 +91,15 @@ export function userSignInRequestV1(username, password) {
 }
 
 const signIn = (user) => {
-  apiHandler.get('authentications', user)
+  apiHandler.post('authentications', user)
   .then( 
-    (response) => {return response},
-    (error) => {return error})
+    (response) =>  response,
+    (error) => error
+    )
 }
 
-const getOfficer = (id) => {
-  apiHandler.get('officers', id)
+const getOfficer = async (id) => {
+  await apiHandler.get('officers', id)
   .then(
     (officer) => { return officer},
     (error) => { return error}
