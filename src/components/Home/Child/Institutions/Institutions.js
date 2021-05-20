@@ -71,6 +71,13 @@ class Institutions extends Component {
         return null;
     }
 
+    componentDidUpdate() {
+        if(this.props.ApplicationState === institutionConstants.saveInstitutions_SUCCESS)
+        {
+            this.props.getInstitutionsList(1,config.Pagelimit);
+        }
+    }
+
 
 
     //Load Institution in a table 
@@ -86,18 +93,18 @@ class Institutions extends Component {
                                 <th>ID</th>
                                 <th>NAME</th>
                                 <th>TELEPHONE</th>
-                                <th className="width44" />
+                                <th className="width20" />
                             </tr>
                         </thead>
                         <tbody>
                             {
                                 institutionsList.data?.map(institution => (
-                                    <tr key={institution.institutionId} onClick={e => this.showDetailScreen(e, institution)}>
+                                    <tr key={institution.institutionId}>
                                         <td>{institution.institutionId}</td>
                                         <td>{institution.name}</td>
                                         <td>{institution.phoneNumber}</td>
                                         {!isROU(this.props.user) &&
-                                        <td className="width44" >
+                                        <td className="width20">
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForInstitutionId(e, institution.institutionId)}>
                                                     <span />
