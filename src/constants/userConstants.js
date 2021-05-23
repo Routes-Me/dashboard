@@ -4,6 +4,7 @@
     Login_SUCCESS : 'LOGIN_SUCCESS',
     Login_FAILURE: 'LOGIN_FAILURE', 
     Login_TokenReceived : 'TOKEN_RECEIVED',
+    Login_Authorize : 'LOGIN_AUTHORIZE',
 
 
     LogOut_REQUEST: 'LOGOUT_REQUEST',
