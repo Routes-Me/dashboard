@@ -33,7 +33,7 @@ export function returnEntityForInstitution(entity,user)
 {
     if(user?.InstitutionId !== undefined)
     {
-        return user.InstitutionId !== '' && isSU(user) ?  entity : `institutions/${user.InstitutionId}/${entity}`;  
+        return user.InstitutionId !== '' && isSU(user) ?  entity : `institutions/${user.institution.InstitutionId}/${entity}`;  
     }
     return entity;
 

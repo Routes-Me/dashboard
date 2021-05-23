@@ -89,7 +89,7 @@ class Vehicles extends Component {
     renderAllVehicleTable(Vehicles) {
         return (
             <div>
-            <PageHandler page = {Vehicles.page} getList={this.props.getVehiclesForInstitution} institutionId={this.props.user.InstitutionId} style='header'/>
+            <PageHandler page = {Vehicles.page} getList={this.props.getVehiclesForInstitution} institutionId={this.props.user.institution.InstitutionId} style='header'/>
             <div className="table-list padding-lr-80">
                     <table>
                         <thead>
@@ -174,6 +174,7 @@ const mapStateToProps = (state) => {
     return {
         VehicleList: state.VehicleStore.Vehicles,
         role: state.Login.role,
+        user: state.Login.user,
         token : state.Login.token,
         ApplicationState: state.VehicleStore.ActionState
     }

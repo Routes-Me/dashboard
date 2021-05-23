@@ -201,7 +201,7 @@ class VehicleDetail extends React.Component {
                                     <select value={this.state.institutionId} className="custom-select" size='5' name="institutionId" onChange={this.onChange}>
                                     {this.props.InstitutionList.data?.map(institution => (<option key={institution.institutionId} className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
                                     </select>
-                                    <PageHandler page = {this.props.InstitutionList.page} getList={this.props.getInstitutions} institutionId={this.props.user.InstitutionId}/>
+                                    <PageHandler page = {this.props.InstitutionList.page} getList={this.props.getInstitutions} institutionId={this.props.user.institution.InstitutionId}/>
                                 </div>
                             </div>
 

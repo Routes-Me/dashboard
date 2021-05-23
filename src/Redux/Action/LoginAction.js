@@ -77,10 +77,10 @@ export function userSignInRequestV1(username, password) {
           const roleStr = atob(tokenPayLoad.rol);
           const role  = JSON.parse(roleStr);
           dispatch(authorize(role[0]));
-          apiHandler.get(`users/${tokenPayLoad.sub}`)
+          apiHandler.get(`officers/${JSON.parse(atob(tokenPayLoad.ext)).OfficerId}?include=users,institutions`)
           .then(
             (user) => {
-              dispatch(getLoginSuccess(user.data.data[0]));
+              dispatch(getLoginSuccess(returnFormattedUser(user)));
               history.push('/home');
             },
             (error) => {
@@ -93,6 +93,15 @@ export function userSignInRequestV1(username, password) {
       )
 
   };
+}
+
+const returnFormattedUser = (response) => {
+  const user = {
+    userInfo : response.data.included.users[0],
+    institution : response.data.included.institutions[0]
+  }
+  console.log('User Info ', user);
+  return user;
 }
 
 const signIn = (user) => {

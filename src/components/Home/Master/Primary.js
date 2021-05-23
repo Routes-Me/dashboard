@@ -71,8 +71,8 @@ class Primary extends Component
             <div>
 
                 <div className="profile">
-                    <p className="title">{this.props.user.name}</p>
-                    <p className="subTitle">{this.props.user.phoneNumber}</p>
+                    <p className="title">{this.props.user.userInfo.Name}</p>
+                    <p className="subTitle">{this.props.user.institution.Name}</p>
                 </div>
 
                 <div className="menu-part">
