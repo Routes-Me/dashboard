@@ -22,13 +22,13 @@ class Primary extends Component
 
     componentDidMount() {
 
-        if(this.props.user.InstitutionId!== undefined)
-        {
+        // if(this.props.user.InstitutionId!== undefined)
+        // {
             this.setAuthorization();
-        }
-        else{
-            this.restoreUserFromToken();
-        }
+        // }
+        // else{
+        //     this.restoreUserFromToken();
+        // }
         
 
     }
@@ -55,7 +55,8 @@ class Primary extends Component
     }
 
     setAuthorization = () => {
-        if(isSU(this.props.user)) //1580030173 78132467
+        console.log('User to authorize ', this.props.user);
+        if(isSU(this.props.role)) //1580030173 78132467
         this.props.getAutherization(1);
         else
         this.props.getAutherization(2);
@@ -70,8 +71,8 @@ class Primary extends Component
             <div>
 
                 <div className="profile">
-                    <p className="title">{this.props.user.Name}</p>
-                    <p className="subTitle">{this.props.user.Email}</p>
+                    <p className="title">{this.props.user.name}</p>
+                    <p className="subTitle">{this.props.user.phoneNumber}</p>
                 </div>
 
                 <div className="menu-part">
@@ -94,6 +95,7 @@ const mapStateToProps = (state) => {
 
     return {
         selectedNavItem: state.Login.SelectedNavOption,
+        role: state.Login.role,
         user: state.Login.user,
         navItems: state.Login.navItems === undefined? []: state.Login.navItems
     }

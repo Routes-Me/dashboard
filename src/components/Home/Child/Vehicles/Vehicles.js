@@ -111,7 +111,7 @@ class Vehicles extends Component {
                                         <td>{Vehicle.model?.Name}</td>
                                         <td>{Vehicle.modelYear}</td>
                                         <td>{Vehicle.institution?.Name}</td>
-                                        {!isROU(this.props.user) &&
+                                        {!isROU(this.props.role) &&
                                         <td className="width20" onClick={e => this.openSubMenuForVehicleId(e, Vehicle.id)}>
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Vehicle.id)}>
@@ -151,7 +151,7 @@ class Vehicles extends Component {
                         <div className="top-part-vehicles-search padding-lr-80">
                             <div className="header-add-butt">
                                 <h3>Vehicles</h3>
-                                {!isROU(this.props.user) &&
+                                {!isROU(this.props.role) &&
                                 <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Add Vehicle</a>}
                             </div>
 
@@ -173,7 +173,7 @@ const mapStateToProps = (state) => {
 
     return {
         VehicleList: state.VehicleStore.Vehicles,
-        user: state.Login.user,
+        role: state.Login.role,
         token : state.Login.token,
         ApplicationState: state.VehicleStore.ActionState
     }
