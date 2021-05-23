@@ -71,21 +71,22 @@ export function userSignInRequestV1(username, password) {
 
       apiHandler.post('authentications',userObject).then((response) => {
           const token = response.data.token;
+          setToken(token);
           dispatch(onReceiveToken(token));
           const tokenPayLoad = parseJwt(token);
           const roleStr = atob(tokenPayLoad.rol);
           const role  = JSON.parse(roleStr);
-          const officerIDStr = atob(tokenPayLoad.ext);
-          const officer = JSON.parse(officerIDStr);
-          console.log('Officer  ',officer);
-          // console.log('token payload after decode', JSON.parse(tokenPayLoad.ext).OfficerId);
-          getOfficer(officer.OfficerId)
+          dispatch(authorize(role[0]));
+          apiHandler.get(`users/${tokenPayLoad.sub}`)
           .then(
-            (officer) => {
-              console.log('officer', officer);
-            dispatch(getLoginSuccess(officer))
+            (user) => {
+              dispatch(getLoginSuccess(user.data.data[0]));
+              history.push('/home');
             },
-            (error) => {dispatch(failure(error.message.toString()))}
+            (error) => {
+              console.log('Officer error ', error);
+              dispatch(failure(error.message.toString()));
+            }
           )
         },
         (error) => {dispatch(failure(error.message.toString()))}
@@ -102,8 +103,8 @@ const signIn = (user) => {
     )
 }
 
-const getOfficer = async (id) => {
-  await apiHandler.get('officers', id)
+const getOfficer = (id) => {
+  apiHandler.get('officers', id)
   .then(
     (officer) => { return officer},
     (error) => { return error}
@@ -118,9 +119,10 @@ const login = (user) => {
 
 
 function request(user) { return { type: userConstants.Login_REQUEST, user }; }
-function onReceiveToken(token) { return  {type: userConstants.Login_TokenReceived, payload: token} }
-function getLoginSuccess(payload) { return ({ type: userConstants.Login_SUCCESS, payload }); }
+function onReceiveToken(token) { return  { type: userConstants.Login_TokenReceived, payload: token} }
+function getLoginSuccess(user) { return  { type: userConstants.Login_SUCCESS, payload:user } }
 function failure(error) { return { type: userConstants.Login_FAILURE, error }; }
+function authorize(rol) { return { type: userConstants.Login_Authorize, payload: rol }; }
 
 
 export function restoreUserFromSession(user){

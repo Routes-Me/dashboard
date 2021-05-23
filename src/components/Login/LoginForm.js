@@ -126,11 +126,6 @@ import {clearStorage} from '../../util/localStorage'
 	}
 }
 
-
-//LoginForm.propTypes = {
-//	userSignInRequest: React.PropTypes.func.isRequired
-//}
-
 function mapState(state) {
 	return {
 		loggingIn: state.Login.loading

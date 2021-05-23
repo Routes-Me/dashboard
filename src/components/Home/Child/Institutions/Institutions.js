@@ -103,7 +103,7 @@ class Institutions extends Component {
                                         <td>{institution.institutionId}</td>
                                         <td>{institution.name}</td>
                                         <td>{institution.phoneNumber}</td>
-                                        {!isROU(this.props.user) &&
+                                        {!isROU(this.props.role) &&
                                         <td className="width20">
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForInstitutionId(e, institution.institutionId)}>
@@ -145,7 +145,7 @@ class Institutions extends Component {
                         <div className="top-part-vehicles-search padding-lr-80">
                             <div className="header-add-butt">
                                 <h3>Institutions</h3>
-                                {!isROU(this.props.user) &&
+                                {!isROU(this.props.role) &&
                                 <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Add Institution</a>}
                             </div>
 
@@ -169,7 +169,7 @@ const mapStateToProps = (state) => {
 
         return {
             InstitutionsList: state.InstitutionStore.Institutions,
-            user: state.Login.user,
+            role: state.Login.role,
             ApplicationState: state.InstitutionStore.ActionState
     }
 
