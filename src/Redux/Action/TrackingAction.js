@@ -44,7 +44,7 @@ export function SubscribeToHub(user) {
             hubConnection.start()
                 .then(() => {
                     console.log('Hub Connected!!');
-                    hubConnection.invoke('Subscribe',user.InstitutionId,null,null).catch(function(err) {
+                    hubConnection.invoke('Subscribe',user.institution.InstitutionId,null,null).catch(function(err) {
                     console.log('unable to subscribe to institution => '+err)
                     })
                     dispatch(Connected());
@@ -65,15 +65,15 @@ export function SubscribeToHub(user) {
             console.log("Response on SignalR ", res);
 
             let FormatedRes =[];
-            if (isSU(user))
-            {
-                FormatedRes = { id: res.vehicleId, institutionId: res.institutionId, deviceId: res.deviceId, status: "active", coordinates: { lat: parseFloat(res.coordinates.latitude), lng: parseFloat(res.coordinates.longitude), timestamp: res.coordinates.timestamp } }
-            }
-            else{
-                if (res.institutionId === user.InstitutionId){
+            // if (isSU(user))
+            // {
+            //     FormatedRes = { id: res.vehicleId, institutionId: res.institutionId, deviceId: res.deviceId, status: "active", coordinates: { lat: parseFloat(res.coordinates.latitude), lng: parseFloat(res.coordinates.longitude), timestamp: res.coordinates.timestamp } }
+            // }
+            // else{
+            //     if (res.institutionId === user.InstitutionId){
                     FormatedRes = { id: res.vehicleId, institutionId: res.institutionId, deviceId: res.deviceId, status: "active", coordinates: { lat: parseFloat(res.coordinates.latitude), lng: parseFloat(res.coordinates.longitude), timestamp: res.coordinates.timestamp } }
-                }
-            }
+            //     }
+            // }
             dispatch(OnUpdateReceived(FormatedRes));
         });
 

@@ -80,7 +80,7 @@ class Users extends Component {
     showUsersList(usersList) {
         return (
             <div>
-            <PageHandler page = {usersList.page} getList={this.props.getUsersList} institutionId={this.props.user.InstitutionId} style='header'/>
+            <PageHandler page = {usersList.page} getList={this.props.getUsersList} institutionId={this.props.user.institution.InstitutionId} style='header'/>
             <div className="table-list padding-lr-80">
                     <table>
                         <thead>
@@ -173,6 +173,7 @@ const mapStateToProps = (state) => {
     return {
         UsersList: state.UserStore.Users,
         role: state.Login.role,
+        user: state.Login.user,
         ApplicationState: state.UserStore.ActionState
     }
 

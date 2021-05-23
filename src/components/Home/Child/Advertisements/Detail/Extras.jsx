@@ -256,7 +256,7 @@ const mapStateToProps = (state) => {
     return {
         DayInterval: state.AdvertisementStore.DayIntervals,
         Campaigns: state.AdvertisementStore.Campaigns,
-        InstitutionId : state.Login.user.InstitutionId
+        InstitutionId : state.Login.user.institution.InstitutionId
     }
 
 }
