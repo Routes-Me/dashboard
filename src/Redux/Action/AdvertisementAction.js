@@ -175,7 +175,7 @@ function returnFormatedAdvertisements(response, include) {
     
         const FormatedAdvertisements = AdvertisementList?.map(x => ({
             id: x.advertisementId,
-            resourceName: x.resourceName,
+            resourceName: x.name,
             createdAt: x.createdAt,
             campaigns: x.campaignId.length > 0 && filterCampaignList(CampaignList, x.campaignId)[0],
             institution: InstitutionList.filter(y => y.institutionId === x.institutionId)[0],

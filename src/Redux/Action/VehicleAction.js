@@ -2,7 +2,6 @@
 import {config} from "../../constants/config";
 import apiHandler from '../../util/request';
 import { returnEntityForInstitution } from '../../util/basic';
-import axios from "axios";
 
 //const SampleInsitutionsIdArgument = { "institutionIds": [{ "Id": 3 }] };
 
@@ -94,7 +93,7 @@ export function getModels(makeId) {
     return dispatch => {
 
         dispatch(ModelDataRequest());
-        apiHandler.get('manufacturers/'+makeId+'/model')
+        apiHandler.get('manufacturers/'+makeId+'/models')
         .then(
                model => {
                         dispatch(storeModelData([config.selectModel,...model.data.data]));

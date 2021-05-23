@@ -7,6 +7,7 @@ import UserReducer from './UserReducer';
 import AdvertisementReducer from './AdvertisementReducer';
 import PrizeReducer from './PrizeReducer';
 import GApiReducer from './GApiReducer';
+import RoutesReducer from './RoutesReducer';
 
 export default combineReducers({
     Login: LoginReducer,
@@ -16,5 +17,6 @@ export default combineReducers({
     UserStore: UserReducer,
     AdvertisementStore: AdvertisementReducer,
     PrizeStore : PrizeReducer,
-    GApiStore : GApiReducer
+    GApiStore : GApiReducer,
+    RoutesStore : RoutesReducer
 });

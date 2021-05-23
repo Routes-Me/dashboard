@@ -15,9 +15,10 @@ export default class Detail extends Component {
             this.closeDetails(this.props.show);
         }
 
-        const action = this.props.object ? "Update" : "Add";
+        const action = this.props.object ? "Generate" : "New";
         const objectType = this.props.objectType;
-        const title = action + " " + objectType;
+        const subTitle = action + " " + objectType;
+        const title = action;
 
         return(
             <div className="row margin-40">
@@ -25,16 +26,16 @@ export default class Detail extends Component {
                     <div className="col-md-6">
 
                     <div className="row">
-                        <p className="detail-Subtitle">{this.props.objectType} / {title} </p>
+                        <p className="detail-Subtitle"> <a className='parent'>{this.props.objectType}</a> / {title} </p>
                     </div>
                     <div className="row">
                         {/*<button className="backBtn" onClick={this.props.show} />*/}
-                        <p className="detail-Title"><b>{title}</b></p>
+                        <p className="detail-Title"><b>{subTitle}</b></p>
                     </div>
                     </div>
                     <div className="col-md-6">
                         {/*< DetailHeader objectType={this.props.objectType} object={this.props.object} show={this.props.show} />*/}
-                        <button className="closeCrudBtn" onClick={this.props.show}/>
+                        <button className="closeCrudBtn" onClick={e => this.props.show(e)}/>
                     </div>
                  </div>
                 {/*< DetailHeader objectType={this.props.objectType} object={this.props.object} show={this.props.show} />*/}

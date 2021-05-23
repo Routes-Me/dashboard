@@ -233,8 +233,8 @@ class Extras extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-12">
                                 <Label>Enable Share QR Code</Label>
-                                <label class="radio-inline"><input type="radio" name="shareQR" onChange={this.onChangeRadioButton} checked={this.state.shareQR}/> Yes</label>
-                                <label class="radio-inline"><input type="radio" name="shareQR" onChange={this.onChangeRadioButton} checked={!this.state.shareQR}/> No</label>
+                                <label className="radio-inline"><input type="radio" name="shareQR" onChange={this.onChangeRadioButton} checked={this.state.shareQR}/> Yes</label>
+                                <label className="radio-inline"><input type="radio" name="shareQR" onChange={this.onChangeRadioButton} checked={!this.state.shareQR}/> No</label>
                             </div>
                         </div>
 

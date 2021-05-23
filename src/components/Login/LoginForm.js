@@ -126,11 +126,6 @@ import {clearStorage} from '../../util/localStorage'
 	}
 }
 
-
-//LoginForm.propTypes = {
-//	userSignInRequest: React.PropTypes.func.isRequired
-//}
-
 function mapState(state) {
 	return {
 		loggingIn: state.Login.loading
@@ -138,7 +133,7 @@ function mapState(state) {
 }
 
 const actionCreators = {
-	login: LoginAction.userSignInRequest
+	login: LoginAction.userSignInRequestV1
 };
 
 const connectedLoginPage = connect(mapState, actionCreators)(LoginForm);

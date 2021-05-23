@@ -105,7 +105,7 @@ class Basic extends React.Component {
                     name            : props.advertisementToDisplay.resourceName,
                     dayInterval     : props.advertisementToDisplay.intervalId,
                     institution     : props.advertisementToDisplay.institution,
-                    institutionId   : props.advertisementToDisplay.institution.institutionId,
+                    institutionId   : props.advertisementToDisplay.institution?.institutionId,
                     media           : props.advertisementToDisplay.media,
                     campaigns       : props.advertisementToDisplay.campaigns,
                     tintColor       : '#'+props.advertisementToDisplay.tintColor?.toString(16)

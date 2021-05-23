@@ -1,7 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { QRCode } from "react-qr-svg";
 import ReactPlayer from 'react-player';
-import { Label } from 'reactstrap';
 
 export class AdvertisementsSecondary extends Component {
 

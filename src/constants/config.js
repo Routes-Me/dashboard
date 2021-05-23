@@ -41,7 +41,7 @@ export const config = {
         "data":[
             {
                 "roleId":1,
-                "navItems":["Tracking","Users","Vehicles","Advertisements","Institutions","Access Control",'Campaigns','Analytics','Prizes','EMM']
+                "navItems":['Tracking','Users','Vehicles','Advertisements','Institutions','Access Control','Campaigns','Analytics','Prizes','EMM','Bus Routes']
             },
             {
                 "roleId":2,
@@ -52,6 +52,8 @@ export const config = {
 
     SU : "super",
     ROU : "support",
+
+    refreshTokenURL : 'authentications/renewals',
 
     HubURL: 'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5002/trackServiceHub',
     

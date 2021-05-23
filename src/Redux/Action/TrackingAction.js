@@ -4,7 +4,8 @@ import { isSU, returnEntityForInstitution } from '../../util/basic';
 import apiHandler from '../../util/request';
 import { config } from "../../constants/config";
 
-let hubConnection = ""; 
+let hubConnection = "";
+let reconnectingInterval = "";
 
 
 
@@ -52,9 +53,9 @@ export function SubscribeToHub(user) {
         }
 
 
-            setInterval(() => {
-                CheckConnectivity()
-            }, 60000);
+        reconnectingInterval = setInterval(() => {
+            CheckConnectivity()
+        }, 60000);
 
         hubConnection.on("FeedsReceiver", (result) => {
             
@@ -99,6 +100,7 @@ export const Disconnected = payload => ({ type: trackingConstants.Tracking_Disco
 
 export function UnsubscribeFromHub() {
 
+    clearInterval(reconnectingInterval); //removed interval check on unssubscribe
     return dispatch => {
         dispatch(Unsubscribe());
         if(hubConnection.state === 0)

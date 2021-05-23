@@ -9,9 +9,19 @@ import cookie from 'react-cookies';
         //setAuthorizationToken(token);
     }
 
+    export async function setRefreshToken(token) {
+        cookie.save('refreshToken',token)
+    }
+
+    export async function getRefreshToken(token) {
+        let refreshToken = cookie.load('refreshToken');
+        return refreshToken;
+    }
+
     export async function clearStorage() {
         cookie.remove('token');
         localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
         localStorage.removeItem('state');
     }
 

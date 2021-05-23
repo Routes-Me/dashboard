@@ -4,6 +4,7 @@
     Login_SUCCESS : 'LOGIN_SUCCESS',
     Login_FAILURE: 'LOGIN_FAILURE', 
     Login_TokenReceived : 'TOKEN_RECEIVED',
+    Login_Authorize : 'LOGIN_AUTHORIZE',
 
 
     LogOut_REQUEST: 'LOGOUT_REQUEST',
@@ -28,6 +29,7 @@
     NavItem_Analytics : 'Analytics',
     NavItem_Prizes    : 'Prizes',
     NavItem_EMM    : 'EMM',
+    NavItem_Bus    : 'Bus Routes',
 
     getUsers_REQUEST: "GETUSERS_REQUEST",
     getUsers_SUCCESS: "GETUSERS_SUCCESS",
