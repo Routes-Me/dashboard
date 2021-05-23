@@ -20,43 +20,43 @@ export function userSignInRequest(username, password) {
   
   return dispatch => {
 
-    // setToken(fakeToken2);
-    // dispatch(getLoginSuccess(fakeUser));
-    // dispatch(onReceiveToken(fakeUser));
-    // history.push('/home');
-      dispatch(request({ username, password }));
-      let userObject = {
-          Username: username,
-          Password: encryptAndEncode(password)
-      };
+    setToken(fakeToken2);
+    dispatch(getLoginSuccess(fakeUser));
+    dispatch(onReceiveToken(fakeUser));
+    history.push('/home');
+      // dispatch(request({ username, password }));
+      // let userObject = {
+      //     Username: username,
+      //     Password: encryptAndEncode(password)
+      // };
 
       // let sampleUser = {
       //   Username: "wael@gmail.com",
       //   Password: "%JhujMD7MGVkL2pXpiD1ADYveiTDGXg8uh5hSeB2JU3Q=="
       // }
 
-      apiHandler.post('authentications', userObject)
-          .then(
-              response => {
-                  console.log('response obj for login ', response.headers['Set-Cookie']);
-                  const token = response.data.token;
-                  const refreshToken = response.headers['Set-Cookie'];
-                  const testDecode = parseJwt(token);
-                  const LoggedInUser = jwt.decode(token);
-                  dispatch(getLoginSuccess(LoggedInUser));
-                  setToken(token);
-                  setRefreshToken(refreshToken);
-                  dispatch(onReceiveToken(token));
-                  // getAutherization(2);
-                  history.push('/home');
-              },
-              error => {
-                  dispatch(failure(error.message.toString()));
-                  console.log('error message', error);
-                  console.log('API Domain After error delegate:', process.env.REACT_APP_APIDOMAIN);
-                  alert(error.toString());
-              }
-          );
+      // apiHandler.post('authentications', userObject)
+      //     .then(
+      //         response => {
+      //             console.log('response obj for login ', response.headers['Set-Cookie']);
+      //             const token = response.data.token;
+      //             const refreshToken = response.headers['Set-Cookie'];
+      //             const testDecode = parseJwt(token);
+      //             const LoggedInUser = jwt.decode(token);
+      //             dispatch(getLoginSuccess(LoggedInUser));
+      //             setToken(token);
+      //             setRefreshToken(refreshToken);
+      //             dispatch(onReceiveToken(token));
+      //             // getAutherization(2);
+      //             history.push('/home');
+      //         },
+      //         error => {
+      //             dispatch(failure(error.message.toString()));
+      //             console.log('error message', error);
+      //             console.log('API Domain After error delegate:', process.env.REACT_APP_APIDOMAIN);
+      //             alert(error.toString());
+      //         }
+      //     );
   };
 }
 
@@ -70,15 +70,19 @@ export function userSignInRequestV1(username, password) {
       };
 
       apiHandler.post('authentications',userObject).then((response) => {
-          console.log('sign in response ', response.data.token);
           const token = response.data.token;
+          dispatch(onReceiveToken(token));
           const tokenPayLoad = parseJwt(token);
-          const decoded = atob('W3siQXBwbGljYXRpb24iOiJkYXNoYm9hcmQiLCJQcml2aWxlZ2UiOiJzdXBlciJ9XQ==');
-          console.log('decoded Base64 ', decoded);
+          const roleStr = atob(tokenPayLoad.rol);
+          const role  = JSON.parse(roleStr);
+          const officerIDStr = atob(tokenPayLoad.ext);
+          const officer = JSON.parse(officerIDStr);
+          console.log('Officer  ',officer);
           // console.log('token payload after decode', JSON.parse(tokenPayLoad.ext).OfficerId);
-          getOfficer(tokenPayLoad.ext)
+          getOfficer(officer.OfficerId)
           .then(
             (officer) => {
+              console.log('officer', officer);
             dispatch(getLoginSuccess(officer))
             },
             (error) => {dispatch(failure(error.message.toString()))}
