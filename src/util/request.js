@@ -56,29 +56,29 @@ function (error) {
       clearStorage();
       // history.push('/');
     }
-    if(statusCode === 400)
-    {
-      requestRefreshTokenInterval = setTimeout(() => {
-        requestRefreshToken();
-      }, 5*60000);
-    }
+    // if(statusCode === 400)
+    // {
+    //   requestRefreshTokenInterval = setTimeout(() => {
+    //     requestRefreshToken();
+    //   }, 5*60000);
+    // }
   }
 
-  if (error.response.status === 401 && originalRequest.url !== config.refreshTokenURL) {
+  // if (error.response.status === 401 && originalRequest.url !== config.refreshTokenURL) {
 
-      originalRequest._retry = true;
-      requestRefreshToken()
-      .then(res => {
-          if (res.status === 201) {
-              // 1) put token to LocalStorage
-              setRefreshToken(res.data);
-              // 2) Change Authorization header
-              axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data;
-              // 3) return originalRequest object with Axios.
-              return axios(originalRequest);
-          }
-      })
-  }
+  //     originalRequest._retry = true;
+  //     requestRefreshToken()
+  //     .then(res => {
+  //         if (res.status === 201) {
+  //             // 1) put token to LocalStorage
+  //             setRefreshToken(res.data);
+  //             // 2) Change Authorization header
+  //             axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data;
+  //             // 3) return originalRequest object with Axios.
+  //             return axios(originalRequest);
+  //         }
+  //     })
+  // }
 
   // return Error object with Promise
   return Promise.reject(error);

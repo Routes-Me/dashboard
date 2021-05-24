@@ -11,7 +11,7 @@ function buildURL(entity, pageIndex, limit, include, user) {
     entity = returnEntityForInstitution(entity,user);
     
     if(include){
-      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit+"&include=institutions,models";
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit+"&include=institutions,models,manufacturers";
     }
     else{
       queryParameter=entity+"?offset="+pageIndex+"&limit="+limit;
@@ -95,10 +95,10 @@ export function getModels(makeId) {
         dispatch(ModelDataRequest());
         apiHandler.get('manufacturers/'+makeId+'/models')
         .then(
-               model => {
+              model => {
                         dispatch(storeModelData([config.selectModel,...model.data.data]));
                     },
-               error => {
+              error => {
                         alert(`getModels ${error.toString()}`);
             });
     }
@@ -198,22 +198,31 @@ function returnFormatedVehicles(response){
     const VehicleList = response.data.data;
     const InstitutionList = response.data.included.institutions;
     const ModelList = response.data.included.models;
+    const ManufacturerList = response.data.included.manufacturers;
+    let formattedResponse = [];
 
-    const FormatedVehicle = VehicleList.map(x => ({
+    VehicleList.map(x => {
+      
+      const modelObj = ModelList.filter(y => y.ModelId === x.modelId)[0];
+      const manufacturerObj = ManufacturerList.filter(y =>  y.ManufacturerId === modelObj?.ManufacturerId)[0];
+      if(manufacturerObj !== undefined) 
+      modelObj.Manufacturer = [manufacturerObj];
+      
+      const formattedObj = {
         id: x.vehicleId,
         institution: InstitutionList.filter(y => y.InstitutionId === x.institutionId)[0],
         plateNumber: x.plateNumber,
-        model: ModelList.filter(y => y.ModelId === x.modelId)[0],
-        //make: MakerList.filter(y => y.makeId === x.makeId)[0],
-        //deviceId: x.deviceId,
+        model: modelObj,
         modelYear: x.modelYear
-    }))
+      }
+      formattedResponse.push(formattedObj);
+  })
 
     let vehicles= {
-      data : FormatedVehicle,
+      data : formattedResponse,
       page : response.data.pagination
     }
-  
+    console.log('Formatted Vehicles List ', vehicles);
     return vehicles;
 }
 
