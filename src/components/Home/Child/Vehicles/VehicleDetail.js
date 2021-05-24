@@ -53,7 +53,7 @@ class VehicleDetail extends React.Component {
                     institution: props.vehicleToDisplay.institution,
                     modelYear: props.vehicleToDisplay.modelYear,
                     model: props.vehicleToDisplay.model,
-                    make: props.vehicleToDisplay.model?.Manufacturers[0],
+                    make: props.vehicleToDisplay.manufacturer,
                     deviceId: props.vehicleToDisplay.deviceId,
                     plateNumber: props.vehicleToDisplay.plateNumber
                 }
