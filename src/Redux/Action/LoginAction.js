@@ -4,7 +4,7 @@ import { config } from "../../constants/config";
 import {userConstants} from '../../constants/userConstants';
 import jwt, { decode } from "jsonwebtoken";
 import { encryptAndEncode, parseJwt } from "../../util/encrypt";
-import {setToken, setRefreshToken, clearStorage} from '../../util/localStorage';
+import {setToken as setToken, setRefreshToken, clearStorage, setUser, setRole as setRole} from '../../util/localStorage';
 import apiHandler from '../../util/request';
 
 
@@ -74,13 +74,15 @@ export function userSignInRequestV1(username, password) {
           setToken(token);
           dispatch(onReceiveToken(token));
           const tokenPayLoad = parseJwt(token);
-          const roleStr = atob(tokenPayLoad.rol);
-          const role  = JSON.parse(roleStr);
+          const role  = JSON.parse(atob(tokenPayLoad.rol));
           dispatch(authorize(role[0]));
+          setRole(role[0]);
           apiHandler.get(`officers/${JSON.parse(atob(tokenPayLoad.ext)).OfficerId}?include=users,institutions`)
           .then(
             (user) => {
-              dispatch(getLoginSuccess(returnFormattedUser(user)));
+              const userDetail = returnFormattedUser(user);
+              setUser(userDetail);
+              dispatch(getLoginSuccess(userDetail));
               history.push('/home');
             },
             (error) => {
@@ -100,7 +102,6 @@ const returnFormattedUser = (response) => {
     userInfo : response.data.included.users[0],
     institution : response.data.included.institutions[0]
   }
-  console.log('User Info ', user);
   return user;
 }
 
@@ -137,6 +138,12 @@ function authorize(rol) { return { type: userConstants.Login_Authorize, payload:
 export function restoreUserFromSession(user){
   return dispatch => {
     dispatch(getLoginSuccess(user));
+  }
+}
+
+export function restoreRoleFromSession(role){
+  return dispatch => {
+    dispatch(authorize(role));
   }
 }
 

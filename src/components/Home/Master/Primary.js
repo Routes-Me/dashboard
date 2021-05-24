@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import * as LoginAction from '../../../Redux/Action';
 import { isSU } from '../../../util/basic';
 import { parseJwt } from "../../../util/encrypt";
-import { restoreToken } from '../../../util/localStorage';
+import { getRole as restoreRole, getUser as restoreUser, restoreToken } from '../../../util/localStorage';
 
 
 
@@ -22,13 +22,14 @@ class Primary extends Component
 
     componentDidMount() {
 
-        // if(this.props.user.InstitutionId!== undefined)
-        // {
+        console.log('did mount props user => ', this.props.user)
+        if(this.props.user.userInfo !== undefined)
+        {
             this.setAuthorization();
-        // }
-        // else{
-        //     this.restoreUserFromToken();
-        // }
+        }
+        else{
+            this.restoreUserFromToken();
+        }
         
 
     }
@@ -46,16 +47,19 @@ class Primary extends Component
 
     }
 
-    restoreUserFromToken = async() => {
-        const token = await restoreToken();
+    restoreUserFromToken = async () => {
+
+        const token = await restoreToken()
         this.props.restoreToken(token);
-        const user = parseJwt(token);
+        const user = await restoreUser();
         this.props.restoreUser(user);
+        const role = await restoreRole();
+        this.props.restoreRole(role);
         this.setAuthorization();
     }
 
     setAuthorization = () => {
-        console.log('User to authorize ', this.props.user);
+        console.log('Role to authorize ', this.props.role);
         if(isSU(this.props.role)) //1580030173 78132467
         this.props.getAutherization(1);
         else
@@ -106,7 +110,8 @@ const actionCreators = {
     getAutherization: LoginAction.getAutherization,
     updateNavItem: LoginAction.UpdateNavSelection,
     restoreUser : LoginAction.restoreUserFromSession,
-    restoreToken : LoginAction.restoreTokenFromSession
+    restoreToken : LoginAction.restoreTokenFromSession,
+    restoreRole : LoginAction.restoreRoleFromSession
 };
 
 const connectLogin = connect(mapStateToProps, actionCreators)(Primary);

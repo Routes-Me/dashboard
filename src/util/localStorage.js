@@ -9,6 +9,24 @@ import cookie from 'react-cookies';
         //setAuthorizationToken(token);
     }
 
+    export async function setUser(user) {
+        cookie.save('user',user)
+    }
+
+    export async function getUser() {
+        return cookie.load('user');
+    }
+
+    export async function setRole(role) {
+        cookie.save('role',role)
+    }
+
+    export async function getRole() {
+        return cookie.load('role');
+    }
+
+
+
     export async function setRefreshToken(token) {
         cookie.save('refreshToken',token)
     }
@@ -42,6 +60,8 @@ import cookie from 'react-cookies';
         //       return localStorage.getItem('token');
         //   }
     }
+
+
 
 
 
