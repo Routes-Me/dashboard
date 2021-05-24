@@ -65,7 +65,7 @@ class UsersDetail extends React.Component {
                     name: props.userToDisplay.name,
                     email: props.userToDisplay.email,
                     phone: props.userToDisplay.phone,
-                    roles: props.userToDisplay.roles[0],
+                    // roles: props.userToDisplay.roles[0],
                     institutionId: props.userToDisplay.institution?.institutionId,
                     institution : props.userToDisplay.institution
                 }
@@ -180,6 +180,7 @@ class UsersDetail extends React.Component {
                             </div>
                         </div>
 
+                        {buttonText === 'Add' && 
                         <div className="row form-group">
                             <div className="col-md-6">
                                 <Label>Privilege</Label><br />
@@ -187,8 +188,9 @@ class UsersDetail extends React.Component {
                                     {this.props.PrivilegeList.map(privilege => (<option key={privilege.id} className="dropdown-item" value={privilege.id}>{privilege.name}</option>))}
                                 </select>
                             </div>
-                        </div>
+                        </div>}
 
+                        {buttonText === 'Add' && 
                         <div className="row form-group">
                             <div className="col-md-6">
                                 <Label>Applications</Label><br />
@@ -199,7 +201,7 @@ class UsersDetail extends React.Component {
                                     {this.props.ApplicationsList.map(application => (<option key={application.id} className="dropdown-item" value={application.id}>{application.name}</option>))}
                                 </select>
                             </div>
-                        </div>
+                        </div>}
 
                         <div className="row form-group">
                             <div className="col-md-6">
