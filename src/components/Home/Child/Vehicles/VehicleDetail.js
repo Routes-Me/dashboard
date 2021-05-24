@@ -174,7 +174,7 @@ class VehicleDetail extends React.Component {
                                     <Label>Make</Label><br />
                                     <div className="btn-grp">
                                         <button type="button" className="btn btn-block btn-light text-left" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Makers)}>
-                                            {this.state.make ? this.state.make.name : "Select a Manufacturer"}<span className="glyphicon glyphicon-play"/>
+                                            {this.state.make ? this.state.make.Name : "Select a Manufacturer"}<span className="glyphicon glyphicon-play"/>
                                         </button>
                                     </div>
                                 </div>
@@ -185,7 +185,7 @@ class VehicleDetail extends React.Component {
                                     <Label>Model</Label><br />
                                     <div className="btn-grp">
                                         <button type="button" className="btn btn-block btn-light text-left" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Models)}>
-                                            {this.state.model ? this.state.model.name : "Select a Model"}<span className="glyphicon glyphicon-play"/>
+                                            {this.state.model ? this.state.model.Name : "Select a Model"}<span className="glyphicon glyphicon-play"/>
                                         </button>
                                     </div>
                                 </div>
