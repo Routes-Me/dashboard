@@ -139,7 +139,7 @@ class Basic extends React.Component {
         if(action === 'add')
         {
             advertisement = {
-                ResourceName      : this.state.name,
+                Name      : this.state.name,
                 InstitutionId     : this.state.institutionId,
                 MediaUrl          : this.props.UploadedMedia.Url,
                 IntervalId        : this.state.dayInterval,
@@ -150,7 +150,7 @@ class Basic extends React.Component {
         else
         {
             advertisement = {
-                ResourceName      : this.state.name,
+                Name      : this.state.name,
                 InstitutionId     : this.state.institutionId,
                 MediaUrl          : this.state.media.Url,
                 IntervalId        : this.state.dayInterval,
