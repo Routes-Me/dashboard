@@ -56,7 +56,7 @@ export const config = {
     refreshTokenURL : 'authentications/renewals',
 
     // HubURL: 'http://vmtprojectstage.uaenorth.cloudapp.azure.com:5050/trackServiceHub',
-    HubURL: 'https://stage.tracking.routesme.com/trackServiceHub',
+    HubURL: 'https://stage.location.hub.routesme.com/trackServiceHub',
     
 
     Pagelimit : 20,
