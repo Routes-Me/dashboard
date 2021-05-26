@@ -14,7 +14,7 @@ export function InitializeHub(token){
     return dispatch => {
     
         hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl(config.HubURL, 
+        .withUrl(process.env.REACT_APP_HubURL, 
         {
             accessTokenFactory:() => getAccessToken(token)
         })

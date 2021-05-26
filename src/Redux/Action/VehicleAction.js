@@ -205,14 +205,15 @@ function returnFormatedVehicles(response){
       
       const modelObj = ModelList.filter(y => y.ModelId === x.modelId)[0];
       const manufacturerObj = ManufacturerList.filter(y =>  y.ManufacturerId === modelObj?.ManufacturerId)[0];
-      if(manufacturerObj !== undefined) 
-      modelObj.Manufacturer = [manufacturerObj];
+      // if(manufacturerObj !== undefined) 
+      // modelObj.Manufacturer = [manufacturerObj];
       
       const formattedObj = {
         id: x.vehicleId,
         institution: InstitutionList.filter(y => y.InstitutionId === x.institutionId)[0],
         plateNumber: x.plateNumber,
         model: modelObj,
+        manufacturer: manufacturerObj,
         modelYear: x.modelYear
       }
       formattedResponse.push(formattedObj);

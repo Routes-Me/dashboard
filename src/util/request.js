@@ -64,21 +64,21 @@ function (error) {
     // }
   }
 
-  // if (error.response.status === 401 && originalRequest.url !== config.refreshTokenURL) {
-
-  //     originalRequest._retry = true;
-  //     requestRefreshToken()
-  //     .then(res => {
-  //         if (res.status === 201) {
-  //             // 1) put token to LocalStorage
-  //             setRefreshToken(res.data);
-  //             // 2) Change Authorization header
-  //             axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data;
-  //             // 3) return originalRequest object with Axios.
-  //             return axios(originalRequest);
-  //         }
-  //     })
-  // }
+  if (error.response.status === 401 && originalRequest.url !== config.refreshTokenURL) {
+      // originalRequest._retry = true;
+      // requestRefreshToken()
+      // .then(res => {
+      //     if (res.status === 201) {
+      //         // 1) put token to LocalStorage
+      //         setRefreshToken(res.data);
+      //         // 2) Change Authorization header
+      //         axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data;
+      //         // 3) return originalRequest object with Axios.
+      //         return axios(originalRequest);
+      //     }
+      // })
+      history.push('/');
+  }
 
   // return Error object with Promise
   return Promise.reject(error);

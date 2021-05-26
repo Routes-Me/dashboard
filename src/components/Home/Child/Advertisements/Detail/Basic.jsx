@@ -64,6 +64,7 @@ class Basic extends React.Component {
         let fileType = undefined;
         var fileExtension ='';
         let file = event.target.files[0];
+        var localFilePath = URL.createObjectURL(event.target.files[0]);
         if (file.type.includes('video')) {
             fileExtension = advertisementsConstants.video;
             this.setState({ image: undefined })
@@ -79,16 +80,17 @@ class Basic extends React.Component {
 
         
             var media ={
-                Type : fileExtension,
+                Type : fileType,
                 Url  : 'Loading'
             }
 
         this.props.uploadRequest(media)
 
 
-        const mediaURL = await uploadMediaIntoBlob(file, fileType);
+        // const mediaURL = await uploadMediaIntoBlob(file, fileType);
 
-        this.props.uploadMedia(mediaURL);
+        media.Url = localFilePath;
+        this.props.uploadMedia(media);
         
     }
 
@@ -125,9 +127,9 @@ class Basic extends React.Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (this.props.submitForm !== prevProps.submitForm) {
-          this.handleSubmit();
+            this.handleSubmit();
         }
-      }
+    }
 
     //Submit button action 
     handleSubmit = () => {
@@ -139,7 +141,7 @@ class Basic extends React.Component {
         if(action === 'add')
         {
             advertisement = {
-                ResourceName      : this.state.name,
+                Name              : this.state.name,
                 InstitutionId     : this.state.institutionId,
                 MediaUrl          : this.props.UploadedMedia.Url,
                 IntervalId        : this.state.dayInterval,
@@ -150,7 +152,7 @@ class Basic extends React.Component {
         else
         {
             advertisement = {
-                ResourceName      : this.state.name,
+                Name              : this.state.name,
                 InstitutionId     : this.state.institutionId,
                 MediaUrl          : this.state.media.Url,
                 IntervalId        : this.state.dayInterval,
@@ -199,12 +201,12 @@ class Basic extends React.Component {
                                     <Label>Media</Label>
                                     <div className="progress">
                                     <div className="progress-bar progress-bar-striped progress-bar-animated"
-                                      role="progressbar"
-                                      aria-valuenow={this.props.onProgress}
-                                      aria-valuemin="0"
-                                      aria-valuemax="100"
-                                      style={{ width: this.props.onProgress + "%" }}>
-                                      {this.props.onProgress}%
+                                        role="progressbar"
+                                        aria-valuenow={this.props.onProgress}
+                                        aria-valuemin="0"
+                                        aria-valuemax="100"
+                                        style={{ width: this.props.onProgress + "%" }}>
+                                        {this.props.onProgress}%
                                     </div>
                                     </div>
                                     <div className="form-group files">
