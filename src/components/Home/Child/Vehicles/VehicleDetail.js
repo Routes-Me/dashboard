@@ -53,7 +53,7 @@ class VehicleDetail extends React.Component {
                     institution: props.vehicleToDisplay.institution,
                     modelYear: props.vehicleToDisplay.modelYear,
                     model: props.vehicleToDisplay.model,
-                    make: props.vehicleToDisplay.model?.Manufacturers[0],
+                    make: props.vehicleToDisplay.manufacturer,
                     deviceId: props.vehicleToDisplay.deviceId,
                     plateNumber: props.vehicleToDisplay.plateNumber
                 }
@@ -68,7 +68,7 @@ class VehicleDetail extends React.Component {
         let vehicle =""
         let action ="";
 
-        {this.state.vehicleId? action = "save": action="add"}
+        this.state.vehicleId? action = "save": action="add"
 
         if(action==="add"){
             vehicle = {
@@ -112,8 +112,8 @@ class VehicleDetail extends React.Component {
     //show model dialog 
     toggleModal = (e, objectType) => {
         e.preventDefault();
-        { objectType === vehicleConstants.searchDialogFor_Makers && this.props.getMakes() }
-        { objectType === vehicleConstants.searchDialogFor_Models && this.props.getModels(this.state.make.manufacturerId) }
+        objectType === vehicleConstants.searchDialogFor_Makers && this.props.getMakes() 
+        objectType === vehicleConstants.searchDialogFor_Models && this.props.getModels(this.state.make.manufacturerId) 
         this.setState({
             searchModel: !this.state.searchModel,
             searchObject: objectType
@@ -121,8 +121,8 @@ class VehicleDetail extends React.Component {
     }
 
     updateTheSelectedObject = (obj) => {
-        { this.state.searchObject === vehicleConstants.searchDialogFor_Makers && this.setState({ make: obj }) }
-        { this.state.searchObject === vehicleConstants.searchDialogFor_Models && this.setState({ model: obj }) }
+        this.state.searchObject === vehicleConstants.searchDialogFor_Makers && this.setState({ make: obj })
+        this.state.searchObject === vehicleConstants.searchDialogFor_Models && this.setState({ model: obj })
     }
 
     render() {
@@ -147,7 +147,7 @@ class VehicleDetail extends React.Component {
                     objectList={searchList} 
                     onSelect={this.updateSelectedId} />
 
-                        <div class="col-md-12" style={{padding:'0px'}}>
+                        <div className="col-md-12" style={{padding:'0px'}}>
 
                             <div className="row form-group">
                                 <div className="col-md-6">
@@ -172,9 +172,9 @@ class VehicleDetail extends React.Component {
                             <div className="row form-group">
                                 <div className="col-md-6">
                                     <Label>Make</Label><br />
-                                    <div class="btn-grp">
-                                        <button type="button" class="btn btn-block btn-light text-left" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Makers)}>
-                                            {this.state.make ? this.state.make.name : "Select a Manufacturer"}<span className="glyphicon glyphicon-play"/>
+                                    <div className="btn-grp">
+                                        <button type="button" className="btn btn-block btn-light text-left" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Makers)}>
+                                            {this.state.make ? this.state.make.Name : "Select a Manufacturer"}<span className="glyphicon glyphicon-play"/>
                                         </button>
                                     </div>
                                 </div>
@@ -183,9 +183,9 @@ class VehicleDetail extends React.Component {
                             <div className="row form-group">
                                 <div className="col-md-6">
                                     <Label>Model</Label><br />
-                                    <div class="btn-grp">
-                                        <button type="button" class="btn btn-block btn-light text-left" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Models)}>
-                                            {this.state.model ? this.state.model.name : "Select a Model"}<span className="glyphicon glyphicon-play"/>
+                                    <div className="btn-grp">
+                                        <button type="button" className="btn btn-block btn-light text-left" onClick={e => this.toggleModal(e, vehicleConstants.searchDialogFor_Models)}>
+                                            {this.state.model ? this.state.model.Name : "Select a Model"}<span className="glyphicon glyphicon-play"/>
                                         </button>
                                     </div>
                                 </div>
@@ -201,7 +201,7 @@ class VehicleDetail extends React.Component {
                                     <select value={this.state.institutionId} className="custom-select" size='5' name="institutionId" onChange={this.onChange}>
                                     {this.props.InstitutionList.data?.map(institution => (<option key={institution.institutionId} className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
                                     </select>
-                                    <PageHandler page = {this.props.InstitutionList.page} getList={this.props.getInstitutions} institutionId={this.props.user.InstitutionId}/>
+                                    <PageHandler page = {this.props.InstitutionList.page} getList={this.props.getInstitutions} institutionId={this.props.user.institution.InstitutionId}/>
                                 </div>
                             </div>
 

@@ -42,6 +42,16 @@ class UsersDetail extends React.Component {
         {
             this.setState({institution : returnObjectForSelectedId(this.props.InstitutionList.data, event.target.value), [event.target.name]: event.target.value})
         }
+        if(event.target.name === "application")
+        {
+            const selected=[];
+            let selectedOption=(event.target.selectedOptions);
+            for (let i = 0; i < selectedOption.length; i++)
+            {
+                selected.push(selectedOption.item(i).value)
+            }
+            this.setState({ [event.target.name]: selected})
+        }
         this.setState({ [event.target.name]: event.target.value })
     }
 
@@ -55,7 +65,7 @@ class UsersDetail extends React.Component {
                     name: props.userToDisplay.name,
                     email: props.userToDisplay.email,
                     phone: props.userToDisplay.phone,
-                    roles: props.userToDisplay.roles[0],
+                    // roles: props.userToDisplay.roles[0],
                     institutionId: props.userToDisplay.institution?.institutionId,
                     institution : props.userToDisplay.institution
                 }
@@ -123,7 +133,7 @@ class UsersDetail extends React.Component {
         return (
             <div>
                 <Form onSubmit={e => this.handleSubmit(e)}>
-                    <div class="col-md-12" style={{padding:'0px'}}>
+                    <div className="col-md-12" style={{padding:'0px'}}>
 
                         <div className="row form-group">
                             <div className="col-md-6">
@@ -170,15 +180,7 @@ class UsersDetail extends React.Component {
                             </div>
                         </div>
 
-                        <div className="row form-group">
-                            <div className="col-md-6">
-                                <Label>Applications</Label><br />
-                                <select defaultValue={this.state.roles.applicationId} className="custom-select my-1 mr-sm-2" name="application" onChange={this.onChange}>
-                                    {this.props.ApplicationsList.map(application => (<option key={application.id} className="dropdown-item" value={application.id}>{application.name}</option>))}
-                                </select>
-                            </div>
-                        </div>
-
+                        {buttonText === 'Add' && 
                         <div className="row form-group">
                             <div className="col-md-6">
                                 <Label>Privilege</Label><br />
@@ -186,7 +188,20 @@ class UsersDetail extends React.Component {
                                     {this.props.PrivilegeList.map(privilege => (<option key={privilege.id} className="dropdown-item" value={privilege.id}>{privilege.name}</option>))}
                                 </select>
                             </div>
-                        </div>
+                        </div>}
+
+                        {buttonText === 'Add' && 
+                        <div className="row form-group">
+                            <div className="col-md-6">
+                                <Label>Applications</Label><br />
+                                {/* <select defaultValue={this.state.roles.applicationId} className="custom-select my-1 mr-sm-2" name="application" onChange={this.onChange}>
+                                    {this.props.ApplicationsList.map(application => (<option key={application.id} className="dropdown-item" value={application.id}>{application.name}</option>))}
+                                </select> */}
+                                <select className="custom-select" multiple size="5" defaultValue={this.state.roles.applicationId} name="application" onChange={this.onChange}>
+                                    {this.props.ApplicationsList.map(application => (<option key={application.id} className="dropdown-item" value={application.id}>{application.name}</option>))}
+                                </select>
+                            </div>
+                        </div>}
 
                         <div className="row form-group">
                             <div className="col-md-6">

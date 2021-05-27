@@ -1,171 +1,181 @@
 .top-part-vehicles-search {
-    top:0px;
-    padding-bottom: 30px;
-    padding-top: 76px;
-    position: sticky;
-    padding-top: 68px;
-    background-color: #fff;
-    border-bottom: 0px solid #dee2e6;
-    z-index: 1;
+  top: 0px;
+  padding-bottom: 30px;
+  padding-top: 76px;
+  position: sticky;
+  padding-top: 68px;
+  background-color: #fff;
+  border-bottom: 0px solid #dee2e6;
+  z-index: 1;
 }
 
 .top-part-vehicles-search .header-add-butt {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.flex-row {
+  display: flex;
+}
+
+.flex-collumn {
+  display: flex;
+  flex-direction: column;
+}
+
+.header-add-butt .logo {
+  width: 50px;
+  height: 61px;
+  object-fit: contain;
+  margin: 30px;
+  margin-left: 0px;
 }
 
 .header-add-butt h3 {
-    font-size: 35px;
-    font-weight: bold;
-    line-height: normal;
-    letter-spacing: normal;
-    color: black;
-    margin-bottom: 0;
+  font-size: 35px;
+  font-weight: bold;
+  line-height: normal;
+  letter-spacing: normal;
+  color: black;
+  margin-bottom: 0;
 }
 
 .header-add-butt .vehicle-add-butt {
-    
-    font-size: 16px;
-    font-weight: bold;
-    line-height: normal;
-    letter-spacing: normal;
-    color: #18428f;
-    text-transform: uppercase;
-    text-decoration: none;
-    cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #18428f;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
 }
 
-    .top-part-vehicles-search .search-part {
-        position: relative;
-        max-width: 100%;
-        border: 0px;
-        padding: 0;
-    }
+.top-part-vehicles-search .search-part {
+  position: relative;
+  max-width: 100%;
+  border: 0px;
+  padding: 0;
+}
 
 .table-list {
-    width: 100%;
+  width: 100%;
 }
 
 .table-list table {
-    width: 100%;
-    font-size: 18px;
-    border: 0px;
-    background-color: white;
-    table-layout: fixed;
+  width: 100%;
+  font-size: 18px;
+  border: 0px;
+  background-color: white;
+  table-layout: fixed;
 }
 
-.table-list table thead,tbody tr{
-    height: 50px;
-    box-shadow: 0px 0.3px rgba(0, 0, 0, 0.5);
-    border-top: 0px;
-    vertical-align: middle;
+.table-list table thead,
+tbody tr {
+  height: 50px;
+  box-shadow: 0px 0.3px rgba(0, 0, 0, 0.5);
+  border-top: 0px;
+  vertical-align: middle;
 }
 
-.table-list > table > tr th,td{
-    text-align: left;
-    align-content: space-around;
-    justify-content: space-between;
-    word-break: break-word;
-} 
+.table-list > table > tr th,
+td {
+  text-align: left;
+  align-content: space-around;
+  justify-content: space-between;
+  word-break: break-word;
+}
 
-.table-list > table > tbody > tr:hover{
-    background-color: rgba(24, 66, 143, 0.15);
+.table-list > table > tbody > tr:hover {
+  background-color: rgba(24, 66, 143, 0.15);
 }
 
 .table-list table tr:hover .edit-delet-butt {
-    opacity: 1;
+  opacity: 1;
 }
 
 .width44 {
-    column-width:30px;
-    width: 30px;
-    text-align: center;
+  column-width: 30px;
+  width: 30px;
+  text-align: center;
 }
 
 /*testing*/
 
-
-
 .edit-delet-butt {
-    width: 44px;
-    height: 51px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.5s;
-    opacity: 0;
-    cursor: pointer;
+  width: 44px;
+  height: 51px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.5s;
+  opacity: 0;
+  cursor: pointer;
 }
 
-    .edit-delet-butt.active {
-        background-color: rgba(24, 66, 143, 0.2);
-        opacity: 1;
-    }
+.edit-delet-butt.active {
+  background-color: rgba(24, 66, 143, 0.2);
+  opacity: 1;
+}
 
 .edit-popup {
-    position: relative;
-    width: 44px;
+  position: relative;
+  width: 44px;
 }
 
-  
-
-    .edit-delet-butt span {
-        width: 5px;
-        height: 5px;
-        background-color: #423429;
-        display: block;
-        border-radius: 50%;
-        margin-bottom: 3px;
-    }
+.edit-delet-butt span {
+  width: 5px;
+  height: 5px;
+  background-color: #423429;
+  display: block;
+  border-radius: 50%;
+  margin-bottom: 3px;
+}
 
 .edit-delet-butt.active span {
-    background-color: #18428f;
+  background-color: #18428f;
 }
 
 .edit-delet-link {
-    width: 236px;
-    box-shadow: 0 0 4px 0 rgba(24, 66, 143, 0.3);
-    background-color: #ffffff;
-    padding: 0;
-    margin: 0;
-    display: none;
-    position: absolute;
-    right: 0;
-    top: 100%;
-    z-index: 10;
+  width: 236px;
+  box-shadow: 0 0 4px 0 rgba(24, 66, 143, 0.3);
+  background-color: #ffffff;
+  padding: 0;
+  margin: 0;
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
 }
 
+.edit-delet-link li {
+  list-style: none;
+  width: 100%;
+  margin-bottom: 0px;
+  border-bottom: 1px solid rgba(24, 66, 143, 0.3);
+}
 
-    .edit-delet-link li {
-        list-style: none;
-        width: 100%;
-        margin-bottom:0px;
-        border-bottom: 1px solid rgba(24, 66, 143, 0.3);
-    }
+.edit-delet-link li:hover a {
+  background-color: #f3f3f3;
+}
 
-
-        .edit-delet-link li:hover a {
-            background-color: #f3f3f3;
-        }
-
-
-        .edit-delet-link li a {
-            font-size: 16px;
-            font-weight: normal;
-            line-height: normal;
-            letter-spacing: normal;
-            
-            color: black;
-            display: inline-block;
-            width: 100%;
-            padding: 20px 20px;
-            text-align: left;
-            text-decoration: none;
-        }
+.edit-delet-link li a {
+  font-size: 16px;
+  font-weight: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  z-index: 2;
+  color: black;
+  display: inline-block;
+  width: 100%;
+  padding: 20px 20px;
+  text-align: left;
+  text-decoration: none;
+}
 
 .edit-popup:hover .edit-delet-link {
-    display: inline-block;
+  display: inline-block;
 }

@@ -60,7 +60,7 @@ class AccessControl extends Component {
                             {list.map((Role, index) => 
                                     <tr className={`${this.state.rowIndex === index && 'selected'}`} key={index} onClick={e => this.rowSelect(e, index)}>
                                         <td className={`${this.state.rowIndex === index? 'selected' : 'align-l-p40'}`}>
-                                            {!isROU(this.props.user) && this.state.rowIndex === index? <RowItem Object={Role} ObjectType={this.state.tabIndex} Save={this.state.save}/> : Role.name}
+                                            {!isROU(this.props.role) && this.state.rowIndex === index? <RowItem Object={Role} ObjectType={this.state.tabIndex} Save={this.state.save}/> : Role.name}
                                         </td>
                                         <td className='align-l-p40'>{Role.date}</td>
                                     </tr>
@@ -84,25 +84,21 @@ class AccessControl extends Component {
         }
     }
 
-    static getDerivedStateFromProps (props, state){
-            
-
-        return null;
-    }
-
     componentDidUpdate(prevProps, prevState) {
         if (this.props.ApplicationState !== prevProps.ApplicationState) {
             
             if(this.props.ApplicationState === userConstants.update_APPLICATIONS)
             {
-                 this.setState({rowIndex : this.props.ApplicationsList.length});
+                this.setState({rowIndex : this.props.ApplicationsList.length});
+                
             }
             if(this.props.ApplicationState === userConstants.update_PRIVILEGES)
             {
                 this.setState({rowIndex: this.props.PrivilegesList.length});
             }
+            this.updateTheList(this.state.tabIndex);
         }
-      }
+    }
 
 
     rowSelect(e, index) { 
@@ -115,9 +111,7 @@ class AccessControl extends Component {
 
         let list = this.state.tabIndex === 1 ? this.props.PrivilegesList : this.props.ApplicationsList
         let content = this.renderList(list);
-        const tabIndex = this.state.tabIndex; 
-        {this.props.ApplicationState === userConstants.saveApplications_SUCCESS && this.props.getApplications()}
-        {this.props.ApplicationState === userConstants.savePrivilidges_SUCCESS && this.props.getPrivileges()}
+        const tabIndex = this.state.tabIndex;
 
         return (
             <div className="vehicles-page" style={{ height: "100vh", width: "100%" }}>
@@ -138,7 +132,7 @@ class AccessControl extends Component {
                     </div>
 
                     <div className="col-md-12">
-                    {!isROU(this.props.user) &&<div className="saveDiv">
+                    {!isROU(this.props.role) &&<div className="saveDiv">
                         <i className='btnSave' onClick={(e) => this.saveChanges()}> Save </i>
                     </div>}
                     </div>
@@ -154,7 +148,7 @@ class AccessControl extends Component {
 const mapStateToProps = (state) => {
     return {
         ApplicationsList : [...state.UserStore.Applications, {id:'', name:''}],
-        user: state.Login.user,
+        role: state.Login.role,
         ApplicationState: state.UserStore.ActionState,
         PrivilegesList  : [...state.UserStore.Privileges,  {id:'', name:''}]
     }

@@ -101,7 +101,7 @@ class Advertisements extends Component {
                                         <td>{Advertisement.resourceName}</td>
                                         <td>{Advertisement.createdAt}</td>
                                         <td><Status text={Advertisement.campaigns[0]?.status}/></td>
-                                        {!isROU(this.props.user) &&
+                                        {!isROU(this.props.role) &&
                                         <td>
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Advertisement.id)}>
@@ -154,7 +154,7 @@ class Advertisements extends Component {
                         <div className="top-part-vehicles-search padding-lr-80">
                             <div className="header-add-butt">
                                 <h3>Advertisements</h3>
-                                {!isROU(this.props.user) &&
+                                {!isROU(this.props.role) &&
                                 <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Add Advertisement</a>}
                             </div>
 
@@ -179,7 +179,7 @@ const mapStateToProps = (state) => {
 
     return {
         AdvertisementList: state.AdvertisementStore.Advertisements,
-        user: state.Login.user,
+        role: state.Login.role,
         ApplicationState: state.AdvertisementStore.ActionState
     }
 

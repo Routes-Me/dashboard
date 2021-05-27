@@ -67,7 +67,8 @@ const InstitutionReducer = (state = INITIAL_STATE, action) => {
             return {
                 ...state,
                 Loading: false,
-                hasError: false
+                hasError: false,
+                ActionState: institutionConstants.saveInstitutions_SUCCESS
             };
         case institutionConstants.updatePage:
             return {

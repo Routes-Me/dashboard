@@ -25,7 +25,7 @@ class Prizes extends Component {
 
     renderList(Vehicles) {
         return (
-            <div className="table-list padding-lr-80">
+            <div className="table-list padding-lr-80-top-0">
             {this.state.tabIndex === 1 &&
                     <div>
                         <div className="header-add-butt" style={{marginTop:'69px'}}>

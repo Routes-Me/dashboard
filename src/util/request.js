@@ -1,10 +1,11 @@
 import axios from "axios";
 import { config } from "../constants/config";
 import { history } from "../helper/history";
-import {getToken, clearStorage} from '../util/localStorage';
+import {getToken, setToken, setRefreshToken, clearStorage, getRefreshToken} from '../util/localStorage';
 
 
 const apiURL = process.env.REACT_APP_APIDOMAIN;
+let requestRefreshTokenInterval = '';
 
 console.log(`Domain :: ${process.env.NODE_ENV} URL in Axios ${apiURL}`);
 
@@ -12,55 +13,24 @@ const instance = axios.create({
   baseURL: apiURL
 });
 
-// export async function setAuthorizationToken(token) {
-
-//   instance.interceptors.request.use(
-
-//     function (config) {
-//       if (token!=null) 
-//       {
-//           config.headers["Authorization"] = "Bearer " + token;
-//       } 
-//       else if (getToken() != null) 
-//       {
-//         config.headers["Authorization"] = "Bearer " + getToken();
-//       }
-//       else
-//       {
-//         history.push('/');
-//       }
-
-//       config.headers["Content-Type"] = (config.url ==='medias' && config.method ==='post')? "multipart/form-data" :  "application/json; charset=utf-8";      
-
-//       return config;
-
-//     },
-//     function (error) {
-//       history.push('/');
-//       return Promise.reject(error);
-//     }
-
-//   );
-
-// }
-
 
 instance.interceptors.request.use(
 
   async function (config) {
     const token = await getToken();
     
+    config.headers['application'] = 'dashboard';
     if (token!=null) 
     {
-        config.headers["Authorization"] = "Bearer " + token;
+      config.headers["Authorization"] = "Bearer " + token;
     }
-    else
-    {
-      history.push('/');
-    }
+    // else
+    // {
+    //   // history.push('/');
+    // }
 
     config.headers["Content-Type"] = (config.url ==='medias' && config.method ==='post')? "multipart/form-data" :  "application/json; charset=utf-8";      
-    config.headers['Application'] = 'dashboard';
+    
     return config;
 
   },
@@ -71,26 +41,67 @@ instance.interceptors.request.use(
 
 );
 
-// instance.interceptors.response.use(
-//   function success(param) {
-//     //console.log(`${param.method} response send from ${param.url} at ${new Date().getTime()}`);
-//     return param;
-//   },
-//   function failure(error) {
-//     // if((error.response.status === 401 ))
-//     // {
-//     //   clearStorage();
-//     //   history.push('/');
-//     // }
-//     if(error.response.status === 401)
-//     {
-//       let token = Promise.getToken();
-//       instance.defaults.headers.common['Authorization'] = "Bearer " + getToken();
-//       //setAuthorizationToken(token);
-//     }
-//     return Promise.reject(error);
-//   }
-// );
+instance.interceptors.response.use((response) => {
+  return response
+},
+function (error) {
+  const originalRequest = error.config;
+  const statusCode = error.response.status;
+  if(originalRequest.url === `${config.refreshTokenURL}`)
+  {
+    if(statusCode === 406)
+    {
+      console.log(`Status Code : ${statusCode}`)
+      console.log('RefreshToken Expired')
+      clearStorage();
+      // history.push('/');
+    }
+    // if(statusCode === 400)
+    // {
+    //   requestRefreshTokenInterval = setTimeout(() => {
+    //     requestRefreshToken();
+    //   }, 5*60000);
+    // }
+  }
+
+  if (error.response.status === 401 && originalRequest.url !== config.refreshTokenURL) {
+      // originalRequest._retry = true;
+      // requestRefreshToken()
+      // .then(res => {
+      //     if (res.status === 201) {
+      //         // 1) put token to LocalStorage
+      //         setRefreshToken(res.data);
+      //         // 2) Change Authorization header
+      //         axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data;
+      //         // 3) return originalRequest object with Axios.
+      //         return axios(originalRequest);
+      //     }
+      // })
+      history.push('/');
+  }
+
+  // return Error object with Promise
+  return Promise.reject(error);
+});
+
+
+const requestRefreshToken = () => {
+  return instance.post('authentications/renewals',
+  {
+      "refresh_token": getRefreshToken()
+  })
+  .then(
+    function(response) {
+      clearInterval(requestRefreshTokenInterval);
+      return response;
+    },
+    function(error) {
+      return error;
+    }
+  )
+}
+
+
 
 
 export default instance;

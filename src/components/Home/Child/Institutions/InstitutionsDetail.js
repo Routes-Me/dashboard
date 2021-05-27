@@ -100,7 +100,7 @@ class InstitutionsDetail extends React.Component {
             <div>
                 <Form onSubmit={e => this.handleSubmit(e)}>
                 
-                    <div class="col-md-12" style={{padding:'0px'}}>
+                    <div className="col-md-12" style={{padding:'0px'}}>
 
                         <div className="row form-group">
                             <div className="col-md-6">
@@ -125,7 +125,7 @@ class InstitutionsDetail extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-6">
                                 <Label>Services</Label><br />
-                                <select class="custom-select" multiple size="5" defaultValue={this.state.services} name="services" onChange={this.onChange}>
+                                <select className="custom-select" multiple size="5" defaultValue={this.state.services} name="services" onChange={this.onChange}>
                                     {this.props.servicesList.map(service => (<option value={service.serviceId}>{service.name}</option>))}
                                 </select>
                                 {/* <PageHandler page = {institutionsList.page} getList={this.props.getInstitutionsList}/> */}

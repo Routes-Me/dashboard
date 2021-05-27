@@ -56,7 +56,6 @@ class Vehicles extends Component {
         });
     }
 
-
     //Delete Vehicle
     deleteVehicle = (e, vehicleId) => {
         e.preventDefault();
@@ -73,24 +72,24 @@ class Vehicles extends Component {
         if(state.showDetails){
             if(props.ApplicationState === vehicleConstants.addVehicle_SUCCESS)
             {
-                props.getVehiclesForInstitution(1, config.Pagelimit)
                 return {showDetails : false};
             }
         }
         return null;
     }
 
-    // showUpdatedList = () =>{
-    //     this.props.getVehiclesForInstitution();
-    //     this.setState({showDetails : false});
-    // }
-
+    componentDidUpdate(){
+        if(this.props.ApplicationState ===  vehicleConstants.addVehicle_SUCCESS)
+        {
+            this.props.getVehiclesForInstitution(1,config.Pagelimit);
+        }
+    }
 
     //Load Vehicles in a table
     renderAllVehicleTable(Vehicles) {
         return (
             <div>
-            <PageHandler page = {Vehicles.page} getList={this.props.getVehiclesForInstitution} institutionId={this.props.user.InstitutionId} style='header'/>
+            <PageHandler page = {Vehicles.page} getList={this.props.getVehiclesForInstitution} institutionId={this.props.user.institution.InstitutionId} style='header'/>
             <div className="table-list padding-lr-80">
                     <table>
                         <thead>
@@ -100,7 +99,7 @@ class Vehicles extends Component {
                                 <th>MODEL</th>
                                 <th>YEAR</th>
                                 <th>OFFICE</th>
-                                <th className="width44" />
+                                <th className="width20" />
                             </tr>
                         </thead>
                         <tbody>
@@ -112,8 +111,8 @@ class Vehicles extends Component {
                                         <td>{Vehicle.model?.Name}</td>
                                         <td>{Vehicle.modelYear}</td>
                                         <td>{Vehicle.institution?.Name}</td>
-                                        {!isROU(this.props.user) &&
-                                        <td className="width44" onClick={e => this.openSubMenuForVehicleId(e, Vehicle.id)}>
+                                        {!isROU(this.props.role) &&
+                                        <td className="width20" onClick={e => this.openSubMenuForVehicleId(e, Vehicle.id)}>
                                             <div className="edit-popup">
                                                 <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Vehicle.id)}>
                                                     <span />
@@ -141,7 +140,6 @@ class Vehicles extends Component {
     render() {
 
         let content = this.renderAllVehicleTable(this.props.VehicleList);
-        {this.props.ApplicationState === vehicleConstants.addVehicle_SUCCESS && this.props.getVehiclesForInstitution(1)}
         return (
             <div className="vehicles-page" style={{ height: "100vh", width: "100%" }}>
                 {this.state.showDetails ?
@@ -153,7 +151,7 @@ class Vehicles extends Component {
                         <div className="top-part-vehicles-search padding-lr-80">
                             <div className="header-add-butt">
                                 <h3>Vehicles</h3>
-                                {!isROU(this.props.user) &&
+                                {!isROU(this.props.role) &&
                                 <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Add Vehicle</a>}
                             </div>
 
@@ -175,6 +173,7 @@ const mapStateToProps = (state) => {
 
     return {
         VehicleList: state.VehicleStore.Vehicles,
+        role: state.Login.role,
         user: state.Login.user,
         token : state.Login.token,
         ApplicationState: state.VehicleStore.ActionState

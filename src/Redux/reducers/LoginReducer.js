@@ -6,6 +6,7 @@ const INITIAL_STATE = {
     error: null,
     SelectedNavOption:userConstants.NavItem_Tracking,
     user: {},
+    role: {},
     navItems : [],
     token:""
 };
@@ -53,7 +54,7 @@ const LoginReducer = (state = INITIAL_STATE, action) => {
                 loading: false,
                 hasError: true,
                 loggedIn: false,
-                user: action.payload
+                user: ''
             };
         case userConstants.Login_FAILURE:
             return {
@@ -100,12 +101,19 @@ const LoginReducer = (state = INITIAL_STATE, action) => {
                 hasError: false
             };
         case userConstants.getNavItems_SUCCESS:
-                return {
-                    ...state,
-                    Loading: false,
-                    hasError: false,
-                    navItems: action.payload
-                };
+            return {
+                ...state,
+                Loading: false,
+                hasError: false,
+                navItems: action.payload
+            };
+        case userConstants.Login_Authorize:
+            return {
+                ...state,
+                Loading:false,
+                hasError:false,
+                role: action.payload
+            };
         default:
             return state;
     }

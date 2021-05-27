@@ -63,28 +63,28 @@ export function uploadRequest(media){
 }
 
 
-export function uploadMedia(mediaURL) {
+export function uploadMedia(media) {
 
     return dispatch => {
 
-        const ext = mediaURL.substring(mediaURL.lastIndexOf('.'))
-        let media = '';
+        // const ext = media.Url.substring(media.Url.lastIndexOf('.'))
+        let mediaObj = '';
 
-        if(ext === '.mp4')
+        if(media.Type === 'video')
         {
-            media ={
+            mediaObj ={
                 Type : advertisementsConstants.video,
-                Url  : mediaURL
+                Url  : media.Url
             }
         }
         else
         {
-            media ={
+            mediaObj ={
                 Type : advertisementsConstants.image,
-                Url  : mediaURL
+                Url  : media.Url
             }
         }
-            dispatch(uploadSuccessful(media));
+            dispatch(uploadSuccessful(mediaObj));
         
         
     }
@@ -175,7 +175,7 @@ function returnFormatedAdvertisements(response, include) {
     
         const FormatedAdvertisements = AdvertisementList?.map(x => ({
             id: x.advertisementId,
-            resourceName: x.resourceName,
+            resourceName: x.name,
             createdAt: x.createdAt,
             campaigns: x.campaignId.length > 0 && filterCampaignList(CampaignList, x.campaignId)[0],
             institution: InstitutionList.filter(y => y.institutionId === x.institutionId)[0],

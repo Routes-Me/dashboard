@@ -70,6 +70,7 @@
     "react-idle-timer": "^4.2.12",
     "react-image-file-resizer": "^0.3.8",
     "react-js-pagination": "^3.0.3",
+    "react-json-view": "^1.21.3",
     "react-leaflet": "^3.0.4",
     "react-loadingg": "^1.7.2",
     "react-motion": "^0.5.2",

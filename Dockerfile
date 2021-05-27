@@ -5,7 +5,12 @@ WORKDIR /app
 COPY package*.json /app/
 RUN npm install --production
 COPY ./ /app/
+
+# RUN REACT_APP_ENV=staging HTTPS=true npm run build:staging
+# -- --mode staging
+
 RUN HTTPS=true npm run build
+
 # Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
 FROM nginx
 COPY --from=build-stage /app/build/ /usr/share/nginx/html

@@ -9,9 +9,37 @@ import cookie from 'react-cookies';
         //setAuthorizationToken(token);
     }
 
+    export async function setUser(user) {
+        cookie.save('user',user)
+    }
+
+    export async function getUser() {
+        return cookie.load('user');
+    }
+
+    export async function setRole(role) {
+        cookie.save('role',role)
+    }
+
+    export async function getRole() {
+        return cookie.load('role');
+    }
+
+
+
+    export async function setRefreshToken(token) {
+        cookie.save('refreshToken',token)
+    }
+
+    export async function getRefreshToken(token) {
+        let refreshToken = cookie.load('refreshToken');
+        return refreshToken;
+    }
+
     export async function clearStorage() {
         cookie.remove('token');
         localStorage.removeItem('token');
+        localStorage.removeItem('refreshToken');
         localStorage.removeItem('state');
     }
 
@@ -32,6 +60,8 @@ import cookie from 'react-cookies';
         //       return localStorage.getItem('token');
         //   }
     }
+
+
 
 
 

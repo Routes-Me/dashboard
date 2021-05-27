@@ -33,22 +33,18 @@ export function returnEntityForInstitution(entity,user)
 {
     if(user?.InstitutionId !== undefined)
     {
-        return user.InstitutionId !== '' && isSU(user) ?  entity : `institutions/${user.InstitutionId}/${entity}`;  
+        return user.InstitutionId !== '' && isSU(user) ?  entity : `institutions/${user.institution.InstitutionId}/${entity}`;  
     }
     return entity;
 
 }
 
-export function isSU(user){
-
-    let role = user.Roles;
-    return role.includes(config.SU) || role.includes(config.ROU) ? true : false ;
-
+export function isSU(role){
+    return role.Privilege === config.SU ? true : false ;
 }
 
-export function isROU(user){
-    let role = user.Roles;
-    return role.includes(config.ROU) ? true : false;
+export function isROU(role){
+    return role.Privilege === config.ROU ? true : false ;
 }
 
 
