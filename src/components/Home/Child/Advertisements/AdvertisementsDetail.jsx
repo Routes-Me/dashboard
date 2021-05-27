@@ -176,6 +176,8 @@ const actionCreators = {
     getCampaigns        : AdvertisementAction.getCampaigns,
     getDayIntervals     : AdvertisementAction.getDayIntervals,
     getInstitutions     : InstitutionAction.getInstitutions,
+    saveAdvertisement   : AdvertisementAction.saveAdvertisement,
+    savePromotion       : AdvertisementAction.savePromotions
 
 }
 

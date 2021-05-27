@@ -87,9 +87,10 @@ class Basic extends React.Component {
         this.props.uploadRequest(media)
 
 
-        // const mediaURL = await uploadMediaIntoBlob(file, fileType);
+        const mediaURL = await uploadMediaIntoBlob(file, fileType);
 
-        media.Url = localFilePath;
+        media.Url = mediaURL;
+        // media.Url = localFilePath;
         this.props.uploadMedia(media);
         
     }
@@ -291,7 +292,7 @@ const actionCreators = {
     getInstitutions: InstitutionAction.getInstitutions,
     uploadRequest: AdvertisementAction.uploadRequest,
     uploadMedia: AdvertisementAction.uploadMedia,
-    saveAdvertisement: AdvertisementAction.addAdvertisement
+    saveAdvertisement: AdvertisementAction.saveAdvertisement
 
 }
 
