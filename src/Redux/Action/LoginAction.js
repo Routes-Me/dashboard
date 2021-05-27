@@ -57,6 +57,7 @@ export function userSignInRequest(username, password) {
       //             alert(error.toString());
       //         }
       //     );
+
   };
 }
 
@@ -70,6 +71,7 @@ export function userSignInRequestV1(username, password) {
       };
 
       apiHandler.post('authentications',userObject).then((response) => {
+        console.log('response ', response);
           const token = response.data.token;
           setToken(token);
           dispatch(onReceiveToken(token));
@@ -86,12 +88,11 @@ export function userSignInRequestV1(username, password) {
               history.push('/home');
             },
             (error) => {
-              console.log('Officer error ', error);
-              dispatch(failure(error.message.toString()));
+              alert(`Officer not found!!`);
             }
           )
-        },
-        (error) => {dispatch(failure(error.message.toString()))}
+      },
+      (error) => { alert(`Invalid User!!`); dispatch(failure(error.message.toString()));}
       )
 
   };
