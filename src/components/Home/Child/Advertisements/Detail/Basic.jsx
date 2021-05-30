@@ -64,7 +64,9 @@ class Basic extends React.Component {
         let fileType = undefined;
         var fileExtension ='';
         let file = event.target.files[0];
+
         var localFilePath = URL.createObjectURL(event.target.files[0]);
+
         if (file.type.includes('video')) {
             fileExtension = advertisementsConstants.video;
             this.setState({ image: undefined })
@@ -87,10 +89,9 @@ class Basic extends React.Component {
         this.props.uploadRequest(media)
 
 
-        const mediaURL = await uploadMediaIntoBlob(file, fileType);
+        // const mediaURL = await uploadMediaIntoBlob(file, fileType);
 
-        media.Url = mediaURL;
-        // media.Url = localFilePath;
+        media.Url = localFilePath;
         this.props.uploadMedia(media);
         
     }
@@ -142,7 +143,7 @@ class Basic extends React.Component {
         if(action === 'add')
         {
             advertisement = {
-                Name              : this.state.name,
+                Name      : this.state.name,
                 InstitutionId     : this.state.institutionId,
                 MediaUrl          : this.props.UploadedMedia.Url,
                 IntervalId        : this.state.dayInterval,
@@ -153,7 +154,7 @@ class Basic extends React.Component {
         else
         {
             advertisement = {
-                Name              : this.state.name,
+                Name      : this.state.name,
                 InstitutionId     : this.state.institutionId,
                 MediaUrl          : this.state.media.Url,
                 IntervalId        : this.state.dayInterval,

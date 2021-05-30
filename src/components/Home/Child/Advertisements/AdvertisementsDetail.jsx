@@ -21,6 +21,21 @@ class AdvertisementsDetail extends React.Component {
             videoUrl:"",
             mediaType:"",
             tabIndex:1,
+            institutions:'',
+            campaigns:[],
+            name:"",
+            dayInterval:"",
+            tintColor:"",
+            title:"",
+            subtitle:"",
+            code:"",
+            weblink:"",
+            androidLink:"",
+            iOSLink:"",
+            startDate:"",
+            endDate:"",
+            useageLimit:"",
+            shareQR: false,
             submitBasic:false,
             submitExtra:false,
             advertisement:'',
@@ -29,6 +44,21 @@ class AdvertisementsDetail extends React.Component {
     }
     
     onChange = (event) => {
+        if(event.target.name === "campaigns")
+        {
+            const selected=[];
+            let selectedOption=(event.target.selectedOptions);
+            for (let i = 0; i < selectedOption.length; i++)
+            {
+                selected.push(selectedOption.item(i).value)
+            }
+            this.setState({ [event.target.name]: selected})
+        }
+        if(event.target.name === 'institutionId')
+        {
+            this.setState({institution : returnObjectForSelectedId(this.state.institutions.data, event.target.value), [event.target.name]: event.target.value})
+        }
+        else
         this.setState({ [event.target.name]: event.target.value })
     }
 
