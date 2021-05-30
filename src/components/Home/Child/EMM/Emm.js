@@ -226,8 +226,8 @@ class Emm extends Component {
                         </thead>
                         <tbody>
                         {list?.map(device => (
-                            <tr key={device.name}>
-                            <td>{device.name}</td>
+                            <tr key={device.hardwareInfo?.serialNumber}>
+                            <td>{device.hardwareInfo?.serialNumber}</td>
                             <td>{device.managementMode}</td>
                             <td>{device.ownership}</td>
                             <td>{device.state}</td>
