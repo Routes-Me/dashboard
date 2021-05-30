@@ -92,7 +92,7 @@ export function userSignInRequestV1(username, password) {
             }
           )
       },
-      (error) => { alert(`Invalid User!!`); dispatch(failure(error.message.toString()));}
+      (error) => { alert(`Invalid User... Please check your credentials!!`); dispatch(failure(error.message.toString()));}
       )
 
   };
