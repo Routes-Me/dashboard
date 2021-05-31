@@ -53,7 +53,7 @@
 
     progressOnMediaUpload :  'PROGRESS_ONMEDIAUPLOAD',
 
-    video : 'mp4',
+    video : 'video',
     image : 'jpeg',
     uploadProgress : 'Loading'
 
