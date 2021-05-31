@@ -12,6 +12,7 @@ export async function uploadMediaIntoBlob(file, fileType){
       `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
     );
 
+    console.log('filetype ', fileType);
       if (fileType==='image') {
         file = dataURLtoFile(file, "compressedImageFile.jpg");
       }
@@ -20,21 +21,17 @@ export async function uploadMediaIntoBlob(file, fileType){
         //const filename = file.name.substring(0, file.name.lastIndexOf('.'))
         const ext = file.name.substring(file.name.lastIndexOf('.'))
         //const blobName = filename + '_' + new Date().getTime() + ext
-        const blobName = generateUUIDNameForBlob() + ext ;
+        const blobName = `${process.env.REACT_APP_DOMAIN}/${generateUUIDNameForBlob()}${ext}`;
 
         const containerClient = blobService.getContainerClient(containerName);
         await containerClient.createIfNotExists(containerName);
 
-
-
-
         const blockBlobClient = containerClient.getBlockBlobClient(blobName);
         const options = { blobHTTPHeaders: { blobContentType: file.type } };
         const uploadBlobResponse = await blockBlobClient.uploadData(file, options);
+        console.log(`Upload blob ${blobName} successfully`, uploadBlobResponse.requestId);
 
-        console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
-
-        const mediaURL = `https://${storageAccountName}.blob.core.windows.net/${containerName}/${blobName}`
+        const mediaURL = `https://${storageAccountName}.blob.core.windows.net/${containerName}/${blobName}`;
 
         return mediaURL;
 
