@@ -64,8 +64,7 @@ class Basic extends React.Component {
         let fileType = undefined;
         var fileExtension ='';
         let file = event.target.files[0];
-
-        var localFilePath = URL.createObjectURL(event.target.files[0]);
+        // var localFilePath = URL.createObjectURL(event.target.files[0]);
 
         if (file.type.includes('video')) {
             fileExtension = advertisementsConstants.video;
@@ -86,12 +85,13 @@ class Basic extends React.Component {
                 Url  : 'Loading'
             }
 
+        
         this.props.uploadRequest(media)
-
 
         const mediaURL = await uploadMediaIntoBlob(file, fileType);
         media.Url = mediaURL;
         // media.Url = localFilePath;
+
         this.props.uploadMedia(media);
         
     }
