@@ -265,7 +265,7 @@ const actionCreators = {
 
     updateTitle: AdvertisementAction.onTitleChange,
     updateSubtitle: AdvertisementAction.onSubTitleChange,
-    savePromotion: AdvertisementAction.addPromotions
+    savePromotion: AdvertisementAction.savePromotions
 
 }
 

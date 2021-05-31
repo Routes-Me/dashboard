@@ -24,7 +24,7 @@ export function getVehicleDetails(vehicleId){
   return dispatch => {
     dispatch(vehicleDataRequest())
 
-    apiHandler.get(`vehicles/${vehicleId}?offset=1&limit=1&include=institutions,models`)
+    apiHandler.get(`vehicles/${vehicleId}?offset=1&limit=1&include=institutions,models,manufacturers`)
       .then(
       vehicle => {
               dispatch(showVehicleDetails(returnFormatedVehicles(vehicle).data[0]));
@@ -203,8 +203,8 @@ function returnFormatedVehicles(response){
 
     VehicleList.map(x => {
       
-      const modelObj = ModelList.filter(y => y.ModelId === x.modelId)[0];
-      const manufacturerObj = ManufacturerList.filter(y =>  y.ManufacturerId === modelObj?.ManufacturerId)[0];
+      const modelObj = ModelList?.filter(y => y.ModelId === x.modelId)[0];
+      const manufacturerObj = ManufacturerList?.filter(y =>  y.ManufacturerId === modelObj?.ManufacturerId)[0];
       // if(manufacturerObj !== undefined) 
       // modelObj.Manufacturer = [manufacturerObj];
       

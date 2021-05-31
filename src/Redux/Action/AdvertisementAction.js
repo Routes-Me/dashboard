@@ -229,7 +229,7 @@ function filterCampaignList(CampaignList, Campaigns)
   return filteredList;
 }
 
-export function addAdvertisement(advertisement, withPromotion) {
+export function saveAdvertisement(advertisement, withPromotion) {
     const addPromo = withPromotion ? advertisementsConstants.saveAdvertisements_SUCCESS:advertisementsConstants.updateTheAdvertisementList;
     return dispatch => {
         dispatch(addAdvertisementRequest())
@@ -245,7 +245,7 @@ export function addAdvertisement(advertisement, withPromotion) {
 }
 
 
-export function addPromotions(promotion){
+export function savePromotions(promotion){
     return dispatch => {
         dispatch(addPromotionsRequest())
         apiHandler.post('promotions',promotion)

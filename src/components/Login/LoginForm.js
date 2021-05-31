@@ -90,9 +90,6 @@ import {clearStorage} from '../../util/localStorage'
 			}
 		};
 
-		
-		//const { handleSubmit, register } = useForm();
-		//const onSubmit = values => console.log(values);
 		return (
 
 				<div className="loginForm">
@@ -107,8 +104,17 @@ import {clearStorage} from '../../util/localStorage'
 						<Form onSubmit={this.handleSubmit}>
 								<Input placeholder="Email" className="form-control email" type="string" value={this.state.username} onChange={this.onChange} name="username" validations={[email]} />
 								<span className="form-error is-visible">{this.state.usernameError}</span>
-								<Input placeholder="Password" className="form-control password" type="password" value={this.state.password} onChange={this.onChange} name="password" validations={[required]} />
-								<span className="form-error is-visible">{this.state.passwordError}</span>
+
+
+								<div className="input-group">
+									<Input placeholder="Password" className="form-control password" type="password" value={this.state.password} onChange={this.onChange} name="password" validations={[required]} />
+									<span className="form-error is-visible">{this.state.passwordError}</span>                                
+									<div class="input-group-addon">
+                                		<a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+                                    </div>
+                                </div>
+
+
 							<div className="forgotpwd">
 								<p style={{margin:'0px'}}><a href="/forgotpassword">Forgot Password?</a></p>
 							</div>

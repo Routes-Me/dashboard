@@ -43,7 +43,6 @@ const LoginReducer = (state = INITIAL_STATE, action) => {
         case userConstants.Login_TokenReceived:
                 return {
                     ...state,
-                    loading: false,
                     hasError: false,
                     loggedIn: true,
                     token: action.payload
@@ -110,7 +109,6 @@ const LoginReducer = (state = INITIAL_STATE, action) => {
         case userConstants.Login_Authorize:
             return {
                 ...state,
-                Loading:false,
                 hasError:false,
                 role: action.payload
             };
