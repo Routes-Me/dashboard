@@ -8,7 +8,8 @@ const INITIAL_STATE = {
     Loading: true,
     hasError: false,
     error: null,
-    ActionState: ''
+    ActionState: '',
+    Invitee : {}
 
 }
 
@@ -114,6 +115,21 @@ const UserReducer = (state = INITIAL_STATE, action) => {
                 Loading: false,
                 hasError: false,
                 Page: action.payload
+            }
+        case userConstants.getInvitationInfo_REQUEST:
+            return {
+                ...state,
+                Loading: false,
+                hasError: false,
+                ActionState: userConstants.getInvitationInfo_REQUEST
+            };
+        case userConstants.updateInvitationForm:
+            return {
+                ...state,
+                Loading: false,
+                hasError: false,
+                Page: action.updateInvitationForm,
+                Invitee : action.payload
             }
         default:
             return state;

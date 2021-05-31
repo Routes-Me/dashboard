@@ -1,7 +1,7 @@
 ﻿import { userConstants } from '../../constants/userConstants';
 import apiHandler from '../../util/request';
 import { validate, returnEntityForInstitution } from '../../util/basic';
-
+import axios from "axios";
 
 
 //Get UsersList
@@ -29,6 +29,33 @@ function UsersDataRequest() { return { type: userConstants.getUsers_REQUEST } }
 function storeUsersData(Users) { return { type: userConstants.getUsers_SUCCESS, payload: Users } }
 
 function updatePage(pages) { return { type: userConstants.UpdatePage, payload: pages } }
+
+
+
+//get Invitation info 
+
+export function getInvitationInfo(id, token) {
+  console.log('get invitation info called !!')
+  return dispatch => {
+    dispatch(InvitationInfoRequest());
+    axios.get(`${process.env.REACT_APP_APIDOMAIN}invitations/${id}`, {
+      headers : { 'Authorization' : `Bearer ${token}` }
+    })
+    .then(
+      info => {
+        console.log('Invitee info ', info.data)
+        dispatch(UpdateForm(info.data.data[0]));
+      },
+      error => {
+        alert(error.toString());
+      }
+    )
+  }
+}
+
+function InvitationInfoRequest() { return { type: userConstants.getInvitationInfo_REQUEST } }
+
+function UpdateForm(userInfo){ return { type: userConstants.updateInvitationForm, payload: userInfo } }
 
 
 
@@ -130,25 +157,24 @@ function returnFormatedRoles(type, response){
   let formatedList =[]
   if(type === 'privileges')
   {
-      formatedList = response.map(
-          items => 
-          ({
-              id : items.privilegeId,
-              name : items.name,
-              date : items.createdAt===null? '--' : items.createdAt
-           }));
+    formatedList = response.map(
+        items => 
+        ({
+            id : items.privilegeId,
+            name : items.name,
+            date : items.createdAt===null? '--' : items.createdAt
+        }));
   }
   else{
-      formatedList = response.map(
-          items => 
-          ({
-              id : items.applicationId,
-              name : items.name,
-              date : items.createdAt===null? '--' : items.createdAt
-           }));
+    formatedList = response.map(
+      items => 
+      ({
+          id : items.applicationId,
+          name : items.name,
+          date : items.createdAt===null? '--' : items.createdAt
+      }));
   }
-   
-      return formatedList;
+  return formatedList;
 }
 
 
@@ -234,7 +260,7 @@ export function saveUser(user,action) {
     return dispatch => {
         dispatch(saveUserDataRequest);
         if (action === "add") {
-          apiHandler.post('signup', user)
+          apiHandler.post('invitations', user)
               .then(
                 users => {
                     dispatch(saveUserDataSuccess());

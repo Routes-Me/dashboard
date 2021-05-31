@@ -57,11 +57,13 @@ export function userSignInRequest(username, password) {
       //             alert(error.toString());
       //         }
       //     );
+
   };
 }
 
 export function userSignInRequestV1(username, password) {
-
+  console.log("Login :: Environment :", process.env.NODE_ENV);
+  console.log('Login :: API Domain :', process.env.REACT_APP_APIDOMAIN);
   return dispatch => {
       dispatch(request({ username, password }));
       let userObject = {
@@ -70,6 +72,7 @@ export function userSignInRequestV1(username, password) {
       };
 
       apiHandler.post('authentications',userObject).then((response) => {
+        console.log('response ', response);
           const token = response.data.token;
           setToken(token);
           dispatch(onReceiveToken(token));
@@ -86,12 +89,11 @@ export function userSignInRequestV1(username, password) {
               history.push('/home');
             },
             (error) => {
-              console.log('Officer error ', error);
-              dispatch(failure(error.message.toString()));
+              alert(`Officer not found!!`);
             }
           )
-        },
-        (error) => {dispatch(failure(error.message.toString()))}
+      },
+      (error) => { alert(`Invalid User... Please check your credentials!!`); dispatch(failure(error.message.toString()));}
       )
 
   };
