@@ -24,7 +24,6 @@ class AdvertisementsDetail extends React.Component {
             tabIndex:1,
             institutions:'',
             campaigns:[],
-            name:"",
             dayInterval:"",
             tintColor:"",
             title:"",
@@ -43,11 +42,13 @@ class AdvertisementsDetail extends React.Component {
             addPromotion:false
         }
     }
-    
-    onChange = (event) => {
-        let advertisementObj = {};
 
-        if(event.target.name === "campaigns")
+    onChange = (event) => {
+        const returnedValue = event.target.value;
+        const returnedKey = event.target.name;
+
+        console.log(`Returned => ${returnedKey} : ${returnedValue} ` )
+        if(returnedKey === "campaigns")
         {
             const selected=[];
             let selectedOption=(event.target.selectedOptions);
@@ -55,19 +56,23 @@ class AdvertisementsDetail extends React.Component {
             {
                 selected.push(selectedOption.item(i).value)
             }
-            this.setState({ [event.target.name]: selected})
+            console.log('Selected ', selected);
+            this.setState(prevState => ({ advertisement : {...prevState.advertisement, [returnedKey]: [...selected] }}));
         }
-        if(event.target.name === 'institutionId')
-        {
-            this.setState({institution : returnObjectForSelectedId(this.state.institutions.data, event.target.value), [event.target.name]: event.target.value})
-        }
+        if(returnedKey === 'institution')
+        this.setState(prevState => ({ advertisement : { ...prevState.advertisement , institution: returnObjectForSelectedId(this.props.InstitutionList.data, returnedValue)}}));
         else
-        this.setState({ [event.target.name]: event.target.value })
+        this.setState(prevState => ({ advertisement : {...prevState.advertisement, [returnedKey]: returnedValue }}));
 
-        if(event.target.name === 'name')
-        advertisementObj.resourceName = event.target.value;
+        // if(event.target.name === 'name')
+        // this.setState(prevState => ({ advertisement : { ...prevState.advertisement , resourceName: returnedValue }}));
 
-        this.setState({advertisement : advertisementObj});
+        // if(event.target.name === 'dayInterval')
+        // this.setState(prevState => ({ advertisement : { ...prevState.advertisement , intervalId: returnedValue }}));
+
+        // if(event.target.name === 'tintColor')
+        // this.setState(prevState => ({ advertisement : { ...prevState.advertisement , tintColor: returnedValue }}));
+
     }
 
     componentDidMount(){
@@ -109,6 +114,7 @@ class AdvertisementsDetail extends React.Component {
     }
 
     onTabClick = (index) => {
+        console.log('Advertisement ', this.state.advertisement);
         this.setState({ tabIndex: index });
     }
 
@@ -202,6 +208,7 @@ const mapStateToProps = (state) => {
     return {
         Title: state.AdvertisementStore.Title,
         SubTitle: state.AdvertisementStore.SubTitle,
+        InstitutionList  : state.InstitutionStore.Institutions,
         Loading : state.AdvertisementStore.loading,
         NewAdvertisement : state.AdvertisementStore.Advertisement,
         UploadedMedia : state.AdvertisementStore.Media,

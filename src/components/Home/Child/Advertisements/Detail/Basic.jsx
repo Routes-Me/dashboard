@@ -181,9 +181,9 @@ class Basic extends React.Component {
                             <div className="row form-group">
                                 <div className="col-md-12">
                                     <Label>Name</Label><br />
-                                    <input type="text" name="name"
+                                    <input type="text" name="resourceName"
                                         value={this.state.name}
-                                        onChange={this.onChange}
+                                        onChange={this.props.onChange}
                                         className="form-control"/>
                                     <span className="form-error is-visible">{this.state.errorText}</span>
                                 </div>
@@ -192,7 +192,7 @@ class Basic extends React.Component {
                             <div className="row form-group">
                                 <div className="col-md-12">
                                     <Label>Day Interval</Label><br />
-                                    <select defaultValue={this.state.dayInterval} className="custom-select my-1 mr-sm-2" name="dayInterval" onChange={this.onChange}>
+                                    <select defaultValue={this.state.dayInterval} className="custom-select my-1 mr-sm-2" name="intervalId" onChange={this.props.onChange}>
                                         {this.props.DayInterval.map(interval => (<option className="dropdown-item" value={interval.intervalId}>{interval.title}</option>))}
                                     </select>
                                 </div>
@@ -220,7 +220,7 @@ class Basic extends React.Component {
                             <div className="row form-group">
                                 <div className="col-md-12">
                                     <Label>Campaigns</Label><br/>
-                                    <select className="custom-select" multiple size="5" defaultValue={this.state.campaigns} name="campaigns" onChange={this.onChange}>
+                                    <select className="custom-select" multiple size="5" defaultValue={this.state.campaigns} name="campaigns" onChange={this.props.onChange}>
                                         {this.props.Campaigns.data?.map(campaign => (<option className="dropdown-item" value={campaign.campaignId}>{campaign.title}</option>))}
                                     </select>
                                     <PageHandler page = {this.props.Campaigns?.page} getList={this.props.getCampaigns}/>
@@ -232,7 +232,7 @@ class Basic extends React.Component {
                                     <Label>Tint Color</Label><br />
                                     <input type="color" name="tintColor"
                                         value={this.state.tintColor}
-                                        onChange={this.onChange}
+                                        onChange={this.props.onChange}
                                         className="form-control"/>
                                     <span className="form-error is-visible">{this.state.errorText}</span>
                                 </div>
@@ -256,7 +256,7 @@ class Basic extends React.Component {
                                     value={this.state.institution ? this.state.institution.name : 'Please select a institution'}
                                     onChange={this.onChange}
                                     className="form-control" />
-                                    <select className="custom-select"  size='5' value={this.state.institutionId } name="institutionId" onChange={this.onChange}>
+                                    <select className="custom-select"  size='5' value={this.state.institutionId } name="institution" onChange={this.props.onChange}>
                                         {this.state.institutions.data?.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
                                     </select>
                                     <PageHandler page = {this.state.institutions.page} getList={this.props.getInstitutions}/>

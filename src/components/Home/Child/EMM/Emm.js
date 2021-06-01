@@ -227,9 +227,9 @@ class Emm extends Component {
                         <tbody>
                         {list?.map(device => (
                             <tr key={device.hardwareInfo?.serialNumber}>
-                            <td>{device.hardwareInfo?.serialNumber}</td>
+                            <td>{device.name}</td>
                             <td>{device.managementMode}</td>
-                            <td>{device.ownership}</td>
+                            <td>{device.hardwareInfo?.manufacturer}</td>
                             <td>{device.state}</td>
                             <td>{device.enrollmentTime?.substr(0, 10)}</td>
                             <td className="width20" onClick={e => this.openSubMenu(e,device.name)}>
