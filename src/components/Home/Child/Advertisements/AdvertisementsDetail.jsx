@@ -9,6 +9,7 @@ import '../Advertisements/Advertisement.css';
 import { config } from '../../../../constants/config';
 import LoopCircleLoading from 'react-loadingg/lib/LoopCircleLoading';
 import { advertisementsConstants } from '../../../../constants/advertisementConstants';
+import { returnObjectForSelectedId } from '../../../../util/basic';
 
 
 class AdvertisementsDetail extends React.Component {
@@ -44,6 +45,8 @@ class AdvertisementsDetail extends React.Component {
     }
     
     onChange = (event) => {
+        let advertisementObj = {};
+
         if(event.target.name === "campaigns")
         {
             const selected=[];
@@ -60,6 +63,11 @@ class AdvertisementsDetail extends React.Component {
         }
         else
         this.setState({ [event.target.name]: event.target.value })
+
+        if(event.target.name === 'name')
+        advertisementObj.resourceName = event.target.value;
+
+        this.setState({advertisement : advertisementObj});
     }
 
     componentDidMount(){
@@ -93,6 +101,7 @@ class AdvertisementsDetail extends React.Component {
             }
             if (props.UploadedMedia!==undefined && (props.UploadedMedia !== ""))
             {
+                console.log('props.UploadedMedia.Type ',props.UploadedMedia.Type);
                     return props.UploadedMedia.Type === advertisementsConstants.video? { videoUrl: props.UploadedMedia.Url, mediaType:advertisementsConstants.video, imageUrl:""} : { imageUrl: props.UploadedMedia.Url, mediaType:"jpg" , videoUrl:""};
             }
         }
@@ -141,7 +150,7 @@ class AdvertisementsDetail extends React.Component {
 
                         <div className="col-md-6 col-sm-12" style={{paddingLeft:"0px"}}>
                             {this.state.tabIndex === 1 ? 
-                            <Basic  submitForm={this.state.submitBasic} advertisementToDisplay={this.state.advertisement} withPromotion={this.state.addPromotion}/> : 
+                            <Basic  submitForm={this.state.submitBasic} advertisementToDisplay={this.state.advertisement} onChange={this.onChange} withPromotion={this.state.addPromotion}/> : 
                             <Extras submitForm={this.state.submitExtra} addForPromotion={this.props.NewAdvertisement}/>}
                         </div>
 
