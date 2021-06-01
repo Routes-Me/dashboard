@@ -4,12 +4,20 @@ FROM tiangolo/node-frontend:10 as build-stage
 WORKDIR /app
 COPY package*.json /app/
 RUN npm install --production
+RUN npm install env-cmd
+
 COPY ./ /app/
 
 # RUN REACT_APP_ENV=staging HTTPS=true npm run build:staging
 # -- --mode staging
 
-RUN HTTPS=true npm run build
+# RUN HTTPS=true npm run build
+# RUN REACT_APP_ENV=staging
+# RUN npm run build -- --mode staging
+# ARG REACT_APP_ENV=staging
+# RUN npm run build
+RUN npm run st 
+#//env-cmd -f .env.staging npm run build
 
 # Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
 FROM nginx
