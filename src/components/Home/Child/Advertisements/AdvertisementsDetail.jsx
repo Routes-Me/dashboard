@@ -9,7 +9,6 @@ import '../Advertisements/Advertisement.css';
 import { config } from '../../../../constants/config';
 import LoopCircleLoading from 'react-loadingg/lib/LoopCircleLoading';
 import { advertisementsConstants } from '../../../../constants/advertisementConstants';
-import { returnObjectForSelectedId } from '../../../../util/basic';
 
 
 class AdvertisementsDetail extends React.Component {
@@ -29,13 +28,9 @@ class AdvertisementsDetail extends React.Component {
             addPromotion:false
         }
     }
-
+    
     onChange = (event) => {
-        const returnedValue = event.target.value;
-        const returnedKey = event.target.name;
-
-        console.log(`Returned => ${returnedKey} : ${returnedValue} ` )
-        if(returnedKey === "campaigns")
+        if(event.target.name === "campaigns")
         {
             const selected=[];
             let selectedOption=(event.target.selectedOptions);
@@ -46,8 +41,6 @@ class AdvertisementsDetail extends React.Component {
             console.log('Selected ', selected);
             this.setState(prevState => ({ advertisement : {...prevState.advertisement, [returnedKey]: [selected] }}));
         }
-        if(returnedKey === 'institution')
-        this.setState(prevState => ({ advertisement : { ...prevState.advertisement , institution: returnObjectForSelectedId(this.props.InstitutionList.data, returnedValue)}}));
         else
         this.setState(prevState => ({ advertisement : {...prevState.advertisement, [returnedKey]: returnedValue }}));
 
@@ -90,7 +83,6 @@ class AdvertisementsDetail extends React.Component {
             }
             if (props.UploadedMedia!==undefined && (props.UploadedMedia !== ""))
             {
-                console.log('props.UploadedMedia.Type ',props.UploadedMedia.Type);
                     return props.UploadedMedia.Type === advertisementsConstants.video? { videoUrl: props.UploadedMedia.Url, mediaType:advertisementsConstants.video, imageUrl:""} : { imageUrl: props.UploadedMedia.Url, mediaType:"jpg" , videoUrl:""};
             }
         }
@@ -98,7 +90,6 @@ class AdvertisementsDetail extends React.Component {
     }
 
     onTabClick = (index) => {
-        console.log('Advertisement ', this.state.advertisement);
         this.setState({ tabIndex: index });
     }
 
@@ -192,7 +183,6 @@ const mapStateToProps = (state) => {
     return {
         Title: state.AdvertisementStore.Title,
         SubTitle: state.AdvertisementStore.SubTitle,
-        InstitutionList  : state.InstitutionStore.Institutions,
         Loading : state.AdvertisementStore.loading,
         NewAdvertisement : state.AdvertisementStore.Advertisement,
         UploadedMedia : state.AdvertisementStore.Media,
