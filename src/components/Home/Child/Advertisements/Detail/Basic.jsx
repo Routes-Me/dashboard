@@ -20,7 +20,7 @@ class Basic extends React.Component {
 
         this.state = {
             id: "",
-            name: "",
+            resourceName: "",
             institutions: [],
             image: "",
             video: "",
@@ -106,7 +106,7 @@ class Basic extends React.Component {
                 return {
                     advertisement   : props.advertisementToDisplay,
                     id              : props.advertisementToDisplay.id,
-                    name            : props.advertisementToDisplay.resourceName,
+                    resourceName            : props.advertisementToDisplay.resourceName,
                     dayInterval     : props.advertisementToDisplay.intervalId,
                     institution     : props.advertisementToDisplay.institution,
                     institutionId   : props.advertisementToDisplay.institution?.institutionId,
@@ -125,7 +125,7 @@ class Basic extends React.Component {
         return null;
     }
 
-   
+    checkIfHex = value =>  value.startsWith('#') ? value : `#${value}`
 
     componentDidUpdate(prevProps, prevState) {
         if (this.props.submitForm !== prevProps.submitForm) {
@@ -143,7 +143,7 @@ class Basic extends React.Component {
         if(action === 'add')
         {
             advertisement = {
-                Name      : this.state.name,
+                Name      : this.state.resourceName,
                 InstitutionId     : this.state.institutionId,
                 MediaUrl          : this.props.UploadedMedia.Url,
                 IntervalId        : this.state.dayInterval,
@@ -154,7 +154,7 @@ class Basic extends React.Component {
         else
         {
             advertisement = {
-                Name      : this.state.name,
+                Name      : this.state.resourceName,
                 InstitutionId     : this.state.institutionId,
                 MediaUrl          : this.state.media.Url,
                 IntervalId        : this.state.dayInterval,
@@ -182,7 +182,7 @@ class Basic extends React.Component {
                                 <div className="col-md-12">
                                     <Label>Name</Label><br />
                                     <input type="text" name="resourceName"
-                                        value={this.state.name}
+                                        value={this.state.resourceName}
                                         onChange={this.props.onChange}
                                         className="form-control"/>
                                     <span className="form-error is-visible">{this.state.errorText}</span>
@@ -254,7 +254,7 @@ class Basic extends React.Component {
                                     <Label>Institution</Label><br />
                                     <input type="text" name="institution"
                                     value={this.state.institution ? this.state.institution.name : 'Please select a institution'}
-                                    onChange={this.onChange}
+                                    onChange={this.props.onChange}
                                     className="form-control" />
                                     <select className="custom-select"  size='5' value={this.state.institutionId } name="institution" onChange={this.props.onChange}>
                                         {this.state.institutions.data?.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
