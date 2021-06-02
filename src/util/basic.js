@@ -9,6 +9,18 @@ export function convertRGBintToHex(RGBint){
     return '#'+RGBint?.toString(16);
 }
 
+export function convertObjectKeyToLowerCase (object) {
+    var key, keys = Object.keys(object);
+    var n = keys.length;
+    var newobj={}
+    while (n--) {
+        key = keys[n];
+        newobj[key.toLowerCase()] = object[key];
+    }
+    console.log('Lower Key ',newobj);
+    return newobj;
+}
+
 export function returnCampaignIds(campaigns)
 {
     let campaignIDList =[];
