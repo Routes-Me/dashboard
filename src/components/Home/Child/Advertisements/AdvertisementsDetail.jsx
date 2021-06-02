@@ -22,23 +22,10 @@ class AdvertisementsDetail extends React.Component {
             videoUrl:"",
             mediaType:"",
             tabIndex:1,
-            institutions:'',
-            campaigns:[],
-            dayInterval:"",
-            tintColor:"",
-            title:"",
-            subtitle:"",
-            code:"",
-            weblink:"",
-            androidLink:"",
-            iOSLink:"",
-            startDate:"",
-            endDate:"",
-            useageLimit:"",
-            shareQR: false,
             submitBasic:false,
             submitExtra:false,
             advertisement:'',
+            promotion:'',
             addPromotion:false
         }
     }
@@ -57,22 +44,19 @@ class AdvertisementsDetail extends React.Component {
                 selected.push(selectedOption.item(i).value)
             }
             console.log('Selected ', selected);
-            this.setState(prevState => ({ advertisement : {...prevState.advertisement, [returnedKey]: [...selected] }}));
+            this.setState(prevState => ({ advertisement : {...prevState.advertisement, [returnedKey]: [selected] }}));
         }
         if(returnedKey === 'institution')
         this.setState(prevState => ({ advertisement : { ...prevState.advertisement , institution: returnObjectForSelectedId(this.props.InstitutionList.data, returnedValue)}}));
         else
         this.setState(prevState => ({ advertisement : {...prevState.advertisement, [returnedKey]: returnedValue }}));
 
-        // if(event.target.name === 'name')
-        // this.setState(prevState => ({ advertisement : { ...prevState.advertisement , resourceName: returnedValue }}));
+    }
 
-        // if(event.target.name === 'dayInterval')
-        // this.setState(prevState => ({ advertisement : { ...prevState.advertisement , intervalId: returnedValue }}));
-
-        // if(event.target.name === 'tintColor')
-        // this.setState(prevState => ({ advertisement : { ...prevState.advertisement , tintColor: returnedValue }}));
-
+    onPromotionChange = (event) => {
+        const returnedValue = event.target.value;
+        const returnedKey   = event.target.name;
+        this.setState( prevState => ({ promotion : {...prevState.promotion, [returnedKey]:[returnedValue]} }));
     }
 
     componentDidMount(){
@@ -157,7 +141,7 @@ class AdvertisementsDetail extends React.Component {
                         <div className="col-md-6 col-sm-12" style={{paddingLeft:"0px"}}>
                             {this.state.tabIndex === 1 ? 
                             <Basic  submitForm={this.state.submitBasic} advertisementToDisplay={this.state.advertisement} onChange={this.onChange} withPromotion={this.state.addPromotion}/> : 
-                            <Extras submitForm={this.state.submitExtra} addForPromotion={this.props.NewAdvertisement}/>}
+                            <Extras submitForm={this.state.submitExtra} promotionToDiaplay={this.state.promotion} onChange={this.onPromotionChange} addForPromotion={this.state.NewAdvertisement}/>}
                         </div>
 
                         <div className="col-md-6">
