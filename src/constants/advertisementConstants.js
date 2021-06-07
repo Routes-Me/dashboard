@@ -55,6 +55,9 @@
 
     video : 'mp4',
     image : 'jpeg',
+
+    videoFormat : 'video',
+    imageFormat : 'image', 
     uploadProgress : 'Loading'
 
 }
