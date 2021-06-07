@@ -9,6 +9,7 @@ import '../Advertisements/Advertisement.css';
 import { config } from '../../../../constants/config';
 import LoopCircleLoading from 'react-loadingg/lib/LoopCircleLoading';
 import { advertisementsConstants } from '../../../../constants/advertisementConstants';
+import { returnObjectForSelectedId } from '../../../../util/basic';
 
 
 class AdvertisementsDetail extends React.Component {
@@ -19,37 +20,63 @@ class AdvertisementsDetail extends React.Component {
         this.state = {
             imageUrl: "",
             videoUrl:"",
-            mediaType:"",
             tabIndex:1,
-            submitBasic:false,
-            submitExtra:false,
             advertisement:'',
             promotion:'',
-            addPromotion:false
+            file : ''
         }
     }
-    
+
     onChange = (event) => {
-        if(event.target.name === "campaigns")
+        const returnedValue = event.target.value;
+        const returnedKey = event.target.name;
+
+        // console.log(`Returned => ${returnedKey} : ${returnedValue}`);
+        if(returnedKey === "campaigns")
         {
             const selected=[];
             let selectedOption=(event.target.selectedOptions);
             for (let i = 0; i < selectedOption.length; i++)
             {
-                selected.push(selectedOption.item(i).value)
+                selected.push(selectedOption.item(i).value);
             }
             console.log('Selected ', selected);
-            this.setState(prevState => ({ advertisement : {...prevState.advertisement, [returnedKey]: [selected] }}));
+            this.setState(prevState => ({ advertisement : {...prevState.advertisement, [returnedKey]:selected }}));
         }
+        else if(returnedKey === 'institution')
+            this.setState(prevState => ({ advertisement : { ...prevState.advertisement , institution: returnObjectForSelectedId(this.props.InstitutionList.data, returnedValue)}}));
         else
-        this.setState(prevState => ({ advertisement : {...prevState.advertisement, [returnedKey]: returnedValue }}));
-
+            this.setState(prevState => ({ advertisement : {...prevState.advertisement, [returnedKey]: returnedValue }}));
+        
+        // console.log('onChange Advertisement ', this.state.advertisement);
     }
 
     onPromotionChange = (event) => {
         const returnedValue = event.target.value;
         const returnedKey   = event.target.name;
-        this.setState( prevState => ({ promotion : {...prevState.promotion, [returnedKey]:[returnedValue]} }));
+        // console.log(`Promotions onChange Returned => ${returnedKey} : ${returnedValue}`);
+        this.setState(prevState => ({ promotion : { ...prevState.promotion, [returnedKey] : returnedValue }}));
+        // console.log('Promotion ', this.state.promotion);
+    }
+
+    fileChangedHandler = async(event) => {
+
+        let file = event.target.files[0];
+
+        if(file !== undefined)
+        {
+            this.setState({ file : file});
+            var localFilePath = URL.createObjectURL(event.target.files[0]);
+            file.type.includes('video') ?
+            this.setState({ videoUrl:localFilePath, imageUrl: undefined })
+            :this.setState({ videoUrl:undefined, imageUrl: localFilePath });    
+        }
+
+    }
+
+    onChangeRadioButton = (event) => {
+        const share = event.target.value === 'on' ? true: false;
+        this.setState(prevState => ({ promotion : { ...prevState.promotion, shareQR : share }}));
     }
 
     componentDidMount(){
@@ -61,51 +88,41 @@ class AdvertisementsDetail extends React.Component {
 
     static getDerivedStateFromProps (props, state){
 
-        if(state.submitBasic)
-        {
-            if(props.ApplicationState === advertisementsConstants.saveAdvertisements_SUCCESS && props.NewAdvertisement !=='')
-            {
-                return {tabIndex :2};
-            }
-        }
-        else
-        {
             if(props.advertisementToDisplay !== undefined)
             {
                 if(props.advertisementToDisplay !== state.advertisement)
                 {
+                    console.log('Advertisement to display ', props.advertisementToDisplay);
                     return {
                         advertisement : props.advertisementToDisplay,
                         imageUrl: props.advertisementToDisplay.media?.mediaType === 'image'? props.advertisementToDisplay.media.url : '',
                         videoUrl: props.advertisementToDisplay.media?.mediaType === 'video'? props.advertisementToDisplay.media.url : ''
                     }
                 }
+                if(props.advertisementToDisplay.promotion !== state.promotion)
+                {
+                    return {
+                        promotion : props.advertisementToDisplay.promotion
+                    }
+                }
             }
-            if (props.UploadedMedia!==undefined && (props.UploadedMedia !== ""))
-            {
-                    return props.UploadedMedia.Type === advertisementsConstants.video? { videoUrl: props.UploadedMedia.Url, mediaType:advertisementsConstants.video, imageUrl:""} : { imageUrl: props.UploadedMedia.Url, mediaType:"jpg" , videoUrl:""};
-            }
-        }
 
     }
 
     onTabClick = (index) => {
+        console.log('Tab click Advertisement ', this.state.advertisement);
+        console.log('Tab click Promotion ', this.state.promotion);
         this.setState({ tabIndex: index });
     }
 
-    onCreate = (e) =>{                                                                                                                                                  
-        this.setState({submitBasic:true, submitExtra:false, addPromotion:true});
-    }
 
-    submitPromotion = (e) => {
-        if(this.state.tabIndex === 2)
-        {
-            this.setState({submitExtra:true, submitBasic:false })
+    submitForm = (e) => {
+        let advertisement ={
+            advertisement : this.state.advertisement,
+            promotion     : this.state.promotion,
+            file         : this.state.file
         }
-        else
-        {
-            this.setState({submitExtra:false, submitBasic:true})
-        }
+        this.props.saveAdvertisement(advertisement);
     }
 
     
@@ -131,8 +148,8 @@ class AdvertisementsDetail extends React.Component {
 
                         <div className="col-md-6 col-sm-12" style={{paddingLeft:"0px"}}>
                             {this.state.tabIndex === 1 ? 
-                            <Basic  submitForm={this.state.submitBasic} advertisementToDisplay={this.state.advertisement} onChange={this.onChange} withPromotion={this.state.addPromotion}/> : 
-                            <Extras submitForm={this.state.submitExtra} promotionToDiaplay={this.state.promotion} onChange={this.onPromotionChange} addForPromotion={this.state.NewAdvertisement}/>}
+                            <Basic advertisementToDisplay={this.state.advertisement} onChange={this.onChange} fileChangedHandler={this.fileChangedHandler} /> : 
+                            <Extras promotionToDisplay={this.state.promotion} onChange={this.onPromotionChange} onChangeRadioButton={this.onChangeRadioButton}/>}
                         </div>
 
                         <div className="col-md-6">
@@ -156,7 +173,7 @@ class AdvertisementsDetail extends React.Component {
                                     </div>
                                 </div>
                                 <div className="container row bottomPanel">
-                                    <div className="banner3"><p>{this.props.Title}</p><br/><p></p></div>
+                                    <div className="banner3"><p>{this.state.promotion?.title}</p><br/><p></p></div>
                                     <div className="banner4"></div>
                                 </div>
 
@@ -166,9 +183,9 @@ class AdvertisementsDetail extends React.Component {
                 </div>
 
                 <div className="footerStyle">
-                    <button type="submit" style={{ float: 'left' }} onClick={(e) => this.submitPromotion()}>{this.props.Loading && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />} <span>Create</span>  </button>
+                    <button type="submit" style={{ float: 'left' }} onClick={(e) => this.submitForm()}>{this.props.Loading && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />} <span>Create</span>  </button>
                     <button className={this.state.tabIndex !== 1 ? 'next' : 'btn btn-light' } style={{ marginLeft: '107px' }} onClick={(e) => this.onTabClick(1)}> <span className="glyphicon glyphicon-menu-left" aria-hidden="true" /> Previous</button>
-                    <button className={this.state.tabIndex !== 2 ? 'next' : 'btn btn-light' } style={{ marginLeft: '7px' }} onClick={(e) => this.onCreate()}> Next: Extras <span className="glyphicon glyphicon-menu-right" aria-hidden="true" /> </button>
+                    <button className={this.state.tabIndex !== 2 ? 'next' : 'btn btn-light' } style={{ marginLeft: '7px' }} onClick={(e) => this.onTabClick(2)}> Next: Extras <span className="glyphicon glyphicon-menu-right" aria-hidden="true" /> </button>
                 </div>
 
             </div>
@@ -181,11 +198,8 @@ class AdvertisementsDetail extends React.Component {
 const mapStateToProps = (state) => {
 
     return {
-        Title: state.AdvertisementStore.Title,
-        SubTitle: state.AdvertisementStore.SubTitle,
+        InstitutionList  : state.InstitutionStore.Institutions,
         Loading : state.AdvertisementStore.loading,
-        NewAdvertisement : state.AdvertisementStore.Advertisement,
-        UploadedMedia : state.AdvertisementStore.Media,
         ApplicationState: state.AdvertisementStore.ActionState
     }
 
@@ -196,8 +210,7 @@ const actionCreators = {
     getCampaigns        : AdvertisementAction.getCampaigns,
     getDayIntervals     : AdvertisementAction.getDayIntervals,
     getInstitutions     : InstitutionAction.getInstitutions,
-    saveAdvertisement   : AdvertisementAction.saveAdvertisement,
-    savePromotion       : AdvertisementAction.savePromotions
+    saveAdvertisement   : AdvertisementAction.saveAdvertisement
 
 }
 

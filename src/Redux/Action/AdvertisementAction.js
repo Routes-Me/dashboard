@@ -152,7 +152,7 @@ function buildURL(entity, pageIndex, limit, include) {
 
     let queryParameter =""
     if(include){
-      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit+"&include=media,institution,campaign";
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit+"&include=media,institution,campaign,promotion";
     }
     else{
       queryParameter=entity+"?offset="+pageIndex+"&limit="+limit;
@@ -170,7 +170,7 @@ function returnFormatedAdvertisements(response, include) {
         const InstitutionList   = response.data.included?.institution !== undefined ? response.data.included.institution:[];
         const MediaList         = response.data.included?.media !== undefined ? response.data.included.media:[];
         const CampaignList      = response.data.included?.campaign !== undefined ? response.data.included.campaign:[];
-    
+        const promotionsList    = response.data.included?.promotion !== undefined ? response.data.included.promotion:[];
         //const IntervalList      = response.data.included.interval;
     
         const FormatedAdvertisements = AdvertisementList?.map(x => ({
@@ -181,7 +181,8 @@ function returnFormatedAdvertisements(response, include) {
             institution: InstitutionList.filter(y => y.institutionId === x.institutionId)[0],
             media: MediaList.filter(y => y.mediaId === x.mediaId)[0],
             intervalId:  x.intervalId,
-            tintColor: x.tintColor
+            tintColor: x.tintColor,
+            promotion : promotionsList.filter(y => y.promotionId === x.promotionsId)[0]
         }))
     
         advertisments= {
@@ -229,18 +230,75 @@ function filterCampaignList(CampaignList, Campaigns)
   return filteredList;
 }
 
-export function saveAdvertisement(advertisement, withPromotion) {
-    const addPromo = withPromotion ? advertisementsConstants.saveAdvertisements_SUCCESS:advertisementsConstants.updateTheAdvertisementList;
+export function saveAdvertisement(advertisement) {
+
+    console.log('Save Advertisment ', advertisement);
     return dispatch => {
         dispatch(addAdvertisementRequest())
-        apiHandler.post('advertisements', advertisement)
+        if(advertisement !== undefined)
+        uploadMediaIntoBlob(advertisement.file)
+        .then(mediaURL => {
+            console.log('mediaURL returned after promise ', mediaURL);
+            const advertise = {
+                Name              : advertisement.advertisement.resourceName,
+                InstitutionId     : advertisement.advertisement.institution.institutionId,
+                MediaUrl          : mediaURL,
+                IntervalId        : advertisement.advertisement.dayInterval,
+                CampaignId        : [advertisement.advertisement.campaigns],
+                TintColor         : parseInt(advertisement.advertisement.tintColor.replace('#',''),16)
+            }
+            console.log('POST advertisement payload ', advertise);
+            apiHandler.post('advertisements', advertise)
             .then(
-                response => { dispatch(savedAdvertisement(response.data, addPromo)) },
+                response => {
+                    if(advertisement.promotion !== '')
+                    {
+                        let promo = ''
+                        if(advertisement.promotion.weblink === '')
+                        {
+                            promo = {
+                                Title: advertisement.promotion.title,
+                                Subtitle: advertisement.promotion.subtitle,
+                                code: advertisement.promotion.code,
+                                StartAt: advertisement.promotion.startDate,
+                                EndAt: advertisement.promotion.endDate,
+                                UsageLimit: advertisement.promotion.useageLimit,
+                                IsSharable: advertisement.promotion.shareQR,
+                                AdvertisementId: response.data.advertisementId,
+                                InstitutionId: advertisement.advertisement.institution.institutionId,
+                                type:"coupons"
+                            }
+                        }
+                        else 
+                        {
+                            promo = {
+                                Title: advertisement.promotion.title,
+                                Subtitle: advertisement.promotion.subtitle,
+                                code:advertisement.promotion.code,
+                                links :{
+                                    Web: advertisement.promotion.weblink,
+                                    Ios: advertisement.promotion.iOSLink,
+                                    Android: advertisement.promotion.androidLink
+                                },
+                                type: "links",
+                                AdvertisementId: response.data.advertisementId,
+                                InstitutionId: advertisement.advertisement.institution.institutionId
+                            }
+                        }
+                        console.log('POST promotions payload ', promo)
+                        apiHandler.post('promotions',promo)
+                        .then(dispatch(savePromotions(response.data)))
+                    }
+                    else
+                    dispatch(savedAdvertisement());
+                },
                 error => { dispatch(saveAdvertisementFailure(error)) }
             )
+        });
     }
     function addAdvertisementRequest() { return { type: advertisementsConstants.saveAdvertisements_REQUEST }; }
-    function savedAdvertisement(advertisement, withPromotion) { return { type: withPromotion, payload:advertisement }; }
+    function savedAdvertisement() { return { type: advertisementsConstants.saveAdvertisements_SUCCESS }; }
+    function savePromotions()  { return { type: advertisementsConstants.savePromotions_SUCCESS }; }
     function saveAdvertisementFailure(error) { alert(error.response.data.title); return { type: advertisementsConstants.saveAdvertisements_ERROR, payload:error }; }
 }
 
