@@ -1,42 +1,44 @@
+import { onImageCompress } from "./Compress";
+
 const { BlobServiceClient } = require("@azure/storage-blob");
  
 
 
-export async function uploadMediaIntoBlob(file, fileType){
+export function uploadMediaIntoBlob(file){
 
-    const storageAccountName = process.env.REACT_APP_ACCOUNT_NAME;
-    const sasToken           = process.env.REACT_APP_SASTOKEN;
-    const containerName      = process.env.REACT_APP_CONTAINER;
+    const storageAccountName = process.env.REACT_APP_BLOB_ACCOUNT_NAME;
+    const sasToken           = process.env.REACT_APP_BLOB_SASTOKEN;
+    const containerName      = process.env.REACT_APP_BLOB_CONTAINER;
 
     const blobService = new BlobServiceClient(
       `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
     );
 
-      if (fileType==='image') {
+    if (!file.type.includes('video')) {
+      onImageCompress(file).then((file) => {
         file = dataURLtoFile(file, "compressedImageFile.jpg");
-      }
+      });
+    }
 
-        //const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
-        //const filename = file.name.substring(0, file.name.lastIndexOf('.'))
-        const ext = file.name.substring(file.name.lastIndexOf('.'))
-        //const blobName = filename + '_' + new Date().getTime() + ext
-        const blobName = generateUUIDNameForBlob() + ext ;
+    console.log('Check file ', file)
+    const ext = file.name.substring(file.name.lastIndexOf('.'))
+    const blobName = generateUUIDNameForBlob() + ext ;
 
-        const containerClient = blobService.getContainerClient(containerName);
-        await containerClient.createIfNotExists(containerName);
-
-
-
-
-        const blockBlobClient = containerClient.getBlockBlobClient(blobName);
-        const options = { blobHTTPHeaders: { blobContentType: file.type } };
-        const uploadBlobResponse = await blockBlobClient.uploadData(file, options);
-
-        console.log(`Upload block blob ${blobName} successfully`, uploadBlobResponse.requestId);
-
-        const mediaURL = `https://${storageAccountName}.blob.core.windows.net/${containerName}/${blobName}`
-
-        return mediaURL;
+    return new Promise((resolve, reject) => {
+      const containerClient = blobService.getContainerClient(containerName);
+      containerClient.createIfNotExists(containerName)
+      .then(() => {
+          const blockBlobClient = containerClient.getBlockBlobClient(blobName);
+          const options = { blobHTTPHeaders: { blobContentType: file.type } };
+          blockBlobClient.uploadData(file, options)
+          .then( blob => {
+            console.log(`Upload block blob ${blobName} successfully`, blob.requestId);
+            const mediaURL = `https://${storageAccountName}.blob.core.windows.net/${containerName}/${blobName}`;
+            console.log('mediaUrl from BLOB', mediaURL);
+            resolve(mediaURL);
+          });
+      });
+    })
 
 }
 
