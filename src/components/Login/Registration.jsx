@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import bg from '../../images/register-bg.svg';
 import * as UserAction from '../../Redux/Action';
+import { encryptAndEncode } from '../../util/encrypt';
 
 class Registration extends Component {
 
@@ -12,7 +13,8 @@ class Registration extends Component {
             email: "",
             recipientName : "",
             password: "",
-            confirmPassword: ""
+            confirmPassword: "",
+            invitationId :''
         };
     }
 
@@ -20,6 +22,7 @@ class Registration extends Component {
         const queryString = require('query-string');
         let invObj = queryString.parse(this.props.location.search);
         console.log('Params ',invObj);
+        this.setState({ invitationId : invObj.inv });
         this.props.getInviteeInfo(invObj.inv, invObj.tk);
     }
 
@@ -31,12 +34,16 @@ class Registration extends Component {
         return password === confirmPassword;
     }
 
+    onChange = (event) => {
+        this.setState({ [event.target.name]: event.target.value })
+    }
+
 
     static getDerivedStateFromProps(props, state) {
         if(props.Invitee !== undefined){
             return {
-                email : props.address,
-                recipientName : props.recipientName,
+                email : props.Invitee.address,
+                recipientName : props.Invitee.recipientName,
                 // data : JSON.parse(atob(props.data))
             }
         }
@@ -49,20 +56,20 @@ class Registration extends Component {
         event.preventDefault();
         console.log("States:", this.state);
 
-        const userInfo = JSON.parse(atob(this.props.data));
+        const userInfo = JSON.parse(atob(this.props.Invitee.data));
 
         const Invitee = {
-            Email:this.state.email,
-            PhoneNumber: this.state.data.Data,
-            Password: this.state.password,
-            Name: this.state.recipientName,
-            Role: "manager",
-            InstitutionId: this.state.data.InstitutionId
+            email:this.state.email,
+            password: encryptAndEncode(this.state.password),
+            name: this.state.recipientName,
+            institutionId: userInfo.InstitutionId,
+            invitationId: this.state.invitationId
         }
 
-        //if (this.form.validateAll()) {
-        this.props.Reset_Password(Invitee);
-        //}
+        console.log('Invitee ',Invitee)
+        // if (this.form.validateAll()) {
+        this.props.register(Invitee);
+        // }
     }
 
     render() {
@@ -73,26 +80,30 @@ class Registration extends Component {
                 <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                     <form className='col-lg-8 col-md-12 my-auto mx-auto needs-validation' onSubmit={this.handleSubmit}>
                         <h1 className='mb-5' style={{fontSize:'35px'}}>Welcome to Routes</h1>
-                        <div className="form-group mb-4">
+                        {/* <div className="form-group mb-4">
                         <label htmlFor="">Email</label><br/>
-                            <input type="email" className="form-control" placeholder="Email" value={this.props.Invitee?.address} onChange={this.onChange} name="email" />
+                            <input type="email" className="form-control" placeholder="Email" value={this.props.Invitee?.address} onChange={this.onChange} name="email" required/>
+                        </div> */}
+
+                        <div className="form-group mb-4">
+                            <label for="validationCustomUsername">Email</label>
+                            <input type="email" className="form-control" placeholder="Email" value={this.state.email} onChange={this.onChange} name="email" aria-describedby="inputGroupPrepend" required/>
+                            <div className="invalid-feedback">
+                            Please choose a username.
+                            </div>
                         </div>
+
                         <div className="form-group mb-4">
                             <label htmlFor="">Name</label><br/>
-                            <input type="text" className="form-control" placeholder="Name" value={this.props.Invitee?.recipientName} onChange={this.onChange} name="recipientName" />
+                            <input type="text" className="form-control" placeholder="Name" value={this.state.recipientName} onChange={this.onChange} name="recipientName" required/>
                         </div>
                         <div className="form-group mb-4">
                             <label htmlFor="">Password</label>
-                            <div className="input-group">
-                                <input type="password" className="form-control" placeholder="New Password" value={this.state.password} onChange={this.onChange} name="password" />
-                                <div class="input-group-addon">
-                                <a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
-                                </div>
-                            </div>
+                            <input type="password" className="form-control" placeholder="New Password" value={this.state.password} onChange={this.onChange} name="password" required/>
                         </div>
                         <div className="form-group mb-4">
                             <label htmlFor="">Confirm Password</label><br/>
-                            <input type="password" className="form-control" placeholder="Confirm Password" value={this.state.confirmPassword} onChange={this.onChange} name="confirmPassword" />
+                            <input type="password" className="form-control" placeholder="Confirm Password" value={this.state.confirmPassword} onChange={this.onChange} name="confirmPassword" required/>
                         </div>
                         <button className="send" onClick={this.handleSubmit} disabled={!this.validateResetForm()}>
                         {/* {loading && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />}
@@ -116,7 +127,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = {
-    getInviteeInfo : UserAction.getInvitationInfo
+    getInviteeInfo : UserAction.getInvitationInfo,
+    register : UserAction.register
 }
 
 const invitation = connect(mapStateToProps, mapDispatchToProps)(Registration)
