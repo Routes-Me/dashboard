@@ -65,7 +65,7 @@ class Users extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (this.props.ApplicationState !== prevProps.ApplicationState) {
-            if(this.props.ApplicationState === userConstants.saveUsers_SUCCESS)
+            if(this.props.ApplicationState === userConstants.sendInvitation_SUCCESS)
             {
                 this.props.getUsersList(1,config.Pagelimit);
                 if(prevState.showDetails){

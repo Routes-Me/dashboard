@@ -78,46 +78,16 @@ class UsersDetail extends React.Component {
 
         event.preventDefault();
 
-
-        let action ='', user ='';
-
-        {action =  this.state.user.userId? "save": "add"}
-
-        if(action === 'save')
-        {
-            user = {
-                userId       : this.state.id,
-                Name         : this.state.name,
-                Password     : encryptAndEncode(this.state.password) ,
-                Email        : this.state.email,
-                PhoneNumber  : this.state.phone,
-                InstitutionId: this.state.institutionId,
-                Roles:[
-                    {
-                        ApplicationId: this.state.application,
-                        PrivilegeId: this.state.privilege
-                    }
-                ]                                                                                                                                                                                                                                                                                                             
-            }
-        }
-        else
-        {
-            user = {
-                Name         : this.state.name,
-                Password     : encryptAndEncode(this.state.password) ,
-                Email        : this.state.email,
-                PhoneNumber  : this.state.phone,
-                InstitutionId: this.state.institutionId,
-                Roles:[
-                    {
-                        ApplicationId: this.state.application,
-                        PrivilegeId: this.state.privilege
-                    }
-                ]                                                                                                                                                                                                                                                                                                             
-            }
+        const user = {
+            recipientName: this.state.name,
+            address: this.state.email,
+            institutionId: this.state.institutionId,
+            officerId: this.props.OfficerId,
+            applicationId: this.state.application,
+            privilageId: this.state.privilege
         }
 
-        this.props.saveUser(user,action);
+        this.props.sendInvitation(user);
 
     }
 
@@ -148,32 +118,9 @@ class UsersDetail extends React.Component {
 
                         <div className="row form-group">
                             <div className="col-md-6">
-                                <Label>Password</Label><br />
-                                <input type="text" name="password"
-                                    value={this.state.password}
-                                    onChange={this.onChange}
-                                    className="form-control" />
-                                <span className="form-error is-visible">{this.state.errorText}</span>
-                            </div>
-                        </div>
-                        
-
-                        <div className="row form-group">
-                            <div className="col-md-6">
                                 <Label>Email</Label><br />
                                 <input type="text" name="email"
                                     value={this.state.email}
-                                    onChange={this.onChange}
-                                    className="form-control" />
-                                <span className="form-error is-visible">{this.state.errorText}</span>
-                            </div>
-                        </div>
-
-                        <div className="row form-group">
-                            <div className="col-md-6">
-                                <Label>Phone</Label><br />
-                                <input type="text" name="phone"
-                                    defaultValue={this.state.phone}
                                     onChange={this.onChange}
                                     className="form-control" />
                                 <span className="form-error is-visible">{this.state.errorText}</span>
@@ -197,7 +144,7 @@ class UsersDetail extends React.Component {
                                 {/* <select defaultValue={this.state.roles.applicationId} className="custom-select my-1 mr-sm-2" name="application" onChange={this.onChange}>
                                     {this.props.ApplicationsList.map(application => (<option key={application.id} className="dropdown-item" value={application.id}>{application.name}</option>))}
                                 </select> */}
-                                <select className="custom-select" multiple size="5" defaultValue={this.state.roles.applicationId} name="application" onChange={this.onChange}>
+                                <select className="custom-select" defaultValue={this.state.roles.applicationId} name="application" onChange={this.onChange}>
                                     {this.props.ApplicationsList.map(application => (<option key={application.id} className="dropdown-item" value={application.id}>{application.name}</option>))}
                                 </select>
                             </div>
@@ -222,7 +169,7 @@ class UsersDetail extends React.Component {
 
                     <div className="container-fluid">
                         <div className="footerStyle">
-                            <button type="submit" style={{ float: 'left' }} onClick={(e)=> this.handleSubmit(e)}> Create </button>
+                            <button type="submit" style={{ float: 'left' }} onClick={(e)=> this.handleSubmit(e)}> Send Invitation </button>
                         </div>
                     </div>
                 </Form>
@@ -239,7 +186,7 @@ const mapStateToProps = (state) => {
         PrivilegeList       : [config.selectPrivilege,...state.UserStore.Privileges],
         ApplicationsList    : [config.selectApplication,...state.UserStore.Applications],
         InstitutionList     : state.InstitutionStore.Institutions,
-        savedSuccessfully   : state.UserStore.Loading
+        OfficerId : state.Login.user.officerId
     }
 
 }
@@ -249,7 +196,7 @@ const actionCreators = {
     getPrivileges   : UserAction.getPrivileges,
     getApplications : UserAction.getApplications,
     getInstitutions : InstitutionAction.getInstitutions,
-    saveUser        : UserAction.saveUser
+    sendInvitation  : UserAction.sendInvitation
     
 }
 
