@@ -22,7 +22,7 @@ class Registration extends Component {
         const queryString = require('query-string');
         let invObj = queryString.parse(this.props.location.search);
         console.log('Params ',invObj);
-        this.setState({ invitationId : invObj.inv });
+        this.setState({ invitation : invObj });
         this.props.getInviteeInfo(invObj.inv, invObj.tk);
     }
 
@@ -63,12 +63,12 @@ class Registration extends Component {
             password: encryptAndEncode(this.state.password),
             name: this.state.recipientName,
             institutionId: userInfo.InstitutionId,
-            invitationId: this.state.invitationId
+            invitationId: this.state.invitation.inv
         }
 
         console.log('Invitee ',Invitee)
         // if (this.form.validateAll()) {
-        this.props.register(Invitee);
+        this.props.register(Invitee,this.state.invitation.tk);
         // }
     }
 

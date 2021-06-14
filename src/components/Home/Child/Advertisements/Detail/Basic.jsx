@@ -57,7 +57,7 @@ class Basic extends React.Component {
                             <div className="row form-group">
                                 <div className="col-md-12">
                                     <Label>Day Interval</Label><br />
-                                    <select defaultValue={this.props.advertisementToDisplay.dayInterval} className="custom-select my-1 mr-sm-2" name="intervalId" onChange={this.props.onChange}>
+                                    <select defaultValue={this.props.advertisementToDisplay.intervalId} className="custom-select my-1 mr-sm-2" name="intervalId" onChange={this.props.onChange}>
                                         {this.props.DayInterval.map(interval => (<option className="dropdown-item" value={interval.intervalId}>{interval.title}</option>))}
                                     </select>
                                 </div>

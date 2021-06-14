@@ -255,35 +255,44 @@ function returnFormatedResponseForUsers(response) {
 
 
 //Save User Detail
-export function saveUser(user,action) {
+export function sendInvitation(user) {
 
     return dispatch => {
         dispatch(saveUserDataRequest);
-        if (action === "add") {
           apiHandler.post('invitations', user)
               .then(
                 users => {
                     dispatch(saveUserDataSuccess());
                 },
                 error => {
-                    alert(error.response.data.message.toString() );
+                    alert(error.Message );
                 });
-        }
-        else {
-          apiHandler.put('users' , user)
-              .then(
-                users => {
-                    dispatch(saveUserDataSuccess());
-                },
-                error => {
-                    alert(error.toString());
-                });
-        }
     }
 
 }
-function saveUserDataRequest() { return { type: userConstants.saveUsers_REQUEST } }
-function saveUserDataSuccess() { return { type: userConstants.saveUsers_SUCCESS } }
+function saveUserDataRequest() { return { type: userConstants.sendInvitation_REQUEST } }
+function saveUserDataSuccess() { return { type: userConstants.sendInvitation_SUCCESS } }
+
+
+
+export function register(user,token) {
+
+  return dispatch => {
+      dispatch(saveUserDataRequest);
+        apiHandler.post('registrations/dashboard-app',user,{
+          headers : { 'Authorization' : `Bearer ${token}` }
+        })
+            .then(
+              users => {
+                  dispatch(saveUserDataSuccess());
+              },
+              error => {
+                  console.log('error register ', error);
+                  alert(error);
+              });
+  }
+
+}
 
 
 export function saveApplications(application, action){
