@@ -85,8 +85,7 @@ export function uploadMedia(media) {
             }
         }
             dispatch(uploadSuccessful(mediaObj));
-        
-        
+
     }
 
 }
@@ -152,10 +151,10 @@ function buildURL(entity, pageIndex, limit, include) {
 
     let queryParameter =""
     if(include){
-      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit+"&include=media,institution,campaign,promotion";
+        queryParameter=entity+"?offset="+pageIndex+"&limit="+limit+"&include=media,institution,campaign,promotion";
     }
     else{
-      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit;
+        queryParameter=entity+"?offset="+pageIndex+"&limit="+limit;
     }
     return queryParameter;
 
@@ -197,6 +196,7 @@ function returnFormatedAdvertisements(response, include) {
         }
     }
 
+    console.log('Advertisement refined ', advertisments);
     return advertisments;
 }
 
@@ -215,19 +215,19 @@ function returnFormatedCampaigns(response) {
 
 function filterCampaignList(CampaignList, Campaigns)
 {
-  let filteredList = [];
-  if( Campaigns !== null && CampaignList.length > 0)
-  {
-    for(var i=0; i<Campaigns.length; i++){
-        filteredList.push(CampaignList.filter(y => y.campaignId===Campaigns[i]));
+    let filteredList = [];
+    if( Campaigns !== null && CampaignList.length > 0)
+    {
+        for(var i=0; i<Campaigns.length; i++){
+            filteredList.push(CampaignList.filter(y => y.campaignId===Campaigns[i]).map(x=>x.campaignId));
+        }
+        return filteredList;
+    }
+    else
+    {
+        filteredList =[0];
     }
     return filteredList;
-  }
-  else
-  {
-    filteredList =[0];
-  }
-  return filteredList;
 }
 
 export function saveAdvertisement(advertisement) {

@@ -5,10 +5,10 @@ import { convertObjectKeyToLowerCase, returnEntityForInstitution } from '../../u
 
 //const SampleInsitutionsIdArgument = { "institutionIds": [{ "Id": 3 }] };
 
-function buildURL(entity, pageIndex, limit, include, user) {
+function buildURL(entity, pageIndex, limit, include, role,user) {
 
     let queryParameter ="";
-    entity = returnEntityForInstitution(entity,user);
+    entity = returnEntityForInstitution(entity,role,user);
     
     if(include){
       queryParameter=entity+"?offset="+pageIndex+"&limit="+limit+"&include=institutions,models,manufacturers";
@@ -48,10 +48,10 @@ function showerror(error){
 
 
 //Toggled for configuration issue
-export function getVehiclesForInstitutionID(pageIndex,limit,user) {
+export function getVehiclesForInstitutionID(pageIndex,limit,role,user) {
     return dispatch => {
       dispatch(vehicleDataRequest());                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
-      apiHandler.get(buildURL('vehicles', pageIndex, limit, true, user))
+      apiHandler.get(buildURL('vehicles', pageIndex, limit,true,role,user))
       .then(
       vehicles => {
               dispatch(storeVehicleData(returnFormatedVehicles(vehicles)));
@@ -203,9 +203,9 @@ function returnFormatedVehicles(response){
 
     VehicleList.map(x => {
       
-      let modelObj        = ModelList?.filter(y => y.ModelId === x.modelId)[0];
-      let manufacturerObj = ManufacturerList?.filter(y =>  y.ManufacturerId === modelObj?.ManufacturerId)[0];
-      let institutionObj  = InstitutionList?.filter(y => y.InstitutionId === x.institutionId)[0];
+      let modelObj        = ModelList?.filter(y => y.modelId === x.modelId)[0];
+      let manufacturerObj = ManufacturerList?.filter(y =>  y.manufacturerId === modelObj?.manufacturerId)[0];
+      let institutionObj  = InstitutionList?.filter(y => y.institutionId === x.institutionId)[0];
 
       modelObj        = modelObj && convertObjectKeyToLowerCase(modelObj);
       manufacturerObj = manufacturerObj && convertObjectKeyToLowerCase(manufacturerObj);
