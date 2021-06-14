@@ -17,7 +17,6 @@ export function convertObjectKeyToLowerCase (object) {
         key = keys[n];
         newobj[key.toLowerCase()] = object[key];
     }
-    console.log('Lower Key ',newobj);
     return newobj;
 }
 
@@ -41,11 +40,11 @@ export function returnObjectForSelectedId(list, id){
     return obj;
 }
 
-export function returnEntityForInstitution(entity,user)
+export function returnEntityForInstitution(entity,role,user)
 {
-    if(user?.InstitutionId !== undefined)
+    if(user?.institution?.InstitutionId !== undefined)
     {
-        return user.InstitutionId !== '' && isSU(user) ?  entity : `institutions/${user.institution.InstitutionId}/${entity}`;  
+        return user?.institution?.InstitutionId !== '' && isSU(role) ?  entity : `institutions/${user.institution.InstitutionId}/${entity}`;  
     }
     return entity;
 
