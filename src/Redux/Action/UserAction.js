@@ -5,11 +5,11 @@ import axios from "axios";
 
 
 //Get UsersList
-export function getUsers(pageIndex,limit,user) {
+export function getOfficers(pageIndex,limit,role,user) {
 
     return dispatch => {
         dispatch(UsersDataRequest());
-        apiHandler.get(buildURL('users',pageIndex,limit,true,user))
+        apiHandler.get(buildURL('officers',pageIndex,limit,true,role,user))
         .then(
                 users => {
                     dispatch(storeUsersData(returnFormatedResponseForUsers(users)));
@@ -111,7 +111,7 @@ export function deleteUser(userId)
       .then(
         (user) => {
           dispatch(deleteUserSuccess(user));
-          getUsers();
+          getOfficers();
         },
         (error) => {
           alert(error.toString());
@@ -193,13 +193,13 @@ function filterUserRolesList(userRolesList, userRoles)
 }
 
 
-function buildURL(entity, pageIndex, limit, include, user) 
+function buildURL(entity, pageIndex, limit, include,role,user) 
 {
     let queryParameter =""
-    entity = returnEntityForInstitution(entity,user);
+    entity = returnEntityForInstitution(entity,role,user);
     if(include)
     {
-      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit+"&include=institutions";
+      queryParameter=entity+"?offset="+pageIndex+"&limit="+limit+"&include=institutions,users,officers";
     }
     else
     {
@@ -230,13 +230,13 @@ function returnQueryParamters(offset, include) {
 
 function returnFormatedResponseForUsers(response) {
 
-    const usersList = response.data.data;
+    const usersList = response.data.included?.users !== undefined ? response.data.included.users:[];
     const institutionList = response.data.included?.institution !== undefined ? response.data.included.institution:[];
   
         const formatedUsers = usersList.map((x) => ({
         userId: x.userId,
-        name: x.name,
-        email: x.email,
+        name: usersList.filter(y => y.UserId === x.userId)[0]?.Name,
+        email: usersList.filter(y => y.UserId === x.userId)[0]?.Email,
         phone: validate(x.phone),
         createdAt: validate(x.createdAt),
         roles:x.roles,
