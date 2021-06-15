@@ -1,9 +1,12 @@
 ﻿import Resizer from 'react-image-file-resizer';
 
-export async function onImageCompress(image) {
+export function onImageCompress(image) {
 
-    const compressedImage = await resizeFile(image);
-    return compressedImage;
+    return new Promise((resolve, reject) =>{
+        const compressedImage = resizeFile(image).then(image => image);
+        resolve(compressedImage);
+    })
+    
 
 }
 

@@ -56,18 +56,18 @@ const UserReducer = (state = INITIAL_STATE, action) => {
                 Applications: action.payload,
                 ActionState: userConstants.update_APPLICATIONS
             };
-        case userConstants.saveUsers_REQUEST:
+        case userConstants.sendInvitation_REQUEST:
             return {
                 ...state,
                 Loading: true,
                 hasError: false
             };
-        case userConstants.saveUsers_SUCCESS:
+        case userConstants.sendInvitation_SUCCESS:
             return {
                 ...state,
                 Loading: false,
                 hasError: false,
-                ActionState: userConstants.saveUsers_SUCCESS
+                ActionState: userConstants.sendInvitation_SUCCESS
             };
         case userConstants.deleteUser_Request:
             return {

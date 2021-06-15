@@ -2,7 +2,6 @@
 import { connect } from 'react-redux';
 import { Label } from 'reactstrap';
 import * as AdvertisementAction from '../../../../../Redux/Action';
-import * as InstitutionAction from '../../../../../Redux/Action';
 import Form from 'react-validation/build/form';
 import '../../Advertisements/Advertisement.css';
 
@@ -13,103 +12,12 @@ class Extras extends React.Component {
         super(props)
 
         this.state = {
-            id: "",
-            title: "",
-            subtitle: "",
-            code:'',
-            startDate:"",
-            endDate:"",
-            useageLimit:"",
-            shareQR:false,
-            advertisement: "",
-            weblink:"",
-            iOSLink:"",
-            androidLink:"",
             tabIndex:1
-        }
-    }
-
-    onChangeRadioButton = (event) => {
-        const share = event.target.value === 'on' ? true: false;
-        this.setState({ shareQR : share });
-    }
-
-    onChange = (event) => {
-        this.setState({ [event.target.name]: event.target.value })
-        if (event.target.name === "title") {
-            this.props.updateTitle(event.target.value);
         }
     }
 
     onTabClick = (index) => {
         this.setState({ tabIndex: index });
-    }
-  
-    componentDidUpdate(prevProps, prevState) {
-        if (this.props.submitForm !== prevProps.submitForm) {
-            if(this.props.submitForm)
-            {
-                this.handleSubmit(this.props.addForPromotion.advertisementId);
-            }
-        }
-      }
-
-    static getDerivedStateFromProps(props, state) {
-
-        if (props.advertisementToDisplay !== undefined) {
-            if (props.advertisementToDisplay !== state.userToDisplay) {
-                return {
-                    advertisement: props.advertisementToDisplay,
-                    id: props.advertisementToDisplay.id,
-                    name: props.advertisementToDisplay.name,
-                    dayInterval: props.advertisementToDisplay.dayInterval,
-                    institution: props.advertisementToDisplay.institution,
-                    media: props.advertisementToDisplay.media,
-                    campaigns: props.advertisementToDisplay.campaigns
-                }
-            }
-        }
-
-    }
-
-    //Submit button action 
-    handleSubmit = (advertisementIdForPromotion) => {
-
-        let promotion ='';
-        if(this.state.weblink === '')
-        {
-            promotion = {
-                Title: this.state.title,
-                Subtitle: this.state.subtitle,
-                code: this.state.code,
-                StartAt: this.state.startDate,
-                EndAt: this.state.endDate,
-                UsageLimit: this.state.useageLimit,
-                IsSharable: this.state.shareQR,
-                AdvertisementId: advertisementIdForPromotion,
-                InstitutionId: this.props.InstitutionId,
-                type:"coupons"
-            }
-        }
-        else {
-            promotion = {
-                Title: this.state.title,
-                Subtitle: this.state.subtitle,
-                code:this.state.code,
-                links :{
-                    Web: this.state.weblink,
-                    Ios: this.state.iOSLink,
-                    Android: this.state.androidLink
-                },
-                type: "links",
-                AdvertisementId: advertisementIdForPromotion,
-                InstitutionId: this.props.InstitutionId
-            }
-        }
-        
-
-        this.props.savePromotion(promotion);
-
     }
 
     render() {
@@ -121,15 +29,12 @@ class Extras extends React.Component {
                     <div className="row">
                     <div className="col-md-12">
 
-
-                            
-
                             <div className="row form-group">
                                 <div className="col-md-12">
                                     <Label>Title</Label><br />
                                 <input type="text" name="title"
-                                    value={this.state.title}
-                                    onChange={this.onChange}
+                                    value={this.props.promotionToDisplay?.title}
+                                    onChange={this.props.onChange}
                                     className="form-control" />
                                 </div>
                             </div>
@@ -137,20 +42,20 @@ class Extras extends React.Component {
 
                             <div className="row form-group">
                                 <div className="col-md-12">
-                                    <Label>Subtitle</Label><br />
+                                <Label>Subtitle</Label><br />
                                 <input type="text" name="subtitle"
-                                    value={this.state.subtitle}
-                                    onChange={this.onChange}
+                                    value={this.props.promotionToDisplay?.subtitle}
+                                    onChange={this.props.onChange}
                                     className="form-control" />
                                 </div>
                             </div>
 
                             <div className="row form-group">
                                 <div className="col-md-12">
-                                    <Label>Promotion Code</Label><br />
+                                <Label>Promotion Code</Label><br />
                                 <input type="text" name="code"
-                                    value={this.state.code}
-                                    onChange={this.onChange}
+                                    value={this.props.promotionToDisplay?.code}
+                                    onChange={this.props.onChange}
                                     className="form-control" />
                                 </div>
                             </div>
@@ -168,30 +73,30 @@ class Extras extends React.Component {
 
                             <div className="row form-group">
                                 <div className="col-md-12">
-                                    <Label>Web Link</Label><br />
+                                <Label>Web Link</Label><br />
                                 <input type="text" name="weblink"
-                                    value={this.state.weblink}
-                                    onChange={this.onChange}
+                                    value={this.props.promotionToDisplay?.weblink}
+                                    onChange={this.props.onChange}
                                     className="form-control" />
                                 </div>
                             </div>
 
                             <div className="row form-group">
                                 <div className="col-md-12">
-                                    <Label>Android Link</Label><br />
+                                <Label>Android Link</Label><br />
                                 <input type="text" name="androidLink"
-                                    value={this.state.androidLink}
-                                    onChange={this.onChange}
+                                    value={this.props.promotionToDisplay?.androidLink}
+                                    onChange={this.props.onChange}
                                     className="form-control" />
                                 </div>
                             </div>
 
                             <div className="row form-group">
                                 <div className="col-md-12">
-                                    <Label>iOS Link</Label><br />
+                                <Label>iOS Link</Label><br />
                                 <input type="text" name="iOSLink"
-                                    value={this.state.iOSLink}
-                                    onChange={this.onChange}
+                                    value={this.props.promotionToDisplay?.iOSLink}
+                                    onChange={this.props.onChange}
                                     className="form-control" />
                                 </div>
                             </div>
@@ -202,30 +107,30 @@ class Extras extends React.Component {
 
                             <div className="row form-group">
                                 <div className="col-md-12">
-                                    <Label>Starts At</Label><br />
+                                <Label>Starts At</Label><br />
                                 <input type="date" name="startDate"
-                                    value={this.state.startDate}
-                                    onChange={this.onChange}
+                                    value={this.props.promotionToDisplay?.startDate}
+                                    onChange={this.props.onChange}
                                     className="form-control" />
                                 </div>
                             </div>
 
                             <div className="row form-group">
                                 <div className="col-md-12">
-                                    <Label>Ends At</Label><br />
+                                <Label>Ends At</Label><br />
                                 <input type="date" name="endDate"
-                                    value={this.state.endDate}
-                                    onChange={this.onChange}
+                                    value={this.props.promotionToDisplay?.endDate}
+                                    onChange={this.props.onChange}
                                     className="form-control" />
                                 </div>
                             </div>
 
                             <div className="row form-group">
                                 <div className="col-md-12">
-                                    <Label>Useage Limit</Label><br />
+                                <Label>Useage Limit</Label><br />
                                 <input type="number" name="useageLimit"
-                                    value={this.state.useageLimit}
-                                    onChange={this.onChange}
+                                    value={this.props.promotionToDisplay?.useageLimit}
+                                    onChange={this.props.onChange}
                                     className="form-control" />
                                 </div>
                             </div>
@@ -233,8 +138,8 @@ class Extras extends React.Component {
                         <div className="row form-group">
                             <div className="col-md-12">
                                 <Label>Enable Share QR Code</Label>
-                                <label className="radio-inline"><input type="radio" name="shareQR" onChange={this.onChangeRadioButton} checked={this.state.shareQR}/> Yes</label>
-                                <label className="radio-inline"><input type="radio" name="shareQR" onChange={this.onChangeRadioButton} checked={!this.state.shareQR}/> No</label>
+                                <label className="radio-inline"><input type="radio" name="shareQR" onChange={this.props.onChangeRadioButton} checked={this.state.shareQR}/> Yes</label>
+                                <label className="radio-inline"><input type="radio" name="shareQR" onChange={this.props.onChangeRadioButton} checked={!this.state.shareQR}/> No</label>
                             </div>
                         </div>
 

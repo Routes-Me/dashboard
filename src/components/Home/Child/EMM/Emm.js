@@ -216,8 +216,8 @@ class Emm extends Component {
                     <table id='list'>
                         <thead>
                             <tr>
+                            <th>Serial No</th>
                             <th>Name</th>
-                            <th>Management Mode</th>
                             <th>Ownership</th>
                             <th>Status</th>
                             <th>Enrollment Time</th>
@@ -228,7 +228,7 @@ class Emm extends Component {
                         {list?.map(device => (
                             <tr key={device.hardwareInfo?.serialNumber}>
                             <td>{device.hardwareInfo?.serialNumber}</td>
-                            <td>{device.managementMode}</td>
+                            <td>{device.name}</td>
                             <td>{device.ownership}</td>
                             <td>{device.state}</td>
                             <td>{device.enrollmentTime?.substr(0, 10)}</td>

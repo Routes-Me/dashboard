@@ -28,7 +28,7 @@ class Vehicles extends Component {
     }
 
     componentDidMount() {
-        this.props.getVehiclesForInstitution(1,config.Pagelimit,this.props.user,this.props.token);
+        this.props.getVehiclesForInstitution(1,config.Pagelimit,this.props.role,this.props.user);
     }
 
 
@@ -108,9 +108,9 @@ class Vehicles extends Component {
                                     <tr  key={Vehicle.id} onClick={e => this.showDevicesForSelectedVehicle(e, Vehicle.id)}>
                                         <td>{Vehicle.id}</td>
                                         <td>{Vehicle.plateNumber}</td>
-                                        <td>{Vehicle.model?.Name}</td>
+                                        <td>{Vehicle.model?.name}</td>
                                         <td>{Vehicle.modelYear}</td>
-                                        <td>{Vehicle.institution?.Name}</td>
+                                        <td>{Vehicle.institution?.name}</td>
                                         {!isROU(this.props.role) &&
                                         <td className="width20" onClick={e => this.openSubMenuForVehicleId(e, Vehicle.id)}>
                                             <div className="edit-popup">

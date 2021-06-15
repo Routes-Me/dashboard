@@ -105,7 +105,7 @@ const AdvertisementReducer = (state = INITIAL_STATE, action) => {
                 loading: false,
                 hasError: false,
                 Advertisement: action.payload,
-                ActionState: action.type
+                ActionState: advertisementsConstants.updateTheAdvertisementList
             };
         case advertisementsConstants.saveAdvertisements_ERROR:
             return {

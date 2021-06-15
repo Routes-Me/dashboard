@@ -111,7 +111,7 @@ class Tracking extends Component {
                     numPoints: numPoints,
                     id: `${numPoints}_${points[0].id}`,
                     points
-              }))
+                }))
                 : []
         });
     };
@@ -149,8 +149,8 @@ class Tracking extends Component {
         }
         
         this.props.connectTheHub(token);
-        this.props.SubscribeToHub(user);
-        this.props.GetOfflineVehicles(user);
+        this.props.SubscribeToHub(this.props.role,user);
+        this.props.getDevices(this.props.role,user);
         
     }
 
@@ -166,7 +166,7 @@ class Tracking extends Component {
     _onAction(e) {
         
         if (this.state.isTimedOut) {
-            this.props.SubscribeToHub(this.props.user);
+            this.props.SubscribeToHub(this.props.role,this.props.user);
         }
         this.setState({ isTimedOut: false })
     }
@@ -175,7 +175,7 @@ class Tracking extends Component {
     _onActive(e) {
 
         if (this.state.isTimedOut) {
-            this.props.SubscribeToHub(this.props.user);
+            this.props.SubscribeToHub(this.props.role,this.props.user);
         }
         this.setState({ isTimedOut: false })
     }
@@ -283,7 +283,8 @@ class Tracking extends Component {
         const { center } = this.state.center;
         const { clusters, selectedId } = this.state;
         const vehicles = this.state.vehicles;
-        const idleVehicleCount = this.props.VehicleList.page?.total - this.state.activeCount
+        const devicesCount = this.props.VehicleList.pagination?.total;
+        const idleVehicleCount = devicesCount - this.state.activeCount;
         return (
             <div style={{ height: "100vh", width: "100%" }}>
 
@@ -356,14 +357,15 @@ const mapStateToProps = (state) => {
         idForSelectedVehicle: state.Tracking.idForSelectedVehicle,
         movedVehicle : state.Tracking.MovedVehicle,
         token : state.Login.token,
-        user : state.Login.user
+        user : state.Login.user,
+        role : state.Login.role
     }
     
 }
 
 const actionCreators = {
     connectTheHub : TrackingAction.InitializeHub,
-    GetOfflineVehicles: TrackingAction.getOfflineData,
+    getDevices: TrackingAction.getDevices,
     SubscribeToHub: TrackingAction.SubscribeToHub,
     UnSubscribeToHub: TrackingAction.UnsubscribeFromHub,
     UpdateTheSelectedMarker: TrackingAction.updateSelectedMarker,
