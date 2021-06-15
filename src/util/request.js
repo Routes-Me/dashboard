@@ -13,6 +13,7 @@ const instance = axios.create({
   baseURL: apiURL
 });
 
+ // instance.defaults.withCredentials= true;
 
 instance.interceptors.request.use(
 
@@ -54,14 +55,14 @@ function (error) {
       console.log(`Status Code : ${statusCode}`)
       console.log('RefreshToken Expired')
       clearStorage();
-      // history.push('/');
+      history.push('/');
     }
-    // if(statusCode === 400)
-    // {
-    //   requestRefreshTokenInterval = setTimeout(() => {
-    //     requestRefreshToken();
-    //   }, 5*60000);
-    // }
+    if(statusCode === 400)
+    {
+      requestRefreshTokenInterval = setTimeout(() => {
+        requestRefreshToken();
+      }, 5*60000);
+    }
   }
 
   if (error.response.status === 401 && originalRequest.url !== config.refreshTokenURL) {
@@ -70,9 +71,10 @@ function (error) {
       // .then(res => {
       //     if (res.status === 201) {
       //         // 1) put token to LocalStorage
-      //         setRefreshToken(res.data);
+      //         setRefreshToken(res.data.refreshToken);
+      //         setToken(res.data.accessToken)
       //         // 2) Change Authorization header
-      //         axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data;
+      //         axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.accessToken;
       //         // 3) return originalRequest object with Axios.
       //         return axios(originalRequest);
       //     }
@@ -86,9 +88,11 @@ function (error) {
 
 
 const requestRefreshToken = () => {
+  const refreshToken = getRefreshToken();
+  console.log('refreshToken ',refreshToken);
   return instance.post('authentications/renewals',
   {
-      "refresh_token": getRefreshToken()
+      "refresh_token": refreshToken
   })
   .then(
     function(response) {
