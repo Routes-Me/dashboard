@@ -62,8 +62,7 @@ export function userSignInRequest(username, password) {
 }
 
 export function userSignInRequestV1(username, password) {
-  console.log("Login :: Environment :", process.env.NODE_ENV);
-  console.log('Login :: API Domain :', process.env.REACT_APP_APIDOMAIN);
+
   return dispatch => {
       dispatch(request({ username, password }));
       let userObject = {
@@ -71,19 +70,40 @@ export function userSignInRequestV1(username, password) {
           Password: encryptAndEncode(password)
       };
 
-      apiHandler.post('authentications',userObject).then((response) => {
-        console.log('response ', response);
+      const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json; charset=utf-8' , 'application': 'dashboard'},
+        body: JSON.stringify(userObject)
+      };
+      
+      
+      
+
+      // apiHandler.post('authentications', userObject)
+
+      // fetch('https://stage.api.routesme.com/v1.0/authentications',requestOptions)
+      // .then((responseObj) => {
+      //   console.log('cookie ',responseObj);
+      //   return responseObj.json();
+      // })
+
+      apiHandler.post('authentications', userObject)
+      .then((response) => {
+        //console.log('response ', response.headers);
           const token = response.data.token;
           setToken(token);
+          //setRefreshToken('eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBNjc5NTIwNjI0IiwicmVmIjoiMTYyMzE1OTgxMDAzOCIsInN0bSI6IlUzZGFrdWVoUkhsRk0wNU1OVU5qU1ZGaE9IbEVNbTluU25kbmNtWjFTVEJJVFZCWmRVeDRVMloyY1VKQlZRPT0iLCJleHAiOjE2MzExMDg2MTAsImlzcyI6Imh0dHBzOi8vcm91dGVzbWUuY29tIiwiYXVkIjoiaHR0cHM6Ly9yZW5ld2Fscy5yb3V0ZXNtZS5jb20ifQ.l2cY0H8qjse3qQw4979AZnMH_8qhG-Zn_Po8mUc2uz8')
           dispatch(onReceiveToken(token));
           const tokenPayLoad = parseJwt(token);
           const role  = JSON.parse(atob(tokenPayLoad.rol));
           dispatch(authorize(role[0]));
           setRole(role[0]);
-          apiHandler.get(`officers/${JSON.parse(atob(tokenPayLoad.ext)).OfficerId}?include=users,institutions`)
+          const officerId = JSON.parse(atob(tokenPayLoad.ext)).OfficerId;
+          apiHandler.get(`officers/${officerId}?include=users,institutions`)
           .then(
             (user) => {
-              const userDetail = returnFormattedUser(user);
+              const userDetail = returnFormattedUser(user,officerId);
+              //console.log('userDetail logged in ', userDetail)
               setUser(userDetail);
               dispatch(getLoginSuccess(userDetail));
               history.push('/home');
@@ -99,10 +119,11 @@ export function userSignInRequestV1(username, password) {
   };
 }
 
-const returnFormattedUser = (response) => {
+const returnFormattedUser = (response,officerId) => {
   const user = {
     userInfo : response.data.included.users[0],
-    institution : response.data.included.institutions[0]
+    institution : response.data.included.institutions[0],
+    officerId : officerId
   }
   return user;
 }

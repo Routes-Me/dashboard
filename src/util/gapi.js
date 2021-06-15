@@ -45,7 +45,7 @@ getDevices = () => {
     inLog('EMM',"Get Devices request");
     // return window.gapi.client.load("androidmanagement", "v1").then(() => {
     return this.GAPI.client.androidmanagement.enterprises.devices
-        .list({parent: "enterprises/LC02my9vtl", "pageSize": 1000 })
+        .list({parent: "enterprises/LC02my9vtl", "pageSize": 10000 })
         .then(
             function (response) {
                 return response.result.devices;

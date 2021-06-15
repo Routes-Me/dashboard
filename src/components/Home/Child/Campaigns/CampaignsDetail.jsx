@@ -100,8 +100,7 @@ class CampaignsDetail extends React.Component {
                 CampaignId :this.state.campaignId,
                 Title      : this.state.title,
                 StartAt    : this.state.startAt,
-                EndAt      : this.state.endAt,
-                Status : 'active'
+                EndAt      : this.state.endAt
             }
         }
         

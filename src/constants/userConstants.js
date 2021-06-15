@@ -50,8 +50,8 @@
     update_APPLICATIONS: "UPDATE_APPLICATIONS",
     getApplications_ERROR: "GETUSERROLES_ERROR",
 
-    saveUsers_REQUEST: "SAVEUSERS_REQUEST",
-    saveUsers_SUCCESS: "SAVEUSERS_SUCCES",
+    sendInvitation_REQUEST: "SAVEUSERS_REQUEST",
+    sendInvitation_SUCCESS: "SAVEUSERS_SUCCES",
 
     deleteUser_Request : "DELETEUSER_REQUEST",
     deleteUser_Success : "DELETEUSER_SUCCESS",

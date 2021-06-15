@@ -7,10 +7,12 @@ import { config } from "../../constants/config";
 let hubConnection = "";
 let reconnectingInterval = "";
 
-
+var token = "";
+var user = "";
+var role = "";
 
 export function InitializeHub(token){
-
+    token = token;
     return dispatch => {
     
         hubConnection = new signalR.HubConnectionBuilder()
@@ -18,7 +20,7 @@ export function InitializeHub(token){
         {
             accessTokenFactory:() => getAccessToken(token)
         })
-        .configureLogging(signalR.LogLevel.Information)
+        .configureLogging(signalR.LogLevel.Trace)
         .build();
         hubConnection.serverTimeoutInMilliseconds = (60000 * 6);
 
@@ -34,22 +36,25 @@ export const Connected = payload => ({type: trackingConstants.Tracking_Connected
 
 
 
-export function SubscribeToHub(user) {
+export function SubscribeToHub(role,user) {
 
     return dispatch => {
 
+        user = user;
+        role = role;
         dispatch(Subscribing());
         if(hubConnection.state === 0)
         {
             hubConnection.start()
                 .then(() => {
-                    console.log('Hub Connected!!');
-                    hubConnection.invoke('Subscribe',user.institution.InstitutionId,null,null).catch(function(err) {
-                    console.log('unable to subscribe to institution => '+err)
+                    console.log('!!Hub Connected!!');
+                    const institutionForPriviledge = isSU(role)?null:user.institution.InstitutionId;
+                    hubConnection.invoke('Subscribe',institutionForPriviledge,null,null).catch(function(err) {
+                    console.log('!!Unable to subscribe to institution => '+err)
                     })
                     dispatch(Connected());
                 })
-                .catch(err => console.error("Error while establishing connection : " + err));
+                .catch(err => console.error("!!Error while establishing connection : " + err));
         }
 
 
@@ -58,11 +63,12 @@ export function SubscribeToHub(user) {
         }, 60000);
 
         hubConnection.on("FeedsReceiver", (result) => {
-            
+
+            // console.log("");
             //sampleData.push(result)
 
             const res = JSON.parse(result);
-            console.log("Response on SignalR ", res);
+            console.log("!!Response on SignalR ", res);
 
             let FormatedRes =[];
             // if (isSU(user))
@@ -84,13 +90,18 @@ export function SubscribeToHub(user) {
 export function CheckConnectivity(){
     if(hubConnection.state === 0)
     {
-        console.log('Reconnecting the hub')
-            hubConnection.start()
-            .then(() => {
-                console.log('Hub Connected!!');
-                // dispatch(Connected());
-            })
-            .catch(err => console.error("Error while establishing connection : " + err));
+        console.log('!!Re-InitializingHub!!')
+        InitializeHub(token);
+        // SubscribeToHub(role, user);
+        console.log('!!Connecting the hub!!');
+        hubConnection.start()
+        .then(() => {
+            console.log('!!Hub Connected!!');
+            clearInterval(reconnectingInterval);
+            SubscribeToHub(role, user);
+            // dispatch(Connected());
+        })
+        .catch(err => console.error("!!Error while establishing connection : " + err));
     }
 }
 export const Unsubscribe = payload => ({ type: trackingConstants.Tracking_OnUnSubscribeRequest });
@@ -107,11 +118,11 @@ export function UnsubscribeFromHub() {
         {
             hubConnection.stop()
             .then(() => {                                                                                                                                                                                                                                                                                                                                                        
-                console.log('Hub Disconnected!!');                                                                                                                                                                                                                                                                                                                                          
+                console.log('!!Hub Disconnected!!');                                                                                                                                                                                                                                                                                                                                          
                 dispatch(Disconnected());
             })
             .catch(err => {
-                console.error("Error while disconnecting : " + err);
+                console.error("!!Error while disconnecting : " + err);
             });
         }
     };
@@ -121,19 +132,20 @@ export function UnsubscribeFromHub() {
 }
 
 
-export function getOfflineData(user) {
+export function getDevices(role,user) {
 
     return dispatch => {
         dispatch(OfflineDataRequest());
-        let domain = returnEntityForInstitution('vehicles',user);
-        apiHandler.get(`${domain}?offset=1&limit=1000&include=institutions,models`)
+        let domain = returnEntityForInstitution('devices',role,user);
+        apiHandler.get(`${domain}?offset=1&limit=10`)
         .then(
-            idleVehicles => {
-                dispatch(OfflineUpdateReceived(returnFormatedVehicles(idleVehicles)));
+            devices => {
+                console.log('!!Devices response ', devices);
+                dispatch(OfflineUpdateReceived(devices.data));
         },
-        error => {
-               alert("Offline vehicle "+ error.toString());
-        });
+            error => {
+                    alert("Offline vehicle "+ error.toString());
+            });
     }
 
 }

@@ -26,7 +26,7 @@ class Users extends Component {
 
     //Load Data
     componentDidMount() {
-        this.props.getUsersList(1, config.Pagelimit,this.props.user);
+        this.props.getUsersList(1, config.Pagelimit,this.props.role,this.props.user);
     }
 
     //Handle SubMenu Toggle for the Table
@@ -65,7 +65,7 @@ class Users extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         if (this.props.ApplicationState !== prevProps.ApplicationState) {
-            if(this.props.ApplicationState === userConstants.saveUsers_SUCCESS)
+            if(this.props.ApplicationState === userConstants.sendInvitation_SUCCESS)
             {
                 this.props.getUsersList(1,config.Pagelimit);
                 if(prevState.showDetails){
@@ -182,7 +182,7 @@ const mapStateToProps = (state) => {
 
 //Create Redux for Users
 const actionCreators = {
-    getUsersList: UserAction.getUsers,
+    getUsersList: UserAction.getOfficers,
     deleteUser: UserAction.deleteUser
 };
 

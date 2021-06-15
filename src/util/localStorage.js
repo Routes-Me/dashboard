@@ -31,7 +31,7 @@ import cookie from 'react-cookies';
         cookie.save('refreshToken',token)
     }
 
-    export async function getRefreshToken(token) {
+    export async function getRefreshToken() {
         let refreshToken = cookie.load('refreshToken');
         return refreshToken;
     }
