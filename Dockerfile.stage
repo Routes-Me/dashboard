@@ -11,11 +11,12 @@ COPY ./ /app/
 # RUN REACT_APP_ENV=staging HTTPS=true npm run build:staging
 # -- --mode staging
 
-RUN HTTPS=true npm run build
+# RUN HTTPS=true npm run build
 # RUN REACT_APP_ENV=staging
 # RUN npm run build -- --mode staging
 # ARG REACT_APP_ENV=staging
 # RUN npm run build
+RUN HTTPS=true npm run st 
 # RUN npm run st 
 #//env-cmd -f .env.staging npm run build
 
