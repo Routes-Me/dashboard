@@ -229,7 +229,7 @@ class Tracking extends Component {
                 selectedId: point.id
             });
 
-            this.props.UpdateTheSelectedMarker(this.props.idForSelectedVehicle === point.id ? 0 : point.id);
+            this.props.UpdateTheSelectedMarker(this.props.idForSelectedVehicle === point.id ? '' : point.id);
 
         }
     }

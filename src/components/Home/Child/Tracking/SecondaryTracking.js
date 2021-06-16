@@ -17,7 +17,7 @@ class SecondaryTracking extends Component {
     renderAllVehicles(VehicleListToBeRendered) {
         return (
             <div>{
-                this.props.idForSelectedVehicle > 0 && 
+                this.props.idForSelectedVehicle !== '' && 
                     <SecondaryList vehicle={VehicleListToBeRendered}/>
             }</div>
         )
@@ -32,7 +32,7 @@ class SecondaryTracking extends Component {
                 }
             }
         }
-        if (props.idForSelectedVehicle !== 0 && (props.idForSelectedVehicle !== state.selectedId)){
+        if (props.idForSelectedVehicle !=='' && (props.idForSelectedVehicle !== state.selectedId)){
             props.GetVehicleDetailForId(props.idForSelectedVehicle);
             return {
                 selectedId : props.idForSelectedVehicle
