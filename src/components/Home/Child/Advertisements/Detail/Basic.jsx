@@ -63,10 +63,10 @@ class Basic extends React.Component {
                                 </div>
                             </div>
 
-                            {/* <div className="row form-group">
+                            <div className="row form-group">
                                 <div className="col-md-12">
                                     <Label>Media</Label>
-                                    <div className="progress">
+                                    {/*<div className="progress">
                                     <div className="progress-bar progress-bar-striped progress-bar-animated"
                                         role="progressbar"
                                         aria-valuenow={this.props.onProgress}
@@ -75,12 +75,12 @@ class Basic extends React.Component {
                                         style={{ width: this.props.onProgress + "%" }}>
                                         {this.props.onProgress}%
                                     </div>
-                                    </div>
+                                    </div>*/}
                                     <div className="form-group files">
                                         <input type="file" className="form-control" onChange={this.props.fileChangedHandler} />
                                     </div>
                                 </div>
-                            </div> */}
+                            </div> 
 
                             <div className="row form-group">
                                 <div className="col-md-12">
