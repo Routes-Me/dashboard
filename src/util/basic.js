@@ -29,7 +29,7 @@ export function returnCampaignIds(campaigns)
 
 export function validate(value)
 {
-    return value === null ? '--' : value;
+    return value === undefined ? '--' : value === null ? '--' : value;
 }
 
 export function returnObjectForSelectedId(list, id){
