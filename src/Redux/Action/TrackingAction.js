@@ -90,15 +90,10 @@ export function SubscribeToHub(role,user) {
 export function CheckConnectivity(){
     if(hubConnection.state === 0)
     {
-        console.log('!!Re-InitializingHub!!')
-        InitializeHub(token);
-        // SubscribeToHub(role, user);
-        console.log('!!Connecting the hub!!');
+        console.log('!!Reconnecting Hub...');
         hubConnection.start()
         .then(() => {
             console.log('!!Hub Connected!!');
-            clearInterval(reconnectingInterval);
-            SubscribeToHub(role, user);
             // dispatch(Connected());
         })
         .catch(err => console.error("!!Error while establishing connection : " + err));
