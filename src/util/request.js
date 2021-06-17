@@ -69,7 +69,7 @@ function (error) {
       originalRequest._retry = true;
       requestRefreshToken()
       .then(res => {
-          if (res.status === 201) {
+          if (res.status === 201 || res.status === 200) {
               // 1) put token to LocalStorage
               setRefreshToken(res.data.refreshToken);
               setToken(res.data.accessToken)
@@ -92,7 +92,7 @@ const requestRefreshToken = async() => {
   console.log('refreshToken ',refreshToken);
   return instance.post('authentications/renewals',
   {
-      "refresh_token": refreshToken
+      "refreshToken": refreshToken
   })
   .then(
     function(response) {
