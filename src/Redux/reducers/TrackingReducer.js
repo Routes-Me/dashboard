@@ -7,7 +7,7 @@ const INITIAL_STATE = {
     error: null,
     MovedVehicle: "",
     IdleVehicles: [],
-    idForSelectedVehicle:0,
+    idForSelectedVehicle:'',
     SelectedVehicle:''
 };
 
