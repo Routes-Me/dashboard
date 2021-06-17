@@ -109,7 +109,8 @@ export function UnsubscribeFromHub() {
     clearInterval(reconnectingInterval); //removed interval check on unssubscribe
     return dispatch => {
         dispatch(Unsubscribe());
-        if(hubConnection.state === 0)
+        console.log('Hub State ', hubConnection.state);
+        if(hubConnection.state === 1)
         {
             hubConnection.stop()
             .then(() => {                                                                                                                                                                                                                                                                                                                                                        
