@@ -91,8 +91,10 @@ export function userSignInRequestV1(username, password) {
       .then((response) => {
         //console.log('response ', response.headers);
           const token = response.data.token;
+          const refreshToken = response.data.refreshToken;
+          console.log('refreshToken ',refreshToken);
           setToken(token);
-          //setRefreshToken('eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBNjc5NTIwNjI0IiwicmVmIjoiMTYyMzE1OTgxMDAzOCIsInN0bSI6IlUzZGFrdWVoUkhsRk0wNU1OVU5qU1ZGaE9IbEVNbTluU25kbmNtWjFTVEJJVFZCWmRVeDRVMloyY1VKQlZRPT0iLCJleHAiOjE2MzExMDg2MTAsImlzcyI6Imh0dHBzOi8vcm91dGVzbWUuY29tIiwiYXVkIjoiaHR0cHM6Ly9yZW5ld2Fscy5yb3V0ZXNtZS5jb20ifQ.l2cY0H8qjse3qQw4979AZnMH_8qhG-Zn_Po8mUc2uz8')
+          setRefreshToken(refreshToken);
           dispatch(onReceiveToken(token));
           const tokenPayLoad = parseJwt(token);
           const role  = JSON.parse(atob(tokenPayLoad.rol));
