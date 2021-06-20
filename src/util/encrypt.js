@@ -105,7 +105,7 @@ export function encryptAndEncode(PASSWORD)
 
 
 function generateRandomPosition(){
-    var numbers = '012345';
+    var numbers = '01234';
     var numbersLength = numbers.length;
     var result = numbers.charAt(Math.floor(Math.random() * numbersLength));
     return result;
