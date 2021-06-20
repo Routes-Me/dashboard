@@ -198,7 +198,8 @@ class VehicleDetail extends React.Component {
                                     value={this.state.institution ? this.state.institution.name : 'Please select a institution'}
                                     onChange={this.onChange}
                                     className="form-control" />
-                                    <select value={this.state.institutionId} className="custom-select" size='5' name="institutionId" onChange={this.onChange}>
+                                    <select value={this.state.institutionId} className="custom-select" size='6' name="institutionId" onChange={this.onChange}>
+                                    <option key={0} className="dropdown-item" value={0}>Select an Institution</option>
                                     {this.props.InstitutionList.data?.map(institution => (<option key={institution.institutionId} className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
                                     </select>
                                     <PageHandler page = {this.props.InstitutionList.page} getList={this.props.getInstitutions} institutionId={this.props.user.institution.InstitutionId}/>
@@ -231,7 +232,7 @@ class VehicleDetail extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        InstitutionList: state.InstitutionStore.Institutions,
+        InstitutionList: state.InstitutionStore?.Institutions,
         MakersList: state.VehicleStore.Makes,
         ModelsList: state.VehicleStore.Models,
         DialogId : state.VehicleStore.selectedId,
