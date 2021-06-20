@@ -9,7 +9,7 @@ import {clearStorage} from '../../util/localStorage'
 
 
 
-  class LoginForm extends Component{
+class LoginForm extends Component{
 
 	constructor(props) {
 
@@ -29,7 +29,8 @@ import {clearStorage} from '../../util/localStorage'
 			userId: '',
 			usernameError: '',
 			passwordError: '',
-			isValid: false
+			isValid: false,
+			inputType: 'password'
 		};
 	}
 
@@ -57,6 +58,14 @@ import {clearStorage} from '../../util/localStorage'
 	onChange(e) {
 		this.setState({ [e.target.name]: e.target.value });
 		// this.validateAll();
+	}
+
+	isPasswordType = (text) => text === 'password' ? true : false
+
+	togglePassword = (e) => {
+		e.preventDefault();
+		const type = this.isPasswordType(this.state.inputType) ? 'text' : 'password';
+		this.setState({inputType: type });
 	}
 
 
@@ -107,10 +116,10 @@ import {clearStorage} from '../../util/localStorage'
 
 
 								<div className="input-group">
-									<Input placeholder="Password" className="form-control password" type="password" value={this.state.password} onChange={this.onChange} name="password" validations={[required]} />
+									<Input placeholder="Password" className="form-control password" type={this.state.inputType} value={this.state.password} onChange={this.onChange} name="password" validations={[required]} />
 									<span className="form-error is-visible">{this.state.passwordError}</span>                                
-									<div class="input-group-addon">
-                                		<a href=""><i class="fa fa-eye-slash" aria-hidden="true"></i></a>
+									<div class="input-group-addon" onClick={e => {this.togglePassword(e)}}>
+                                			<a><i className={this.isPasswordType(this.state.inputType) ? `fa fa-eye-slash`:`fa fa-eye`} aria-hidden="true"></i></a>
                                     </div>
                                 </div>
 
