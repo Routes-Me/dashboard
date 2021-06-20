@@ -147,7 +147,7 @@ class VehicleDetail extends React.Component {
                     objectList={searchList} 
                     onSelect={this.updateSelectedId} />
 
-                        <div className="col-md-12" style={{padding:'0px'}}>
+                        <div className="col-md-12 padding-bottom-80" style={{paddingLeft:'0px'}}>
 
                             <div className="row form-group">
                                 <div className="col-md-6">
