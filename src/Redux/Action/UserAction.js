@@ -233,21 +233,20 @@ function returnFormatedResponseForUsers(response) {
     const usersList = response.data.included?.users !== undefined ? response.data.included.users:[];
     const institutionList = response.data.included?.institution !== undefined ? response.data.included.institution:[];
   
-        const formatedUsers = usersList.map((x) => ({
+        const formatedUsers = response.data.data.map((x) => ({
         userId: x.userId,
         name: usersList.filter(y => y.UserId === x.userId)[0]?.Name,
         email: usersList.filter(y => y.UserId === x.userId)[0]?.Email,
         phone: validate(x.phone),
-        createdAt: validate(x.createdAt),
+        createdAt: validate(usersList.filter(y => y.UserId === x.userId)[0]?.CreatedAt),
         roles:x.roles,
-        institution: institutionList.filter(y => y.institutionId === x.institutionId)[0]
+        institution: institutionList.filter(y => y.InstitutionId === x.institutionId)[0]
     }));
 
     let users= {
       data : formatedUsers,
       page : response.data.pagination
     }
-  
     return users;
 }
 
