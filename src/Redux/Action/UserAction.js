@@ -235,12 +235,12 @@ function returnFormatedResponseForUsers(response) {
   
         const formatedUsers = response.data.data.map((x) => ({
         userId: x.userId,
-        name: usersList.filter(y => y.UserId === x.userId)[0]?.Name,
-        email: usersList.filter(y => y.UserId === x.userId)[0]?.Email,
+        name: usersList.filter(y => y.userId === x.userId)[0]?.name,
+        email: usersList.filter(y => y.userId === x.userId)[0]?.email,
         phone: validate(x.phone),
-        createdAt: validate(usersList.filter(y => y.UserId === x.userId)[0]?.CreatedAt),
+        createdAt: validate(usersList.filter(y => y.userId === x.userId)[0]?.createdAt),
         roles:x.roles,
-        institution: institutionList.filter(y => y.InstitutionId === x.institutionId)[0]
+        institution: institutionList.filter(y => y.institutionId === x.institutionId)[0]
     }));
 
     let users= {
