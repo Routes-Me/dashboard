@@ -191,7 +191,7 @@ class Emm extends Component {
                         {list?.map(policy => (
                             <tr key={policy.name}>
                             <td>{policy.version}</td>
-                            <td>{policy.name}</td>
+                            <td>{policy.name.replace('enterprises/LC02my9vtl/policies/','')}</td>
                             <td>{policy.applications && policy.applications[0].packageName}</td>
                             <td>{policy.applications && policy.applications[0].installType}</td>
                             <td className="width20" onClick={e => this.openSubMenu(e,policy.name)}>
@@ -228,7 +228,7 @@ class Emm extends Component {
                         {list?.map(device => (
                             <tr key={device.hardwareInfo?.serialNumber}>
                             <td>{device.hardwareInfo?.serialNumber}</td>
-                            <td>{device.name}</td>
+                            <td>{device.name.replace('enterprises/LC02my9vtl/devices/','')}</td>
                             <td>{device.ownership}</td>
                             <td>{device.lastPolicySyncTime}</td>
                             <td>{device.enrollmentTime?.substr(0, 10)}</td>
