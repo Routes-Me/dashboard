@@ -85,7 +85,8 @@ class Basic extends React.Component {
                             <div className="row form-group">
                                 <div className="col-md-12">
                                     <Label>Campaigns</Label><br/>
-                                    <select className="custom-select" multiple size="5" value={this.props.advertisementToDisplay.campaigns} name="campaigns" onChange={this.props.onChange}>
+                                    <select className="custom-select" multiple size="6" value={this.props.advertisementToDisplay.campaigns} name="campaigns" onChange={this.props.onChange}>
+                                    <option key={0} className="dropdown-item" value={0}>Select a campaign</option>
                                         {this.props.Campaigns.data?.map(campaign => (<option className="dropdown-item" value={campaign.campaignId}>{campaign.title}</option>))}
                                     </select>
                                     <PageHandler page = {this.props.Campaigns?.page} getList={this.props.getCampaigns}/>
@@ -121,7 +122,8 @@ class Basic extends React.Component {
                                     value={this.props.advertisementToDisplay.institution ? this.props.advertisementToDisplay.institution.name : 'Please select a institution'}
                                     onChange={this.onChange}
                                     className="form-control" />
-                                    <select className="custom-select"  size='5' value={this.props.advertisementToDisplay.institution?.institutionId } name="institution" onChange={this.props.onChange}>
+                                    <select className="custom-select"  size='6' value={this.props.advertisementToDisplay.institution?.institutionId } name="institution" onChange={this.props.onChange}>
+                                    <option key={0} className="dropdown-item" value={0}>Select an Institution</option>
                                         {this.props.InstitutionList.data?.map(institution => (<option className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
                                     </select>
                                     <PageHandler page = {this.props.InstitutionList?.page} getList={this.props.getInstitutions}/>
