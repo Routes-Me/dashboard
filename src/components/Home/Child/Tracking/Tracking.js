@@ -243,20 +243,9 @@ class Tracking extends Component {
     }
 
     getIcon = (id) => {
-
-        let activeIcon = L.icon({
-            iconUrl: activeMarker,
-            iconSize: [25,25]
-        });
-    
-        let idleIcon = L.icon({
-            iconUrl :selectedMarker,
-            iconSize: [30,30]
-        });
-    
-        let icon = activeIcon
-        if(this.state.selectedId !== undefined)
-        icon = this.state.selectedId !== '' && id !== this.state.selectedId ? idleIcon : activeIcon ;
+        let icon = 1
+        if(this.props.idForSelectedVehicle !== undefined)
+        icon = this.props.idForSelectedVehicle !== '' && id !== this.props.idForSelectedVehicle ? 0.6 : 1 ;
         return icon;
     }
 
@@ -271,6 +260,11 @@ class Tracking extends Component {
         const vehicles = this.state.vehicles;
         const devicesCount = this.props.VehicleList.pagination?.total;
         const idleVehicleCount = devicesCount - this.state.activeCount;
+
+        let activeIcon = L.icon({
+            iconUrl: activeMarker,
+            iconSize: [25,25]
+        });
         
         return (
             <div style={{ height: "100vh", width: "100%" }}>
@@ -302,8 +296,9 @@ class Tracking extends Component {
                     {vehicles.map(point =>(
 
                             <Marker 
-                                icon={this.getIcon(point.id)}
+                                icon={activeIcon}
                                 key={point.id}
+                                opacity={this.getIcon(point.id)}
                                 position={[point.coordinates.lat,point.coordinates.lng]}
                                 eventHandlers={{
                                     click: () => {
