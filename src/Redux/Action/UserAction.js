@@ -2,6 +2,7 @@
 import apiHandler from '../../util/request';
 import { validate, returnEntityForInstitution } from '../../util/basic';
 import axios from "axios";
+import { history } from '../../helper/history';
 
 
 //Get UsersList
@@ -257,11 +258,11 @@ function returnFormatedResponseForUsers(response) {
 export function sendInvitation(user) {
 
     return dispatch => {
-        dispatch(saveUserDataRequest);
+        dispatch(sendInvitationRequest);
           apiHandler.post('invitations', user)
               .then(
                 users => {
-                    dispatch(saveUserDataSuccess());
+                    dispatch(saveInvitationSuccess());
                 },
                 error => {
                     alert(error.Message );
@@ -269,30 +270,33 @@ export function sendInvitation(user) {
     }
 
 }
-function saveUserDataRequest() { return { type: userConstants.sendInvitation_REQUEST } }
-function saveUserDataSuccess() { return { type: userConstants.sendInvitation_SUCCESS } }
+function sendInvitationRequest() { return { type: userConstants.sendInvitation_REQUEST } }
+function saveInvitationSuccess() { return { type: userConstants.sendInvitation_SUCCESS } }
 
 
 
 export function register(user,token) {
 
   return dispatch => {
-      dispatch(saveUserDataRequest);
+      dispatch(registerUserRequest());
         apiHandler.post('registrations/dashboard-app',user,{
           headers : { 'Authorization' : `Bearer ${token}` }
         })
             .then(
               users => {
-                  dispatch(saveUserDataSuccess());
+                  history.push('/');
+                  dispatch(registerUserSuccess());
               },
               error => {
                   console.log('error register ', error);
                   alert(error);
               });
   }
-
 }
 
+function registerUserRequest() { return { type: userConstants.registerUser_REQUEST } }
+function registerUserSuccess() { return { type: userConstants.registerUser_SUCCESS } }
+function registerUserError() { return { type: userConstants.registerUser_ERROR } }
 
 export function saveApplications(application, action){
   return dispatch =>{

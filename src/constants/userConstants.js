@@ -65,6 +65,11 @@
     savePrivilidges_SUCCESS    : 'SAVEPRIVILIDGES_SUCCESS',
     savePrivilidges_ERROR      : 'SAVEPRIVILIDGES_ERROR',
 
+    registerUser_REQUEST    : 'REGISTERUSER_REQUEST',
+    registerUser_SUCCESS    : 'REGISTERUSER_SUCCESS',
+    registerUser_ERROR      : 'REGISTERUSER_ERROR',
+
+
     UpdatePage: "UPDATE_PAGE",
 
 

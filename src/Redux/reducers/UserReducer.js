@@ -109,6 +109,20 @@ const UserReducer = (state = INITIAL_STATE, action) => {
                 hasError: false,
                 ActionState: userConstants.savePrivilidges_SUCCESS
             };
+        case userConstants.registerUser_REQUEST:
+            return {
+                ...state,
+                Loading: true,
+                hasError: false,
+                ActionState: userConstants.registerUser_REQUEST
+            };
+        case userConstants.registerUser_SUCCESS:
+            return {
+                ...state,
+                Loading: false,
+                hasError: false,
+                ActionState: userConstants.registerUser_SUCCESS
+            };
         case userConstants.UpdatePage:
             return {
                 ...state,
