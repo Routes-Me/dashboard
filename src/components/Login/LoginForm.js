@@ -111,7 +111,7 @@ class LoginForm extends Component{
 						<p className="account">with your Routes Account<a href="http://routesme.com/" rel="noopener noreferrer" target="_blank">Learn more</a> </p>
 
 						<Form onSubmit={this.handleSubmit}>
-								<Input placeholder="Email" className="form-control email" type="string" value={this.state.username} onChange={this.onChange} name="username" validations={[email]} />
+								<Input placeholder="Email" className="form-control email" type="email" value={this.state.username} onChange={this.onChange} name="username" validations={[email]} />
 								<span className="form-error is-visible">{this.state.usernameError}</span>
 
 
@@ -119,7 +119,7 @@ class LoginForm extends Component{
 									<Input placeholder="Password" className="form-control password" type={this.state.inputType} value={this.state.password} onChange={this.onChange} name="password" validations={[required]} />
 									<span className="form-error is-visible">{this.state.passwordError}</span>                                
 									<div class="input-group-addon" onClick={e => {this.togglePassword(e)}}>
-                                			<a><i className={this.isPasswordType(this.state.inputType) ? `fa fa-eye-slash`:`fa fa-eye`} aria-hidden="true"></i></a>
+                                		<a><i className={this.isPasswordType(this.state.inputType) ? `fa fa-eye-slash`:`fa fa-eye`} aria-hidden="true"></i></a>
                                     </div>
                                 </div>
 
