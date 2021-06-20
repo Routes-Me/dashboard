@@ -2,6 +2,7 @@
 import SecondaryList from './SecondaryList';
 import { connect } from 'react-redux';
 import * as VehicleAction from '../../../../Redux/Action';
+import * as TrackingAction from '../../../../Redux/Action';
 
 class SecondaryTracking extends Component {
 
@@ -17,8 +18,8 @@ class SecondaryTracking extends Component {
     renderAllVehicles(VehicleListToBeRendered) {
         return (
             <div>{
-                this.props.idForSelectedVehicle > 0 && 
-                    <SecondaryList vehicle={VehicleListToBeRendered}/>
+                this.props.idForSelectedVehicle !== '' && 
+                    <SecondaryList vehicle={VehicleListToBeRendered} dismissInfo={this.props.updateMarker}/>
             }</div>
         )
     }
@@ -32,7 +33,7 @@ class SecondaryTracking extends Component {
                 }
             }
         }
-        if (props.idForSelectedVehicle !== 0 && (props.idForSelectedVehicle !== state.selectedId)){
+        if (props.idForSelectedVehicle !=='' && (props.idForSelectedVehicle !== state.selectedId)){
             props.GetVehicleDetailForId(props.idForSelectedVehicle);
             return {
                 selectedId : props.idForSelectedVehicle
@@ -75,7 +76,8 @@ const mapStateToProps = (state) => {
 }
 
 const actionCreators = {
-    GetVehicleDetailForId : VehicleAction.getVehicleDetails
+    GetVehicleDetailForId : VehicleAction.getVehicleDetails,
+    updateMarker : TrackingAction.updateSelectedMarker
 };
 
 const connectTracking = connect(mapStateToProps, actionCreators)(SecondaryTracking);

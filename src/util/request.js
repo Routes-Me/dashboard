@@ -66,20 +66,20 @@ function (error) {
   }
 
   if (error.response.status === 401 && originalRequest.url !== config.refreshTokenURL) {
-      // originalRequest._retry = true;
-      // requestRefreshToken()
-      // .then(res => {
-      //     if (res.status === 201) {
-      //         // 1) put token to LocalStorage
-      //         setRefreshToken(res.data.refreshToken);
-      //         setToken(res.data.accessToken)
-      //         // 2) Change Authorization header
-      //         axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.accessToken;
-      //         // 3) return originalRequest object with Axios.
-      //         return axios(originalRequest);
-      //     }
-      // })
-      history.push('/');
+      originalRequest._retry = true;
+      requestRefreshToken()
+      .then(res => {
+          if (res.status === 201 || res.status === 200) {
+              // 1) put token to LocalStorage
+              setRefreshToken(res.data.refreshToken);
+              setToken(res.data.accessToken)
+              // 2) Change Authorization header
+              axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.accessToken;
+              // 3) return originalRequest object with Axios.
+              return axios(originalRequest);
+          }
+      })
+      // history.push('/');
   }
 
   // return Error object with Promise
@@ -87,12 +87,12 @@ function (error) {
 });
 
 
-const requestRefreshToken = () => {
-  const refreshToken = getRefreshToken();
+const requestRefreshToken = async() => {
+  const refreshToken = await getRefreshToken();
   console.log('refreshToken ',refreshToken);
   return instance.post('authentications/renewals',
   {
-      "refresh_token": refreshToken
+      "refreshToken": refreshToken
   })
   .then(
     function(response) {

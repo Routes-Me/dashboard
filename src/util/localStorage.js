@@ -32,14 +32,14 @@ import cookie from 'react-cookies';
     }
 
     export async function getRefreshToken() {
-        let refreshToken = cookie.load('refreshToken');
-        return refreshToken;
+            let refreshToken = await cookie.load('refreshToken');
+            return refreshToken;
     }
 
     export async function clearStorage() {
         cookie.remove('token');
-        localStorage.removeItem('token');
-        localStorage.removeItem('refreshToken');
+        cookie.remove('refreshToken');
+        cookie.remove('role');
         localStorage.removeItem('state');
     }
 

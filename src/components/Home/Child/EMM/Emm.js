@@ -219,7 +219,7 @@ class Emm extends Component {
                             <th>Serial No</th>
                             <th>Name</th>
                             <th>Ownership</th>
-                            <th>Status</th>
+                            <th>Sync Time</th>
                             <th>Enrollment Time</th>
                             <th className="width20"/>
                             </tr>
@@ -230,7 +230,7 @@ class Emm extends Component {
                             <td>{device.hardwareInfo?.serialNumber}</td>
                             <td>{device.name}</td>
                             <td>{device.ownership}</td>
-                            <td>{device.state}</td>
+                            <td>{device.lastPolicySyncTime}</td>
                             <td>{device.enrollmentTime?.substr(0, 10)}</td>
                             <td className="width20" onClick={e => this.openSubMenu(e,device.name)}>
                                     <div className="edit-popup">
