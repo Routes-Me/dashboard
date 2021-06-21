@@ -49,8 +49,6 @@ class Tracking extends Component {
         this.state = {
 
             loading: false,
-            latitude: '',
-            longitude: '',
             vehicles: [],
             center: "",
             zoom: this.props.zoom,
@@ -75,7 +73,7 @@ class Tracking extends Component {
 
     static getDerivedStateFromProps(props, state) {
         
-        if (props.movedVehicle !== undefined && props.movedVehicle != "")
+        if (props.movedVehicle !== undefined && props.movedVehicle !== "")
         {
             let i = state.vehicles.findIndex(vehicle=> vehicle.id === props.movedVehicle.id);
             state.vehicles[i] ? state.vehicles[i] = props.movedVehicle : state.vehicles.push(props.movedVehicle);
@@ -223,10 +221,7 @@ class Tracking extends Component {
                 this.props.UpdateVehicle('')
             }
             this.setState({
-                latitude: point.coordinates.lat,
-                longitude: point.coordinates.lng,
-                hover: true,
-                selectedId: point.id
+                selectedId: this.props.idForSelectedVehicle === point.id ? '' : point.id
             });
 
             this.props.UpdateTheSelectedMarker(this.props.idForSelectedVehicle === point.id ? '' : point.id);
@@ -247,44 +242,30 @@ class Tracking extends Component {
         }
     }
 
+    getIcon = (id) => {
+        let icon = 1
+        if(this.props.idForSelectedVehicle !== undefined)
+        icon = this.props.idForSelectedVehicle !== '' && id !== this.props.idForSelectedVehicle ? 0.6 : 1 ;
+        return icon;
+    }
+
 
 
     render() {
-
-
         const position = [29.378586, 47.990341]
-        let activeIcon = L.icon({
-            iconUrl: activeMarker,
-            iconSize: [25,25]
-        });
-
-        let idleIcon = L.icon({
-            iconUrl :selectedMarker,
-            iconSize: [30,30]
-        })
-
-        function getIcon(id){
-
-            if(this.props.idForSelectedVehicle!== ''){
-                if(id===this.props.idForSelectedVehicle)
-                return idleIcon;
-                else
-                return activeIcon;
-            }
-            else{
-                return activeIcon;
-            }
-
-        }
-
         //L.Marker.prototype.options.icon = activeIcon;
-
         //const { results } = this.props;
         const { center } = this.state.center;
         const { clusters, selectedId } = this.state;
         const vehicles = this.state.vehicles;
         const devicesCount = this.props.VehicleList.pagination?.total;
         const idleVehicleCount = devicesCount - this.state.activeCount;
+
+        let activeIcon = L.icon({
+            iconUrl: activeMarker,
+            iconSize: [25,25]
+        });
+        
         return (
             <div style={{ height: "100vh", width: "100%" }}>
 
@@ -307,8 +288,8 @@ class Tracking extends Component {
                     <h4 style={{margin:'10px'}}>{idleVehicleCount > 0 ? idleVehicleCount : 0}</h4>
                     </div>
                     <TileLayer
-                      attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                      url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+                        attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
 
                     
 
@@ -317,10 +298,11 @@ class Tracking extends Component {
                             <Marker 
                                 icon={activeIcon}
                                 key={point.id}
+                                opacity={this.getIcon(point.id)}
                                 position={[point.coordinates.lat,point.coordinates.lng]}
                                 eventHandlers={{
                                     click: () => {
-                                      this.onChildClick(point)
+                                        this.onChildClick(point)
                                     },}}>
                             </Marker>
 
@@ -347,10 +329,6 @@ class Tracking extends Component {
 
 
 const mapStateToProps = (state) => {
-
-    //const vehicles = [...state.Tracking.ActiveVehicles, ...state.Tracking.IdleVehicles]
-  //  const points = vehicles.map(result => ({ id: parseInt(result.deviceId), status: result.status, lat: parseFloat(result.coordinates.latitude), lng: parseFloat(result.coordinates.longitude) }))
-    //console.log('Mapped State Array returned :', points);
     return {
         //result: points,
         VehicleList: state.Tracking.IdleVehicles,//state.VehicleStore.Vehicles,

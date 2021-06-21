@@ -2,6 +2,7 @@
 import apiHandler from '../../util/request';
 import { validate, returnEntityForInstitution } from '../../util/basic';
 import axios from "axios";
+import { history } from '../../helper/history';
 
 
 //Get UsersList
@@ -233,12 +234,12 @@ function returnFormatedResponseForUsers(response) {
     const usersList = response.data.included?.users !== undefined ? response.data.included.users:[];
     const institutionList = response.data.included?.institution !== undefined ? response.data.included.institution:[];
   
-        const formatedUsers = usersList.map((x) => ({
+        const formatedUsers = response.data.data.map((x) => ({
         userId: x.userId,
-        name: usersList.filter(y => y.UserId === x.userId)[0]?.Name,
-        email: usersList.filter(y => y.UserId === x.userId)[0]?.Email,
+        name: usersList.filter(y => y.userId === x.userId)[0]?.name,
+        email: usersList.filter(y => y.userId === x.userId)[0]?.email,
         phone: validate(x.phone),
-        createdAt: validate(x.createdAt),
+        createdAt: validate(usersList.filter(y => y.userId === x.userId)[0]?.createdAt),
         roles:x.roles,
         institution: institutionList.filter(y => y.institutionId === x.institutionId)[0]
     }));
@@ -247,7 +248,6 @@ function returnFormatedResponseForUsers(response) {
       data : formatedUsers,
       page : response.data.pagination
     }
-  
     return users;
 }
 
@@ -258,11 +258,11 @@ function returnFormatedResponseForUsers(response) {
 export function sendInvitation(user) {
 
     return dispatch => {
-        dispatch(saveUserDataRequest);
+        dispatch(sendInvitationRequest);
           apiHandler.post('invitations', user)
               .then(
                 users => {
-                    dispatch(saveUserDataSuccess());
+                    dispatch(saveInvitationSuccess());
                 },
                 error => {
                     alert(error.Message );
@@ -270,30 +270,33 @@ export function sendInvitation(user) {
     }
 
 }
-function saveUserDataRequest() { return { type: userConstants.sendInvitation_REQUEST } }
-function saveUserDataSuccess() { return { type: userConstants.sendInvitation_SUCCESS } }
+function sendInvitationRequest() { return { type: userConstants.sendInvitation_REQUEST } }
+function saveInvitationSuccess() { return { type: userConstants.sendInvitation_SUCCESS } }
 
 
 
 export function register(user,token) {
 
   return dispatch => {
-      dispatch(saveUserDataRequest);
+      dispatch(registerUserRequest());
         apiHandler.post('registrations/dashboard-app',user,{
           headers : { 'Authorization' : `Bearer ${token}` }
         })
             .then(
               users => {
-                  dispatch(saveUserDataSuccess());
+                  history.push('/');
+                  dispatch(registerUserSuccess());
               },
               error => {
                   console.log('error register ', error);
                   alert(error);
               });
   }
-
 }
 
+function registerUserRequest() { return { type: userConstants.registerUser_REQUEST } }
+function registerUserSuccess() { return { type: userConstants.registerUser_SUCCESS } }
+function registerUserError() { return { type: userConstants.registerUser_ERROR } }
 
 export function saveApplications(application, action){
   return dispatch =>{

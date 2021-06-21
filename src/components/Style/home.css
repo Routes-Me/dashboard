@@ -1,10 +1,10 @@
 ﻿.padding-lr-80 {
-  padding: 0 80px;
-  padding-top: 76px;
+  padding: 76px 80px 80px 80px;
 }
 
 .padding-lr-80-top-0 {
   padding: 0 80px;
+  padding-bottom: 80px;
 }
 
 .left-panel {

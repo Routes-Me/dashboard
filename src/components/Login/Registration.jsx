@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { userConstants } from '../../constants/userConstants';
 import bg from '../../images/register-bg.svg';
 import * as UserAction from '../../Redux/Action';
 import { encryptAndEncode } from '../../util/encrypt';
+import Launch from '../Launch';
 
 class Registration extends Component {
 
@@ -76,6 +78,7 @@ class Registration extends Component {
         return (
 
             <div className="container-fluid h-100" style={{padding:'52px'}}>
+                {this.props.ApplicationState === userConstants.registerUser_REQUEST ? <Launch/> :
                 <div class="row align-items-center h-100">
                 <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                     <form className='col-lg-8 col-md-12 my-auto mx-auto needs-validation' onSubmit={this.handleSubmit}>
@@ -116,14 +119,15 @@ class Registration extends Component {
                 <div className="col-sm-6 d-none d-lg-block">
                 <img className="img-fluid mx-auto d-block" alt="Responsive image" src={bg} />
                 </div>
-                </div>
+                </div>}
             </div>
         )
     }
 }
 
 const mapStateToProps = (state) => ({
-    Invitee : state.UserStore.Invitee
+    Invitee : state.UserStore.Invitee,
+    ApplicationState : state.UserStore.ActionState
 })
 
 const mapDispatchToProps = {
