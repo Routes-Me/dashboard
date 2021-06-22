@@ -60,7 +60,7 @@ class Tracking extends Component {
                 zoom: MAP.defaultZoom
             },
             clusters: [],
-            timeout: 100000 * 30 * 1,  //10000 * 20 * 1,
+            timeout: 5 * 60 * 1000,  //10000 * 20 * 1,
             showModal: false,
             isTimedOut: false,
             timeOffUnmount:'',
@@ -182,11 +182,11 @@ class Tracking extends Component {
     _onIdle(e) {
 
         const isTimedOut = this.state.isTimedOut
-        if (isTimedOut) {
+        if (!isTimedOut) {
             console.log("Timed Out!!!")
             this.props.UnSubscribeToHub();
+            this.setState({ showModal: true });
         } else {
-            this.setState({ showModal: true })
             this.idleTimer.reset();
             this.setState({ isTimedOut: true })
         }
@@ -249,6 +249,34 @@ class Tracking extends Component {
         return icon;
     }
 
+    subscribe = () => {
+        this.props.SubscribeToHub(this.props.role,this.props.user);
+    }
+
+
+    returnModel = () => {
+        return(
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Your session has expired due to inactivity!! Kindly reconnect to see the live feeds again.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok Disconnect</button>
+                        <button type="button" class="btn btn-primary" onClic={e => this.subscribe()}>Reconnect the hub</button>
+                    </div>
+                </div>
+            </div>
+        </div>);
+    }
+
 
 
     render() {
@@ -268,6 +296,8 @@ class Tracking extends Component {
         
         return (
             <div style={{ height: "100vh", width: "100%" }}>
+
+                {this.state.showModal && this.returnModel()}
 
                 <IdleTimer
                     ref={ref => { this.idleTimer = ref }}
@@ -317,10 +347,7 @@ class Tracking extends Component {
 
                 </MapContainer>
             </div>
-
-            
-            )
-       
+        )
     }
 }
 
