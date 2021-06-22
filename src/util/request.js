@@ -5,7 +5,8 @@ import {getToken, setToken, setRefreshToken, clearStorage, getRefreshToken} from
 
 
 const apiURL = process.env.REACT_APP_APIDOMAIN;
-let requestRefreshTokenInterval = '';
+let retryRefreshTokenInterval = '';
+let automateRefreshTokenInterval = '';
 
 console.log(`Domain :: ${process.env.NODE_ENV} URL in Axios ${apiURL}`);
 
@@ -36,13 +37,19 @@ instance.interceptors.request.use(
 
   },
   function (error) {
-    history.push('/');
     return Promise.reject(error);
   }
 
 );
 
 instance.interceptors.response.use((response) => {
+  if(response.status === 200 && response.config.url === config.authenticationURL)
+  {
+    clearInterval(automateRefreshTokenInterval);
+    automateRefreshTokenInterval = setInterval(() => {
+      requestRefreshToken();
+    }, 14*60*1000);
+  }
   return response
 },
 function (error) {
@@ -52,14 +59,13 @@ function (error) {
   {
     if(statusCode === 406)
     {
-      console.log(`Status Code : ${statusCode}`)
-      console.log('RefreshToken Expired')
+      console.log('RefreshToken Expired');
       clearStorage();
       history.push('/');
     }
     if(statusCode === 400)
     {
-      requestRefreshTokenInterval = setTimeout(() => {
+      retryRefreshTokenInterval = setInterval(() => {
         requestRefreshToken();
       }, 5*60000);
     }
@@ -71,8 +77,6 @@ function (error) {
       .then(res => {
           if (res.status === 201 || res.status === 200) {
               // 1) put token to LocalStorage
-              setRefreshToken(res.data.refreshToken);
-              setToken(res.data.accessToken)
               // 2) Change Authorization header
               axios.defaults.headers.common['Authorization'] = 'Bearer ' + res.data.accessToken;
               // 3) return originalRequest object with Axios.
@@ -89,14 +93,16 @@ function (error) {
 
 const requestRefreshToken = async() => {
   const refreshToken = await getRefreshToken();
-  console.log('refreshToken ',refreshToken);
+  console.log('refreshToken triggered',refreshToken);
   return instance.post('authentications/renewals',
   {
       "refreshToken": refreshToken
   })
   .then(
     function(response) {
-      clearInterval(requestRefreshTokenInterval);
+      clearInterval(retryRefreshTokenInterval);
+      setRefreshToken(response.data.refreshToken);
+      setToken(response.data.accessToken);
       return response;
     },
     function(error) {
