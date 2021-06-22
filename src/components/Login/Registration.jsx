@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { userConstants } from '../../constants/userConstants';
 import bg from '../../images/register-bg.svg';
 import * as UserAction from '../../Redux/Action';
-import { encryptAndEncode } from '../../util/encrypt';
+import { encryptAndEncode, parseJwt } from '../../util/encrypt';
 import Launch from '../Launch';
 
 class Registration extends Component {
@@ -16,7 +16,7 @@ class Registration extends Component {
             recipientName : "",
             password: "",
             confirmPassword: "",
-            invitationId :''
+            invitation :''
         };
     }
 
@@ -24,8 +24,11 @@ class Registration extends Component {
         const queryString = require('query-string');
         let invObj = queryString.parse(this.props.location.search);
         console.log('Params ',invObj);
-        this.setState({ invitation : invObj });
-        this.props.getInviteeInfo(invObj.inv, invObj.tk);
+        const tokenPayLoad = parseJwt(invObj.tk);
+        const invId = tokenPayLoad.sub;
+        let invObjt = { inv:invId, tk:invObj.tk}
+        this.setState({ invitation : invObjt });
+        this.props.getInviteeInfo(invId, invObj.tk);
     }
 
     validateResetForm() {
@@ -58,13 +61,11 @@ class Registration extends Component {
         event.preventDefault();
         console.log("States:", this.state);
 
-        const userInfo = JSON.parse(atob(this.props.Invitee.data));
 
         const Invitee = {
             email:this.state.email,
             password: encryptAndEncode(this.state.password),
             name: this.state.recipientName,
-            institutionId: userInfo.InstitutionId,
             invitationId: this.state.invitation.inv
         }
 
