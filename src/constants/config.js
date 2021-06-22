@@ -54,6 +54,7 @@ export const config = {
     ROU : "support",
 
     refreshTokenURL : 'authentications/renewals',
+    authenticationURL : 'authentications',
 
     Pagelimit : 20,
     DropDownLimit : 5,

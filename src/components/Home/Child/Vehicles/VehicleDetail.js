@@ -8,7 +8,7 @@ import * as InstitutionAction from '../../../../Redux/Action';
 import Modal from '../Dialog/Modal';
 import { vehicleConstants } from "../../../../constants/vehicleConstants";
 import {config} from "../../../../constants/config";
-import { returnObjectForSelectedId } from '../../../../util/basic';
+import { isSU, returnObjectForSelectedId } from '../../../../util/basic';
 
 class VehicleDetail extends React.Component {
 
@@ -191,7 +191,7 @@ class VehicleDetail extends React.Component {
                                 </div>
                             </div>
 
-                            <div className="row form-group">
+                            {isSU(this.props.role) && <div className="row form-group">
                                 <div className="col-md-6">
                                     <Label>Institution</Label><br />
                                     <input type="text" name="institution"
@@ -204,7 +204,7 @@ class VehicleDetail extends React.Component {
                                     </select>
                                     <PageHandler page = {this.props.InstitutionList.page} getList={this.props.getInstitutions} institutionId={this.props.user.institution.InstitutionId}/>
                                 </div>
-                            </div>
+                            </div>}
 
                             {/*<div className="row">
                                 <div className="col-md-6">
@@ -237,7 +237,8 @@ const mapStateToProps = (state) => {
         ModelsList: state.VehicleStore.Models,
         DialogId : state.VehicleStore.selectedId,
         savedSuccessfully : state.VehicleStore.Loading,
-        user: state.Login.user
+        user : state.Login.user,
+        role : state.Login.role
     }
 
 }

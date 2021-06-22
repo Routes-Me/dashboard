@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { isSU } from '../../../../util/basic';
 
 class SecondaryVehicles extends Component {
 
@@ -19,8 +20,8 @@ class SecondaryVehicles extends Component {
     render() {
         return (
             <div className="search-main">
+                {isSU(this.props.role) && <div className="table-list">
                 <caption style={{fontSize:'16px', marginTop:'47px'}}>Devices</caption>
-                <div className="table-list">
                 <table>
                     <tbody>
                         {this.props.devices.map(device => 
@@ -33,16 +34,16 @@ class SecondaryVehicles extends Component {
                                         <span />
                                         <span />
                                     </div>
-                                    <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === device.deviceId ? 'inline-block' : 'none' }}>
+                                    {/* <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === device.deviceId ? 'inline-block' : 'none' }}>
                                         <li><a onClick={e => this.showDetailScreen(e, device)}>Unlink</a></li>
-                                    </ul>
+                                    </ul> */}
                                 </div>
                             </td>
                         </tr>
                         )}
                     </tbody>
                 </table>
-                </div>
+                </div>}
             </div>
         );
     }
@@ -51,7 +52,8 @@ class SecondaryVehicles extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        devices: state.VehicleStore.Devices
+        devices: state.VehicleStore.Devices,
+        role   : state.Login.role
     }
 }
 
