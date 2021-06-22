@@ -92,7 +92,6 @@ export function userSignInRequestV1(username, password) {
         //console.log('response ', response.headers);
           const token = response.data.token;
           const refreshToken = response.data.refreshToken;
-          console.log('refreshToken ',refreshToken);
           setToken(token);
           setRefreshToken(refreshToken);
           dispatch(onReceiveToken(token));
@@ -156,7 +155,7 @@ const login = (user) => {
 function request(user) { return { type: userConstants.Login_REQUEST, user }; }
 function onReceiveToken(token) { return  { type: userConstants.Login_TokenReceived, payload: token} }
 function getLoginSuccess(user) { return  { type: userConstants.Login_SUCCESS, payload:user } }
-function failure(error) { return { type: userConstants.Login_FAILURE, error }; }
+function failure(error) { return { type: userConstants.Login_FAILURE, payload:error }; }
 function authorize(rol) { return { type: userConstants.Login_Authorize, payload: rol }; }
 
 

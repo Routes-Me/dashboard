@@ -81,7 +81,7 @@ class Vehicles extends Component {
     componentDidUpdate(){
         if(this.props.ApplicationState ===  vehicleConstants.addVehicle_SUCCESS)
         {
-            this.props.getVehiclesForInstitution(1,config.Pagelimit);
+            this.props.getVehiclesForInstitution(1,config.Pagelimit,this.props.role,this.props.user);
         }
     }
 
@@ -89,7 +89,7 @@ class Vehicles extends Component {
     renderAllVehicleTable(Vehicles) {
         return (
             <div>
-            <PageHandler page = {Vehicles.page} getList={this.props.getVehiclesForInstitution} institutionId={this.props.user.institution.InstitutionId} style='header'/>
+            <PageHandler page = {Vehicles.page} getList={this.props.getVehiclesForInstitution} role={this.props.role} user={this.props.user} style='header'/>
             <div className="table-list padding-lr-80">
                     <table>
                         <thead>
