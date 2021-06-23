@@ -50,8 +50,6 @@ function nextPage(page,getList,role,user){
 
         if(offset <= totalPages)
         {
-            console.log("Role", role); 
-            console.log("User", user);
             user.institution.InstitutionId !== undefined ? getList(offset,page.limit,role,user) : getList(offset, page.limit)
         }
     }
@@ -64,7 +62,6 @@ function previousPage(page,getList,role,user){
         const offset = page.offset - 1;
         if(offset > 0)
         {
-            console.log(`Role ${role} user ${user}`);
             user.institution.InstitutionId !== undefined ? getList(offset,page.limit,role,user) : getList(offset, page.limit)
         }
     }
