@@ -6,6 +6,7 @@ import jwt, { decode } from "jsonwebtoken";
 import { encryptAndEncode, parseJwt } from "../../util/encrypt";
 import {setToken as setToken, setRefreshToken, clearStorage, setUser, setRole as setRole} from '../../util/localStorage';
 import apiHandler from '../../util/request';
+import { convertObjectKeyToLowerCase } from "../../util/basic";
 
 
 export function userSignInRequest(username, password) {
@@ -123,7 +124,7 @@ export function userSignInRequestV1(username, password) {
 const returnFormattedUser = (response,officerId) => {
   const user = {
     userInfo : response.data.included.users[0],
-    institution : response.data.included.institutions[0],
+    institution : convertObjectKeyToLowerCase(response.data.included.institutions[0]) ,
     officerId : officerId
   }
   return user;
