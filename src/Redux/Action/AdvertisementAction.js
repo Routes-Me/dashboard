@@ -243,7 +243,7 @@ export function saveAdvertisement(advertisement) {
                 Name              : advertisement.advertisement.resourceName,
                 InstitutionId     : advertisement.advertisement.institution.institutionId,
                 MediaUrl          : mediaURL,
-                IntervalId        : advertisement.advertisement.dayInterval,
+                IntervalId        : advertisement.advertisement.intervalId,
                 CampaignId        : advertisement.advertisement.campaigns,
                 TintColor         : parseInt(advertisement.advertisement.tintColor.replace('#',''),16)
             }
