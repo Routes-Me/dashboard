@@ -244,7 +244,7 @@ export function saveAdvertisement(advertisement) {
                 InstitutionId     : advertisement.advertisement.institution.institutionId,
                 MediaUrl          : mediaURL,
                 IntervalId        : advertisement.advertisement.dayInterval,
-                CampaignId        : [advertisement.advertisement.campaigns],
+                CampaignId        : advertisement.advertisement.campaigns,
                 TintColor         : parseInt(advertisement.advertisement.tintColor.replace('#',''),16)
             }
             console.log('POST advertisement payload ', advertise);
