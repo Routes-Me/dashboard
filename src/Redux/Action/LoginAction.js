@@ -6,6 +6,7 @@ import jwt, { decode } from "jsonwebtoken";
 import { encryptAndEncode, parseJwt } from "../../util/encrypt";
 import {setToken as setToken, setRefreshToken, clearStorage, setUser, setRole as setRole} from '../../util/localStorage';
 import apiHandler from '../../util/request';
+import { convertObjectKeyToLowerCase } from "../../util/basic";
 
 
 export function userSignInRequest(username, password) {
@@ -92,7 +93,6 @@ export function userSignInRequestV1(username, password) {
         //console.log('response ', response.headers);
           const token = response.data.token;
           const refreshToken = response.data.refreshToken;
-          console.log('refreshToken ',refreshToken);
           setToken(token);
           setRefreshToken(refreshToken);
           dispatch(onReceiveToken(token));
@@ -124,7 +124,7 @@ export function userSignInRequestV1(username, password) {
 const returnFormattedUser = (response,officerId) => {
   const user = {
     userInfo : response.data.included.users[0],
-    institution : response.data.included.institutions[0],
+    institution : convertObjectKeyToLowerCase(response.data.included.institutions[0]) ,
     officerId : officerId
   }
   return user;
@@ -156,7 +156,7 @@ const login = (user) => {
 function request(user) { return { type: userConstants.Login_REQUEST, user }; }
 function onReceiveToken(token) { return  { type: userConstants.Login_TokenReceived, payload: token} }
 function getLoginSuccess(user) { return  { type: userConstants.Login_SUCCESS, payload:user } }
-function failure(error) { return { type: userConstants.Login_FAILURE, error }; }
+function failure(error) { return { type: userConstants.Login_FAILURE, payload:error }; }
 function authorize(rol) { return { type: userConstants.Login_Authorize, payload: rol }; }
 
 
