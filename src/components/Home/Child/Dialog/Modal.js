@@ -84,7 +84,7 @@ class Modal extends React.Component {
         return (<div className='col-md-12 text-center'>
             <h3> Your session has expired due to inactivity!! Kindly reconnect to see the live feeds again. !!</h3>
             <div className='col-md-12  text-center'>
-                <button className="btn btn-danger" onClick={this.props.onClose}> Cancel</button>
+                <button className="btn btn-danger" onClick={this.props.onClose} style={{ margin: "5px" }}> Cancel</button>
                 <button className="btn btn-primary" onClick={this.props.onSelect}> Recoonect</button>
             </div>
         </div>)
