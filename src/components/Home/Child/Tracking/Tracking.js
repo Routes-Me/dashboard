@@ -186,7 +186,7 @@ class Tracking extends Component {
             console.log("Timed Out!!!")
             this.props.UnSubscribeToHub();
             // $('#exampleModal').modal("show");
-            this.setState({ showModal: true });
+            // this.setState({ showModal: true });
         } else {
             this.idleTimer.reset();
             this.setState({ isTimedOut: true })
