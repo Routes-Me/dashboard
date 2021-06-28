@@ -184,7 +184,7 @@ class Tracking extends Component {
         const isTimedOut = this.state.isTimedOut
         if (!isTimedOut) {
             console.log("Timed Out!!!")
-            this.props.UnSubscribeToHub();
+            // this.props.UnSubscribeToHub();
             // $('#exampleModal').modal("show");
             // this.setState({ showModal: true });
         } else {
