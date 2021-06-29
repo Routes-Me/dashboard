@@ -9,7 +9,7 @@ const INITIAL_STATE = {
     hasError: false,
     error: null,
     ActionState: '',
-    Invitee : {}
+    Invitee: {}
 
 }
 
@@ -123,6 +123,13 @@ const UserReducer = (state = INITIAL_STATE, action) => {
                 hasError: false,
                 ActionState: userConstants.registerUser_SUCCESS
             };
+        case userConstants.registerUser_ERROR:
+            return {
+                ...state,
+                Loading: false,
+                hasError: false,
+                ActionState: userConstants.registerUser_ERROR
+            };
         case userConstants.UpdatePage:
             return {
                 ...state,
@@ -143,7 +150,7 @@ const UserReducer = (state = INITIAL_STATE, action) => {
                 Loading: false,
                 hasError: false,
                 Page: action.updateInvitationForm,
-                Invitee : action.payload
+                Invitee: action.payload
             }
         default:
             return state;

@@ -17,6 +17,8 @@ import IdleTimer from 'react-idle-timer';
 import { parseJwt } from '../../../../util/encrypt';
 import { restoreToken } from '../../../../util/localStorage';
 import { trackingConstants } from '../../../../constants/trackingConstants';
+import Modal from '../Dialog/Modal';
+import { config } from '../../../../constants/config';
 
 const MAP = {
     defaultZoom: 9,
@@ -36,7 +38,7 @@ const MAP = {
 
 
 class Tracking extends Component {
-    
+
     constructor(props) {
 
         super(props);
@@ -53,7 +55,7 @@ class Tracking extends Component {
             center: "",
             zoom: this.props.zoom,
             hover: false,
-            selectedId:'',
+            selectedId: '',
             currentPosition: false,
             mapOptions: {
                 center: MAP.defaultCenter,
@@ -63,8 +65,8 @@ class Tracking extends Component {
             timeout: 5 * 60 * 1000,  //10000 * 20 * 1,
             showModal: false,
             isTimedOut: false,
-            timeOffUnmount:'',
-            activeCount : 0
+            timeOffUnmount: '',
+            activeCount: 0
 
         };
 
@@ -72,20 +74,19 @@ class Tracking extends Component {
 
 
     static getDerivedStateFromProps(props, state) {
-        
-        if (props.movedVehicle !== undefined && props.movedVehicle !== "")
-        {
-            let i = state.vehicles.findIndex(vehicle=> vehicle.id === props.movedVehicle.id);
+
+        if (props.movedVehicle !== undefined && props.movedVehicle !== "") {
+            let i = state.vehicles.findIndex(vehicle => vehicle.id === props.movedVehicle.id);
             state.vehicles[i] ? state.vehicles[i] = props.movedVehicle : state.vehicles.push(props.movedVehicle);
             let vehicleList = state.vehicles;
             console.log('Vehicle List Count', vehicleList.length);
-            return{
+            return {
                 vehicles: vehicleList,
-                activeCount : vehicleList.length
+                activeCount: vehicleList.length
             }
         }
     }
-    
+
 
     //Clustering handled by 3rd Party Supercluster
     getClusters = () => {
@@ -132,27 +133,26 @@ class Tracking extends Component {
         );
     };
 
-    async componentDidMount(){
+    async componentDidMount() {
 
-        let token ='';
-        let user  =''; 
-        if(this.props.token === '')
-        {
+        let token = '';
+        let user = '';
+        if (this.props.token === '') {
             token = await restoreToken();
             user = token !== '' && parseJwt(token);
         }
-        else{
+        else {
             token = this.props.token;
             user = this.props.user;
         }
-        
+
         this.props.connectTheHub(token);
-        this.props.SubscribeToHub(this.props.role,user);
-        this.props.getDevices(this.props.role,user);
-        
+        this.props.SubscribeToHub(this.props.role, user);
+        this.props.getDevices(this.props.role, user);
+
     }
 
-    
+
 
     componentWillUnmount() {
         this.setState({ timeOffUnmount: new Date().toLocaleTimeString() });
@@ -162,9 +162,9 @@ class Tracking extends Component {
 
     //Time out Functionality
     _onAction(e) {
-        
+
         if (this.state.isTimedOut) {
-            this.props.SubscribeToHub(this.props.role,this.props.user);
+            this.props.SubscribeToHub(this.props.role, this.props.user);
         }
         this.setState({ isTimedOut: false })
     }
@@ -173,7 +173,7 @@ class Tracking extends Component {
     _onActive(e) {
 
         if (this.state.isTimedOut) {
-            this.props.SubscribeToHub(this.props.role,this.props.user);
+            this.props.SubscribeToHub(this.props.role, this.props.user);
         }
         this.setState({ isTimedOut: false })
     }
@@ -184,8 +184,9 @@ class Tracking extends Component {
         const isTimedOut = this.state.isTimedOut
         if (!isTimedOut) {
             console.log("Timed Out!!!")
-            this.props.UnSubscribeToHub();
-            this.setState({ showModal: true });
+            // this.props.UnSubscribeToHub();
+            // $('#exampleModal').modal("show");
+            // this.setState({ showModal: true });
         } else {
             this.idleTimer.reset();
             this.setState({ isTimedOut: true })
@@ -213,11 +214,11 @@ class Tracking extends Component {
         if (point.id === undefined) {
             return null
         } else {
-            let i = this.state.vehicles.findIndex(vehicle=> vehicle.id === point.id);
-            if(i>0){
+            let i = this.state.vehicles.findIndex(vehicle => vehicle.id === point.id);
+            if (i > 0) {
                 this.props.UpdateVehicle(this.state.vehicles[i])
             }
-            else{
+            else {
                 this.props.UpdateVehicle('')
             }
             this.setState({
@@ -228,12 +229,12 @@ class Tracking extends Component {
 
         }
     }
-    
+
 
 
     //style rendering
-    markerStyleName( status, isGrouped, isSelected ) {
-        
+    markerStyleName(status, isGrouped, isSelected) {
+
         if (status === trackingConstants.IdleState) {
             return isGrouped ? "idle-cluster" : (isSelected ? "select effect" : "idle-marker")
         }
@@ -244,37 +245,30 @@ class Tracking extends Component {
 
     getIcon = (id) => {
         let icon = 1
-        if(this.props.idForSelectedVehicle !== undefined)
-        icon = this.props.idForSelectedVehicle !== '' && id !== this.props.idForSelectedVehicle ? 0.6 : 1 ;
+        if (this.props.idForSelectedVehicle !== undefined)
+            icon = this.props.idForSelectedVehicle !== '' && id !== this.props.idForSelectedVehicle ? 0.6 : 1;
         return icon;
     }
 
     subscribe = () => {
-        this.props.SubscribeToHub(this.props.role,this.props.user);
+        this.props.SubscribeToHub(this.props.role, this.props.user);
+        this.handleClose();
     }
 
 
-    returnModel = () => {
-        return(
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        Your session has expired due to inactivity!! Kindly reconnect to see the live feeds again.
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Ok Disconnect</button>
-                        <button type="button" class="btn btn-primary" onClic={e => this.subscribe()}>Reconnect the hub</button>
-                    </div>
-                </div>
-            </div>
-        </div>);
+    returnModel = (show) => {
+        return (
+            <Modal
+                show={show}
+                onClose={this.handleClose}
+                objectType={config.sessionExpired}
+                objectList={[]}
+                onSelect={this.subscribe} />
+        );
+    }
+
+    handleClose = () => {
+        this.setState({ showModal: false })
     }
 
 
@@ -291,13 +285,13 @@ class Tracking extends Component {
 
         let activeIcon = L.icon({
             iconUrl: activeMarker,
-            iconSize: [25,25]
+            iconSize: [25, 25]
         });
-        
+
         return (
             <div style={{ height: "100vh", width: "100%" }}>
 
-                {this.state.showModal && this.returnModel()}
+                {this.returnModel(this.state.showModal)}
 
                 <IdleTimer
                     ref={ref => { this.idleTimer = ref }}
@@ -308,40 +302,37 @@ class Tracking extends Component {
                     debounce={250}
                     timeout={this.state.timeout} />
 
-                
-
-                <MapContainer center={position} zoom={10} maxZoom={20} minZoom={9} scrollWheelZoom={true} style={{width:'100%', height:'100%'}}>
+                <MapContainer center={position} zoom={10} maxZoom={20} minZoom={9} scrollWheelZoom={true} style={{ width: '100%', height: '100%' }}>
                     <div className='activeCount'>
-                    <h4 style={{margin:'10px'}}>{this.state.activeCount}</h4>
+                        <h4 style={{ margin: '10px' }}>{this.state.activeCount}</h4>
                     </div>
                     <div className='idleCount'>
-                    <h4 style={{margin:'10px'}}>{idleVehicleCount > 0 ? idleVehicleCount : 0}</h4>
+                        <h4 style={{ margin: '10px' }}>{idleVehicleCount > 0 ? idleVehicleCount : 0}</h4>
                     </div>
                     <TileLayer
                         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"/>
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
-                    
+                    {vehicles.map(point => (
 
-                    {vehicles.map(point =>(
+                        <Marker
+                            icon={activeIcon}
+                            key={point.id}
+                            opacity={this.getIcon(point.id)}
+                            position={[point.coordinates.lat, point.coordinates.lng]}
+                            eventHandlers={{
+                                click: () => {
+                                    this.onChildClick(point)
+                                },
+                            }}>
+                        </Marker>
 
-                            <Marker 
-                                icon={activeIcon}
-                                key={point.id}
-                                opacity={this.getIcon(point.id)}
-                                position={[point.coordinates.lat,point.coordinates.lng]}
-                                eventHandlers={{
-                                    click: () => {
-                                        this.onChildClick(point)
-                                    },}}>
-                            </Marker>
-
-                            // <SimpleMarker
-                            //         style={this.markerStyleName(point.status, false, point.id === this.props.idForSelectedVehicle)}
-                            //         key={point.id}
-                            //         text={point.id}
-                            //         lat={point.coordinates.lat}
-                            //         lng={point.coordinates.lng} />
+                        // <SimpleMarker
+                        //         style={this.markerStyleName(point.status, false, point.id === this.props.idForSelectedVehicle)}
+                        //         key={point.id}
+                        //         text={point.id}
+                        //         lat={point.coordinates.lat}
+                        //         lng={point.coordinates.lng} />
 
                     ))}
 
@@ -360,21 +351,21 @@ const mapStateToProps = (state) => {
         //result: points,
         VehicleList: state.Tracking.IdleVehicles,//state.VehicleStore.Vehicles,
         idForSelectedVehicle: state.Tracking.idForSelectedVehicle,
-        movedVehicle : state.Tracking.MovedVehicle,
-        token : state.Login.token,
-        user : state.Login.user,
-        role : state.Login.role
+        movedVehicle: state.Tracking.MovedVehicle,
+        token: state.Login.token,
+        user: state.Login.user,
+        role: state.Login.role
     }
-    
+
 }
 
 const actionCreators = {
-    connectTheHub : TrackingAction.InitializeHub,
+    connectTheHub: TrackingAction.InitializeHub,
     getDevices: TrackingAction.getDevices,
     SubscribeToHub: TrackingAction.SubscribeToHub,
     UnSubscribeToHub: TrackingAction.UnsubscribeFromHub,
     UpdateTheSelectedMarker: TrackingAction.updateSelectedMarker,
-    UpdateVehicle : TrackingAction.updateVehicle
+    UpdateVehicle: TrackingAction.updateVehicle
 };
 
 const connectedTracking = connect(mapStateToProps, actionCreators)(Tracking);

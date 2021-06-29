@@ -2,6 +2,7 @@
 import '../../../Style/home.css';
 import '../Dialog/modal.scss';
 import { vehicleConstants } from '../../../../constants/vehicleConstants';
+import { config } from '../../../../constants/config';
 
 class Modal extends React.Component {
 
@@ -9,7 +10,7 @@ class Modal extends React.Component {
         super(props)
 
         this.state = {
-            vehicleToDisplay:"",
+            vehicleToDisplay: "",
             modelId: "",
             modelYear: "",
             deviceId: "",
@@ -23,31 +24,77 @@ class Modal extends React.Component {
 
     }
 
-    showSearchList =(searchList)=>{
+    showSearchList = (searchList) => {
         if (searchList !== "") {
             return (
                 <div className="searchList">
                     <table>
-                            <tbody>
+                        <tbody>
                             {
                                 searchList.map(obj => (
-                                    <tr key={obj.name} onClick={()=>{this.onselection(obj)}}>
+                                    <tr key={obj.name} onClick={() => { this.onselection(obj) }}>
                                         <td>{obj.name}</td>
                                     </tr>
-                                    ))
-                                }
-                            </tbody>
+                                ))
+                            }
+                        </tbody>
                     </table>
                 </div>
             )
         }
     }
 
+    returnSearch = () => {
+        return (
+            <div className="search-part">
+                <input type="text" name="search" placeholder="Search" className="search" />
+                <i className="fa fa-search" aria-hidden="true" />
+            </div>
+        )
+    }
+
+
+    returnEnrollmentdetails = (token, policyName) => {
+        return (
+            <div className='col-md-12'>
+                <div className='col-md-12' style={{ textAlign: 'center' }}>
+                    <h2>{token}</h2> <i class="bi bi-clipboard"></i>
+                    <hr />
+                    <h3>Policy Name</h3>
+                    <h5>{policyName}</h5>
+                    <hr />
+                </div>
+                <div className='row col-md-12' style={{ padding: '3%' }}>
+                    <h4>Provision a device</h4>
+                    <p>Provisioning refers to the process of enrolling a device with an enterprise and applying the appropriate policies to the device. Before attempting to provision a device, ensure that the device is running Android 6.0 or above.
+                        You need an enrollment token for each device that you want to provision (you can use the same token for multiple devices), when creating a token specify a policy that will be applied to the device.</p>
+                    <ol>
+                        <li>Turn on a new or factory-reset device.</li>
+                        <li>Follow the setup wizard and enter your Wi-Fi details.</li>
+                        <li>When prompted to sign in, enter afw#setup.</li>
+                        <li>Tap Next, and then accept the installation of Android Device Policy.</li>
+                        <li>Enter the generated enrollment token</li>
+                    </ol>
+                </div>
+            </div>
+        )
+    }
+
+    returnHubReconnectionAlert = () => {
+        return (<div className='col-md-12 text-center'>
+            <h3> Your session has expired due to inactivity!! Kindly reconnect to see the live feeds again. !!</h3>
+            <div className='col-md-12  text-center'>
+                <button className="btn btn-danger" onClick={this.props.onClose} style={{ margin: "5px" }}> Cancel</button>
+                <button className="btn btn-primary" onClick={this.props.onSelect}> Recoonect</button>
+            </div>
+        </div>)
+    }
+
     returnIdforObjectType = (object, objectType) => objectType === vehicleConstants.searchDialogFor_Makers ? object.manufacturerId : object.modelId;
 
-    onselection(obj){
+    onselection(obj) {
         this.props.onSelect(obj);
-    } 
+    }
 
     render() {
 
@@ -76,65 +123,43 @@ class Modal extends React.Component {
             margin: '0 auto'
         };
 
-        const verifyTitleForEMM = (title) =>{
-            return title !=='Enrollment Token' && title !=='Emm Console';
+        const verifyTitleForEMM = (title) => {
+            return title !== 'Enrollment Token' && title !== 'Emm Console' && title !== config.sessionExpired;
         }
-        
+
         const title = this.props.objectType;
-        let content = verifyTitleForEMM(title)  && this.showSearchList(this.props.objectList);
-        
+        let content = verifyTitleForEMM(title) && this.showSearchList(this.props.objectList);
+
         //const VehicleObj = this.props.objectToDisplay;
-        
-        
+
+
         return (
             <div className="modalNew">
                 <div className={`modal-content${title === 'Emm Console' ? ' wider' : ''}`}>
-                    
+
                     <div className="top-part-vehicles-search model-header">
-                        <span className="closeBtn" style={{ float: "right", display:"block" }} onClick={this.props.onClose} />
+                        <span className="closeBtn" style={{ float: "right", display: "block" }} onClick={this.props.onClose} />
                         <div className="header-add-butt">
                             <h3>{title}</h3>
                         </div>
-                        <hr/>
+                        <hr />
                         {verifyTitleForEMM(title) &&
-                        <div className="search-part">
-                                <input type="text" name="search" placeholder="Search" className="search" />
-                                <i className="fa fa-search" aria-hidden="true" />
-                        </div>}
+                            this.returnSearch()}
                     </div>
-                    {title ==='Enrollment Token'?
-                        <div className='col-md-12'>
-                            <div className='col-md-12' style={{textAlign:'center'}}>
-                                <h2>{this.props.objectList.value}</h2> <i class="bi bi-clipboard"></i>
-                                <hr/>
-                                <h3>Policy Name</h3>
-                                <h5>{this.props.objectList.policyName}</h5>
-                                <hr/>
-                            </div>
-                            <div className='row col-md-12' style={{padding:'3%'}}>
-                                <h4>Provision a device</h4>
-                                <p>Provisioning refers to the process of enrolling a device with an enterprise and applying the appropriate policies to the device. Before attempting to provision a device, ensure that the device is running Android 6.0 or above.
-                                You need an enrollment token for each device that you want to provision (you can use the same token for multiple devices), when creating a token specify a policy that will be applied to the device.</p>
-                                <ol>
-                                  <li>Turn on a new or factory-reset device.</li>
-                                  <li>Follow the setup wizard and enter your Wi-Fi details.</li>
-                                  <li>When prompted to sign in, enter afw#setup.</li>
-                                  <li>Tap Next, and then accept the installation of Android Device Policy.</li>
-                                  <li>Enter the generated enrollment token</li>
-                                </ol> 
-                            </div>
-                        </div>
-                    : title ==='Emm Console' ? 
-                        <iframe
-                            src={`https://play.google.com/managed/browse?token=${this.props.objectList}&mode=SELECT`}
-                            width="100%"
-                            height="100%"
-                            onLoad={this.hideSpinner}
-                            frameBorder="0"
-                            marginHeight="0"
-                            marginWidth="0"/>
-                    :
-                    content}
+                    {title === 'Enrollment Token' ?
+                        this.returnEnrollmentdetails(this.props.objectList.value, this.props.objectList.policyName)
+                        : title === 'Emm Console' ?
+                            <iframe
+                                src={`https://play.google.com/managed/browse?token=${this.props.objectList}&mode=SELECT`}
+                                width="100%"
+                                height="100%"
+                                onLoad={this.hideSpinner}
+                                frameBorder="0"
+                                marginHeight="0"
+                                marginWidth="0" />
+                            : title === config.sessionExpired ?
+                                this.returnHubReconnectionAlert()
+                                : content}
 
                 </div>
             </div>

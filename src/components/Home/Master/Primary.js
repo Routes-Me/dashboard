@@ -9,28 +9,26 @@ import { getRole as restoreRole, getUser as restoreUser, restoreToken } from '..
 
 
 
-class Primary extends Component
-{
+class Primary extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            
-            selectedNavItem:this.props.navItems[0],
-            institutionId :''
+
+            selectedNavItem: this.props.navItems[0],
+            institutionId: ''
         };
     }
 
     componentDidMount() {
 
         console.log('did mount props user => ', this.props.user)
-        if(this.props.user.userInfo !== undefined)
-        {
+        if (this.props.user.userInfo !== undefined) {
             this.setAuthorization();
         }
-        else{
+        else {
             this.restoreUserFromToken();
         }
-        
+
 
     }
 
@@ -41,7 +39,7 @@ class Primary extends Component
     };
 
 
-    returnSelectMenu=(NavItem) =>{
+    returnSelectMenu = (NavItem) => {
 
         return this.props.selectedNavItem === NavItem ? "active" : "";
 
@@ -60,10 +58,10 @@ class Primary extends Component
 
     setAuthorization = () => {
         console.log('Role to authorize ', this.props.role);
-        if(isSU(this.props.role)) //1580030173 78132467
-        this.props.getAutherization(1);
+        if (isSU(this.props.role)) //1580030173 78132467
+            this.props.getAutherization(1);
         else
-        this.props.getAutherization(2);
+            this.props.getAutherization(2);
     }
 
 
@@ -75,8 +73,8 @@ class Primary extends Component
             <div>
 
                 <div className="profile">
-                    <p className="title">{this.props.user?.userInfo?.Name}</p>
-                    <p className="subTitle">{this.props.user?.institution?.Name}</p>
+                    <p className="title">{this.props.user?.userInfo?.name}</p>
+                    <p className="subTitle">{this.props.user?.institution?.name}</p>
                 </div>
 
                 <div className="menu-part">
@@ -101,7 +99,7 @@ const mapStateToProps = (state) => {
         selectedNavItem: state.Login.SelectedNavOption,
         role: state.Login.role,
         user: state.Login.user,
-        navItems: state.Login.navItems === undefined? []: state.Login.navItems
+        navItems: state.Login.navItems === undefined ? [] : state.Login.navItems
     }
 
 };
@@ -109,9 +107,9 @@ const mapStateToProps = (state) => {
 const actionCreators = {
     getAutherization: LoginAction.getAutherization,
     updateNavItem: LoginAction.UpdateNavSelection,
-    restoreUser : LoginAction.restoreUserFromSession,
-    restoreToken : LoginAction.restoreTokenFromSession,
-    restoreRole : LoginAction.restoreRoleFromSession
+    restoreUser: LoginAction.restoreUserFromSession,
+    restoreToken: LoginAction.restoreTokenFromSession,
+    restoreRole: LoginAction.restoreRoleFromSession
 };
 
 const connectLogin = connect(mapStateToProps, actionCreators)(Primary);

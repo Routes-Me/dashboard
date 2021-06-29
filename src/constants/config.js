@@ -2,6 +2,8 @@ import { User } from "oidc-client";
 
 export const config = {
 
+    sessionExpired : "Session Expired",
+
     selectService : {
         serviceId : 0,
         name : "Please select a service"
