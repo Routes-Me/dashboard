@@ -28,7 +28,7 @@ class Advertisements extends Component {
     }
 
     componentDidMount() {
-        this.props.getAdvertisements(1,config.Pagelimit);
+        this.props.getAdvertisements(1, config.Pagelimit);
     }
 
 
@@ -62,15 +62,14 @@ class Advertisements extends Component {
     }
 
 
-    static getDerivedStateFromProps (props, state){
-        
-            if(props.ApplicationState === advertisementsConstants.updateTheAdvertisementList)
-            {
-                props.getAdvertisements(1,config.Pagelimit);
-                if(state.showDetails){
-                    return {showDetails : false};
-                }
+    static getDerivedStateFromProps(props, state) {
+
+        if (props.ApplicationState === advertisementsConstants.updateTheAdvertisementList) {
+            props.getAdvertisements(1, config.Pagelimit);
+            if (state.showDetails) {
+                return { showDetails: false };
             }
+        }
     }
 
     //Delete Vehicle function
@@ -80,9 +79,9 @@ class Advertisements extends Component {
     renderAllAdvertisementTable(Advertisements) {
         return (
             <div>
-            <PageHandler page = {Advertisements.page} getList={this.props.getAdvertisements} style='header'/>
-            <div className="table-list padding-lr-80">
-                {/* <div className="table"> */}
+                <PageHandler page={Advertisements.page} getList={this.props.getAdvertisements} role={this.props.role} user={this.props.user} style='header' />
+                <div className="table-list padding-lr-80">
+                    {/* <div className="table"> */}
                     <table>
                         <thead>
                             <tr>
@@ -90,7 +89,7 @@ class Advertisements extends Component {
                                 <th>NAME</th>
                                 <th>CREATED AT</th>
                                 <th>STATUS</th>
-                                <th/>
+                                <th />
                             </tr>
                         </thead>
                         <tbody>
@@ -100,21 +99,21 @@ class Advertisements extends Component {
                                         <td>{Advertisement.id}</td>
                                         <td>{Advertisement.resourceName}</td>
                                         <td>{Advertisement.createdAt}</td>
-                                        <td><Status text={Advertisement.campaigns[0]?.status}/></td>
+                                        <td><Status text={Advertisement.campaigns[0]?.status} /></td>
                                         {!isROU(this.props.role) &&
-                                        <td>
-                                            <div className="edit-popup">
-                                                <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Advertisement.id)}>
-                                                    <span />
-                                                    <span />
-                                                    <span />
+                                            <td>
+                                                <div className="edit-popup">
+                                                    <div className="edit-delet-butt" onClick={e => this.openSubMenuForVehicleId(e, Advertisement.id)}>
+                                                        <span />
+                                                        <span />
+                                                        <span />
+                                                    </div>
+                                                    <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === Advertisement.id ? 'inline-block' : 'none' }}>
+                                                        <li><a onClick={e => this.showDetailScreen(e, Advertisement)}>Edit</a></li>
+                                                        {/* <li><a  onClick={e => this.deleteAdvertisement(e, Advertisement.id)}>Delete</a></li> */}
+                                                    </ul>
                                                 </div>
-                                                <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === Advertisement.id ? 'inline-block' : 'none' }}>
-                                                    <li><a onClick={e => this.showDetailScreen(e, Advertisement)}>Edit</a></li>
-                                                    {/* <li><a  onClick={e => this.deleteAdvertisement(e, Advertisement.id)}>Delete</a></li> */}
-                                                </ul>
-                                            </div>
-                                        </td>}
+                                            </td>}
                                     </tr>
                                 ))
                             }
@@ -146,7 +145,7 @@ class Advertisements extends Component {
 
             <div className="vehicles-page" style={{ height: "100vh", width: "100%" }}>
                 {this.state.showDetails ?
-                     <Detail className={this.props.show ? 'slide-in' : 'slide-out'}
+                    <Detail className={this.props.show ? 'slide-in' : 'slide-out'}
                         show={this.showDetailScreen}
                         objectType={userConstants.NavItem_Advertisements}
                         object={this.state.advertisement} /> :
@@ -155,13 +154,13 @@ class Advertisements extends Component {
                             <div className="header-add-butt">
                                 <h3>Advertisements</h3>
                                 {!isROU(this.props.role) &&
-                                <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Add Advertisement</a>}
+                                    <a className="vehicle-add-butt" onClick={e => this.showDetailScreen(e)}><i className="fa fa-plus-circle" aria-hidden="true" /> Add Advertisement</a>}
                             </div>
 
                             <div className="search-part">
-                                    <input type="text" name="search" placeholder="Search" className="search" />
-                                    <i className="fa fa-search" aria-hidden="true" />
-                                    {/* <span className="cross-icon"><img src="../cross-image.png" /></span> */}
+                                <input type="text" name="search" placeholder="Search" className="search" />
+                                <i className="fa fa-search" aria-hidden="true" />
+                                {/* <span className="cross-icon"><img src="../cross-image.png" /></span> */}
                             </div>
                         </div>
 
@@ -180,6 +179,7 @@ const mapStateToProps = (state) => {
     return {
         AdvertisementList: state.AdvertisementStore.Advertisements,
         role: state.Login.role,
+        user: state.Login.user,
         ApplicationState: state.AdvertisementStore.ActionState
     }
 
