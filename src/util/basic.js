@@ -20,6 +20,17 @@ export function convertObjectKeyToLowerCase(object) {
     return newobj;
 }
 
+
+//The function checks for null values and removes the key
+export function refineObject(obj) {
+    for (var propName in obj) {
+        if (obj[propName] === null || obj[propName] === undefined) {
+            delete obj[propName];
+        }
+    }
+    return obj
+}
+
 export function returnCampaignIds(campaigns) {
     let campaignIDList = [];
     campaigns.map(x => (campaignIDList.push(x.campaignId)));
@@ -39,6 +50,7 @@ export function returnObjectForSelectedId(list, id) {
 }
 
 export function returnEntityForInstitution(entity, role, user) {
+    console.log('Institution returned ', user.institution)
     if (user?.institution?.InstitutionId !== undefined) {
         return user?.institution?.institutionId !== '' && isSU(role) ? entity : `institutions/${user.institution.institutionId}/${entity}`;
     }
