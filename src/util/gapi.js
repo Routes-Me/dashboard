@@ -1,3 +1,4 @@
+import { refineObject } from './basic';
 import { inLog, outLog } from './CustomLogging';
 class GapiRequest {
 
@@ -39,16 +40,27 @@ class GapiRequest {
     }
 
 
+    returnPayload = (token, size) => {
+        let payLoad = {
+            parent: process.env.REACT_APP_GAPI_ENTERPRICE_ID,
+            pageSize: size,
+            pageToken: token
+        }
+        return refineObject(payLoad);
+    }
 
 
-    getDevices = () => {
+    getDevices = (token, size) => {
         inLog('EMM', "Get Devices request");
         // return window.gapi.client.load("androidmanagement", "v1").then(() => {
+        // let queryObj = {};
+        const payLoad = this.returnPayload(token, size);
+        console.log("Payload for policy :", payLoad);
         return this.GAPI.client.androidmanagement.enterprises.devices
-            .list({ parent: "enterprises/LC02my9vtl", "pageSize": 10000 })
+            .list(payLoad)
             .then(
                 function (response) {
-                    return response.result.devices;
+                    return response.result;
                 },
                 function (err) {
                     alert(`Devices API => Google Server Response : ${err.error.message}`);
@@ -58,16 +70,16 @@ class GapiRequest {
         // });
     };
 
-    getPolicies = () => {
+    getPolicies = (token, size) => {
         inLog('EMM', 'Get Policies request');
+
+        const payLoad = this.returnPayload(token, size);
+        console.log("Payload for policy :", payLoad);
         return this.GAPI.client.androidmanagement.enterprises.policies
-            .list({
-                parent: 'enterprises/LC02my9vtl',
-                "pageSize": 1000
-            })
+            .list(payLoad)
             .then(
                 function (response) {
-                    return response.result.policies;
+                    return response.result;
                 },
                 function (err) {
                     outLog('EMM Policies Request Error', err);
