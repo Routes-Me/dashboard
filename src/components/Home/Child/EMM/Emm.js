@@ -25,7 +25,8 @@ class Emm extends Component {
             policyObj: '',
             view: '',
             mode: '',
-            loading: true
+            loading: true,
+            authorized: false
         }
 
         // this.GAPI = window.gapi;
@@ -49,10 +50,10 @@ class Emm extends Component {
         if (this.props.ApplicationState === GApiConstants.updatePolicyList) {
             if (this.state.tabIndex === 1) {
                 inLog('EMM', 'UpdateList');
-                gapiObj.getPolicies().then((response) => { this.setState({ listObj: response }); this.props.componentReloaded(); });
+                gapiObj.getPolicies().then((response) => { this.setState({ listObj: response, authorized: true }); this.props.componentReloaded(); });
             }
             if (this.state.tabIndex === 2) {
-                gapiObj.getDevices().then((response) => { this.setState({ listObj: response }); this.props.componentReloaded() });
+                gapiObj.getDevices().then((response) => { this.setState({ listObj: response, authorized: true }); this.props.componentReloaded() });
             }
         }
     }
@@ -118,14 +119,35 @@ class Emm extends Component {
     onTabClick = (index) => {
         console.log('tab clicked to default')
         this.setState({ showDetails: false, loading: true });
-        { index === 1 && gapiObj.getPolicies(undefined, config.Pagelimit).then((response) => { this.setState({ listObj: response, loading: false }); }); }
-        { index === 2 && gapiObj.getDevices(undefined, config.Pagelimit).then((response) => this.setState({ listObj: response, loading: false })) };
+        { index === 1 && gapiObj.getPolicies(undefined, config.Pagelimit).then((response) => { this.setState({ listObj: response, loading: false, authorized: true }); }); }
+        { index === 2 && gapiObj.getDevices(undefined, config.Pagelimit).then((response) => this.setState({ listObj: response, loading: false, authorized: true })) };
         {
             index === 3 && gapiObj.getPolicies(undefined, config.Pagelimit).then((response) => { this.setState({ listObj: response, loading: false }) });
             gapiObj.createWebToken().then((webToken) => { this.setState({ webtoken: webToken }); this.loadFrameWithToken(webToken); })
         }
 
         this.setState({ tabIndex: index });
+    }
+
+    updateList = (list) => {
+        console.log('Update list !!');
+        this.setState({ listObj: list, loading: false });
+    }
+
+    getPoliciesList(token, limit, authorize) {
+        if (authorize) {
+            console.log('Get Policies list !!');
+            gapiObj.getPolicies(token, limit).then(response => this.updateList(response));
+        }
+    }
+
+
+    getDevicesList(token, limit, authorize) {
+        if (authorize) {
+            console.log('Authorization ', authorize);
+            gapiObj.getDevices(token, limit).then(response => this.updateList(response));
+        }
+
     }
 
     showDetailScreen = (e, action) => {
@@ -176,7 +198,7 @@ class Emm extends Component {
             <div className="table-list padding-lr-80">
                 {this.state.tabIndex === 1 &&
                     <>
-                        <TokenPageHandler style="header" nextPageToken={response.nextPageToken} size={config.Pagelimit} />
+                        <TokenPageHandler style="header" getList={this.getPoliciesList} nextPageToken={response.nextPageToken} pageSize={config.Pagelimit} authorize={this.state.authorized} />
                         <table id='list'>
                             <thead>
                                 <tr>
@@ -216,7 +238,7 @@ class Emm extends Component {
                     </>}
                 {this.state.tabIndex === 2 &&
                     <>
-                        <TokenPageHandler style="header" nextPageToken={response.nextPageToken} size={config.Pagelimit} />
+                        <TokenPageHandler style="header" getList={this.getDevicesList} nextPageToken={response.nextPageToken} pageSize={config.Pagelimit} authorize={this.state.authorized} />
                         <table id='list'>
                             <thead>
                                 <tr>
