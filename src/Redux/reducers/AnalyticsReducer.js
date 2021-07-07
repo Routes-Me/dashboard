@@ -3,7 +3,8 @@ import { analyticsConstant } from "../../constants/analyticsConstants";
 
 const INITIAL_STATE = {
     Advertisements: [],
-    Loading: false
+    Loading: false,
+    ActionState: ''
 }
 
 const AnalyticsReducer = (state = INITIAL_STATE, action) => {
@@ -11,18 +12,23 @@ const AnalyticsReducer = (state = INITIAL_STATE, action) => {
         case analyticsConstant.getAdvertisement_REQUEST:
             return {
                 ...state,
-                Loading: true
+                Loading: true,
+                Advertisements: [],
+                ActionState: action.type
             };
         case analyticsConstant.getAdvertisement_SUCCESS:
             return {
                 ...state,
                 Loading: false,
-                Advertisements: action.payload
+                Advertisements: action.payload,
+                ActionState: action.type
             };
         case analyticsConstant.getAdvertisement_ERROR:
             return {
                 ...state,
-                Loading: false
+                Loading: false,
+                Advertisements: [],
+                ActionState: action.type
             };
         default:
             return state;

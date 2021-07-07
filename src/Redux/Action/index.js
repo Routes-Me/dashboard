@@ -6,3 +6,4 @@ export * from './UserAction';
 export * from './AdvertisementAction';
 export * from './GApiAction';
 export * from './RoutesAction';
+export * from './AnalyticsAction';

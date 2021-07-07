@@ -20,29 +20,28 @@ class Child extends Component {
         return (
 
             <div className="right-panel">
-                <Suspense fallback={<Launch/>}>
-                {this.props.selectedNavItem === userConstants.NavItem_Vehicles && <Vehicles />}
-                {this.props.selectedNavItem === userConstants.NavItem_Tracking && <Tracking />}
-                {this.props.selectedNavItem === userConstants.NavItem_Institutions && <Institutions />}
-                {this.props.selectedNavItem === userConstants.NavItem_Users && <Users />}
-                {this.props.selectedNavItem === userConstants.NavItem_Advertisements && <Advertisements/>}
-                {this.props.selectedNavItem === userConstants.NavItem_AccessControl && <AccessControl/>}
-                {this.props.selectedNavItem === userConstants.NavItem_Campaigns && <Campaigns/>}
-                {this.props.selectedNavItem === userConstants.NavItem_Analytics && <Analytics advertisementList ={this.props.AdvertisementList} />}
-                {this.props.selectedNavItem === userConstants.NavItem_Prizes && <Prizes />}
-                {this.props.selectedNavItem === userConstants.NavItem_EMM && <Emm />}
-                {this.props.selectedNavItem === userConstants.NavItem_Bus && <RoutesList/>}
+                <Suspense fallback={<Launch />}>
+                    {this.props.selectedNavItem === userConstants.NavItem_Vehicles && <Vehicles />}
+                    {this.props.selectedNavItem === userConstants.NavItem_Tracking && <Tracking />}
+                    {this.props.selectedNavItem === userConstants.NavItem_Institutions && <Institutions />}
+                    {this.props.selectedNavItem === userConstants.NavItem_Users && <Users />}
+                    {this.props.selectedNavItem === userConstants.NavItem_Advertisements && <Advertisements />}
+                    {this.props.selectedNavItem === userConstants.NavItem_AccessControl && <AccessControl />}
+                    {this.props.selectedNavItem === userConstants.NavItem_Campaigns && <Campaigns />}
+                    {this.props.selectedNavItem === userConstants.NavItem_Analytics && <Analytics />}
+                    {this.props.selectedNavItem === userConstants.NavItem_Prizes && <Prizes />}
+                    {this.props.selectedNavItem === userConstants.NavItem_EMM && <Emm />}
+                    {this.props.selectedNavItem === userConstants.NavItem_Bus && <RoutesList />}
                 </Suspense>
             </div>
 
-            );
+        );
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        selectedNavItem: state.Login.SelectedNavOption,
-        AdvertisementList: state.AdvertisementStore.Advertisements,
+        selectedNavItem: state.Login.SelectedNavOption
     }
 };
 
