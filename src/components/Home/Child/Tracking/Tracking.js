@@ -66,7 +66,8 @@ class Tracking extends Component {
             showModal: false,
             isTimedOut: false,
             timeOffUnmount: '',
-            activeCount: 0
+            activeCount: 0,
+            toggleModel: false
 
         };
 
@@ -256,13 +257,13 @@ class Tracking extends Component {
     }
 
 
-    returnModel = (show) => {
+    returnModel = (show, vehicleList) => {
         return (
             <Modal
                 show={show}
                 onClose={this.handleClose}
-                objectType={config.sessionExpired}
-                objectList={[]}
+                objectType={config.onlineVehicles}
+                objectList={vehicleList}
                 onSelect={this.subscribe} />
         );
     }
@@ -291,7 +292,8 @@ class Tracking extends Component {
         return (
             <div style={{ height: "100vh", width: "100%" }}>
 
-                {this.returnModel(this.state.showModal)}
+
+                {this.returnModel(this.state.showModal, vehicles)}
 
                 <IdleTimer
                     ref={ref => { this.idleTimer = ref }}
@@ -303,7 +305,7 @@ class Tracking extends Component {
                     timeout={this.state.timeout} />
 
                 <MapContainer center={position} zoom={10} maxZoom={20} minZoom={9} scrollWheelZoom={true} style={{ width: '100%', height: '100%' }}>
-                    <div className='activeCount'>
+                    <div className='activeCount' onClick={(e) => { this.setState({ showModal: true }) }}>
                         <h4 style={{ margin: '10px' }}>{this.state.activeCount}</h4>
                     </div>
                     <div className='idleCount'>

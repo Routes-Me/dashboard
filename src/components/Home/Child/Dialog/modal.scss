@@ -15,11 +15,16 @@
 .modal-content {
   background-color: #fefefe;
   margin: 5% auto; /* 15% from the top and centered */
-  padding-top: 15px;
   border: 1px solid #888;
   max-width: 50%; /* Could be more or less, depending on screen size */
   height: 50%;
-  overflow: hidden;
+  overflow-y: scroll;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.modal-content::-webkit-scrollbar{
+  display: none;
 }
 
 .modal-content.wider {
@@ -36,9 +41,10 @@
 .searchList > table {
   width: 100%;
   height: 50%;
+  overflow: scroll;
 }
 
-.searchList > table > tbody > tr > td {
+.searchList > table > tr {
   padding-left: 40px;
   line-height: 50px;
   border-bottom: 0.5px solid gray;

@@ -80,14 +80,32 @@ class Modal extends React.Component {
         )
     }
 
-    returnHubReconnectionAlert = () => {
-        return (<div className='col-md-12 text-center'>
-            <h3> Your session has expired due to inactivity!! Kindly reconnect to see the live feeds again. !!</h3>
-            <div className='col-md-12  text-center'>
-                <button className="btn btn-danger" onClick={this.props.onClose} style={{ margin: "5px" }}> Cancel</button>
-                <button className="btn btn-primary" onClick={this.props.onSelect}> Recoonect</button>
-            </div>
-        </div>)
+    returnVehicles = (vehicles) => {
+        return (
+            <div className="searchList">
+                <table>
+                    <thead style={{ position: 'sticky', top: '200px', backgroundColor: 'white' }}>
+                        <tr style={{ height: '51px' }}>
+                            <th style={{ paddingLeft: '50px' }}>#</th>
+                            <th>VEHICLE-ID</th>
+                            <th>DEVICE-ID</th>
+                            <th>INSTITUTION-ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            vehicles.map((vehicle, index) => (
+                                <tr key={vehicle.id}>
+                                    <td style={{ paddingLeft: '50px' }}>{index}</td>
+                                    <td>{vehicle.id}</td>
+                                    <td>{vehicle.deviceId}</td>
+                                    <td>{vehicle.institutionId}</td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
+            </div>)
     }
 
     returnIdforObjectType = (object, objectType) => objectType === vehicleConstants.searchDialogFor_Makers ? object.manufacturerId : object.modelId;
@@ -157,8 +175,8 @@ class Modal extends React.Component {
                                 frameBorder="0"
                                 marginHeight="0"
                                 marginWidth="0" />
-                            : title === config.sessionExpired ?
-                                this.returnHubReconnectionAlert()
+                            : title === config.onlineVehicles || config.offlineVehicles ?
+                                this.returnVehicles(this.props.objectList)
                                 : content}
 
                 </div>
