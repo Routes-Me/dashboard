@@ -17,31 +17,27 @@ export function getAnalyticsLinkLogs(role, user) {
 }
 
 function filterObjectValueForKey(array, key) {
-    return new Promise((resolve, reject) => {
-        let value = 0;
-        const obj = array.filter(item => item.os === key);
-        value = obj.length > 0 ? obj[0].value : 0;
-        console.log(`OS : ${key} =>`, value);
-        resolve(value);
-    });
+    let value = 0;
+    const obj = array.filter(item => item.os === key);
+    value = obj.length > 0 ? obj[0].value : 0;
+    return value;
 
 }
 
 function returnFormattedData(response) {
 
-    const adds = response.data.data;
-    const refinedAdds = adds.map(add => {
+    const ads = response.data.data;
+    const refinedAdds = ads.map(ad => {
 
         const refineAdds = {
-            name: add.advertisementId
+            name: ad.advertisementId,
+            iOS: filterObjectValueForKey(ad.osAndValues, 'ios'),
+            Android: filterObjectValueForKey(ad.osAndValues, 'android'),
+            web: filterObjectValueForKey(ad.osAndValues, 'web'),
+            Windows: filterObjectValueForKey(ad.osAndValues, 'windows'),
+            Mac: filterObjectValueForKey(ad.osAndValues, 'mac')
         }
-        filterObjectValueForKey(add.osAndValues, 'ios').then((value) => refineAdds.iOS = value);
-        filterObjectValueForKey(add.osAndValues, 'android').then((value) => refineAdds.Android = value);
-        filterObjectValueForKey(add.osAndValues, 'web').then((value) => refineAdds.web = value);
-        filterObjectValueForKey(add.osAndValues, 'windows').then((value) => refineAdds.Windows = value);
-        filterObjectValueForKey(add.osAndValues, 'mac').then((value) => refineAdds.Mac = value);
         return refineAdds;
-
     });
 
     return {
