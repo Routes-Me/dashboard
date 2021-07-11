@@ -3,6 +3,8 @@ import '../../../Style/home.css';
 import '../Dialog/modal.scss';
 import { vehicleConstants } from '../../../../constants/vehicleConstants';
 import { config } from '../../../../constants/config';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 class Modal extends React.Component {
 
@@ -19,7 +21,9 @@ class Modal extends React.Component {
             ModelList: [],
             selectedModel: "",
             validationError: "",
-            loading: false
+            loading: false,
+            startDate: "",
+            endDate: ""
         }
 
     }
@@ -46,9 +50,19 @@ class Modal extends React.Component {
 
     returnSearch = () => {
         return (
-            <div className="search-part">
-                <input type="text" name="search" placeholder="Search" className="search" />
-                <i className="fa fa-search" aria-hidden="true" />
+            <div className="search-part d-flex justify-content-between">
+                <div style={{ padding: '0px' }}>
+                    <input type="text" name="search" placeholder="Search" className="search" />
+                    <i className="fa fa-search" aria-hidden="true" />
+                </div>
+                <div>
+                    <DatePicker
+                        selectsRange={true}
+                        startDate={this.state.startDate}
+                        endDate={this.state.endDate}
+                        onChange={(update) => { this.setDateRange(update); }}
+                        isClearable={true} />
+                </div>
             </div>
         )
     }
@@ -78,6 +92,10 @@ class Modal extends React.Component {
                 </div>
             </div>
         )
+    }
+
+    setDateRange = (update) => {
+        this.setState({ startDate: update[0], endDate: update[1] });
     }
 
     returnVehicles = (vehicles) => {
