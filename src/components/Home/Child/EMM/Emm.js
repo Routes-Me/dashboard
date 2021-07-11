@@ -154,7 +154,7 @@ class Emm extends Component {
         e.preventDefault();
 
         if (this.state.tabIndex === 2 && action === 'Add') {
-            return gapiObj.getPolicies()
+            return gapiObj.getPolicies(undefined, config.MaxLimit)
                 .then(policyObj => {
                     this.setState({
                         policyObj: policyObj,
@@ -331,7 +331,7 @@ class Emm extends Component {
                                     <div className="header-add-butt">
                                         <h3>EMM Console</h3>
                                         {tabIndex === 2 && <button className='filter-btn' onClick={e => this.showDetailScreen(e, 'Add')}> Add Device</button>}
-                                        {tabIndex === 1 && <button className='filter-btn' onClick={e => this.showDetailScreen(e, 'Aad')}> Add Policy</button>}
+                                        {tabIndex === 1 && <button className='filter-btn' onClick={e => this.showDetailScreen(e, 'Add')}> Add Policy</button>}
                                     </div>
                                     <div className="headerTabStyle" style={{ maxWidth: '25%', marginTop: '13px' }}>
                                         <nav>
