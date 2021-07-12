@@ -1,6 +1,6 @@
 ﻿import { trackingConstants } from '../../constants/trackingConstants';
 import * as signalR from '@aspnet/signalr';
-import { isSU, returnEntityForInstitution } from '../../util/basic';
+import { convertDateTimeToUnix, convertObjectKeyToLowerCase, isSU, returnEntityForInstitution } from '../../util/basic';
 import apiHandler from '../../util/request';
 import { config } from "../../constants/config";
 
@@ -125,18 +125,25 @@ export function UnsubscribeFromHub() {
 }
 
 
-export function getOffLineVehicle(role, user) {
+export function getVehiclesLog(start, end, status) {
     return dispatch => {
+        start = convertDateTimeToUnix(start);
+        end = convertDateTimeToUnix(end);
+        console.log(`Start ${start} End ${end}`);
         dispatch(OfflineDataRequest());
-        apiHandler.get(`report/offlineVehicle`)
+        apiHandler.get(`${status}?startAt=${start}&endAt=${end}`)
             .then(
                 vehicles => {
                     dispatch(OfflineUpdateReceived(vehicles.data));
                 },
                 error => {
-
+                    console.log('error ', error);
                 })
     }
+}
+
+export function getOnlineVehicles(start, end) {
+
 }
 
 export function getDevices(role, user) {

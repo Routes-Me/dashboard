@@ -20,6 +20,10 @@ export function convertObjectKeyToLowerCase(object) {
     return newobj;
 }
 
+export function convertDateTimeToUnix(datetime) {
+    return new Date(datetime).getTime() / 1000 //secs
+}
+
 
 //The function checks for null values and removes the key
 export function refineObject(obj) {

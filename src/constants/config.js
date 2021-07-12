@@ -1,5 +1,3 @@
-import { User } from "oidc-client";
-
 export const config = {
 
     onlineVehicles: "Online Vehicles",
@@ -63,6 +61,9 @@ export const config = {
     DropDownLimit: 5,
     MaxLimit: 100,
     Version: 'DVS21032021',
+
+    OnlineLog: 'checkins',
+    OfflineLog: 'checkins/offline-vehicles'
 
 
 

@@ -28,6 +28,25 @@ class Modal extends React.Component {
 
     }
 
+    setDateRange = (update) => {
+        this.setState({ startDate: update[0], endDate: update[1] });
+    }
+
+    updateDateRange = (date, key, title) => {
+        if (key === 'startDate') {
+            if (this.state.startDate !== undefined) {
+                this.setState({ startDate: date })
+            }
+        }
+        if (key === 'endDate') {
+            if (this.state.endDate !== undefined && this.state.startDate !== undefined && date > this.state.startDate) {
+                this.setState({ endDate: date })
+                let status = title === config.onlineVehicles ? config.OnlineLog : config.OfflineLog
+                this.props.onSelect(this.state.startDate, date, status)
+            }
+        }
+    }
+
     showSearchList = (searchList) => {
         if (searchList !== "") {
             return (
@@ -48,20 +67,26 @@ class Modal extends React.Component {
         }
     }
 
-    returnSearch = () => {
+    returnSearch = (title) => {
         return (
             <div className="search-part d-flex justify-content-between">
                 <div style={{ padding: '0px' }}>
-                    <input type="text" name="search" placeholder="Search" className="search" />
-                    <i className="fa fa-search" aria-hidden="true" />
+                    {/* <input type="text" name="search" placeholder="Search" className="search" />
+                    <i className="fa fa-search" aria-hidden="true" /> */}
                 </div>
-                <div>
+                <div style={{ display: "flex" }}>
                     <DatePicker
-                        selectsRange={true}
-                        startDate={this.state.startDate}
-                        endDate={this.state.endDate}
-                        onChange={(update) => { this.setDateRange(update); }}
-                        isClearable={true} />
+                        className="dateFilter"
+                        selected={this.state.startDate}
+                        onChange={(date) => this.updateDateRange(date, 'startDate', title)}
+                        dateFormat="MM/dd/yyyy h:mm aa"
+                        showTimeSelect />
+                    <DatePicker
+                        className="dateFilter"
+                        selected={this.state.endDate}
+                        onChange={(date) => this.updateDateRange(date, 'endDate', title)}
+                        dateFormat="MM/dd/yyyy h:mm aa"
+                        showTimeSelect />
                 </div>
             </div>
         )
@@ -94,16 +119,15 @@ class Modal extends React.Component {
         )
     }
 
-    setDateRange = (update) => {
-        this.setState({ startDate: update[0], endDate: update[1] });
-    }
+
+
 
     returnVehicles = (vehicles) => {
         return (
             <div className="searchList">
                 <table>
-                    <thead style={{ position: 'sticky', top: '200px', backgroundColor: 'white' }}>
-                        <tr style={{ height: '51px' }}>
+                    <thead style={{ position: 'sticky', top: '180px', backgroundColor: 'white' }}>
+                        <tr style={{ height: '51px', borderBottom: "0.5px solid black" }}>
                             <th style={{ paddingLeft: '50px' }}>#</th>
                             <th>VEHICLE-ID</th>
                             <th>DEVICE-ID</th>
@@ -180,7 +204,7 @@ class Modal extends React.Component {
                         </div>
                         <hr />
                         {verifyTitleForEMM(title) &&
-                            this.returnSearch()}
+                            this.returnSearch(title)}
                     </div>
                     {title === 'Enrollment Token' ?
                         this.returnEnrollmentdetails(this.props.objectList.value, this.props.objectList.policyName)

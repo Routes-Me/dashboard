@@ -67,7 +67,8 @@ class Tracking extends Component {
             isTimedOut: false,
             timeOffUnmount: '',
             activeCount: 0,
-            toggleModel: false
+            toggleModel: false,
+            status: ''
 
         };
 
@@ -251,28 +252,21 @@ class Tracking extends Component {
         return icon;
     }
 
-    subscribe = () => {
-        this.props.SubscribeToHub(this.props.role, this.props.user);
-        this.handleClose();
-    }
-
 
     returnModel = (show, vehicleList) => {
         return (
             <Modal
                 show={show}
                 onClose={this.handleClose}
-                objectType={config.onlineVehicles}
+                objectType={this.state.status}
                 objectList={vehicleList}
-                onSelect={this.subscribe} />
+                onSelect={this.props.getVehiclesLog} />
         );
     }
 
     handleClose = () => {
         this.setState({ showModal: false })
     }
-
-
 
     render() {
         const position = [29.378586, 47.990341]
@@ -305,10 +299,10 @@ class Tracking extends Component {
                     timeout={this.state.timeout} />
 
                 <MapContainer center={position} zoom={10} maxZoom={20} minZoom={9} scrollWheelZoom={true} style={{ width: '100%', height: '100%' }}>
-                    <div className='activeCount' onClick={(e) => { this.setState({ showModal: true }) }}>
+                    <div className='activeCount' onClick={(e) => { this.setState({ showModal: true, status: config.onlineVehicles }) }}>
                         <h4 style={{ margin: '10px' }}>{this.state.activeCount}</h4>
                     </div>
-                    <div className='idleCount'>
+                    <div className='idleCount' onClick={(e) => { this.setState({ showModal: true, status: config.offlineVehicles }) }}>
                         <h4 style={{ margin: '10px' }}>{idleVehicleCount > 0 ? idleVehicleCount : 0}</h4>
                     </div>
                     <TileLayer
@@ -364,6 +358,7 @@ const mapStateToProps = (state) => {
 const actionCreators = {
     connectTheHub: TrackingAction.InitializeHub,
     getDevices: TrackingAction.getDevices,
+    getVehiclesLog: TrackingAction.getVehiclesLog,
     SubscribeToHub: TrackingAction.SubscribeToHub,
     UnSubscribeToHub: TrackingAction.UnsubscribeFromHub,
     UpdateTheSelectedMarker: TrackingAction.updateSelectedMarker,
