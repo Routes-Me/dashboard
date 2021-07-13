@@ -27,7 +27,15 @@ export function convertDateTimeToUnix(datetime) {
 
 export function convertUnixTimeToDateTime(unixTime) {
     const date = new Date(unixTime * 1000);
-    return date.toLocaleDateString("en-US");
+    return date.toLocaleDateString();
+}
+
+export function convertUnixTimeToHours(unixTime) {
+    const date = new Date(unixTime * 1000);
+    const hours = date.getHours();
+    if (hours > 24)
+        return `${hours / 24} days ${hours % 24} hrs`;
+    return `${hours} hrs`;
 }
 
 

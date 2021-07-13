@@ -5,7 +5,7 @@ import { vehicleConstants } from '../../../../constants/vehicleConstants';
 import { config } from '../../../../constants/config';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { convertUnixTimeToDateTime } from '../../../../util/basic';
+import { convertUnixTimeToDateTime, convertUnixTimeToHours } from '../../../../util/basic';
 
 class Modal extends React.Component {
 
@@ -21,7 +21,6 @@ class Modal extends React.Component {
             InstitutionId: "",
             ModelList: [],
             selectedModel: "",
-            validationError: "",
             loading: false,
             startDate: "",
             endDate: ""
@@ -32,6 +31,19 @@ class Modal extends React.Component {
     setDateRange = (update) => {
         this.setState({ startDate: update[0], endDate: update[1] });
     }
+
+    componentDidMount() {
+        if (this.props.objectType === config.onlineVehicles || this.props.objectType === config.offlineVehicles) {
+            let strtDate = new Date();
+            let edDate = new Date();
+            edDate.setDate(edDate.getDate() - 3);
+            this.setState({ startDate: strtDate, endDate: edDate });
+            let status = this.props.objectType === config.onlineVehicles ? config.OnlineLog : config.OfflineLog;
+            console.log(`Params for logs Start : ${strtDate} End : ${edDate} Status to check ${status}`);
+            this.props.onSelect(this.state.startDate, this.state.endDate, status);
+        }
+    }
+
 
     updateDateRange = (date, key, title) => {
         if (key === 'startDate') {
@@ -81,13 +93,15 @@ class Modal extends React.Component {
                         selected={this.state.startDate}
                         onChange={(date) => this.updateDateRange(date, 'startDate', title)}
                         dateFormat="MM/dd/yyyy h:mm aa"
-                        showTimeSelect />
+                        showTimeSelect
+                        isClearable />
                     <DatePicker
                         className="dateFilter"
                         selected={this.state.endDate}
                         onChange={(date) => this.updateDateRange(date, 'endDate', title)}
                         dateFormat="MM/dd/yyyy h:mm aa"
-                        showTimeSelect />
+                        showTimeSelect
+                        isClearable />
                 </div>
             </div>
         )
@@ -133,6 +147,7 @@ class Modal extends React.Component {
                             <th style={{ paddingLeft: '50px' }}>#</th>
                             <th>VEHICLE-ID</th>
                             <th>CHECKED-AT</th>
+                            <th>TOTAL</th>
                             <th>INSTITUTION</th>
                         </tr>
                     </thead>
@@ -143,6 +158,7 @@ class Modal extends React.Component {
                                     <td style={{ paddingLeft: '50px' }}>{index}</td>
                                     <td>{vehicle.vehicleId}</td>
                                     <td>{convertUnixTimeToDateTime(vehicle.checkedAt)}</td>
+                                    <td>{convertUnixTimeToHours(vehicle.total)}</td>
                                     <td>{vehicle.institutionName}</td>
                                 </tr>
                             ))
@@ -165,36 +181,26 @@ class Modal extends React.Component {
             return null;
         }
 
-        // The gray background
-        const backdropStyle = {
-            position: 'fixed',
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            backgroundColor: 'rgba(0,0,0,0.3)',
-            padding: 50
-        };
-
-        // The modal "window"
-        const modalStyle = {
-            backgroundColor: '#fefefe',
-            borderRadius: 5,
-            maxWidth: 300,
-            minHeight: 300,
-            margin: '0 auto'
-        };
-
         const verifyTitleForEMM = (title) => {
             return title !== 'Enrollment Token' && title !== 'Emm Console';
         }
 
         const verifyTitleToReturnSerachList = (title) => {
-            return title !== 'Enrollment Token' && title !== 'Emm Console' && title !== config.onlineVehicles && title !== config.offlineVehicles;
+            return title !== 'Enrollment Token' && title !== 'Emm Console' && title && !verifyTitleForVehicleLog(title);
+        }
+
+        const verifyTitleForVehicleLog = (title) => {
+            return title === config.offlineVehicles || title === config.onlineVehicles;
         }
 
         const title = this.props.objectType;
         let content = verifyTitleToReturnSerachList(title) && this.showSearchList(this.props.objectList);
+
+        const closeDialog = (e) => {
+            e.preventDefault();
+            // this.setState({ startDate: '', endDate: '' });
+            this.props.onClose();
+        }
 
         //const VehicleObj = this.props.objectToDisplay;
 
@@ -204,7 +210,7 @@ class Modal extends React.Component {
                 <div className={`modal-content${title === 'Emm Console' ? ' wider' : ''}`}>
 
                     <div className="top-part-vehicles-search model-header">
-                        <span className="closeBtn" style={{ float: "right", display: "block" }} onClick={this.props.onClose} />
+                        <span className="closeBtn" style={{ float: "right", display: "block" }} onClick={(e) => closeDialog(e)} />
                         <div className="header-add-butt">
                             <h3>{title}</h3>
                         </div>
