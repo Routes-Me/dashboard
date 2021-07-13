@@ -127,6 +127,7 @@ export function UnsubscribeFromHub() {
 
 export function getVehiclesLog(start, end, status) {
     return dispatch => {
+        dispatch(vehicleLogRequest());
         start = convertDateTimeToUnix(start);
         end = convertDateTimeToUnix(end);
         console.log(`Start ${start} End ${end}`);
@@ -134,7 +135,7 @@ export function getVehiclesLog(start, end, status) {
         apiHandler.get(`${status}?startAt=${start}&endAt=${end}`)
             .then(
                 vehicles => {
-                    dispatch(OfflineUpdateReceived(vehicles.data));
+                    dispatch(updateVehicleLog(vehicles.data));
                 },
                 error => {
                     console.log('error ', error);
@@ -142,8 +143,11 @@ export function getVehiclesLog(start, end, status) {
     }
 }
 
-export function getOnlineVehicles(start, end) {
-
+function vehicleLogRequest() {
+    return { type: trackingConstants.TrackingVehicleLog_Request }
+}
+function updateVehicleLog(vehicles) {
+    return { type: trackingConstants.TrackingVehicleLog_Success, payload: vehicles }
 }
 
 export function getDevices(role, user) {
