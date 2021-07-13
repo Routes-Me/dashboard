@@ -5,6 +5,7 @@ import { vehicleConstants } from '../../../../constants/vehicleConstants';
 import { config } from '../../../../constants/config';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { convertUnixTimeToDateTime } from '../../../../util/basic';
 
 class Modal extends React.Component {
 
@@ -48,7 +49,7 @@ class Modal extends React.Component {
     }
 
     showSearchList = (searchList) => {
-        if (searchList !== "") {
+        if (searchList !== "" && searchList !== undefined) {
             return (
                 <div className="searchList">
                     <table>
@@ -123,6 +124,7 @@ class Modal extends React.Component {
 
 
     returnVehicles = (vehicles) => {
+        console.log('Log Model ', vehicles);
         return (
             <div className="searchList">
                 <table>
@@ -130,18 +132,18 @@ class Modal extends React.Component {
                         <tr style={{ height: '51px', borderBottom: "0.5px solid black" }}>
                             <th style={{ paddingLeft: '50px' }}>#</th>
                             <th>VEHICLE-ID</th>
-                            <th>DEVICE-ID</th>
-                            <th>INSTITUTION-ID</th>
+                            <th>CHECKED-AT</th>
+                            <th>INSTITUTION</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
-                            vehicles.map((vehicle, index) => (
-                                <tr key={vehicle.id}>
+                            vehicles.data && vehicles.data.map((vehicle, index) => (
+                                <tr key={vehicle.vehicleId}>
                                     <td style={{ paddingLeft: '50px' }}>{index}</td>
-                                    <td>{vehicle.id}</td>
-                                    <td>{vehicle.deviceId}</td>
-                                    <td>{vehicle.institutionId}</td>
+                                    <td>{vehicle.vehicleId}</td>
+                                    <td>{convertUnixTimeToDateTime(vehicle.checkedAt)}</td>
+                                    <td>{vehicle.institutionName}</td>
                                 </tr>
                             ))
                         }
@@ -184,11 +186,15 @@ class Modal extends React.Component {
         };
 
         const verifyTitleForEMM = (title) => {
-            return title !== 'Enrollment Token' && title !== 'Emm Console' && title !== config.sessionExpired;
+            return title !== 'Enrollment Token' && title !== 'Emm Console';
+        }
+
+        const verifyTitleToReturnSerachList = (title) => {
+            return title !== 'Enrollment Token' && title !== 'Emm Console' && title !== config.onlineVehicles && title !== config.offlineVehicles;
         }
 
         const title = this.props.objectType;
-        let content = verifyTitleForEMM(title) && this.showSearchList(this.props.objectList);
+        let content = verifyTitleToReturnSerachList(title) && this.showSearchList(this.props.objectList);
 
         //const VehicleObj = this.props.objectToDisplay;
 
