@@ -287,7 +287,7 @@ class Tracking extends Component {
             <div style={{ height: "100vh", width: "100%" }}>
 
 
-                {this.returnModel(this.state.showModal, vehicles)}
+                {this.returnModel(this.state.showModal, this.props.vehicleLog)}
 
                 <IdleTimer
                     ref={ref => { this.idleTimer = ref }}
@@ -347,6 +347,7 @@ const mapStateToProps = (state) => {
         //result: points,
         VehicleList: state.Tracking.IdleVehicles,//state.VehicleStore.Vehicles,
         idForSelectedVehicle: state.Tracking.idForSelectedVehicle,
+        vehicleLog: state.Tracking.VehicleLog,
         movedVehicle: state.Tracking.MovedVehicle,
         token: state.Login.token,
         user: state.Login.user,
