@@ -25,6 +25,12 @@ export function convertDateTimeToUnix(datetime) {
 }
 
 
+export function convertUnixTimeToDateTime(unixTime) {
+    const date = new Date(unixTime * 1000);
+    return date.toLocaleDateString("en-US");
+}
+
+
 //The function checks for null values and removes the key
 export function refineObject(obj) {
     for (var propName in obj) {
