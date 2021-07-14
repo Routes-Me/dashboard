@@ -23,7 +23,8 @@ class Modal extends React.Component {
             selectedModel: "",
             loading: false,
             startDate: "",
-            endDate: ""
+            endDate: "",
+            title: ""
         }
 
     }
@@ -33,16 +34,24 @@ class Modal extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.objectType === config.onlineVehicles || this.props.objectType === config.offlineVehicles) {
-            let strtDate = new Date();
-            let edDate = new Date();
-            edDate.setDate(edDate.getDate() - 3);
-            this.setState({ startDate: strtDate, endDate: edDate });
-            let status = this.props.objectType === config.onlineVehicles ? config.OnlineLog : config.OfflineLog;
-            console.log(`Params for logs Start : ${strtDate} End : ${edDate} Status to check ${status}`);
-            this.props.onSelect(this.state.startDate, this.state.endDate, status);
+        console.log('Component did mount ', this.props.objectType);
+        // if (this.props.objectType === config.onlineVehicles || this.props.objectType === config.offlineVehicles) {
+        let strtDate = new Date();
+        let edDate = new Date();
+        strtDate.setDate(edDate.getDate() - 3);
+        this.setState({ startDate: strtDate, endDate: edDate });
+        // let status = this.props.objectType === config.onlineVehicles ? config.OnlineLog : config.OfflineLog;
+        // console.log(`Params for logs Start : ${strtDate} End : ${edDate} Status to check ${status}`);
+        // this.props.onSelect(this.state.startDate, this.state.endDate, status);
+        // }
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.objectType !== state.title) {
+
         }
     }
+
 
 
     updateDateRange = (date, key, title) => {
@@ -69,7 +78,7 @@ class Modal extends React.Component {
                             {
                                 searchList.map(obj => (
                                     <tr key={obj.name} onClick={() => { this.onselection(obj) }}>
-                                        <td>{obj.name}</td>
+                                        <td style={{ paddingLeft: "40px" }}>{obj.name}</td>
                                     </tr>
                                 ))
                             }
@@ -182,26 +191,26 @@ class Modal extends React.Component {
         }
 
         const verifyTitleForEMM = (title) => {
-            return title !== 'Enrollment Token' && title !== 'Emm Console';
+            return title !== 'Enrollment Token' && title !== 'Emm Console' && verifyTitleIsNotForVehicleLog(title);
         }
 
-        const verifyTitleToReturnSerachList = (title) => {
-            return title !== 'Enrollment Token' && title !== 'Emm Console' && title && !verifyTitleForVehicleLog(title);
+        const returnSearchForVehicles = (title) => {
+            return title === 'Manufacturers' || title === "Models";
         }
 
-        const verifyTitleForVehicleLog = (title) => {
+        const returnSearchForTracking = (title) => {
             return title === config.offlineVehicles || title === config.onlineVehicles;
         }
 
-        const title = this.props.objectType;
-        let content = verifyTitleToReturnSerachList(title) && this.showSearchList(this.props.objectList);
-
-        const closeDialog = (e) => {
-            e.preventDefault();
-            // this.setState({ startDate: '', endDate: '' });
-            this.props.onClose();
+        const verifyTitleIsNotForVehicleLog = (title) => {
+            return title !== config.offlineVehicles && title !== config.onlineVehicles;
         }
 
+
+
+
+
+        console.log('Title to be rendered ', title);
         //const VehicleObj = this.props.objectToDisplay;
 
 
@@ -210,12 +219,12 @@ class Modal extends React.Component {
                 <div className={`modal-content${title === 'Emm Console' ? ' wider' : ''}`}>
 
                     <div className="top-part-vehicles-search model-header">
-                        <span className="closeBtn" style={{ float: "right", display: "block" }} onClick={(e) => closeDialog(e)} />
+                        <span className="closeBtn" style={{ float: "right", display: "block" }} onClick={this.props.onClose} />
                         <div className="header-add-butt">
                             <h3>{title}</h3>
                         </div>
                         <hr />
-                        {verifyTitleForEMM(title) &&
+                        {returnSearchForTracking(title) &&
                             this.returnSearch(title)}
                     </div>
                     {title === 'Enrollment Token' ?
@@ -229,9 +238,9 @@ class Modal extends React.Component {
                                 frameBorder="0"
                                 marginHeight="0"
                                 marginWidth="0" />
-                            : title === config.onlineVehicles || config.offlineVehicles ?
+                            : title === config.onlineVehicles || title === config.offlineVehicles ?
                                 this.returnVehicles(this.props.objectList)
-                                : content}
+                                : this.showSearchList(this.props.objectList)}
 
                 </div>
             </div>
