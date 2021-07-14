@@ -19,6 +19,7 @@ import { restoreToken } from '../../../../util/localStorage';
 import { trackingConstants } from '../../../../constants/trackingConstants';
 import Modal from '../Dialog/Modal';
 import { config } from '../../../../constants/config';
+import { isSU } from '../../../../util/basic';
 
 const MAP = {
     defaultZoom: 9,
@@ -299,10 +300,10 @@ class Tracking extends Component {
                     timeout={this.state.timeout} />
 
                 <MapContainer center={position} zoom={10} maxZoom={20} minZoom={9} scrollWheelZoom={true} style={{ width: '100%', height: '100%' }}>
-                    <div className='activeCount' onClick={(e) => { this.setState({ showModal: true, status: config.onlineVehicles }) }}>
+                    <div className='activeCount' onClick={(e) => { isSU(this.props.role) && this.setState({ showModal: true, status: config.onlineVehicles }) }}>
                         <h4 style={{ margin: '10px' }}>{this.state.activeCount}</h4>
                     </div>
-                    <div className='idleCount' onClick={(e) => { this.setState({ showModal: true, status: config.offlineVehicles }) }}>
+                    <div className='idleCount' onClick={(e) => { isSU(this.props.role) && this.setState({ showModal: true, status: config.offlineVehicles }) }}>
                         <h4 style={{ margin: '10px' }}>{idleVehicleCount > 0 ? idleVehicleCount : 0}</h4>
                     </div>
                     <TileLayer
