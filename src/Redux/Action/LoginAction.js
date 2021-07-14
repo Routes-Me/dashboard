@@ -11,6 +11,9 @@ import { convertObjectKeyToLowerCase } from "../../util/basic";
 
 export function userSignInRequestV1(username, password) {
 
+  console.log("Login :: Environment :", process.env.NODE_ENV);
+  console.log('Login :: API Domain :', process.env.REACT_APP_APIDOMAIN);
+
   return dispatch => {
     dispatch(request({ username, password }));
     let userObject = {

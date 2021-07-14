@@ -3,6 +3,9 @@ import '../../../Style/home.css';
 import '../Dialog/modal.scss';
 import { vehicleConstants } from '../../../../constants/vehicleConstants';
 import { config } from '../../../../constants/config';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { convertUnixTimeToDateTime, convertUnixTimeToHours } from '../../../../util/basic';
 
 class Modal extends React.Component {
 
@@ -18,14 +21,47 @@ class Modal extends React.Component {
             InstitutionId: "",
             ModelList: [],
             selectedModel: "",
-            validationError: "",
-            loading: false
+            loading: false,
+            startDate: "",
+            endDate: ""
         }
 
     }
 
+    setDateRange = (update) => {
+        this.setState({ startDate: update[0], endDate: update[1] });
+    }
+
+    componentDidMount() {
+        if (this.props.objectType === config.onlineVehicles || this.props.objectType === config.offlineVehicles) {
+            let strtDate = new Date();
+            let edDate = new Date();
+            edDate.setDate(edDate.getDate() - 3);
+            this.setState({ startDate: strtDate, endDate: edDate });
+            let status = this.props.objectType === config.onlineVehicles ? config.OnlineLog : config.OfflineLog;
+            console.log(`Params for logs Start : ${strtDate} End : ${edDate} Status to check ${status}`);
+            this.props.onSelect(this.state.startDate, this.state.endDate, status);
+        }
+    }
+
+
+    updateDateRange = (date, key, title) => {
+        if (key === 'startDate') {
+            if (this.state.startDate !== undefined) {
+                this.setState({ startDate: date })
+            }
+        }
+        if (key === 'endDate') {
+            if (this.state.endDate !== undefined && this.state.startDate !== undefined && date > this.state.startDate) {
+                this.setState({ endDate: date })
+                let status = title === config.onlineVehicles ? config.OnlineLog : config.OfflineLog
+                this.props.onSelect(this.state.startDate, date, status)
+            }
+        }
+    }
+
     showSearchList = (searchList) => {
-        if (searchList !== "") {
+        if (searchList !== "" && searchList !== undefined) {
             return (
                 <div className="searchList">
                     <table>
@@ -44,11 +80,29 @@ class Modal extends React.Component {
         }
     }
 
-    returnSearch = () => {
+    returnSearch = (title) => {
         return (
-            <div className="search-part">
-                <input type="text" name="search" placeholder="Search" className="search" />
-                <i className="fa fa-search" aria-hidden="true" />
+            <div className="search-part d-flex justify-content-between">
+                <div style={{ padding: '0px' }}>
+                    {/* <input type="text" name="search" placeholder="Search" className="search" />
+                    <i className="fa fa-search" aria-hidden="true" /> */}
+                </div>
+                <div style={{ display: "flex" }}>
+                    <DatePicker
+                        className="dateFilter"
+                        selected={this.state.startDate}
+                        onChange={(date) => this.updateDateRange(date, 'startDate', title)}
+                        dateFormat="MM/dd/yyyy h:mm aa"
+                        showTimeSelect
+                        isClearable />
+                    <DatePicker
+                        className="dateFilter"
+                        selected={this.state.endDate}
+                        onChange={(date) => this.updateDateRange(date, 'endDate', title)}
+                        dateFormat="MM/dd/yyyy h:mm aa"
+                        showTimeSelect
+                        isClearable />
+                </div>
             </div>
         )
     }
@@ -80,14 +134,38 @@ class Modal extends React.Component {
         )
     }
 
-    returnHubReconnectionAlert = () => {
-        return (<div className='col-md-12 text-center'>
-            <h3> Your session has expired due to inactivity!! Kindly reconnect to see the live feeds again. !!</h3>
-            <div className='col-md-12  text-center'>
-                <button className="btn btn-danger" onClick={this.props.onClose} style={{ margin: "5px" }}> Cancel</button>
-                <button className="btn btn-primary" onClick={this.props.onSelect}> Recoonect</button>
-            </div>
-        </div>)
+
+
+
+    returnVehicles = (vehicles) => {
+        console.log('Log Model ', vehicles);
+        return (
+            <div className="searchList">
+                <table>
+                    <thead style={{ position: 'sticky', top: '180px', backgroundColor: 'white' }}>
+                        <tr style={{ height: '51px', borderBottom: "0.5px solid black" }}>
+                            <th style={{ paddingLeft: '50px' }}>#</th>
+                            <th>VEHICLE-ID</th>
+                            <th>CHECKED-AT</th>
+                            <th>TOTAL</th>
+                            <th>INSTITUTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            vehicles.data && vehicles.data.map((vehicle, index) => (
+                                <tr key={vehicle.vehicleId}>
+                                    <td style={{ paddingLeft: '50px' }}>{index}</td>
+                                    <td>{vehicle.vehicleId}</td>
+                                    <td>{convertUnixTimeToDateTime(vehicle.checkedAt)}</td>
+                                    <td>{convertUnixTimeToHours(vehicle.total)}</td>
+                                    <td>{vehicle.institutionName}</td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
+                </table>
+            </div>)
     }
 
     returnIdforObjectType = (object, objectType) => objectType === vehicleConstants.searchDialogFor_Makers ? object.manufacturerId : object.modelId;
@@ -103,32 +181,26 @@ class Modal extends React.Component {
             return null;
         }
 
-        // The gray background
-        const backdropStyle = {
-            position: 'fixed',
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-            backgroundColor: 'rgba(0,0,0,0.3)',
-            padding: 50
-        };
-
-        // The modal "window"
-        const modalStyle = {
-            backgroundColor: '#fefefe',
-            borderRadius: 5,
-            maxWidth: 300,
-            minHeight: 300,
-            margin: '0 auto'
-        };
-
         const verifyTitleForEMM = (title) => {
-            return title !== 'Enrollment Token' && title !== 'Emm Console' && title !== config.sessionExpired;
+            return title !== 'Enrollment Token' && title !== 'Emm Console';
+        }
+
+        const verifyTitleToReturnSerachList = (title) => {
+            return title !== 'Enrollment Token' && title !== 'Emm Console' && title && !verifyTitleForVehicleLog(title);
+        }
+
+        const verifyTitleForVehicleLog = (title) => {
+            return title === config.offlineVehicles || title === config.onlineVehicles;
         }
 
         const title = this.props.objectType;
-        let content = verifyTitleForEMM(title) && this.showSearchList(this.props.objectList);
+        let content = verifyTitleToReturnSerachList(title) && this.showSearchList(this.props.objectList);
+
+        const closeDialog = (e) => {
+            e.preventDefault();
+            // this.setState({ startDate: '', endDate: '' });
+            this.props.onClose();
+        }
 
         //const VehicleObj = this.props.objectToDisplay;
 
@@ -138,13 +210,13 @@ class Modal extends React.Component {
                 <div className={`modal-content${title === 'Emm Console' ? ' wider' : ''}`}>
 
                     <div className="top-part-vehicles-search model-header">
-                        <span className="closeBtn" style={{ float: "right", display: "block" }} onClick={this.props.onClose} />
+                        <span className="closeBtn" style={{ float: "right", display: "block" }} onClick={(e) => closeDialog(e)} />
                         <div className="header-add-butt">
                             <h3>{title}</h3>
                         </div>
                         <hr />
                         {verifyTitleForEMM(title) &&
-                            this.returnSearch()}
+                            this.returnSearch(title)}
                     </div>
                     {title === 'Enrollment Token' ?
                         this.returnEnrollmentdetails(this.props.objectList.value, this.props.objectList.policyName)
@@ -157,8 +229,8 @@ class Modal extends React.Component {
                                 frameBorder="0"
                                 marginHeight="0"
                                 marginWidth="0" />
-                            : title === config.sessionExpired ?
-                                this.returnHubReconnectionAlert()
+                            : title === config.onlineVehicles || config.offlineVehicles ?
+                                this.returnVehicles(this.props.objectList)
                                 : content}
 
                 </div>

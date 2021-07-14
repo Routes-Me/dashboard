@@ -1,6 +1,6 @@
 ﻿import { trackingConstants } from '../../constants/trackingConstants';
 import * as signalR from '@aspnet/signalr';
-import { isSU, returnEntityForInstitution } from '../../util/basic';
+import { convertDateTimeToUnix, convertObjectKeyToLowerCase, isSU, returnEntityForInstitution } from '../../util/basic';
 import apiHandler from '../../util/request';
 import { config } from "../../constants/config";
 
@@ -11,46 +11,45 @@ var token = "";
 var user = "";
 var role = "";
 
-export function InitializeHub(token){
+export function InitializeHub(token) {
     token = token;
     return dispatch => {
-    
+
         hubConnection = new signalR.HubConnectionBuilder()
-        .withUrl(process.env.REACT_APP_HubURL, 
-        {
-            accessTokenFactory:() => getAccessToken(token)
-        })
-        .configureLogging(signalR.LogLevel.Trace)
-        .build();
+            .withUrl(process.env.REACT_APP_HubURL,
+                {
+                    accessTokenFactory: () => getAccessToken(token)
+                })
+            .configureLogging(signalR.LogLevel.Trace)
+            .build();
         hubConnection.serverTimeoutInMilliseconds = (60000 * 6);
 
     }
 
 }
 
-function getAccessToken(token){ return token }
+function getAccessToken(token) { return token }
 
 export const Subscribing = payload => ({ type: trackingConstants.Tracking_OnSubscribeRequest });
 
-export const Connected = payload => ({type: trackingConstants.Tracking_Connected});    
+export const Connected = payload => ({ type: trackingConstants.Tracking_Connected });
 
 
 
-export function SubscribeToHub(role,user) {
+export function SubscribeToHub(role, user) {
 
     return dispatch => {
 
         user = user;
         role = role;
         dispatch(Subscribing());
-        if(hubConnection.state === 0)
-        {
+        if (hubConnection.state === 0) {
             hubConnection.start()
                 .then(() => {
                     console.log('!!Hub Connected!!');
-                    const institutionForPriviledge = isSU(role)?null:user.institution.InstitutionId;
-                    hubConnection.invoke('Subscribe',institutionForPriviledge,null,null).catch(function(err) {
-                    console.log('!!Unable to subscribe to institution => '+err)
+                    const institutionForPriviledge = isSU(role) ? null : user.institution.InstitutionId;
+                    hubConnection.invoke('Subscribe', institutionForPriviledge, null, null).catch(function (err) {
+                        console.log('!!Unable to subscribe to institution => ' + err)
                     })
                     dispatch(Connected());
                 })
@@ -68,16 +67,16 @@ export function SubscribeToHub(role,user) {
             //sampleData.push(result)
 
             const res = JSON.parse(result);
-            console.log("!!Response on SignalR ", res);
+            // console.log("!!Response on SignalR ", res);
 
-            let FormatedRes =[];
+            let FormatedRes = [];
             // if (isSU(user))
             // {
             //     FormatedRes = { id: res.vehicleId, institutionId: res.institutionId, deviceId: res.deviceId, status: "active", coordinates: { lat: parseFloat(res.coordinates.latitude), lng: parseFloat(res.coordinates.longitude), timestamp: res.coordinates.timestamp } }
             // }
             // else{
             //     if (res.institutionId === user.InstitutionId){
-                    FormatedRes = { id: res.vehicleId, institutionId: res.institutionId, deviceId: res.deviceId, status: "active", coordinates: { lat: parseFloat(res.coordinates.latitude), lng: parseFloat(res.coordinates.longitude), timestamp: res.coordinates.timestamp } }
+            FormatedRes = { id: res.vehicleId, institutionId: res.institutionId, deviceId: res.deviceId, status: "active", coordinates: { lat: parseFloat(res.coordinates.latitude), lng: parseFloat(res.coordinates.longitude), timestamp: res.coordinates.timestamp } }
             //     }
             // }
             dispatch(OnUpdateReceived(FormatedRes));
@@ -87,16 +86,15 @@ export function SubscribeToHub(role,user) {
 }
 
 
-export function CheckConnectivity(){
-    if(hubConnection.state === 0)
-    {
+export function CheckConnectivity() {
+    if (hubConnection.state === 0) {
         console.log('!!Reconnecting Hub...');
         hubConnection.start()
-        .then(() => {
-            console.log('!!Hub Connected!!');
-            // dispatch(Connected());
-        })
-        .catch(err => console.error("!!Error while establishing connection : " + err));
+            .then(() => {
+                console.log('!!Hub Connected!!');
+                // dispatch(Connected());
+            })
+            .catch(err => console.error("!!Error while establishing connection : " + err));
     }
 }
 export const Unsubscribe = payload => ({ type: trackingConstants.Tracking_OnUnSubscribeRequest });
@@ -110,16 +108,15 @@ export function UnsubscribeFromHub() {
     return dispatch => {
         dispatch(Unsubscribe());
         console.log('Hub State ', hubConnection.state);
-        if(hubConnection.state === 1)
-        {
+        if (hubConnection.state === 1) {
             hubConnection.stop()
-            .then(() => {                                                                                                                                                                                                                                                                                                                                                        
-                console.log('!!Hub Disconnected!!');                                                                                                                                                                                                                                                                                                                                          
-                dispatch(Disconnected());
-            })
-            .catch(err => {
-                console.error("!!Error while disconnecting : " + err);
-            });
+                .then(() => {
+                    console.log('!!Hub Disconnected!!');
+                    dispatch(Disconnected());
+                })
+                .catch(err => {
+                    console.error("!!Error while disconnecting : " + err);
+                });
         }
     };
 
@@ -128,20 +125,45 @@ export function UnsubscribeFromHub() {
 }
 
 
-export function getDevices(role,user) {
+export function getVehiclesLog(start, end, status) {
+    return dispatch => {
+        dispatch(vehicleLogRequest());
+        start = convertDateTimeToUnix(start);
+        end = convertDateTimeToUnix(end);
+        console.log(`Start ${start} End ${end}`);
+        dispatch(OfflineDataRequest());
+        apiHandler.get(`${status}?startAt=${start}&endAt=${end}`)
+            .then(
+                vehicles => {
+                    dispatch(updateVehicleLog(vehicles.data));
+                },
+                error => {
+                    console.log('error ', error);
+                })
+    }
+}
+
+function vehicleLogRequest() {
+    return { type: trackingConstants.TrackingVehicleLog_Request }
+}
+function updateVehicleLog(vehicles) {
+    return { type: trackingConstants.TrackingVehicleLog_Success, payload: vehicles }
+}
+
+export function getDevices(role, user) {
 
     return dispatch => {
         dispatch(OfflineDataRequest());
-        let domain = returnEntityForInstitution('devices',role,user);
+        let domain = returnEntityForInstitution('devices', role, user);
         apiHandler.get(`${domain}?offset=1&limit=10`)
-        .then(
-            devices => {
-                console.log('!!Devices response ', devices);
-                dispatch(OfflineUpdateReceived(devices.data));
-        },
-            error => {
-                    alert("Offline vehicle "+ error.toString());
-            });
+            .then(
+                devices => {
+                    console.log('!!Devices response ', devices);
+                    dispatch(OfflineUpdateReceived(devices.data));
+                },
+                error => {
+                    alert("Offline vehicle " + error.toString());
+                });
     }
 
 }
@@ -150,7 +172,7 @@ function OfflineUpdateReceived(result) { return { type: trackingConstants.Tracki
 export const OfflineDataRequest = () => ({ type: trackingConstants.Tracking_OfflineDataRequest });
 export const OfflineDataError = payload => ({ type: trackingConstants.Tracking_OfflineDataError });
 
-function returnFormatedVehicles(response){
+function returnFormatedVehicles(response) {
 
     const VehicleList = response.data.data;
     const InstitutionList = response.data.included.institutions;
@@ -161,16 +183,16 @@ function returnFormatedVehicles(response){
         institution: InstitutionList.filter(y => y.InstitutionId === x.institutionId)[0],
         plateNumber: x.plateNumber,
         model: ModelList.filter(y => y.ModelId === x.modelId)[0],
-        status:"idle",
+        status: "idle",
         //make: MakerList.filter(y => y.makeId === x.makeId)[0],
         //deviceId: x.deviceId,
         modelYear: x.modelYear
     }))
 
-    let vehicles= {
-        data : FormatedVehicle,
-        page : response.data.pagination
-      }
+    let vehicles = {
+        data: FormatedVehicle,
+        page: response.data.pagination
+    }
 
     return vehicles;
 }
@@ -182,14 +204,14 @@ export function updateSelectedMarker(vehicleID) {
     }
 }
 
-export function updateVehicle(vehicle){
+export function updateVehicle(vehicle) {
     return dispatch => {
         dispatch(updateVehicleOnStore(vehicle))
     }
 }
 
-function updateVehicleOnStore(vehcile){
-    return {type : trackingConstants.Tracking_SelectedVehicle, payload: vehcile}
+function updateVehicleOnStore(vehcile) {
+    return { type: trackingConstants.Tracking_SelectedVehicle, payload: vehcile }
 }
 
 

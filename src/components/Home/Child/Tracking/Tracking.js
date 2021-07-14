@@ -66,7 +66,9 @@ class Tracking extends Component {
             showModal: false,
             isTimedOut: false,
             timeOffUnmount: '',
-            activeCount: 0
+            activeCount: 0,
+            toggleModel: false,
+            status: ''
 
         };
 
@@ -250,28 +252,21 @@ class Tracking extends Component {
         return icon;
     }
 
-    subscribe = () => {
-        this.props.SubscribeToHub(this.props.role, this.props.user);
-        this.handleClose();
-    }
 
-
-    returnModel = (show) => {
+    returnModel = (show, vehicleList) => {
         return (
             <Modal
                 show={show}
                 onClose={this.handleClose}
-                objectType={config.sessionExpired}
-                objectList={[]}
-                onSelect={this.subscribe} />
+                objectType={this.state.status}
+                objectList={vehicleList}
+                onSelect={this.props.getVehiclesLog} />
         );
     }
 
     handleClose = () => {
         this.setState({ showModal: false })
     }
-
-
 
     render() {
         const position = [29.378586, 47.990341]
@@ -291,7 +286,8 @@ class Tracking extends Component {
         return (
             <div style={{ height: "100vh", width: "100%" }}>
 
-                {this.returnModel(this.state.showModal)}
+
+                {this.returnModel(this.state.showModal, this.props.vehicleLog)}
 
                 <IdleTimer
                     ref={ref => { this.idleTimer = ref }}
@@ -303,10 +299,10 @@ class Tracking extends Component {
                     timeout={this.state.timeout} />
 
                 <MapContainer center={position} zoom={10} maxZoom={20} minZoom={9} scrollWheelZoom={true} style={{ width: '100%', height: '100%' }}>
-                    <div className='activeCount'>
+                    <div className='activeCount' onClick={(e) => { this.setState({ showModal: true, status: config.onlineVehicles }) }}>
                         <h4 style={{ margin: '10px' }}>{this.state.activeCount}</h4>
                     </div>
-                    <div className='idleCount'>
+                    <div className='idleCount' onClick={(e) => { this.setState({ showModal: true, status: config.offlineVehicles }) }}>
                         <h4 style={{ margin: '10px' }}>{idleVehicleCount > 0 ? idleVehicleCount : 0}</h4>
                     </div>
                     <TileLayer
@@ -351,6 +347,7 @@ const mapStateToProps = (state) => {
         //result: points,
         VehicleList: state.Tracking.IdleVehicles,//state.VehicleStore.Vehicles,
         idForSelectedVehicle: state.Tracking.idForSelectedVehicle,
+        vehicleLog: state.Tracking.VehicleLog,
         movedVehicle: state.Tracking.MovedVehicle,
         token: state.Login.token,
         user: state.Login.user,
@@ -362,6 +359,7 @@ const mapStateToProps = (state) => {
 const actionCreators = {
     connectTheHub: TrackingAction.InitializeHub,
     getDevices: TrackingAction.getDevices,
+    getVehiclesLog: TrackingAction.getVehiclesLog,
     SubscribeToHub: TrackingAction.SubscribeToHub,
     UnSubscribeToHub: TrackingAction.UnsubscribeFromHub,
     UpdateTheSelectedMarker: TrackingAction.updateSelectedMarker,

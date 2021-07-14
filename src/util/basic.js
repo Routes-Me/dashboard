@@ -20,6 +20,35 @@ export function convertObjectKeyToLowerCase(object) {
     return newobj;
 }
 
+export function convertDateTimeToUnix(datetime) {
+    return new Date(datetime).getTime() / 1000 //secs
+}
+
+
+export function convertUnixTimeToDateTime(unixTime) {
+    const date = new Date(unixTime * 1000);
+    return date.toLocaleDateString();
+}
+
+export function convertUnixTimeToHours(unixTime) {
+    const date = new Date(unixTime * 1000);
+    const hours = date.getHours();
+    if (hours > 24)
+        return `${hours / 24} days ${hours % 24} hrs`;
+    return `${hours} hrs`;
+}
+
+
+//The function checks for null values and removes the key
+export function refineObject(obj) {
+    for (var propName in obj) {
+        if (obj[propName] === null || obj[propName] === undefined) {
+            delete obj[propName];
+        }
+    }
+    return obj
+}
+
 export function returnCampaignIds(campaigns) {
     let campaignIDList = [];
     campaigns.map(x => (campaignIDList.push(x.campaignId)));
@@ -39,6 +68,7 @@ export function returnObjectForSelectedId(list, id) {
 }
 
 export function returnEntityForInstitution(entity, role, user) {
+    console.log('Institution returned ', user.institution)
     if (user?.institution?.InstitutionId !== undefined) {
         return user?.institution?.institutionId !== '' && isSU(role) ? entity : `institutions/${user.institution.institutionId}/${entity}`;
     }

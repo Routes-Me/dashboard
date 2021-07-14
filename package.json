@@ -64,6 +64,7 @@
     "react-beautiful-dnd": "^13.0.0",
     "react-collapse-pane": "^1.4.2",
     "react-cookies": "^0.1.1",
+    "react-datepicker": "^4.1.1",
     "react-dev-utils": "^10.2.1",
     "react-dom": "^16.13.1",
     "react-hook-form": "^5.7.2",
