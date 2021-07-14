@@ -47,7 +47,8 @@ export function SubscribeToHub(role, user) {
             hubConnection.start()
                 .then(() => {
                     console.log('!!Hub Connected!!');
-                    const institutionForPriviledge = isSU(role) ? null : user.institution.InstitutionId;
+                    const institutionForPriviledge = isSU(role) ? null : user.institution.institutionid;
+                    console.log('institutionForPriviledge ', institutionForPriviledge);
                     hubConnection.invoke('Subscribe', institutionForPriviledge, null, null).catch(function (err) {
                         console.log('!!Unable to subscribe to institution => ' + err)
                     })
