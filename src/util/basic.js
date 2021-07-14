@@ -77,11 +77,11 @@ export function returnEntityForInstitution(entity, role, user) {
 }
 
 export function isSU(role) {
-    return role.Privilege === config.SU ? true : false;
+    return role.privilege === config.SU ? true : false;
 }
 
 export function isROU(role) {
-    return role.Privilege === config.ROU ? true : false;
+    return role.privilege === config.ROU ? true : false;
 }
 
 
