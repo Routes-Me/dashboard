@@ -68,20 +68,20 @@ export function returnObjectForSelectedId(list, id) {
 }
 
 export function returnEntityForInstitution(entity, role, user) {
-    console.log('Institution returned ', user.institution)
-    if (user?.institution?.InstitutionId !== undefined) {
-        return user?.institution?.institutionId !== '' && isSU(role) ? entity : `institutions/${user.institution.institutionId}/${entity}`;
+    if (user?.institution?.institutionid !== undefined) {
+        entity = user?.institution?.institutionid !== '' && isSU(role) ? entity : `institutions/${user.institution.institutionid}/${entity}`;
+        return entity;
     }
     return entity;
 
 }
 
 export function isSU(role) {
-    return role.Privilege === config.SU ? true : false;
+    return role.privilege === config.SU ? true : false;
 }
 
 export function isROU(role) {
-    return role.Privilege === config.ROU ? true : false;
+    return role.privilege === config.ROU ? true : false;
 }
 
 

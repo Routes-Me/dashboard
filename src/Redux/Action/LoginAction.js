@@ -44,9 +44,11 @@ export function userSignInRequestV1(username, password) {
         setRefreshToken(refreshToken);
         dispatch(onReceiveToken(token));
         const tokenPayLoad = parseJwt(token);
-        const role = JSON.parse(atob(tokenPayLoad.rol));
-        dispatch(authorize(role[0]));
-        setRole(role[0]);
+        const roles = JSON.parse(atob(tokenPayLoad.rol));
+        const role = convertObjectKeyToLowerCase(roles[0]);
+        dispatch(authorize(role));
+        console.log('Role ', role);
+        setRole(role);
         const officerId = JSON.parse(atob(tokenPayLoad.ext)).OfficerId;
         apiHandler.get(`officers/${officerId}?include=users,institutions`)
           .then(

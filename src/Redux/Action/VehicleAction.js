@@ -218,7 +218,6 @@ function returnFormatedVehicles(response) {
     }
 
     formattedResponse.push(formattedObj);
-    console.log('formatted ', JSON.stringify(formattedResponse));
   })
 
 
