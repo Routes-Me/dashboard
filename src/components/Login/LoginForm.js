@@ -36,7 +36,6 @@ class LoginForm extends Component{
 
 
 	validateAll = () => {
-
 		if (!this.state.username.length ===0) {
 			this.setState({ usernameError: "Please enter your username!!"});
 		}
@@ -73,8 +72,9 @@ class LoginForm extends Component{
 	handleSubmit = (event) => {
 
 		event.preventDefault();
-
+		console.log('submit called!!')
 		const isValid = this.validateAll();
+		console.log('check validity == ', isValid);
 		if (isValid) {
 			this.setState({ loading: true });
 			this.props.login(this.state.username, this.state.password);
@@ -116,12 +116,12 @@ class LoginForm extends Component{
 
 
 								<div className="input-group">
-									<Input placeholder="Password" className="form-control password" type={this.state.inputType} value={this.state.password} onChange={this.onChange} name="password" validations={[required]} />
-									<span className="form-error is-visible">{this.state.passwordError}</span>                                
+									<Input placeholder="Password" className="form-control password" type={this.state.inputType} value={this.state.password} onChange={this.onChange} name="password" required />
 									<div class="input-group-addon" onClick={e => {this.togglePassword(e)}}>
                                 		<a><i className={this.isPasswordType(this.state.inputType) ? `fa fa-eye-slash`:`fa fa-eye`} aria-hidden="true"></i></a>
                                     </div>
                                 </div>
+								<span className="invalid-feedback">check your password</span>                               
 
 
 							<div className="forgotpwd">

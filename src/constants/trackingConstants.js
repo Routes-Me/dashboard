@@ -12,6 +12,9 @@
     Tracking_MarkerHighLighted: 'TRACKING_MAKERHIGHLIGHYED',
     Tracking_SelectedVehicle: 'TRACKING_SELECTEDVEHICLE',
 
+    TrackingVehicleLog_Request: 'TRACKING_VEHICLELOGREQUEST',
+    TrackingVehicleLog_Success: 'TRACKING_VEHICLELOGSUCCESS',
+
     IdleState: 'idle',
     ActiveState: 'active'
 };

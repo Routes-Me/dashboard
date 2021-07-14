@@ -1,65 +1,70 @@
-import { User } from "oidc-client";
-
 export const config = {
 
-    selectService : {
-        serviceId : 0,
-        name : "Please select a service"
+    onlineVehicles: "Online Vehicles",
+    offlineVehicles: "Offline Vehicles",
+
+    selectService: {
+        serviceId: 0,
+        name: "Please select a service"
     },
 
-    selectModel :{
+    selectModel: {
         modelId: 0,
         name: "Please select a model"
     },
 
-    selectMake :{
+    selectMake: {
         manufacturerId: 0,
         name: "Please select a make"
     },
 
-    selectApplication:{
-            applicationId: 0,
-            name: "Please select an application"
-        },
+    selectApplication: {
+        applicationId: 0,
+        name: "Please select an application"
+    },
 
-    selectPrivilege:{
+    selectPrivilege: {
         privilegeId: 0,
         name: "Please select a privilege"
     },
 
-    selectInstitution:{
-        institutionId:0,
+    selectInstitution: {
+        institutionId: 0,
         name: "Please select the institution"
     },
 
-    selectDayInterval:{
-        intervalId:0,
-        title:"Please select a interval"
+    selectDayInterval: {
+        intervalId: 0,
+        title: "Please select a interval"
     },
 
-    NavMenuItems : {
-        "data":[
+    NavMenuItems: {
+        "data": [
             {
-                "roleId":1,
-                "navItems":['Tracking','Users','Vehicles','Advertisements','Institutions','Access Control','Campaigns','Analytics','Prizes','EMM','Bus Routes']
+                "roleId": 1,
+                "navItems": ['Tracking', 'Users', 'Vehicles', 'Advertisements', 'Institutions', 'Access Control', 'Campaigns', 'Analytics', 'Prizes', 'EMM', 'Bus Routes']
             },
             {
-                "roleId":2,
-                "navItems":["Tracking","Vehicles"]
+                "roleId": 2,
+                "navItems": ["Tracking", "Vehicles"]
             }
         ]
     },
 
-    SU : "super",
-    ROU : "support",
+    SU: "super",
+    ROU: "support",
 
-    refreshTokenURL : 'authentications/renewals',
-    authenticationURL : 'authentications',
+    refreshTokenURL: 'authentications/renewals',
+    authenticationURL: 'authentications',
 
-    Pagelimit : 20,
-    DropDownLimit : 5,
-    Version : 'DVS21032021',
+    Pagelimit: 20,
+    DropDownLimit: 5,
+    MaxLimit: 100,
+    Version: 'DVS21032021',
 
-    
+    OnlineLog: 'checkins',
+    OfflineLog: 'checkins/offline-vehicles'
+
+
 
 };

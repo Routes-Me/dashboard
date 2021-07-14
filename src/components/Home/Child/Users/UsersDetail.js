@@ -7,7 +7,7 @@ import Form from 'react-validation/build/form';
 import { encryptAndEncode } from '../../../../util/encrypt';
 import {config} from "../../../../constants/config";
 import PageHandler from '../PageHandler';
-import { returnObjectForSelectedId } from '../../../../util/basic';
+import { isSU, returnObjectForSelectedId } from '../../../../util/basic';
 
 
 class UsersDetail extends React.Component {
@@ -150,7 +150,7 @@ class UsersDetail extends React.Component {
                             </div>
                         </div>}
 
-                        <div className="row form-group">
+                        {isSU(this.props.role) && <div className="row form-group">
                             <div className="col-md-6">
                                 <Label>Institution</Label><br />
                                 <input type="text" name="institution"
@@ -163,7 +163,7 @@ class UsersDetail extends React.Component {
                                 </select>
                                 <PageHandler page = {this.props.InstitutionList.page} getList={this.props.getInstitutions}/>
                             </div>
-                        </div>
+                        </div>}
 
                     </div>
                 
@@ -187,7 +187,8 @@ const mapStateToProps = (state) => {
         PrivilegeList       : [config.selectPrivilege,...state.UserStore.Privileges],
         ApplicationsList    : [config.selectApplication,...state.UserStore.Applications],
         InstitutionList     : state.InstitutionStore.Institutions,
-        OfficerId : state.Login.user.officerId
+        OfficerId           : state.Login.user.officerId,
+        role                : state.Login.role
     }
 
 }

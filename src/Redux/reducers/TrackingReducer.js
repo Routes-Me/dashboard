@@ -7,11 +7,13 @@ const INITIAL_STATE = {
     error: null,
     MovedVehicle: "",
     IdleVehicles: [],
-    idForSelectedVehicle:'',
-    SelectedVehicle:''
+    idForSelectedVehicle: '',
+    SelectedVehicle: '',
+    VehicleLog: [],
+    ActionState: ''
 };
 
-const TrackingReducer = (state = INITIAL_STATE, action ) => {
+const TrackingReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case trackingConstants.Tracking_OnSubscribeRequest:
             return {
@@ -73,6 +75,18 @@ const TrackingReducer = (state = INITIAL_STATE, action ) => {
                 ...state,
                 idForSelectedVehicle: action.payload
             };
+        case trackingConstants.TrackingVehicleLog_Request:
+            return {
+                ...state,
+                VehicleLog: [],
+                ActionState: action.type
+            }
+        case trackingConstants.TrackingVehicleLog_Success:
+            return {
+                ...state,
+                VehicleLog: action.payload,
+                ActionState: action.type
+            }
         case trackingConstants.Tracking_SelectedVehicle:
             return {
                 ...state,
