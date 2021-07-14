@@ -68,9 +68,9 @@ export function returnObjectForSelectedId(list, id) {
 }
 
 export function returnEntityForInstitution(entity, role, user) {
-    console.log('Institution returned ', user.institution)
-    if (user?.institution?.InstitutionId !== undefined) {
-        return user?.institution?.institutionId !== '' && isSU(role) ? entity : `institutions/${user.institution.institutionId}/${entity}`;
+    if (user?.institution?.institutionid !== undefined) {
+        entity = user?.institution?.institutionid !== '' && isSU(role) ? entity : `institutions/${user.institution.institutionid}/${entity}`;
+        return entity;
     }
     return entity;
 
