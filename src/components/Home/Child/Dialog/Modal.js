@@ -1,6 +1,7 @@
 ﻿import React from 'react';
 import '../../../Style/home.css';
 import '../Dialog/modal.scss';
+import '../Detail/Detail.css';
 import { vehicleConstants } from '../../../../constants/vehicleConstants';
 import { config } from '../../../../constants/config';
 import DatePicker from "react-datepicker";
@@ -213,9 +214,9 @@ class Modal extends React.Component {
                 <div className={`modal-content${title === 'Emm Console' ? ' wider' : ''}`}>
 
                     <div className="top-part-vehicles-search model-header">
-                        <span className="closeBtn" style={{ float: "right", display: "block" }} onClick={this.props.onClose} />
+                        <span className="closeCrudBtn" style={{ float: "right", display: "block" }} onClick={this.props.onClose} />
                         <div className="header-add-butt">
-                            <h3>{title} {this.props.objectList && `(${this.props.objectList.total})`}</h3>
+                            <h3>{title} {this.props.objectList && `(${validate(this.props.objectList.total)})`}</h3>
                         </div>
                         <hr />
                         {returnSearchForTracking(title) &&
