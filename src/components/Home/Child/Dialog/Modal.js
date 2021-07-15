@@ -143,8 +143,18 @@ class Modal extends React.Component {
         )
     }
 
-
-
+    returniFrame = (token) => {
+        return (
+            <iframe
+                src={`https://play.google.com/managed/browse?token=${this.props.objectList}&mode=SELECT`}
+                width="100%"
+                height="100%"
+                onLoad={this.hideSpinner}
+                frameBorder="0"
+                marginHeight="0"
+                marginWidth="0" />
+        )
+    }
 
     returnVehicles = (vehicles) => {
         console.log('Log Model ', vehicles);
@@ -155,7 +165,7 @@ class Modal extends React.Component {
                         <tr style={{ height: '51px', borderBottom: "0.5px solid black" }}>
                             <th style={{ paddingLeft: '50px' }}>#</th>
                             <th>VEHICLE-ID</th>
-                            <th>CHECKED-AT</th>
+                            {/* <th>CHECKED-AT</th> */}
                             <th>TOTAL</th>
                             <th>INSTITUTION</th>
                         </tr>
@@ -164,9 +174,9 @@ class Modal extends React.Component {
                         {
                             vehicles.data && vehicles.data.map((vehicle, index) => (
                                 <tr key={vehicle.vehicleId}>
-                                    <td style={{ paddingLeft: '50px' }}>{index}</td>
+                                    <td style={{ paddingLeft: '50px' }}>{index + 1}</td>
                                     <td>{vehicle.vehicleId}</td>
-                                    <td>{convertUnixTimeToDateTime(vehicle.checkedAt)}</td>
+                                    {/* <td>{convertUnixTimeToDateTime(vehicle.checkedAt)}</td> */}
                                     <td>{convertUnixTimeToHours(vehicle.total)}</td>
                                     <td>{vehicle.institutionName}</td>
                                 </tr>
@@ -190,8 +200,9 @@ class Modal extends React.Component {
             return null;
         }
 
+        let title = this.props.objectType;
         const verifyTitleForEMM = (title) => {
-            return title !== 'Enrollment Token' && title !== 'Emm Console' && verifyTitleIsNotForVehicleLog(title);
+            return title !== 'Enrollment Token' && title !== 'Emm Console';
         }
 
         const returnSearchForVehicles = (title) => {
@@ -202,17 +213,6 @@ class Modal extends React.Component {
             return title === config.offlineVehicles || title === config.onlineVehicles;
         }
 
-        const verifyTitleIsNotForVehicleLog = (title) => {
-            return title !== config.offlineVehicles && title !== config.onlineVehicles;
-        }
-
-
-
-
-
-        console.log('Title to be rendered ', title);
-        //const VehicleObj = this.props.objectToDisplay;
-
 
         return (
             <div className="modalNew">
@@ -221,7 +221,7 @@ class Modal extends React.Component {
                     <div className="top-part-vehicles-search model-header">
                         <span className="closeBtn" style={{ float: "right", display: "block" }} onClick={this.props.onClose} />
                         <div className="header-add-butt">
-                            <h3>{title}</h3>
+                            <h3>{title} {this.props.objectList.pagination && `(${this.props.objectList.pagination.total})`}</h3>
                         </div>
                         <hr />
                         {returnSearchForTracking(title) &&
@@ -230,14 +230,7 @@ class Modal extends React.Component {
                     {title === 'Enrollment Token' ?
                         this.returnEnrollmentdetails(this.props.objectList.value, this.props.objectList.policyName)
                         : title === 'Emm Console' ?
-                            <iframe
-                                src={`https://play.google.com/managed/browse?token=${this.props.objectList}&mode=SELECT`}
-                                width="100%"
-                                height="100%"
-                                onLoad={this.hideSpinner}
-                                frameBorder="0"
-                                marginHeight="0"
-                                marginWidth="0" />
+                            this.returniFrame(this.props.objectList)
                             : title === config.onlineVehicles || title === config.offlineVehicles ?
                                 this.returnVehicles(this.props.objectList)
                                 : this.showSearchList(this.props.objectList)}
