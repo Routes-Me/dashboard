@@ -19,7 +19,8 @@ class Modal extends React.Component {
             modelYear: "",
             startDate: "",
             endDate: "",
-            title: ""
+            title: "",
+            list: []
         }
 
     }
@@ -28,24 +29,33 @@ class Modal extends React.Component {
         this.setState({ startDate: update[0], endDate: update[1] });
     }
 
-    componentDidMount() {
-        console.log('Component did mount ', this.props.objectType);
-        // if (this.props.objectType === config.onlineVehicles || this.props.objectType === config.offlineVehicles) {
-        let strtDate = new Date();
-        let edDate = new Date();
-        strtDate.setDate(edDate.getDate() - 3);
-        this.setState({ startDate: strtDate, endDate: edDate });
-        // let status = this.props.objectType === config.onlineVehicles ? config.OnlineLog : config.OfflineLog;
-        // console.log(`Params for logs Start : ${strtDate} End : ${edDate} Status to check ${status}`);
-        // this.props.onSelect(this.state.startDate, this.state.endDate, status);
-        // }
-    }
 
     static getDerivedStateFromProps(props, state) {
         if (props.objectType !== state.title) {
-
+            if (props.objectType === config.offlineVehicles || props.objectType === config.onlineVehicles) {
+                let strtDate = new Date();
+                let edDate = new Date();
+                strtDate.setDate(edDate.getDate() - 3);
+                return {
+                    title: props.objectType,
+                    startDate: strtDate,
+                    endDate: edDate
+                }
+            }
         }
     }
+
+
+    componentDidUpdate(prevProps, prevState) {
+
+        if (this.state.title !== prevState.title) {
+            console.log('Title change ', prevState.title);
+            let status = prevState.title === config.onlineVehicles ? config.OnlineLog : config.OfflineLog;
+            this.props.onSelect(this.state.startDate, this.state.endDate, status);
+        }
+    }
+
+
 
 
 
@@ -58,10 +68,16 @@ class Modal extends React.Component {
         if (key === 'endDate') {
             if (this.state.endDate !== undefined && this.state.startDate !== undefined && date > this.state.startDate) {
                 this.setState({ endDate: date })
-                let status = title === config.onlineVehicles ? config.OnlineLog : config.OfflineLog
-                this.props.onSelect(this.state.startDate, date, status)
             }
         }
+        if (this.compareDateTimeRange(this.state.startDate, this.state.endDate)) {
+            let status = title === config.onlineVehicles ? config.OnlineLog : config.OfflineLog
+            this.props.onSelect(this.state.startDate, date, status);
+        }
+    }
+
+    compareDateTimeRange = (start, end) => {
+        return start.getTime() < end.getTime();
     }
 
     showSearchList = (searchList) => {
@@ -141,7 +157,7 @@ class Modal extends React.Component {
     returniFrame = (token) => {
         return (
             <iframe
-                src={`https://play.google.com/managed/browse?token=${this.props.objectList}&mode=SELECT`}
+                src={`https://play.google.com/managed/browse?token=${token}&mode=SELECT`}
                 width="100%"
                 height="100%"
                 onLoad={this.hideSpinner}
