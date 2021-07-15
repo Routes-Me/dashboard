@@ -2,14 +2,16 @@
 import Form from 'react-validation/build/form';
 import Input from 'react-validation/build/input';
 import { isEmail } from 'validator';
-import logo from '../../images/Routes_logo.svg'; 
+import logo from '../../images/Routes_logo.svg';
 import { connect } from 'react-redux';
 import * as LoginAction from '../../Redux/Action';
-import {clearStorage} from '../../util/localStorage'
+import { clearStorage } from '../../util/localStorage'
+import { userConstants } from '../../constants/userConstants';
+import { history } from '../../helper/history';
 
 
 
-class LoginForm extends Component{
+class LoginForm extends Component {
 
 	constructor(props) {
 
@@ -25,7 +27,7 @@ class LoginForm extends Component{
 			loading: false,
 			username: '',
 			password: '',
-			name : '',
+			name: '',
 			userId: '',
 			usernameError: '',
 			passwordError: '',
@@ -34,17 +36,24 @@ class LoginForm extends Component{
 		};
 	}
 
+	componentDidUpdate(prevProps, prevState) {
+		if (prevProps.ApplicationState !== this.props.ApplicationState) {
+			this.props.ApplicationState === userConstants.Login_SUCCESS && history.push("/home");
+		}
+	}
+
+
 
 	validateAll = () => {
-		if (!this.state.username.length ===0) {
-			this.setState({ usernameError: "Please enter your username!!"});
+		if (!this.state.username.length === 0) {
+			this.setState({ usernameError: "Please enter your username!!" });
 		}
 		//else if (!isEmail(this.state.username)) {
 		//	usernameError = "Invalid email!!";
 		//}
 
 		if (!this.state.password.length === 0) {
-			this.setState({ passwordError:"Please enter your password!!" });
+			this.setState({ passwordError: "Please enter your password!!" });
 		}
 
 		if (this.state.usernameError || this.state.passwordError) {
@@ -64,7 +73,7 @@ class LoginForm extends Component{
 	togglePassword = (e) => {
 		e.preventDefault();
 		const type = this.isPasswordType(this.state.inputType) ? 'text' : 'password';
-		this.setState({inputType: type });
+		this.setState({ inputType: type });
 	}
 
 
@@ -79,11 +88,11 @@ class LoginForm extends Component{
 			this.setState({ loading: true });
 			this.props.login(this.state.username, this.state.password);
 		}
-		
+
 	}
 
 
-	
+
 
 	render() {
 
@@ -101,49 +110,50 @@ class LoginForm extends Component{
 
 		return (
 
-				<div className="loginForm">
+			<div className="loginForm">
 
-					<div style={{textAlign:'center'}}>
+				<div style={{ textAlign: 'center' }}>
 					<img className="bitmap" alt="" src={logo} />
-					</div>
-					<div className='shadowBox'>
-						<h3 className="signin"> Sign in</h3>
-						<p className="account">with your Routes Account<a href="http://routesme.com/" rel="noopener noreferrer" target="_blank">Learn more</a> </p>
+				</div>
+				<div className='shadowBox'>
+					<h3 className="signin"> Sign in</h3>
+					<p className="account">with your Routes Account<a href="http://routesme.com/" rel="noopener noreferrer" target="_blank">Learn more</a> </p>
 
-						<Form onSubmit={this.handleSubmit}>
-								<Input placeholder="Email" className="form-control email" type="email" value={this.state.username} onChange={this.onChange} name="username" validations={[email]} />
-								<span className="form-error is-visible">{this.state.usernameError}</span>
-
-
-								<div className="input-group">
-									<Input placeholder="Password" className="form-control password" type={this.state.inputType} value={this.state.password} onChange={this.onChange} name="password" required />
-									<div class="input-group-addon" onClick={e => {this.togglePassword(e)}}>
-                                		<a><i className={this.isPasswordType(this.state.inputType) ? `fa fa-eye-slash`:`fa fa-eye`} aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-								<span className="invalid-feedback">check your password</span>                               
+					<Form onSubmit={this.handleSubmit}>
+						<Input placeholder="Email" className="form-control email" type="email" value={this.state.username} onChange={this.onChange} name="username" validations={[email]} />
+						<span className="form-error is-visible">{this.state.usernameError}</span>
 
 
-							<div className="forgotpwd">
-								<p style={{margin:'0px'}}><a href="/forgotpassword">Forgot Password?</a></p>
+						<div className="input-group">
+							<Input placeholder="Password" className="form-control password" type={this.state.inputType} value={this.state.password} onChange={this.onChange} name="password" required />
+							<div class="input-group-addon" onClick={e => { this.togglePassword(e) }}>
+								<a><i className={this.isPasswordType(this.state.inputType) ? `fa fa-eye-slash` : `fa fa-eye`} aria-hidden="true"></i></a>
 							</div>
-							<button type="submit" className="buttonStyle">
-								{this.props.loggingIn && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />}
-								{this.props.loggingIn && <span>  Logging In...</span>}
-								{!this.props.loggingIn && <span>Login</span>}
-							</button>		
-						</Form>
+						</div>
+						<span className="invalid-feedback">check your password</span>
 
-					</div>
+
+						<div className="forgotpwd">
+							<p style={{ margin: '0px' }}><a href="/forgotpassword">Forgot Password?</a></p>
+						</div>
+						<button type="submit" className="buttonStyle">
+							{this.props.loggingIn && <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true" />}
+							{this.props.loggingIn && <span>  Logging In...</span>}
+							{!this.props.loggingIn && <span>Login</span>}
+						</button>
+					</Form>
 
 				</div>
+
+			</div>
 		);
 	}
 }
 
 function mapState(state) {
 	return {
-		loggingIn: state.Login.loading
+		loggingIn: state.Login.loading,
+		ApplicationState: state.Login.ActionState
 	};
 }
 

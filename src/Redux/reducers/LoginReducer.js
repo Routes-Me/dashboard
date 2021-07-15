@@ -4,25 +4,27 @@ const INITIAL_STATE = {
     loading: false,
     hasError: false,
     error: null,
-    SelectedNavOption:userConstants.NavItem_Tracking,
+    SelectedNavOption: userConstants.NavItem_Tracking,
     user: {},
     role: {},
-    navItems : [],
-    token:""
+    navItems: [],
+    token: "",
+    ActionState: ""
 };
 
 
 
 
-const LoginReducer = (state = INITIAL_STATE, action) => { 
-    
+const LoginReducer = (state = INITIAL_STATE, action) => {
+
     switch (action.type) {
         case userConstants.Login_REQUEST:
             return {
                 ...state,
                 loading: true,
                 loggedIn: false,
-                navItems : []
+                navItems: [],
+                ActionState: action.type
             };
         case userConstants.Login_SUCCESS:
             return {
@@ -30,23 +32,25 @@ const LoginReducer = (state = INITIAL_STATE, action) => {
                 loading: false,
                 hasError: false,
                 loggedIn: true,
-                user: action.payload
+                user: action.payload,
+                ActionState: action.type
             };
         case userConstants.Login_FAILURE:
             return {
-                    ...state,
-                    loading: false,
-                    hasError: true,
-                    loggedIn: false,
-                    user: ""
-                };
+                ...state,
+                loading: false,
+                hasError: true,
+                loggedIn: false,
+                user: "",
+                ActionState: action.type
+            };
         case userConstants.Login_TokenReceived:
-                return {
-                    ...state,
-                    hasError: false,
-                    loggedIn: true,
-                    token: action.payload
-                };  
+            return {
+                ...state,
+                hasError: false,
+                loggedIn: true,
+                token: action.payload
+            };
         case userConstants.Login_LOGOUT:
             return {
                 ...state,
@@ -109,7 +113,7 @@ const LoginReducer = (state = INITIAL_STATE, action) => {
         case userConstants.Login_Authorize:
             return {
                 ...state,
-                hasError:false,
+                hasError: false,
                 role: action.payload
             };
         default:

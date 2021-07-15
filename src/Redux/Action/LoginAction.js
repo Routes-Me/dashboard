@@ -57,7 +57,6 @@ export function userSignInRequestV1(username, password) {
               console.log('userDetail logged in ', userDetail);
               setUser(userDetail);
               dispatch(getLoginSuccess(userDetail));
-              history.push('/home');
             },
             (error) => {
               alert(`Officer not found!!`);

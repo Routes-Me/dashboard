@@ -23,7 +23,8 @@ class Modal extends React.Component {
             selectedModel: "",
             loading: false,
             startDate: "",
-            endDate: ""
+            endDate: "",
+            title: ""
         }
 
     }
@@ -33,16 +34,24 @@ class Modal extends React.Component {
     }
 
     componentDidMount() {
-        if (this.props.objectType === config.onlineVehicles || this.props.objectType === config.offlineVehicles) {
-            let strtDate = new Date();
-            let edDate = new Date();
-            edDate.setDate(edDate.getDate() - 3);
-            this.setState({ startDate: strtDate, endDate: edDate });
-            let status = this.props.objectType === config.onlineVehicles ? config.OnlineLog : config.OfflineLog;
-            console.log(`Params for logs Start : ${strtDate} End : ${edDate} Status to check ${status}`);
-            this.props.onSelect(this.state.startDate, this.state.endDate, status);
+        console.log('Component did mount ', this.props.objectType);
+        // if (this.props.objectType === config.onlineVehicles || this.props.objectType === config.offlineVehicles) {
+        let strtDate = new Date();
+        let edDate = new Date();
+        strtDate.setDate(edDate.getDate() - 3);
+        this.setState({ startDate: strtDate, endDate: edDate });
+        // let status = this.props.objectType === config.onlineVehicles ? config.OnlineLog : config.OfflineLog;
+        // console.log(`Params for logs Start : ${strtDate} End : ${edDate} Status to check ${status}`);
+        // this.props.onSelect(this.state.startDate, this.state.endDate, status);
+        // }
+    }
+
+    static getDerivedStateFromProps(props, state) {
+        if (props.objectType !== state.title) {
+
         }
     }
+
 
 
     updateDateRange = (date, key, title) => {
@@ -69,7 +78,7 @@ class Modal extends React.Component {
                             {
                                 searchList.map(obj => (
                                     <tr key={obj.name} onClick={() => { this.onselection(obj) }}>
-                                        <td>{obj.name}</td>
+                                        <td style={{ paddingLeft: "40px" }}>{obj.name}</td>
                                     </tr>
                                 ))
                             }
@@ -134,8 +143,18 @@ class Modal extends React.Component {
         )
     }
 
-
-
+    returniFrame = (token) => {
+        return (
+            <iframe
+                src={`https://play.google.com/managed/browse?token=${this.props.objectList}&mode=SELECT`}
+                width="100%"
+                height="100%"
+                onLoad={this.hideSpinner}
+                frameBorder="0"
+                marginHeight="0"
+                marginWidth="0" />
+        )
+    }
 
     returnVehicles = (vehicles) => {
         console.log('Log Model ', vehicles);
@@ -145,8 +164,8 @@ class Modal extends React.Component {
                     <thead style={{ position: 'sticky', top: '180px', backgroundColor: 'white' }}>
                         <tr style={{ height: '51px', borderBottom: "0.5px solid black" }}>
                             <th style={{ paddingLeft: '50px' }}>#</th>
-                            <th>VEHICLE-ID</th>
-                            <th>CHECKED-AT</th>
+                            <th>Plate Number</th>
+                            {/* <th>CHECKED-AT</th> */}
                             <th>TOTAL</th>
                             <th>INSTITUTION</th>
                         </tr>
@@ -155,9 +174,9 @@ class Modal extends React.Component {
                         {
                             vehicles.data && vehicles.data.map((vehicle, index) => (
                                 <tr key={vehicle.vehicleId}>
-                                    <td style={{ paddingLeft: '50px' }}>{index}</td>
-                                    <td>{vehicle.vehicleId}</td>
-                                    <td>{convertUnixTimeToDateTime(vehicle.checkedAt)}</td>
+                                    <td style={{ paddingLeft: '50px' }}>{index + 1}</td>
+                                    <td>{vehicle.plateNumber}</td>
+                                    {/* <td>{convertUnixTimeToDateTime(vehicle.checkedAt)}</td> */}
                                     <td>{convertUnixTimeToHours(vehicle.total)}</td>
                                     <td>{vehicle.institutionName}</td>
                                 </tr>
@@ -181,28 +200,18 @@ class Modal extends React.Component {
             return null;
         }
 
+        let title = this.props.objectType;
         const verifyTitleForEMM = (title) => {
             return title !== 'Enrollment Token' && title !== 'Emm Console';
         }
 
-        const verifyTitleToReturnSerachList = (title) => {
-            return title !== 'Enrollment Token' && title !== 'Emm Console' && title && !verifyTitleForVehicleLog(title);
+        const returnSearchForVehicles = (title) => {
+            return title === 'Manufacturers' || title === "Models";
         }
 
-        const verifyTitleForVehicleLog = (title) => {
+        const returnSearchForTracking = (title) => {
             return title === config.offlineVehicles || title === config.onlineVehicles;
         }
-
-        const title = this.props.objectType;
-        let content = verifyTitleToReturnSerachList(title) && this.showSearchList(this.props.objectList);
-
-        const closeDialog = (e) => {
-            e.preventDefault();
-            // this.setState({ startDate: '', endDate: '' });
-            this.props.onClose();
-        }
-
-        //const VehicleObj = this.props.objectToDisplay;
 
 
         return (
@@ -210,28 +219,21 @@ class Modal extends React.Component {
                 <div className={`modal-content${title === 'Emm Console' ? ' wider' : ''}`}>
 
                     <div className="top-part-vehicles-search model-header">
-                        <span className="closeBtn" style={{ float: "right", display: "block" }} onClick={(e) => closeDialog(e)} />
+                        <span className="closeBtn" style={{ float: "right", display: "block" }} onClick={this.props.onClose} />
                         <div className="header-add-butt">
-                            <h3>{title}</h3>
+                            <h3>{title} {this.props.objectList.pagination && `(${this.props.objectList.pagination.total})`}</h3>
                         </div>
                         <hr />
-                        {verifyTitleForEMM(title) &&
+                        {returnSearchForTracking(title) &&
                             this.returnSearch(title)}
                     </div>
                     {title === 'Enrollment Token' ?
                         this.returnEnrollmentdetails(this.props.objectList.value, this.props.objectList.policyName)
                         : title === 'Emm Console' ?
-                            <iframe
-                                src={`https://play.google.com/managed/browse?token=${this.props.objectList}&mode=SELECT`}
-                                width="100%"
-                                height="100%"
-                                onLoad={this.hideSpinner}
-                                frameBorder="0"
-                                marginHeight="0"
-                                marginWidth="0" />
-                            : title === config.onlineVehicles || config.offlineVehicles ?
+                            this.returniFrame(this.props.objectList)
+                            : title === config.onlineVehicles || title === config.offlineVehicles ?
                                 this.returnVehicles(this.props.objectList)
-                                : content}
+                                : this.showSearchList(this.props.objectList)}
 
                 </div>
             </div>
