@@ -164,7 +164,7 @@ class Modal extends React.Component {
                     <thead style={{ position: 'sticky', top: '180px', backgroundColor: 'white' }}>
                         <tr style={{ height: '51px', borderBottom: "0.5px solid black" }}>
                             <th style={{ paddingLeft: '50px' }}>#</th>
-                            <th>VEHICLE-ID</th>
+                            <th>Plate Number</th>
                             {/* <th>CHECKED-AT</th> */}
                             <th>TOTAL</th>
                             <th>INSTITUTION</th>
@@ -175,7 +175,7 @@ class Modal extends React.Component {
                             vehicles.data && vehicles.data.map((vehicle, index) => (
                                 <tr key={vehicle.vehicleId}>
                                     <td style={{ paddingLeft: '50px' }}>{index + 1}</td>
-                                    <td>{vehicle.vehicleId}</td>
+                                    <td>{vehicle.plateNumber}</td>
                                     {/* <td>{convertUnixTimeToDateTime(vehicle.checkedAt)}</td> */}
                                     <td>{convertUnixTimeToHours(vehicle.total)}</td>
                                     <td>{vehicle.institutionName}</td>
