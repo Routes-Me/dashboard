@@ -6,6 +6,7 @@ import { config } from '../../../../constants/config';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { convertUnixTimeToDateTime, convertUnixTimeToHours } from '../../../../util/basic';
+import { validate } from '../../../../util/basic';
 
 class Modal extends React.Component {
 
@@ -13,15 +14,8 @@ class Modal extends React.Component {
         super(props)
 
         this.state = {
-            vehicleToDisplay: "",
             modelId: "",
             modelYear: "",
-            deviceId: "",
-            plateNumber: "",
-            InstitutionId: "",
-            ModelList: [],
-            selectedModel: "",
-            loading: false,
             startDate: "",
             endDate: "",
             title: ""
@@ -165,7 +159,7 @@ class Modal extends React.Component {
                         <tr style={{ height: '51px', borderBottom: "0.5px solid black" }}>
                             <th style={{ paddingLeft: '50px' }}>#</th>
                             <th>Plate Number</th>
-                            {/* <th>CHECKED-AT</th> */}
+                            <th>CHECKED-AT</th>
                             <th>TOTAL</th>
                             <th>INSTITUTION</th>
                         </tr>
@@ -175,10 +169,10 @@ class Modal extends React.Component {
                             vehicles.data && vehicles.data.map((vehicle, index) => (
                                 <tr key={vehicle.vehicleId}>
                                     <td style={{ paddingLeft: '50px' }}>{index + 1}</td>
-                                    <td>{vehicle.plateNumber}</td>
-                                    {/* <td>{convertUnixTimeToDateTime(vehicle.checkedAt)}</td> */}
+                                    <td>{validate(vehicle.plateNumber)}</td>
+                                    <td>{vehicle.days > 1 ? vehicle.days + ' days' : vehicle.days + ' day'}</td>
                                     <td>{convertUnixTimeToHours(vehicle.total)}</td>
-                                    <td>{vehicle.institutionName}</td>
+                                    <td>{validate(vehicle.institutionName)}</td>
                                 </tr>
                             ))
                         }
@@ -221,7 +215,7 @@ class Modal extends React.Component {
                     <div className="top-part-vehicles-search model-header">
                         <span className="closeBtn" style={{ float: "right", display: "block" }} onClick={this.props.onClose} />
                         <div className="header-add-butt">
-                            <h3>{title} {this.props.objectList.pagination && `(${this.props.objectList.pagination.total})`}</h3>
+                            <h3>{title} {this.props.objectList && `(${this.props.objectList.total})`}</h3>
                         </div>
                         <hr />
                         {returnSearchForTracking(title) &&
@@ -232,7 +226,7 @@ class Modal extends React.Component {
                         : title === 'Emm Console' ?
                             this.returniFrame(this.props.objectList)
                             : title === config.onlineVehicles || title === config.offlineVehicles ?
-                                this.returnVehicles(this.props.objectList)
+                                this.props.objectList && this.returnVehicles(this.props.objectList)
                                 : this.showSearchList(this.props.objectList)}
 
                 </div>

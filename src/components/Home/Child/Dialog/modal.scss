@@ -1,7 +1,7 @@
 .modalNew {
   display: block; /* Hidden by default */
   position: fixed; /* Stay in place */
-  z-index: 1000; /* Sit on top */
+  z-index: 1001; /* Sit on top */
   left: 0;
   top: 0;
   width: 100%; /* Full width */
@@ -16,8 +16,8 @@
   background-color: #fefefe;
   margin: 5% auto; /* 15% from the top and centered */
   border: 1px solid #888;
-  max-width: 50%; /* Could be more or less, depending on screen size */
-  height: 50%;
+  max-width: 80%; /* Could be more or less, depending on screen size */
+  height: 80%;
   overflow-y: scroll;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
