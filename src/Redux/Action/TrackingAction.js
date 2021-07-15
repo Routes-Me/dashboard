@@ -133,7 +133,7 @@ export function getVehiclesLog(start, end, status) {
         end = convertDateTimeToUnix(end);
         console.log(`Start ${start} End ${end}`);
         dispatch(OfflineDataRequest());
-        apiHandler.get(`${status}?startAt=${start}&endAt=${end}`)
+        apiHandler.get(`${status}?startAt=${start}&endAt=${end}&offset=1&limit=10000`)
             .then(
                 vehicles => {
                     dispatch(updateVehicleLog(vehicles.data));
