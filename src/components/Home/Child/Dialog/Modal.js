@@ -232,7 +232,7 @@ class Modal extends React.Component {
                     <div className="top-part-vehicles-search model-header">
                         <span className="closeCrudBtn" style={{ float: "right", display: "block" }} onClick={this.props.onClose} />
                         <div className="header-add-butt">
-                            <h3>{title} {this.props.objectList && `(${validate(this.props.objectList.total)})`}</h3>
+                            <h3>{title} {this.props.objectList && returnSearchForTracking(title) && `(${validate(this.props.objectList.total)})`}</h3>
                         </div>
                         <hr />
                         {returnSearchForTracking(title) &&
