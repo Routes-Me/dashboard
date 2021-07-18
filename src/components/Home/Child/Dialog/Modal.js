@@ -48,9 +48,9 @@ class Modal extends React.Component {
 
     componentDidUpdate(prevProps, prevState) {
 
-        if (this.state.title !== prevState.title) {
-            console.log('Title change ', prevState.title);
-            let status = prevState.title === config.onlineVehicles ? config.OnlineLog : config.OfflineLog;
+        if (prevProps.objectType !== this.props.objectType) {
+            // console.log('Title change ', prevState.title);
+            let status = this.state.title === config.onlineVehicles ? config.OnlineLog : config.OfflineLog;
             this.props.onSelect(this.state.startDate, this.state.endDate, status);
         }
     }
