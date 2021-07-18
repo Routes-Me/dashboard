@@ -25,10 +25,6 @@ class Modal extends React.Component {
 
     }
 
-    setDateRange = (update) => {
-        this.setState({ startDate: update[0], endDate: update[1] });
-    }
-
 
     static getDerivedStateFromProps(props, state) {
         if (props.objectType !== state.title) {
@@ -49,9 +45,10 @@ class Modal extends React.Component {
     componentDidUpdate(prevProps, prevState) {
 
         if (prevProps.objectType !== this.props.objectType) {
-            // console.log('Title change ', prevState.title);
-            let status = this.state.title === config.onlineVehicles ? config.OnlineLog : config.OfflineLog;
-            this.props.onSelect(this.state.startDate, this.state.endDate, status);
+            if (this.compareDateTimeRange(this.state.startDate, this.state.endDate)) {
+                let status = this.state.title === config.onlineVehicles ? config.OnlineLog : config.OfflineLog;
+                this.props.onSelect(this.state.startDate, this.state.endDate, status);
+            }
         }
     }
 
@@ -62,17 +59,23 @@ class Modal extends React.Component {
     updateDateRange = (date, key, title) => {
         if (key === 'startDate') {
             if (this.state.startDate !== undefined) {
-                this.setState({ startDate: date })
+                if (this.state.endDate !== undefined) {
+                    if (this.compareDateTimeRange(date, this.state.endDate))
+                        this.setState({ startDate: date });
+                }
+                else {
+                    this.setState({ startDate: date });
+                }
             }
         }
         if (key === 'endDate') {
-            if (this.state.endDate !== undefined && this.state.startDate !== undefined && date > this.state.startDate) {
+            if (this.state.endDate !== undefined && this.state.startDate !== undefined && this.compareDateTimeRange(this.state.startDate, date)) {
                 this.setState({ endDate: date })
             }
         }
         if (this.compareDateTimeRange(this.state.startDate, this.state.endDate)) {
             let status = title === config.onlineVehicles ? config.OnlineLog : config.OfflineLog
-            this.props.onSelect(this.state.startDate, date, status);
+            this.props.onSelect(this.state.startDate, this.state.endDate, status);
         }
     }
 
@@ -113,6 +116,7 @@ class Modal extends React.Component {
                         selected={this.state.startDate}
                         onChange={(date) => this.updateDateRange(date, 'startDate', title)}
                         dateFormat="MM/dd/yyyy h:mm aa"
+                        maxDate={new Date()}
                         showTimeSelect
                         isClearable />
                     <DatePicker
@@ -120,6 +124,7 @@ class Modal extends React.Component {
                         selected={this.state.endDate}
                         onChange={(date) => this.updateDateRange(date, 'endDate', title)}
                         dateFormat="MM/dd/yyyy h:mm aa"
+                        maxDate={new Date()}
                         showTimeSelect
                         isClearable />
                 </div>
