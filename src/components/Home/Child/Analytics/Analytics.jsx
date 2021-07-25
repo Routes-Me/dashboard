@@ -11,25 +11,6 @@ class Analytics extends Component {
 
     constructor(props) {
         super(props);
-        this.data =
-            [
-                { name: 'Routes', iOS: 125, Android: 50, web: 13, Windows: 61, Mac: 20 },
-                { name: 'Center Point', iOS: 32, Android: 32, web: 0, Windows: 20, Mac: 0 },
-                { name: 'McDonalds', iOS: 38, Android: 24, web: 2, Windows: 18, Mac: 0 },
-                { name: 'ooredoo', iOS: 30, Android: 13, web: 3, Windows: 10, Mac: 11 },
-                { name: 'Zain', iOS: 27, Android: 19, web: 0, Windows: 12, Mac: 0 },
-                { name: 'City Center', iOS: 28, Android: 9, web: 0, Windows: 14, Mac: 4 },
-                { name: 'Dominos', iOS: 22, Android: 2, web: 2, Windows: 15, Mac: 0 },
-                { name: 'Xcite', iOS: 14, Android: 8, web: 0, Windows: 10, Mac: 0 },
-                { name: 'Best', iOS: 10, Android: 5, web: 0, Windows: 5, Mac: 0 },
-                { name: 'Huawei', iOS: 9, Android: 2, web: 0, Windows: 5, Mac: 0 },
-                { name: 'Turkish Grill', iOS: 19, Android: 5, web: 0, Windows: 5, Mac: 0 },
-                { name: 'STC', iOS: 3, Android: 5, web: 0, Windows: 2, Mac: 0 },
-                { name: 'Turkish Grill', iOS: 5, Android: 2, web: 0, Windows: 2, Mac: 0 },
-                { name: 'Vaccination', iOS: 8, Android: 1, web: 0, Windows: 4, Mac: 0 },
-                { name: 'I save', iOS: 3, Android: 0, web: 0, Windows: 0, Mac: 0 },
-                { name: 'KFC', iOS: 1, Android: 0, web: 0, Windows: 0, Mac: 0 }
-            ];
         this.state = {
             startDate: "",
             endDate: ""
