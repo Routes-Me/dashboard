@@ -4,6 +4,8 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'rec
 import { getCurrentDate } from '../../../../util/basic';
 import * as AnalyticsAction from '../../../../Redux/Action/AnalyticsAction';
 import { analyticsConstant } from '../../../../constants/analyticsConstants';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 class Analytics extends Component {
 
 
@@ -28,16 +30,31 @@ class Analytics extends Component {
                 { name: 'I save', iOS: 3, Android: 0, web: 0, Windows: 0, Mac: 0 },
                 { name: 'KFC', iOS: 1, Android: 0, web: 0, Windows: 0, Mac: 0 }
             ];
+        this.state = {
+            startDate: "",
+            endDate: ""
+        }
     }
 
     componentDidMount() {
-        this.props.getAddAnalytics()
+        // let strtDate = new Date("2020-12-20");
+        let endDate = new Date();
+        let strtDate = new Date();
+        strtDate.setDate(endDate.getDate() - 21);
+        this.setState({ startDate: strtDate, endDate: endDate });
+        this.props.getAddAnalytics(strtDate, endDate)
     }
 
     componentDidUpdate() {
         if (this.props.ApplicationState === analyticsConstant.getAdvertisement_SUCCESS) {
 
         }
+    }
+
+    setDateRange = (update) => {
+        this.setState({ startDate: update[0], endDate: update[1] });
+        if (update[1] !== null)
+            this.props.getAddAnalytics(update[0], update[1]);
     }
 
 
@@ -57,7 +74,17 @@ class Analytics extends Component {
                     <div className="top-part-vehicles-search padding-lr-80">
                         <div className="header-add-butt">
                             <h3>Analytics</h3>
-                            <label style={{ float: 'right', fontSize: '14px', fontFamily: 'Roboto' }}>20-dec-2020 - {getCurrentDate()}</label>
+                            {/* <label style={{ float: 'right', fontSize: '14px', fontFamily: 'Roboto' }}>20-dec-2020 - {getCurrentDate()}</label> */}
+                            <div style={{ float: 'right' }}>
+                                <DatePicker
+                                    className="dateRange"
+                                    selectsRange={true}
+                                    startDate={this.state.startDate}
+                                    endDate={this.state.endDate}
+                                    onChange={(update) => { this.setDateRange(update); }}
+                                    isClearable={true}
+                                    monthsShown={2} />
+                            </div>
                         </div>
                     </div>
                     <div style={{ marginTop: '5%', marginLeft: '20%' }}>

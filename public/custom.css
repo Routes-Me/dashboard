@@ -60,6 +60,19 @@
   padding: 0;
 }
 
+.dateRange {
+  border: none;
+  border-bottom: black 1px solid;
+  background-color: #ffffff;
+  padding: 10px 60px;
+  width: 100%;
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  color: #0b0b0b;
+}
+
 .table-list {
   width: 100%;
 }

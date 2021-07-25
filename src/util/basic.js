@@ -56,7 +56,7 @@ export function returnCampaignIds(campaigns) {
 }
 
 export function validate(value) {
-    return value === undefined ? '--' : value === null ? '--' : value;
+    return value === undefined ? ' -- ' : value === null ? ' -- ' : value === '' ? ' -- ' : value;
 }
 
 export function returnObjectForSelectedId(list, id) {

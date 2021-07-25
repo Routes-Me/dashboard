@@ -136,12 +136,34 @@ export function getVehiclesLog(start, end, status) {
         apiHandler.get(`${status}?startAt=${start}&endAt=${end}&offset=1&limit=10000`)
             .then(
                 vehicles => {
-                    dispatch(updateVehicleLog(vehicles.data));
+                    dispatch(updateVehicleLog(returnGroupedVehicleLog(vehicles)));
                 },
                 error => {
                     console.log('error ', error);
                 })
     }
+}
+
+const returnGroupedVehicleLog = (vehicles) => {
+    let result = [];
+    let groupedVehicle = [];
+    if (vehicles.data.data.length > 0) {
+        groupedVehicle = vehicles.data.data.reduce(function (res, value) {
+            if (!res[value.vehicleId]) {
+                res[value.vehicleId] = { vehicleId: value.vehicleId, total: 0, plateNumber: value.plateNumber, institutionName: value.institutionName, days: 0 };
+                result.push(res[value.vehicleId])
+            }
+            res[value.vehicleId].total += value.total;
+            res[value.vehicleId].days += 1;
+            return result;
+        }, {});
+    }
+    const formattedVehicles = {
+        data: groupedVehicle,
+        total: groupedVehicle.length
+    }
+
+    return formattedVehicles;
 }
 
 function vehicleLogRequest() {

@@ -1,11 +1,14 @@
 import { analyticsConstant } from "../../constants/analyticsConstants";
+import { convertDateTimeToUnix } from "../../util/basic";
 import apiHandler from '../../util/request';
 
-export function getAnalyticsLinkLogs(role, user) {
+export function getAnalyticsLinkLogs(start, end) {
 
     return dispatch => {
         dispatch(getAnalyticsRequest());
-        apiHandler.get('analytics/linklogs?startAt=1577866406&endAt=1624952956&offset=1&limit=10')
+        start = convertDateTimeToUnix(start);//1577866406
+        end = convertDateTimeToUnix(end);//1624952956
+        apiHandler.get(`analytics/linklogs?startAt=${start}&endAt=${end}&offset=1&limit=10`)
             .then(
                 response => {
                     dispatch(getAnalyticsSuccess(returnFormattedData(response)));
