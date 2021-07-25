@@ -53,6 +53,8 @@ class Analytics extends Component {
 
     setDateRange = (update) => {
         this.setState({ startDate: update[0], endDate: update[1] });
+        if (update[1] !== null)
+            this.props.getAddAnalytics(update[0], update[1]);
     }
 
 
