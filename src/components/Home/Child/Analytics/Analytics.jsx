@@ -37,8 +37,10 @@ class Analytics extends Component {
     }
 
     componentDidMount() {
-        let strtDate = new Date("2020-12-20");
+        // let strtDate = new Date("2020-12-20");
         let endDate = new Date();
+        let strtDate = new Date();
+        strtDate.setDate(endDate.getDate() - 21);
         this.setState({ startDate: strtDate, endDate: endDate });
         this.props.getAddAnalytics(strtDate, endDate)
     }
