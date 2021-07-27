@@ -33,7 +33,7 @@ function returnFormattedData(response) {
     const refinedAdds = ads.map(ad => {
 
         const refineAdds = {
-            name: ad.advertisementId,
+            name: ad.advertisementName,
             iOS: filterObjectValueForKey(ad.osAndValues, 'ios'),
             Android: filterObjectValueForKey(ad.osAndValues, 'android'),
             web: filterObjectValueForKey(ad.osAndValues, 'web'),
