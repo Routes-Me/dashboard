@@ -5,7 +5,7 @@ import * as UserAction from '../../../../Redux/Action';
 import * as InstitutionAction from '../../../../Redux/Action';
 import Form from 'react-validation/build/form';
 import { encryptAndEncode } from '../../../../util/encrypt';
-import {config} from "../../../../constants/config";
+import { config } from "../../../../constants/config";
 import PageHandler from '../PageHandler';
 import { isSU, returnObjectForSelectedId } from '../../../../util/basic';
 
@@ -21,36 +21,33 @@ class UsersDetail extends React.Component {
             institutionId: "",
             email: "",
             roles: "",
-            phone:"",
+            phone: "",
             user: '',
             privilege: '',
             application: '',
-            errorText:"",
-            password:"",
+            errorText: "",
+            password: "",
             institution: ''
         }
     }
 
     componentDidMount() {
-        this.props.getPrivileges(1,config.DropDownLimit);
-        this.props.getApplications(1,config.DropDownLimit);
-        this.props.getInstitutions(1,config.DropDownLimit);
+        this.props.getPrivileges(1, config.DropDownLimit);
+        this.props.getApplications(1, config.DropDownLimit);
+        this.props.getInstitutions(1, config.DropDownLimit);
     }
 
     onChange = (event) => {
-        if(event.target.name === 'institutionId')
-        {
-            this.setState({institution : returnObjectForSelectedId(this.props.InstitutionList.data, event.target.value), [event.target.name]: event.target.value})
+        if (event.target.name === 'institutionId') {
+            this.setState({ institution: returnObjectForSelectedId(this.props.InstitutionList.data, event.target.value), [event.target.name]: event.target.value })
         }
-        if(event.target.name === "application")
-        {
-            const selected=[];
-            let selectedOption=(event.target.selectedOptions);
-            for (let i = 0; i < selectedOption.length; i++)
-            {
+        if (event.target.name === "application") {
+            const selected = [];
+            let selectedOption = (event.target.selectedOptions);
+            for (let i = 0; i < selectedOption.length; i++) {
                 selected.push(selectedOption.item(i).value)
             }
-            this.setState({ [event.target.name]: selected})
+            this.setState({ [event.target.name]: selected })
         }
         this.setState({ [event.target.name]: event.target.value })
     }
@@ -59,7 +56,7 @@ class UsersDetail extends React.Component {
         if (props.userToDisplay !== undefined) {
             if (props.userToDisplay !== state.user) {
                 return {
-                    
+
                     user: props.userToDisplay,
                     id: props.userToDisplay.userId,
                     name: props.userToDisplay.name,
@@ -67,7 +64,7 @@ class UsersDetail extends React.Component {
                     phone: props.userToDisplay.phone,
                     // roles: props.userToDisplay.roles[0],
                     institutionId: props.userToDisplay.institution?.institutionId,
-                    institution : props.userToDisplay.institution
+                    institution: props.userToDisplay.institution
                 }
             }
         }
@@ -96,14 +93,14 @@ class UsersDetail extends React.Component {
         // if (this.props.savedSuccessfully && !this.props.show) {
         //     return null;
         // }
-        
+
         const userObj = this.state.user;
         const buttonText = userObj ? "Update" : "Add";
 
         return (
             <div>
                 <Form onSubmit={e => this.handleSubmit(e)}>
-                    <div className="col-md-12" style={{padding:'0px'}}>
+                    <div className="col-md-12" style={{ padding: '0px' }}>
 
                         <div className="row form-group">
                             <div className="col-md-6">
@@ -127,28 +124,28 @@ class UsersDetail extends React.Component {
                             </div>
                         </div>
 
-                        {buttonText === 'Add' && 
-                        <div className="row form-group">
-                            <div className="col-md-6">
-                                <Label>Privilege</Label><br />
-                                <select defaultValue={this.state.roles.privilegeId} className="custom-select my-1 mr-sm-2" name="privilege" onChange={this.onChange}>
-                                    {this.props.PrivilegeList.map(privilege => (<option key={privilege.id} className="dropdown-item" value={privilege.id}>{privilege.name}</option>))}
-                                </select>
-                            </div>
-                        </div>}
+                        {buttonText === 'Add' &&
+                            <div className="row form-group">
+                                <div className="col-md-6">
+                                    <Label>Privilege</Label><br />
+                                    <select defaultValue={this.state.roles.privilegeId} className="custom-select my-1 mr-sm-2" name="privilege" onChange={this.onChange}>
+                                        {this.props.PrivilegeList.map(privilege => (<option key={privilege.id} className="dropdown-item" value={privilege.id}>{privilege.name}</option>))}
+                                    </select>
+                                </div>
+                            </div>}
 
-                        {buttonText === 'Add' && 
-                        <div className="row form-group">
-                            <div className="col-md-6">
-                                <Label>Applications</Label><br />
-                                {/* <select defaultValue={this.state.roles.applicationId} className="custom-select my-1 mr-sm-2" name="application" onChange={this.onChange}>
+                        {buttonText === 'Add' &&
+                            <div className="row form-group">
+                                <div className="col-md-6">
+                                    <Label>Applications</Label><br />
+                                    {/* <select defaultValue={this.state.roles.applicationId} className="custom-select my-1 mr-sm-2" name="application" onChange={this.onChange}>
                                     {this.props.ApplicationsList.map(application => (<option key={application.id} className="dropdown-item" value={application.id}>{application.name}</option>))}
                                 </select> */}
-                                <select className="custom-select" defaultValue={this.state.roles.applicationId} name="application" onChange={this.onChange}>
-                                    {this.props.ApplicationsList.map(application => (<option key={application.id} className="dropdown-item" value={application.id}>{application.name}</option>))}
-                                </select>
-                            </div>
-                        </div>}
+                                    <select className="custom-select" defaultValue={this.state.roles.applicationId} name="application" onChange={this.onChange}>
+                                        {this.props.ApplicationsList.map(application => (<option key={application.id} className="dropdown-item" value={application.id}>{application.name}</option>))}
+                                    </select>
+                                </div>
+                            </div>}
 
                         {isSU(this.props.role) && <div className="row form-group">
                             <div className="col-md-6">
@@ -161,16 +158,16 @@ class UsersDetail extends React.Component {
                                     <option key={0} className="dropdown-item" value={0}>Select an Institution</option>
                                     {this.props.InstitutionList.data?.map(institution => (<option key={institution.institutionId} className="dropdown-item" value={institution.institutionId}>{institution.name}</option>))}
                                 </select>
-                                <PageHandler page = {this.props.InstitutionList.page} getList={this.props.getInstitutions}/>
+                                <PageHandler page={this.props.InstitutionList.page} getList={this.props.getInstitutions} role={this.props.role} user={this.props.user} />
                             </div>
                         </div>}
 
                     </div>
-                
+
 
                     <div className="container-fluid">
                         <div className="footerStyle">
-                            <button type="submit" style={{ float: 'left' }} onClick={(e)=> this.handleSubmit(e)}> Send Invitation </button>
+                            <button type="submit" style={{ float: 'left' }} onClick={(e) => this.handleSubmit(e)}> Send Invitation </button>
                         </div>
                     </div>
                 </Form>
@@ -182,24 +179,25 @@ class UsersDetail extends React.Component {
 
 //connect redux
 const mapStateToProps = (state) => {
-    
+
     return {
-        PrivilegeList       : [config.selectPrivilege,...state.UserStore.Privileges],
-        ApplicationsList    : [config.selectApplication,...state.UserStore.Applications],
-        InstitutionList     : state.InstitutionStore.Institutions,
-        OfficerId           : state.Login.user.officerId,
-        role                : state.Login.role
+        PrivilegeList: [config.selectPrivilege, ...state.UserStore.Privileges],
+        ApplicationsList: [config.selectApplication, ...state.UserStore.Applications],
+        InstitutionList: state.InstitutionStore.Institutions,
+        OfficerId: state.Login.user.officerId,
+        role: state.Login.role,
+        user: state.Login.user
     }
 
 }
 
 const actionCreators = {
 
-    getPrivileges   : UserAction.getPrivileges,
-    getApplications : UserAction.getApplications,
-    getInstitutions : InstitutionAction.getInstitutions,
-    sendInvitation  : UserAction.sendInvitation
-    
+    getPrivileges: UserAction.getPrivileges,
+    getApplications: UserAction.getApplications,
+    getInstitutions: InstitutionAction.getInstitutions,
+    sendInvitation: UserAction.sendInvitation
+
 }
 
 const connectUserDetail = connect(mapStateToProps, actionCreators)(UsersDetail);

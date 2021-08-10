@@ -33,9 +33,7 @@ export function convertUnixTimeToDateTime(unixTime) {
 export function convertUnixTimeToHours(unixTime) {
     const date = new Date(unixTime * 1000);
     const hours = date.getHours();
-    if (hours > 24)
-        return `${hours / 24} days ${hours % 24} hrs`;
-    return `${hours} hrs`;
+    return hours;
 }
 
 
@@ -56,7 +54,7 @@ export function returnCampaignIds(campaigns) {
 }
 
 export function validate(value) {
-    return value === undefined ? '--' : value === null ? '--' : value;
+    return value === undefined ? ' -- ' : value === null ? ' -- ' : value === '' ? ' -- ' : value;
 }
 
 export function returnObjectForSelectedId(list, id) {
@@ -110,4 +108,23 @@ function isProductionDomain(url) {
     }
 
     return hostname === 'api.routesme.com' ? true : false
+}
+
+export function sortArrayOnKey(list, key, order) {
+    return list.sort(dynamicSort(key, order))
+}
+
+function dynamicSort(property, sort) {
+    var sortOrder = sort === config.sortOrder.ascending ? 1 : -1;
+    // if (property[0] === "-") {
+    //     sortOrder = -1;
+    //     property = property.substr(1);
+    // }
+    return function (a, b) {
+        /* next line works with strings and numbers, 
+         * and you may want to customize it to your needs
+         */
+        var result = (a[property] > b[property]) ? -1 : (a[property] < b[property]) ? 1 : 0;
+        return result * sortOrder;
+    }
 }

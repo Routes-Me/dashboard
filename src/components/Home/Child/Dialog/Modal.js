@@ -1,11 +1,15 @@
 ﻿import React from 'react';
 import '../../../Style/home.css';
 import '../Dialog/modal.scss';
+import '../Detail/Detail.css';
 import { vehicleConstants } from '../../../../constants/vehicleConstants';
 import { config } from '../../../../constants/config';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { convertUnixTimeToDateTime, convertUnixTimeToHours } from '../../../../util/basic';
+import { convertUnixTimeToDateTime, convertUnixTimeToHours, sortArrayOnKey } from '../../../../util/basic';
+import { validate } from '../../../../util/basic';
+import PageHandler from '../PageHandler';
+// import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 
 class Modal extends React.Component {
 
@@ -13,60 +17,75 @@ class Modal extends React.Component {
         super(props)
 
         this.state = {
-            vehicleToDisplay: "",
             modelId: "",
             modelYear: "",
-            deviceId: "",
-            plateNumber: "",
-            InstitutionId: "",
-            ModelList: [],
-            selectedModel: "",
-            loading: false,
             startDate: "",
             endDate: "",
-            title: ""
+            title: "",
+            list: [],
+            sortPlateNumber: false,
+            sortDays: false,
+            sortHours: false,
+            sortInstitution: false
         }
 
     }
 
-    setDateRange = (update) => {
-        this.setState({ startDate: update[0], endDate: update[1] });
-    }
-
-    componentDidMount() {
-        console.log('Component did mount ', this.props.objectType);
-        // if (this.props.objectType === config.onlineVehicles || this.props.objectType === config.offlineVehicles) {
-        let strtDate = new Date();
-        let edDate = new Date();
-        strtDate.setDate(edDate.getDate() - 3);
-        this.setState({ startDate: strtDate, endDate: edDate });
-        // let status = this.props.objectType === config.onlineVehicles ? config.OnlineLog : config.OfflineLog;
-        // console.log(`Params for logs Start : ${strtDate} End : ${edDate} Status to check ${status}`);
-        // this.props.onSelect(this.state.startDate, this.state.endDate, status);
-        // }
-    }
 
     static getDerivedStateFromProps(props, state) {
         if (props.objectType !== state.title) {
-
+            if (props.objectType === config.offlineVehicles || props.objectType === config.onlineVehicles) {
+                let strtDate = new Date();
+                let edDate = new Date();
+                strtDate.setDate(edDate.getDate() - 3);
+                return {
+                    title: props.objectType,
+                    startDate: strtDate,
+                    endDate: edDate
+                }
+            }
         }
     }
 
 
+    componentDidUpdate(prevProps, prevState) {
+
+        if (prevProps.objectType !== this.props.objectType) {
+            if (this.compareDateTimeRange(this.state.startDate, this.state.endDate)) {
+                let status = this.state.title === config.onlineVehicles ? config.OnlineLog : config.OfflineLog;
+                this.props.onSelect(this.state.startDate, this.state.endDate, status);
+            }
+        }
+        if (prevProps.objectList.length !== this.props.objectList.length) {
+            this.setState({ list: this.props.objectList });
+        }
+    }
 
     updateDateRange = (date, key, title) => {
         if (key === 'startDate') {
             if (this.state.startDate !== undefined) {
-                this.setState({ startDate: date })
+                if (this.state.endDate !== undefined) {
+                    if (this.compareDateTimeRange(date, this.state.endDate))
+                        this.setState({ startDate: date });
+                }
+                else {
+                    this.setState({ startDate: date });
+                }
             }
         }
         if (key === 'endDate') {
-            if (this.state.endDate !== undefined && this.state.startDate !== undefined && date > this.state.startDate) {
+            if (this.state.endDate !== undefined && this.state.startDate !== undefined && this.compareDateTimeRange(this.state.startDate, date)) {
                 this.setState({ endDate: date })
-                let status = title === config.onlineVehicles ? config.OnlineLog : config.OfflineLog
-                this.props.onSelect(this.state.startDate, date, status)
             }
         }
+        if (this.compareDateTimeRange(this.state.startDate, this.state.endDate)) {
+            let status = title === config.onlineVehicles ? config.OnlineLog : config.OfflineLog
+            this.props.onSelect(this.state.startDate, this.state.endDate, status);
+        }
+    }
+
+    compareDateTimeRange = (start, end) => {
+        return start.getTime() < end.getTime();
     }
 
     showSearchList = (searchList) => {
@@ -102,6 +121,7 @@ class Modal extends React.Component {
                         selected={this.state.startDate}
                         onChange={(date) => this.updateDateRange(date, 'startDate', title)}
                         dateFormat="MM/dd/yyyy h:mm aa"
+                        maxDate={new Date()}
                         showTimeSelect
                         isClearable />
                     <DatePicker
@@ -109,6 +129,7 @@ class Modal extends React.Component {
                         selected={this.state.endDate}
                         onChange={(date) => this.updateDateRange(date, 'endDate', title)}
                         dateFormat="MM/dd/yyyy h:mm aa"
+                        maxDate={new Date()}
                         showTimeSelect
                         isClearable />
                 </div>
@@ -146,7 +167,7 @@ class Modal extends React.Component {
     returniFrame = (token) => {
         return (
             <iframe
-                src={`https://play.google.com/managed/browse?token=${this.props.objectList}&mode=SELECT`}
+                src={`https://play.google.com/managed/browse?token=${token}&mode=SELECT`}
                 width="100%"
                 height="100%"
                 onLoad={this.hideSpinner}
@@ -157,33 +178,43 @@ class Modal extends React.Component {
     }
 
     returnVehicles = (vehicles) => {
-        console.log('Log Model ', vehicles);
+
         return (
-            <div className="searchList">
-                <table>
-                    <thead style={{ position: 'sticky', top: '180px', backgroundColor: 'white' }}>
-                        <tr style={{ height: '51px', borderBottom: "0.5px solid black" }}>
-                            <th style={{ paddingLeft: '50px' }}>#</th>
-                            <th>Plate Number</th>
-                            {/* <th>CHECKED-AT</th> */}
-                            <th>TOTAL</th>
-                            <th>INSTITUTION</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            vehicles.data && vehicles.data.map((vehicle, index) => (
-                                <tr key={vehicle.vehicleId}>
-                                    <td style={{ paddingLeft: '50px' }}>{index + 1}</td>
-                                    <td>{vehicle.plateNumber}</td>
-                                    {/* <td>{convertUnixTimeToDateTime(vehicle.checkedAt)}</td> */}
-                                    <td>{convertUnixTimeToHours(vehicle.total)}</td>
-                                    <td>{vehicle.institutionName}</td>
-                                </tr>
-                            ))
-                        }
-                    </tbody>
-                </table>
+            <div>
+                <PageHandler page={vehicles.page} getList={this.props.onSelect} role={this.props.role} user={this.props.user} style='header' />
+                <div className="searchList">
+                    {/* {vehicles.data && <BootstrapTable data={vehicles.data} options={this.options}>
+                        <TableHeaderColumn dataField='plateNumber' dataSort={true}>Plate Number</TableHeaderColumn>
+                        <TableHeaderColumn dataField='days' dataSort={true}>CHECKED-AT</TableHeaderColumn>
+                        <TableHeaderColumn dataField='total' dataSort={true}>TOTAL</TableHeaderColumn>
+                        <TableHeaderColumn dataField='institutionName'>INSTITUTION</TableHeaderColumn>
+                    </BootstrapTable>} */}
+                    <table>
+                        <thead style={{ position: 'sticky', top: '180px', backgroundColor: 'white' }}>
+                            <tr style={{ height: '51px', borderBottom: "0.5px solid black" }}>
+                                <th style={{ paddingLeft: '50px' }}>#</th>
+                                <th onClick={(e) => this.toggleSort("plateNumber")}>Plate Number <span className={this.state.sortPlateNumber ? 'glyphicon glyphicon-sort-by-attributes' : 'glyphicon glyphicon-sort-by-attributes-alt'}></span></th>
+                                <th onClick={(e) => this.toggleSort("days")}>Days <span className={this.state.sortDays ? 'glyphicon glyphicon-sort-by-attributes' : 'glyphicon glyphicon-sort-by-attributes-alt'}></span></th>
+                                <th onClick={(e) => this.toggleSort("total")}>Hours <span className={this.state.sortHours ? 'glyphicon glyphicon-sort-by-attributes' : 'glyphicon glyphicon-sort-by-attributes-alt'}></span></th>
+                                <th onClick={(e) => this.toggleSort("institutionName")}>Institution <span className={this.state.sortInstitution ? 'glyphicon glyphicon-sort-by-attributes' : 'glyphicon glyphicon-sort-by-attributes-alt'}></span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                                vehicles.data && vehicles.data?.map((vehicle, index) => (
+                                    <tr key={vehicle.vehicleId}>
+                                        <td style={{ paddingLeft: '50px' }}>{index + 1}</td>
+                                        <td>{validate(vehicle.plateNumber)}</td>
+                                        <td>{vehicle.days > 1 ? vehicle.days + ' days' : vehicle.days + ' day'}</td>
+                                        <td>{convertUnixTimeToHours(vehicle.total) + ' hrs'}</td>
+                                        <td>{validate(vehicle.institutionName)}</td>
+                                    </tr>
+                                )
+                                )
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>)
     }
 
@@ -191,6 +222,32 @@ class Modal extends React.Component {
 
     onselection(obj) {
         this.props.onSelect(obj);
+    }
+
+    toggleSort = (key) => {
+        const sortedArray = this.props.objectList;
+        let sort = '';
+        if (key === 'plateNumber') {
+            sort = !this.state.sortPlateNumber
+            this.setState({ sortPlateNumber: sort, sortDays: false, sortHours: false, sortInstitution: false });
+        }
+        if (key === 'days') {
+            sort = !this.state.sortDays
+            this.setState({ sortDays: sort, sortPlateNumber: false, sortHours: false, sortInstitution: false });
+        }
+        if (key === 'total') {
+            sort = !this.state.sortHours
+            this.setState({ sortHours: sort, sortDays: false, sortPlateNumber: false, sortInstitution: false });
+        }
+        if (key === 'institutionName') {
+            sort = !this.state.sortInstitution
+            this.setState({ sortHours: false, sortDays: false, sortPlateNumber: false, sortInstitution: sort });
+        }
+        const order = sort ? config.sortOrder.ascending : config.sortOrder.descending;
+        sortedArray.data = sortArrayOnKey(this.props.objectList.data, key, order);
+        console.log('Sorted array count ', sortedArray.data);
+        this.state.list && this.setState({ list: sortedArray });
+        console.log('Sorted displayed array count ', this.state.list.data);
     }
 
     render() {
@@ -219,9 +276,9 @@ class Modal extends React.Component {
                 <div className={`modal-content${title === 'Emm Console' ? ' wider' : ''}`}>
 
                     <div className="top-part-vehicles-search model-header">
-                        <span className="closeBtn" style={{ float: "right", display: "block" }} onClick={this.props.onClose} />
+                        <span className="closeCrudBtn" style={{ float: "right", display: "block" }} onClick={this.props.onClose} />
                         <div className="header-add-butt">
-                            <h3>{title} {this.props.objectList.pagination && `(${this.props.objectList.pagination.total})`}</h3>
+                            <h3>{title} {this.props.objectList && returnSearchForTracking(title) && `${validate(this.props.objectList.total)}`}</h3>
                         </div>
                         <hr />
                         {returnSearchForTracking(title) &&
@@ -232,7 +289,7 @@ class Modal extends React.Component {
                         : title === 'Emm Console' ?
                             this.returniFrame(this.props.objectList)
                             : title === config.onlineVehicles || title === config.offlineVehicles ?
-                                this.returnVehicles(this.props.objectList)
+                                this.props.objectList && this.returnVehicles(this.state.list)
                                 : this.showSearchList(this.props.objectList)}
 
                 </div>

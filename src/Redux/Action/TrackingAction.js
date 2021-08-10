@@ -1,6 +1,6 @@
 ﻿import { trackingConstants } from '../../constants/trackingConstants';
 import * as signalR from '@aspnet/signalr';
-import { convertDateTimeToUnix, convertObjectKeyToLowerCase, isSU, returnEntityForInstitution } from '../../util/basic';
+import { convertDateTimeToUnix, convertObjectKeyToLowerCase, isSU, returnEntityForInstitution, sortArrayOnKey } from '../../util/basic';
 import apiHandler from '../../util/request';
 import { config } from "../../constants/config";
 
@@ -131,18 +131,42 @@ export function getVehiclesLog(start, end, status) {
         dispatch(vehicleLogRequest());
         start = convertDateTimeToUnix(start);
         end = convertDateTimeToUnix(end);
-        console.log(`Start ${start} End ${end}`);
         dispatch(OfflineDataRequest());
         apiHandler.get(`${status}?startAt=${start}&endAt=${end}&offset=1&limit=10000`)
             .then(
                 vehicles => {
-                    dispatch(updateVehicleLog(vehicles.data));
+                    dispatch(updateVehicleLog(returnVehicleLogGroupedByVehicleId(vehicles.data)));
                 },
                 error => {
                     console.log('error ', error);
                 })
     }
 }
+
+const returnVehicleLogGroupedByVehicleId = (vehicles) => {
+    let result = [];
+    let groupedVehicle = [];
+    if (vehicles.data.length > 0) {
+        groupedVehicle = vehicles.data.reduce(function (res, value) {
+            if (!res[value.vehicleId]) {
+                res[value.vehicleId] = { vehicleId: value.vehicleId, total: 0, plateNumber: value.plateNumber, institutionName: value.institutionName, days: 0 };
+                result.push(res[value.vehicleId])
+            }
+            res[value.vehicleId].total += value.total;
+            res[value.vehicleId].days += 1;
+            return result;
+        }, {});
+    }
+    const formattedVehicles = {
+        data: sortArrayOnKey(groupedVehicle, "plateNumber", config.sortOrder.descending),
+        total: groupedVehicle.length,
+        page: vehicles.pagination
+    }
+    console.log('Formatted vehicle log', formattedVehicles);
+    return formattedVehicles;
+}
+
+
 
 function vehicleLogRequest() {
     return { type: trackingConstants.TrackingVehicleLog_Request }
