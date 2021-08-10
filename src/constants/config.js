@@ -38,6 +38,39 @@ export const config = {
         title: "Please select a interval"
     },
 
+    sortOrder: {
+        ascending: "asc",
+        descending: "dsc"
+    },
+
+    analytics: {
+        qrScans: "linklogs",
+        playBack: "playbacks",
+        category: [{
+            "id": 1,
+            "name": "playbacks",
+            "options": [
+                { "name": "Android", "color": "#a4c639" },
+                { "name": "iOS", "color": "#a2aaad" },
+                { "name": "web", "color": "#375a9b" },
+                { "name": "Windows", "color": "#9b7837" },
+                { "name": "Mac", "color": "#90a3c4" }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "linklogs",
+            "options": [
+                { "name": "Morning", "color": "#a4c639" },
+                { "name": "Noon", "color": "#a2aaad" },
+                { "name": "Evening", "color": "#375a9b" },
+                { "name": "Night", "color": "#9b7837" }
+            ]
+        }
+        ]
+    },
+
+
     NavMenuItems: {
         "data": [
             {
