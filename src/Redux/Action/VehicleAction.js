@@ -135,7 +135,7 @@ export function saveVehicle(vehicle, action) {
   return dispatch => {
     dispatch(saveVehicleRequest(vehicle))
     if (action == "save") {
-      apiHandler.put('vehicles', vehicle)
+      apiHandler.put(`vehicles/${vehicle.VehicleId}`, vehicle)
         .then(
           vehicle => {
             dispatch(saveVehicleSuccess(vehicle));
