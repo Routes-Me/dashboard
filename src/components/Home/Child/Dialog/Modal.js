@@ -51,14 +51,17 @@ class Modal extends React.Component {
     componentDidUpdate(prevProps, prevState) {
 
         if (prevProps.objectType !== this.props.objectType) {
-            if (this.compareDateTimeRange(this.state.startDate, this.state.endDate)) {
-                let status = this.state.title === config.onlineVehicles ? config.OnlineLog : config.OfflineLog;
-                this.props.onSelect(this.state.startDate, this.state.endDate, status);
+            if (this.props.objectType)
+                if (this.props.objectType === config.offlineVehicles || this.props.objectType === config.onlineVehicles)
+                    if (this.compareDateTimeRange(this.state.startDate, this.state.endDate)) {
+                        let status = this.state.title === config.onlineVehicles ? config.OnlineLog : config.OfflineLog;
+                        this.props.onSelect(this.state.startDate, this.state.endDate, status);
+                    }
+        }
+        if (prevProps.objectList && this.props.objectList)
+            if (prevProps.objectList.length !== this.props.objectList.length) {
+                this.setState({ list: this.props.objectList });
             }
-        }
-        if (prevProps.objectList.length !== this.props.objectList.length) {
-            this.setState({ list: this.props.objectList });
-        }
     }
 
     updateDateRange = (date, key, title) => {
@@ -266,7 +269,7 @@ class Modal extends React.Component {
             return title === 'Manufacturers' || title === "Models";
         }
 
-        const returnSearchForTracking = (title) => {
+        const verifyContextForTracking = (title) => {
             return title === config.offlineVehicles || title === config.onlineVehicles;
         }
 
@@ -278,10 +281,10 @@ class Modal extends React.Component {
                     <div className="top-part-vehicles-search model-header">
                         <span className="closeCrudBtn" style={{ float: "right", display: "block" }} onClick={this.props.onClose} />
                         <div className="header-add-butt">
-                            <h3>{title} {this.props.objectList && returnSearchForTracking(title) && `${validate(this.props.objectList.total)}`}</h3>
+                            <h3>{title} {this.props.objectList && verifyContextForTracking(title) && `${validate(this.props.objectList.total)}`}</h3>
                         </div>
                         <hr />
-                        {returnSearchForTracking(title) &&
+                        {verifyContextForTracking(title) &&
                             this.returnSearch(title)}
                     </div>
                     {title === 'Enrollment Token' ?
