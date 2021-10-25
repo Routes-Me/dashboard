@@ -40,7 +40,7 @@ export const config = {
 
     sortOrder: {
         ascending: "asc",
-        descending: "dsc"
+        descending: "desc"
     },
 
     analytics: {
