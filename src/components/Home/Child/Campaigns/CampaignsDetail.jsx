@@ -43,10 +43,6 @@ class CampaignsDetail extends React.Component {
 
     }
 
-    componentDidUpdate() {
-        this.state.campaignId !== '' && this.props.getAdvertisementsForCampaign(1, config.Pagelimit, this.state.campaignId);
-    }
-
 
     //Load Advertisements in a table
     renderAllAdvertisementTable(Advertisements) {
