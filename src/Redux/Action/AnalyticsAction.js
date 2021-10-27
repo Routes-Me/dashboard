@@ -18,7 +18,7 @@ export function getAnalyticsLinkLogs(entity, start, end) {
                         dispatch(getAnalyticsSuccess(returnFormattedDataForPlayBacks(response)));
                 },
                 error => {
-                    alert("Offline vehicle " + error.toString());
+                    alert(`Analytics - ${entity} ` + error.toString());
                 });
     }
 }

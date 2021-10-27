@@ -1,3 +1,4 @@
+import { diff } from "semver";
 import { config } from "../constants/config";
 
 
@@ -31,9 +32,16 @@ export function convertUnixTimeToDateTime(unixTime) {
 }
 
 export function convertUnixTimeToHours(unixTime) {
-    const date = new Date(unixTime * 1000);
-    const hours = date.getHours();
-    return hours;
+
+    const minutes = Math.floor(unixTime / 60);
+    const hoursV = minutes > 60 ? Math.floor(minutes / 60) : 0;
+    // const days = Math.floor(hoursV / 24);
+    // console.log("hoursV ", hoursV);
+
+    // const date = new Date(unixTime * 1000);
+    // console.log(`Total :  UnixTime : ${unixTime} Date : ${date.toLocaleDateString()} Hours : ${date.getHours()}`);
+    // const hours = date.getHours();
+    return hoursV;
 }
 
 
@@ -116,10 +124,6 @@ export function sortArrayOnKey(list, key, order) {
 
 function dynamicSort(property, sort) {
     var sortOrder = sort === config.sortOrder.ascending ? 1 : -1;
-    // if (property[0] === "-") {
-    //     sortOrder = -1;
-    //     property = property.substr(1);
-    // }
     return function (a, b) {
         /* next line works with strings and numbers, 
          * and you may want to customize it to your needs
