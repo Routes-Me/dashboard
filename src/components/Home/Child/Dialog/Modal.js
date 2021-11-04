@@ -50,6 +50,7 @@ class Modal extends React.Component {
             if (props.objectType === config.offlineVehicles || props.objectType === config.onlineVehicles) {
                 let strtDate = new Date();
                 let edDate = new Date();
+                edDate.setDate(edDate.getDate() - 1);
                 strtDate.setDate(edDate.getDate() - 3);
                 return {
                     title: props.objectType,
@@ -158,7 +159,7 @@ class Modal extends React.Component {
                         selected={this.state.endDate}
                         onChange={(date) => this.updateDateRange(date, 'endDate', title)}
                         dateFormat="MM/dd/yyyy"
-                        maxDate={new Date()}
+                        maxDate={this.state.endDate}
                         isClearable />
                     <button className="btn btn-light" style={{ marginLeft: "5px", border: "black 1px solid" }} onClick={() => this.getCheckinsReport()}><span class="glyphicon glyphicon-search"></span></button>
                     <button className="btn btn-light" style={{ marginLeft: "5px", border: "black 1px solid" }} onClick={() => this.downloadReport()}>
@@ -326,7 +327,7 @@ class Modal extends React.Component {
                             this.returniFrame(this.props.objectList)
                             : title === config.onlineVehicles || title === config.offlineVehicles ?
                                 this.state.list.length == 0 || this.state.loading ? <Launch /> : this.returnVehicles(this.state.list)
-                                : this.showSearchList(this.props.objectList)}
+                                : this.showSearchList(this.props.objectList.policies)}
 
                 </div>
             </div>
