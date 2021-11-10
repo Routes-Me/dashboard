@@ -111,7 +111,7 @@ class Modal extends React.Component {
         if (this.compareDateTimeRange(this.state.startDate, this.state.endDate)) {
             let status = this.props.objectType === config.onlineVehicles ? config.OnlineLog : config.OfflineLog
             this.setState({ loading: true });
-            this.props.getVehiclesLog(this.state.startDate, this.state.endDate, status, this.state.sort);
+            this.props.getVehiclesLog(this.state.startDate, this.state.endDate, status, this.state.sort, this.props.user, this.props.role);
         }
     }
 
@@ -335,10 +335,16 @@ class Modal extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        user: state.Login.user,
+        role: state.Login.role
+    }
+}
 
 const actionCreators = {
     getVehiclesLog: TrackingAction.getVehiclesLog
 };
 
-const connectedModal = connect(null, actionCreators)(Modal);
+const connectedModal = connect(mapStateToProps, actionCreators)(Modal);
 export { connectedModal as default };
