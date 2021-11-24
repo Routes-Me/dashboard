@@ -127,15 +127,17 @@ export function UnsubscribeFromHub() {
 }
 
 
-export function getVehiclesLog(start, end, status, sort) {
+export function getVehiclesLog(start, end, status, sort, user, role) {
     return dispatch => {
         dispatch(vehicleLogRequest());
         start = convertDateTimeToUnix(start);
         end = convertDateTimeToUnix(end);
         sort = sort.length == 0 ? `&sort=desc:total` : `&sort=${sort}`;
+        const authorize = role && role.privilege !== config.SU ? `institutions/${user.institution.institutionid}/` : ""
         dispatch(OfflineDataRequest());
-        // axios.get(`https://localhost:5001/v1.0/${status}?startAt=${start}&endAt=${end}${sort}`)
-        apiHandler.get(`${status}?startAt=${start}&endAt=${end}${sort}`)
+
+        // axios.get(`https://localhost:5001/v1.0/${authorize}${status}?startAt=${start}&endAt=${end}${sort}`)
+        apiHandler.get(`${authorize}${status}?startAt=${start}&endAt=${end}${sort}`)
             .then(
                 vehicles => {
                     dispatch(updateVehicleLog(returnVehicleLog(vehicles.data)));
