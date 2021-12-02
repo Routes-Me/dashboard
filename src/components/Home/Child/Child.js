@@ -2,6 +2,7 @@ import React, { Component, Suspense, lazy } from 'react';
 import { userConstants } from '../../../constants/userConstants';
 import { connect } from 'react-redux';
 import Launch from '../../Launch';
+import FreeRides from './FreeRides/FreeRides';
 
 const Tracking = lazy(() => import('./Tracking/Tracking'));
 const Vehicles = lazy(() => import('./Vehicles/Vehicles'));
@@ -32,6 +33,7 @@ class Child extends Component {
                     {this.props.selectedNavItem === userConstants.NavItem_Prizes && <Prizes />}
                     {this.props.selectedNavItem === userConstants.NavItem_EMM && <Emm />}
                     {this.props.selectedNavItem === userConstants.NavItem_Bus && <RoutesList />}
+                    {this.props.selectedNavItem === userConstants.NavItem_FreeRides && <FreeRides />}
                 </Suspense>
             </div>
 

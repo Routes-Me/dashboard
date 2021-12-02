@@ -1,64 +1,88 @@
 import { prizeConstants } from '../../constants/prizeConstants';
 
-const INITIAL_STATE ={
-    Candidates : [],
-    Draws      : [],
-    Winners    : [],
-    Loading    : false
+const INITIAL_STATE = {
+    Candidates: [],
+    Draws: [],
+    Winners: [],
+    FreeRides: [],
+    Redemptions: [],
+    Loading: false
 }
 
 
-const PrizeReducer = (state = INITIAL_STATE, action ) => {
+const PrizeReducer = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case prizeConstants.Candidate_REQUEST:
             return {
                 ...state,
-                Loading : true
+                Loading: true
             };
         case prizeConstants.Candidate_SUCCESS:
             return {
                 ...state,
-                Loading : false,
-                Candidates : action.payload
+                Loading: false,
+                Candidates: action.payload
             };
         case prizeConstants.Candidate_FAILURE:
             return {
                 ...state,
-                Loading : false
+                Loading: false
+            };
+        case prizeConstants.REQUEST:
+            return {
+                ...state,
+                Loading: true
+            };
+        case prizeConstants.FreeRides_Success:
+            return {
+                ...state,
+                Loading: false,
+                FreeRides: action.payload
+            };
+        case prizeConstants.Redemptions_Success:
+            return {
+                ...state,
+                Loading: false,
+                Redemptions: action.payload
+            };
+        case prizeConstants.FAILURE:
+            return {
+                ...state,
+                Loading: false
             };
         case prizeConstants.Draws_REQUEST:
             return {
                 ...state,
-                Loading : true
+                Loading: true
             };
         case prizeConstants.Draws_SUCCESS:
             return {
                 ...state,
-                Loading : false,
-                Draws : action.payload
+                Loading: false,
+                Draws: action.payload
             };
         case prizeConstants.Draws_FAILURE:
             return {
                 ...state,
-                Loading : false
+                Loading: false
             };
         case prizeConstants.Winners_REQUEST:
             return {
                 ...state,
-                Loading : true
+                Loading: true
             };
         case prizeConstants.Winners_SUCCESS:
             return {
                 ...state,
-                Loading : false,
-                Winners : action.payload
+                Loading: false,
+                Winners: action.payload
             };
         case prizeConstants.Winners_FAILURE:
             return {
                 ...state,
-                Loading : false
+                Loading: false
             };
-    
+
         default:
             return state;
     }

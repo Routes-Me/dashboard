@@ -1,10 +1,10 @@
 ﻿export const userConstants = {
 
-    Login_REQUEST : 'LOGIN_REQUEST',
-    Login_SUCCESS : 'LOGIN_SUCCESS',
-    Login_FAILURE: 'LOGIN_FAILURE', 
-    Login_TokenReceived : 'TOKEN_RECEIVED',
-    Login_Authorize : 'LOGIN_AUTHORIZE',
+    Login_REQUEST: 'LOGIN_REQUEST',
+    Login_SUCCESS: 'LOGIN_SUCCESS',
+    Login_FAILURE: 'LOGIN_FAILURE',
+    Login_TokenReceived: 'TOKEN_RECEIVED',
+    Login_Authorize: 'LOGIN_AUTHORIZE',
 
 
     LogOut_REQUEST: 'LOGOUT_REQUEST',
@@ -23,18 +23,19 @@
     NavItem_Drivers: 'Drivers',
     NavItem_Institutions: 'Institutions',
     NavItem_Users: 'Users',
-    NavItem_Advertisements:'Advertisements',
-    NavItem_AccessControl : 'Access Control',
-    NavItem_Campaigns : 'Campaigns',
-    NavItem_Analytics : 'Analytics',
-    NavItem_Prizes    : 'Prizes',
-    NavItem_EMM    : 'EMM',
-    NavItem_Bus    : 'Bus Routes',
+    NavItem_Advertisements: 'Advertisements',
+    NavItem_AccessControl: 'Access Control',
+    NavItem_Campaigns: 'Campaigns',
+    NavItem_Analytics: 'Analytics',
+    NavItem_Prizes: 'Prizes',
+    NavItem_EMM: 'EMM',
+    NavItem_Bus: 'Bus Routes',
+    NavItem_FreeRides: 'Free Rides',
 
     getUsers_REQUEST: "GETUSERS_REQUEST",
     getUsers_SUCCESS: "GETUSERS_SUCCESS",
 
-    
+
     getPrivileges_REQUEST: "GETPRIVILEGES_REQUEST",
     update_PRIVILEGES: "UPDATE_PRIVILEGES",
     getPrivileges_ERROR: "GETPRIVILEGES_ERROR",
@@ -53,21 +54,21 @@
     sendInvitation_REQUEST: "SAVEUSERS_REQUEST",
     sendInvitation_SUCCESS: "SAVEUSERS_SUCCES",
 
-    deleteUser_Request : "DELETEUSER_REQUEST",
-    deleteUser_Success : "DELETEUSER_SUCCESS",
-    deleteUser_Error   : "DELETEUSER_ERROR",
+    deleteUser_Request: "DELETEUSER_REQUEST",
+    deleteUser_Success: "DELETEUSER_SUCCESS",
+    deleteUser_Error: "DELETEUSER_ERROR",
 
-    saveApplications_REQUEST    : 'SAVEAPPLICATIONS_REQUEST', 
-    saveApplications_SUCCESS    : 'SAVEAPPLICATIONS_SUCCESS',
-    saveApplications_ERROR      : 'SAVEAPPLICATIONS_ERROR',
+    saveApplications_REQUEST: 'SAVEAPPLICATIONS_REQUEST',
+    saveApplications_SUCCESS: 'SAVEAPPLICATIONS_SUCCESS',
+    saveApplications_ERROR: 'SAVEAPPLICATIONS_ERROR',
 
-    savePrivilidges_REQUEST    : 'SAVEPRIVILIDGES_REQUEST', 
-    savePrivilidges_SUCCESS    : 'SAVEPRIVILIDGES_SUCCESS',
-    savePrivilidges_ERROR      : 'SAVEPRIVILIDGES_ERROR',
+    savePrivilidges_REQUEST: 'SAVEPRIVILIDGES_REQUEST',
+    savePrivilidges_SUCCESS: 'SAVEPRIVILIDGES_SUCCESS',
+    savePrivilidges_ERROR: 'SAVEPRIVILIDGES_ERROR',
 
-    registerUser_REQUEST    : 'REGISTERUSER_REQUEST',
-    registerUser_SUCCESS    : 'REGISTERUSER_SUCCESS',
-    registerUser_ERROR      : 'REGISTERUSER_ERROR',
+    registerUser_REQUEST: 'REGISTERUSER_REQUEST',
+    registerUser_SUCCESS: 'REGISTERUSER_SUCCESS',
+    registerUser_ERROR: 'REGISTERUSER_ERROR',
 
 
     UpdatePage: "UPDATE_PAGE",

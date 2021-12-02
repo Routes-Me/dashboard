@@ -7,6 +7,7 @@ import { CampaignsDetail } from './../Campaigns/CampaignsDetail';
 import { PolicyDetails } from './../EMM/PolicyDetails';
 import { userConstants } from '../../../../constants/userConstants';
 import { RoutesDetails } from '../Routes/RoutesDetails';
+import FreeRideDetail from '../FreeRides/FreeRideDetail';
 
 
 export default class DetailBody extends Component {
@@ -15,22 +16,23 @@ export default class DetailBody extends Component {
         super(props)
         this.state = {
             objectType: "",
-            object:""
+            object: ""
         }
     }
 
     render() {
-        return(
+        return (
             <div className="container-fluid">
-                {this.props.objectType === userConstants.NavItem_Vehicles && <VehicleDetail vehicleToDisplay={this.props.object} onClose={this.props.onClose}/>}
-                {this.props.objectType === userConstants.NavItem_Users && <UsersDetail userToDisplay={this.props.object} onClose={this.props.onClose}/>}
-                {this.props.objectType === userConstants.NavItem_Institutions && <InstitutionsDetail institutionToDisplay={this.props.object} onClose={this.props.onClose}/>}
-                {this.props.objectType === userConstants.NavItem_Advertisements && <AdvertisementsDetail advertisementToDisplay={this.props.object} onClose={this.props.onClose}/>}
-                {this.props.objectType === userConstants.NavItem_Campaigns && <CampaignsDetail campaignToDisplay={this.props.object} onClose={this.props.onClose}/>}
-                {this.props.objectType === 'Policy' && <PolicyDetails tab={this.props.object}/>}
-                {this.props.objectType === 'Enrollment Token' && <PolicyDetails tab={this.props.object}/>}
-                {this.props.objectType === 'Devices' && <PolicyDetails tab={this.props.object}/>}
+                {this.props.objectType === userConstants.NavItem_Vehicles && <VehicleDetail vehicleToDisplay={this.props.object} onClose={this.props.onClose} />}
+                {this.props.objectType === userConstants.NavItem_Users && <UsersDetail userToDisplay={this.props.object} onClose={this.props.onClose} />}
+                {this.props.objectType === userConstants.NavItem_Institutions && <InstitutionsDetail institutionToDisplay={this.props.object} onClose={this.props.onClose} />}
+                {this.props.objectType === userConstants.NavItem_Advertisements && <AdvertisementsDetail advertisementToDisplay={this.props.object} onClose={this.props.onClose} />}
+                {this.props.objectType === userConstants.NavItem_Campaigns && <CampaignsDetail campaignToDisplay={this.props.object} onClose={this.props.onClose} />}
+                {this.props.objectType === 'Policy' && <PolicyDetails tab={this.props.object} />}
+                {this.props.objectType === 'Enrollment Token' && <PolicyDetails tab={this.props.object} />}
+                {this.props.objectType === 'Devices' && <PolicyDetails tab={this.props.object} />}
                 {this.props.objectType === userConstants.NavItem_Bus && <RoutesDetails entity={this.props.object} />}
+                {this.props.objectType === userConstants.NavItem_FreeRides && <FreeRideDetail />}
             </div>
         )
     }
