@@ -10,6 +10,7 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import activeMarker from '../../../../images/active-marker.svg';
 import selectedMarker from '../../../../images/idle-marker.svg';
 
+
 import ClusterMarker from './markers/ClusterMarker';
 import SimpleMarker from './markers/SimpleMarker';
 import supercluster from 'points-cluster';
@@ -82,7 +83,7 @@ class Tracking extends Component {
             let i = state.vehicles.findIndex(vehicle => vehicle.id === props.movedVehicle.id);
             state.vehicles[i] ? state.vehicles[i] = props.movedVehicle : state.vehicles.push(props.movedVehicle);
             let vehicleList = state.vehicles;
-            console.log('Vehicle List Count', vehicleList.length);
+            // console.log('Vehicle List Count', vehicleList.length);
             return {
                 vehicles: vehicleList,
                 activeCount: vehicleList.length
@@ -283,7 +284,7 @@ class Tracking extends Component {
             iconUrl: activeMarker,
             iconSize: [25, 25]
         });
-
+        // https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
         return (
             <div style={{ height: "100vh", width: "100%" }}>
 
@@ -300,10 +301,10 @@ class Tracking extends Component {
                     timeout={this.state.timeout} />
 
                 <MapContainer center={position} zoom={10} maxZoom={20} minZoom={9} scrollWheelZoom={true} style={{ width: '100%', height: '100%' }}>
-                    <div className='activeCount' onClick={(e) => { isSU(this.props.role) && this.setState({ showModal: true, status: config.onlineVehicles }) }}>
+                    <div className='activeCount' onClick={(e) => { this.setState({ showModal: true, status: config.onlineVehicles }) }}>
                         <h4 style={{ margin: '10px' }}>{this.state.activeCount}</h4>
                     </div>
-                    <div className='idleCount' onClick={(e) => { isSU(this.props.role) && this.setState({ showModal: true, status: config.offlineVehicles }) }}>
+                    <div className='idleCount' onClick={(e) => { this.setState({ showModal: true, status: config.offlineVehicles }) }}> {/*isSU(this.props.role) && */}
                         <h4 style={{ margin: '10px' }}>{idleVehicleCount > 0 ? idleVehicleCount : 0}</h4>
                     </div>
                     <TileLayer
@@ -334,7 +335,7 @@ class Tracking extends Component {
                     ))}
 
                 </MapContainer>
-            </div>
+            </div >
         )
     }
 }

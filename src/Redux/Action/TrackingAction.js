@@ -1,8 +1,10 @@
 ﻿import { trackingConstants } from '../../constants/trackingConstants';
 import * as signalR from '@aspnet/signalr';
-import { convertDateTimeToUnix, convertObjectKeyToLowerCase, isSU, returnEntityForInstitution, sortArrayOnKey } from '../../util/basic';
+import { convertDateTimeToUnix, convertUnixTimeToHours, isSU, returnEntityForInstitution, sortArrayOnKey } from '../../util/basic';
 import apiHandler from '../../util/request';
 import { config } from "../../constants/config";
+import axios from "axios";
+
 
 let hubConnection = "";
 let reconnectingInterval = "";
@@ -20,9 +22,8 @@ export function InitializeHub(token) {
                 {
                     accessTokenFactory: () => getAccessToken(token)
                 })
-            .configureLogging(signalR.LogLevel.Trace)
             .build();
-        hubConnection.serverTimeoutInMilliseconds = (60000 * 6);
+        hubConnection.serverTimeoutInMilliseconds = (60000 * 6); //.configureLogging(signalR.LogLevel.Trace)
 
     }
 
@@ -126,16 +127,20 @@ export function UnsubscribeFromHub() {
 }
 
 
-export function getVehiclesLog(start, end, status) {
+export function getVehiclesLog(start, end, status, sort, user, role) {
     return dispatch => {
         dispatch(vehicleLogRequest());
         start = convertDateTimeToUnix(start);
         end = convertDateTimeToUnix(end);
+        sort = sort.length == 0 ? `&sort=desc:total` : `&sort=${sort}`;
+        const authorize = role && role.privilege !== config.SU ? `institutions/${user.institution.institutionid}/` : ""
         dispatch(OfflineDataRequest());
-        apiHandler.get(`${status}?startAt=${start}&endAt=${end}&offset=1&limit=10000`)
+
+        // axios.get(`https://localhost:5001/v1.0/${authorize}${status}?startAt=${start}&endAt=${end}${sort}`)
+        apiHandler.get(`${authorize}${status}?startAt=${start}&endAt=${end}${sort}`)
             .then(
                 vehicles => {
-                    dispatch(updateVehicleLog(returnVehicleLogGroupedByVehicleId(vehicles.data)));
+                    dispatch(updateVehicleLog(returnVehicleLog(vehicles.data)));
                 },
                 error => {
                     console.log('error ', error);
@@ -143,26 +148,25 @@ export function getVehiclesLog(start, end, status) {
     }
 }
 
-const returnVehicleLogGroupedByVehicleId = (vehicles) => {
-    let result = [];
-    let groupedVehicle = [];
-    if (vehicles.data.length > 0) {
-        groupedVehicle = vehicles.data.reduce(function (res, value) {
-            if (!res[value.vehicleId]) {
-                res[value.vehicleId] = { vehicleId: value.vehicleId, total: 0, plateNumber: value.plateNumber, institutionName: value.institutionName, days: 0 };
-                result.push(res[value.vehicleId])
-            }
-            res[value.vehicleId].total += value.total;
-            res[value.vehicleId].days += 1;
-            return result;
-        }, {});
-    }
+const returnVehicleLog = (vehicles) => {
+    let formattedResponse = [];
+    vehicles.data.map((v, i) => {
+        const vehicle = {
+            index: i + 1,
+            vehicleId: v.vehicleId,
+            total: convertUnixTimeToHours(v.total),
+            plateNumber: v.plateNumber,
+            institutionName: v.institutionName,
+            days: v.days - 1
+        }
+        formattedResponse.push(vehicle);
+    });
+
     const formattedVehicles = {
-        data: sortArrayOnKey(groupedVehicle, "plateNumber", config.sortOrder.descending),
-        total: groupedVehicle.length,
+        data: formattedResponse, //sortArrayOnKey(groupedVehicle, "plateNumber", config.sortOrder.descending),
+        total: formattedResponse.length,
         page: vehicles.pagination
     }
-    console.log('Formatted vehicle log', formattedVehicles);
     return formattedVehicles;
 }
 

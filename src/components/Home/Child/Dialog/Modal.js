@@ -6,10 +6,21 @@ import { vehicleConstants } from '../../../../constants/vehicleConstants';
 import { config } from '../../../../constants/config';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { convertUnixTimeToDateTime, convertUnixTimeToHours, sortArrayOnKey } from '../../../../util/basic';
+import { sortArrayOnKey } from '../../../../util/basic';
 import { validate } from '../../../../util/basic';
 import PageHandler from '../PageHandler';
-// import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
+import Launch from '../../../Launch';
+import { CSVLink } from "react-csv";
+import { connect } from 'react-redux';
+import * as TrackingAction from '../../../../Redux/Action';
+
+const headers = [
+    { label: "#", key: "index" },
+    { label: "Plate Number", key: "plateNumber" },
+    { label: "Institution", key: "institutionName" },
+    { label: "Total", key: "total" },
+    { label: "Days", key: "days" }
+]
 
 class Modal extends React.Component {
 
@@ -23,12 +34,14 @@ class Modal extends React.Component {
             endDate: "",
             title: "",
             list: [],
+            sort: "",
             sortPlateNumber: false,
             sortDays: false,
             sortHours: false,
-            sortInstitution: false
+            sortInstitution: false,
+            loading: true
         }
-
+        this.csvLinkEL = React.createRef();
     }
 
 
@@ -37,11 +50,14 @@ class Modal extends React.Component {
             if (props.objectType === config.offlineVehicles || props.objectType === config.onlineVehicles) {
                 let strtDate = new Date();
                 let edDate = new Date();
+                edDate.setDate(edDate.getDate() - 1);
                 strtDate.setDate(edDate.getDate() - 3);
                 return {
                     title: props.objectType,
                     startDate: strtDate,
-                    endDate: edDate
+                    endDate: edDate,
+                    loading: true,
+                    sort: ""
                 }
             }
         }
@@ -54,13 +70,13 @@ class Modal extends React.Component {
             if (this.props.objectType)
                 if (this.props.objectType === config.offlineVehicles || this.props.objectType === config.onlineVehicles)
                     if (this.compareDateTimeRange(this.state.startDate, this.state.endDate)) {
-                        let status = this.state.title === config.onlineVehicles ? config.OnlineLog : config.OfflineLog;
-                        this.props.onSelect(this.state.startDate, this.state.endDate, status);
+                        // this.state.title === config.onlineVehicles ? config.OnlineLog : config.OfflineLog;
+                        this.setState({ loading: true });
                     }
         }
         if (prevProps.objectList && this.props.objectList)
-            if (prevProps.objectList.length !== this.props.objectList.length) {
-                this.setState({ list: this.props.objectList });
+            if (this.state.list.length !== this.props.objectList.length) {
+                this.setState({ list: this.props.objectList, loading: false });
             }
     }
 
@@ -83,12 +99,24 @@ class Modal extends React.Component {
         }
         if (this.compareDateTimeRange(this.state.startDate, this.state.endDate)) {
             let status = title === config.onlineVehicles ? config.OnlineLog : config.OfflineLog
-            this.props.onSelect(this.state.startDate, this.state.endDate, status);
+            // this.props.onSelect(this.state.startDate, this.state.endDate, status);
         }
     }
 
     compareDateTimeRange = (start, end) => {
         return start.getTime() < end.getTime();
+    }
+
+    getCheckinsReport = () => {
+        if (this.compareDateTimeRange(this.state.startDate, this.state.endDate)) {
+            let status = this.props.objectType === config.onlineVehicles ? config.OnlineLog : config.OfflineLog
+            this.setState({ loading: true });
+            this.props.getVehiclesLog(this.state.startDate, this.state.endDate, status, this.state.sort, this.props.user, this.props.role);
+        }
+    }
+
+    downloadReport = () => {
+        this.state.list && this.csvLinkEL.current.link.click();
     }
 
     showSearchList = (searchList) => {
@@ -123,20 +151,29 @@ class Modal extends React.Component {
                         className="dateFilter"
                         selected={this.state.startDate}
                         onChange={(date) => this.updateDateRange(date, 'startDate', title)}
-                        dateFormat="MM/dd/yyyy h:mm aa"
+                        dateFormat="MM/dd/yyyy"
                         maxDate={new Date()}
-                        showTimeSelect
                         isClearable />
                     <DatePicker
                         className="dateFilter"
                         selected={this.state.endDate}
                         onChange={(date) => this.updateDateRange(date, 'endDate', title)}
-                        dateFormat="MM/dd/yyyy h:mm aa"
-                        maxDate={new Date()}
-                        showTimeSelect
+                        dateFormat="MM/dd/yyyy"
+                        maxDate={this.state.endDate}
                         isClearable />
+                    <button className="btn btn-light" style={{ marginLeft: "5px", border: "black 1px solid" }} onClick={() => this.getCheckinsReport()}><span class="glyphicon glyphicon-search"></span></button>
+                    <button className="btn btn-light" style={{ marginLeft: "5px", border: "black 1px solid" }} onClick={() => this.downloadReport()}>
+                        <span class="glyphicon glyphicon-floppy-save">
+                            {this.state.list.data && <CSVLink
+                                data={this.state.list.data}
+                                headers={headers}
+                                filename={`Report_${this.state.startDate}-${this.state.endDate}.csv`}
+                                ref={this.csvLinkEL}>
+                            </CSVLink>}
+                        </span>
+                    </button>
                 </div>
-            </div>
+            </div >
         )
     }
 
@@ -184,40 +221,36 @@ class Modal extends React.Component {
 
         return (
             <div>
-                <PageHandler page={vehicles.page} getList={this.props.onSelect} role={this.props.role} user={this.props.user} style='header' />
-                <div className="searchList">
-                    {/* {vehicles.data && <BootstrapTable data={vehicles.data} options={this.options}>
-                        <TableHeaderColumn dataField='plateNumber' dataSort={true}>Plate Number</TableHeaderColumn>
-                        <TableHeaderColumn dataField='days' dataSort={true}>CHECKED-AT</TableHeaderColumn>
-                        <TableHeaderColumn dataField='total' dataSort={true}>TOTAL</TableHeaderColumn>
-                        <TableHeaderColumn dataField='institutionName'>INSTITUTION</TableHeaderColumn>
-                    </BootstrapTable>} */}
-                    <table>
-                        <thead style={{ position: 'sticky', top: '180px', backgroundColor: 'white' }}>
-                            <tr style={{ height: '51px', borderBottom: "0.5px solid black" }}>
-                                <th style={{ paddingLeft: '50px' }}>#</th>
-                                <th onClick={(e) => this.toggleSort("plateNumber")}>Plate Number <span className={this.state.sortPlateNumber ? 'glyphicon glyphicon-sort-by-attributes' : 'glyphicon glyphicon-sort-by-attributes-alt'}></span></th>
-                                <th onClick={(e) => this.toggleSort("days")}>Days <span className={this.state.sortDays ? 'glyphicon glyphicon-sort-by-attributes' : 'glyphicon glyphicon-sort-by-attributes-alt'}></span></th>
-                                <th onClick={(e) => this.toggleSort("total")}>Hours <span className={this.state.sortHours ? 'glyphicon glyphicon-sort-by-attributes' : 'glyphicon glyphicon-sort-by-attributes-alt'}></span></th>
-                                <th onClick={(e) => this.toggleSort("institutionName")}>Institution <span className={this.state.sortInstitution ? 'glyphicon glyphicon-sort-by-attributes' : 'glyphicon glyphicon-sort-by-attributes-alt'}></span></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {
-                                vehicles.data && vehicles.data?.map((vehicle, index) => (
-                                    <tr key={vehicle.vehicleId}>
-                                        <td style={{ paddingLeft: '50px' }}>{index + 1}</td>
-                                        <td>{validate(vehicle.plateNumber)}</td>
-                                        <td>{vehicle.days > 1 ? vehicle.days + ' days' : vehicle.days + ' day'}</td>
-                                        <td>{convertUnixTimeToHours(vehicle.total) + ' hrs'}</td>
-                                        <td>{validate(vehicle.institutionName)}</td>
+                {
+                    <>
+                        <PageHandler page={vehicles.page} getList={this.props.onSelect} role={this.props.role} user={this.props.user} style='header' />
+                        <div className="searchList">
+                            <table>
+                                <thead style={{ position: 'sticky', top: '180px', backgroundColor: 'white' }}>
+                                    <tr style={{ height: '51px', borderBottom: "0.5px solid black" }}>
+                                        <th style={{ paddingLeft: '50px' }}>#</th>
+                                        <th onClick={(e) => this.toggleSort("plateNumber")}>Plate Number <span className={this.state.sortPlateNumber ? 'glyphicon glyphicon-sort-by-attributes' : 'glyphicon glyphicon-sort-by-attributes-alt'}></span></th>
+                                        <th onClick={(e) => this.toggleSort("days")}>Days <span className={this.state.sortDays ? 'glyphicon glyphicon-sort-by-attributes' : 'glyphicon glyphicon-sort-by-attributes-alt'}></span></th>
+                                        <th onClick={(e) => this.toggleSort("total")}>Hours <span className={this.state.sortHours ? 'glyphicon glyphicon-sort-by-attributes' : 'glyphicon glyphicon-sort-by-attributes-alt'}></span></th>
+                                        <th onClick={(e) => this.toggleSort("institutionName")}>Institution <span className={this.state.sortInstitution ? 'glyphicon glyphicon-sort-by-attributes' : 'glyphicon glyphicon-sort-by-attributes-alt'}></span></th>
                                     </tr>
-                                )
-                                )
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                                </thead>
+                                <tbody>
+                                    {
+                                        vehicles.data && vehicles.data?.map((vehicle, index) => (
+                                            <tr key={index}>
+                                                <td style={{ paddingLeft: '50px' }}>{vehicle.index}</td>
+                                                <td>{validate(vehicle.plateNumber)}</td>
+                                                <td>{vehicle.days}</td>
+                                                <td>{vehicle.total}</td>
+                                                <td>{validate(vehicle.institutionName)}</td>
+                                            </tr>
+                                        ))
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </>}
             </div>)
     }
 
@@ -247,6 +280,7 @@ class Modal extends React.Component {
             this.setState({ sortHours: false, sortDays: false, sortPlateNumber: false, sortInstitution: sort });
         }
         const order = sort ? config.sortOrder.ascending : config.sortOrder.descending;
+        this.setState({ sort: `${order}:${key}` });
         sortedArray.data = sortArrayOnKey(this.props.objectList.data, key, order);
         console.log('Sorted array count ', sortedArray.data);
         this.state.list && this.setState({ list: sortedArray });
@@ -292,8 +326,8 @@ class Modal extends React.Component {
                         : title === 'Emm Console' ?
                             this.returniFrame(this.props.objectList)
                             : title === config.onlineVehicles || title === config.offlineVehicles ?
-                                this.props.objectList && this.returnVehicles(this.state.list)
-                                : this.showSearchList(this.props.objectList)}
+                                this.state.list.length == 0 || this.state.loading ? <Launch /> : this.returnVehicles(this.state.list)
+                                : this.showSearchList(this.props.objectList.policies)}
 
                 </div>
             </div>
@@ -301,5 +335,16 @@ class Modal extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        user: state.Login.user,
+        role: state.Login.role
+    }
+}
 
-export default Modal;
+const actionCreators = {
+    getVehiclesLog: TrackingAction.getVehiclesLog
+};
+
+const connectedModal = connect(mapStateToProps, actionCreators)(Modal);
+export { connectedModal as default };

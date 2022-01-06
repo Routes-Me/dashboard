@@ -45,7 +45,7 @@ function nextPage(page, getList, role, user) {
         const totalPages = calculateTotalPage(page);
 
         if (offset <= totalPages) {
-            user.institution.institutionid !== undefined ? getList(offset, page.limit, role, user) : getList(offset, page.limit)
+            user ? getList(offset, page.limit) : getList(offset, page.limit, role, user);
         }
     }
 }
@@ -55,7 +55,7 @@ function previousPage(page, getList, role, user) {
     if (page !== undefined) {
         const offset = page.offset - 1;
         if (offset > 0) {
-            user.institution.institutionid !== undefined ? getList(offset, page.limit, role, user) : getList(offset, page.limit)
+            user ? getList(offset, page.limit) : getList(offset, page.limit, role, user)
         }
     }
 }
