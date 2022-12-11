@@ -1,194 +1,181 @@
-$markerWidth: 40px;
-$markerHeight: 40px;
-$originX: ($markerWidth * -1) + 4;
-$originY: ($markerHeight * -1) + 4;
+// // $markerWidth: 40px;
+// // $markerHeight: 40px;
+// // $originX: ($markerWidth * -1) + 4;
+// // $originY: ($markerHeight * -1) + 4;
 
-$selectMarkerWidth: 30px;
-$selectMarkerHeight: 30px;
+// // $selectMarkerWidth: 30px;
+// // $selectMarkerHeight: 30px;
 
-$carWidth:80px;
-$carHeight:80px;
-$originCarX: ($carWidth * -1) +6;
-$originCarY: ($carHeight * -1) +6;
+// // $carWidth:80px;
+// // $carHeight:80px;
+// // $originCarX: ($carWidth * -1) +6;
+// // $originCarY: ($carHeight * -1) +6;
 
-.car{
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: 80%;
-	cursor: pointer;
-	width: $carWidth;
-	height: $carHeight;
-	transform-origin: originCarX originCarY;
-}
+// .car {
+//   background-repeat: no-repeat;
+//   background-position: center;
+//   background-size: 80%;
+//   cursor: pointer;
+//   width: $carWidth;
+//   height: $carHeight;
+//   transform-origin: originCarX originCarY;
+// }
 
+// .select_car {
+//   @extend .car;
+//   background-image: url("../../../../../images/Taxi-icon.svg");
+// }
 
-.select_car {
-	@extend .car;
-	background-image: url('../../../../../images/Taxi-icon.svg');
-}
+// .marker {
+//   background-repeat: no-repeat;
+//   background-position: center;
+//   background-size: 100%;
+//   cursor: pointer;
+//   width: $markerWidth;
+//   height: $markerHeight;
+//   transform-origin: $originX $originY;
+// }
 
-.marker {
-	background-repeat: no-repeat;
-	background-position: center;
-	background-size: 100%;
-	cursor: pointer;
-	width: $markerWidth;
-	height: $markerHeight;
-	transform-origin: $originX $originY;
-}
+// .active-marker {
+//   @extend .marker;
+//   background-image: url("../../../../../images/active-marker.svg");
+// }
 
-.active-marker{
-	@extend .marker;
-	background-image: url('../../../../../images/active-marker.svg');
-}
+// .idle-marker {
+//   @extend .marker;
+//   background-image: url("../../../../../images/idle-marker.svg");
+// }
 
-.idle-marker {
-	@extend .marker;
-	background-image: url('../../../../../images/idle-marker.svg');
-}
+// .selected-marker {
+//   background-image: url("../../../../../images/group-5.png");
+//   width: 100px;
+//   height: 115px;
+//   background-size: 100%;
+//   font-family: Roboto;
+//   font-size: 34px;
+//   font-weight: 900;
+//   line-height: normal;
+//   letter-spacing: normal;
+//   text-align: center;
+//   padding-bottom: 14px;
+//   background-repeat: no-repeat;
+//   position: relative;
+//   color: #fff;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   transform: none !important;
+//   left: -50px;
+//   top: -105px;
+// }
 
+// .active-marker.selected::before {
+//   content: "";
+//   position: absolute;
+//   left: 0%;
+//   bottom: 0;
+//   border-radius: 50%;
+//   width: 6px;
+//   height: 6px;
+//   border: solid 1px #b5b5b5;
+//   background-color: #ffffff;
+//   transform: translatex(-80%);
+// }
 
+// .cluster {
+//   width: 60px;
+//   height: 60px;
+//   text-align: center;
+//   color: #ffffff;
+//   font-size: 14px;
+//   font-weight: bold;
+//   align-items: center;
+//   justify-content: center;
+//   position: absolute;
+//   cursor: pointer;
+//   display: flex;
+// }
 
-.selected-marker {
-	background-image: url('../../../../../images/group-5.png');
-	width: 100px;
-	height: 115px;
-	background-size: 100%;
-	font-family: Roboto;
-	font-size: 34px;
-	font-weight: 900;
-	line-height: normal;
-	letter-spacing: normal;
-	text-align: center;
-	padding-bottom: 14px;
-	background-repeat: no-repeat;
-	position: relative;
-	color: #fff;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	transform: none !important;
-	left: -50px;
-	top: -105px;
-}
+// .active-cluster {
+//   @extend .cluster;
+//   background-image: url("../../../../../images/active-cluster.svg");
+// }
 
+// .idle-cluster {
+//   @extend .cluster;
+//   background-image: url("../../../../../images/idle-cluster.svg");
+// }
 
-.active-marker.selected::before {
-	content: "";
-	position: absolute;
-	left: 0%;
-	bottom: 0;
-	border-radius: 50%;
-	width: 6px;
-	height: 6px;
-	border: solid 1px #b5b5b5;
-	background-color: #ffffff;
-	transform: translatex(-80%);
-}
+// /*
+// .active-cluster {
+// 	background-image: url('../image/big-icon-2.png');
+// 	position: absolute;
+// 	cursor: pointer;
+// 	width: 60px;
+// 	height: 60px;
+// 	text-align: center;
+// 	color: #ffffff;
+// 	font-size: 14px;
+// 	font-weight: bold;
+// 	display: flex;
+// 	align-items: center;
+// 	justify-content: center;
+// }
 
+// .idle-cluster {
+// 	background-image: url('../image/big-icon-1.png');
+// 	position: absolute;
+// 	cursor: pointer;
+// 	width: 60px;
+// 	height: 60px;
+// 	text-align: center;
+// 	color: #ffffff;
+// 	font-size: 14px;
+// 	font-weight: bold;
+// 	display: flex;
+// 	align-items: center;
+// 	justify-content: center;
+// }
+// */
 
-.cluster {
-	width: 60px;
-	height: 60px;
-	text-align: center;
-	color: #ffffff;
-	font-size: 14px;
-	font-weight: bold;
-	align-items: center;
-	justify-content: center;
-	position: absolute;
-	cursor: pointer;
-	display: flex;
-}
+// .show-text {
+//   display: none;
+// }
 
-.active-cluster {
-	@extend .cluster;
-	background-image: url('../../../../../images/active-cluster.svg');
-}
+// .selected-marker .show-text {
+//   font-size: 24px;
+//   font-weight: bold;
+//   font-family: Roboto;
+//   display: block;
+// }
 
+// .select {
+//   @extend .marker;
+//   background: rgba(155, 120, 55, 1);
+//   border-radius: 50%;
+//   // box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
+//   margin: 0px;
+//   // height: $selectMarkerWidth;
+//   // width: $selectMarkerHeight;
+//   // transform: scale(1);
+//   box-shadow: 0 0 0 20px rgba(155, 120, 55, 0.2);
+//   // animation: pulse 3s infinite;
+//   position: relative;
+// }
 
-.idle-cluster {
-	@extend .cluster;
-	background-image: url('../../../../../images/idle-cluster.svg');
-}
+// @keyframes pulse {
+//   0% {
+//     transform: scale(0.95);
+//     box-shadow: 0 0 0 0 rgba(155, 120, 55, 0.7);
+//   }
 
-/*
-.active-cluster {
-	background-image: url('../image/big-icon-2.png');
-	position: absolute;
-	cursor: pointer;
-	width: 60px;
-	height: 60px;
-	text-align: center;
-	color: #ffffff;
-	font-size: 14px;
-	font-weight: bold;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
+//   70% {
+//     transform: scale(1);
+//     box-shadow: 0 0 0 30px rgba(155, 120, 55, 0.2);
+//   }
 
-
-.idle-cluster {
-	background-image: url('../image/big-icon-1.png');
-	position: absolute;
-	cursor: pointer;
-	width: 60px;
-	height: 60px;
-	text-align: center;
-	color: #ffffff;
-	font-size: 14px;
-	font-weight: bold;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-*/
-
-
-.show-text {
-	display: none;
-}
-
-.selected-marker .show-text {
-	font-size: 24px;
-	font-weight: bold;
-	font-family: Roboto;
-	display: block;
-}
-
-
-
-
-.select {
-	@extend .marker;
-	background: rgba(155, 120, 55, 1);
-	border-radius: 50%;
-	// box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
-	margin: 0px;
-	// height: $selectMarkerWidth;
-	// width: $selectMarkerHeight;
-	// transform: scale(1);
-	box-shadow: 0 0 0 20px rgba(155, 120, 55, 0.2);
-	// animation: pulse 3s infinite;	
-	position: relative;
-}
-
-@keyframes pulse {
-	0% {
-		transform: scale(0.95);
-		box-shadow: 0 0 0 0 rgba(155, 120, 55, 0.7);
-	}
-	
-	70% {
-		transform: scale(1);
-		box-shadow: 0 0 0 30px rgba(155, 120, 55, 0.2);
-	}
-	
-	100% {
-		transform: scale(0.95);
-		box-shadow: 0 0 0 0 rgba(155, 120, 55, 0);
-	}
-}
-
-
+//   100% {
+//     transform: scale(0.95);
+//     box-shadow: 0 0 0 0 rgba(155, 120, 55, 0);
+//   }
+// }
