@@ -20,6 +20,7 @@ export default class DetailBody extends Component {
     }
 
     render() {
+        console.log(userConstants.NavItem_Campaigns, this.props.objectType)
         return(
             <div className="container-fluid">
                 {this.props.objectType === userConstants.NavItem_Vehicles && <VehicleDetail vehicleToDisplay={this.props.object} onClose={this.props.onClose}/>}

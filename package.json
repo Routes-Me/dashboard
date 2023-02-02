@@ -36,6 +36,7 @@
     "eslint-plugin-react-hooks": "^1.6.1",
     "ffmpeg": "0.0.4",
     "file-loader": "4.3.0",
+    "firebase": "^7.24.0",
     "fs-extra": "^8.1.0",
     "gapi-script": "^1.1.0",
     "history": "^4.10.1",
@@ -84,6 +85,7 @@
     "react-redux": "^7.2.0",
     "react-router-bootstrap": "^0.24.4",
     "react-router-dom": "^4.2.2",
+    "react-scripts": "^5.0.1",
     "react-thunk": "^1.0.0",
     "react-validation": "^3.0.7",
     "reactstrap": "^6.3.0",
@@ -111,6 +113,7 @@
   "devDependencies": {
     "ajv": "^6.12.2",
     "cross-env": "^5.2.1",
+    "react-error-overlay": "^6.0.9",
     "typescript": "^3.9.2"
   },
   "scripts": {
