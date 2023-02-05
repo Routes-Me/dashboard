@@ -225,7 +225,7 @@ function buildURL(entity, pageIndex, limit, include) {
       pageIndex +
       "&limit=" +
       limit +
-      "&include=media,campaign";
+      "&include=media,institution,campaign,promotion";
   } else {
     queryParameter = entity + "?offset=" + pageIndex + "&limit=" + limit;
   }
