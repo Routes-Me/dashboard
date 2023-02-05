@@ -321,7 +321,8 @@ export function saveAdvertisement(advertisement, oldFile) {
       uploadMediaIntoBlob(advertisement.file, oldFile) // the function that upload media
         .then((mediaURL) => {
           // check if edit or add
-          if (advertisement.advertisement.advertisementId === undefined) {
+          if (advertisement.advertisement.advertisementId === "") {
+            // Add mode
             const advertise = {
               InvertedTintColor: parseInt(
                 advertisement.advertisement?.tintColor?.replace("#", ""),
@@ -397,8 +398,6 @@ export function saveAdvertisement(advertisement, oldFile) {
               CampaignId: advertisement.advertisement.campaigns,
               TintColor: advertisement.advertisement.tintColor,
             };
-            console.log("token ", token);
-            console.log("ad ", advertise);
             axios
               .put(
                 `${apiDomain}advertisements`,

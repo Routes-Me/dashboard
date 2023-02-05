@@ -21,7 +21,7 @@ class AdvertisementsDetail extends React.Component {
       imageUrlToDis: "",
       videoUrlToDis: "",
       tabIndex: 1,
-      advertisementToDis: "",
+      advertisementToDis: null,
       advertisement: {
         advertisementId: "",
         campaigns: [],
@@ -35,7 +35,7 @@ class AdvertisementsDetail extends React.Component {
       promotion: {
         title: "",
         subtitle: "",
-        code: "12345",
+        code: "",
         weblink: "",
         androidLink: "",
         iOSLink: "",
@@ -54,9 +54,8 @@ class AdvertisementsDetail extends React.Component {
     let ad = props.advertisementToDisplay;
     if (ad !== undefined) {
       if (ad !== state.advertisement) {
-        console.log("state updated 1");
         return {
-          advertisementToDis: ad,
+          advertisementToDis: ad === undefined ? false : ad,
           imageUrlToDis: ad.media?.MediaType === "image" ? ad.media.Url : "",
           videoUrlToDis: ad.media?.MediaType === "video" ? ad.media.Url : "",
           promotionToDis: ad.promotion,
@@ -100,7 +99,9 @@ class AdvertisementsDetail extends React.Component {
     this.props.getCampaigns(1);
     this.props.getDayIntervals();
     this.props.getInstitutions(1, config.DropDownLimit);
-    if (this.advertisementToDis !== "") {
+
+    // Setting ad values to display
+    if (this.state.advertisementToDis !== null) {
       this.setState({
         advertisement: {
           ...this.state.advertisement,
@@ -114,13 +115,13 @@ class AdvertisementsDetail extends React.Component {
         },
       });
 
-      if (this.state.advertisementToDis.media.mediaType === "image") {
+      if (this.state.advertisementToDis.media.MediaType === "image") {
         this.setState({
-          imageUrl: this.state.advertisementToDis?.media?.url,
+          imageUrl: this.state.advertisementToDis?.media?.Url,
         });
       } else {
         this.setState({
-          videoUrl: this.state.advertisementToDis?.media?.url,
+          videoUrl: this.state.advertisementToDis?.media?.Url,
         });
       }
 
@@ -221,7 +222,7 @@ class AdvertisementsDetail extends React.Component {
       this.setState({ validateMsg: "" });
       this.props.saveAdvertisement(
         advertisement,
-        this.state.advertisementToDis.media
+        this.state.advertisementToDis?.media
       );
     }
   };
