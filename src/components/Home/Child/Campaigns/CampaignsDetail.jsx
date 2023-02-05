@@ -38,7 +38,7 @@ class CampaignsDetail extends React.Component {
   // Get advertisment list by campaign id
   componentDidMount() {
     apiHandler
-      .get(`campaigns/${this.state.campaignId}/advertisements`)
+      .get(`${apiURL}${this.state.campaignId}/advertisements`)
       .then((res) => {
         this.setState({ ads: res.data.data });
       })
@@ -73,27 +73,33 @@ class CampaignsDetail extends React.Component {
 
     // body of the rquest
     const body = {
-      AdvertisementId: result.draggableId.substr(0, 11), // removing the index from the id to send send it clean
-      Sort: destinationIndex,
+      Sortitem: [
+        {
+          AdvertisementId: result.draggableId.substr(0, 11), // removing the index from the id to send send it clean
+          Sort: destinationIndex,
+        },
+      ],
     };
-    console.log(body);
     /// Calling Sort API
-    fetch(`${apiURL}campaigns/A1090709165/broadcasts`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(body),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        this.setState({ loading: false, updated: true });
-        console.log("Success:", data);
+    axios
+      .patch(
+        `${apiURL}${this.state.campaignId}/advertisements`,
+        { ...body },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        if (res.data.status) {
+          this.setState({ loading: false, updated: true });
+        }
       })
-      .catch((error) => {
-        this.setState({ loading: true, updated: false });
-        console.error("Error:", error);
+      .catch((err) => {
+        console.log(err);
+        this.setState({ loading: false, updated: false });
       });
   };
 
@@ -139,11 +145,11 @@ class CampaignsDetail extends React.Component {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
-                {this.state.ads?.map(({ advertisementId, name }, index) => {
+                {this.state.ads?.map((item, index) => {
                   return (
                     <Draggable
                       key={index}
-                      draggableId={advertisementId + `${index}`} // mergig the id with the index in order to take the id and send it in the request
+                      draggableId={item.advertisements.advertisementId} // mergig the id with the index in order to take the id and send it in the request
                       test={"test"}
                       index={index}
                     >
@@ -155,7 +161,7 @@ class CampaignsDetail extends React.Component {
                           {...provided.dragHandleProps}
                         >
                           <p>
-                            {index + 1} - {name}
+                            {index + 1} - {item.advertisements.name}
                           </p>
                         </li>
                       )}
@@ -202,7 +208,7 @@ class CampaignsDetail extends React.Component {
   render() {
     // let content = this.renderAllAdvertisementTable(this.props.AdvertisementList);
     let token = cookie.load("token");
-    console.log(token);
+
     const institutionObj = this.state.campaignId;
 
     const buttonText = institutionObj ? "Update" : "Add";
