@@ -128,8 +128,8 @@ class Basic extends React.Component {
                   <br />
                   <select
                     className="custom-select"
-                    required
                     size="6"
+                    multiple
                     value={
                       this.props.advertisementToDisplay.campaigns.lenght > 0
                         ? this.props.advertisementToDisplay.campaigns[0]
@@ -141,7 +141,7 @@ class Basic extends React.Component {
                     <option key={0} className="dropdown-item" value={0}>
                       Select a campaign
                     </option>
-                    {this.props.Campaigns.data?.map((campaign) => (
+                    {this.props.Campaigns.data?.map((campaign, index) => (
                       <option
                         className="dropdown-item"
                         value={campaign.campaignId}

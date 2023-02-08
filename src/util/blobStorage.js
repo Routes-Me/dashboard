@@ -1,4 +1,5 @@
 import { onImageCompress } from "./Compress";
+import { clearStorage } from "./localStorage";
 
 const { BlobServiceClient } = require("@azure/storage-blob");
 
@@ -11,12 +12,14 @@ export function uploadMediaIntoBlob(file, oldFile) {
     `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
   );
 
-  if (file === undefined) {
+  if (file === undefined || file === "") {
+    console.log("old file", oldFile);
     return new Promise((resolve, reject) => {
-      const mediaURL = oldFile?.url;
+      const mediaURL = oldFile?.Url;
       resolve(mediaURL);
     });
   } else {
+    console.log("new file", file);
     if (!file.type.includes("video")) {
       onImageCompress(file).then((file) => {
         file = dataURLtoFile(file, "compressedImageFile.jpg");

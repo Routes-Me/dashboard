@@ -9,7 +9,8 @@ import PageHandler from "../PageHandler";
 import { config } from "../../../../constants/config";
 import { userConstants } from "../../../../constants/userConstants";
 import { isROU } from "../../../../util/basic";
-
+import { useSelector } from "react-redux";
+import { clearStorage } from "../../../../util/localStorage";
 class Advertisements extends Component {
   constructor(props) {
     super(props);
@@ -153,6 +154,19 @@ class Advertisements extends Component {
               ))}
             </tbody>
           </table>
+          {this.props?.loading && (
+            <span
+              className="spinner-border ads-spinner spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            />
+          )}
+          {this.props.hasError && (
+            <div className="err-message ads">
+              <span>Somthing went wrong!</span>{" "}
+              <span>{this.props?.error?.message}</span>
+            </div>
+          )}
         </div>
       </div>
     );
@@ -222,6 +236,9 @@ const mapStateToProps = (state) => {
     role: state.Login.role,
     user: state.Login.user,
     ApplicationState: state.AdvertisementStore.ActionState,
+    loading: state.AdvertisementStore.loading,
+    hasError: state.AdvertisementStore.hasError,
+    error: state.AdvertisementStore.error,
   };
 };
 

@@ -26,6 +26,7 @@ class CampaignsDetail extends React.Component {
       ads: [],
       loading: false,
       updated: false,
+      ErrorMsg: "",
     };
     this.renderAllAdvertisementTable =
       this.renderAllAdvertisementTable.bind(this);
@@ -37,12 +38,16 @@ class CampaignsDetail extends React.Component {
 
   // Get advertisment list by campaign id
   componentDidMount() {
+    this.setState({ loading: true });
     apiHandler
-      .get(`${apiURL}${this.state.campaignId}/advertisements`)
+      .get(`${apiURL}campaigns/${this.state.campaignId}/advertisements`)
       .then((res) => {
-        this.setState({ ads: res.data.data });
+        this.setState({ ads: res.data.data, loading: false, ErrorMsg: "" });
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        this.setState({ ErrorMsg: err.message });
+        this.setState({ loading: false });
+      });
   }
 
   static getDerivedStateFromProps(props, state) {
@@ -75,7 +80,7 @@ class CampaignsDetail extends React.Component {
     const body = {
       Sortitem: [
         {
-          AdvertisementId: result.draggableId.substr(0, 11), // removing the index from the id to send send it clean
+          AdvertisementId: result.draggableId,
           Sort: destinationIndex,
         },
       ],
@@ -83,7 +88,7 @@ class CampaignsDetail extends React.Component {
     /// Calling Sort API
     axios
       .patch(
-        `${apiURL}${this.state.campaignId}/advertisements`,
+        `${apiURL}campaigns/${this.state.campaignId}/advertisements`,
         { ...body },
         {
           headers: {
@@ -92,19 +97,28 @@ class CampaignsDetail extends React.Component {
         }
       )
       .then((res) => {
-        console.log(res);
         if (res.data.status) {
           this.setState({ loading: false, updated: true });
-        }
+        } else
+          this.setState({
+            loading: false,
+            updated: false,
+            ErrorMsg: res.data.message,
+          });
       })
       .catch((err) => {
         console.log(err);
-        this.setState({ loading: false, updated: false });
+        this.setState({
+          loading: false,
+          updated: false,
+          ErrorMsg: err.message,
+        });
       });
   };
 
   //Load Advertisements in a table
   renderAllAdvertisementTable() {
+    console.log(this.props);
     return (
       <div
         className="table-list"
@@ -133,6 +147,7 @@ class CampaignsDetail extends React.Component {
                 className="spinner-border spinner-border-sm"
                 role="status"
                 aria-hidden="true"
+                style={{ width: "1.5rem", height: "1.5rem" }}
               />
             )}
           </div>
@@ -145,11 +160,19 @@ class CampaignsDetail extends React.Component {
                 {...provided.droppableProps}
                 ref={provided.innerRef}
               >
+                {/* Error  */}
+
+                {this.state.ErrorMsg !== "" && (
+                  <div className="err-message campaigns">
+                    <span>Somthing went wrong!</span>{" "}
+                    <span>{this.state.ErrorMsg}</span>
+                  </div>
+                )}
                 {this.state.ads?.map((item, index) => {
                   return (
                     <Draggable
                       key={index}
-                      draggableId={item.advertisements.advertisementId} // mergig the id with the index in order to take the id and send it in the request
+                      draggableId={item.advertisements.advertisementId}
                       test={"test"}
                       index={index}
                     >

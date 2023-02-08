@@ -225,7 +225,7 @@ function buildURL(entity, pageIndex, limit, include) {
       pageIndex +
       "&limit=" +
       limit +
-      "&include=media,campaign";
+      "&include=media,institution,campaign,promotion";
   } else {
     queryParameter = entity + "?offset=" + pageIndex + "&limit=" + limit;
   }
@@ -314,7 +314,7 @@ function filterCampaignList(CampaignList, Campaigns) {
 
 export function saveAdvertisement(advertisement, oldFile) {
   let token = cookie.load("token");
-  console.log(advertisement.advertisement);
+  console.log(advertisement.advertisement, oldFile);
   return (dispatch) => {
     dispatch(addAdvertisementRequest());
     if (advertisement !== undefined)
@@ -398,6 +398,7 @@ export function saveAdvertisement(advertisement, oldFile) {
               CampaignId: advertisement.advertisement.campaigns,
               TintColor: advertisement.advertisement.tintColor,
             };
+
             axios
               .put(
                 `${apiDomain}advertisements`,
@@ -408,6 +409,11 @@ export function saveAdvertisement(advertisement, oldFile) {
                   },
                 }
               )
+              .then((res) => {
+                if (res.data.status) {
+                  dispatch(savedAdvertisement());
+                }
+              })
               .catch((err) => console.log(err));
           }
         });

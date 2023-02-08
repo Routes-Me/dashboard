@@ -185,7 +185,7 @@ class AdvertisementsDetail extends React.Component {
     let advertisement = {
       advertisement: this.state.advertisement,
       promotion: this.state.promotion,
-      file: this.state.file !== "" ? this.state.file : this.state.file2,
+      file: this.state.file !== "" ? this.state.file : "",
     };
 
     this.formValidation(advertisement);
@@ -194,30 +194,38 @@ class AdvertisementsDetail extends React.Component {
   // Validation form
   formValidation = (advertisement) => {
     let ad = advertisement.advertisement;
+    let valid = false;
 
-    if (ad.resourceName === undefined) {
+    if (advertisement.file === "") {
+      if (this.state.advertisementToDis?.media === undefined) {
+        this.setState({ validateMsg: "File is required!" });
+        valid = false;
+      } else valid = true;
+    }
+
+    if (ad.resourceName === "" || ad.resourceName === undefined) {
+      console.log("name missing");
       this.setState({ validateMsg: "Name field is required!" });
-    } else if (ad.intervalId === "") {
+      valid = false;
+    } else if (ad.intervalId === "" || ad.intervalId === undefined) {
       this.setState({ validateMsg: "Please select an Interval!" });
-    } else if (advertisement.file === "") {
-      this.setState({ validateMsg: "File is required!" });
+      valid = false;
     } else if (ad.campaigns.length === 0) {
       console.log("campaign here", ad.campaigns.length);
       this.setState({ validateMsg: "Campaign is missing! " });
+      valid = false;
     } else if (ad.tintColor === "") {
       this.setState({ validateMsg: "Tint color is required!" });
-    } else if (ad.institution === "") {
+      valid = false;
+    } else if (ad.institution === "" || ad.institution === undefined) {
       this.setState({ validateMsg: "Please select an institution!" });
-    } else this.setState({ validateMsg: "" });
+      valid = false;
+    } else {
+      this.setState({ validateMsg: "" });
+      valid = true;
+    }
 
-    if (
-      ad.tintColor !== "" &&
-      ad.resourceName !== undefined &&
-      ad.intervalId !== "" &&
-      ad.institution !== "" &&
-      ad.campaigns.length !== 0 &&
-      advertisement.file !== ""
-    ) {
+    if (valid) {
       console.log("valid");
       this.setState({ validateMsg: "" });
       this.props.saveAdvertisement(
@@ -228,6 +236,7 @@ class AdvertisementsDetail extends React.Component {
   };
 
   render() {
+    console.log("the state", this.state.advertisement);
     const imageText =
       this.state.imageUrl === "" ? "160 X 600" : this.state.imageUrl;
     const videoText =
