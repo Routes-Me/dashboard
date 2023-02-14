@@ -314,12 +314,13 @@ function filterCampaignList(CampaignList, Campaigns) {
 
 export function saveAdvertisement(advertisement, oldFile) {
   let token = cookie.load("token");
-  console.log(advertisement.advertisement, oldFile);
+  console.log(advertisement);
   return (dispatch) => {
     dispatch(addAdvertisementRequest());
     if (advertisement !== undefined)
       uploadMediaIntoBlob(advertisement.file, oldFile) // the function that upload media
         .then((mediaURL) => {
+          console.log("Mediaurl through", mediaURL);
           // check if edit or add
           if (advertisement.advertisement.advertisementId === "") {
             // Add mode

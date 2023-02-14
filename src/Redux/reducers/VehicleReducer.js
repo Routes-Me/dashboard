@@ -80,7 +80,16 @@ const VehicleReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 Loading: false,
                 hasError: false,
-                ActionState: vehicleConstants.addVehicle_SUCCESS
+                ActionState: vehicleConstants.addVehicle_SUCCESS,
+                error: action.payload
+            };
+        case vehicleConstants.Vehicle_ERROR:
+            return {
+                ...state,
+                Loading: false,
+                hasError: true,
+                ActionState: vehicleConstants.Vehicle_ERROR,
+                error: action.payload
             };
         case vehicleConstants.deleteVehicle_Request:
             return {

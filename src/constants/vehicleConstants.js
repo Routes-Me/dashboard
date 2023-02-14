@@ -27,6 +27,7 @@
 
     onDialogSelection : "ONDIALOG_SELECTION",
     showVehicleDetail : 'SHOW_VEHICLE_DETAIL',
+    Vehicle_ERROR : 'Vehicle_ERROR',
 
     updatePage: "UPDATE_PAGE"
 

@@ -141,7 +141,7 @@ export function saveVehicle(vehicle, action) {
             dispatch(saveVehicleSuccess(vehicle));
           },
           error => {
-            alert(error.toString());
+            console.error(error);
           });
     }
     else {
@@ -151,7 +151,7 @@ export function saveVehicle(vehicle, action) {
             dispatch(saveVehicleSuccess(vehicle));
           },
           error => {
-            alert(error.toString());
+            dispatch(vehicleError(error))
           });
     }
   }
@@ -160,6 +160,7 @@ export function saveVehicle(vehicle, action) {
 function saveVehicleRequest(vehicle) { return { type: vehicleConstants.addVehicle_REQUEST, payload: vehicle } }
 
 function saveVehicleSuccess(vehicle) { return { type: vehicleConstants.addVehicle_SUCCESS, payload: vehicle } }
+function vehicleError(error) { return { type: vehicleConstants.Vehicle_ERROR, payload: error } }
 
 
 

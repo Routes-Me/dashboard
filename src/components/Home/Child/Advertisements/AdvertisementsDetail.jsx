@@ -128,17 +128,17 @@ class AdvertisementsDetail extends React.Component {
       this.setState({
         promotion: {
           ...this.state.promotion,
-          title: this.state.promotionToDis?.title,
-          subtitle: this.state.promotionToDis?.subtitle,
+          title: this.state.promotionToDis?.Title,
+          subtitle: this.state.promotionToDis?.Subtitle,
           code: this.state.promotionToDis?.code,
           weblink: this.state.promotionToDis?.weblink,
           androidLink: this.state.promotionToDis?.androidLink,
           iOSLink: this.state.promotionToDis?.iOSLink,
-          startDate: this.state.promotionToDis?.createdAt,
+          startDate: this.state.promotionToDis?.CreatedAt,
           endDate: this.state.promotionToDis?.endDate,
           useageLimit: this.state.promotionToDis?.useageLimit,
           shareQR: this.state.promotionToDis?.shareQR,
-          type: this.state.promotionToDis?.type,
+          type: this.state.promotionToDis?.Type,
         },
       });
     }
@@ -236,7 +236,7 @@ class AdvertisementsDetail extends React.Component {
   };
 
   render() {
-    console.log("the state", this.state.advertisement);
+    console.log("the state", this.state);
     const imageText =
       this.state.imageUrl === "" ? "160 X 600" : this.state.imageUrl;
     const videoText =

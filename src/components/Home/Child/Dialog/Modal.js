@@ -126,9 +126,9 @@ class Modal extends React.Component {
                     <table>
                         <tbody>
                             {
-                                searchList.map(obj => (
-                                    <tr key={obj.name} onClick={() => { this.onselection(obj) }}>
-                                        <td style={{ paddingLeft: "40px" }}>{obj.name}</td>
+                                searchList.map((obj, index) => (
+                                    <tr key={index} onClick={() => { this.onselection(obj) }}>
+                                        <td key={obj.name} className='search-list-item'>{obj.name}</td>
                                     </tr>
                                 ))
                             }
@@ -327,7 +327,7 @@ class Modal extends React.Component {
                             this.returniFrame(this.props.objectList)
                             : title === config.onlineVehicles || title === config.offlineVehicles ?
                                 this.state.list.length == 0 || this.state.loading ? <Launch /> : this.returnVehicles(this.state.list)
-                                : this.showSearchList(this.props.objectList.policies)}
+                                : this.showSearchList(this.props.objectList)}
 
                 </div>
             </div>

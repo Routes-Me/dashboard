@@ -48,9 +48,18 @@
   padding-left: 40px;
   line-height: 50px;
   border-bottom: 0.5px solid gray;
+
 }
 
 .searchList tr {
   padding-top: 15px;
   padding-bottom: 15px;
+  td{
+    padding: 10px;
+
+    &:hover {
+      background-color: #e0e0e0;
+      cursor: pointer;
+    }
+  }
 }
