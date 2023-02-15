@@ -141,7 +141,7 @@ export function saveVehicle(vehicle, action) {
             dispatch(saveVehicleSuccess(vehicle));
           },
           error => {
-            console.error(error);
+            dispatch(vehicleError(error))
           });
     }
     else {

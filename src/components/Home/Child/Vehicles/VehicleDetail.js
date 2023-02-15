@@ -93,22 +93,22 @@ class VehicleDetail extends React.Component {
 
   // Form validation
   formValidation = (v, action) => {
-    let valid = false
+    let valid = false;
     if (v.PlateNumber == "") {
-      this.setState({validateMsg: "Plate Number Is Required!"})
-      valid = false
+      this.setState({ validateMsg: "Plate Number Is Required!" });
+      valid = false;
     } else if (v.modelYear == "") {
-      this.setState({validateMsg: "Year Is Required!"})
-      valid = false
+      this.setState({ validateMsg: "Year Is Required!" });
+      valid = false;
     } else if (v.modelId == undefined) {
-      this.setState({validateMsg: "Model Is Required!"})
-      valid = false
+      this.setState({ validateMsg: "Model Is Required!" });
+      valid = false;
     } else if (v.InstitutionId == "") {
-      this.setState({validateMsg: "Institution Is Required!"})
-      valid = false
+      this.setState({ validateMsg: "Institution Is Required!" });
+      valid = false;
     } else {
       valid = true;
-      this.setState({validateMsg: ""})
+      this.setState({ validateMsg: "" });
     }
 
     if (valid) this.props.saveVehicle(v, action);
@@ -152,6 +152,12 @@ class VehicleDetail extends React.Component {
       this.setState({ model: obj });
   };
 
+  showError = (cond, message) => {
+    if (cond !== "") {
+      return <span className="err-message">{message}</span>;
+    } else return "";
+  };
+
   render() {
     const vehicleObj = this.state.vehicleToDisplay;
     const buttonText = vehicleObj ? "Update" : "Add";
@@ -159,14 +165,13 @@ class VehicleDetail extends React.Component {
 
     return (
       <div>
-                    <div className="row form-group" style={{ padding: "0 15px" }}>
-              {this.state.validateMsg !== "" && (
-                <span className="err-message">{this.state.validateMsg}</span>
-              )}
-              {this.props.hasError  && (
-                <span className="err-message">{this.props.error.message}</span>
-              )}
-            </div>
+        <div className="row " style={{ padding: "0 15px" }}>
+          {this.showError(this.state.validateMsg, this.state.validateMsg)}
+          {this.showError(
+            this.props.error,
+            this.props.error?.response?.data.error
+          )}
+        </div>
         <Form onSubmit={(e) => this.handleSubmit(e)}>
           <Modal
             show={this.state.searchModel}
@@ -242,7 +247,7 @@ class VehicleDetail extends React.Component {
                 <br />
                 <div className="btn-grp">
                   <button
-                  disabled={this.state.make === ""}
+                    disabled={this.state.make === ""}
                     type="button"
                     className="btn btn-block btn-light text-left"
                     onClick={(e) =>
@@ -343,7 +348,7 @@ const mapStateToProps = (state) => {
     role: state.Login.role,
     Loading: state.VehicleStore.Loading,
     hasError: state.VehicleStore.hasError,
-    error:state.VehicleStore.error,
+    error: state.VehicleStore.error,
   };
 };
 

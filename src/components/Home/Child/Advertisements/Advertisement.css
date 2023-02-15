@@ -260,7 +260,7 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #b9000029;
+  background-color: #b9000017;
   min-width: 200px;
   height: 40px;
   border-radius: 4px;
@@ -269,7 +269,6 @@ button {
 }
 .err-message.ads {
   margin: 100px auto;
-
 }
 .err-message.campaigns {
   margin: 10px auto;

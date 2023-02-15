@@ -1,52 +1,52 @@
 ﻿import { institutionConstants } from "../../constants/institutionConstants";
-import {config} from "../../constants/config";
-import apiHandler from '../../util/request';
+import { config } from "../../constants/config";
+import apiHandler from "../../util/request";
 
 //Get Institution list
-export function getInstitutions(pageIndex,limit) {
-
+export function getInstitutions(pageIndex, limit) {
   return (dispatch) => {
-    
     dispatch(IstitutionDataRequest());
-    apiHandler.get(buildURL('institutions', pageIndex, limit,true))
-      .then(
-        (institutions) => {
-          dispatch(
-            storeInstitutionsData(
-              returnFormatedResponseForInstitutions(institutions)
-            )
-          );
-          dispatch(updatePage(institutions.data.pagination));
-        },
-        (error) => {
-          alert(error.toString());
-        }
-      );
+    apiHandler.get(buildURL("institutions", pageIndex, limit, true)).then(
+      (institutions) => {
+        dispatch(
+          storeInstitutionsData(
+            returnFormatedResponseForInstitutions(institutions)
+          )
+        );
+        dispatch(updatePage(institutions.data.pagination));
+      },
+      (error) => {
+        alert(error.toString());
+      }
+    );
   };
 
-  function IstitutionDataRequest() { return { type: institutionConstants.getInstitutions_REQUEST }; }
-  function storeInstitutionsData(institutions) { return { type: institutionConstants.getInstitutions_SUCCESS, payload: institutions }; }
-  function updatePage(pages) { return { type: institutionConstants.updatePage, payload: pages };}
-
+  function IstitutionDataRequest() {
+    return { type: institutionConstants.getInstitutions_REQUEST };
+  }
+  function storeInstitutionsData(institutions) {
+    return {
+      type: institutionConstants.getInstitutions_SUCCESS,
+      payload: institutions,
+    };
+  }
+  function updatePage(pages) {
+    return { type: institutionConstants.updatePage, payload: pages };
+  }
 }
 
-
-
 function buildURL(entity, pageIndex, limit, include) {
-
-  let queryParameter =""
-  if(include){
-    queryParameter=entity+"?offset="+pageIndex+"&limit="+limit+"&include=services";
-  }
-  else{
-    queryParameter=entity+"?offset="+pageIndex+"&limit="+limit;
+  let queryParameter = "";
+  if (include) {
+    queryParameter =
+      entity + "?offset=" + pageIndex + "&limit=" + limit + "&include=services";
+  } else {
+    queryParameter = entity + "?offset=" + pageIndex + "&limit=" + limit;
   }
   return queryParameter;
-
 }
 
 function returnFormatedResponseForInstitutions(response) {
-
   const institutionsList = response.data.data;
   const servicesList = response.data.included.services;
 
@@ -56,31 +56,26 @@ function returnFormatedResponseForInstitutions(response) {
     createdAt: x.createdAt,
     phoneNumber: x.phoneNumber,
     countryIso: x.countryIso,
-    services: filterServiceList(servicesList, x.services)
+    services: filterServiceList(servicesList, x.services),
   }));
 
-  let institutions= {
-    data : institutionsList.length > 0 ? formatedInstitutions : [],
-    page : response.data.pagination
-  }
+  let institutions = {
+    data: institutionsList.length > 0 ? formatedInstitutions : [],
+    page: response.data.pagination,
+  };
 
   return institutions;
-
 }
 
-function filterServiceList(servicesList, services)
-{
+function filterServiceList(servicesList, services) {
   let Services = [];
-  if( services !== null && servicesList.length > 0)
-  {
+  if (services !== null && servicesList.length > 0) {
     // for(var i=0; i<services.length; i++){
     //   Services.push(servicesList.filter(y => y.ServiceId===services[i]));
     // }
     return services;
-  }
-  else
-  {
-    Services =[0];
+  } else {
+    Services = [0];
   }
   return Services;
 }
@@ -90,14 +85,12 @@ function UpdatetheServiceList(services) {
 }
 
 //Save Institution Detail
-export function saveInstitution(institution,action) {
-
+export function saveInstitution(institution, action) {
   return (dispatch) => {
-    dispatch(saveInstitutionRequest);
-    if (action== "save") {                                                                                                                                                                                                       
+    dispatch(saveInstitutionRequest());
+    if (action == "save") {
       //Update
-      apiHandler.put("institutions", institution)
-      .then(
+      apiHandler.put("institutions", institution).then(
         (institution) => {
           dispatch(saveInstitutionSuccess());
         },
@@ -105,36 +98,36 @@ export function saveInstitution(institution,action) {
           alert(error.toString());
         }
       );
-    } 
-    else {
+    } else {
       //Create
-      apiHandler.post("institutions" , institution)
-      .then(
+      apiHandler.post("institutions", institution).then(
         (institution) => {
           dispatch(saveInstitutionSuccess());
         },
         (error) => {
-          alert(error.toString());
+          dispatch(saveInstitutionRequest(error));
         }
       );
     }
   };
 }
 
-function saveInstitutionRequest() {return { type: institutionConstants.saveInstitutions_REQUEST };}
-function saveInstitutionSuccess() { return { type: institutionConstants.saveInstitutions_SUCCESS }; }
-
-
+function saveInstitutionRequest(error) {
+  return {
+    type: institutionConstants.saveInstitutions_REQUEST,
+    payload: error,
+  };
+}
+function saveInstitutionSuccess() {
+  return { type: institutionConstants.saveInstitutions_SUCCESS };
+}
 
 // delete institution
-export function DeleteInstitution(institutionId)
-{
-  return (dispatch)=>{
-    dispatch(deleteInstitutionRequest)
-    if(institutionId!= null)
-    {
-      apiHandler.delete("institutions/"+institutionId)
-      .then(
+export function DeleteInstitution(institutionId) {
+  return (dispatch) => {
+    dispatch(deleteInstitutionRequest);
+    if (institutionId != null) {
+      apiHandler.delete("institutions/" + institutionId).then(
         (institution) => {
           dispatch(deleteInstitutionSuccess(institution.data));
         },
@@ -143,21 +136,34 @@ export function DeleteInstitution(institutionId)
         }
       );
     }
-  }
+  };
 }
 
-function deleteInstitutionRequest() { return {type: institutionConstants.deleteInstitutionRequest} }
-function deleteInstitutionSuccess(institution){ return {type: institutionConstants.deleteInstitutionSuccess, payload: institution}}
-function deleteInstitutionError(message){ return {type: institutionConstants.deleteInstitutionError, payload: message}}
+function deleteInstitutionRequest() {
+  return { type: institutionConstants.deleteInstitutionRequest };
+}
+function deleteInstitutionSuccess(institution) {
+  return {
+    type: institutionConstants.deleteInstitutionSuccess,
+    payload: institution,
+  };
+}
+function deleteInstitutionError(message) {
+  return {
+    type: institutionConstants.deleteInstitutionError,
+    payload: message,
+  };
+}
 
 //Get Services
 export function getServicesList(pageIndex, limit) {
   return (dispatch) => {
     dispatch(ServicesDataRequest());
-    apiHandler.get(buildURL('services', pageIndex , limit))
-    .then(
+    apiHandler.get(buildURL("services", pageIndex, limit)).then(
       (services) => {
-        dispatch(storeServicesData([config.selectService, ...services.data.data]));
+        dispatch(
+          storeServicesData([config.selectService, ...services.data.data])
+        );
       },
       (error) => {
         alert(error.toString());
@@ -165,7 +171,9 @@ export function getServicesList(pageIndex, limit) {
     );
   };
 }
-function ServicesDataRequest() { return { type: institutionConstants.getServices_REQUEST };}
-function storeServicesData(Services) { return { type: institutionConstants.getServices_SUCCESS, payload: Services };}
-
-
+function ServicesDataRequest() {
+  return { type: institutionConstants.getServices_REQUEST };
+}
+function storeServicesData(Services) {
+  return { type: institutionConstants.getServices_SUCCESS, payload: Services };
+}
