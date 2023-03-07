@@ -28,7 +28,7 @@ class Emm extends Component {
             loading: true,
             authorized: false
         }
-
+        this.updateList = this.updateList.bind(this)
         // this.GAPI = window.gapi;
     }
 
@@ -132,17 +132,17 @@ class Emm extends Component {
     updateList = (list) => {
         console.log('Update list !!');
         this.setState({ listObj: list, loading: false });
-    }
-
-    getPoliciesList(token, limit, authorize) {
+      }
+      
+      getPoliciesList = (token, limit, authorize) => {
+        console.log("token", token)
         if (authorize) {
-            console.log('Get Policies list !!');
-            gapiObj.getPolicies(token, limit).then(response => this.updateList(response));
+          console.log('Get Policies list !!');
+          gapiObj.getPolicies(token, limit).then(response => this.updateList(response));
         }
-    }
+      }
 
-
-    getDevicesList(token, limit, authorize) {
+    getDevicesList = (token, limit, authorize) => {
         if (authorize) {
             console.log('Authorization ', authorize);
             gapiObj.getDevices(token, limit).then(response => this.updateList(response));
@@ -198,7 +198,7 @@ class Emm extends Component {
             <div className="table-list padding-lr-80">
                 {this.state.tabIndex === 1 &&
                     <>
-                        <TokenPageHandler style="header" getList={this.getPoliciesList} nextPageToken={response.nextPageToken} pageSize={config.Pagelimit} authorize={this.state.authorized} />
+                        <TokenPageHandler style="header" pageName="policie" getList={this.getPoliciesList} nextPageToken={response.nextPageToken} pageSize={config.Pagelimit} authorize={this.state.authorized} />
                         <table id='list'>
                             <thead>
                                 <tr>
@@ -238,7 +238,7 @@ class Emm extends Component {
                     </>}
                 {this.state.tabIndex === 2 &&
                     <>
-                        <TokenPageHandler style="header" getList={this.getDevicesList} nextPageToken={response.nextPageToken} pageSize={config.Pagelimit} authorize={this.state.authorized} />
+                        <TokenPageHandler pageName="device" style="header" getList={this.getDevicesList} nextPageToken={response.nextPageToken} pageSize={config.Pagelimit} authorize={this.state.authorized} />
                         <table id='list'>
                             <thead>
                                 <tr>
