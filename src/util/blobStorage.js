@@ -7,8 +7,9 @@ const { BlobServiceClient } = require("@azure/storage-blob");
 export function uploadMediaIntoBlob(file){
 
     const storageAccountName = process.env.REACT_APP_BLOB_ACCOUNT_NAME;
-    const sasToken           = process.env.REACT_APP_BLOB_SASTOKEN;
+    const sasToken           = process.env.REACT_APP_SASTOKENN;
     const containerName      = process.env.REACT_APP_BLOB_CONTAINER;
+    console.log("Token : "+ sasToken +" storageAccountName : "+ storageAccountName+ " containerName : "+ containerName);
 
     const blobService = new BlobServiceClient(
       `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
