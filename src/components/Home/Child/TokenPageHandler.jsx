@@ -16,9 +16,8 @@ import React, { memo, useEffect, useState } from 'react'
     }, [])
     
 
-    console.log("pageName is",pageName )
     const nextClick = () => {
-
+        
         let currentNumber = pageNumber
         currentNumber = currentNumber + 1;
         setPageNumber(currentNumber); 
@@ -32,14 +31,10 @@ import React, { memo, useEffect, useState } from 'react'
             currentNumber= currentNumber -1;
             setPageNumber(currentNumber);
             let previousToken = window.localStorage.getItem(currentNumber)
-    
-            console.log("current token", previousToken)
-            console.log("current token", currentNumber)
             getList(previousToken, pageSize, authorize) 
         }
     }
     
-    console.log("local storage",window.localStorage)
     return (
         <div className='col-md-12' style={style === 'header' ? { padding: '20px 80px', color: "#979797" } : { padding: '5px', paddingRight: '5px', border: '1px solid lightgrey', height: '40px', color: "#979797" }}>
             <div className='d-flex justify-content-between' style={{ float: "right", fontSize: "18px" }}>

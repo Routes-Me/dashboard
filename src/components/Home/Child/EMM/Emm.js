@@ -28,7 +28,7 @@ class Emm extends Component {
             loading: true,
             authorized: false
         }
-        this.updateList = this.updateList.bind(this)
+        // this.updateList = this.updateList.bind(this)
         // this.GAPI = window.gapi;
     }
 
@@ -130,12 +130,13 @@ class Emm extends Component {
     }
 
     updateList = (list) => {
-        console.log('Update list !!');
+ 
+        this.setState({ listObj: [], loading: false });
         this.setState({ listObj: list, loading: false });
       }
       
       getPoliciesList = (token, limit, authorize) => {
-        console.log("token", token)
+
         if (authorize) {
           console.log('Get Policies list !!');
           gapiObj.getPolicies(token, limit).then(response => this.updateList(response));
@@ -144,7 +145,7 @@ class Emm extends Component {
 
     getDevicesList = (token, limit, authorize) => {
         if (authorize) {
-            console.log('Authorization ', authorize);
+            console.log('Authorization ', authorize, limit);
             gapiObj.getDevices(token, limit).then(response => this.updateList(response));
         }
 
@@ -193,7 +194,7 @@ class Emm extends Component {
     }
 
     showList(response) {
-        console.log('EMM render', response);
+
         return (
             <div className="table-list padding-lr-80">
                 {this.state.tabIndex === 1 &&
@@ -304,7 +305,6 @@ class Emm extends Component {
 
     render() {
 
-        console.log('Render the list', this.state.listObj);
         let content = this.showList(this.state.listObj);
         const tabIndex = this.state.tabIndex;
         const policyObj = { policy: this.state.policyObj, EMMTab: tabIndex, mode: this.state.mode }
