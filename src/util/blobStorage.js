@@ -12,16 +12,15 @@ export function uploadMediaIntoBlob(file, oldFile) {
     `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
   );
 
-    const storageAccountName = process.env.REACT_APP_BLOB_ACCOUNT_NAME;
-    const sasToken           = process.env.REACT_APP_SASTOKENN;
-    const containerName      = process.env.REACT_APP_BLOB_CONTAINER;
-    console.log("Token : "+ sasToken +" storageAccountName : "+ storageAccountName+ " containerName : "+ containerName);
-
-    const blobService = new BlobServiceClient(
-      `https://${storageAccountName}.blob.core.windows.net/?${sasToken}`
-    );
-
-    if (!file.type.includes('video')) {
+  if (file === undefined || file === "") {
+    console.log("old file", oldFile);
+    return new Promise((resolve, reject) => {
+      const mediaURL = oldFile?.Url;
+      resolve(mediaURL);
+    });
+  } else {
+    console.log("new file", file);
+    if (!file.type.includes("video")) {
       onImageCompress(file).then((file) => {
         file = dataURLtoFile(file, "compressedImageFile.jpg");
       });
