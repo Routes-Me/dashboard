@@ -1,4 +1,6 @@
-﻿.padding-lr-80 {
+﻿@use "./helpers/mixins.scss" as *;
+
+.padding-lr-80 {
   padding: 76px 80px 80px 80px;
 }
 
@@ -13,11 +15,16 @@
   height: 100%;
   position: fixed !important;
   background-color: #fff;
-  z-index: 2;
+  z-index: 5646;
   top: 0px;
   overflow: hidden;
   border-right: 1px solid #0b0b0b;
   padding-right: 0px !important;
+  @include breakpoints(mobile) {
+    position: absolute !important;
+    left: -284px;
+    overflow: visible;
+  }
 }
 
 .right-panel {
@@ -25,6 +32,40 @@
   float: right;
   top: 0px;
   height: 100%;
+  @include breakpoints(mobile) {
+    width: 100%;
+  }
+}
+
+.right-panel.open-panel {
+  width: calc(100% - 283px);
+}
+.left-panel.open-panel {
+  left: 0;
+}
+
+.show-arrow {
+  width: fit-content;
+  position: fixed;
+  top: 50%;
+  background: #fff;
+  border-radius: 5px;
+  z-index: 3543454;
+  left: 15px;
+  @include breakpoints(large) {
+    display: none;
+  }
+  @include breakpoints(medium) {
+    display: none;
+  }
+
+  &.open {
+    right: 45px;
+    z-index: 56646546546565465465465465654;
+    position: fixed;
+    transform: rotate(180deg);
+    left: auto;
+  }
 }
 
 .profile p {
@@ -223,7 +264,7 @@
   box-shadow: none;
 }
 
-.btn:active{
+.btn:active {
   outline: none;
 }
 
@@ -234,7 +275,7 @@
   color: #0b0b0b;
   padding: 5px 20px;
   margin-left: 5px;
-  display:block;
+  display: block;
 }
 
 .search-part .fa-search {

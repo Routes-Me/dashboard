@@ -373,6 +373,10 @@ export function deleteCampaign(id) {
     function deleteCampaignFailure(error) { return { type: advertisementsConstants.deleteCampaignFailure, payload: error }; }
 }
 
+
+
+export function showPanelAction(value) {return {type: advertisementsConstants.showPanel, payload: value}}
+
 function updateAdvertisementList() { return {type: advertisementsConstants.updateTheAdvertisementList}}
 
 

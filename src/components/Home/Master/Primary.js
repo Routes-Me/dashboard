@@ -5,7 +5,7 @@ import * as LoginAction from '../../../Redux/Action';
 import { isSU } from '../../../util/basic';
 import { parseJwt } from "../../../util/encrypt";
 import { getRole as restoreRole, getUser as restoreUser, restoreToken } from '../../../util/localStorage';
-
+import { showPanelAction } from "../../../Redux/Action";
 
 
 
@@ -36,6 +36,8 @@ class Primary extends Component {
     toggleMenu = (event, type) => {
         event.stopPropagation();
         this.props.updateNavItem(type);
+        this.props.showPanelAction(false)
+        
     };
 
 
@@ -104,14 +106,15 @@ const mapStateToProps = (state) => {
 
 };
 
+
 const actionCreators = {
     getAutherization: LoginAction.getAutherization,
     updateNavItem: LoginAction.UpdateNavSelection,
     restoreUser: LoginAction.restoreUserFromSession,
     restoreToken: LoginAction.restoreTokenFromSession,
-    restoreRole: LoginAction.restoreRoleFromSession
+    restoreRole: LoginAction.restoreRoleFromSession,
+    showPanelAction: LoginAction.showPanelAction
 };
-
 const connectLogin = connect(mapStateToProps, actionCreators)(Primary);
 export { connectLogin as Primary };
 
