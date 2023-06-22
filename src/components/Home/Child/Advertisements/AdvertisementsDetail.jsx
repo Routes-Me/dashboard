@@ -160,13 +160,15 @@ class AdvertisementsDetail extends React.Component {
     const returnedKey = event.target.name;
 
     if (returnedKey === "campaigns") {
+      let camps = Array.isArray(this.state.advertisement.campaigns) ? [...this.state.advertisement.campaigns] : [];
+      camps.push(returnedValue);
       this.setState((prevState) => ({
         advertisement: {
           ...prevState.advertisement,
-          campaigns: [...prevState.advertisement.campaigns, returnedValue],
+          campaigns: camps,
         },
       }));
-    } else {
+    }else {
       this.setState((prevState) => ({
         advertisement: {
           ...prevState.advertisement,

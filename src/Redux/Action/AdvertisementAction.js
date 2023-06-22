@@ -342,11 +342,13 @@ export function saveAdvertisement(advertisement, oldFile) {
 
             console.log("POST advertisement payload ", advertise);
             apiHandler
-              .post("advertisements", advertise)
+              .post("https://localhost:44355/v1.0/advertisements", advertise)
               .then(
                 (response) => {
+                  console.log("post ad response", response)
                   if (advertisement.promotion !== "") {
                     let promo = "";
+                    console.log("post ad response", response)
                     if (advertisement.promotion.weblink === "") {
                       promo = {
                         Title: advertisement.promotion.title,
@@ -356,7 +358,7 @@ export function saveAdvertisement(advertisement, oldFile) {
                         EndAt: advertisement.promotion.endDate,
                         UsageLimit: advertisement.promotion.useageLimit,
                         IsSharable: advertisement.promotion.shareQR,
-                        AdvertisementId: response.data.advertisementId,
+                        AdvertisementId: response.data.id,
                         InstitutionId: advertisement.advertisement.institution,
                         type: "coupons",
                       };
@@ -365,19 +367,18 @@ export function saveAdvertisement(advertisement, oldFile) {
                         Title: advertisement.promotion.title,
                         Subtitle: advertisement.promotion.subtitle,
                         code: advertisement.promotion.code,
-                        links: {
+                        Link: {
                           Web: advertisement.promotion.weblink,
                           Ios: advertisement.promotion.iOSLink,
                           Android: advertisement.promotion.androidLink,
                         },
                         type: "links",
-                        AdvertisementId: response.data.advertisementId,
+                        AdvertisementId: response.data.id,
                         InstitutionId: advertisement.advertisement.institution,
                       };
                     }
                     console.log("POST promotions payload ", promo);
-                    apiHandler.post("promotions", promo).then((res) => {
-                      console.log(res);
+                    apiHandler.post("https://localhost:44320/v1.0/promotions", promo).then((res) => {
                       dispatch(savePromotions(response.data));
                     });
                   } else dispatch(savedAdvertisement());
@@ -402,7 +403,7 @@ export function saveAdvertisement(advertisement, oldFile) {
 
             axios
               .put(
-                `${apiDomain}advertisements`,
+                `https://localhost:44355/v1.0/advertisements`,
                 { ...advertise },
                 {
                   headers: {

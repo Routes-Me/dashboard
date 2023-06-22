@@ -5,6 +5,7 @@
     "version": "0.2.0",
     "configurations": [
     
+    
 
 
 
@@ -18,7 +19,7 @@
             "type": "chrome",
             "request": "launch",
              "name": "Chrome",
-            "url": "https://localhost:3000/home",
+            "url": "https://localhost:3000",
             "webRoot": "${workspaceFolder}/Routes/src"
         }
     ]
