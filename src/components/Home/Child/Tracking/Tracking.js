@@ -78,17 +78,16 @@ class Tracking extends Component {
 
 
     static getDerivedStateFromProps(props, state) {
-
         if (props.movedVehicle !== undefined && props.movedVehicle !== "") {
             let i = state.vehicles.findIndex(vehicle => vehicle.id === props.movedVehicle.id);
             state.vehicles[i] ? state.vehicles[i] = props.movedVehicle : state.vehicles.push(props.movedVehicle);
             let vehicleList = state.vehicles;
-            // console.log('Vehicle List Count', vehicleList.length);
             return {
                 vehicles: vehicleList,
                 activeCount: vehicleList.length
             }
         }
+
     }
 
 
@@ -256,6 +255,7 @@ class Tracking extends Component {
 
 
     returnModel = (show, vehicleList) => {
+        console.log("vehiles in model fun", vehicleList)
         return (
             <Modal
                 show={show}
@@ -285,6 +285,7 @@ class Tracking extends Component {
             iconSize: [25, 25]
         });
         // https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
+        console.log("the props",this.props)
         return (
             <div style={{ height: "100vh", width: "100%" }}>
 

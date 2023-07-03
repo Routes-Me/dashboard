@@ -320,7 +320,7 @@ export function saveAdvertisement(advertisement, oldFile) {
     if (advertisement !== undefined)
       uploadMediaIntoBlob(advertisement.file, oldFile) // the function that upload media
         .then((mediaURL) => {
-          console.log("Mediaurl through", mediaURL);
+          console.log("Mediaurl through", mediaURL, oldFile);
           // check if edit or add
           if (advertisement.advertisement.advertisementId === "") {
             // Add mode
@@ -342,7 +342,7 @@ export function saveAdvertisement(advertisement, oldFile) {
 
             console.log("POST advertisement payload ", advertise);
             apiHandler
-              .post("https://localhost:44355/v1.0/advertisements", advertise)
+              .post("advertisements", advertise)
               .then(
                 (response) => {
                   console.log("post ad response", response)
@@ -378,7 +378,7 @@ export function saveAdvertisement(advertisement, oldFile) {
                       };
                     }
                     console.log("POST promotions payload ", promo);
-                    apiHandler.post("https://localhost:44320/v1.0/promotions", promo).then((res) => {
+                    apiHandler.post("promotions", promo).then((res) => {
                       dispatch(savePromotions(response.data));
                     });
                   } else dispatch(savedAdvertisement());
@@ -395,7 +395,7 @@ export function saveAdvertisement(advertisement, oldFile) {
               InvertedTintColor: advertisement.advertisement.tintColor,
               Name: advertisement.advertisement.resourceName,
               InstitutionId: advertisement.advertisement.institution,
-              MediaUrl: mediaURL,
+              MediaUrl: mediaURL == undefined ? oldFile.url : mediaURL,
               IntervalId: advertisement.advertisement.intervalId,
               CampaignId: advertisement.advertisement.campaigns,
               TintColor: advertisement.advertisement.tintColor,
@@ -403,7 +403,7 @@ export function saveAdvertisement(advertisement, oldFile) {
 
             axios
               .put(
-                `https://localhost:44355/v1.0/advertisements`,
+                `advertisements`,
                 { ...advertise },
                 {
                   headers: {
