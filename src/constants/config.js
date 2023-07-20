@@ -75,7 +75,7 @@ export const config = {
         "data": [
             {
                 "roleId": 1,
-                "navItems": ['Tracking', 'Users', 'Vehicles', 'Advertisements', 'Institutions', 'Access Control', 'Campaigns', 'Analytics', 'Prizes', 'EMM', 'Bus Routes']
+                "navItems": ['Tracking', 'Users', 'Vehicles','Drivers', 'Advertisements', 'Institutions', 'Access Control', 'Campaigns', 'Analytics', 'Prizes', 'EMM', 'Bus Routes']
             },
             {
                 "roleId": 2,

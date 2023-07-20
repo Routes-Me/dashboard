@@ -1,0 +1,64 @@
+.modal.d.show {
+    display: block !important;
+    background-color: rgba(0, 0, 0, 0.207);
+}
+
+.modal .model-body {
+    width: 40%;
+    background-color: white;
+    margin: auto;
+    margin-top: 200px;
+    border-radius: 4px;
+    min-height: 390px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+ .spin-container {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.d-modal {
+    width: 30%;
+    background: white;
+    margin: auto;
+    margin-top: 200px;
+    padding: 10px;
+    border-radius: 5px;
+    min-height: 166px;
+}
+.d-modal .d-modal-content p {
+margin-bottom: 20px;
+color: rgb(159, 8, 8);
+}
+.d-modal .d-modal-content .btns-container  button{
+    border: none;
+    padding: 5px 10px;
+    margin: 10px;
+    border-radius: 4px;
+    color: #fff;
+    text-transform:capitalize;
+}
+.d-modal .d-modal-content .btns-container  button:first-child {
+    background-color: #2e6da4;
+}
+.d-modal .d-modal-content .btns-container  button:last-child {
+    background-color: #5c5c5c;
+}
+
+.pagination .btns {
+    column-gap: 30px;
+    font-size: 30px;
+}
+.pagination .btns div {
+    padding:  0 15px;
+    cursor: pointer;
+}
+.pagination .btns div:first-child {
+    margin-left: 20px;
+}

@@ -9,6 +9,7 @@ import PrizeReducer from './PrizeReducer';
 import GApiReducer from './GApiReducer';
 import RoutesReducer from './RoutesReducer';
 import AnalyticsReducer from './AnalyticsReducer';
+import DriversReducers from './DriversReducer';
 
 export default combineReducers({
     Login: LoginReducer,
@@ -20,5 +21,6 @@ export default combineReducers({
     PrizeStore: PrizeReducer,
     GApiStore: GApiReducer,
     RoutesStore: RoutesReducer,
-    AnalyticsReducer: AnalyticsReducer
+    AnalyticsReducer: AnalyticsReducer,
+    Drivers: DriversReducers
 });

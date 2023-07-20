@@ -436,6 +436,37 @@ form {
   -ms-user-select: none; /* Internet Explorer/Edge */
 }
 
+/* Drivrs page */
+.drivers .header {
+  padding-top: 100px !important;
+  margin-bottom: 50px;
+}
+.drivers .header h3 {
+  font-size: 40px;
+  font-weight: 800;
+}
+.alert-driver {
+  margin: 0;
+  padding: 9px;
+  background: #ae4444;
+  color: white;
+}
+
+.drivers th, td {
+  font-size: 17px !important;
+}
+
+.drivers .table-row:hover {
+background-color: #ddd;
+}
+.drivers .table-row:hover .edit-icon {
+  visibility: visible;
+}
+.drivers .table-row .edit-icon {
+visibility: hidden;
+cursor: pointer;
+}
+
 @media (max-width: 1399px) {
   .search-main {
     height: 70vh;
