@@ -199,7 +199,7 @@ class Emm extends Component {
             <div className="table-list padding-lr-80">
                 {this.state.tabIndex === 1 &&
                     <>
-                        <TokenPageHandler style="header" pageName="policie" getList={this.getPoliciesList} nextPageToken={response.nextPageToken} pageSize={config.Pagelimit} authorize={this.state.authorized} />
+                        <TokenPageHandler style="header" pageName="policie" getList={this.getPoliciesList} nextPageToken={response.nextPageToken} pageSize={config.Pagelimit} authorize={this.state.authorized} data={response?.policies} />
                         <table id='list'>
                             <thead>
                                 <tr>
@@ -212,7 +212,7 @@ class Emm extends Component {
                             </thead>
                             <tbody>
 
-                                {response.policies?.map(policy => (
+                                {response?.policies?.map(policy => (
                                     <tr key={policy.name}>
                                         <td>{policy.version}</td>
                                         <td>{policy.name.replace('enterprises/LC02my9vtl/policies/', '')}</td>
@@ -239,7 +239,7 @@ class Emm extends Component {
                     </>}
                 {this.state.tabIndex === 2 &&
                     <>
-                        <TokenPageHandler pageName="device" style="header" getList={this.getDevicesList} nextPageToken={response.nextPageToken} pageSize={config.Pagelimit} authorize={this.state.authorized} />
+                        <TokenPageHandler pageName="device" style="header" getList={this.getDevicesList} nextPageToken={response.nextPageToken} pageSize={config.Pagelimit} authorize={this.state.authorized} data={response?.devices} />
                         <table id='list'>
                             <thead>
                                 <tr>
@@ -252,7 +252,7 @@ class Emm extends Component {
                                 </tr>
                             </thead>
                             <tbody>
-                                {response.devices?.map(device => (
+                                {response?.devices?.map(device => (
                                     <tr key={device.hardwareInfo?.serialNumber}>
                                         <td>{device.hardwareInfo?.serialNumber}</td>
                                         <td>{device.name.replace('enterprises/LC02my9vtl/devices/', '')}</td>
