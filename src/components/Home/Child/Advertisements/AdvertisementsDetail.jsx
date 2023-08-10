@@ -238,7 +238,6 @@ class AdvertisementsDetail extends React.Component {
   };
 
   render() {
-    console.log("the state", this.state);
     const imageText =
       this.state.imageUrl === "" ? "160 X 600" : this.state.imageUrl;
     const videoText =
@@ -349,14 +348,14 @@ class AdvertisementsDetail extends React.Component {
             style={{ float: "left" }}
             onClick={(e) => this.submitForm()}
           >
-            {this.props.Loading && (
+            {this.props.Loading ? (
               <span
                 className="spinner-border spinner-border-sm"
                 role="status"
                 aria-hidden="true"
               />
-            )}
-            <span>Create</span>
+            ) : (<span>Create</span>)}
+            
           </button>
 
           {this.state.validateMsg !== "" && (

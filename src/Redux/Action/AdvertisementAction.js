@@ -12,14 +12,7 @@ export function getAdvertisements(pageIndex, limit, campaignId) {
   return (dispatch) => {
     dispatch(request());
     apiHandler
-      .get(
-        buildURL(
-          returnFilterForCampaigns(campaignId),
-          pageIndex,
-          limit,
-          include
-        )
-      )
+      .get("advertisements" )
       .then(
         (response) => {
           dispatch(success(returnFormatedAdvertisements(response, include)));
@@ -401,16 +394,7 @@ export function saveAdvertisement(advertisement, oldFile) {
               TintColor: advertisement.advertisement.tintColor,
             };
 
-            axios
-              .put(
-                `advertisements`,
-                { ...advertise },
-                {
-                  headers: {
-                    Authorization: `Bearer ${token}`,
-                  },
-                }
-              )
+            apiHandler.put(`advertisements`,advertise)
               .then((res) => {
                 if (res.data.status) {
                   dispatch(savedAdvertisement());

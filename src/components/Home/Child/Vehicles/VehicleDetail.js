@@ -22,6 +22,7 @@ class VehicleDetail extends React.Component {
       model: "",
       modelYear: "",
       plateNumber: "",
+      driverId: "",
       vehicleToDisplay: "",
       searchModel: false,
       searchObject: "",
@@ -77,20 +78,21 @@ class VehicleDetail extends React.Component {
         InstitutionId: this.state.institutionId,
         modelYear: this.state.modelYear,
         modelId: this.state.model.modelId,
+        DriverId: this.state.driverId
       };
     } else {
       vehicle = {
         VehicleId: this.state.vehicleId,
         PlateNumber: this.state.plateNumber,
-        InstitutionId: this.state.institution.institutionid,
+        InstitutionId: this.state.institutionId,
         modelYear: this.state.modelYear,
-        modelId: this.state.model.modelid,
+        modelId: this.state.model.modelId,
+        DriverId: this.state.driverId
       };
     }
-
     this.formValidation(vehicle, action);
   };
-
+  
   // Form validation
   formValidation = (v, action) => {
     let valid = false;
@@ -162,6 +164,7 @@ class VehicleDetail extends React.Component {
     const vehicleObj = this.state.vehicleToDisplay;
     const buttonText = vehicleObj ? "Update" : "Add";
     const searchList = this.returnListToSearch();
+    console.log("vehevle", this.state)
 
     return (
       <div>
@@ -193,6 +196,20 @@ class VehicleDetail extends React.Component {
                   type="text"
                   name="plateNumber"
                   value={this.state.plateNumber}
+                  onChange={this.onChange}
+                  className="form-control"
+                />
+              </div>
+            </div>
+            <br />
+            <div className="row form-group">
+              <div className="col-md-6">
+                <Label>Driver Id:</Label>
+                <br />
+                <input
+                  type="text"
+                  name="driverId"
+                  value={this.state.driverId}
                   onChange={this.onChange}
                   className="form-control"
                 />
@@ -277,7 +294,7 @@ class VehicleDetail extends React.Component {
                     value={
                       this.state.institution
                         ? this.state.institution.name
-                        : "Please select a institution"
+                        : "Please select an institution"
                     }
                     onChange={this.onChange}
                     className="form-control"

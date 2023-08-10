@@ -238,11 +238,16 @@
 }
 
 .search-part .fa-search {
+  cursor: pointer;
   position: absolute;
   font-size: 20px;
-  left: 13px;
-  top: 11px;
+  right: 0;
+  top: 0;
   color: #18428f;
+  background: #ddd;
+  padding: 10px 15px;
+  height: 100%;
+  border: 1px solid #1a1a1a;
 }
 
 .search-part .cross-icon {
@@ -251,6 +256,7 @@
   top: 10px;
   width: 25px;
   height: 25px;
+  display: none;
 }
 
 .search-part .cross-icon img {

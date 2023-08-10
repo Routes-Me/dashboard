@@ -1,6 +1,7 @@
 ﻿import { vehicleConstants } from "../../constants/vehicleConstants";
 import { config } from "../../constants/config";
 import apiHandler from '../../util/request';
+import axios from "axios"
 import { convertObjectKeyToLowerCase, returnEntityForInstitution } from '../../util/basic';
 
 //const SampleInsitutionsIdArgument = { "institutionIds": [{ "Id": 3 }] };
@@ -31,6 +32,58 @@ export function getVehicleDetails(vehicleId) {
         },
         error => {
           alert(`getVehicleDetails ${error.toString()}`);
+        });
+
+  }
+}
+
+// Search
+export function  searchVehicle (searchTerm) {
+  console.log(searchTerm)
+  return dispatch => {
+    dispatch({type: vehicleConstants.SEARCHVEHICLE_REQUEST})
+
+    apiHandler.get(`vehicleByPlateNumber/${searchTerm}`)
+      .then(
+        response => {
+
+          const VehicleList = response.data.data;
+          const InstitutionList = response.data.included.institutions;
+          const ModelList = response.data.included.models;
+          const ManufacturerList = response.data.included.manufacturers;
+          let formattedResponse = [];
+          VehicleList.map(x => {
+
+            let modelObj = ModelList?.filter(y => y.modelId === x.modelId)[0];
+            let manufacturerObj = ManufacturerList?.filter(y => y.manufacturerId === modelObj?.manufacturerId)[0];
+            let institutionObj = InstitutionList?.filter(y => y.institutionId === x.institutionId)[0];
+        
+            modelObj = modelObj && convertObjectKeyToLowerCase(modelObj);
+            manufacturerObj = manufacturerObj && convertObjectKeyToLowerCase(manufacturerObj);
+            institutionObj = institutionObj && convertObjectKeyToLowerCase(institutionObj);
+        
+            const formattedObj = {
+              id: x.vehicleId,
+              institution: institutionObj,
+              plateNumber: x.plateNumber,
+              model: modelObj,
+              manufacturer: manufacturerObj,
+              modelYear: x.modelYear
+            }
+        
+            formattedResponse.push(formattedObj);
+          })
+        
+        
+        
+          let vehicles = {
+            data: formattedResponse,
+            page: response.data.page
+          }
+          dispatch({type: vehicleConstants.SEARCHVEHICLE_SUCCESS, payload: vehicles});
+        },
+        error => {
+          console.log(error);
         });
 
   }

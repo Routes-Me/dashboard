@@ -218,6 +218,7 @@ const pagination = () => {
           <td>{driver.driverId}</td>
           <td>{driver.institutionId}</td>
           <td>{driver.createdAt}</td>
+          <td>{driver?.vehicle?.plateNumber}</td>
           <td className="edit-icon">
             <div class="dropdown">
               <button
@@ -409,6 +410,7 @@ const pagination = () => {
                   <th scope="col">Driver ID</th>
                   <th scope="col">Institution ID</th>
                   <th scope="col">Created at</th>
+                  <th scope="col">Vehicle Plate Number</th>
                 </tr>
               </thead>
               <tbody>{showDrivers()}</tbody>

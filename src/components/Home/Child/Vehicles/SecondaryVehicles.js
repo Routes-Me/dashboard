@@ -24,7 +24,7 @@ class SecondaryVehicles extends Component {
                 <caption style={{fontSize:'16px', marginTop:'47px'}}>Devices</caption>
                 <table>
                     <tbody>
-                        {this.props.devices.map(device => 
+                        {this.props?.devices?.map(device => 
                         <tr style={{height:'51px'}}>
                             <td>{device.deviceId}</td>
                             <td className="width44" onClick={e => this.openSubMenu(e, device.deviceId)}>

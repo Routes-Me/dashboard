@@ -23,7 +23,8 @@ class Vehicles extends Component {
             activePage: 15,
             showDetails: false,
             vehicle: '',
-            optionsIndex: 0
+            optionsIndex: 0,
+            searchTerm: ""
         };
     }
 
@@ -62,7 +63,9 @@ class Vehicles extends Component {
         this.props.deleteVehicle(vehicleId)
     }
 
-
+handleSearch = () => {
+    this.props.vehicleSearch(this.state.searchTerm)
+}
     showDevicesForSelectedVehicle = (e, vehicleId) =>{
         e.preventDefault();
         this.props.getDevicesForVehicleId(vehicleId);
@@ -87,6 +90,7 @@ class Vehicles extends Component {
 
     //Load Vehicles in a table
     renderAllVehicleTable(Vehicles) {
+        console.log("vehicles", Vehicles)
         return (
             <div>
             <PageHandler page = {Vehicles.page} getList={this.props.getVehiclesForInstitution} role={this.props.role} user={this.props.user} style='header'/>
@@ -121,7 +125,7 @@ class Vehicles extends Component {
                                                 </div>
                                                 <ul className="edit-delet-link" style={{ display: this.state.optionsIndex === Vehicle.id ? 'inline-block' : 'none' }}>
                                                     <li><a onClick={e => this.showDetailScreen(e, Vehicle)}>Edit</a></li>
-                                                    {/* <li><a onClick={e => this.deleteVehicle(e, Vehicle.id)}>Delete</a></li> */}
+                                                    <li><a onClick={e => this.deleteVehicle(e, Vehicle.id)}>Delete</a></li>
                                                 </ul>
                                             </div>
                                         </td>}
@@ -156,9 +160,8 @@ class Vehicles extends Component {
                             </div>
 
                             <div className="search-part">
-                                    <input type="text" name="search" placeholder="Search" className="search" />
-                                    <i className="fa fa-search" aria-hidden="true" />
-                                    <span className="cross-icon"><img src="../cross-image.png" /></span>
+                                    <input type="text" onChange={e => this.setState({searchTerm: e.target.value})} name="search" placeholder="Search" className="search" />
+                                    <i onClick={this.handleSearch} className="fa fa-search" aria-hidden="true" />
                             </div>
                         </div>
                         {content}
@@ -184,7 +187,8 @@ const mapStateToProps = (state) => {
 const actionCreators = {
     getVehiclesForInstitution: VehicleAction.getVehiclesForInstitutionID,
     deleteVehicle: VehicleAction.deleteVehicle,
-    getDevicesForVehicleId: VehicleAction.getDevicesForVehicleId
+    getDevicesForVehicleId: VehicleAction.getDevicesForVehicleId,
+    vehicleSearch: VehicleAction.searchVehicle
 };
 
 const connectedVehicles = connect(mapStateToProps, actionCreators)(Vehicles);

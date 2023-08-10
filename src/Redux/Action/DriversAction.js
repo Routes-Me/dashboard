@@ -1,7 +1,8 @@
 import { DriversConsts } from "../../constants/DriversConsts";
-import axios from "axios"
-import apiHandler from "../../util/request";
-
+import axios from "apiHandler"
+import apiHandler from '../../util/request';
+// import apiHandler from "../../util/request";
+const localEnpoint = "https://localhost:44374/v1.0/drivers"
 
 export function PostDriver (driver) {
     return (dispatch) => {
@@ -9,7 +10,6 @@ export function PostDriver (driver) {
 
         apiHandler.post("drivers",driver)
         .then(res => {
-            console.log(res)
             if(res.status === 200) {
                 dispatch(postSuccess(res.data))
             }
@@ -37,7 +37,6 @@ export function getDrivers(offset,limit) {
 }
 
 function getSuccess(payload) {
-    console.log(payload)
     return {type: DriversConsts.GET_DRIVERS_SUCCESS, payload:payload}
 }
 
@@ -70,7 +69,6 @@ export function searchDriver(searchTerm) {
 
         apiHandler.get(`drivers/search/${searchTerm}`)
         .then(res => {
-            console.log(res.data)
             dispatch(searchDriverSuccess(res.data))
         })
         .catch(err => dispatch({type: DriversConsts.SEARCH_DRIVER_ERR}))
